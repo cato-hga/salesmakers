@@ -10,6 +10,8 @@ gem 'turbolinks', '2.2.2'
 gem 'jbuilder', '2.0'
 gem 'sdoc', '0.4.0',  group: :doc
 
+# ------ Our gems below this line --------
+
 gem 'foundation-rails', '5.2.3.0'
 
 
