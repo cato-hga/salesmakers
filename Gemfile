@@ -13,7 +13,9 @@ gem 'sdoc', '0.4.0',  group: :doc
 # ------ Our gems below this line --------
 
 gem 'foundation-rails', '5.2.3.0'
-
+gem 'chartkick', '1.2.5'
+gem 'haml-rails', '0.5.3'
+gem 'wice_grid', '3.4.3'
 
 group :development do
   gem 'letter_opener', '1.2.0'
@@ -28,4 +30,5 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '3.0.1'
+  gem 'faker', '1.3.0'
 end

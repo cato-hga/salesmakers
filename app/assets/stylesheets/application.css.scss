@@ -15,3 +15,76 @@
  *= require foundation_and_overrides
 
  */
+#container {
+	margin: 0 1em;
+}
+
+.row.full-width {
+	width: 100%;
+	max-width: 100%;
+}
+
+.widget {
+	margin: 1%;
+	.inner {
+		margin: 0.1em;
+		padding: 1em;
+		background-color: #eee;
+	}
+}
+/* TODO: Fix the margins on home screen */
+@media (min-width: 500px){
+	.widget {
+		margin: 4px 0;
+		padding: 0;
+		width: 25%;
+		&.inner {
+			margin: 0;
+		}
+		&.widget-sizer {
+			margin: 0;
+			padding: 0;
+		}
+		&.w2 {
+			width: 50%;
+		}
+		&.w3 {
+			width: 75%;
+		}
+		&.w4 {
+			width: 100%;
+		}
+		&.w5 {
+			width: 100%;
+		}
+	}
+}
+
+@media (min-width: 1280px){
+	.widget {
+		width: 20%;
+		&.inner {
+			margin: 0;
+		}
+		&.widget-sizer {
+			margin: 0;
+			padding: 0;
+		}
+		&.w2 {
+			width: 40%;
+		}
+		&.w3 {
+			width: 60%;
+		}
+		&.w4 {
+			width: 80%;
+		}
+		&.w5 {
+			width: 100%;
+		}
+	}
+}
+
+#saleschart {
+	height: 300px;
+}

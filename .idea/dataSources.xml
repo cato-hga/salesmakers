@@ -4,13 +4,15 @@
     <data-source source="LOCAL" name="Rails reconnect: test" uuid="248abc23-f3f5-4bf0-964a-b2f2fb0c918d">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql:reconnect_test</jdbc-url>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/reconnect_test</jdbc-url>
+      <user-name>reconnect</user-name>
+      <user-password>dfcbdf9fdf9fdfc3dfd9dffedfcbdfc4dfde</user-password>
       <libraries />
     </data-source>
     <data-source source="LOCAL" name="Rails reconnect: production" uuid="65f33520-9ac2-4407-b84c-96217ac1557a">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql:reconnect_production</jdbc-url>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/reconnect_production</jdbc-url>
       <user-name>reconnect</user-name>
       <user-password>df96df8fdf97df8adfefdfe4dffcdff1df8ddff8dfefdfe9dfe5dfe4dfe4dfefdfe9dffedff5dfeedfebdffedfebdfe8dfebdff9dfefdff5dffadfebdff9dff9dffddfe5dff8dfeedf8ddff7df8adf8fdf94</user-password>
       <libraries />
@@ -18,7 +20,9 @@
     <data-source source="LOCAL" name="Rails reconnect: development" uuid="788e9dde-47b8-4412-8f41-769edb1c7130">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql:reconnect_development</jdbc-url>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/reconnect_development</jdbc-url>
+      <user-name>reconnect</user-name>
+      <user-password>dfcbdf9fdf9fdfc3dfd9dffedfcbdfc4dfde</user-password>
       <libraries />
     </data-source>
   </component>
