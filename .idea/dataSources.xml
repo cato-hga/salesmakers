@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="533233315">
+  <component name="DataSourceManagerImpl" format="xml" hash="317674370">
     <data-source source="LOCAL" name="Rails reconnect: test" uuid="248abc23-f3f5-4bf0-964a-b2f2fb0c918d">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -23,6 +23,14 @@
       <jdbc-url>jdbc:postgresql://127.0.0.1/reconnect_development</jdbc-url>
       <user-name>reconnect</user-name>
       <user-password>dfcbdf9fdf9fdfc3dfd9dffedfcbdfc4dfde</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails reconnect: rbd_connect" uuid="19595e71-38b9-453d-98ff-35dcc312cacf">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://test.rbdconnect.com/rbd_erp</jdbc-url>
+      <user-name>retailingw</user-name>
+      <user-password>dfd8df99dffedfcbdfc3dfc6dfc3dfc4dfcd</user-password>
       <libraries />
     </data-source>
   </component>
