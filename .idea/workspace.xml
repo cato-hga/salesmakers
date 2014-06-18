@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d36b3058-53af-4c7a-8f3f-2cdfc1dc8165" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/connect_region.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/connect_user.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/simple_tree.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/reconnect.iml" afterPath="$PROJECT_DIR$/.idea/reconnect.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/connect_tree_node.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/connect_region.rb" afterPath="$PROJECT_DIR$/app/models/connect_region.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/connect_user.rb" afterPath="$PROJECT_DIR$/app/models/connect_user.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reconnect.iws" />
@@ -25,7 +24,7 @@
     <SUITE FILE_PATH="coverage/reconnect@Run_spec__position_spec___reconnect.coverage" NAME="Run spec 'position_spec': reconnect Coverage Results" MODIFIED="1403114419840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@db_reset__reconnect.coverage" NAME="db:reset: reconnect Coverage Results" MODIFIED="1403116490887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@Run_spec__department_spec___reconnect.coverage" NAME="Run spec 'department_spec': reconnect Coverage Results" MODIFIED="1403114413905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
-    <SUITE FILE_PATH="coverage/reconnect@Rails_console__reconnect.coverage" NAME="Rails console: reconnect Coverage Results" MODIFIED="1403118336666" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
+    <SUITE FILE_PATH="coverage/reconnect@Rails_console__reconnect.coverage" NAME="Rails console: reconnect Coverage Results" MODIFIED="1403118615656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@All_tests_in_spec__reconnect.coverage" NAME="All tests in spec: reconnect Coverage Results" MODIFIED="1403114355284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@All_specs_in_spec__reconnect.coverage" NAME="All specs in spec: reconnect Coverage Results" MODIFIED="1403116912792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@All_tests_in_models__reconnect.coverage" NAME="All tests in models: reconnect Coverage Results" MODIFIED="1403114368575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec/models" MODULE_NAME="reconnect" />
@@ -74,16 +73,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="department_spec.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spec/models/department_spec.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="532">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="position.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/position.rb">
           <provider selected="true" editor-type-id="text-editor">
@@ -124,21 +113,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connect_user.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="connect_user.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/connect_user.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12527473" vertical-offset="0" max-vertical-offset="455">
-              <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+              <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="connect_region.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="connect_region.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/connect_region.rb">
           <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.8175824" vertical-offset="236" max-vertical-offset="931">
+              <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connect_tree_node.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/connect_tree_node.rb">
+          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
-              <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -220,9 +219,10 @@
         <option value="$PROJECT_DIR$/spec/models/person_spec.rb" />
         <option value="$PROJECT_DIR$/app/models/person.rb" />
         <option value="$PROJECT_DIR$/app/models/concerns/connect_region.rb" />
-        <option value="$PROJECT_DIR$/app/models/connect_region.rb" />
         <option value="$PROJECT_DIR$/Gemfile" />
+        <option value="$PROJECT_DIR$/app/models/connect_tree_node.rb" />
         <option value="$PROJECT_DIR$/app/models/connect_user.rb" />
+        <option value="$PROJECT_DIR$/app/models/connect_region.rb" />
       </list>
     </option>
   </component>
@@ -745,12 +745,11 @@
       <item index="8" class="java.lang.String" itemvalue="IRB console.Rails console: reconnect" />
     </list>
     <recent_temporary>
-      <list size="5">
+      <list size="4">
         <item index="0" class="java.lang.String" itemvalue="IRB console.Rails console: reconnect" />
         <item index="1" class="java.lang.String" itemvalue="RSpec.All specs in spec: reconnect" />
         <item index="2" class="java.lang.String" itemvalue="Rake.db:migrate: reconnect" />
         <item index="3" class="java.lang.String" itemvalue="Rake.db:reset: reconnect" />
-        <item index="4" class="java.lang.String" itemvalue="RSpec.Run spec 'person_spec': reconnect" />
       </list>
     </recent_temporary>
   </component>
@@ -804,7 +803,11 @@
       <created>1403116964231</created>
       <updated>1403116964231</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Connection to RBDC1 for connect users">
+      <created>1403118387081</created>
+      <updated>1403118387081</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -899,19 +902,13 @@
     <MESSAGE value="Removed double creation of departments in position_spec" />
     <MESSAGE value="Person validations now pass" />
     <MESSAGE value="Display name now generated if blank" />
-    <option name="LAST_COMMIT_MESSAGE" value="Display name now generated if blank" />
+    <MESSAGE value="Connection to RBDC1 for connect users" />
+    <option name="LAST_COMMIT_MESSAGE" value="Connection to RBDC1 for connect users" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="437">
-          <caret line="17" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="38" max-vertical-offset="418">
@@ -1263,14 +1260,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/connect_region.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
-          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/department.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="209">
@@ -1279,10 +1268,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/connect_tree_node.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="266">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/connect_user.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12527473" vertical-offset="0" max-vertical-offset="455">
-          <caret line="3" column="3" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="3" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
+          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/connect_region.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8175824" vertical-offset="236" max-vertical-offset="931">
+          <caret line="32" column="22" selection-start-line="32" selection-start-column="22" selection-end-line="32" selection-end-column="22" />
           <folding />
         </state>
       </provider>
