@@ -75,4 +75,8 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 =end
+
+  config.before(:suite) do
+    FactoryGirl.lint
+  end
 end
