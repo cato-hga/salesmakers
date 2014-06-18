@@ -202,7 +202,7 @@
     <orderEntry type="library" scope="PROVIDED" name="better_errors (v1.1.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.7.2, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.2, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.6.2, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.6.3, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v2.3.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="chartkick (v1.2.5, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coderay (v1.1.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
@@ -213,6 +213,8 @@
     <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.2.5, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.2.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_girl (v4.4.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="factory_girl_rails (v4.4.1, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="faker (v1.3.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="foundation-rails (v5.2.3.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="haml (v4.0.5, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
@@ -227,7 +229,7 @@
     <orderEntry type="library" scope="PROVIDED" name="mail (v2.5.4, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mime-types (v1.25.1, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="mini_portile (v0.6.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.3.4, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="minitest (v5.3.5, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="multi_json (v1.10.1, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="nokogiri (v1.6.2.1, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pg (v0.17.1, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
