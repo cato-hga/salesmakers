@@ -1,0 +1,25 @@
+%h1 People
+
+%table
+	%thead
+		%tr
+			%th EID
+			%th Name
+			%th Email
+			%th Phone
+			%th Supervisor
+			%th Area(s)
+	%tbody
+		- name_array = Array.new
+		- 25.times do
+			- name_array << Faker::Name.first_name + ' ' + Faker::Name.last_name
+		- Faker::Config.locale = 'en-us'
+		- name_array = name_array.sort
+		- name_array.each do |name|
+			%tr
+				%td= link_to Faker::Number.number(5), '#'
+				%td= link_to name, '#'
+				%td= mail_to Faker::Internet.email(name)
+				%td= link_to '(' + Faker::PhoneNumber.area_code + ') ' + Faker::PhoneNumber.exchange_code + '-' + Faker::PhoneNumber.subscriber_number, '#'
+				%td= link_to Faker::Name.name, '#'
+				%td= link_to Faker::Address.city + ' Territory', '#'
