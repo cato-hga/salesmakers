@@ -19,3 +19,4 @@
 
 /config/database.yml
 /.idea/*.ids
+/.idea/workspace.xml
