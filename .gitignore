@@ -21,3 +21,4 @@
 /.idea/*.ids
 /.idea/workspace.xml
 /.idea/reconnect.iml
+.rvmrc
