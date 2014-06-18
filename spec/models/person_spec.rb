@@ -23,9 +23,9 @@ RSpec.describe Person, :type => :model do
       should_not be_valid
     end
 
-    it 'should require a display name at least 5 characters long' do
-      @person.display_name = 'abcd'
-      should_not be_valid
+    it 'should generate a display name at least 5 characters long' do
+      @person.display_name = nil
+      should be_valid
     end
 
     it 'should require a valid email address' do

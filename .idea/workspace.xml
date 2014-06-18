@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d36b3058-53af-4c7a-8f3f-2cdfc1dc8165" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/person.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spec/models/person_spec.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20140618150457_create_departments.rb" afterPath="$PROJECT_DIR$/db/migrate/20140618150457_create_departments.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20140618153824_create_positions.rb" afterPath="$PROJECT_DIR$/db/migrate/20140618153824_create_positions.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/factories.rb" afterPath="$PROJECT_DIR$/spec/factories.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/position.rb" afterPath="$PROJECT_DIR$/app/models/position.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/models/position_spec.rb" afterPath="$PROJECT_DIR$/spec/models/position_spec.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb" afterPath="$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/person.rb" afterPath="$PROJECT_DIR$/app/models/person.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spec/models/person_spec.rb" afterPath="$PROJECT_DIR$/spec/models/person_spec.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/reconnect.iml" afterPath="$PROJECT_DIR$/.idea/reconnect.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/schema.rb" afterPath="$PROJECT_DIR$/db/schema.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reconnect.iws" />
@@ -29,11 +23,12 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/reconnect@Development__reconnect.coverage" NAME="Development: reconnect Coverage Results" MODIFIED="1403103223731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@Run_spec__position_spec___reconnect.coverage" NAME="Run spec 'position_spec': reconnect Coverage Results" MODIFIED="1403114419840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
-    <SUITE FILE_PATH="coverage/reconnect@db_reset__reconnect.coverage" NAME="db:reset: reconnect Coverage Results" MODIFIED="1403114959209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
+    <SUITE FILE_PATH="coverage/reconnect@db_reset__reconnect.coverage" NAME="db:reset: reconnect Coverage Results" MODIFIED="1403116490887" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@Run_spec__department_spec___reconnect.coverage" NAME="Run spec 'department_spec': reconnect Coverage Results" MODIFIED="1403114413905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@All_tests_in_spec__reconnect.coverage" NAME="All tests in spec: reconnect Coverage Results" MODIFIED="1403114355284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec" MODULE_NAME="reconnect" />
+    <SUITE FILE_PATH="coverage/reconnect@All_specs_in_spec__reconnect.coverage" NAME="All specs in spec: reconnect Coverage Results" MODIFIED="1403116912792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@All_tests_in_models__reconnect.coverage" NAME="All tests in models: reconnect Coverage Results" MODIFIED="1403114368575" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spec/models" MODULE_NAME="reconnect" />
-    <SUITE FILE_PATH="coverage/reconnect@db_migrate__reconnect.coverage" NAME="db:migrate: reconnect Coverage Results" MODIFIED="1403114727311" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
+    <SUITE FILE_PATH="coverage/reconnect@db_migrate__reconnect.coverage" NAME="db:migrate: reconnect Coverage Results" MODIFIED="1403116495179" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
     <SUITE FILE_PATH="coverage/reconnect@Run_spec__person_spec___reconnect.coverage" NAME="Run spec 'person_spec': reconnect Coverage Results" MODIFIED="1403116411409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="reconnect" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -132,27 +127,27 @@
         <entry file="file://$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="380">
-              <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="person.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="person.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/person.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.51583713" vertical-offset="0" max-vertical-offset="442">
-              <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="494">
+              <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="person_spec.rb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="person_spec.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spec/models/person_spec.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="1140">
-              <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+            <state vertical-scroll-proportion="0.10769231" vertical-offset="445" max-vertical-offset="1140">
+              <caret line="26" column="30" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -218,10 +213,10 @@
         <option value="$PROJECT_DIR$/spec/models/department_spec.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140618153824_create_positions.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20140618150457_create_departments.rb" />
-        <option value="$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb" />
         <option value="$PROJECT_DIR$/spec/models/position_spec.rb" />
         <option value="$PROJECT_DIR$/spec/factories.rb" />
         <option value="$PROJECT_DIR$/app/models/position.rb" />
+        <option value="$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb" />
         <option value="$PROJECT_DIR$/spec/models/person_spec.rb" />
         <option value="$PROJECT_DIR$/app/models/person.rb" />
       </list>
@@ -376,44 +371,7 @@
       <recent name="$PROJECT_DIR$/app/views/shared" />
     </key>
   </component>
-  <component name="RunManager" selected="RSpec.Run spec 'person_spec': reconnect">
-    <configuration default="false" name="Run spec 'department_spec': reconnect" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
-      <predefined_log_file id="RUBY_RSPEC" enabled="true" />
-      <module name="reconnect" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
-      <envs>
-        <env name="RAILS_ENV" value="test" />
-        <env name="JRUBY_OPTS" value="-X+O" />
-      </envs>
-      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
-      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
-      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
-        <COVERAGE_PATTERN ENABLED="true">
-          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
-        </COVERAGE_PATTERN>
-      </EXTENSION>
-      <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/models/department_spec.rb" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
-      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
-      <RunnerSettings RunnerId="RubyRunner" />
-      <ConfigurationWrapper RunnerId="RubyRunner" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="RSpec.All specs in spec: reconnect">
     <configuration default="false" name="Run spec 'position_spec': reconnect" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
       <predefined_log_file id="RUBY_RSPEC" enabled="true" />
       <module name="reconnect" />
@@ -533,6 +491,43 @@
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ZEUS" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPRING" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All specs in spec: reconnect" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <predefined_log_file id="RUBY_RSPEC" enabled="true" />
+      <module name="reconnect" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="$MODULE_DIR$" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="RAILS_ENV" value="test" />
+        <env name="JRUBY_OPTS" value="-X+O" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="true" />
+      <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov">
+        <COVERAGE_PATTERN ENABLED="true">
+          <PATTERN REGEXPS="/.rvm/" INCLUDED="false" />
+        </COVERAGE_PATTERN>
+      </EXTENSION>
+      <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="$MODULE_DIR$/spec" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="ALL_IN_FOLDER" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
       <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
@@ -682,19 +677,19 @@
       <item index="1" class="java.lang.String" itemvalue="Rake.spec: reconnect" />
       <item index="2" class="java.lang.String" itemvalue="Rails.Production: reconnect" />
       <item index="3" class="java.lang.String" itemvalue="Rails.Development: reconnect" />
-      <item index="4" class="java.lang.String" itemvalue="RSpec.Run spec 'department_spec': reconnect" />
-      <item index="5" class="java.lang.String" itemvalue="RSpec.Run spec 'position_spec': reconnect" />
-      <item index="6" class="java.lang.String" itemvalue="Rake.db:reset: reconnect" />
-      <item index="7" class="java.lang.String" itemvalue="Rake.db:migrate: reconnect" />
-      <item index="8" class="java.lang.String" itemvalue="RSpec.Run spec 'person_spec': reconnect" />
+      <item index="4" class="java.lang.String" itemvalue="RSpec.Run spec 'position_spec': reconnect" />
+      <item index="5" class="java.lang.String" itemvalue="Rake.db:reset: reconnect" />
+      <item index="6" class="java.lang.String" itemvalue="Rake.db:migrate: reconnect" />
+      <item index="7" class="java.lang.String" itemvalue="RSpec.Run spec 'person_spec': reconnect" />
+      <item index="8" class="java.lang.String" itemvalue="RSpec.All specs in spec: reconnect" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="RSpec.Run spec 'person_spec': reconnect" />
-        <item index="1" class="java.lang.String" itemvalue="Rake.db:reset: reconnect" />
-        <item index="2" class="java.lang.String" itemvalue="Rake.db:migrate: reconnect" />
-        <item index="3" class="java.lang.String" itemvalue="RSpec.Run spec 'position_spec': reconnect" />
-        <item index="4" class="java.lang.String" itemvalue="RSpec.Run spec 'department_spec': reconnect" />
+        <item index="0" class="java.lang.String" itemvalue="RSpec.All specs in spec: reconnect" />
+        <item index="1" class="java.lang.String" itemvalue="Rake.db:migrate: reconnect" />
+        <item index="2" class="java.lang.String" itemvalue="Rake.db:reset: reconnect" />
+        <item index="3" class="java.lang.String" itemvalue="RSpec.Run spec 'person_spec': reconnect" />
+        <item index="4" class="java.lang.String" itemvalue="RSpec.Run spec 'position_spec': reconnect" />
       </list>
     </recent_temporary>
   </component>
@@ -740,7 +735,11 @@
       <created>1403114457449</created>
       <updated>1403114457449</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Person validations now pass">
+      <created>1403116434923</created>
+      <updated>1403116434923</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -833,7 +832,8 @@
     <MESSAGE value="FactoryGirl install and position specs started" />
     <MESSAGE value="position validation tests passing&#10;" />
     <MESSAGE value="Removed double creation of departments in position_spec" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed double creation of departments in position_spec" />
+    <MESSAGE value="Person validations now pass" />
+    <option name="LAST_COMMIT_MESSAGE" value="Person validations now pass" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1160,14 +1160,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="380">
-          <caret line="13" column="3" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spec/factories.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="532">
@@ -1200,18 +1192,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spec/models/person_spec.rb">
+    <entry file="file://$PROJECT_DIR$/db/migrate/20140618180234_create_people.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="114" max-vertical-offset="1140">
-          <caret line="50" column="25" selection-start-line="50" selection-start-column="25" selection-end-line="50" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="380">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/person.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.51583713" vertical-offset="0" max-vertical-offset="442">
-          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="494">
+          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spec/models/person_spec.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.10769231" vertical-offset="445" max-vertical-offset="1140">
+          <caret line="26" column="30" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
           <folding />
         </state>
       </provider>

@@ -1,4 +1,6 @@
 class Person < ActiveRecord::Base
+  before_validation :generate_display_name
+
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :display_name, presence: true, length: { minimum: 5 }
@@ -9,4 +11,10 @@ class Person < ActiveRecord::Base
 
   belongs_to :position
 #TODO Why the hell does this need to be belongs_to instead of has_one?
+
+  private
+
+  def generate_display_name
+    self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+  end
 end
