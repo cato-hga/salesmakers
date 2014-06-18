@@ -3,4 +3,5 @@ class Position < ActiveRecord::Base
   validates :department, presence: true
 
   belongs_to :department
+  has_many :people
 end

@@ -4,7 +4,7 @@ RSpec.describe Position, :type => :model do
 
   describe 'Validations' do
     before(:each) do
-      @position = FactoryGirl.build :sales_specialist_position
+      @position = FactoryGirl.build :von_retail_sales_specialist_position
     end
 
     subject { @position }
