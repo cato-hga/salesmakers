@@ -20,4 +20,13 @@ FactoryGirl.define do
     personal_email 'icheckthistoomuch@gmail.com'
     position { create :von_retail_sales_specialist_position }
   end
+
+  factory :von_client, class: Client do
+     name 'Vonage'
+  end
+
+  factory :von_retail_project, class: Project do
+    name 'Vonage Retail'
+    client { create :von_client }
+  end
 end
