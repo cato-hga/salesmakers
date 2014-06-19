@@ -15,7 +15,9 @@ gem 'sdoc', '0.4.0',  group: :doc
 gem 'foundation-rails', '5.2.3.0'
 gem 'chartkick', '1.2.5'
 gem 'haml-rails', '0.5.3'
+#TODO Remove/replace wice_grid
 gem 'wice_grid', '3.4.3'
+gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git'
 
 group :development do
   gem 'letter_opener', '1.2.0'

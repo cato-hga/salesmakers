@@ -10,4 +10,8 @@ class ConnectUser < ConnectModel
   has_many :employees,
            class_name: 'ConnectUser',
            foreign_key: 'supervisor_id'
+
+  def find_by_omniauth(auth)
+    self.find_by_username auth.uid if auth and auth.uid
+  end
 end

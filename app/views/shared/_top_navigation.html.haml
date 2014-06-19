@@ -97,12 +97,12 @@
         %a{ href: "#" } Reports
       %li.divider
       %li.has-dropdown
-        %a{ href: "#" } smiles@retaildoneright.com
+        %a{ href: "#" }= current_user.username
         %ul.dropdown
           %li
             %a{ href: "#" } My Profile
           %li.divider
           %li
-            %a{ href: "#" } Sign Out
+            %a= link_to 'Sign Out', logout_path
       %li.has-form
         %a.small.button{ href: "#" } Help
