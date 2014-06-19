@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include SentientController
+
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user
   # Prevent CSRF attacks by raising an exception.

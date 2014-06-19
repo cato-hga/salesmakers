@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/house9/sentient_user.git
+  revision: cfc33b158d4986f74fa9bf7d5aed1ded9a4a9954
+  specs:
+    sentient_user (0.3.3.rc1)
+      railties (>= 3.1)
+
+GIT
   remote: git://github.com/rubycas/rubycas-client.git
   revision: b6692b942f69f8c088ef4fdbc14a8e9310e5271d
   specs:
@@ -232,6 +239,7 @@ DEPENDENCIES
   rubycas-client!
   sass-rails (= 4.0.3)
   sdoc (= 0.4.0)
+  sentient_user!
   spring (= 1.1.3)
   turbolinks (= 2.2.2)
   uglifier (= 1.3.0)

@@ -141,7 +141,9 @@
       <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
       <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
       <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+      <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyDebugRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
       <method />
     </configuration>
@@ -348,6 +350,7 @@
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.2.19, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v4.0.3, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sdoc (v0.4.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sentient_user (v0.3.3.rc1@cfc33b, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="slop (v3.5.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="spring (v1.1.3, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v2.11.0, RVM: ruby-2.1.2 [reconnect]) [gem]" level="application" />
