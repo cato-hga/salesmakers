@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d36b3058-53af-4c7a-8f3f-2cdfc1dc8165" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/reconnect.iml" afterPath="$PROJECT_DIR$/.idea/reconnect.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db/seeds.rb" afterPath="$PROJECT_DIR$/db/seeds.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="reconnect.iws" />
@@ -855,7 +849,11 @@
       <created>1403200337306</created>
       <updated>1403200337306</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Sentient User gem configured.">
+      <created>1403200752100</created>
+      <updated>1403200752100</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -954,7 +952,8 @@
     <MESSAGE value="Some sales region functionality added" />
     <MESSAGE value="CAS Un...screwed. Profile email and signout links working." />
     <MESSAGE value="Seed files created for Department, Position, and Administrator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Seed files created for Department, Position, and Administrator" />
+    <MESSAGE value="Sentient User gem configured." />
+    <option name="LAST_COMMIT_MESSAGE" value="Sentient User gem configured." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
