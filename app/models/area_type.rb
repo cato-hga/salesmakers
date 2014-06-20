@@ -4,4 +4,5 @@ class AreaType < ActiveRecord::Base
   validates :project, presence: true
 
   belongs_to :project
+  has_many :areas
 end

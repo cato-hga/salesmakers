@@ -34,4 +34,9 @@ FactoryGirl.define do
     name 'Region'
     project { create :von_retail_project }
   end
+
+  factory :von_east_retail_region_area, class: Area do
+    name 'East Retail Region'
+    area_type { create :von_region_area_type }
+  end
 end
