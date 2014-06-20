@@ -29,4 +29,9 @@ FactoryGirl.define do
     name 'Vonage Retail'
     client { create :von_client }
   end
+
+  factory :von_region_area_type, class: AreaType do
+    name 'Region'
+    project { create :von_retail_project }
+  end
 end
