@@ -12,6 +12,13 @@ GIT
     rubycas-client (2.3.10.rc1)
       activesupport
 
+GIT
+  remote: https://github.com/stefankroes/ancestry.git
+  revision: 014dfdc7965d410744118270ed5aa7fede4eeb8a
+  specs:
+    ancestry (2.1.0)
+      activerecord (>= 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -213,6 +220,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ancestry!
   awesome_print (= 1.2.0)
   better_errors (= 1.1.0)
   binding_of_caller (= 0.7.2)

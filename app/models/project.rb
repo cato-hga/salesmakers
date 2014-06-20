@@ -5,4 +5,5 @@ class Project < ActiveRecord::Base
 
   belongs_to :client
   has_many :area_types
+  has_many :areas
 end

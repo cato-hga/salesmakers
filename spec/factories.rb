@@ -31,7 +31,7 @@ FactoryGirl.define do
   end
 
   factory :von_region_area_type, class: AreaType do
-    name 'Region'
+    name 'Vonage Retail Region'
     project { create :von_retail_project }
   end
 
