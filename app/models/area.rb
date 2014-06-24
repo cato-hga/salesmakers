@@ -5,5 +5,6 @@ class Area < ActiveRecord::Base
 
   belongs_to :area_type
   belongs_to :project
+  has_many :person_areas
   has_ancestry
 end

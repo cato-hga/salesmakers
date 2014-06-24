@@ -6,6 +6,7 @@ Department.create [
                       { name: 'Human Resources', corporate: true },
                       { name: 'Vonage Retail Sales', corporate: false },
                       { name: 'Vonage Event Sales', corporate: false },
+                      { name: 'Sprint Retail Sales', corporate: false },
                       { name: 'Training', corporate: true },
                       { name: 'Operations', corporate: true },
                       { name: 'Information Technology', corporate: true }

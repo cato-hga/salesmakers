@@ -38,5 +38,12 @@ FactoryGirl.define do
   factory :von_east_retail_region_area, class: Area do
     name 'East Retail Region'
     area_type { create :von_region_area_type }
+    project { create :von_retail_project }
+  end
+
+  factory :von_retail_east_sales_specialist_person_area, class: PersonArea do
+    person { create :von_retail_sales_specialist_person }
+    area { create :von_east_retail_region_area }
+    manages false
   end
 end

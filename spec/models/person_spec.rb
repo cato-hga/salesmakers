@@ -51,4 +51,12 @@ RSpec.describe Person, :type => :model do
       should_not be_valid
     end
   end
+
+  describe 'Creation of a Person from ConnectUser' do
+
+    it 'should import a Person from ConnectUser' do
+      connect_user = ConnectUser.find_by_username 'matt@retaildoneright.com'
+      expect { Person.create_from_connect_user connect_user }.to change(Person, :count).by(1)
+    end
+  end
 end

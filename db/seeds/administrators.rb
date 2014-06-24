@@ -6,22 +6,21 @@ Person.create first_name: 'System',
               display_name: 'System Administrator',
               email: 'retailingw@retaildoneright.com',
               personal_email: 'retailingw@retaildoneright.com',
-              position_id: administrator_position.id
-              #connect_user_id: '2C908AA22CBD1292012CBD1735100034'
+              position_id: administrator_position.id,
+              connect_user_id: '2C908AA22CBD1292012CBD1735100034'
 
 Person.create first_name: 'Anthony',
               last_name: 'Atkinson',
               display_name: 'Anthony Atkinson',
               email: 'aatkinson@retaildoneright.com',
               personal_email: 'develop.blaise@gmail.com',
-              position_id: senior_software_developer.id
-              #connect_user_id: '337EB300331F4762A4200CDE357E79E6'
+              position_id: senior_software_developer.id,
+              connect_user_id: '337EB300331F4762A4200CDE357E79E6'
 
 Person.create first_name: 'Stephen',
               last_name: 'Miles',
               display_name: 'Stephen Miles',
               email: 'smiles@retaildoneright.com',
               personal_email: 'milessa42@gmail.com',
-              #TODO Upate the next two lines
-              position_id: senior_software_developer.id
-              #connect_user_id: '337EB300331F4762A4200CDE357E79E6'
+              position_id: senior_software_developer.id,
+              connect_user_id: '0AA3EE8FCDCF402ABCEB6280D1FC4C8D'

@@ -11,7 +11,38 @@ class ConnectUser < ConnectModel
            class_name: 'ConnectUser',
            foreign_key: 'supervisor_id'
 
-  def find_by_omniauth(auth)
-    self.find_by_username auth.uid if auth and auth.uid
+  def self.not_main_administrators
+    self.where("username != 'retailingw@retaildoneright.com' AND username != 'aatkinson@retaildoneright.com' AND username != 'smiles@retaildoneright.com' AND (username LIKE '%@retaildoneright.com' OR username LIKE '%@rbd%.com') AND lower(firstname) != 'x'")
+  end
+
+  def active?
+    if isactive == 'Y'
+      true
+    else
+      false
+    end
+  end
+
+  def leader?
+    if connect_regions.count > 0
+      true
+    else
+      false
+    end
+  end
+
+  def region
+    if connect_regions.count < 1
+      return nil unless supervisor.present? and supervisor.connect_regions.count > 0
+      return supervisor.connect_regions.first
+    else
+      return connect_regions.first
+    end
+  end
+
+  def project
+    user_region = region
+    return nil if user_region == nil
+    region.project
   end
 end

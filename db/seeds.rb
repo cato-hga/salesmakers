@@ -8,3 +8,5 @@ User.find_by_email('retailingw@retaildoneright.com').make_current
 
 require "#{seeds}/clients"
 require "#{seeds}/projects"
+
+require "#{seeds}/person"
