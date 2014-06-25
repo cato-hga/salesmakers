@@ -8,7 +8,7 @@
       %th EID
       %th Name
       %th Email
-      /%th Phone
+      %th Phone
       %th Supervisor
       %th Area(s)
     %tbody
@@ -17,7 +17,14 @@
           %td= link_to Faker::Number.number(5), '#' #TODO: Replace these with real info
           %td= link_to person.display_name, '#'
           %td= mail_to person.email
-          /%td= link_to person.phone, '#'
+          - if person.office_phone
+            %td= phone_link person.office_phone
+          - elsif person.mobile_phone
+            %td= phone_link person.mobile_phone
+          - elsif person.home_phone
+            %td= phone_link person.home_phone
+          - else
+            %td
           %td= link_to person.supervisor.display_name, '#' if person.supervisor
           %td= person_area_links person
 

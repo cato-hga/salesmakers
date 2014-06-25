@@ -18,6 +18,9 @@ FactoryGirl.define do
     display_name 'Test User'
     email 'test@rbd-von.com'
     personal_email 'icheckthistoomuch@gmail.com'
+    office_phone '7274985180'
+    mobile_phone '5551234567'
+    home_phone '7895123012'
     position { create :von_retail_sales_specialist_position }
   end
 

@@ -7,7 +7,12 @@ class Person < ActiveRecord::Base
   validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
   validates :personal_email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
   validates :position, presence: true
-
+  validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
+  validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
+  validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
+  validates :office_phone, presence: true, unless: Proc.new { |p| p.home_phone or p.mobile_phone }
+  validates :mobile_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
+  validates :mobile_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.home_phone }
 
   belongs_to :position
   #TODO Why the hell does this need to be belongs_to instead of has_one?

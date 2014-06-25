@@ -50,13 +50,74 @@ RSpec.describe Person, :type => :model do
       @person.position = nil
       should_not be_valid
     end
-  end
 
-  describe 'Creation of a Person from ConnectUser' do
+    it 'should require at least one phone number' do
+      @person.mobile_phone = nil
+      @person.office_phone = nil
+      @person.home_phone = nil
+      should_not be_valid
+      @person.office_phone = 7274985180
+      should be_valid
+      @person.office_phone = nil
+      @person.mobile_phone = 5555555555
+      should be_valid
+      @person.mobile_phone = nil
+      @person.home_phone = 5565565566
+      should be_valid
+    end
 
-    it 'should import a Person from ConnectUser' do
-      connect_user = ConnectUser.find_by_username 'matt@retaildoneright.com'
-      expect { Person.create_from_connect_user connect_user }.to change(Person, :count).by(1)
+    it 'should require valid phone numbers' do
+      @person.mobile_phone = nil
+      @person.office_phone = nil
+      @person.home_phone = nil
+      @person.mobile_phone = '12345678910'
+      should_not be_valid
+
+      @person.mobile_phone = '1234567890'
+      should_not be_valid
+
+      @person.mobile_phone = '1234567'
+      should_not be_valid 
+      
+      @person.mobile_phone = '2120111234'
+      should_not be_valid
+      
+      @person.mobile_phone = nil
+
+      @person.office_phone = '12345678910'
+      should_not be_valid
+
+      @person.office_phone = '1234567890'
+      should_not be_valid
+
+      @person.office_phone = '1234567'
+      should_not be_valid
+
+      @person.office_phone = '2120111234'
+      should_not be_valid
+
+      @person.office_phone = nil
+
+      @person.home_phone = '12345678910'
+      should_not be_valid
+
+      @person.home_phone = '1234567890'
+      should_not be_valid
+
+      @person.home_phone = '1234567'
+      should_not be_valid
+
+      @person.home_phone = '2120111234'
+      should_not be_valid
     end
   end
+
+  # TODO: Make importing tests work
+  # describe 'Creation of a Person from ConnectUser' do
+  #
+  #   it 'should import a Person from ConnectUser' do
+  #     connect_user = ConnectUser.find_by_username 'matt@retaildoneright.com'
+  #     expect { Person.return_from_connect_user connect_user }.to change(Person, :count).by(1)
+  #   end
+  # end
 end

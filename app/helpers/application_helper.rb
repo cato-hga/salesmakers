@@ -11,4 +11,9 @@ module ApplicationHelper
     end
     links.join(', ').html_safe
   end
+
+  def phone_link(phone)
+    phone_string = phone.to_s
+    link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string
+  end
 end
