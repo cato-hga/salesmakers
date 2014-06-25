@@ -1,4 +1,6 @@
 %h1 People
+.top-pagination
+	= paginate @people
 
 %table
 	%thead
@@ -18,3 +20,5 @@
 				/%td= link_to person.phone, '#'
 				%td= link_to person.connect_user.supervisor.name, '#' if person.connect_user.supervisor
 				%td= link_to Faker::Address.city + ' Territory', '#'
+
+= paginate @people
