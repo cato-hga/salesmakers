@@ -11,10 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140619203512) do
+ActiveRecord::Schema.define(version: 20140624150601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "area_types", force: true do |t|
+    t.string   "name",       null: false
+    t.integer  "project_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "areas", force: true do |t|
+    t.string   "name",         null: false
+    t.integer  "area_type_id", null: false
+    t.string   "ancestry"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "project_id",   null: false
+  end
+
+  add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree
 
   create_table "clients", force: true do |t|
     t.string   "name",       null: false
@@ -23,29 +41,39 @@ ActiveRecord::Schema.define(version: 20140619203512) do
   end
 
   create_table "departments", force: true do |t|
-    t.string   "name",       null: false
-    t.boolean  "corporate",  null: false
+    t.string   "name"
+    t.boolean  "corporate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "people", force: true do |t|
-    t.string   "first_name",     null: false
-    t.string   "last_name",      null: false
-    t.string   "display_name",   null: false
-    t.string   "email",          null: false
+    t.string   "first_name",                     null: false
+    t.string   "last_name",                      null: false
+    t.string   "display_name"
+    t.string   "email",                          null: false
     t.string   "personal_email"
-    t.integer  "position_id",    null: false
+    t.integer  "position_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active",          default: true, null: false
+    t.string   "connect_user_id"
+  end
+
+  create_table "person_areas", force: true do |t|
+    t.integer  "person_id",                  null: false
+    t.integer  "area_id",                    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "manages",    default: false, null: false
   end
 
   create_table "positions", force: true do |t|
-    t.string   "name",                     null: false
-    t.boolean  "leadership",               null: false
-    t.boolean  "all_field_visibility",     null: false
-    t.boolean  "all_corporate_visibility", null: false
-    t.integer  "department_id",            null: false
+    t.string   "name"
+    t.boolean  "leadership"
+    t.boolean  "all_field_visibility"
+    t.boolean  "all_corporate_visibility"
+    t.integer  "department_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

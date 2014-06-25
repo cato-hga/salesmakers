@@ -41,4 +41,24 @@ class ConnectRegion < ConnectModel
       all_children.sort_by { |c| c.name }
     end
   end
+
+  def fast_type
+    return value[-1].to_i
+  end
+
+  def project
+    node_height = height
+    cur_obj = self
+    if node_height == 6 or not cur_obj.present?
+      return nil
+    elsif node_height == 5
+      return self
+    else
+      while node_height < 5 and cur_obj.present? and cur_obj.parent.present? do
+        node_height = node_height + 1
+        cur_obj = cur_obj.parent
+      end
+      return cur_obj
+    end
+  end
 end

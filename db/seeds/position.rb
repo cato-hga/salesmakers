@@ -8,6 +8,7 @@ vonage_event_sales = Department.find_by_name 'Vonage Event Sales'
 training = Department.find_by_name 'Training'
 operations = Department.find_by_name 'Operations'
 information_technology = Department.find_by_name 'Information Technology'
+sprint_retail_sales = Department.find_by_name 'Sprint Retail Sales'
 
 Position.create [
                     { name: 'System Administrator',
@@ -105,6 +106,11 @@ Position.create [
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_event_sales.id },
+                    { name: 'Sprint Retail Regional Manager',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: sprint_retail_sales.id },
                     { name: 'Vonage Retail Area Sales Manager',
                       leadership: true,
                       all_field_visibility: false,
@@ -125,6 +131,11 @@ Position.create [
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_retail_sales.id },
+                    { name: 'Sprint Retail Territory Manager',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: sprint_retail_sales.id },
                     { name: 'Vonage Retail Sales Specialist',
                       leadership: false,
                       all_field_visibility: false,
@@ -135,4 +146,9 @@ Position.create [
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_event_sales.id },
+                    { name: 'Sprint Retail Sales Specialist',
+                      leadership: false,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: sprint_retail_sales.id }
                 ]

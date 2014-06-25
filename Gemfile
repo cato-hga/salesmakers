@@ -19,6 +19,10 @@ gem 'haml-rails', '0.5.3'
 gem 'wice_grid', '3.4.3'
 gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git'
 gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git'
+gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git'
+gem 'ransack', '1.2.3'
+gem 'kaminari', '0.16.1'
+
 
 group :development do
   gem 'letter_opener', '1.2.0'

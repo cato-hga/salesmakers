@@ -1,4 +1,6 @@
 %h1 People
+.top-pagination
+	= paginate @people
 
 %table
 	%thead
@@ -6,20 +8,17 @@
 			%th EID
 			%th Name
 			%th Email
-			%th Phone
+			/%th Phone
 			%th Supervisor
 			%th Area(s)
 	%tbody
-		- name_array = Array.new
-		- 25.times do
-			- name_array << Faker::Name.first_name + ' ' + Faker::Name.last_name
-		- Faker::Config.locale = 'en-us'
-		- name_array = name_array.sort
-		- name_array.each do |name|
+		- for person in @people do
 			%tr
-				%td= link_to Faker::Number.number(5), '#'
-				%td= link_to name, '#'
-				%td= mail_to Faker::Internet.email(name)
-				%td= link_to '(' + Faker::PhoneNumber.area_code + ') ' + Faker::PhoneNumber.exchange_code + '-' + Faker::PhoneNumber.subscriber_number, '#'
-				%td= link_to Faker::Name.name, '#'
+				%td= link_to Faker::Number.number(5), '#' #TODO: Replace these with real info
+				%td= link_to person.display_name, '#'
+				%td= mail_to person.email
+				/%td= link_to person.phone, '#'
+				%td= link_to person.connect_user.supervisor.name, '#' if person.connect_user.supervisor
 				%td= link_to Faker::Address.city + ' Territory', '#'
+
+= paginate @people

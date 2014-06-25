@@ -4,4 +4,6 @@ class Project < ActiveRecord::Base
   validates :client, presence: true
 
   belongs_to :client
+  has_many :area_types
+  has_many :areas
 end

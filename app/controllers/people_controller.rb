@@ -1,5 +1,7 @@
 class PeopleController < ApplicationController
   def index
+    @search = Person.search(params[:q])
+    @people = @search.result.order('display_name').page(params[:page])
   end
 
   def show
@@ -10,7 +12,6 @@ class PeopleController < ApplicationController
 
   def create
   end
-
   def edit
   end
 
