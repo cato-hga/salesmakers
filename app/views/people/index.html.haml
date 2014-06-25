@@ -18,7 +18,7 @@
           %td= link_to person.display_name, '#'
           %td= mail_to person.email
           /%td= link_to person.phone, '#'
-          %td= link_to person.connect_user.supervisor.name, '#' if person.connect_user.supervisor
+          %td= link_to person.supervisor.display_name, '#' if person.supervisor
           %td= link_to Faker::Address.city + ' Territory', '#'
 
 - content_for :footer do

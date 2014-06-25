@@ -14,10 +14,8 @@ class Person < ActiveRecord::Base
   belongs_to :connect_user
   has_many :person_areas
   has_many :areas, through: :person_areas
-
-  def create_from_connect_user(connect_user)
-
-  end
+  belongs_to :supervisor, class_name: 'Person'
+  has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
 
   def import_position
     pos_uf = Position.find_by_name 'Unclassified Field Employee'
@@ -162,6 +160,8 @@ class Person < ActiveRecord::Base
     # If the ConnectUser exists but there isn't already already a
     # Person in the local DB, then...
     if connect_user.present? and not this_person.present?
+      supervisor_connect_user = connect_user.supervisor
+      supervisor = Person.return_from_connect_user(supervisor_connect_user) if supervisor_connect_user
       # Create the Person.
       this_person = self.create first_name: connect_user.firstname,
                               last_name: connect_user.lastname,
@@ -170,6 +170,7 @@ class Person < ActiveRecord::Base
                               personal_email: (connect_user.description) ? connect_user.description : connect_user.email,
                               connect_user_id: connect_user.id,
                               active: (connect_user.isactive == 'Y') ? true : false
+      this_person.supervisor = supervisor if supervisor
       this_person.import_position
       creator_connect_user = ConnectUser.find connect_user.createdby
       if creator_connect_user.present? and this_person.present? and this_person.id.present?
