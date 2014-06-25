@@ -13,6 +13,7 @@ class Person < ActiveRecord::Base
   #TODO Why the hell does this need to be belongs_to instead of has_one?
   belongs_to :connect_user
   has_many :person_areas
+  has_many :areas, through: :person_areas
 
   def create_from_connect_user(connect_user)
 
@@ -135,10 +136,14 @@ class Person < ActiveRecord::Base
     areas = Area.where(name: area_name, area_type: area_type)
     return unless areas.count > 0
     area = areas.first
-    area.save
-    person_area = self.person_areas.create area: area,
+    begin
+      #TODO Figure out why Arsecio Rodallega out of Jacksonville breaks this
+      person_area = self.person_areas.create area: area,
                                        manages: leader
-    return unless person_area.present?
+    rescue
+      puts area.name
+      puts self.name
+    end
     return unless creator.present?
     # action = creator_connect_user.leader? ? 'assign_as_manager' : 'assign_as_employee'
     # log_entry = LogEntry.create action: action,
