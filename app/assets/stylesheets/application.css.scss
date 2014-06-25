@@ -94,7 +94,21 @@ table {
 		}
 	}
 }
-
+// TODO: make pagination centered and floating next to headers on lower resolution
+//@media (min-width: $tablet_cutoff) {
+//	.top-pagination {
+//		float: right;
+//	}
+//
+//	#container {
+//		&>h1 {
+//			float:left;
+//		}
+//		section {
+//			clear: both;
+//		}
+//	}
+//}
 @media (min-width: $high_res_cutoff){
 	.widget {
 		width: 19%;
@@ -125,9 +139,4 @@ table {
 
 #saleschart {
 	height: 300px;
-}
-
-
-.top-pagination {
-
 }

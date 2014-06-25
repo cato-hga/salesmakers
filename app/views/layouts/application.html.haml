@@ -1,20 +1,22 @@
 !!!
 %html
   %head
-    %title Reconnect
+    %title
+      Reconnect -
+      = content_for?(:title) ? yield(:title) : params[:controller].capitalize
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
   %body
-
     = render "shared/top_navigation"
-
     #container
-      %header.row.full-width
-      #content.row.full-width
+      %header
+        %h1= content_for?(:title) ? yield(:title) : params[:controller].capitalize
+        = yield :header
+
+      %section#content
         = yield
-      %footer.row.full-width
 
-    = render "shared/scripts"
-
+      %footer
+        = yield :footer

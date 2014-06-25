@@ -1,24 +1,25 @@
-%h1 People
-.top-pagination
-	= paginate @people
+- content_for :header do
+  .top-pagination
+    = paginate @people
 
-%table
-	%thead
-		%tr
-			%th EID
-			%th Name
-			%th Email
-			/%th Phone
-			%th Supervisor
-			%th Area(s)
-	%tbody
-		- for person in @people do
-			%tr
-				%td= link_to Faker::Number.number(5), '#' #TODO: Replace these with real info
-				%td= link_to person.display_name, '#'
-				%td= mail_to person.email
-				/%td= link_to person.phone, '#'
-				%td= link_to person.connect_user.supervisor.name, '#' if person.connect_user.supervisor
-				%td= link_to Faker::Address.city + ' Territory', '#'
+%section
+  %table
+    %thead
+      %th EID
+      %th Name
+      %th Email
+      /%th Phone
+      %th Supervisor
+      %th Area(s)
+    %tbody
+      - for person in @people do
+        %tr
+          %td= link_to Faker::Number.number(5), '#' #TODO: Replace these with real info
+          %td= link_to person.display_name, '#'
+          %td= mail_to person.email
+          /%td= link_to person.phone, '#'
+          %td= link_to person.connect_user.supervisor.name, '#' if person.connect_user.supervisor
+          %td= link_to Faker::Address.city + ' Territory', '#'
 
-= paginate @people
+- content_for :footer do
+  = paginate @people
