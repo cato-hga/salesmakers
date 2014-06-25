@@ -19,7 +19,7 @@
           %td= mail_to person.email
           /%td= link_to person.phone, '#'
           %td= link_to person.supervisor.display_name, '#' if person.supervisor
-          %td= link_to Faker::Address.city + ' Territory', '#'
+          %td= person_area_links person
 
 - content_for :footer do
   = paginate @people
