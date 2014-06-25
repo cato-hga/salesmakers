@@ -3,10 +3,18 @@
 $(function () {
 	$(document).foundation();
 	var $widgets = $('.masonry');
+
+	$('.widget .inner').each(function() {
+		var height = $(this).height();
+		var rounded_up = Math.ceil(height / 100) * 100;
+		$(this).height(rounded_up);
+	});
+
 	$widgets.masonry({
 		columnWidth: '.widget-sizer',
 		isAnimated: true,
-		itemSelector: '.widget'
+		itemSelector: '.widget',
+		gutter: '.gutter-sizer'
 	});
 	$('.widget').each(function () {
 		$(this).width($(this).width() - 8);

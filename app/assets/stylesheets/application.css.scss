@@ -15,8 +15,33 @@
  *= require foundation_and_overrides
 
  */
+
+$spacing: 1em;
+$sub-mobile_cutoff: 320px;
+$mobile_cutoff: 640px;
+$tablet_cutoff: 768px;
+$high_res_cutoff: 1280px;
+$hd_cutoff: 1920px;
+$nav_height: 45px;
+$line_height: 1.05em;
+
 #container {
-	margin: 0 1em;
+	margin: 0 $spacing;
+	line-height: $line_height;
+}
+
+p {
+	line-height: $line_height;
+}
+
+nav {
+	.title-area {
+		img {
+			height: $nav_height - ($nav_height / 10 / 2);
+			margin-top: $nav_height / 10 / 2;
+			margin-left: $spacing;
+		}
+	}
 }
 
 .row.full-width {
@@ -27,8 +52,8 @@
 .widget {
 	margin: 1%;
 	.inner {
-		margin: 0.1em;
-		padding: 1em;
+		margin: $spacing / 10;
+		padding: $spacing;
 		background-color: #eee;
 	}
 }
@@ -40,7 +65,10 @@ table {
 
 
 /* TODO: Fix the margins on home screen */
-@media (min-width: 500px){
+@media (min-width: $mobile_cutoff){
+	.gutter-sizer {
+		width: 1%;
+	}
 	.widget {
 		margin: 4px 0;
 		padding: 0;
@@ -67,27 +95,30 @@ table {
 	}
 }
 
-@media (min-width: 1280px){
+@media (min-width: $high_res_cutoff){
 	.widget {
-		width: 20%;
+		width: 19%;
+		margin: 0.25em 0;
+		padding: 0;
 		&.inner {
 			margin: 0;
+			width: 100%;
 		}
 		&.widget-sizer {
 			margin: 0;
 			padding: 0;
 		}
 		&.w2 {
-			width: 40%;
+			width: 39%;
 		}
 		&.w3 {
-			width: 60%;
+			width: 59%;
 		}
 		&.w4 {
-			width: 80%;
+			width: 79%;
 		}
 		&.w5 {
-			width: 100%;
+			width: 99%;
 		}
 	}
 }
