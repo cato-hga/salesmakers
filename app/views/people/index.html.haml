@@ -1,4 +1,13 @@
 - content_for :header do
+  = search_form_for @search, class: 'search_form' do |f|
+    = f.text_field :eid_eq, placeholder: 'EID'
+    = f.text_field :display_name_cont, placeholder: 'Name'
+    = f.text_field :email_cont, placeholder: 'Email'
+    = f.text_field :mobile_phone_cont, placeholder: 'Phone'
+    = f.text_field :position_name_cont, placeholder: 'Position'
+    = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
+    = f.text_field :areas_name_cont, placeholder: 'Area(s)'
+    = f.submit 'search'
   .top-pagination
     = paginate @people
 
@@ -7,7 +16,7 @@
   -#  %thead
   -#    %tr
         = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)']
-        -#= search_form_for @search do |f|
+        -#
         -#  %th
         -#    = f.text_field :eid_eq, placeholder: 'EID'
         -#  %th
