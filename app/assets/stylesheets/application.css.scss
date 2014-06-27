@@ -19,7 +19,7 @@
 $spacing: 1em;
 $sub-mobile_cutoff: 320px;
 $mobile_cutoff: 640px;
-$tablet_cutoff: 768px;
+$tablet_cutoff: 800px;
 $high_res_cutoff: 1280px;
 $hd_cutoff: 1920px;
 $nav_height: 45px;
@@ -117,6 +117,41 @@ th input[ type = submit ] {
 //		}
 //	}
 //}
+
+@media only screen and (max-width: $tablet_cutoff) {
+	html table, thead, html table tbody, html table thead th, html table tr td, html table thead tr, html table tbody tr {
+		display: block;
+
+	}
+
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	tr {
+		border: 1px solid #ccc;
+	}
+
+	td {
+		border: none;
+		/* border-bottom: 1px solid #eee; */
+		position: relative;
+		padding-left: 50%;
+	}
+
+	td:before {
+		/* position: absolute; */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+		font-weight: bold;
+	}
+}
+
 @media (min-width: $high_res_cutoff){
 	.widget {
 		width: 19%;

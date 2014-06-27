@@ -196,11 +196,6 @@ class Person < ActiveRecord::Base
     this_person
   end
 
-  def create_supervisor
-    supervisor = self.connect_user.supervisor if self.connect_user
-    Person.return_from_connect_user supervisor
-  end
-
   def name
     self.display_name
   end

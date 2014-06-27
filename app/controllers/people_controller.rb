@@ -20,4 +20,5 @@ class PeopleController < ApplicationController
 
   def destroy
   end
+
 end

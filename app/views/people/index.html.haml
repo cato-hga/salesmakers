@@ -3,46 +3,48 @@
     = paginate @people
 
 %section
-  %table
-    %thead
-      %tr
-        = search_form_for @search do |f|
-          %th
-            = f.text_field :eid_eq, placeholder: 'EID'
-          %th
-            = f.text_field :display_name_cont, placeholder: 'Name'
-          %th
-            = f.text_field :email_cont, placeholder: 'Email'
-          %th
-            = f.text_field :mobile_phone_cont, placeholder: 'Phone'
-          %th
-            = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
-          %th
-            = f.text_field :areas_name_cont, placeholder: 'Area(s)'
-            = f.submit 'search'
-    %tbody
-      - for person in @people do
-        %tr{ class: ('inactive' unless person.active?) }
-          %td
-            = link_to person.eid, '#' if person.eid
-          %td= link_to person.display_name, '#'
-          %td= mail_to person.email
-          - if person.office_phone
-            %td
-              %em o:
-              = phone_link person.office_phone
-          - elsif person.mobile_phone
-            %td
-              %em m:
-              = phone_link person.mobile_phone
-          - elsif person.home_phone
-            %td
-              %em h:
-              = phone_link person.home_phone
-          - else
-            %td
-          %td= link_to person.supervisor.display_name, '#' if person.supervisor
-          %td= person_area_links person
+  -#%table
+  -#  %thead
+  -#    %tr
+        = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)']
+        -#= search_form_for @search do |f|
+        -#  %th
+        -#    = f.text_field :eid_eq, placeholder: 'EID'
+        -#  %th
+        -#    = f.text_field :display_name_cont, placeholder: 'Name'
+        -#  %th
+        -#    = f.text_field :email_cont, placeholder: 'Email'
+        -#  %th
+        -#    = f.text_field :mobile_phone_cont, placeholder: 'Phone'
+        -#  %th
+        -#    = f.text_field :position_name_cont, placeholder: 'Position'
+        -#  %th
+        -#    = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
+        -#  %th
+        -#    = f.text_field :areas_name_cont, placeholder: 'Area(s)'
+        -#    = f.submit 'search'
+    -#%tbody
+
+  - header = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)']
+  - rows = Array.new
+  - for person in @people do
+    - classes = person.active? ? '' : 'inactive'
+    - eid = (person.eid) ? link_to(person.eid, '#', class: classes) : ''
+    - display_name = link_to person.display_name, '#', class: classes
+    - email = mail_to person.email, person.email, class: classes
+    - if person.office_phone
+      - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
+    - elsif person.mobile_phone
+      - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, classes)
+    - elsif person.home_phone
+      - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
+    - else
+      - phone = ''
+    - position = (person.position) ? link_to(person.position.name, '#', class: classes) : ''
+    - supervisor = (person.supervisor) ? link_to(person.supervisor.display_name, '#', class: classes) : ''
+    - area = person_area_links person, classes
+    - rows << table_row([eid, display_name, email, phone, position, supervisor, area])
+  = table header, rows
 
 - content_for :footer do
   = paginate @people
