@@ -178,6 +178,34 @@ th input[ type = submit ] {
 			width: 99%;
 		}
 	}
+
+	form.search_form {
+		float: right;
+		margin-top: 1em;
+
+		input[type = text], select, textarea {
+			width: 10em;
+			display: inline-block;
+		}
+		input[type = submit] {
+			display: none;
+		}
+	}
+
+	section#content {
+		clear: both;
+	}
+
+	#container {
+		&>header {
+			.top-pagination {
+				clear:both;
+			}
+			h1 {
+				float:left;
+			}
+		}
+	}
 }
 
 #saleschart {
