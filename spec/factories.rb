@@ -22,6 +22,7 @@ FactoryGirl.define do
     mobile_phone '5551234567'
     home_phone '7895123012'
     position { create :von_retail_sales_specialist_position }
+    eid 55555
   end
 
   factory :von_client, class: Client do

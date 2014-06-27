@@ -1,2 +1,6 @@
 Rails.application.config.assets.precompile += %w( masonry.min.js )
 Rails.application.config.assets.precompile += %w( jquery-ui-datepicker.js )
+Rails.application.config.assets.precompile += %w( home.js )
+Rails.application.config.assets.precompile += %w( people.js )
+Rails.application.config.assets.precompile += %w( sessions.js )
+Rails.application.config.assets.precompile += %w( google_jsapi.js )

@@ -63,6 +63,14 @@ table {
 
 }
 
+.inactive,
+.inactive a {
+	color: darkred;
+}
+
+th input[ type = submit ] {
+	display: none;
+}
 
 /* TODO: Fix the margins on home screen */
 @media (min-width: $mobile_cutoff){

@@ -145,7 +145,7 @@ class Person < ActiveRecord::Base
                                        manages: leader
     rescue
       puts area.name
-      puts self.name
+      puts self.display_name
     end
     return unless creator.present?
     # action = creator_connect_user.leader? ? 'assign_as_manager' : 'assign_as_employee'
@@ -165,8 +165,7 @@ class Person < ActiveRecord::Base
     # If the ConnectUser exists but there isn't already already a
     # Person in the local DB, then...
     if connect_user.present? and not this_person.present?
-      supervisor_connect_user = connect_user.supervisor
-      supervisor = Person.return_from_connect_user(supervisor_connect_user) if supervisor_connect_user
+      puts connect_user.name
       # Create the Person.
       this_person = self.create first_name: connect_user.firstname,
                               last_name: connect_user.lastname,
@@ -174,8 +173,8 @@ class Person < ActiveRecord::Base
                               email: connect_user.username,
                               personal_email: (connect_user.description) ? connect_user.description : connect_user.email,
                               connect_user_id: connect_user.id,
-                              active: (connect_user.isactive == 'Y') ? true : false
-      this_person.supervisor = supervisor if supervisor
+                              active: (connect_user.isactive == 'Y') ? true : false,
+                              mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
       this_person.import_position
       creator_connect_user = ConnectUser.find connect_user.createdby
       if creator_connect_user.present? and this_person.present? and this_person.id.present?
@@ -195,6 +194,15 @@ class Person < ActiveRecord::Base
     end
     # Return the local Person from the DB
     this_person
+  end
+
+  def create_supervisor
+    supervisor = self.connect_user.supervisor if self.connect_user
+    Person.return_from_connect_user supervisor
+  end
+
+  def name
+    self.display_name
   end
 
   private

@@ -10,3 +10,4 @@ require "#{seeds}/clients"
 require "#{seeds}/projects"
 
 require "#{seeds}/person"
+require "#{seeds}/employee_ids"

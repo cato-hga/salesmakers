@@ -7,7 +7,8 @@ Person.create first_name: 'System',
               email: 'retailingw@retaildoneright.com',
               personal_email: 'retailingw@retaildoneright.com',
               position_id: administrator_position.id,
-              connect_user_id: '2C908AA22CBD1292012CBD1735100034'
+              connect_user_id: '2C908AA22CBD1292012CBD1735100034',
+              mobile_phone: '8005551212'
 
 Person.create first_name: 'Anthony',
               last_name: 'Atkinson',
@@ -15,7 +16,8 @@ Person.create first_name: 'Anthony',
               email: 'aatkinson@retaildoneright.com',
               personal_email: 'develop.blaise@gmail.com',
               position_id: senior_software_developer.id,
-              connect_user_id: '337EB300331F4762A4200CDE357E79E6'
+              connect_user_id: '337EB300331F4762A4200CDE357E79E6',
+              mobile_phone: '8635214572'
 
 Person.create first_name: 'Stephen',
               last_name: 'Miles',
@@ -23,4 +25,5 @@ Person.create first_name: 'Stephen',
               email: 'smiles@retaildoneright.com',
               personal_email: 'milessa42@gmail.com',
               position_id: senior_software_developer.id,
-              connect_user_id: '0AA3EE8FCDCF402ABCEB6280D1FC4C8D'
+              connect_user_id: '0AA3EE8FCDCF402ABCEB6280D1FC4C8D',
+              mobile_phone: '8137164150'

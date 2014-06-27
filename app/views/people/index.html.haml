@@ -5,24 +5,40 @@
 %section
   %table
     %thead
-      %th EID
-      %th Name
-      %th Email
-      %th Phone
-      %th Supervisor
-      %th Area(s)
+      %tr
+        = search_form_for @search do |f|
+          %th
+            = f.text_field :eid_eq, placeholder: 'EID'
+          %th
+            = f.text_field :display_name_cont, placeholder: 'Name'
+          %th
+            = f.text_field :email_cont, placeholder: 'Email'
+          %th
+            = f.text_field :mobile_phone_cont, placeholder: 'Phone'
+          %th
+            = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
+          %th
+            = f.text_field :areas_name_cont, placeholder: 'Area(s)'
+            = f.submit 'search'
     %tbody
       - for person in @people do
-        %tr
-          %td= link_to Faker::Number.number(5), '#' #TODO: Replace these with real info
+        %tr{ class: ('inactive' unless person.active?) }
+          %td
+            = link_to person.eid, '#' if person.eid
           %td= link_to person.display_name, '#'
           %td= mail_to person.email
           - if person.office_phone
-            %td= phone_link person.office_phone
+            %td
+              %em o:
+              = phone_link person.office_phone
           - elsif person.mobile_phone
-            %td= phone_link person.mobile_phone
+            %td
+              %em m:
+              = phone_link person.mobile_phone
           - elsif person.home_phone
-            %td= phone_link person.home_phone
+            %td
+              %em h:
+              = phone_link person.home_phone
           - else
             %td
           %td= link_to person.supervisor.display_name, '#' if person.supervisor
