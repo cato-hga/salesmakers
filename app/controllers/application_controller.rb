@@ -10,11 +10,11 @@ class ApplicationController < ActionController::Base
   private
 
   def set_current_user
-    @person = ConnectUser.find_by_username session[:cas_user] if session[:cas_user]
+    @current_person = ConnectUser.find_by_username session[:cas_user] if session[:cas_user]
   end
 
   def current_user
-    @person
+    @current_person
   end
 
   helper_method :current_user

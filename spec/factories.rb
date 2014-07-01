@@ -50,4 +50,8 @@ FactoryGirl.define do
     area { create :von_east_retail_region_area }
     manages false
   end
+
+  factory :verizon_technology_service_provider, class: TechnologyServiceProvider do
+    name 'Verizon'
+  end
 end
