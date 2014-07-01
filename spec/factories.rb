@@ -68,4 +68,9 @@ FactoryGirl.define do
   factory :samsung_device_manufacturer, class: DeviceManufacturer do
     name 'Samsung'
   end
+
+  factory :samsung_galaxytab3_device_model, class: DeviceModel do
+    name 'GalaxyTab 3'
+    device_manufacturer { create :samsung_device_manufacturer }
+  end
 end
