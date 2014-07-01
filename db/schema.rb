@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701153137) do
+ActiveRecord::Schema.define(version: 20140701153901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,14 @@ ActiveRecord::Schema.define(version: 20140701153137) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "line_states_lines", id: false, force: true do |t|
+    t.integer "line_id"
+    t.integer "line_state_id"
+  end
+
+  add_index "line_states_lines", ["line_id"], name: "index_line_states_lines_on_line_id", using: :btree
+  add_index "line_states_lines", ["line_state_id"], name: "index_line_states_lines_on_line_state_id", using: :btree
 
   create_table "lines", force: true do |t|
     t.string   "identifier",                     null: false
