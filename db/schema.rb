@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701155411) do
+ActiveRecord::Schema.define(version: 20140701184347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema.define(version: 20140701155411) do
   create_table "device_models", force: true do |t|
     t.string   "name",                   null: false
     t.integer  "device_manufacturer_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "devices", force: true do |t|
+    t.string   "identifier",      null: false
+    t.string   "serial",          null: false
+    t.integer  "device_model_id", null: false
+    t.integer  "line_id"
+    t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

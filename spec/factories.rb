@@ -73,4 +73,12 @@ FactoryGirl.define do
     name 'GalaxyTab 3'
     device_manufacturer { create :samsung_device_manufacturer }
   end
+
+  factory :samsung_galaxytab3_device, class: Device do
+    identifier '12345'
+    serial '256691513608935569'
+    device_model { create :samsung_galaxytab3_device_model }
+    line { create :verizon_line }
+    person { create :von_retail_sales_specialist_person }
+  end
 end
