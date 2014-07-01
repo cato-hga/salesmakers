@@ -60,4 +60,8 @@ FactoryGirl.define do
     contract_end_date Date.today + 3.months
     technology_service_provider { create :verizon_technology_service_provider }
   end
+
+  factory :suspended_line_state, class: LineState do
+    name 'Suspended'
+  end
 end
