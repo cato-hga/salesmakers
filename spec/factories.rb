@@ -54,4 +54,10 @@ FactoryGirl.define do
   factory :verizon_technology_service_provider, class: TechnologyServiceProvider do
     name 'Verizon'
   end
+
+  factory :verizon_line, class: Line do
+    identifier '7274985180'
+    contract_end_date Date.today + 3.months
+    technology_service_provider { create :verizon_technology_service_provider }
+  end
 end
