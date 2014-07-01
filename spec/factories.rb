@@ -64,4 +64,8 @@ FactoryGirl.define do
   factory :suspended_line_state, class: LineState do
     name 'Suspended'
   end
+
+  factory :samsung_device_manufacturer, class: DeviceManufacturer do
+    name 'Samsung'
+  end
 end
