@@ -7,4 +7,5 @@ class Device < ActiveRecord::Base
   belongs_to :device_model
   belongs_to :line
   belongs_to :person
+  has_and_belongs_to_many :device_states
 end

@@ -81,4 +81,8 @@ FactoryGirl.define do
     line { create :verizon_line }
     person { create :von_retail_sales_specialist_person }
   end
+
+  factory :repair_device_state, class: DeviceState do
+    name 'Repair'
+  end
 end
