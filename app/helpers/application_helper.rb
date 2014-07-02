@@ -74,6 +74,15 @@ module ApplicationHelper
     links.join(', ').html_safe
   end
 
+  def device_state_links(device)
+    links = Array.new
+    for state in device.device_states do
+      #TODO Add controller path for devices
+      links << link_to(state.name, device)
+    end
+    links.join(', ').html_safe
+  end
+
   def short_date(date)
     date.strftime '%m/%d/%Y'
   end

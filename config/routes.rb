@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :home, only: [ :index ]
   resources :people
   resources :lines
+  resources :devices
 
   get 'sessions/destroy', as: 'logout'
 

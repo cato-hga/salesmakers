@@ -9,6 +9,7 @@ class Device < ActiveRecord::Base
   belongs_to :person
   has_and_belongs_to_many :device_states
   has_many :device_deployments
+  has_one :device_manufacturer, through: :device_model
 
   def self.create_from_connect_asset_movement(serial, device_model_id, line_id, person_id, movement, created_by)
     # Create the Device

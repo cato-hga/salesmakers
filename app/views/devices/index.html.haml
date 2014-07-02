@@ -1,0 +1,33 @@
+- content_for :header do
+  = search_form_for @search, class: 'search_form' do |f|
+    - if not params[:q]
+      Search:
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :identifier_cont, placeholder: 'Identifier'
+    = f.text_field :serial_cont, placeholder: 'Serial'
+    = f.text_field :person_display_name_cont, placeholder: 'Assigned To'
+    = f.text_field :device_deployments_person_display_name_cont, placeholder: 'Previously Assigned To'
+    = f.text_field :line_identifier_cont, placeholder: 'Line'
+    = f.text_field :device_manufacturer_name_cont, placeholder: 'Manufacturer'
+    = f.text_field :device_model_name_cont, placeholder: 'Model'
+    = f.text_field :device_states_name_cont, placeholder: 'State(s)'
+    = f.submit 'search', class: 'button tiny'
+  .top-pagination
+    = paginate @devices
+
+%section
+  - header = header_row ['Identifier','Serial','Assigned To','Line','Manufacturer','Model','State(s)']
+  - rows = Array.new
+  - for device in @devices do
+    - identifier = link_to device.identifier, device
+    - serial = link_to device.serial, device
+    - assigned_to = link_to device.person.display_name, device.person if device.person
+    - line = link_to device.line.identifier, device.line if device.line
+    - manufacturer = device.device_manufacturer.name if device.device_manufacturer
+    - model = device.device_model.name if device.device_model
+    - states = device_state_links device
+    - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @devices
