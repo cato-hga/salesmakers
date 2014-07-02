@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
+  resources :lines
 
   get 'sessions/destroy', as: 'logout'
 

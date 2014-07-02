@@ -1,0 +1,29 @@
+- content_for :header do
+  = search_form_for @search, class: 'search_form' do |f|
+    - if not params[:q]
+      Search:
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :technology_service_provider_name_cont, placeholder: 'Provider'
+    = f.text_field :identifier_cont, placeholder: 'Identifier'
+    = f.text_field :contract_end_date_cont, placeholder: 'Contract End Date'
+    = f.text_field :line_states_name_cont, placeholder: 'State(s)'
+    = f.submit 'search', class: 'button tiny'
+  .top-pagination
+    = paginate @lines
+
+%section
+  - header = header_row ['Provider','Identifier','Contract End Date','State(s)']
+  - rows = Array.new
+  - for line in @lines do
+    - provider = link_to line.technology_service_provider.name, '#'
+    - identifier = link_to line.identifier, line
+    - if line.contract_end_date == Date.parse('01/01/1901')
+      - contract_end_date = ''
+    - else
+      - contract_end_date = link_to short_date(line.contract_end_date), line
+    - states = line_state_links line
+    - rows << table_row([provider,identifier,contract_end_date,states])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @lines

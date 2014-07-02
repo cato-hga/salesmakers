@@ -64,4 +64,26 @@ module ApplicationHelper
     content << styling.html_safe
     content
   end
+
+  def line_state_links(line)
+    links = Array.new
+    for state in line.line_states do
+      #TODO Add controller path for lines
+      links << link_to(state.name, line)
+    end
+    links.join(', ').html_safe
+  end
+
+  def short_date(date)
+    date.strftime '%m/%d/%Y'
+  end
+
+  def med_date(date)
+    date.strftime '%a, %b %-d, %Y'
+  end
+
+  def long_date(date)
+    date.strftime '%A, %B %-d, %Y'
+  end
+
 end
