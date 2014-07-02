@@ -11,4 +11,7 @@ seeds = "#{Rails.root}/db/seeds"
 #
 # require "#{seeds}/person"
 # require "#{seeds}/employee_ids"
-require "#{seeds}/supervisors"
+#require "#{seeds}/supervisors"
+#require "#{seeds}/technology_service_providers"
+require "#{seeds}/line_states"
+require "#{seeds}/lines"
