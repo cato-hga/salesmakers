@@ -89,6 +89,16 @@ FactoryGirl.define do
   factory :create_person_log_entry, class: LogEntry do
     person { create :von_retail_sales_specialist_person }
     action 'create'
-    trackable { create :von_retail_sales_specialist_person }
+    trackable { create :samsung_galaxytab3_device }
+  end
+
+
+  factory :device_deployment, class: DeviceDeployment do
+    device { create :samsung_galaxytab3_device }
+    person { create :von_retail_sales_specialist_person }
+    started Date.today - 2.months
+    ended Date.today - 3.days
+    tracking_number '12345678910'
+    comment 'This is a comment'
   end
 end
