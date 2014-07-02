@@ -85,4 +85,10 @@ FactoryGirl.define do
   factory :repair_device_state, class: DeviceState do
     name 'Repair'
   end
+
+  factory :create_person_log_entry, class: LogEntry do
+    person { create :von_retail_sales_specialist_person }
+    action 'create'
+    trackable { create :von_retail_sales_specialist_person }
+  end
 end

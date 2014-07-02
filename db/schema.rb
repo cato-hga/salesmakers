@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140701190831) do
+ActiveRecord::Schema.define(version: 20140702155629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,22 @@ ActiveRecord::Schema.define(version: 20140701190831) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "log_entries", force: true do |t|
+    t.integer  "person_id",          null: false
+    t.string   "action",             null: false
+    t.text     "comment"
+    t.integer  "trackable_id",       null: false
+    t.string   "trackable_type",     null: false
+    t.integer  "referenceable_id"
+    t.string   "referenceable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "log_entries", ["person_id"], name: "index_log_entries_on_person_id", using: :btree
+  add_index "log_entries", ["referenceable_id", "referenceable_type"], name: "index_log_entries_on_referenceable_id_and_referenceable_type", using: :btree
+  add_index "log_entries", ["trackable_id", "trackable_type"], name: "index_log_entries_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "people", force: true do |t|
     t.string   "first_name",                     null: false
