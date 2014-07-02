@@ -10,8 +10,8 @@ RSpec.describe DeviceManufacturer, :type => :model do
 
     subject { @device_manufacturer }
 
-    it 'should have a name longer than five characters' do
-      @device_manufacturer.name = 'abcd'
+    it 'should have a name longer than three characters' do
+      @device_manufacturer.name = 'ab'
       should_not be_valid
     end
   end

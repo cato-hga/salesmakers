@@ -14,16 +14,19 @@ optik = DeviceModel.find_by_name 'Optik'
 
 device_state_emails = [
     'researchassets@retaildoneright.com',
+    'retired@retaildoneright.com',
     'assets@retaildoneright.com',
-    'repair@retaildoneright.com'
+    'repair@retaildoneright.com',
+    'exchange@retaildoneright.com'
 ]
+
 assets_counter = 0
 connect_assets = ConnectAsset.all
 for connect_asset in connect_assets do
   assets_counter = assets_counter + 1
   puts "   - " + assets_counter.to_s + " assets processed..." unless assets_counter % 25 > 0
   device_model_id = nil
-  case asset.connect_asset_group.name
+  case connect_asset.connect_asset_group.name
     when 'iPad 4 (Sprint)'
       device_model_id = ipad_4.id
     when 'iPad 4 (Verizon)'
@@ -54,17 +57,54 @@ for connect_asset in connect_assets do
     line = Line.find_by_identifier ptn
   end
   serial = connect_asset.serial
-  person = Person.find_by_connect_user_id connect_asset.ad_user_id
-  person = Person.return_from_connect_user connect_asset.connect_user if not person
-  person = nil if device_state_emails.include? person.email
 
-  device = Device.create  serial: serial,
-                          identifier: serial,
-                          device_model: device_model,
-                          line: line,
-                          person: person
-
-  #TODO: Attach device states
-
-
+  movement_counter = 0
+  connect_movements = connect_asset.connect_asset_movements
+  for movement in connect_movements
+    movement_counter = movement_counter + 1
+    created_by = nil
+    from_email = movement.moved_from_user.email
+    to_email = movement.moved_to_user.email
+    created_by_connect_user = ConnectUser.find movement.createdby
+    created_by = Person.return_from_connect_user created_by_connect_user unless created_by.present?
+    unless device_state_emails.include? to_email
+      to_user = Person.return_from_connect_user movement.moved_to_user
+    else
+      to_user = nil
+    end
+    person_id = (to_user.present?) ? to_user.id : nil
+    if movement_counter == 1
+      line = nil
+      if ptn.present? and not ptn.blank?
+        line = Line.find_by_identifier ptn
+      end
+      line_id = (line.present?) ? line.id : nil
+      device = Device.create_from_connect_asset_movement serial,
+                                                         device_model_id,
+                                                         line_id,
+                                                         person_id,
+                                                         movement,
+                                                         created_by
+    end
+    line = Line.find_by_identifier ptn
+    device = Device.find_by_serial serial
+    next unless device.present? and not device.blank?
+    if movement_counter > 1 or to_email != 'assets@retaildoneright.com'
+      next if to_email == 'suspended@retaildoneright.com' or from_email == 'suspended@retaildoneright.com'
+      device_deployments = device.device_deployments
+      last_deployment = (device_deployments.present? and device_deployments.count > 0) ? device_deployments.last : nil
+      if to_email == 'retired@retaildoneright.com'
+        device.write_off_from_connect_asset_movement movement, created_by
+      elsif to_email == 'assets@retaildoneright.com'
+        device.recoup_from_connect_asset_movement movement, created_by
+      elsif to_email == 'repair@retaildoneright.com'
+        device.repair_from_connect_asset_movement movement, created_by
+      elsif to_email == 'researchassets@retaildoneright.com'
+        device.lost_or_stolen_from_connect_asset_movement movement, created_by
+      else
+        puts movement.moved_to_user.name unless to_user.present?
+        device.deploy_from_connect_asset_movement movement, created_by
+      end
+    end
+  end
 end

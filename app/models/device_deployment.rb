@@ -7,4 +7,5 @@ class DeviceDeployment < ActiveRecord::Base
   belongs_to :device
   belongs_to :person
 
+  default_scope { order('started DESC') }
 end
