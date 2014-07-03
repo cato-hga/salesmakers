@@ -1,6 +1,6 @@
 module ApplicationHelper
   def title( page_title )
-    content_for(:title) { NameCase(page_title.sub!('_',' ')) }
+    content_for(:title) { page_title }
   end
 
   def person_area_links(person, classes)
