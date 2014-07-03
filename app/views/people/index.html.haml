@@ -20,7 +20,7 @@
   - for person in @people do
     - classes = person.active? ? '' : 'inactive'
     - eid = (person.eid) ? link_to(person.eid, person, class: classes) : ''
-    - display_name = link_to person.display_name, person, class: classes
+    - display_name = person_link person, classes
     - email = mail_to person.email, person.email, class: classes
     - if person.office_phone
       - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
@@ -31,7 +31,7 @@
     - else
       - phone = ''
     - position = (person.position) ? link_to(person.position.name, person, class: classes) : ''
-    - supervisor = (person.supervisor) ? link_to(person.supervisor.display_name, person.supervisor , class: classes) : ''
+    - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - rows << table_row([eid, display_name, email, phone, position, supervisor, area])
   = table header, rows

@@ -4,7 +4,7 @@ class Person < ActiveRecord::Base
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :display_name, presence: true, length: { minimum: 5 }
-  validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
+  validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true #TODO Prompt for valid email
   validates :personal_email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
   validates :position, presence: true
   validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
@@ -13,6 +13,9 @@ class Person < ActiveRecord::Base
   validates :office_phone, presence: true, unless: Proc.new { |p| p.home_phone or p.mobile_phone }
   validates :mobile_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
   validates :mobile_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.home_phone }
+  validates :connect_user_id, uniqueness: true, allow_nil: true
+
+  # TODO: Test for unique email and connect_user_id
 
   belongs_to :position
   #TODO Why the hell does this need to be belongs_to instead of has_one?
@@ -126,14 +129,14 @@ class Person < ActiveRecord::Base
     unless self.position_id.present?
       self.position_id = corporate ? pos_uc.id : pos_uf.id
     end
-    # if creator.present? and creator.id.present?
-    #   log_entry = LogEntry.create action: 'set_position',
-    #                               trackable: self,
-    #                               referenceable: self.position,
-    #                               created_at: self.connect_user.created,
-    #                               updated_at: self.connect_user.updated,
-    #                               user_id: creator.id
-    # end
+    if creator.present? and creator.id.present? and self and self.id
+      log_entry = LogEntry.create action: 'set_position',
+                                  trackable: self,
+                                  referenceable: self.position,
+                                  created_at: self.connect_user.created,
+                                  updated_at: self.connect_user.updated,
+                                  person_id: creator.id
+    end
     self.save
     return unless area_type.present?
     areas = Area.where(name: area_name, area_type: area_type)
@@ -142,22 +145,27 @@ class Person < ActiveRecord::Base
     begin
       #TODO Figure out why Arsecio Rodallega out of Jacksonville breaks this
       person_area = self.person_areas.create area: area,
-                                       manages: leader
+                                             manages: leader
     rescue
       puts area.name
       puts self.display_name
     end
     return unless creator.present?
-    # action = creator_connect_user.leader? ? 'assign_as_manager' : 'assign_as_employee'
-    # log_entry = LogEntry.create action: action,
-    #                             trackable: self,
-    #                             referenceable: area,
-    #                             created_at: self.connect_user.created,
-    #                             updated_at: self.connect_user.updated,
-    #                             user: creator
+    action = creator_connect_user.leader? ? 'assign_as_manager' : 'assign_as_employee'
+    if creator and self and creator.id and self.id
+      log_entry = LogEntry.create action: action,
+                                  trackable: self,
+                                  referenceable: area,
+                                  created_at: self.connect_user.created,
+                                  updated_at: self.connect_user.updated,
+                                  person: creator
+    end
   end
 
   def self.return_from_connect_user(connect_user)
+    previously_created_person = Person.find_by_connect_user_id connect_user.id
+    return if previously_created_person
+    puts connect_user.name
     # Set Person to nil in case of remnants of past calls.
     this_person = nil
     # Find the Person if there is one already in the DB
@@ -165,33 +173,39 @@ class Person < ActiveRecord::Base
     # If the ConnectUser exists but there isn't already already a
     # Person in the local DB, then...
     if connect_user.present? and not this_person.present?
-      puts connect_user.name
       # Create the Person.
       this_person = self.create first_name: connect_user.firstname,
-                              last_name: connect_user.lastname,
-                              display_name: (connect_user.name) ? connect_user.name : [connect_user.firstname, connect_user.lastname].join(' '),
-                              email: connect_user.username,
-                              personal_email: (connect_user.description) ? connect_user.description : connect_user.email,
-                              connect_user_id: connect_user.id,
-                              active: (connect_user.isactive == 'Y') ? true : false,
-                              mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
+                                last_name: connect_user.lastname,
+                                display_name: (connect_user.name) ? connect_user.name : [connect_user.firstname, connect_user.lastname].join(' '),
+                                email: connect_user.username,
+                                personal_email: (connect_user.description) ? connect_user.description : connect_user.email,
+                                connect_user_id: connect_user.id,
+                                active: (connect_user.isactive == 'Y') ? true : false,
+                                mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
       this_person.import_position
-      creator_connect_user = ConnectUser.find connect_user.createdby
-      if creator_connect_user.present? and this_person.present? and this_person.id.present?
-        if creator_connect_user.id == '0'
-          creator = Person.find_by_email 'retailingw@retaildoneright.com'
-        else
+      creator = Person.find_by_connect_user_id connect_user.createdby if connect_user.createdby
+      creator = Person.find_by_email 'retailingw@retaildoneright.com' if connect_user.createdby and connect_user.createdby == '0'
+      if not creator
+        creator_connect_user = ConnectUser.find connect_user.createdby
+        if creator_connect_user.present? and this_person.present? and this_person.id.present?
           creator = self.return_from_connect_user creator_connect_user
         end
-        # if creator.present? and creator.id.present?
-        #   log_entry = LogEntry.create action: 'create',
-        #                               trackable: this_person,
-        #                               created_at: connect_user.created,
-        #                               updated_at: connect_user.updated,
-        #                               user: creator
-        # end
+      end
+      if creator.present? and creator.id.present? and this_person and this_person.id
+        log_entry = LogEntry.create action: 'create',
+                                    trackable: this_person,
+                                    created_at: connect_user.created,
+                                    updated_at: connect_user.updated,
+                                    person: creator
       end
     end
+    return if not this_person
+    supervisor = Person.find_by_connect_user_id connect_user.supervisor_id if connect_user.supervisor_id
+    if not supervisor
+      supervisor = Person.return_from_connect_user connect_user.supervisor if connect_user.supervisor
+    end
+    this_person.supervisor = supervisor if supervisor
+    this_person.save
     # Return the local Person from the DB
     this_person
   end

@@ -7,4 +7,6 @@ class LogEntry < ActiveRecord::Base
   belongs_to :person
   belongs_to :trackable, polymorphic: true
   belongs_to :referenceable, polymorphic: true
+
+  default_scope { order('created_at DESC') }
 end

@@ -6,6 +6,7 @@ class PeopleController < ApplicationController
 
   def show
     @person = Person.find params[:id]
+    @log_entries = LogEntry.where trackable_type: 'Person', trackable_id: @person.id
   end
 
   def new

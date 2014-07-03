@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include SentientController
 
   before_action CASClient::Frameworks::Rails::Filter
-  before_action :set_current_user
+  before_action :set_current_user, :get_projects
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -15,6 +15,11 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_person
+  end
+
+  def get_projects
+    # TODO: Load projects based on Position
+    @projects = Project.all
   end
 
   helper_method :current_user

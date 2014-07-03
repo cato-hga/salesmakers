@@ -99,8 +99,8 @@ module ApplicationHelper
     content_tag(:i, ''.html_safe, class: 'fi-' + name).html_safe
   end
 
-  def person_link(person)
-    link_to person.display_name, person
+  def person_link(person, classes = '')
+    link_to NameCase(person.display_name), person, class: classes
   end
 
   def bare_log_entry(log_entry)

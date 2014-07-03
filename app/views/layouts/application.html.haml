@@ -3,7 +3,7 @@
   %head
     %title
       Reconnect -
-      = content_for?(:title) ? yield(:title) : params[:controller].capitalize
+      = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag params[:controller]
