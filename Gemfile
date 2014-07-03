@@ -12,7 +12,7 @@ gem 'sdoc', '0.4.0',  group: :doc
 
 # ------ Our gems below this line --------
 
-gem 'foundation-rails', '5.2.3.0'
+gem 'foundation-rails', '5.3.0.1'
 gem 'chartkick', '1.2.5'
 gem 'haml-rails', '0.5.3'
 gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git'
@@ -21,6 +21,7 @@ gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git'
 gem 'ransack', '1.2.3'
 gem 'kaminari', '0.16.1'
 gem 'httparty', '0.13.1'
+gem 'jquery-turbolinks', '2.0.2'
 
 group :assets, :development do
   gem 'foundation-icons-sass-rails', '3.0.0'
