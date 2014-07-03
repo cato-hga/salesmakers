@@ -20,6 +20,7 @@ gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git'
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git'
 gem 'ransack', '1.2.3'
 gem 'kaminari', '0.16.1'
+gem 'httparty', '0.13.1'
 
 group :assets, :development do
   gem 'foundation-icons-sass-rails', '3.0.0'
