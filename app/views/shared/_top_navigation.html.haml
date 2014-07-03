@@ -8,6 +8,8 @@
   %section.top-bar-section
     /LEFT NAV
     %ul.left
+      %li
+        = link_to icon('home'), root_path
       %li.has-dropdown
         %a{ href: "#" } Vonage Retail
         %ul.dropdown
@@ -87,23 +89,28 @@
     /RIGHT NAV
     %ul.right
       %li
-        %a{ href: "#" } Clients
+        = link_to icon('torso-business') + ' Clients', '#'
       %li
-        %a= link_to 'People', people_path
+        %a= link_to icon('torsos') + ' People', people_path
       %li
-        %a{ href: "#" } Training
+        = link_to icon('clipboard-pencil') + ' Training', '#'
+      %li.has-dropdown
+        = link_to icon('tablet-portrait') + ' Assets', devices_path
+        %ul.dropdown
+          %li
+            = link_to 'Devices', devices_path
+          %li
+            = link_to 'Lines', lines_path
       %li
-        %a{ href: "#" } Assets
-      %li
-        %a{ href: "#" } Reports
+        = link_to icon('graph-bar') + ' Reports', '#'
       %li.divider
       %li.has-dropdown
         %a{ href: "#" }= current_user.email
         %ul.dropdown
           %li
-            %a{ href: "#" } My Profile
+            = link_to icon('widget') + ' My Settings', '#'
           %li.divider
           %li
-            %a= link_to 'Sign Out', logout_path
+            = link_to icon('x') + ' Sign Out', logout_path
       %li.has-form
-        %a.small.button{ href: "#" } Help
+        = link_to icon('asterisk') + ' Help', '#', class: 'small button'

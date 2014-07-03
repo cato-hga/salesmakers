@@ -21,6 +21,9 @@ gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git'
 gem 'ransack', '1.2.3'
 gem 'kaminari', '0.16.1'
 
+group :assets, :development do
+  gem 'foundation-icons-sass-rails', '3.0.0'
+end
 
 group :development do
   gem 'letter_opener', '1.2.0'

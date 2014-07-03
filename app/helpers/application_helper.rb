@@ -95,4 +95,8 @@ module ApplicationHelper
     date.strftime '%A, %B %-d, %Y'
   end
 
+  def icon(name)
+    content_tag(:i, ''.html_safe, class: 'fi-' + name).html_safe
+  end
+
 end

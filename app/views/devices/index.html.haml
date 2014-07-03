@@ -1,7 +1,7 @@
 - content_for :header do
   = search_form_for @search, class: 'search_form' do |f|
     - if not params[:q]
-      Search:
+      = icon('magnifying-glass')
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :identifier_cont, placeholder: 'Identifier'
     = f.text_field :serial_cont, placeholder: 'Serial'
