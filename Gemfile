@@ -22,6 +22,7 @@ gem 'ransack', '1.2.3'
 gem 'kaminari', '0.16.1'
 gem 'httparty', '0.13.1'
 gem 'jquery-turbolinks', '2.0.2'
+gem 'namecase', '1.1.0'
 
 group :assets, :development do
   gem 'foundation-icons-sass-rails', '3.0.0'

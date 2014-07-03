@@ -1,0 +1,8 @@
+= search_form_for @search, html: { class: 'form-inline', role: 'form' } do |f|
+  .form-group= f.text_field :person_display_name_cont, placeholder: 'By', class: 'form-control'
+  -#.form-group= f.collection_select :trackable_type_eq, LogEntry.order(:trackable_type).group(:trackable_type), :trackable_type, :trackable_type, { prompt: 'Type' }, class: 'form-control'
+  .form-group
+    = f.submit 'Search', class: 'btn btn-default'
+    = link_to 'Clear', log_entries_path
+= render 'shared/log_entries'
+= paginate @log_entries

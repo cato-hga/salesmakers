@@ -1,6 +1,6 @@
 module ApplicationHelper
   def title( page_title )
-    content_for(:title) { page_title }
+    content_for(:title) { NameCase(page_title.sub!('_',' ')) }
   end
 
   def person_area_links(person, classes)
@@ -97,6 +97,29 @@ module ApplicationHelper
 
   def icon(name)
     content_tag(:i, ''.html_safe, class: 'fi-' + name).html_safe
+  end
+
+  def person_link(person)
+    link_to person.display_name, person
+  end
+
+  def bare_log_entry(log_entry)
+    render "log_entries/bare_log_entry", log_entry: log_entry
+  end
+
+  def render_log_entry(log_entry)
+    render "log_entries/log_entry", log_entry: log_entry
+  end
+
+  def device_link(device)
+    link_to device.serial, device
+  end
+
+  def tracking_link(tracking_number, text = nil)
+    if text == nil
+      text = tracking_number
+    end
+    link_to text, 'http://www.fedex.com/Tracking?action=track&tracknumbers=' + tracking_number, target: '_blank'
   end
 
 end

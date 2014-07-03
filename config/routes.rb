@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :people
   resources :lines
   resources :devices
+  resources :log_entries, only: [ :index ]
 
   get 'sessions/destroy', as: 'logout'
 

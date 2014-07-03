@@ -1,0 +1,8 @@
+Sent
+= device_link(log_entry.trackable)
+out for repair
+- if log_entry.comment.present? and not log_entry.comment.blank?
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = log_entry.comment

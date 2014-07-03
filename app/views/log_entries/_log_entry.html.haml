@@ -1,0 +1,4 @@
+.log_entry
+  = render "log_entries/timestamp", date: log_entry.created_at
+  .content
+    = render "log_entries/#{log_entry.trackable_type.underscore}/#{log_entry.action}", log_entry: log_entry

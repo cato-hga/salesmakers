@@ -13,7 +13,7 @@
     = render "shared/top_navigation"
     #container
       %header
-        %h1= content_for?(:title) ? yield(:title) : params[:controller].capitalize
+        %h1= content_for?(:title) ? yield(:title) : NameCase(params[:controller].capitalize.sub!('_',' '))
         = yield :header
 
       %section#content

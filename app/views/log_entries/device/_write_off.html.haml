@@ -1,0 +1,12 @@
+.entry_type
+  Written Off
+  .time_ago
+    = time_ago_in_words(log_entry.created_at) + ' ago'
+.entry_pertains_to= device_link(log_entry.trackable)
+by
+= user_link log_entry.user
+- if log_entry.comment.present? and not log_entry.comment.blank?
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = log_entry.comment
