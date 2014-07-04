@@ -18,4 +18,8 @@ class ConnectAssetMovement < ConnectModel
              foreign_key: 'to_user'
 
   default_scope { order('created ASC') }
+
+  def self.ascending_by_asset
+    unscoped.order 'rc_asset_id ASC, created ASC'
+  end
 end

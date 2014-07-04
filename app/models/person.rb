@@ -6,7 +6,6 @@ class Person < ActiveRecord::Base
   validates :display_name, presence: true, length: { minimum: 5 }
   validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true #TODO Prompt for valid email
   validates :personal_email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
-  validates :position, presence: true
   validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
   validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
   validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
@@ -24,6 +23,7 @@ class Person < ActiveRecord::Base
   has_many :areas, through: :person_areas
   belongs_to :supervisor, class_name: 'Person'
   has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
+  has_many :device_deployments
 
   def import_position
     pos_uf = Position.find_by_name 'Unclassified Field Employee'
@@ -164,8 +164,7 @@ class Person < ActiveRecord::Base
 
   def self.return_from_connect_user(connect_user)
     previously_created_person = Person.find_by_connect_user_id connect_user.id
-    return if previously_created_person
-    puts connect_user.name
+    return previously_created_person if previously_created_person
     # Set Person to nil in case of remnants of past calls.
     this_person = nil
     # Find the Person if there is one already in the DB
@@ -205,7 +204,7 @@ class Person < ActiveRecord::Base
       supervisor = Person.return_from_connect_user connect_user.supervisor if connect_user.supervisor
     end
     this_person.supervisor = supervisor if supervisor
-    this_person.save
+    puts this_person.errors.inspect if not this_person.save
     # Return the local Person from the DB
     this_person
   end

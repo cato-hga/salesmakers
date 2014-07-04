@@ -1,7 +1,7 @@
 class Device < ActiveRecord::Base
 
   validates :serial, presence: true, length: { minimum: 6 }
-  validates :identifier, presence: true, length:  { minimum: 4 }
+  validates :identifier, presence: true, length: { minimum: 4 }
   validates :device_model, presence: true
 
   belongs_to :device_model
@@ -11,13 +11,20 @@ class Device < ActiveRecord::Base
   has_many :device_deployments
   has_one :device_manufacturer, through: :device_model
 
-  def self.create_from_connect_asset_movement(serial, device_model_id, line_id, person_id, movement, created_by)
-    # Create the Device
+  def self.create_from_connect_asset_movement(serial, device_model_id, line, movement, created_by)
+    device_state_emails = [
+        'assets@retaildoneright.com',
+        'repair@retaildoneright.com',
+        'researchassets@retaildoneright.com',
+        'exchange@retaildoneright.com',
+        'retired@retaildoneright.com'
+    ]
+
     device = self.create serial: serial,
                          identifier: serial,
                          device_model_id: device_model_id,
-                         line_id: line_id,
-                         person_id: person_id
+                         line: line,
+                         person_id: nil
 
     # Log the creation with the same creation details that are
     # on the Openbravo movement.
@@ -27,8 +34,77 @@ class Device < ActiveRecord::Base
                                 created_at: movement.created,
                                 updated_at: movement.updated,
                                 person_id: created_by.id
+    unless device_state_emails.include? movement.moved_from_user.username
+      # Get the "Deployed" state from the DB
+      deployed = DeviceState.find_by_name 'Deployed'
+
+      # The email address of the user that the Device is moving to
+      email = movement.moved_from_user.username
+      # If the _to_ email address is not a state email
+      return device if device_state_emails.include? email
+      # Get or create the User that we're deploying to
+      to_person = Person.return_from_connect_user movement.moved_from_user
+      # Remove all states from the Device
+      device.device_states.destroy_all
+      # Add the "Deployed" state to the Device
+      device.device_states << deployed
+      # Create the new DeviceDeployment with the same creation times
+      # and update times as the Openbravo movement.
+      new_deployment = device.device_deployments.new started: movement.created,
+                                                        tracking_number: movement.tracking,
+                                                        comment: movement.note,
+                                                        person: to_person,
+                                                        created_at: movement.created,
+                                                        updated_at: movement.updated
+      if new_deployment.valid?
+        puts 'NEW DEPLOYMENT VALID'
+      else
+        puts new_deployment.errors.inspect
+      end
+      if new_deployment.save
+        puts 'SAVED'
+      else
+        puts 'NOT SAVED'
+      end
+      # Assign the device to the Person
+      device.person_id = to_person.id
+      # Set the Device's last updated date/time
+      device.updated_at = movement.updated
+      # Save the Device with the changes
+      device.save
+      # If the new deployment was created...
+      if new_deployment.present? and new_deployment.id.present?
+        # ... log it
+        log_entry = LogEntry.create action: 'create',
+                                    trackable: new_deployment,
+                                    referenceable: device,
+                                    comment: movement.note,
+                                    created_at: movement.created,
+                                    updated_at: movement.updated,
+                                    person_id: created_by.id
+      end
+    end
     device
   end
+
+  # def self.create_from_connect_asset_movement(serial, device_model_id, line_id, person_id, movement, created_by)
+  #   # Create the Device
+  #   device = self.create serial: serial,
+  #                        identifier: serial,
+  #                        device_model_id: device_model_id,
+  #                        line_id: line_id,
+  #                        person_id: person_id
+  #
+  #   # Log the creation with the same creation details that are
+  #   # on the Openbravo movement.
+  #   log_entry = LogEntry.create action: 'create',
+  #                               trackable: device,
+  #                               comment: movement.note,
+  #                               created_at: movement.created,
+  #                               updated_at: movement.updated,
+  #                               person_id: created_by.id
+  #   device
+  # end
 
   def recoup_from_connect_asset_movement(movement, created_by)
     # Grab all of the deployments for the device
@@ -50,6 +126,7 @@ class Device < ActiveRecord::Base
       # Log the recoup
       log_entry = LogEntry.create action: 'end',
                                   trackable: most_recent_deployment,
+                                  referenceable: self,
                                   comment: movement.note,
                                   created_at: movement.created,
                                   updated_at: movement.updated,
@@ -76,10 +153,8 @@ class Device < ActiveRecord::Base
     # Get the "Deployed" state from the DB
     deployed = DeviceState.find_by_name 'Deployed'
 
-    # The email address of the user that the Device is moving from
-    from_email = movement.moved_from_user.email
     # The email address of the user that the Device is moving to
-    email = movement.moved_to_user.email
+    email = movement.moved_to_user.username
     # If the _to_ email address is not a state email
     unless device_state_emails.include? email
       # Get or create the User that we're deploying to
@@ -94,7 +169,6 @@ class Device < ActiveRecord::Base
     self.device_states.destroy_all
     # Add the "Deployed" state to the Device
     self.device_states << deployed
-    return
     # Create the new DeviceDeployment with the same creation times
     # and update times as the Openbravo movement.
     new_deployment = self.device_deployments.create started: movement.created,
@@ -114,6 +188,7 @@ class Device < ActiveRecord::Base
       # ... log it
       log_entry = LogEntry.create action: 'create',
                                   trackable: new_deployment,
+                                  referenceable: self,
                                   comment: movement.note,
                                   created_at: movement.created,
                                   updated_at: movement.updated,
