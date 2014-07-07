@@ -1,4 +1,17 @@
 - title @person.display_name
+- if @tickets.count > 0
+  %h2 Help Desk Tickets
+  - ticket_count = 0
+  - for ticket in @tickets
+    - ticket_count = ticket_count + 1
+    - if ticket_count % 6 == 0
+      .row.full-width
+    .large-2.columns
+      %h3
+        = ticket['ticket']['title']
+        = surround '(#', ')' do
+          = ticket['ticket']['id']
+      %blockquote= ticket['ticket']['description']
 .history
   - if @log_entries.count > 0
     %h2 History

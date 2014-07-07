@@ -17,13 +17,15 @@ class Mojo
   end
 
   def creator_open_tickets(email)
-    email = email + ' AND status_id:(<50)'
-    email = URI::encode email
-    tickets = doGet('/tickets/search/created_by.email:' + email)
+    query = 'created_by_email:("' + email + '") AND status_id:(<50)'
+    tickets = doGet('/tickets/search/', { query: query })
     tickets
   end
 
-  def doGet(path)
-    self.class.get path, { query: { access_key: @access_key } }
+  def doGet(path, query = nil)
+    query_hash = { access_key: @access_key }
+    query_hash = query_hash.merge query
+    self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
   end
+
 end
