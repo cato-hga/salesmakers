@@ -1,11 +1,11 @@
 class Person < ActiveRecord::Base
-  before_validation :generate_display_name, :clean_phone_numbers
+  before_validation :generate_display_name
 
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
   validates :display_name, presence: true, length: { minimum: 5 }
   validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true #TODO Prompt for valid email
-  validates :personal_email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ } #TODO Prompt for valid email
+  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, allow_blank: true #TODO Prompt for valid email
   validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
   validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
   validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
@@ -173,7 +173,7 @@ class Person < ActiveRecord::Base
     # Person in the local DB, then...
     if connect_user.present? and not this_person.present?
       # Create the Person.
-      this_person = self.create first_name: connect_user.firstname,
+      this_person = self.new first_name: connect_user.firstname,
                                 last_name: connect_user.lastname,
                                 display_name: (connect_user.name) ? connect_user.name : [connect_user.firstname, connect_user.lastname].join(' '),
                                 email: connect_user.username,
@@ -181,6 +181,9 @@ class Person < ActiveRecord::Base
                                 connect_user_id: connect_user.id,
                                 active: (connect_user.isactive == 'Y') ? true : false,
                                 mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
+      this_person.clean_phone_numbers
+      this_person.clean_personal_email
+      this_person.save
       this_person.import_position
       creator = Person.find_by_connect_user_id connect_user.createdby if connect_user.createdby
       creator = Person.find_by_email 'retailingw@retaildoneright.com' if connect_user.createdby and connect_user.createdby == '0'
@@ -215,13 +218,6 @@ class Person < ActiveRecord::Base
     self.display_name
   end
 
-  private
-
-  def generate_display_name
-    self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
-  end
-
-  # TODO: REMOVE THIS FOR NON-IMPORT PERSON ADDITIONS/EDITS
   def clean_phone_numbers
     if self.mobile_phone
       self.mobile_phone = self.mobile_phone.strip
@@ -236,4 +232,16 @@ class Person < ActiveRecord::Base
       self.office_phone = '8005551212' unless self.office_phone.length == 10
     end
   end
+
+  def clean_personal_email
+    return unless self.personal_email
+    self.personal_email = nil unless self.personal_email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
+  end
+
+  private
+
+  def generate_display_name
+    self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+  end
+
 end
