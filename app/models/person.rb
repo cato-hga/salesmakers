@@ -182,6 +182,7 @@ class Person < ActiveRecord::Base
                                 active: (connect_user.isactive == 'Y') ? true : false,
                                 mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
       this_person.clean_phone_numbers
+      this_person.clean_email
       this_person.clean_personal_email
       this_person.save
       this_person.import_position
@@ -231,6 +232,14 @@ class Person < ActiveRecord::Base
       self.office_phone = self.office_phone.strip
       self.office_phone = '8005551212' unless self.office_phone.length == 10
     end
+  end
+
+  def clean_email
+    return unless self.email
+    return if self.email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
+    self.email = self.email.gsub /[^0-9A-Za-z]/, ''
+    self.email = self.email.strip
+    self.email = self.email + '@retailingwireless.com' unless self.email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
   end
 
   def clean_personal_email
