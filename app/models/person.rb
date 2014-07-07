@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  before_validation :generate_display_name
+  before_validation :generate_display_name, :clean_phone_numbers
 
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
@@ -204,7 +204,9 @@ class Person < ActiveRecord::Base
       supervisor = Person.return_from_connect_user connect_user.supervisor if connect_user.supervisor
     end
     this_person.supervisor = supervisor if supervisor
-    puts this_person.errors.inspect if not this_person.save
+    unless this_person.save
+      puts this_person.errors.inspect unless this_person.first_name == 'X'
+    end
     # Return the local Person from the DB
     this_person
   end
@@ -217,5 +219,21 @@ class Person < ActiveRecord::Base
 
   def generate_display_name
     self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+  end
+
+  # TODO: REMOVE THIS FOR NON-IMPORT PERSON ADDITIONS/EDITS
+  def clean_phone_numbers
+    if self.mobile_phone
+      self.mobile_phone = self.mobile_phone.strip
+      self.mobile_phone = '8005551212' unless self.mobile_phone.length == 10
+    end
+    if self.home_phone
+      self.home_phone = self.home_phone.strip
+      self.home_phone = '8005551212' unless self.home_phone.length == 10
+    end
+    if self.office_phone
+      self.office_phone = self.office_phone.strip
+      self.office_phone = '8005551212' unless self.office_phone.length == 10
+    end
   end
 end
