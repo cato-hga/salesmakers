@@ -2,11 +2,11 @@
   Deployed
   .time_ago
     = time_ago_in_words(log_entry.created_at) + ' ago'
-.entry_pertains_to= link_to log_entry.trackable.device.serial, lines_and_devices_device_path(log_entry.trackable.device.id)
+.entry_pertains_to= link_to log_entry.trackable.device.serial, device_path(log_entry.trackable.device.id)
 to
-= user_link log_entry.trackable.user
+= person_link log_entry.trackable.person
 by
-= user_link log_entry.user
+= person_link log_entry.person
 - if log_entry.trackable.tracking_number.present?
   = precede 'with tracking #' do
     = tracking_link log_entry.trackable.tracking_number

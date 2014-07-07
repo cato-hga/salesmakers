@@ -265,4 +265,13 @@ class Device < ActiveRecord::Base
                                 updated_at: movement.updated,
                                 person_id: created_by.id
   end
+
+  def model_name
+    [device_model.device_manufacturer.name, device_model.name].join ' '
+  end
+
+  def technology_service_provider
+    return nil unless self.line
+    return self.line.technology_service_provider
+  end
 end

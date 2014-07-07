@@ -1,2 +1,8 @@
-%h1 Lines#show
-%p Find me in app/views/lines/show.html.haml
+= title line_display( @line )
+%p
+  -if @line.line_states.count > 0
+    - states = Array.new
+    - @line.line_states.each do |state|
+      - states << state.name
+    %em= states.join(', ')
+  %p= line_service_provider_image(@line)

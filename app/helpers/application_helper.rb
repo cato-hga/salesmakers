@@ -122,4 +122,49 @@ module ApplicationHelper
     link_to text, 'http://www.fedex.com/Tracking?action=track&tracknumbers=' + tracking_number, target: '_blank'
   end
 
+  def device_image(device)
+    image_file = 'devices/' + @device.model_name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+    image = Rails.application.assets.find_asset image_file
+    if image.present?
+      image_tag image_file, class: 'device_thumb'
+    else
+      ''
+    end
+  end
+
+  def line_service_provider_image(line)
+    image_file = 'service_providers/' + line.technology_service_provider.name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+    image = Rails.application.assets.find_asset image_file
+    if image.present?
+      image_tag image_file, class: 'service_provider_thumb'
+    else
+      ''
+    end
+  end
+
+  def device_service_provider_image(device)
+    image_file = 'service_providers/' + device.technology_service_provider.name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+    image = Rails.application.assets.find_asset image_file
+    if image.present?
+      image_tag image_file, class: 'service_provider_thumb'
+    else
+      ''
+    end
+  end
+
+  def line_link(line)
+    line_string = line.identifier
+    return line_string unless line_string.length == 10
+    link_to '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9], line
+  end
+
+  def render_log_entry(log_entry)
+    render "log_entries/log_entry", log_entry: log_entry
+  end
+
+  def line_display(line)
+    line_string = line.identifier
+    return line_string unless line_string.length == 10
+    '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
+  end
 end
