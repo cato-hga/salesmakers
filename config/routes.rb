@@ -1,10 +1,20 @@
 Rails.application.routes.draw do
-
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
   resources :lines
-  resources :devices
+  resources :devices do
+    resources :device_deployments, except: [ :index ] do
+      collection do
+        get 'select_user'
+      end
+
+      member do
+        get 'end'
+      end
+
+    end
+  end
   resources :log_entries, only: [ :index ]
 
   get 'sessions/destroy', as: 'logout'

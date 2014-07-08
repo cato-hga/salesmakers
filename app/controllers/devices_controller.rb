@@ -23,4 +23,5 @@ class DevicesController < ApplicationController
 
   def update
   end
+
 end

@@ -1,0 +1,46 @@
+- title 'Select Person for ' + @device.serial #TODO: This breaks the position of search. Fix this
+- content_for :header do
+  = search_form_for @search, url: select_user_device_device_deployments_path(@device), class: 'search_form' do |f|
+    - if not params[:q]
+      = icon('magnifying-glass')
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :eid_eq, placeholder: 'EID'
+    = f.text_field :display_name_cont, placeholder: 'Name'
+    = f.text_field :email_cont, placeholder: 'Email'
+    = f.text_field :mobile_phone_cont, placeholder: 'Phone'
+    = f.text_field :position_name_cont, placeholder: 'Position'
+    = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
+    = f.text_field :areas_name_cont, placeholder: 'Area(s)'
+    = f.submit 'search', class: 'button tiny'
+  .top-pagination
+    = paginate @people
+
+%section
+  - header = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)', 'Deploy']
+  - rows = Array.new
+  - for person in @people do
+    - classes = person.active? ? '' : 'inactive'
+    - eid = (person.eid) ? link_to(person.eid, person, class: classes) : ''
+    - display_name = person_link person, classes
+    - email = mail_to person.email, person.email, class: classes
+    - if person.office_phone
+      - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
+    - elsif person.mobile_phone
+      - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, classes)
+    - elsif person.home_phone
+      - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
+    - else
+      - phone = ''
+    - position = (person.position) ? link_to(person.position.name, person, class: classes) : ''
+    - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
+    - area = person_area_links person, classes
+    - if person.active?
+      - deploy_button = link_to 'Deploy', new_device_device_deployment_path(@device), class: 'button tiny'
+    - else
+      - deploy_button = ''
+      -#TODO: Fix margins on these deploy buttons
+    - rows << table_row([eid, display_name, email, phone, position, supervisor, area, deploy_button])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @people

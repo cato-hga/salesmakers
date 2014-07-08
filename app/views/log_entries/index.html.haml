@@ -4,7 +4,7 @@
       = icon('magnifying-glass')
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :person_display_name_cont, placeholder: 'Performed By', class: 'form-control'
-    - # = f.collection_select :trackable_type_eq, LogEntry.order(:trackable_type).group(:trackable_type), :trackable_type, :trackable_type, { prompt: 'Type' }, class: 'form-control'
+    = f.collection_select :trackable_type_eq, LogEntry.order(:trackable_type).group(:trackable_type), :trackable_type, :trackable_type, { prompt: 'Type' }, class: 'form-control'
     = f.submit 'Search', class: 'button tiny'
   .top-pagination
     = paginate @log_entries
