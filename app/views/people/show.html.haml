@@ -1,18 +1,5 @@
 - title @person.display_name
-- if @tickets.count > 0
-  %h2 Help Desk Tickets
-  - ticket_count = 0
-  - for ticket in @tickets
-    - ticket_count = ticket_count + 1
-    - if ticket_count % 6 == 0
-      .row.full-width
-    .large-2.columns
-      %h3
-        = ticket['ticket']['title']
-        = surround '(#', ')' do
-          = ticket['ticket']['id']
-      %blockquote= ticket['ticket']['description']
-.history
+.history.large-4.columns
   - if @log_entries.count > 0
     %h2 History
     - future = Time.now
@@ -21,3 +8,25 @@
         = distance_of_time_in_words(entry.created_at, future, include_seconds: false)
         - future = entry.created_at
       = render_log_entry(entry)
+.large-8.columns
+  - if @creator_tickets.count > 0
+    .tickets
+      %h2 Support Ticket History
+      - ticket_count = 0
+      - for ticket in @creator_tickets
+        - if ticket_count % 3 == 0 and not ticket_count == 0
+          %hr/
+        - ticket_count = ticket_count + 1
+        .large-4.columns
+          %h3
+            = NameCase(ticket['ticket']['title'])
+            = surround '(#', ')' do
+              = ticket['ticket']['id']
+          - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
+          - if description != ticket['ticket']['description'].split.join(' ')
+            - description = description + '...' + content_tag(:em, '(more)')
+          %blockquote= description
+          %span.small.comment.right
+            Last Changed
+            - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
+            = updated.strftime '%m/%d/%Y %-l:%M%P'

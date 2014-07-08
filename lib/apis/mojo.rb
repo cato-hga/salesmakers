@@ -22,6 +22,18 @@ class Mojo
     tickets
   end
 
+  def creator_all_tickets(email, max)
+    query = 'created_by_email:("' + email + '")'
+    tickets = doGet('/tickets/search/', { query: query, per_page: max })
+    tickets
+  end
+
+  def assignee_open_tickets(email)
+    query = 'assignee_email:("' + email + '") AND status_id:(<50)'
+    tickets = doGet('/tickets/search/', { query: query })
+    tickets
+  end
+
   def doGet(path, query = nil)
     query_hash = { access_key: @access_key }
     query_hash = query_hash.merge query

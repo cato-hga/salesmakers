@@ -85,6 +85,10 @@ th input[ type = submit ] {
 	display: none;
 }
 
+.small {
+	font-size: small;
+}
+
 /* TODO: Fix the margins on home screen */
 @media (min-width: $mobile_cutoff){
 	// TODO: OLD WIDGET STUFF
