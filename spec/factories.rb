@@ -80,6 +80,7 @@ FactoryGirl.define do
     device_model { create :samsung_galaxytab3_device_model }
     line { create :verizon_line }
     person { create :von_retail_sales_specialist_person }
+    secondary_identifier '99000000'
   end
 
   factory :repair_device_state, class: DeviceState do

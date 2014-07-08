@@ -2,14 +2,17 @@
 - deployed = DeviceState.find_by_name 'Deployed'
 
 = title @device.serial
--if @device.device_states.count > 0
+- if @device.secondary_identifier
+  %h3
+    Secondary ID:
+    = @device.secondary_identifier
+- if @device.device_states.count > 0
   - states = Array.new
   - @device.device_states.each do |state|
     - states << state.name
   %em= states.join(', ')
 .row.full-width
   .large-4.columns
-    %h2 Device Information
     = device_image @device
     %p
       %strong Type:
@@ -30,7 +33,7 @@
   .large-8.columns
     .actions
       - unless @device.device_states.include? deployed
-        = link_to 'Deploy', select_user_lines_and_devices_device_device_deployments_path(@device), class: 'btn btn-primary'
+        = link_to 'Deploy', '#', class: 'button' #TODO: Link to new deployment
       - if @device.device_states.include? deployed
         %button.btn.btn-success(type="button") Recoup
       - if not @device.device_states.include? write_off and @device.device_states.include? deployed
