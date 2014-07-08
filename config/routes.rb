@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   resources :people
   resources :lines
   resources :devices do
-    resources :device_deployments, except: [ :index ] do
+    resources :device_deployments, except: [ :index, :new, :create ] do
       collection do
         get 'select_user'
+        get 'new/:person_id', to: 'device_deployments#new', as: 'new'
+        post 'new/:person_id', to: 'device_deployments#create'
       end
 
       member do

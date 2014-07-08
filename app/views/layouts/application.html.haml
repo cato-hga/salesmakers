@@ -16,6 +16,7 @@
         %h1= content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
         = yield :header
 
+      .notices= notice
       %section#content
         = yield
 
