@@ -42,19 +42,25 @@ vrrs_connect = vr_connect.children
 vrrs_connect.each do |vrr_connect|
   new_vrr = Area.create name: vrr_connect.name,
                         area_type: vrr,
-                        project: vonage_retail
+                        project: vonage_retail,
+                        created_at: vrr_connect.created,
+                        updated_at: vrr_connect.updated
   vrms_connect = vrr_connect.children
   vrms_connect.each do |vrm_connect|
     new_vrm = Area.create name: vrm_connect.name,
                           area_type: vrm,
                           project: vonage_retail,
-                          parent: new_vrr
+                          parent: new_vrr,
+                          created_at: vrm_connect.created,
+                          updated_at: vrm_connect.updated
     vrts_connect = vrm_connect.children
     vrts_connect.each do |vrt_connect|
       new_vrt = Area.create name: vrt_connect.name.gsub('Vonage Retail - ', ''),
                             area_type: vrt,
                             project: vonage_retail,
-                            parent: new_vrm
+                            parent: new_vrm,
+                            created_at: vrt_connect.created,
+                            updated_at: vrt_connect.updated
     end
   end
 end
@@ -64,7 +70,9 @@ vers_connect = ve_connect.children
 vers_connect.each do |ver_connect|
   new_ver = Area.create name: ver_connect.name,
                         area_type: ver,
-                        project: vonage_events
+                        project: vonage_events,
+                        created_at: ver_connect.created,
+                        updated_at: ver_connect.updated
   vems_connect = ver_connect.children
   vems_connect.each do |vem_connect|
     vets_connect = vem_connect.children
@@ -72,7 +80,9 @@ vers_connect.each do |ver_connect|
       new_vet = Area.create name: vet_connect.name.gsub('Vonage Events - ', ''),
                             area_type: vet,
                             project: vonage_events,
-                            parent: new_ver
+                            parent: new_ver,
+                            created_at: vet_connect.created,
+                            updated_at: vet_connect.updated
     end
   end
 end
@@ -84,7 +94,9 @@ srrs_connect = sr_connect.children
 srrs_connect.each do |srr_connect|
   new_srr = Area.create name: srr_connect.name,
                         area_type: srr,
-                        project: sprint_retail
+                        project: sprint_retail,
+                        created_at: srr_connect.created,
+                        updated_at: srr_connect.updated
   srms_connect = srr_connect.children
   srms_connect.each do |srm_connect|
     srts_connect = srm_connect.children
@@ -92,7 +104,9 @@ srrs_connect.each do |srr_connect|
       new_srt = Area.create name: srt_connect.name.gsub('Sprint - ', ''),
                             area_type: srt,
                             project: sprint_retail,
-                            parent: new_srr
+                            parent: new_srr,
+                            created_at: srt_connect.created,
+                            updated_at: srt_connect.updated
     end
   end
 end
