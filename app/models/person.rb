@@ -152,12 +152,13 @@ class Person < ActiveRecord::Base
     end
     return unless creator.present?
     action = creator_connect_user.leader? ? 'assign_as_manager' : 'assign_as_employee'
+    created_at = creator_connect_user.leader? ? area.updated_at : self.connect_user.created
     if creator and self and creator.id and self.id
       log_entry = LogEntry.create action: action,
                                   trackable: self,
                                   referenceable: area,
-                                  created_at: self.connect_user.created,
-                                  updated_at: self.connect_user.updated,
+                                  created_at: created_at,
+                                  updated_at: created_at,
                                   person: creator
     end
   end
