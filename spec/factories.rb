@@ -9,19 +9,19 @@ FactoryGirl.define do
     leadership false
     all_field_visibility false
     all_corporate_visibility false
-    department { create :von_retail_sales_department }
+    department { build_stubbed :von_retail_sales_department }
   end
 
   factory :von_retail_sales_specialist_person, class: Person do
     first_name 'Test'
     last_name 'User'
     display_name 'Test User'
-    email 'test@rbd-von.com'
+    email 'test123omgstupidfactories@rbd-von.com'
     personal_email 'icheckthistoomuch@gmail.com'
     office_phone '7274985180'
     mobile_phone '5551234567'
     home_phone '7895123012'
-    position { create :von_retail_sales_specialist_position }
+    position { build_stubbed :von_retail_sales_specialist_position }
     eid 55555
   end
 
@@ -31,23 +31,23 @@ FactoryGirl.define do
 
   factory :von_retail_project, class: Project do
     name 'Vonage Retail'
-    client { create :von_client }
+    client { build_stubbed :von_client }
   end
 
   factory :von_region_area_type, class: AreaType do
     name 'Vonage Retail Region'
-    project { create :von_retail_project }
+    project { build_stubbed :von_retail_project }
   end
 
   factory :von_east_retail_region_area, class: Area do
     name 'East Retail Region'
-    area_type { create :von_region_area_type }
-    project { create :von_retail_project }
+    area_type { build_stubbed :von_region_area_type }
+    project { build_stubbed :von_retail_project }
   end
 
   factory :von_retail_east_sales_specialist_person_area, class: PersonArea do
-    person { create :von_retail_sales_specialist_person }
-    area { create :von_east_retail_region_area }
+    person { build_stubbed :von_retail_sales_specialist_person }
+    area { build_stubbed :von_east_retail_region_area }
     manages false
   end
 
@@ -58,7 +58,7 @@ FactoryGirl.define do
   factory :verizon_line, class: Line do
     identifier '7274985180'
     contract_end_date Date.today + 3.months
-    technology_service_provider { create :verizon_technology_service_provider }
+    technology_service_provider { build_stubbed :verizon_technology_service_provider }
   end
 
   factory :suspended_line_state, class: LineState do
@@ -71,15 +71,15 @@ FactoryGirl.define do
 
   factory :samsung_galaxytab3_device_model, class: DeviceModel do
     name 'GalaxyTab 3'
-    device_manufacturer { create :samsung_device_manufacturer }
+    device_manufacturer { build_stubbed :samsung_device_manufacturer }
   end
 
   factory :samsung_galaxytab3_device, class: Device do
     identifier '12345'
     serial '256691513608935569'
-    device_model { create :samsung_galaxytab3_device_model }
-    line { create :verizon_line }
-    person { create :von_retail_sales_specialist_person }
+    device_model { build_stubbed :samsung_galaxytab3_device_model }
+    line { build_stubbed :verizon_line }
+    person { build_stubbed :von_retail_sales_specialist_person }
     secondary_identifier '99000000'
   end
 
@@ -88,15 +88,15 @@ FactoryGirl.define do
   end
 
   factory :create_person_log_entry, class: LogEntry do
-    person { create :von_retail_sales_specialist_person }
+    person { build_stubbed :von_retail_sales_specialist_person }
     action 'create'
-    trackable { create :samsung_galaxytab3_device }
+    trackable { build_stubbed :samsung_galaxytab3_device }
   end
 
 
   factory :device_deployment, class: DeviceDeployment do
-    device { create :samsung_galaxytab3_device }
-    person { create :von_retail_sales_specialist_person }
+    device { build_stubbed :samsung_galaxytab3_device }
+    person { build_stubbed :von_retail_sales_specialist_person }
     started Date.today - 2.months
     ended Date.today - 3.days
     tracking_number '12345678910'

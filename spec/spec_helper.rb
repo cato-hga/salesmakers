@@ -78,5 +78,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     FactoryGirl.lint
+
+    CASClient::Frameworks::Rails::Filter.fake("smiles@retaildoneright.com")
   end
 end
