@@ -7,27 +7,61 @@ $(function () {
 	$(document).foundation();
 	var $widgets = $('.masonry');
 
-	// TODO: OLD WIDGET STUFF
-	/* $('.widget .inner').each(function() {
-		var height = $(this).height();
-		var rounded_up = Math.ceil(height / 100) * 100;
-		$(this).height(rounded_up);
-	}); */
-
 	$widgets.masonry({
 		columnWidth: '.widget-sizer',
 		isAnimated: true,
-		itemSelector: '.widget',
-		// gutter: '.gutter-sizer'
+		itemSelector: '.widget'
 	});
 
-	// TODO: OLD WIDGET STUFF
-	/* $('.widget').each(function () {
-		$(this).width($(this).width() - 8);
-		$(this).css('margin-left', 4);
-		$(this).css('margin-right', 4);
-		$(this).css('margin-top', 4);
-		$(this).css('margin-bottom', 4);
-	}); */
-	new Chartkick.LineChart("saleschart", {"2013-02-10 00:00:00 -0800": 11, "2013-02-11 00:00:00 -0800": 6});
+	$.get("/widgets/sales", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/hours", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/tickets", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/social", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/alerts", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/image_gallery", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/inventory", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/staffing", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/gaming", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/commissions", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/training", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	$.get("/widgets/gift_cards", function( data ) {
+		$( ".masonry").append( data );
+	});
+
+	//TODO: insure placement order of widgets
+
+	//new Chartkick.LineChart("saleschart", {"2013-02-10 00:00:00 -0800": 11, "2013-02-11 00:00:00 -0800": 6});
 });

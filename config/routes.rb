@@ -1,4 +1,28 @@
 Rails.application.routes.draw do
+  get 'widgets/sales'
+
+  get 'widgets/hours'
+
+  get 'widgets/tickets'
+
+  get 'widgets/social'
+
+  get 'widgets/alerts'
+
+  get 'widgets/image_gallery'
+
+  get 'widgets/inventory'
+
+  get 'widgets/staffing'
+
+  get 'widgets/gaming'
+
+  get 'widgets/commissions'
+
+  get 'widgets/training'
+
+  get 'widgets/gift_cards'
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
