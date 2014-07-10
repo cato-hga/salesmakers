@@ -23,10 +23,7 @@ gem 'kaminari', '0.16.1'
 gem 'httparty', '0.13.1'
 gem 'jquery-turbolinks', '2.0.2'
 gem 'namecase', '1.1.0'
-
-group :assets, :development do
-  gem 'foundation-icons-sass-rails', '3.0.0'
-end
+gem 'foundation-icons-sass-rails', '3.0.0'
 
 group :development do
   gem 'letter_opener', '1.2.0'
@@ -41,6 +38,7 @@ group :development do
   gem 'awesome_print', '1.2.0'
   gem 'coderay', '1.1.0'
   gem 'coolline', '0.4.3'
+
 end
 
 group :test do

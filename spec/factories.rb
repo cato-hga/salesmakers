@@ -102,4 +102,14 @@ FactoryGirl.define do
     tracking_number '12345678910'
     comment 'This is a comment'
   end
+
+  factory :smiles, class: Person do
+    first_name 'Stephen'
+    last_name 'Miles'
+    display_name 'Stephen Miles'
+    email 'smiles@retaildoneright.com'
+    personal_email 'milessa42@gmail.com'
+    mobile_phone '8137164150'
+    position { build_stubbed :von_retail_sales_specialist_position }
+  end
 end
