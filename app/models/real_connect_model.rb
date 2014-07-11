@@ -1,6 +1,6 @@
-class ConnectModel < ActiveRecord::Base
+class RealConnectModel < ActiveRecord::Base
   self.abstract_class = true
-  establish_connection :rbd_connect_test
+  establish_connection :rbd_connect_production
   before_save :rbd_connect_attributes
   before_create :set_create_audit, :set_update_audit, :set_active
   before_update :set_update_audit
