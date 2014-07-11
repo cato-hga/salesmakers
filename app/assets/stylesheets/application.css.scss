@@ -90,6 +90,18 @@ th input[ type = submit ] {
 	font-size: small;
 }
 
+.x-large {
+	font-size: 600%;
+}
+
+.center {
+	text-align: center;
+}
+
+.warning {
+	color: darkorange;
+}
+
 /* TODO: Fix the margins on home screen */
 @media (min-width: $mobile_cutoff){
 	// TODO: OLD WIDGET STUFF
@@ -341,6 +353,13 @@ th input[ type = submit ] {
 			}
 		}
 	}
+
+	.widget {
+		.inner {
+			min-height: 400px;
+		}
+	}
+
 }
 
 #saleschart {

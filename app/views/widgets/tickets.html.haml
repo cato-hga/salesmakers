@@ -1,4 +1,6 @@
-%h3 Tickets
+%h3
+  Tickets
+  %span.small.comment Last 3
 - ticket_count = 0
 - for ticket in @creator_tickets
   - if ticket_count % 3 == 0 and not ticket_count == 0
@@ -8,7 +10,7 @@
     = NameCase(ticket['ticket']['title'])
     = surround '(#', ')' do
       = ticket['ticket']['id']
-  - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
+  - description = ticket['ticket']['description'].split[0..40].join(' ').html_safe
   - if description != ticket['ticket']['description'].split.join(' ')
     - description = description + '...' + content_tag(:em, '(more)')
   .small= description

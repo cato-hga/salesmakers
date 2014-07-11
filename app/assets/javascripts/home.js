@@ -50,7 +50,7 @@ $(function () {
 	});
 
 	$.get("/widgets/gift_cards", function( data ) {
-		$( "#gift_card_widget").append( data );
+		$( "#gift_cards_widget").append( data );
 	});
 
 });
