@@ -35,7 +35,7 @@ group :development do
   gem 'awesome_print', '1.2.0'
   gem 'coderay', '1.1.0'
   gem 'coolline', '0.4.3'
-
+  gem 'guard-rspec', '4.2.10', require: false
 end
 
 group :test do

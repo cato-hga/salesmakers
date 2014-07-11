@@ -46,11 +46,6 @@ RSpec.describe Person, :type => :model do
       should_not be_valid
     end
 
-    it 'should require a position' do
-      @person.position = nil
-      should_not be_valid
-    end
-
     it 'should require at least one phone number' do
       @person.mobile_phone = nil
       @person.office_phone = nil
