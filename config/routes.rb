@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     end
   end
   resources :log_entries, only: [ :index ]
+  resources :clients
 
   get 'sessions/destroy', as: 'logout'
 

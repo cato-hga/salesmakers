@@ -9,4 +9,5 @@ Rails.application.config.assets.precompile += %w( devices.js )
 Rails.application.config.assets.precompile += %w( log_entries.js )
 Rails.application.config.assets.precompile += %w( device_deployments.js )
 Rails.application.config.assets.precompile += %w( widgets.js )
+Rails.application.config.assets.precompile += %w( clients.js )
 
