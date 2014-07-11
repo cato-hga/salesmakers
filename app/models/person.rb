@@ -24,6 +24,7 @@ class Person < ActiveRecord::Base
   belongs_to :supervisor, class_name: 'Person'
   has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
   has_many :device_deployments
+  has_many :devices
 
   def import_position
     pos_uf = Position.find_by_name 'Unclassified Field Employee'

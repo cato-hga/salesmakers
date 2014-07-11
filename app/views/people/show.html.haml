@@ -6,59 +6,71 @@
     = link_to area.project.name, '#' #TODO: Replace link after projects controller is created
     - for parent_area in area.path
       = link_to parent_area.name, '#' #TODO: Replace link after area controller is created
-
-.row.full-width
-  .large-4.columns.widget
-    .inner
-      %h3 Basic Information
-      %em.small= @person.position.name
-      - if @person.active?
-        %span.comment.small.round.ok.label Active
-      - else
-        %span.comment.small.round.bad.label Inactive
+.widgets.row.full-width
+  .row.full-width
+    .large-4.columns.widget
+      .inner
+        %h3 Basic Information
+        %em.small= @person.position.name
+        - if @person.active?
+          %span.comment.small.round.ok.label Active
+        - else
+          %span.comment.small.round.bad.label Inactive
+          %p
+            %strong Last Day Worked:
+            = (Date.today - 42.days).strftime '%m/%d/%Y'
+          %p
+            %strong Termination Date:
+            = (Date.today - 41.days).strftime '%m/%d/%Y'
         %p
-          %strong Last Day Worked:
-          = (Date.today - 42.days).strftime '%m/%d/%Y'
+          %strong Hire Date:
+          = (Date.today - 73.days).strftime '%m/%d/%Y'
         %p
-          %strong Termination Date:
-          = (Date.today - 41.days).strftime '%m/%d/%Y'
-      %p
-        %strong Hire Date:
-        = (Date.today - 73.days).strftime '%m/%d/%Y'
-      %p
-        %strong First Shift:
-        = (Date.today - 70.days).strftime '%m/%d/%Y'
-      - if @person.supervisor
+          %strong First Shift:
+          = (Date.today - 70.days).strftime '%m/%d/%Y'
+        - if @person.supervisor
+          %p
+            %strong Supervisor:
+            = link_to @person.supervisor.display_name, @person.supervisor
         %p
-          %strong Supervisor:
-          = link_to @person.supervisor.display_name, @person.supervisor
-      %p
-        %strong Email:
-        = mail_to @person.email
-      - if @person.personal_email
+          %strong Email:
+          = mail_to @person.email
+        - if @person.personal_email
+          %p
+            %strong Personal Email:
+            = mail_to @person.personal_email
+        - if @person.mobile_phone
+          %p
+            %strong Mobile Phone:
+            = phone_link @person.mobile_phone, nil
+        - if @person.office_phone
+          %p
+            %strong Office Phone:
+            = phone_link @person.office_phone, nil
+        - if @person.home_phone
+          %p
+            %strong Home Phone:
+            = phone_link @person.home_phone, nil
         %p
-          %strong Personal Email:
-          = mail_to @person.personal_email
-      - if @person.mobile_phone
-        %p
-          %strong Mobile Phone:
-          = phone_link @person.mobile_phone, nil
-      - if @person.office_phone
-        %p
-          %strong Office Phone:
-          = phone_link @person.office_phone, nil
-      - if @person.home_phone
-        %p
-          %strong Home Phone:
-          = phone_link @person.home_phone, nil
-      %p
-        %strong Address:
-        %br/
-        123 Wallaby Way
-        %br/
-        St Pete, FL 33701
-  %span#saleschart
-  %span#hourschart
+          %strong Address:
+          %br/
+          123 Wallaby Way
+          %br/
+          St Pete, FL 33701
+    %span#alerts_widget
+    %span#tickets_widget
+  .row.full-width
+    %span#hpschart
+    %span#saleschart
+    %span#hourschart
+  .row.full-width
+    %span#pnlchart
+    %span#gift_cards_widget
+    %span#inventory_widget
+  .row.full-width
+    %span#assets_widget
+    .large-4.columns
+    .large-4.columns
 
 
 
@@ -93,3 +105,43 @@
           Last Changed
           - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
           = updated.strftime '%m/%d/%Y %-l:%M%P'
+
+:javascript
+  $(function () {
+
+    $.get("/widgets/sales/people/692", function (data) { //TODO: Make sales chart show individual person
+      $("#saleschart").append(data);
+    });
+
+    $.get("/widgets/hours/people/692", function (data) { //TODO: Make hours chart show individual person
+      $("#hourschart").append(data);
+    });
+
+    $.get("/widgets/alerts/people/692", function (data) { //TODO: Make alerts show individual person
+      $("#alerts_widget").append(data);
+    });
+
+    $.get("/widgets/tickets/people/692", function (data) { //TODO: Make tickets show individual person
+      $("#tickets_widget").append(data);
+    });
+
+    $.get("/widgets/gift_cards/people/692", function (data) { //TODO: Make gift cards show individual person
+      $("#gift_cards_widget").append(data);
+    });
+
+    $.get("/widgets/inventory/people/692", function (data) { //TODO: Make inventory show individual person
+      $("#inventory_widget").append(data);
+    });
+
+    $.get("/widgets/pnl/people/692", function (data) { //TODO: Make pnl show individual person
+      $("#pnlchart").append(data);
+    });
+
+    $.get("/widgets/hps/people/692", function (data) { //TODO: Make hps show individual person
+      $("#hpschart").append(data);
+    });
+
+    $.get("/widgets/assets/people/3", function (data) { //TODO: Make assets show individual person
+      $("#assets_widget").append(data);
+    });
+  });

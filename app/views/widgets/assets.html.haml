@@ -1,0 +1,12 @@
+%h3
+  Assets Assigned
+  %span.small.comment Current
+- if @person
+  - header = header_row ['Type','Serial','State(s)']
+  - rows = Array.new
+  - for device in @person.devices do
+    - type = device.device_model.device_manufacturer.name + ' ' + device.device_model.name
+    - serial = device_link device
+    - states = device_state_links device
+    - rows << table_row([type, serial, states])
+  = table header, rows

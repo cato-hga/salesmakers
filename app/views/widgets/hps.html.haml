@@ -1,0 +1,7 @@
+%h3
+  Hours per Sale
+  %span.small.comment This month
+- if @person
+  #hpschart
+    = person_hps_chart(@person)
+- else
