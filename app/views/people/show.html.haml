@@ -1,32 +1,95 @@
 - title @person.display_name
-.history.large-4.columns
-  - if @log_entries.count > 0
-    %h2 History
-    - future = Time.now
-    - for entry in @log_entries
-      .how_long
-        = distance_of_time_in_words(entry.created_at, future, include_seconds: false)
-        - future = entry.created_at
-      = render_log_entry(entry)
-.large-8.columns
-  - if @creator_tickets.count > 0
-    .tickets
-      %h2 Support Ticket History
-      - ticket_count = 0
-      - for ticket in @creator_tickets
-        - if ticket_count % 3 == 0 and not ticket_count == 0
-          %hr/
-        - ticket_count = ticket_count + 1
-        .large-4.columns
-          %h3
-            = NameCase(ticket['ticket']['title'])
-            = surround '(#', ')' do
-              = ticket['ticket']['id']
-          - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
-          - if description != ticket['ticket']['description'].split.join(' ')
-            - description = description + '...' + content_tag(:em, '(more)')
-          %blockquote= description
-          %span.small.comment.right
-            Last Changed
-            - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
-            = updated.strftime '%m/%d/%Y %-l:%M%P'
+%ul.breadcrumbs
+  -#TODO: Make breadcrumbs mobile friendly
+  - for area in @person.areas
+    = link_to area.project.client.name, area.project.client
+    = link_to area.project.name, '#' #TODO: Replace link after projects controller is created
+    - for parent_area in area.path
+      = link_to parent_area.name, '#' #TODO: Replace link after area controller is created
+
+.row.full-width
+  .large-4.columns.widget
+    .inner
+      %h3 Basic Information
+      %em.small= @person.position.name
+      - if @person.active?
+        %span.comment.small.round.ok.label Active
+      - else
+        %span.comment.small.round.bad.label Inactive
+        %p
+          %strong Last Day Worked:
+          = (Date.today - 42.days).strftime '%m/%d/%Y'
+        %p
+          %strong Termination Date:
+          = (Date.today - 41.days).strftime '%m/%d/%Y'
+      %p
+        %strong Hire Date:
+        = (Date.today - 73.days).strftime '%m/%d/%Y'
+      %p
+        %strong First Shift:
+        = (Date.today - 70.days).strftime '%m/%d/%Y'
+      - if @person.supervisor
+        %p
+          %strong Supervisor:
+          = link_to @person.supervisor.display_name, @person.supervisor
+      %p
+        %strong Email:
+        = mail_to @person.email
+      - if @person.personal_email
+        %p
+          %strong Personal Email:
+          = mail_to @person.personal_email
+      - if @person.mobile_phone
+        %p
+          %strong Mobile Phone:
+          = phone_link @person.mobile_phone, nil
+      - if @person.office_phone
+        %p
+          %strong Office Phone:
+          = phone_link @person.office_phone, nil
+      - if @person.home_phone
+        %p
+          %strong Home Phone:
+          = phone_link @person.home_phone, nil
+      %p
+        %strong Address:
+        %br/
+        123 Wallaby Way
+        %br/
+        St Pete, FL 33701
+  %span#saleschart
+  %span#hourschart
+
+
+
+-#.history.large-4.columns
+-#- if @log_entries.count > 0
+-#  %h2 History
+-#  - future = Time.now
+-#  - for entry in @log_entries
+-#    .how_long
+-#      = distance_of_time_in_words(entry.created_at, future, include_seconds: false)
+-#      - future = entry.created_at
+-#    = render_log_entry(entry)
+.large-4.columns
+- if @creator_tickets.count > 0
+  .tickets
+    %h2 Support Ticket History
+    - ticket_count = 0
+    - for ticket in @creator_tickets
+      - if ticket_count % 3 == 0 and not ticket_count == 0
+        %hr/
+      - ticket_count = ticket_count + 1
+      .large-4.columns
+        %h3
+          = NameCase(ticket['ticket']['title'])
+          = surround '(#', ')' do
+            = ticket['ticket']['id']
+        - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
+        - if description != ticket['ticket']['description'].split.join(' ')
+          - description = description + '...' + content_tag(:em, '(more)')
+        %blockquote= description
+        %span.small.comment.right
+          Last Changed
+          - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
+          = updated.strftime '%m/%d/%Y %-l:%M%P'

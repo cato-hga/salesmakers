@@ -55,4 +55,26 @@ module WidgetsHelper
         colors: ['limegreen', 'yellow', '#f04124']
     }
   end
+
+  def this_month_person_sales_chart(person)
+    line_chart ConnectOrder.this_month.sales.where(connect_user: person.connect_user).group("cast(dateordered as date)").count, {
+        id: 'this_month_person_sales_chart',
+        library: {
+            hAxis: { title: 'Day',
+                     format: 'M/d'
+            }
+        }
+    }
+  end
+
+  def this_month_person_hours_chart(person)
+    line_chart ConnectTimesheet.this_month.where(connect_user: person.connect_user).group("cast(shift_date as date)").sum(:hours), {
+        id: 'this_month_person_hours_chart',
+        library: {
+            hAxis: { title: 'Day',
+                     format: 'M/d'
+            }
+        }
+    }
+  end
 end

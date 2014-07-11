@@ -3,9 +3,20 @@ class WidgetsController < ApplicationController
   require 'apis/mojo'
 
   def sales
+
+  end
+
+  def person_sales
+    @person = Person.find params[ :person_id ]
+    render :sales
   end
 
   def hours
+  end
+
+  def person_hours
+    @person = Person.find params[ :person_id ]
+    render :hours
   end
 
   def tickets

@@ -1,28 +1,4 @@
 Rails.application.routes.draw do
-  get 'widgets/sales'
-
-  get 'widgets/hours'
-
-  get 'widgets/tickets'
-
-  get 'widgets/social'
-
-  get 'widgets/alerts'
-
-  get 'widgets/image_gallery'
-
-  get 'widgets/inventory'
-
-  get 'widgets/staffing'
-
-  get 'widgets/gaming'
-
-  get 'widgets/commissions'
-
-  get 'widgets/training'
-
-  get 'widgets/gift_cards'
-
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
@@ -43,6 +19,21 @@ Rails.application.routes.draw do
   end
   resources :log_entries, only: [ :index ]
   resources :clients
+
+  get 'widgets/sales'
+  get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'
+  get 'widgets/hours'
+  get 'widgets/hours/people/:person_id', to: 'widgets#person_hours', as: 'person_hours_widget'
+  get 'widgets/tickets'
+  get 'widgets/social'
+  get 'widgets/alerts'
+  get 'widgets/image_gallery'
+  get 'widgets/inventory'
+  get 'widgets/staffing'
+  get 'widgets/gaming'
+  get 'widgets/commissions'
+  get 'widgets/training'
+  get 'widgets/gift_cards'
 
   get 'sessions/destroy', as: 'logout'
 

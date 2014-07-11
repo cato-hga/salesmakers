@@ -2,5 +2,8 @@
   Sales
   %span.small.comment This month
 #saleschart
-  = this_month_sales_chart
+  - if @person
+    = this_month_person_sales_chart @person
+  - else
+    = this_month_sales_chart
 

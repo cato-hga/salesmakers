@@ -2,5 +2,8 @@
   Hours
   %span.small.comment This month
 #hourschart
-  = this_month_hours_chart
+  - if @person
+    = this_month_person_hours_chart @person
+  - else
+    = this_month_hours_chart
 
