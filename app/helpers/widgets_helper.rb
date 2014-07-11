@@ -32,4 +32,27 @@ module WidgetsHelper
         }
     }
   end
+
+  def this_week_commissions_chart
+    line_chart ConnectOrderPayout.this_week.group("cast(dateordered as date)").sum(:payout), {
+        id: 'this_week_sales_chart',
+        library: {
+            hAxis: { title: 'Day',
+                     format: 'M/d'
+            }
+        }
+    }
+  end
+
+  def training_chart
+    data = [
+        ['Trained', 471],
+        ['Not Completed', 182],
+        ['Not Started', 106]
+    ]
+    pie_chart data, {
+        id: 'training_chart',
+        colors: ['limegreen', 'yellow', '#f04124']
+    }
+  end
 end

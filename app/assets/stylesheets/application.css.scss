@@ -48,12 +48,13 @@ nav {
 	}
 }
 
-.row.full-width {
+.full-width {
 	width: 100%;
 	max-width: 100%;
-	clear:both;
+	&.row {
+		clear: both;
+	}
 }
-
 // TODO: OLD WIDGET STUFF
 /* .widget {
 	margin: 1%;
@@ -65,9 +66,10 @@ nav {
 } */
 
 .widget .inner {
-	background-color: #e9e9e9;
-	/* border-radius: 1em;
+	/* background-color: #e9e9e9;
+	border-radius: 1em;
 	-moz-border-radius: 1em; */
+	border: 3px dotted #eee;
 	padding: 0.9375rem;
 	margin: 0.9375rem 0;
 }
@@ -90,16 +92,62 @@ th input[ type = submit ] {
 	font-size: small;
 }
 
+.large {
+	font-size: 400%;
+}
+
 .x-large {
 	font-size: 600%;
 }
 
-.center {
+.centered_text {
 	text-align: center;
 }
 
+.centered {
+	margin: auto;
+}
+
+.neutral {
+	background-color: #eee;
+	color: black;
+	display: inline-block;
+}
+
+.ok {
+	background-color: limegreen;
+	color: black;
+	display: inline-block;
+}
+
 .warning {
-	color: darkorange;
+	background-color: yellow;
+	color: black;
+	display: inline-block;
+}
+
+.bad {
+	background-color: #f04124;
+	color: white;
+	display: inline-block;
+}
+
+.rounded {
+	border-radius: 0.33em;
+	-moz-border-radius: 0.33em;
+	padding: 0.1em;
+}
+
+.padded {
+	padding: $spacing;
+}
+
+.vertical_space {
+	margin-top: $spacing;
+}
+
+.large-4.columns.centered_text {
+	margin-bottom: $spacing;
 }
 
 /* TODO: Fix the margins on home screen */

@@ -9,6 +9,8 @@ class ConnectOrder < RealConnectModel
   belongs_to :connect_user,
            primary_key: 'ad_user_id',
            foreign_key: 'salesrep_id'
+  has_many :connect_order_payouts,
+           foreign_key: 'ad_user_id'
 
   def self.this_week
     beginning_date_time = Date.today.beginning_of_week.to_datetime
