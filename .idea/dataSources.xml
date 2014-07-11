@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="317674370">
+  <component name="DataSourceManagerImpl" format="xml" hash="2272809419">
     <data-source source="LOCAL" name="Rails reconnect: test" uuid="248abc23-f3f5-4bf0-964a-b2f2fb0c918d">
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -29,6 +29,22 @@
       <driver-ref>postgresql</driver-ref>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://test.rbdconnect.com/rbd_erp</jdbc-url>
+      <user-name>retailingw</user-name>
+      <user-password>dfd8df99dffedfcbdfc3dfc6dfc3dfc4dfcd</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails reconnect: rbd_connect_test" uuid="82f9dfcc-d4cb-4faf-bcc8-350bb5fb0312">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://test.rbdconnect.com/rbd_erp</jdbc-url>
+      <user-name>retailingw</user-name>
+      <user-password>dfd8df99dffedfcbdfc3dfc6dfc3dfc4dfcd</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails reconnect: rbd_connect_production" uuid="4abf479f-22e6-4eda-9c3e-d392701ac5e8">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://rbdconnect.com/rbd_erp</jdbc-url>
       <user-name>retailingw</user-name>
       <user-password>dfd8df99dffedfcbdfc3dfc6dfc3dfc4dfcd</user-password>
       <libraries />

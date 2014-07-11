@@ -1,5 +1,6 @@
 class WidgetsController < ApplicationController
   layout "widget"
+  require 'apis/mojo'
 
   def sales
   end
@@ -8,6 +9,8 @@ class WidgetsController < ApplicationController
   end
 
   def tickets
+    mojo = Mojo.new
+    @creator_tickets = mojo.creator_all_tickets @current_person.email, 3
   end
 
   def social

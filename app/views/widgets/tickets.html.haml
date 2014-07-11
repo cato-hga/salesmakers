@@ -1,1 +1,18 @@
 %h3 Tickets
+- ticket_count = 0
+- for ticket in @creator_tickets
+  - if ticket_count % 3 == 0 and not ticket_count == 0
+    %hr/
+  - ticket_count = ticket_count + 1
+  %p
+    = NameCase(ticket['ticket']['title'])
+    = surround '(#', ')' do
+      = ticket['ticket']['id']
+  - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
+  - if description != ticket['ticket']['description'].split.join(' ')
+    - description = description + '...' + content_tag(:em, '(more)')
+  .small= description
+  %span.small.comment.right
+    Last Changed
+    - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
+    = updated.strftime '%m/%d/%Y %-l:%M%P'
