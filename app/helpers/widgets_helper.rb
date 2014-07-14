@@ -52,7 +52,7 @@ module WidgetsHelper
     ]
     pie_chart data, {
         id: 'training_chart',
-        colors: ['limegreen', 'yellow', '#f04124']
+        colors: ['#43ac6a', 'yellow', '#f04124'] #TODO: Fix text color on yellow
     }
   end
 

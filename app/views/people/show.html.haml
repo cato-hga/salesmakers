@@ -72,39 +72,117 @@
     .large-4.columns
     .large-4.columns
 
-
-
--#.history.large-4.columns
--#- if @log_entries.count > 0
--#  %h2 History
--#  - future = Time.now
--#  - for entry in @log_entries
--#    .how_long
--#      = distance_of_time_in_words(entry.created_at, future, include_seconds: false)
--#      - future = entry.created_at
--#    = render_log_entry(entry)
 .large-4.columns
 - if @creator_tickets.count > 0
-  .tickets
-    %h2 Support Ticket History
-    - ticket_count = 0
-    - for ticket in @creator_tickets
-      - if ticket_count % 3 == 0 and not ticket_count == 0
-        %hr/
-      - ticket_count = ticket_count + 1
-      .large-4.columns
-        %h3
-          = NameCase(ticket['ticket']['title'])
-          = surround '(#', ')' do
-            = ticket['ticket']['id']
-        - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
-        - if description != ticket['ticket']['description'].split.join(' ')
-          - description = description + '...' + content_tag(:em, '(more)')
-        %blockquote= description
+  .tickets.widget
+    .inner
+      %h2 Support Ticket History
+      - ticket_count = 0
+      - for ticket in @creator_tickets
+        - ticket_count = ticket_count + 1
+        .large-4.columns
+          .neutral.rounded.full-width.padded.vertical_space
+            %p
+              %strong
+                = NameCase(ticket['ticket']['title'])
+                = surround '(#', ')' do
+                  = ticket['ticket']['id']
+            %p
+              - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
+              - if description != ticket['ticket']['description'].split.join(' ')
+                - description = description + '...' + content_tag(:em, '(more)')
+              = description
+            %span.small.comment.right.vertical_space
+              Last Changed
+              - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
+              = updated.strftime '%m/%d/%Y %-l:%M%P'
+
+.row.full-width
+  .large-6.columns.widget
+    .inner
+      %h2 Online Training
+      -#TODO: Fix spacing
+      .row.full-width
+        .large-3.columns
+          %strong 7 Steps to Yes!
+        .large-9.columns
+          .progress.radius.round.success
+            %span.meter(style="width: 100%")
+      .vertical_space
+      .row.full-width
+        .large-3.columns
+          %strong Vonage New Hire Training
+        .large-9.columns
+          .progress.radius.round.incomplete
+            %span.meter(style="width: 75%")
+      .vertical_space
+      .row.full-width
+        .large-3.columns
+          %strong Vonage - Process &amp; Procedures
+        .large-9.columns
+          .progress.radius.round.alert
+            %span.meter(style="width: 1%")
+  .large-6.columns.widget
+    .inner
+      %h2 Video Training
+      .ok.rounded.full-width.padded
+        %p
+          %strong
+            Video Training 1
+        %p
+          "Great job, very easy to talk to. Will be a great sales rep."
+        %span.small.comment.right.vertical_space
+          Trained by: Cheri Sauter on 07/01/2014
+      .bad.rounded.full-width.padded.vertical_space
+        %p
+          %strong
+            Video Training 2
+        %p
+          "Did not show up"
+        %span.small.comment.right.vertical_space
+          Trained by: Cheri Sauter on 07/03/2014
+.row.full-width
+  .large-4.columns.widget
+    .inner
+      %h2 Paperwork History
+      .ok.rounded.full-width.padded
+        %strong New Hire Paperwork
         %span.small.comment.right
-          Last Changed
-          - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
-          = updated.strftime '%m/%d/%Y %-l:%M%P'
+          Completed on 06/31/2014
+      .bad.rounded.full-width.padded.vertical_space
+        %strong Counseling Verification Form
+        .vertical_space
+        %em Not signed by Employee
+        %span.small.comment.right
+          Last updated on 07/13/2014
+  .large-4.columns.widget
+    .inner
+      %h2 Shipping History
+      .row.full-width
+        .large-3.columns
+          %strong Samsung GalaxyTab 3
+        .large-9.columns
+          .progress.radius.round.success
+            %span.meter(style="width: 100%")
+          .small.comment.right.right_text_aligned Delivered on: 07/03/2014
+      .vertical_space
+      .row.full-width
+        .large-3.columns
+          %strong Supplies
+        .large-9.columns
+          .progress.radius.round.incomplete
+            %span.meter(style="width: 50%")
+          .small.comment.right.right_text_aligned At destination sort Facility (Lubbock,TX), as of 07/14/2014
+  .large-4.columns.widget
+    .inner
+      %h2 Employee Notes
+      .neutral.rounded.padded.full-width
+        Employee called about pay period date 6/01-6/15, issue was resolved over phone
+        %span.comment.right.right_text_aligned.vertical_space Added by Alice Daly on 07/12/2014 at 3:45pm
+      .vertical_space
+      .neutral.rounded.padded.full-width
+        Natalia could not connect to her training class via ClearSea, and called the IT Hotline. Issue was resolved, has been instructed to reschedule
+        %span.comment.right.right_text_aligned.vertical_space Added by David Korb on 07/03/2014 at 11:59am
 
 :javascript
   $(function () {
