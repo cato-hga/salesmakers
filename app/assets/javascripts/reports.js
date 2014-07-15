@@ -2,9 +2,19 @@
 //= require fieldChooser
 
 $(function() {
-	$(document).ready(function () {
-		var $sourceFields = $(".available_categories");
-		var $destinationFields = $(".chosen_categories");
-		var $chooser = $(".categories").fieldChooser($sourceFields, $destinationFields);
+	var $sourceCategories = $(".available_categories");
+	var $destinationCategories = $(".chosen_categories");
+	var $categoriesChooser = $(".categories").fieldChooser($sourceCategories, $destinationCategories);
+	var $sourceMetrics = $(".available_metrics");
+	var $destinationMetrics = $(".chosen_metrics");
+	var $metricsChooser = $(".metrics").fieldChooser($sourceMetrics, $destinationMetrics);
+
+	$('.new_filter').bind('click', function(){
+		$('.filters').append($('.filter').html()).removeClass('filter').show();
+		$('html, body').animate({
+			scrollTop: $('.filters div:last').offset().top
+		}, 500);
 	});
 });
+
+//TODO: People should not be able to sort the left hand column

@@ -16,10 +16,16 @@
 
 
 .chosen_categories,
-.available_categories {
+.available_categories,
+.available_metrics,
+.chosen_metrics {
 	min-height: 15em;
 }
 
 .fc-selected {
 	background-color: #ddd;
+}
+
+.filter {
+	display: none;
 }

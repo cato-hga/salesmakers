@@ -14,3 +14,51 @@
   .large-6.columns
     %h3 Chosen Categories
     .neutral.rounded.full-width.padded.chosen_categories
+      
+.row.full-width.metrics.vertical_space
+  .large-6.columns
+    %h3 Available Metrics
+    .neutral.rounded.full-width.padded.available_metrics
+      .column Gross Sales
+      .column Valid Sales
+      .column Refunds
+      .column Used Gift Cards
+      .column Unused Gift Cards
+      .column Hours Worked
+      .column Hours Scheduled
+      .column Training Hours
+  .large-6.columns
+    %h3 Chosen Metrics
+    .neutral.rounded.full-width.padded.chosen_metrics
+
+.row.full-width.filters.vertical_space
+  .large-12.columns
+    %h3
+      Filters
+      %button.tiny.inline_button.rounded.new_filter= icon('plus') + ' New'
+    .filter.large-12.columns
+      .large-5.columns
+        %select
+          %option
+          %option Date
+          %option Hours
+          %option Sales
+      .large-2.columns
+        %select
+          %option
+          %option equal to
+          %option less than
+          %option greater thans
+          %option not equal to
+      .large-5.columns
+        %input(type = 'text')
+
+.row.full-width.vertical_space
+  .large-12.columns
+    = link_to 'Run', reports_path, class:[:button, :radius], method: :post
+    = link_to 'Run &amp; Save'.html_safe, reports_path, class:[:button, :radius], method: :post
+
+
+
+
+
