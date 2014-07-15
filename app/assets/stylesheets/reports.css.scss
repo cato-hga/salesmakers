@@ -14,11 +14,12 @@
 	-moz-border-radius: 0.25em;
 }
 
+
 .chosen_categories,
 .available_categories {
 	min-height: 15em;
 }
 
-.sort_container {
-	min-height: 15em;
+.fc-selected {
+	background-color: #ddd;
 }
