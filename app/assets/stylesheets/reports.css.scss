@@ -1,0 +1,24 @@
+// Place all the styles related to the reports controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+//= require jquery-ui.min
+//= require jquery-ui.theme.min
+//= require jquery-ui.structure.min
+
+.column {
+	background-color: white;
+	padding: 0.5em;
+	margin-bottom: 0.5em;
+	border: solid #ccc 1px;
+	border-radius: 0.25em;
+	-moz-border-radius: 0.25em;
+}
+
+.chosen_categories,
+.available_categories {
+	min-height: 15em;
+}
+
+.sort_container {
+	min-height: 15em;
+}

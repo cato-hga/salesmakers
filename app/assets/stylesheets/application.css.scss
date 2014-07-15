@@ -158,6 +158,15 @@ th input[ type = submit ] {
 	text-align: right;
 }
 
+.inline_button {
+	vertical-align: middle;
+	margin: 0;
+}
+
+.bottom_spacing {
+	margin-bottom: $spacing;
+}
+
 /* TODO: Fix the margins on home screen */
 @media (min-width: $mobile_cutoff){
 	// TODO: OLD WIDGET STUFF

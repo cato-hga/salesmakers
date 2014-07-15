@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   end
   resources :log_entries, only: [ :index ]
   resources :clients
+  resources :reports do
+    member do
+      get :share, to: 'reports#share', as: 'share'
+      post :share, to: 'reports#distribute'
+    end
+  end
 
   get 'widgets/sales'
   get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'
