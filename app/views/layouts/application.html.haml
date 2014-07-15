@@ -13,7 +13,9 @@
     = render "shared/top_navigation"
     #container
       %header
-        %h1= content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+        %h1
+          = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+          = yield :action_buttons
         = yield :header
 
       .notices= notice

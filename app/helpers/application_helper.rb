@@ -167,4 +167,8 @@ module ApplicationHelper
     return line_string unless line_string.length == 10
     '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
   end
+
+  def new_button(path)
+    link_to icon('plus') + ' New', path, class: [:button, :tiny, :rounded, :inline_button]
+  end
 end

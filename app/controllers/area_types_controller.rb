@@ -1,6 +1,7 @@
 class AreaTypesController < ApplicationController
   def index
-    @area_types = AreaType.where project_id: params[:project_id]
+    @project = Project.find params[:project_id]
+    @area_types = AreaType.where project: @project
   end
 
   def show
