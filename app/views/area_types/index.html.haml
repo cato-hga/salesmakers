@@ -1,0 +1,8 @@
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for area_type in @area_types do
+    - name = link_to area_type.name, client_project_area_type_path(area_type.project.client, area_type.project, area_type)
+
+    - rows << table_row([name])
+  = table header, rows

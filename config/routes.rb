@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
@@ -18,7 +19,12 @@ Rails.application.routes.draw do
     end
   end
   resources :log_entries, only: [ :index ]
-  resources :clients
+  resources :clients do
+    resources :projects do
+      resources :area_types
+    end
+  end
+
   resources :reports do
     member do
       get :share, to: 'reports#share', as: 'share'
