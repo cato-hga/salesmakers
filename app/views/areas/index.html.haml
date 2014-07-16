@@ -1,6 +1,17 @@
-- unless @areas.empty?
-  %ul.nested_areas
-    = nested_areas @areas
+- title @project.name + ' Areas'
+- content_for :action_buttons do
+  = new_button new_client_project_area_path
+- area_counter = 0
+- if @areas and not @areas.empty?
+  - for area in @areas
+    - areas = area.descendants.arrange
+    - if area_counter % 3 == 0
+      .row.full-width
+    .large-4.columns.widget
+      .inner
+        %h3= area.name
+        = nested_areas areas
+    - area_counter += 1
 - else
   %p
     No records to show. Create a new Area by using the "New" button.
