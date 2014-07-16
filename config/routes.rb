@@ -1,19 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'positions/index'
-
-  get 'positions/new'
-
-  get 'positions/create'
-
-  get 'positions/show'
-
-  get 'positions/edit'
-
-  get 'positions/destroy'
-
-  get 'positions/update'
-
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
@@ -33,6 +19,7 @@ Rails.application.routes.draw do
     end
   end
   resources :log_entries, only: [ :index ]
+
   resources :clients do
     resources :projects do
       resources :area_types
@@ -45,6 +32,10 @@ Rails.application.routes.draw do
       get :share, to: 'reports#share', as: 'share'
       post :share, to: 'reports#distribute'
     end
+  end
+
+  resources :departments do
+    resources :positions
   end
 
 

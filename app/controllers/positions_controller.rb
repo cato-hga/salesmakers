@@ -1,5 +1,7 @@
 class PositionsController < ApplicationController
   def index
+    @department = Department.find params[:department_id]
+    @positions = Position.where department: @department
   end
 
   def new

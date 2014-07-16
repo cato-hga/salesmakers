@@ -26,16 +26,6 @@
                       = link_to 'Area Types', client_project_area_types_path(project.client, project)
                     %li
                       = link_to 'Areas', client_project_areas_path(project.client, project)
-                    %li.has-dropdown
-                      %a{ href: "#" } Channels
-                      %ul.dropdown
-                        %li
-                          %a{ href: "#" } Walmart
-                        %li
-                          %a{ href: "#" } Brandsmart
-                        %li.divider
-                        %li
-                          %a{ href: "#" } Add Channel
                 %li
                   %a{ href: "#" } Gift Cards
                 %li
@@ -45,7 +35,7 @@
       %li
         = link_to icon('torso-business') + ' Clients', clients_path
       %li
-        %a= link_to icon('torsos') + ' People', people_path
+        %a= link_to icon('torsos-all') + ' People', people_path
       %li
         = link_to icon('clipboard-pencil') + ' Training', '#'
       %li.has-dropdown
