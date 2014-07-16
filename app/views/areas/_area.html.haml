@@ -1,4 +1,2 @@
-%li
-  - if @is_empty == false
-    %i= icon('down-arrow')
-  = link_to area.name, '#'
+%li.nested_areas
+  = link_to icon('plus') + ' ' + area.name, '#'
