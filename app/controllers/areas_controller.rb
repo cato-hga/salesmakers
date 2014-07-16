@@ -1,7 +1,7 @@
 class AreasController < ApplicationController
   def index
     @project = Project.find params[:project_id]
-    @areas = Area.where project: @project
+    @areas = Area.where(project: @project).arrange(order: :name)
   end
 
   def show

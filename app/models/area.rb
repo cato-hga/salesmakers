@@ -8,4 +8,5 @@ class Area < ActiveRecord::Base
   has_many :person_areas
   has_many :people, through: :person_areas
   has_ancestry
+
 end
