@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :clients do
     resources :projects do
       resources :area_types
+      resources :areas
     end
   end
 
@@ -31,6 +32,8 @@ Rails.application.routes.draw do
       post :share, to: 'reports#distribute'
     end
   end
+
+
 
   get 'widgets/sales'
   get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'

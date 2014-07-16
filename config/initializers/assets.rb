@@ -13,4 +13,5 @@ Rails.application.config.assets.precompile += %w( clients.js )
 Rails.application.config.assets.precompile += %w( reports.js )
 Rails.application.config.assets.precompile += %w( area_types.js )
 Rails.application.config.assets.precompile += %w( projects.js )
+Rails.application.config.assets.precompile += %w( areas.js )
 
