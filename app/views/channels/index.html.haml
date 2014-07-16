@@ -1,2 +1,12 @@
-%h1 Channels#index
-%p Find me in app/views/channels/index.html.haml
+-#- title @project.name + ' Channels'
+-#- content_for :action_buttons do
+-# = new_button new_client_project_channel_path(@project)
+%section
+  - stores = [ ['Walmart', 254], ["Fry's", 23], ['Brandsmart', 16], ['Micro Center', 12] ]
+  - header = header_row ['Name', '# of Stores']
+  - rows = Array.new
+  - for store in stores do
+    - name = store[0]
+    - count = store[1]
+    - rows << table_row([name, count])
+  = table header, rows

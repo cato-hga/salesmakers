@@ -1,5 +1,7 @@
 class ChannelsController < ApplicationController
   def index
+    #@project = Project.find params[:project_id]
+    #@channels = Channel.where project: @project
   end
 
   def create
