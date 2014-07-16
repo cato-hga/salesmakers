@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  get 'channels/index'
+
+  get 'channels/create'
+
+  get 'channels/new'
+
+  get 'channels/edit'
+
+  get 'channels/show'
+
+  get 'channels/update'
+
+  get 'channels/destroy'
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
