@@ -1,5 +1,19 @@
 Rails.application.routes.draw do
 
+  get 'positions/index'
+
+  get 'positions/new'
+
+  get 'positions/create'
+
+  get 'positions/show'
+
+  get 'positions/edit'
+
+  get 'positions/destroy'
+
+  get 'positions/update'
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
