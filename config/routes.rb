@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
@@ -18,7 +19,27 @@ Rails.application.routes.draw do
     end
   end
   resources :log_entries, only: [ :index ]
-  resources :clients
+
+  resources :clients do
+    resources :projects do
+      resources :area_types
+      resources :areas
+      resources :channels
+    end
+  end
+
+  resources :reports do
+    member do
+      get :share, to: 'reports#share', as: 'share'
+      post :share, to: 'reports#distribute'
+    end
+  end
+
+  resources :departments do
+    resources :positions
+  end
+
+
 
   get 'widgets/sales'
   get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'

@@ -5,4 +5,6 @@ class AreaType < ActiveRecord::Base
 
   belongs_to :project
   has_many :areas
+
+  default_scope{ order :name }
 end

@@ -1,0 +1,11 @@
+- title 'RBD Departments'
+- content_for :action_buttons do
+  = new_button new_department_path
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for department in @departments do
+    - department = link_to department.name, department_positions_path(department)
+
+    - rows << table_row([department])
+  = table header, rows

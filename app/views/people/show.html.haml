@@ -11,11 +11,13 @@
     .large-4.columns.widget
       .inner
         %h3 Basic Information
-        %em.small= @person.position.name
-        - if @person.active?
-          %span.comment.small.round.ok.label Active
-        - else
-          %span.comment.small.round.bad.label Inactive
+        .comment.bottom_spacing
+          = @person.position.name
+          - if @person.active?
+            %span.comment.small.round.ok.label.inline_button Active
+          - else
+            %span.comment.small.round.bad.label.inline_button Inactive
+        -unless @person.active?
           %p
             %strong Last Day Worked:
             = (Date.today - 42.days).strftime '%m/%d/%Y'
@@ -96,6 +98,7 @@
               Last Changed
               - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
               = updated.strftime '%m/%d/%Y %-l:%M%P'
+      .vertical_space
 
 .row.full-width
   .large-6.columns.widget
