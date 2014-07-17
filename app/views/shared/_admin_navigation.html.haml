@@ -1,6 +1,8 @@
 %footer.admin
-  %nav.contain-to-grid
+  %nav.contain-to-grid.top-bar
     %section.top-bar-section
       %ul.left
+        %li.has-form
+          = link_to 'Log', log_entries_path, class: 'small button'
         %li
           = link_to 'Departments', departments_path

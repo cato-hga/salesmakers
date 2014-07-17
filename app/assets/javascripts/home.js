@@ -1,9 +1,29 @@
 //= require google_jsapi
 //= require chartkick
-
+//= require swiper
+//= require swiper.3dflow
 
 $(function () {
 	$(document).foundation();
+	var width = $(window).width();
+	var slidesPer = 1;
+	if (width > 760) slidesPer = 2;
+	if (width > 1270) slidesPer = 3;
+	var mySwiper = $('.swiper-container').swiper({
+		mode: 'horizontal',
+		loop: true,
+		centeredSlides: true,
+		speed: 600,
+		autoplay: 4000,
+		slidesPerView: slidesPer,
+		tdFlow: {
+			rotate: 30,
+			depth: 150,
+			stretch: 10,
+			modifier: 1,
+			shadows: true
+		}
+	});
 
 	$.get("/widgets/sales", function( data ) {
 		$( "#sales_widget").append( data );

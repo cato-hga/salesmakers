@@ -17,7 +17,6 @@
           = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
           = yield :action_buttons
         = yield :header
-
       .notices= notice
       %section#content
         = yield
