@@ -28,4 +28,9 @@ class PeopleController < ApplicationController
   def destroy
   end
 
+  def search
+    index
+    render :index
+  end
+
 end
