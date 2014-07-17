@@ -1,2 +1,6 @@
 %li.nested_areas
-  = link_to icon('plus') + ' ' + area.name, '#'
+  - if area.children and area.children.count > 0
+    - icon = icon('minus').html_safe + ' '
+  - else
+    - icon = ''
+  %a= icon + area.name
