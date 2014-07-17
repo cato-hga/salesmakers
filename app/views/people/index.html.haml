@@ -1,7 +1,5 @@
 - content_for :header do
   = search_form_for @search, class: 'search_form', html: { method: :post }, url: search_people_path do |f|
-    - if not params[:q]
-      = icon('magnifying-glass')
     = link_to 'Clear', request.path if params[:q]
     = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
     = f.text_field :eid_eq, placeholder: 'EID'
@@ -11,7 +9,7 @@
     = f.text_field :position_name_cont, placeholder: 'Position'
     = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
     = f.text_field :areas_name_cont, placeholder: 'Area(s)'
-    = f.submit 'search', class: 'button tiny'
+    = f.submit 'Search', class: [:button, :tiny, :inline_button]
   .top-pagination
     = paginate @people
 

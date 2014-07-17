@@ -167,53 +167,20 @@ th input[ type = submit ] {
 	margin-bottom: $spacing;
 }
 
-/* TODO: Fix the margins on home screen */
-@media (min-width: $mobile_cutoff){
-	// TODO: OLD WIDGET STUFF
-	/* .gutter-sizer {
-		width: 1%;
+footer {
+	&.admin {
+		bottom: 0px;
+		margin-bottom: 0;
+		position: fixed;
+		width: 100%;
+		height: $nav_height;
+		background-color: #333;
 	}
-	.widget {
-		margin: 4px 0;
-		padding: 0;
-		width: 25%;
-		&.inner {
-			margin: 0;
-		}
-		&.widget-sizer {
-			margin: 0;
-			padding: 0;
-		}
-		&.w2 {
-			width: 50%;
-		}
-		&.w3 {
-			width: 75%;
-		}
-		&.w4 {
-			width: 100%;
-		}
-		&.w5 {
-			width: 100%;
-		}
-	} */
 }
-// TODO: make pagination centered and floating next to headers on lower resolution
-//@media (min-width: $tablet_cutoff) {
-//	.top-pagination {
-//		float: right;
-//	}
-//
-//	#container {
-//		&>h1 {
-//			float:left;
-//		}
-//		section {
-//			clear: both;
-//		}
-//	}
-//}
 
+@media (min-width: $mobile_cutoff){
+
+}
 
 .history {
 	clear: both;
@@ -398,9 +365,6 @@ th input[ type = submit ] {
 		input[type = text], select, textarea {
 			width: 10em;
 			display: inline-block;
-		}
-		input[type = submit] {
-			display: none;
 		}
 	}
 
