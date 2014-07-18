@@ -22,6 +22,8 @@ vrt = AreaType.create name: 'Vonage Retail Territory',
                       project: vonage_retail
 ver = AreaType.create name: 'Vonage Event Region',
                       project: vonage_events
+vem = AreaType.create name: 'Vonage Event Market',
+                      project: vonage_events
 vet = AreaType.create name: 'Vonage Event Team',
                       project: vonage_events
 
@@ -75,6 +77,12 @@ vers_connect.each do |ver_connect|
                         updated_at: ver_connect.updated
   vems_connect = ver_connect.children
   vems_connect.each do |vem_connect|
+    new_vem = Area.create name: vem_connect.name,
+                          area_type: vem,
+                          project: vonage_events,
+                          parent: new_ver,
+                          created_at: vem_connect.created,
+                          updated_at: vem_connect.updated
     vets_connect = vem_connect.children
     vets_connect.each do |vet_connect|
       new_vet = Area.create name: vet_connect.name.gsub('Vonage Events - ', ''),

@@ -33,7 +33,7 @@ class Device < ActiveRecord::Base
                                 comment: movement.note,
                                 created_at: movement.created,
                                 updated_at: movement.updated,
-                                person_id: created_by.id
+                                person: created_by
     unless device_state_emails.include? movement.moved_from_user.username
       # Get the "Deployed" state from the DB
       deployed = DeviceState.find_by_name 'Deployed'
@@ -81,7 +81,7 @@ class Device < ActiveRecord::Base
                                     comment: movement.note,
                                     created_at: movement.created,
                                     updated_at: movement.updated,
-                                    person_id: created_by.id
+                                    person: created_by
       end
     end
     device
@@ -130,7 +130,7 @@ class Device < ActiveRecord::Base
                                   comment: movement.note,
                                   created_at: movement.created,
                                   updated_at: movement.updated,
-                                  person_id: created_by.id
+                                  person: created_by
     end
     # Detach the device from the person
     self.person_id = nil
@@ -174,7 +174,7 @@ class Device < ActiveRecord::Base
     new_deployment = self.device_deployments.create started: movement.created,
                                                     tracking_number: movement.tracking,
                                                     comment: movement.note,
-                                                    person_id: to_person.id,
+                                                    person: to_person,
                                                     created_at: movement.created,
                                                     updated_at: movement.updated
     # Assign the device to the Person
@@ -192,7 +192,7 @@ class Device < ActiveRecord::Base
                                   comment: movement.note,
                                   created_at: movement.created,
                                   updated_at: movement.updated,
-                                  person_id: created_by.id
+                                  person: created_by
     end
   end
 
@@ -219,7 +219,7 @@ class Device < ActiveRecord::Base
                                 comment: movement.note,
                                 created_at: movement.created,
                                 updated_at: movement.updated,
-                                person_id: created_by.id
+                                person: created_by
   end
 
   # Translate an Openbravo exchange status to the new DB format
@@ -234,7 +234,7 @@ class Device < ActiveRecord::Base
                                 comment: movement.note,
                                 created_at: movement.created,
                                 updated_at: movement.updated,
-                                person_id: created_by.id
+                                person: created_by
   end
 
   # Translate the Openbravo repair movement into the new format
@@ -252,7 +252,7 @@ class Device < ActiveRecord::Base
                                 comment: movement.note,
                                 created_at: movement.created,
                                 updated_at: movement.updated,
-                                person_id: created_by.id
+                                person: created_by
   end
 
   def lost_or_stolen_from_connect_asset_movement(movement, created_by)
@@ -263,7 +263,7 @@ class Device < ActiveRecord::Base
                                 comment: movement.note,
                                 created_at: movement.created,
                                 updated_at: movement.updated,
-                                person_id: created_by.id
+                                person: created_by
   end
 
   def model_name

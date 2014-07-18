@@ -1,4 +1,4 @@
-importable_people = ConnectUser.active.not_main_administrators.load
+importable_people = ConnectUser.creation_order.not_main_administrators.load
 
 puts "Importing " + importable_people.count.to_s + " people... "
 
