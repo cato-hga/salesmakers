@@ -175,6 +175,15 @@ class Person < ActiveRecord::Base
     # Person in the local DB, then...
     if connect_user.present? and not this_person.present?
       # Create the Person.
+      if connect_user.supervisor_id
+        supervisor = Person.find_by_connect_user_id connect_user.supervisor_id
+        connect_supervisor = connect_user.supervisor.supervisor
+        while connect_supervisor and not supervisor
+          supervisor = Person.find_by_connect_user_id connect_supervisor.id
+          connect_supervisor = connect_supervisor.supervisor
+        end
+      end
+      supervisor = Person.find_by_connect_user_id connect_user.supervisor_id
       this_person = self.new first_name: connect_user.firstname,
                                 last_name: connect_user.lastname,
                                 display_name: (connect_user.name) ? connect_user.name : [connect_user.firstname, connect_user.lastname].join(' '),
@@ -182,7 +191,8 @@ class Person < ActiveRecord::Base
                                 personal_email: (connect_user.description) ? connect_user.description : connect_user.email,
                                 connect_user_id: connect_user.id,
                                 active: (connect_user.isactive == 'Y') ? true : false,
-                                mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212'
+                                mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212',
+                                supervisor: supervisor
       this_person.clean_phone_numbers
       this_person.clean_email
       this_person.clean_personal_email
@@ -205,10 +215,6 @@ class Person < ActiveRecord::Base
       end
     end
     return if not this_person
-    supervisor = Person.find_by_connect_user_id connect_user.supervisor_id if connect_user.supervisor_id
-    if not supervisor
-      supervisor = Person.return_from_connect_user connect_user.supervisor if connect_user.supervisor
-    end
     this_person.supervisor = supervisor if supervisor
     unless this_person.save
       puts this_person.errors.inspect unless this_person.first_name == 'X'
