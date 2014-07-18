@@ -2,11 +2,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resources :home, only: [ :index ]
-  resources :people do
-    collection do
-      match 'search' => 'people#search', via: [:get, :post], as: :search
-    end
-  end
+  resources :people
   resources :lines
   resources :devices do
     resources :device_deployments, except: [ :index, :new, :create ] do
@@ -69,6 +65,7 @@ Rails.application.routes.draw do
   get 'widgets/hps/people/:person_id', to: 'widgets#person_hps', as: 'person_hps_widget'
   get 'widgets/assets'
   get 'widgets/assets/people/:person_id', to: 'widgets#person_assets', as: 'person_assets_widget'
+  get 'widgets/groupme_slider'
 
 
   get 'sessions/destroy', as: 'logout'

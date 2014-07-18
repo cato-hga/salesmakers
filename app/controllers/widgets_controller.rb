@@ -1,3 +1,5 @@
+require 'apis/groupme'
+
 class WidgetsController < ApplicationController
   layout "widget"
   require 'apis/mojo'
@@ -98,5 +100,13 @@ class WidgetsController < ApplicationController
   def person_assets
     @person = Person.find params[ :person_id ]
     render :assets
+  end
+
+  def groupme_slider
+    groupme = GroupMe.new
+    messages = groupme.get_recent_messages 10, 3
+    messages = messages.sort
+    @messages = (messages.count < 15) ? messages.reverse : messages[0..14].reverse
+    render :groupme_slider, layout: nil
   end
 end

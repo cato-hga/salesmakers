@@ -1,5 +1,8 @@
 - content_for :slider do
-  = render 'shared/social_swiper'
+  -# = render 'shared/social_swiper'
+  .swiper-placeholder
+    = image_tag 'loading.gif', class: :loading
+    %span#groupme_slider_widget
 .widgets.row.full-width
   .row.full-width
     %span#alerts_widget

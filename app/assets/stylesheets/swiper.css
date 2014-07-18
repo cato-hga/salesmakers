@@ -70,9 +70,25 @@ Basic Swiper Styles
 Your custom styles, here you need to specify container's and slide's
 sizes, pagination, etc.
 ================================================================*/
-.swiper-container {
+.swiper-container,
+.swiper-placeholder {
   height: 15em;
 }
+
+.swiper-container {
+    text-align: left;
+}
+
+.swiper-placeholder {
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-placeholder img.loading {
+    margin-top: 19px;
+    margin-bottom: -7.5em;
+}
+
 .swiper-slide {
     padding: 0 1em 0;
     background-color: #666;
@@ -85,7 +101,7 @@ sizes, pagination, etc.
     color: red;
 }
 
-.swiper-slide img {
+.swiper-slide .post img {
     max-height: 13em;
     float: left;
     margin-right: 4%;
@@ -116,6 +132,15 @@ sizes, pagination, etc.
     color: white;
 
 }
+
+.swiper-slide .avatar {
+    max-height: 5rem;
+    max-width: 5rem;
+    border: 0.25rem solid #ccc;
+    margin-right: 1em;
+    float: right;
+}
+
 .swiper-slide-visible {
   /* Specific visible slide styling: */
 

@@ -9,21 +9,6 @@ $(function () {
 	var slidesPer = 1;
 	if (width > 760) slidesPer = 2;
 	if (width > 1270) slidesPer = 3;
-	var mySwiper = $('.swiper-container').swiper({
-		mode: 'horizontal',
-		loop: true,
-		centeredSlides: true,
-		speed: 600,
-		autoplay: 4000,
-		slidesPerView: slidesPer,
-		tdFlow: {
-			rotate: 30,
-			depth: 150,
-			stretch: 10,
-			modifier: 1,
-			shadows: true
-		}
-	});
 
 	$.get("/widgets/sales", function( data ) {
 		$( "#sales_widget").append( data );
@@ -71,6 +56,26 @@ $(function () {
 
 	$.get("/widgets/gift_cards", function( data ) {
 		$( "#gift_cards_widget").append( data );
+	});
+
+	$.get("/widgets/groupme_slider", function( data ) {
+		$('.swiper-placeholder img.loading').hide();
+		$( "#groupme_slider_widget").append( data );
+		var mySwiper = $('.swiper-container').swiper({
+			mode: 'horizontal',
+			loop: true,
+			centeredSlides: true,
+			speed: 600,
+			autoplay: 4000,
+			slidesPerView: slidesPer,
+			tdFlow: {
+				rotate: 30,
+				depth: 150,
+				stretch: 10,
+				modifier: 1,
+				shadows: true
+			}
+		});
 	});
 
 });
