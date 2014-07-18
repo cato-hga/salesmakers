@@ -77,9 +77,8 @@ sizes, pagination, etc.
     padding: 0 1em 0;
     background-color: #666;
     color: white;
-    border-radius: 1em;
     -moz-border-radius: 1em;
-
+    border-radius: 1em;
 }
 
 .swiper-slide a {

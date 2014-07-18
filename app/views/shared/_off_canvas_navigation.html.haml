@@ -1,0 +1,53 @@
+%nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
+  %section.left-small
+    %a.left-off-canvas-toggle.menu-icon
+      %span
+  %section.right.tab-bar-section
+    %h1.title RBD Connect
+%aside.left-off-canvas-menu
+  %ul.off-canvas-list
+    %li
+      %label Menu
+    %li
+      = link_to 'Home', root_path
+  %ul.off-canvas-list
+    - for project in @projects
+      %li
+        %label= project.name
+      %li
+        %a{ href: "#" } Sales Entry
+      %li
+        %a{ href: "#" } Gift Cards
+      %li
+        %a{ href: "#" } Locations
+      %li
+        = link_to 'Area Types', client_project_area_types_path(project.client, project)
+      %li
+        = link_to 'Areas', client_project_areas_path(project.client, project)
+  %ul.off-canvas-list
+    %li
+      %label Administration
+    %li
+      = link_to icon('torso-business') + ' Clients', clients_path
+    %li
+      = link_to 'Devices', devices_path
+    %li
+      = link_to 'Lines', lines_path
+    %li
+      = link_to icon('torsos-all') + ' People', people_path
+    %li
+      = link_to icon('clipboard-pencil') + ' Training', '#'
+    %li
+      = link_to icon('graph-bar') + ' Reports', reports_path
+  %ul.off-canvas-list
+    %li
+      %label= current_user.email
+    %li
+      = link_to icon('widget') + ' My Settings', '#'
+    %li
+      = link_to icon('x') + ' Sign Out', logout_path
+  %ul.off-canvas-list
+    %li
+      %label Support
+    %li
+      = link_to icon('asterisk') + ' Help', '#'

@@ -17,6 +17,7 @@
 
 @import 'foundation-icons';
 
+
 $spacing: 1em;
 $sub-mobile_cutoff: 320px;
 $mobile_cutoff: 640px;
@@ -30,7 +31,6 @@ $high_res_spaced_lines: 1.1em;
 
 #container {
 	margin: 0 $spacing;
-	//line-height: $line_height;
 }
 
 p {
@@ -44,6 +44,10 @@ nav {
 			margin-top: $nav_height / 10 / 2;
 			margin-left: $spacing;
 		}
+
+	ul {
+		display: inline;
+	}
 	}
 }
 
@@ -54,20 +58,8 @@ nav {
 		clear: both;
 	}
 }
-// TODO: OLD WIDGET STUFF
-/* .widget {
-	margin: 1%;
-	.inner {
-		margin: $spacing / 10;
-		padding: $spacing;
-		background-color: #eee;
-	}
-} */
 
 .widget .inner {
-	/* background-color: #e9e9e9;
-	border-radius: 1em;
-	-moz-border-radius: 1em; */
 	border: 3px dotted #eee;
 	padding: 0.9375rem;
 	margin: 0.9375rem 0;
@@ -205,20 +197,10 @@ body {
 			margin-bottom: 1em;
 		}
 		.content {
-			/* font-size: 1.5em; */
 			padding-top: 0.5em;
 			@media only screen and (min-width: $high_res_cutoff) {
-				//font-size: $high_res_font_size;
-				//line-height: $high_res_spaced_lines;
 			}
 		}
-		/* @media only screen and (min-width: 1200px) {
-			width: 29%;
-			float: left;
-			clear: none;
-			margin: 2%;
-			font-size: 0.8em;
-		} */
 	}
 	.how_long {
 		width: 7em;
@@ -226,12 +208,7 @@ body {
 		font-style: italic;
 		text-align: center;
 	}
-	@media only screen and (min-width: $high_res_cutoff) {
-		/* width: 56%;
-		margin: auto 2%;
-		float: left;
-		clear: none; */
-	}
+
 }
 
 .call-date-set {
@@ -317,13 +294,11 @@ body {
 
 	td {
 		border: none;
-		/* border-bottom: 1px solid #eee; */
 		position: relative;
 		padding-left: 50%;
 	}
 
 	td:before {
-		/* position: absolute; */
 		top: 6px;
 		left: 6px;
 		width: 45%;
@@ -334,32 +309,6 @@ body {
 }
 
 @media (min-width: $high_res_cutoff){
-	// TODO: OLD WIDGET STUFF
-	/* .widget {
-		width: 19%;
-		margin: 0.25em 0;
-		padding: 0;
-		&.inner {
-			margin: 0;
-			width: 100%;
-		}
-		&.widget-sizer {
-			margin: 0;
-			padding: 0;
-		}
-		&.w2 {
-			width: 39%;
-		}
-		&.w3 {
-			width: 59%;
-		}
-		&.w4 {
-			width: 79%;
-		}
-		&.w5 {
-			width: 99%;
-		}
-	} */
 
 	form.search_form {
 		float: right;
