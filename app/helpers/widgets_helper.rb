@@ -1,5 +1,9 @@
 module WidgetsHelper
 
+  def stat(measure, stat, indicator, type = nil)
+    render 'shared/stat_badge', measure: measure, stat: stat, indicator: indicator, type: type
+  end
+
   def this_week_sales_chart
     line_chart ConnectOrder.this_week.sales.group("cast(dateordered as date)").count, {
         id: 'this_week_sales_chart',

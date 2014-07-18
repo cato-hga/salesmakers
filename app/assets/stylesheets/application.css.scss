@@ -173,6 +173,10 @@ body {
 	margin-bottom: $nav_height;
 }
 
+.slider {
+	clear: both;
+}
+
 @media (min-width: $mobile_cutoff){
 
 }

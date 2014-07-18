@@ -1,109 +1,24 @@
 .swiper-container
   .swiper-wrapper
-    .swiper-slide
-      .slide.full-width
-        .inner
-          %p
-            Made my
-            %a #first
-            sale!
-          .author
-            %strong Posted by
-            %a Natalia
-            on
-            %em Event-ful GroupMe
-          .actions
-            %a Promote
-            \/
-            %a Report
-            \/
-            %a Direct Message
-    .swiper-slide
-      .slide.full-width
-        .inner
-          %p
-            Team: remember that our
-            %a #Referral
-            Program is still going on!
-          .author
-            %strong Posted by
-            %a Rick
-            on
-            %em Keep Austin Awesome
-          .actions
-            %a Promote
-            \/
-            %a Report
-            \/
-            %a Direct Message
-    .swiper-slide
-      .slide.full-width
-        .inner
-          %p
-            I know you will
-            %a #WOW
-            them in training today!
-          .author
-            %strong Posted by
-            %a Dana
-            on
-            %em Sprint Kansas City Reps
-          .actions
-            %a Promote
-            \/
-            %a Report
-            \/
-            %a Direct Message
-    .swiper-slide
-      .slide.full-width
-        .inner
-          %p
-            Tell him to put his
-            %a #money
-            where his mouth is
-          .author
-            %strong Posted by
-            %a D. Young
-            on
-            %em ATL Field
-          .actions
-            %a Promote
-            \/
-            %a Report
-            \/
-            %a Direct Message
-    .swiper-slide
-      .slide.full-width
-        .inner
-          %p
-            Call time!
-            %a 712-432-1212
-            514976333#
-          .author
-            %strong Posted by
-            %a Kamil
-            on
-            %em Eventful GroupMe
-          .actions
-            %a Promote
-            \/
-            %a Report
-            \/
-            %a Direct Message
-    .swiper-slide
-      .slide.full-width
-        .inner
-          = image_tag 'image_gallery_mock/image1.jpeg'
-          .img_text
-            %p
-              Excited to start my first day with
-              %a #RBD
-              !
+    - for message in @messages do
+      .swiper-slide
+        .slide.full-width
+          .inner
+            - if message.attachments and message.attachments.count > 0
+              %img{ src: message.attachments[0]['url'] }
+            - if message.text
+              - text = message.text.split[0..60].join(' ')
+              %p
+                = text
+                - unless text.length == message.text.length
+                  %span.comment ... (More)
             .author
               %strong Posted by
-              %a Yolanda
+              %a=message.author
               on
-              %em San Fernando
+              %em= message.group_name
+              at
+              %em= message.created_at.strftime '%m/%d/%Y %-l:%M%P'
             .actions
               %a Promote
               \/
