@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people
+    collection do
+      match 'search' => 'people#search', via: [:get, :post], as: :search
+    end
   resources :lines
   resources :devices do
     resources :device_deployments, except: [ :index, :new, :create ] do
