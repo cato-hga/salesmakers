@@ -2,21 +2,8 @@
   Nationwide Comparison
   %span.small.comment Current
 .row.full-width
-  .large-4.columns.centered_text
-    .ok.rounded.full-width.padded
-      .large 12%
-      %strong Over Average Sales
-  .large-4.columns.centered_text
-    .warning.rounded.full-width.padded
-      .large 8%
-      %strong Under Staffing Average
-  .large-4.columns.centered_text
-    .bad.rounded.full-width.padded
-      .large 22%
-      %strong Under Hours Average
+  = stat '12%', 'Over Average Sales', 'ok'
+  = stat '8%', 'Under Staffing Average', 'warning'
+  = stat '22%', 'Under Hours Average', 'bad'
 .row.full-width
-  .large-4.columns.centered_text
-    .neutral.rounded.full-width.padded
-      .large 15%
-      %strong On Target For Promotion
-
+  = stat '15%', 'On Target for Promotion', 'neutral'

@@ -3,18 +3,7 @@
   %span.small.comment This week
 .row.full-width
   = stat 26, 'Event-ful GroupMe', 'neutral', 'Posts'
-  .large-4.columns.centered_text
-    .neutral.rounded.full-width.padded
-      .large 45
-      .small.comment Posts
-      %strong LAX|PHX Team!
-  .large-4.columns.centered_text
-    .neutral.rounded.full-width.padded
-      .large 31
-      .small.comment Posts
-      %strong Keep Austin Awesome
+  = stat 45, 'LAX|PHX Team!', 'neutral', 'Posts'
+  = stat 31, 'Keep Austin Awesome', 'neutral'
 .row.full-width
-  .large-4.columns.centered_text
-    .bad.rounded.full-width.padded
-      .large 5
-      %strong Unread Messages
+  = stat 5, 'Unread Messages', 'bad'
