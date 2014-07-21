@@ -22,7 +22,7 @@ class Mojo
     tickets
   end
 
-  def creator_all_tickets(email, max)
+  def creator_all_tickets(email, max = 20)
     query = 'created_by_email:("' + email + '")'
     tickets = doGet('/tickets/search/', { query: query, per_page: max })
     max_index = max-1 #TODO: SORTby last-changed
@@ -37,7 +37,7 @@ class Mojo
 
   def doGet(path, query = nil)
     query_hash = { access_key: @access_key }
-    query_hash = query_hash.merge query
+    query_hash = query_hash.merge query if query
     self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
   end
 
