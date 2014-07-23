@@ -4,7 +4,8 @@
     %title
       Reconnect -
       = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
-    = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag current_theme + '/application' if current_theme
     = javascript_include_tag 'application'
     = javascript_include_tag params[:controller]
     = csrf_meta_tags

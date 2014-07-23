@@ -190,4 +190,5 @@ module ApplicationHelper
     end
     empty_columns
   end
+
 end

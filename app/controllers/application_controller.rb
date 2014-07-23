@@ -22,5 +22,10 @@ class ApplicationController < ActionController::Base
     @projects = Project.all
   end
 
+  def current_theme
+    # @current_theme = 'dark'
+  end
+
   helper_method :current_user
+  helper_method :current_theme
 end

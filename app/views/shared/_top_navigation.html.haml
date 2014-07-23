@@ -22,6 +22,9 @@
                       = link_to 'Areas', client_project_areas_path(project.client, project)
                 %li
                   %a{ href: "#" } Gift Cards
+                %li.divider
+                %li
+                  = link_to 'Edit Project', edit_client_project_path(project.client, project)
       %li
         = link_to icon('torso-business') + ' Clients', clients_path
       %li
@@ -47,4 +50,4 @@
           %li
             = link_to icon('x') + ' Sign Out', logout_path
       %li.has-form
-        = link_to icon('asterisk') + ' Help', '#', class: 'small button'
+        = link_to icon('asterisk') + ' Help', '#', class: 'small button radius'

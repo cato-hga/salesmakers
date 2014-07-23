@@ -10,9 +10,9 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require_directory .
+ *= require_tree .
  *= require_self
- *= require foundation_and_overrides
+ *= require dark/foundation_and_overrides
  */
 
 @import 'foundation-icons';
@@ -60,7 +60,7 @@ nav {
 }
 
 .widget .inner {
-	border: 3px dotted #eee;
+	border: 3px dotted #494949;
 	padding: 0.9375rem;
 	margin: 0.9375rem 0;
 }
@@ -100,8 +100,8 @@ th input[ type = submit ] {
 }
 
 .neutral {
-	background-color: #eee;
-	color: black;
+	background-color: #777;
+	color: white;
 	display: inline-block;
 }
 

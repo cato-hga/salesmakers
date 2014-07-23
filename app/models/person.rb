@@ -1,3 +1,5 @@
+require 'formatters/person_cleaner'
+
 class Person < ActiveRecord::Base
   before_validation :generate_display_name
 
@@ -193,9 +195,10 @@ class Person < ActiveRecord::Base
                                 active: (connect_user.isactive == 'Y') ? true : false,
                                 mobile_phone: (connect_user.phone) ? connect_user.phone : '8005551212',
                                 supervisor: supervisor
-      this_person.clean_phone_numbers
-      this_person.clean_email
-      this_person.clean_personal_email
+      cleaner = PersonCleaner.new(this_person)
+      cleaner.clean_phone_numbers
+      cleaner.clean_email
+      cleaner.clean_personal_email
       this_person.save
       this_person.import_position
       creator = Person.find_by_connect_user_id connect_user.createdby if connect_user.createdby
@@ -225,34 +228,6 @@ class Person < ActiveRecord::Base
 
   def name
     self.display_name
-  end
-
-  def clean_phone_numbers
-    if self.mobile_phone
-      self.mobile_phone = self.mobile_phone.strip
-      self.mobile_phone = '8005551212' unless self.mobile_phone.length == 10
-    end
-    if self.home_phone
-      self.home_phone = self.home_phone.strip
-      self.home_phone = '8005551212' unless self.home_phone.length == 10
-    end
-    if self.office_phone
-      self.office_phone = self.office_phone.strip
-      self.office_phone = '8005551212' unless self.office_phone.length == 10
-    end
-  end
-
-  def clean_email
-    return unless self.email
-    return if self.email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
-    self.email = self.email.gsub /[^0-9A-Za-z]/, ''
-    self.email = self.email.strip
-    self.email = self.email + '@retailingwireless.com' unless self.email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
-  end
-
-  def clean_personal_email
-    return unless self.personal_email
-    self.personal_email = nil unless self.personal_email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
   end
 
   private
