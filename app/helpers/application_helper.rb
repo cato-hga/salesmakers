@@ -171,4 +171,23 @@ module ApplicationHelper
   def new_button(path)
     link_to icon('plus') + ' New', path, class: [:button, :tiny, :rounded, :inline_button]
   end
+
+  def last_slice(array, i)
+    last_slice = (array.count % i == 0) ? i : array.count % i
+    array.last(last_slice)
+  end
+
+  def empty_columns(slices, slice, columns, classes = [])
+    empty_columns = ''.html_safe
+    grid_columns = 12 / columns
+    all_classes = []
+    all_classes << ["large-#{grid_columns}", 'columns']
+    all_classes << classes
+    if slice == last_slice(slices, columns) and columns % slice.count > 0
+      (columns % slice.count).times do
+        empty_columns += content_tag(:div, '', class: all_classes)
+      end
+    end
+    empty_columns
+  end
 end
