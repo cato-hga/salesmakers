@@ -49,4 +49,38 @@ class ConnectUser < ConnectModel
     return nil if user_region == nil
     region.project
   end
+
+  def display_name
+    return name if name
+    [firstname, lastname].join(' ')
+  end
+
+  def personal_email
+    return nil unless description and description.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
+    description
+  end
+
+  def email
+    return username if username.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
+    cleaned_email = username.gsub /[^0-9A-Za-z]/, ''
+    cleaned_email = cleaned_email.strip
+    return cleaned_email if cleaned_email.match /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/
+    cleaned_email + '@retailingwireless.com'
+  end
+
+  def phone
+    phone_attribute = read_attribute :phone
+    phone2_attribute = phone2
+
+    phone_number = '8005551212'
+    if phone_attribute
+      phone_attribute = phone_attribute.strip
+      phone_number = phone_attribute if /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(phone_attribute)
+    end
+    if phone2_attribute
+      phone2_attribute = phone2_attribute.strip
+      phone_number = phone2_attribute if /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(phone2_attribute)
+    end
+    phone_number
+  end
 end
