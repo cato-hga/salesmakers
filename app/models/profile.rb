@@ -1,5 +1,5 @@
 class Profile < ActiveRecord::Base
-  before_validation :set_defaults
+  before_validation :set_defaults, :nullify_values
 
   validates :person, presence: true
 
@@ -9,5 +9,9 @@ class Profile < ActiveRecord::Base
 
   def set_defaults
 
+  end
+
+  def nullify_values
+    self.theme_name = nil unless self.theme_name and self.theme_name.length > 0
   end
 end

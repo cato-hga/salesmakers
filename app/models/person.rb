@@ -26,6 +26,7 @@ class Person < ActiveRecord::Base
   has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
   has_many :device_deployments
   has_many :devices
+  has_one :profile
 
 
   def self.return_from_connect_user(connect_user)

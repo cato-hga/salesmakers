@@ -23,7 +23,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    # current_theme = 'dark'
+    if @current_person and @current_person.profile and @current_person.profile.theme_name
+      return @current_person.profile.theme_name
+    end
+    nil
   end
 
   helper_method :current_user
