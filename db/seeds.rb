@@ -1,6 +1,7 @@
 seeds = "#{Rails.root}/db/seeds"
 
 require "#{seeds}/destroy_old_data"
+require "#{seeds}/themes"
 require "#{seeds}/department"
 require "#{seeds}/position"
 require "#{seeds}/administrators"
