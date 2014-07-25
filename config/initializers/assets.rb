@@ -17,4 +17,6 @@ Rails.application.config.assets.precompile += %w( areas.js )
 Rails.application.config.assets.precompile += %w( positions.js )
 Rails.application.config.assets.precompile += %w( departments.js )
 Rails.application.config.assets.precompile += %w( channels.js )
+Rails.application.config.assets.precompile += %w( profiles.js )
+Rails.application.config.assets.precompile += %w( themes.js )
 

@@ -3,6 +3,8 @@
     %section.top-bar-section
       %ul.left
         %li.has-form
-          = link_to 'Log', log_entries_path, class: 'small button'
+          = link_to 'Log', log_entries_path, class: [:small, :button, :radius]
         %li
           = link_to 'Departments', departments_path
+        %li
+          = link_to 'Themes', themes_path

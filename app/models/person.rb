@@ -1,5 +1,6 @@
 class Person < ActiveRecord::Base
   before_validation :generate_display_name
+  after_save :create_profile
 
   validates :first_name, presence: true, length: { minimum: 2 }
   validates :last_name, presence: true, length: { minimum: 2 }
@@ -25,6 +26,7 @@ class Person < ActiveRecord::Base
   has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
   has_many :device_deployments
   has_many :devices
+
 
   def self.return_from_connect_user(connect_user)
     email = connect_user.email
@@ -143,6 +145,10 @@ class Person < ActiveRecord::Base
 
   def generate_display_name
     self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+  end
+
+  def create_profile
+    Profile.find_or_create_by person: self
   end
 
 end

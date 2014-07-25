@@ -23,7 +23,12 @@
               = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
               = yield :action_buttons
             = yield :header
-          .notices= notice
+          .notices
+            - flash.each do |name, msg|
+              - if msg.is_a?(String)
+                .alert-box{ class: (name.to_s == 'notice' ? 'success' : 'alert'), data: { alert: '' } }
+                  = content_tag :div, msg
+                  %a.close(href='#') &times;
         .slider= yield :slider
         #container
           %section#content

@@ -45,7 +45,7 @@
         %a{ href: "#" }= current_user.email
         %ul.dropdown
           %li
-            = link_to icon('widget') + ' My Settings', '#'
+            = link_to icon('widget') + ' My Settings', edit_person_profile_path(current_user)
           %li.divider
           %li
             = link_to icon('x') + ' Sign Out', logout_path

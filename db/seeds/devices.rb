@@ -23,8 +23,26 @@ device_state_emails = [
 
 movements = ConnectAssetMovement.ascending_by_asset
 
+# assets = Hash.new
+# for movement in movements do
+#   assets[movement.connect_asset] = Array.new unless assets[movement.connect_asset]
+#   asset_movements = assets[movement.connect_asset]
+#   asset_movements.push movement
+#   assets[movement.connect_asset] = asset_movements
+# end
+#
+# for records in assets do
+#   asset = records[0]
+#   movements = records[1]
+#   next unless asset and movements
+#   next unless asset.serial
+#
+#
+# end
+
 asset_id = '42'
 for movement in movements do
+  next unless movement.connect_asset and movement.connect_asset.serial
   # Reset the counter for each new asset
   if asset_id != movement.rc_asset_id
     movement_counter = 0

@@ -12,5 +12,3 @@ DeviceManufacturer.destroy_all
 DeviceState.destroy_all
 Device.destroy_all
 LogEntry.destroy_all
-
-LogEntry.where("trackable_type = 'Device' or trackable_type = 'DeviceDeployment'").destroy_all

@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_current_user
-    @current_person = ConnectUser.find_by_username session[:cas_user] if session[:cas_user]
+    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user]
   end
 
   def current_user
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    # @current_theme = 'dark'
+    # current_theme = 'dark'
   end
 
   helper_method :current_user

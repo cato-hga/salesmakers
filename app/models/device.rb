@@ -163,6 +163,7 @@ class Device < ActiveRecord::Base
       # If it's a state email, no User is fetched.
       to_person = nil
     end
+    return unless to_person
     # Recoup the Device if necessary
     self.recoup_from_connect_asset_movement movement, created_by
     # Remove all states from the Device

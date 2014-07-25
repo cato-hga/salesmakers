@@ -105,6 +105,7 @@ RSpec.describe Person, :type => :model do
       @person.home_phone = '2120111234'
       should_not be_valid
     end
+
   end
 
   # TODO: Make importing tests work

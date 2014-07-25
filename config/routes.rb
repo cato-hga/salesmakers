@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
     end
+    resource :profile, only: [:edit, :update]
   end
 
   resources :lines
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
     resources :positions
   end
 
-
+  resources :themes, except: [:show]
 
   get 'widgets/sales'
   get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'

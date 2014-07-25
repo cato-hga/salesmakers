@@ -112,4 +112,14 @@ FactoryGirl.define do
     mobile_phone '8137164150'
     position { build_stubbed :von_retail_sales_specialist_position }
   end
+
+  factory :smiles_profile, class: Profile do
+    person { build_stubbed :smiles }
+    theme_name 'dark'
+  end
+
+  factory :dark_theme, class: Theme do
+    name 'dark'
+    display_name 'Dark'
+  end
 end
