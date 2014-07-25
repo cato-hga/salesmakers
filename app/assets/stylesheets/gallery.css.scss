@@ -1,0 +1,13 @@
+.thumbs {
+	display: table;
+	.tenth {
+		display: table-cell;
+		vertical-align: top;
+		img.thumb {
+			width: 100%;
+			vertical-align: top;
+			margin-bottom: 1em;
+			padding-right: 1em;
+		}
+	}
+}

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'gallery/index'
+
   root 'home#index'
   resources :home, only: [ :index ]
   resources :people do
