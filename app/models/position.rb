@@ -4,6 +4,7 @@ class Position < ActiveRecord::Base
 
   belongs_to :department
   has_many :people
+  has_and_belongs_to_many :permissions
 
   def self.return_from_connect_user(connect_user)
     pos_uf = Position.find_by_name 'Unclassified Field Employee'
