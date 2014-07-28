@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include SentientController
+  include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user, :get_projects

@@ -24,7 +24,7 @@ class Mojo
 
   def creator_all_tickets(email, max = 20)
     query = 'created_by_email:("' + email + '")'
-    tickets = doGet('/tickets/search/', { query: query, per_page: max })
+    tickets = doGet('/tickets/search/', { query: query, per_pagfactoe: max })
     max_index = max-1 #TODO: SORTby last-changed
     tickets[ 0..max_index ]
   end
