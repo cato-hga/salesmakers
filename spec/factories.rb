@@ -126,4 +126,10 @@ FactoryGirl.define do
   factory :people_permission_group, class: PermissionGroup do
     name 'People'
   end
+
+  factory :person_edit_permission, class: Permission do
+    key 'person_edit'
+    description 'Can edit people'
+    permission_group { build_stubbed :people_permission_group }
+  end
 end
