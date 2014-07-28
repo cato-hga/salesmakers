@@ -122,4 +122,8 @@ FactoryGirl.define do
     name 'dark'
     display_name 'Dark'
   end
+
+  factory :people_permission_group, class: PermissionGroup do
+    name 'People'
+  end
 end
