@@ -14,12 +14,17 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'pundit/rspec'
 
 RSpec.configure do |config|
 
-  config.before(:suite) do
-  FactoryGirl.lint
+  config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
+  end
+
+  config.before(:suite) do
+    FactoryGirl.lint
+
   end
 
 

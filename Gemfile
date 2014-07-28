@@ -26,7 +26,7 @@ gem 'namecase', '1.1.0'
 gem 'foundation-icons-sass-rails', '3.0.0'
 gem 'groupdate', '2.2.1'
 gem 'swiper-rails', '1.0.2'
-gem 'pundit', '0.2.3'
+gem 'pundit', git: 'https://github.com/elabs/pundit.git'
 
 group :development do
   gem 'letter_opener', '1.2.0'

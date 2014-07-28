@@ -28,7 +28,6 @@ class Person < ActiveRecord::Base
   has_many :devices
   has_one :profile
 
-
   def self.return_from_connect_user(connect_user)
     email = connect_user.email
     first_name = connect_user.firstname

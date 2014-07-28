@@ -1,2 +1,3 @@
 class PermissionGroupsController < ApplicationController
+
 end
