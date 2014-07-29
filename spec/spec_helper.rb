@@ -15,18 +15,13 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'pundit/rspec'
+require 'database_cleaner'
 
 RSpec.configure do |config|
 
   config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
-
-  config.before(:suite) do
-    FactoryGirl.lint
-
-  end
-
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.

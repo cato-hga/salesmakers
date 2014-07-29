@@ -110,7 +110,7 @@ FactoryGirl.define do
     email 'smiles@retaildoneright.com'
     personal_email 'milessa42@gmail.com'
     mobile_phone '8137164150'
-    position { build_stubbed :senior_software_developer }
+    position { create :senior_software_developer }
   end
 
   factory :senior_software_developer, class: Position do
@@ -118,8 +118,8 @@ FactoryGirl.define do
     leadership true
     all_field_visibility true
     all_corporate_visibility true
-    department { build_stubbed :information_technology_department }
-    after(:stub) do |position|
+    department { create :information_technology_department }
+    after(:create) do |position|
       position.permissions = [ create(:permission_group_index_permission) ]
     end
   end
@@ -127,7 +127,7 @@ FactoryGirl.define do
   factory :permission_group_index_permission, class: Permission do
     key 'permission_group_index'
     description 'Can view index of permission groups'
-    permission_group { build_stubbed :permissions_permission_group }
+    permission_group { create :permissions_permission_group }
   end
 
   factory :permissions_permission_group, class: PermissionGroup do
