@@ -1,160 +1,114 @@
 FactoryGirl.define do
-  factory :von_retail_sales_department, class: Department do
+  factory :department do
     name 'Vonage Retail Sales'
     corporate false
   end
 
-  factory :von_retail_sales_specialist_position, class: Position do
+  factory :position do
     name 'Vonage Retail Sales Specialist'
     leadership false
     all_field_visibility false
     all_corporate_visibility false
-    department { build_stubbed :von_retail_sales_department }
+    department
   end
 
-  factory :von_retail_sales_specialist_person, class: Person do
+  factory :person do
     first_name 'Test'
     last_name 'User'
-    display_name 'Test User'
     email 'test123omgstupidfactories@rbd-von.com'
-    personal_email 'icheckthistoomuch@gmail.com'
-    office_phone '7274985180'
     mobile_phone '5551234567'
-    home_phone '7895123012'
-    position { build_stubbed :von_retail_sales_specialist_position }
-    eid 55555
+    position
   end
 
-  factory :von_client, class: Client do
+  factory :client do
      name 'Vonage'
   end
 
-  factory :von_retail_project, class: Project do
+  factory :project do
     name 'Vonage Retail'
-    client { build_stubbed :von_client }
+    client
   end
 
-  factory :von_region_area_type, class: AreaType do
+  factory :area_type do
     name 'Vonage Retail Region'
-    project { build_stubbed :von_retail_project }
+    project
   end
 
-  factory :von_east_retail_region_area, class: Area do
+  factory :area do
     name 'East Retail Region'
-    area_type { build_stubbed :von_region_area_type }
-    project { build_stubbed :von_retail_project }
+    area_type
+    project
   end
 
-  factory :von_retail_east_sales_specialist_person_area, class: PersonArea do
-    person { build_stubbed :von_retail_sales_specialist_person }
-    area { build_stubbed :von_east_retail_region_area }
+  factory :person_area do
+    association :person, strategy: :build
+    area
     manages false
   end
 
-  factory :verizon_technology_service_provider, class: TechnologyServiceProvider do
+  factory :technology_service_provider do
     name 'Verizon'
   end
 
-  factory :verizon_line, class: Line do
+  factory :line do
     identifier '7274985180'
+    technology_service_provider
     contract_end_date Date.today + 3.months
-    technology_service_provider { build_stubbed :verizon_technology_service_provider }
   end
 
-  factory :suspended_line_state, class: LineState do
+  factory :line_state do
     name 'Suspended'
   end
 
-  factory :samsung_device_manufacturer, class: DeviceManufacturer do
+  factory :device_manufacturer do
     name 'Samsung'
   end
 
-  factory :samsung_galaxytab3_device_model, class: DeviceModel do
+  factory :device_model do
     name 'GalaxyTab 3'
-    device_manufacturer { build_stubbed :samsung_device_manufacturer }
+    device_manufacturer
   end
 
-  factory :samsung_galaxytab3_device, class: Device do
+  factory :device do
     identifier '12345'
     serial '256691513608935569'
-    device_model { build_stubbed :samsung_galaxytab3_device_model }
-    line { build_stubbed :verizon_line }
-    person { build_stubbed :von_retail_sales_specialist_person }
-    secondary_identifier '99000000'
+    device_model
+    line
   end
 
-  factory :repair_device_state, class: DeviceState do
+  factory :device_state do
     name 'Repair'
   end
 
-  factory :create_person_log_entry, class: LogEntry do
-    person { build_stubbed :von_retail_sales_specialist_person }
+  factory :log_entry do
+    association :person, strategy: :build
     action 'create'
-    trackable { build_stubbed :samsung_galaxytab3_device }
+    trackable { build :device }
   end
 
 
-  factory :device_deployment, class: DeviceDeployment do
-    device { build_stubbed :samsung_galaxytab3_device }
-    person { build_stubbed :von_retail_sales_specialist_person }
+  factory :device_deployment do
+    device
+    person
     started Date.today - 2.months
-    ended Date.today - 3.days
-    tracking_number '12345678910'
-    comment 'This is a comment'
   end
 
-  factory :smiles, class: Person do
-    first_name 'Stephen'
-    last_name 'Miles'
-    display_name 'Stephen Miles'
-    email 'smiles@retaildoneright.com'
-    personal_email 'milessa42@gmail.com'
-    mobile_phone '8137164150'
-    position { create :senior_software_developer }
-  end
-
-  factory :senior_software_developer, class: Position do
-    name 'Senior Software Developer'
-    leadership true
-    all_field_visibility true
-    all_corporate_visibility true
-    department { create :information_technology_department }
-    after(:create) do |position|
-      position.permissions = [ create(:permission_group_index_permission) ]
-    end
-  end
-
-  factory :permission_group_index_permission, class: Permission do
-    key 'permission_group_index'
-    description 'Can view index of permission groups'
-    permission_group { create :permissions_permission_group }
-  end
-
-  factory :permissions_permission_group, class: PermissionGroup do
+  factory :permission_group do
     name 'Permissions'
   end
 
-  factory :information_technology_department, class: Department do
-    name 'Information Technology'
+  factory :permission do
+    key 'permission_group_index'
+    description 'Can view index of permission groups'
+    permission_group
   end
 
-  factory :smiles_profile, class: Profile do
-    person { build_stubbed :smiles }
-    theme_name 'dark'
+  factory :profile do
+    association :person, strategy: :build
   end
 
-  factory :dark_theme, class: Theme do
+  factory :theme do
     name 'dark'
     display_name 'Dark'
-  end
-
-  factory :people_permission_group, class: PermissionGroup do
-    name 'People'
-  end
-
-  factory :person_edit_permission, class: Permission do
-    key 'person_edit'
-    description 'Can edit people'
-    permission_group { build_stubbed :people_permission_group }
   end
 end

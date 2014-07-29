@@ -35,7 +35,4 @@ describe 'GroupMe API' do
       expect(message.likes).to be >= 3
     end
   end
-
-
-
 end

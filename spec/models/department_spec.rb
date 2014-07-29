@@ -5,7 +5,7 @@ RSpec.describe Department, :type => :model do
 
   describe 'Validations' do
     before(:each) do
-      @department = FactoryGirl.build :von_retail_sales_department
+      @department = FactoryGirl.build :department
     end
 
     subject { @department }
