@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :person_area do
-    association :person, strategy: :build
+    person
     area
     manages false
   end

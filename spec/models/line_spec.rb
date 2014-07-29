@@ -2,27 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Line, :type => :model do
 
-  describe 'Validations' do
-    before(:each) do
-      @line = FactoryGirl.build :verizon_line
-    end
+  it { should ensure_length_of(:identifier).is_at_least(10) }
+  it { should validate_presence_of(:contract_end_date) }
+  it { should validate_presence_of(:technology_service_provider) }
 
-    subject { @line }
-
-    it 'should have an identifier at least 10 characters long' do
-      @line.identifier = '123456789'
-      should_not be_valid
-    end
-
-    it 'should require a contract end date' do
-      @line.contract_end_date = nil
-      should_not be_valid
-    end
-
-    it 'should require a technology service provider' do
-      @line.technology_service_provider = nil
-      should_not be_valid
-    end
-
-  end
 end

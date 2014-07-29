@@ -45,6 +45,7 @@ group :test do
   gem 'factory_girl_rails', '4.4.1'
   gem 'database_cleaner', '1.3.0'
   gem 'simplecov', '0.9.0', require: false
+  gem 'shoulda-matchers', '2.6.2', require: false
 end
 
 group :development, :test do

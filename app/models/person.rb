@@ -1,4 +1,6 @@
 class Person < ActiveRecord::Base
+
+  #TODO: Take out presence:true where minimum_length is present
   before_validation :generate_display_name
   after_save :create_profile
 
@@ -144,6 +146,7 @@ class Person < ActiveRecord::Base
   private
 
   def generate_display_name
+    return unless first_name and last_name
     self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
   end
 
