@@ -33,8 +33,7 @@
   .large-8.columns
     .actions
       - unless @device.device_states.include? deployed
-        = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: 'button' #TODO: Link to new deployment
-      - if @device.device_states.include? deployed
+        = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: 'button'
         %button.btn.btn-success(type="button") Recoup
       - if not @device.device_states.include? write_off and @device.device_states.include? deployed
         %button.btn.btn-danger(type="button") Write Off

@@ -17,4 +17,3 @@ $(function() {
 	});
 });
 
-//TODO: People should not be able to sort the left hand column

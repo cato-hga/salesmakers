@@ -1,11 +1,12 @@
 - title @person.display_name
 %ul.breadcrumbs
   -#TODO: Make breadcrumbs mobile friendly
+  -#TODO: Add an area link helper
   - for area in @person.areas
     = link_to area.project.client.name, area.project.client
-    = link_to area.project.name, '#' #TODO: Replace link after projects controller is created
+    = link_to area.project.name, client_project_path(area.project.client, area.project)
     - for parent_area in area.path
-      = link_to parent_area.name, '#' #TODO: Replace link after area controller is created
+      = link_to parent_area.name, client_project_path(area.project.client, area.project)
 .widgets.row.full-width
   .row.full-width
     .large-4.columns.widget
@@ -104,7 +105,6 @@
   .large-6.columns.widget
     .inner
       %h2 Online Training
-      -#TODO: Fix spacing
       .row.full-width
         .large-3.columns
           %strong 7 Steps to Yes!

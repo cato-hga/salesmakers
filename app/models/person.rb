@@ -1,14 +1,13 @@
 class Person < ActiveRecord::Base
 
-  #TODO: Take out presence:true where minimum_length is present
   before_validation :generate_display_name
   after_save :create_profile
 
-  validates :first_name, presence: true, length: { minimum: 2 }
-  validates :last_name, presence: true, length: { minimum: 2 }
-  validates :display_name, presence: true, length: { minimum: 5 }
-  validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true #TODO Prompt for valid email
-  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, allow_blank: true #TODO Prompt for valid email
+  validates :first_name, length: { minimum: 2 }
+  validates :last_name, length: { minimum: 2 }
+  validates :display_name, length: { minimum: 5 }
+  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true, message: 'must be a valid email address'
+  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, allow_blank: true, message: 'must be a valid email address'
   validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
   validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
   validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
@@ -46,9 +45,6 @@ class Person < ActiveRecord::Base
     person = Person.find_by_email email
     creator = createdby ? Person.find_by_connect_user_id(createdby) : nil
     supervisor = supervisor_id ? Person.find_by_connect_user_id(supervisor_id) : nil
-
-    # TODO: Debug output
-    puts email
 
     return person if person
     person = Person.create first_name: first_name,

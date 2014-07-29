@@ -1,5 +1,4 @@
 assigned
 = person_link log_entry.trackable
 to
-- # TODO: Links to areas
-= link_to log_entry.referenceable.name, '#'
+= link_to log_entry.referenceable.name, client_project_area_path(log_entry.referenceable.project.client, log_entry.referenceable.project, log_entry.referenceable)
