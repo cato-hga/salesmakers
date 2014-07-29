@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
   factory :profile do
-    association :person, strategy: :build
+    person
   end
 end

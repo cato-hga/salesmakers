@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :log_entry do
-    association :person, strategy: :build
+    person
     action 'create'
     trackable { build :device }
   end

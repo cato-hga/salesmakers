@@ -2,7 +2,7 @@ FactoryGirl.define do
 
   factory :device_deployment do
     device
-    association :person, strategy: :build
+    person
     started Date.today - 2.months
   end
 end
