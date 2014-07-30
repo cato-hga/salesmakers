@@ -27,6 +27,10 @@ gem 'foundation-icons-sass-rails', '3.0.0'
 gem 'groupdate', '2.2.1'
 gem 'swiper-rails', '1.0.2'
 gem 'pundit', git: 'https://github.com/elabs/pundit.git'
+gem 'capistrano', '3.2.1'
+gem 'capistrano-bundler', '1.1.2'
+gem 'capistrano-rails', '1.1.1'
+gem 'capistrano-rvm', '0.1.1'
 
 group :development do
   gem 'letter_opener', '1.2.0'
@@ -52,4 +56,8 @@ group :development, :test do
   gem 'rspec-rails', '3.0.1'
   gem 'faker', '1.3.0'
   gem 'stack_rescue', '0.0.1'
+end
+
+group :production do
+  gem 'puma', '2.9.0'
 end
