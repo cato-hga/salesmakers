@@ -1,12 +1,10 @@
 - title @person.display_name
 %ul.breadcrumbs
-  -#TODO: Make breadcrumbs mobile friendly
-  -#TODO: Add an area link helper
   - for area in @person.areas
-    = link_to area.project.client.name, area.project.client
-    = link_to area.project.name, client_project_path(area.project.client, area.project)
+    %li= link_to area.project.client.name, area.project.client
+    %li= link_to area.project.name, client_project_path(area.project.client, area.project)
     - for parent_area in area.path
-      = link_to parent_area.name, client_project_path(area.project.client, area.project)
+      %li= area_link(parent_area)
 .widgets.row.full-width
   .row.full-width
     .large-4.columns.widget
@@ -97,7 +95,7 @@
               = description
             %span.small.comment.right.vertical_space
               Last Changed
-              - updated = Date.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
+              - updated = Time.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
               = updated.strftime '%m/%d/%Y %-l:%M%P'
       .vertical_space
 

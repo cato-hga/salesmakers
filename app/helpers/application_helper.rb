@@ -3,12 +3,16 @@ module ApplicationHelper
     content_for(:title) { page_title }
   end
 
-  def person_area_links(person, classes)
+  def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do
       links << link_to(area.name, client_project_area_path(area.project.client, area.project, area), class: classes)
     end
     links.join(', ').html_safe
+  end
+
+  def area_link(area)
+    link_to area.name, client_project_area_path(area.project.client, area.project, area)
   end
 
   def phone_link(phone,classes)

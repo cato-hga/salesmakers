@@ -16,11 +16,33 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'pundit/rspec'
 require 'database_cleaner'
+require 'factory_girl'
 
 RSpec.configure do |config|
 
   config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
+  end
+
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
   end
 
 # The settings below are suggested to provide a good initial experience

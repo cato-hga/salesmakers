@@ -6,8 +6,8 @@ class Person < ActiveRecord::Base
   validates :first_name, length: { minimum: 2 }
   validates :last_name, length: { minimum: 2 }
   validates :display_name, length: { minimum: 5 }
-  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, uniqueness: true, message: 'must be a valid email address'
-  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/ }, allow_blank: true, message: 'must be a valid email address'
+  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
+  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
   validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
   validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
   validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
@@ -16,10 +16,7 @@ class Person < ActiveRecord::Base
   validates :mobile_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.home_phone }
   validates :connect_user_id, uniqueness: true, allow_nil: true
 
-  # TODO: Test for unique email and connect_user_id
-
   belongs_to :position
-  #TODO Why the hell does this need to be belongs_to instead of has_one?
   belongs_to :connect_user
   has_many :person_areas
   has_many :areas, through: :person_areas

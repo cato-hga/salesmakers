@@ -181,6 +181,12 @@ body {
 	clear: both;
 }
 
+.breadcrumbs {
+	li {
+		line-height: 2em;
+	}
+}
+
 
 
 @media (min-width: $mobile_cutoff){

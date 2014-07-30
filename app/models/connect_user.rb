@@ -4,7 +4,7 @@ class ConnectUser < ConnectModel
 
   has_many :connect_regions,
            foreign_key: 'salesrep_id'
-  has_one :user
+  has_one :person
   belongs_to :supervisor,
              class_name: 'ConnectUser'
   has_many :employees,

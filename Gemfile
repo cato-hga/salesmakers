@@ -51,4 +51,5 @@ end
 group :development, :test do
   gem 'rspec-rails', '3.0.1'
   gem 'faker', '1.3.0'
+  gem 'stack_rescue', '0.0.1'
 end
