@@ -12,7 +12,7 @@ class LogEntry < ActiveRecord::Base
   default_scope { order('created_at DESC') }
 
   def self.person_onboarded_from_connect(person, creator, created = nil, updated = nil)
-    return unless person and creator
+    return unless person and creator and person.valid? and creator.valid?
     entry = self.new action: 'create',
                      trackable: person,
                      person: creator
@@ -22,7 +22,7 @@ class LogEntry < ActiveRecord::Base
   end
 
   def self.position_set_from_connect(person, creator, position, created = nil, updated = nil)
-    return unless person and creator and position
+    return unless person and creator and position and person.valid? and creator.valid? and position.valid?
     entry = self.new action: 'set_position',
                      trackable: person,
                      referenceable: position,
@@ -33,17 +33,17 @@ class LogEntry < ActiveRecord::Base
   end
 
   def self.assign_as_manager_from_connect(person, creator, area, created = nil, updated = nil)
-    return unless person and creator and area
+    return unless person and creator and area and person.valid? and creator.valid? and area.valid?
     assign_to_area_from_connect 'assign_as_manager', person, creator, area, created, updated
   end
 
   def self.assign_as_employee_from_connect(person, creator, area, created = nil, updated = nil)
-    return unless person and creator and area
+    return unless person and creator and area and person.valid? and creator.valid? and area.valid?
     assign_to_area_from_connect 'assign_as_employee', person, creator, area, created, updated
   end
 
   def self.assign_to_area_from_connect(action, person, creator, area, created = nil, updated = nil)
-    return unless action and person and creator and area
+    return unless action and person and creator and area and person.valid? and creator.valid? and area.valid?
     entry = LogEntry.new action: action,
                          trackable: person,
                          referenceable: area,
