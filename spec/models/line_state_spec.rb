@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'shoulda/matchers'
 
 RSpec.describe LineState, :type => :model do
 

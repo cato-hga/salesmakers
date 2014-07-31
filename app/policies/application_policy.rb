@@ -15,7 +15,7 @@ class ApplicationPolicy
   end
 
   def create?
-    false
+    has_permission? 'create'
   end
 
   def new?
@@ -23,7 +23,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    has_permission? 'update'
   end
 
   def edit?
@@ -31,7 +31,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    has_permission? 'destroy'
   end
 
   def scope
@@ -42,8 +42,6 @@ class ApplicationPolicy
 
   def has_permission?(permission_name)
     key = @record.class.name.underscore + '_' + permission_name
-    puts @user.inspect
-    puts @user.position.inspect
     return false unless @user and @user.position
     permission = Permission.find_by key: key
     return false unless permission
