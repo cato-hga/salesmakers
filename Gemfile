@@ -28,9 +28,10 @@ gem 'groupdate', '2.2.1'
 gem 'swiper-rails', '1.0.2'
 gem 'pundit', git: 'https://github.com/elabs/pundit.git'
 gem 'capistrano', '3.2.1'
-gem 'capistrano-bundler', '1.1.2'
-gem 'capistrano-rails', '1.1.1'
-gem 'capistrano-rvm', '0.1.1'
+gem 'capistrano-bundler', '1.1.2', require: false
+gem 'capistrano-rails', '1.1.1', require: false
+gem 'capistrano-rvm', '0.1.1', require: false
+gem 'capistrano-puma', '0.2.3', require: false
 gem 'puma', '2.9.0'
 gem 'foreman', '0.74.0'
 

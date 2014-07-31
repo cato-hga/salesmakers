@@ -22,4 +22,4 @@
 /.idea/workspace.xml
 /.idea/reconnect.iml
 .idea/*
-.rvmrc
+.rvmrcconfig/database.yml
