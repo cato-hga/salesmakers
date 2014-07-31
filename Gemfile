@@ -31,7 +31,7 @@ gem 'capistrano', '3.2.1'
 gem 'capistrano-bundler', '1.1.2', require: false
 gem 'capistrano-rails', '1.1.1', require: false
 gem 'capistrano-rvm', '0.1.1', require: false
-gem 'capistrano-puma', '0.2.3', require: false
+gem 'capistrano3-puma', '0.6.1', require: false
 gem 'puma', '2.9.0'
 gem 'foreman', '0.74.0'
 
