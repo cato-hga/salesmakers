@@ -18,7 +18,6 @@
       - states = device_state_links device
       - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
     = table header, rows
-    -#TODO: Replace with partial for device table ^
 %h2 New Deployment Information
 = form_for @device_deployment, url: new_device_device_deployments_path(@device, @person), method: :post do |f|
   = f.label :tracking_number

@@ -28,6 +28,4 @@ describe 'Mojo API' do
       expect(ticket['ticket']['user_id']).to be 641491
     end
   end
-
-  #TODO Test open tickets by creator
 end

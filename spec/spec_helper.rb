@@ -15,6 +15,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'pundit/rspec'
+require 'database_cleaner'
+require 'factory_girl'
 
 RSpec.configure do |config|
 
@@ -22,16 +24,31 @@ RSpec.configure do |config|
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
 
-  config.before(:suite) do
-    FactoryGirl.lint
+  config.include FactoryGirl::Syntax::Methods
 
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
   end
 
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
-  # These two settings work together to allow you to limit a spec run
+  # These two settings work togethquire 'database_cleaner'er to allow you to limit a spec run
   # to individual examples or groups you care about by tagging them with
   # `:focus` metadata. When nothing is tagged with `:focus`, all examples
   # get run.

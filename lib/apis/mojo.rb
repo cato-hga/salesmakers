@@ -18,20 +18,20 @@ class Mojo
 
   def creator_open_tickets(email)
     query = 'created_by_email:("' + email + '") AND status_id:(<50)'
-    tickets = doGet('/tickets/search/', { query: query })
+    tickets = doGet('/tickets/search/', { query: query, sf: 'updated_on', r: 1 })
     tickets
   end
 
   def creator_all_tickets(email, max = 20)
     query = 'created_by_email:("' + email + '")'
-    tickets = doGet('/tickets/search/', { query: query, per_pagfactoe: max })
-    max_index = max-1 #TODO: SORTby last-changed
+    tickets = doGet('/tickets/search/', { query: query, per_page: max, sf: 'updated_on', r: 1 })
+    max_index = max-1
     tickets[ 0..max_index ]
   end
 
   def assignee_open_tickets(email)
     query = 'assignee_email:("' + email + '") AND status_id:(<50)'
-    tickets = doGet('/tickets/search/', { query: query })
+    tickets = doGet('/tickets/search/', { query: query, sf: 'updated_on', r: 1  })
     tickets
   end
 

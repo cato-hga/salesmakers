@@ -3,13 +3,16 @@ module ApplicationHelper
     content_for(:title) { page_title }
   end
 
-  def person_area_links(person, classes)
+  def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do
-      #TODO Add controller path for areas
-      links << link_to(area.name, '#', class: classes)
+      links << link_to(area.name, client_project_area_path(area.project.client, area.project, area), class: classes)
     end
     links.join(', ').html_safe
+  end
+
+  def area_link(area)
+    link_to area.name, client_project_area_path(area.project.client, area.project, area)
   end
 
   def phone_link(phone,classes)
@@ -68,7 +71,6 @@ module ApplicationHelper
   def line_state_links(line)
     links = Array.new
     for state in line.line_states do
-      #TODO Add controller path for lines
       links << link_to(state.name, line)
     end
     links.join(', ').html_safe
@@ -77,7 +79,6 @@ module ApplicationHelper
   def device_state_links(device)
     links = Array.new
     for state in device.device_states do
-      #TODO Add controller path for devices
       links << link_to(state.name, device)
     end
     links.join(', ').html_safe

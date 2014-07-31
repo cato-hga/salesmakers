@@ -1,6 +1,6 @@
 .entry_type
   Set as Manager of
-  = link_to log_entry.referenceable.name, '#' #TODO: Link to area
+  = link_to log_entry.referenceable.name, client_project_area_path(log_entry.referenceable.project.client, log_entry.referenceable.project, log_entry.referenceable)
   .time_ago
     = time_ago_in_words(log_entry.created_at) + ' ago'
 .entry_pertains_to= person_link log_entry.trackable

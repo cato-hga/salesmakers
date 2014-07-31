@@ -1,4 +1,4 @@
-- title 'Select Person for ' + @device.serial #TODO: This breaks the position of search. Fix this
+- title 'Select Person for ' + @device.serial
 - content_for :header do
   = search_form_for @search, url: select_user_device_device_deployments_path(@device), class: 'search_form' do |f|
     - if not params[:q]
@@ -38,7 +38,6 @@
       - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: 'button tiny'
     - else
       - deploy_button = ''
-      -#TODO: Fix margins on these deploy buttons
     - rows << table_row([eid, display_name, email, phone, position, supervisor, area, deploy_button])
   = table header, rows
 

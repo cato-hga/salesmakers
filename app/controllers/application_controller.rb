@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
   end
 
   def get_projects
-    # TODO: Load projects based on Position
     @projects = Project.all
   end
 
