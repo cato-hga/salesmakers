@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  rescue_from Pundit::NotAuthorizedError, with: :permission_denied
+
   private
 
   def set_current_user
@@ -31,4 +33,9 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :current_theme
+
+  def permission_denied
+    flash[:error] = 'You are not authorized to perform that action'
+    redirect_to :back
+  end
 end

@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PermissionGroupsController, :type => :controller do
 
-  before(:all) do
-    redirect_back_to_home
-  end
+  Capybara.current_session.driver.header 'Referer', '/'
 
   describe 'Policy violations' do
 
@@ -13,7 +11,7 @@ RSpec.describe PermissionGroupsController, :type => :controller do
       person = create :person
       log_in person
       visit permission_groups_path
-      expect(page).to redirect_to(root_url)
+      expect(page).to redirect_to :back
     end
 
     it 'denies access to show without permission' do
