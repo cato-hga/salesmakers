@@ -46,6 +46,13 @@ Rails.application.routes.draw do
     resources :positions
   end
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      get 'people/onboard/:connect_user_id', to: 'people#onboard'
+      get 'people/separate/:connect_user_id', to: 'people#separate'
+    end
+  end
+
   resources :themes, except: [:show]
 
   get 'widgets/sales'
