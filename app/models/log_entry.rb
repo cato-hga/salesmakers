@@ -21,6 +21,18 @@ class LogEntry < ActiveRecord::Base
     entry.save
   end
 
+  def self.person_separated_from_connect(person, separator, separated_at = nil)
+    return unless person and separator and person.valid? and separator.valid?
+    entry = self.new action: 'separate',
+                     trackable: person,
+                     person: separator
+    if separated_at
+      entry.created_at = separated_at
+      entry.updated_at = separated_at
+    end
+    entry.save
+  end
+
   def self.position_set_from_connect(person, creator, position, created = nil, updated = nil)
     return unless person and creator and position and person.valid? and creator.valid? and position.valid?
     entry = self.new action: 'set_position',

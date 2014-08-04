@@ -10,6 +10,12 @@ class ConnectUser < ConnectModel
   has_many :employees,
            class_name: 'ConnectUser',
            foreign_key: 'supervisor_id'
+  belongs_to :creator,
+             class_name: 'ConnectUser',
+             foreign_key: 'createdby'
+  belongs_to :updater,
+             class_name: 'ConnectUser',
+             foreign_key: 'updatedby'
 
   def self.not_main_administrators
     self.where("username != 'retailingw@retaildoneright.com' AND username != 'aatkinson@retaildoneright.com' AND username != 'smiles@retaildoneright.com' AND (username LIKE '%@retaildoneright.com' OR username LIKE '%@rbd%.com') AND lower(firstname) != 'x' AND ad_org_id = '6B3C6669E32B43E1A1B14788C0CD0146' AND username NOT LIKE '%@%clear%.com'")

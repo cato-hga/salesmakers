@@ -6,7 +6,7 @@ class API::V1::PeopleController < API::BaseController
   end
 
   def separate
-    @person.update active: false
+    @person.separate_from_connect
     respond_with @person
   end
 

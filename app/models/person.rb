@@ -136,6 +136,20 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def separate_from_connect
+    connect_user = get_connect_user
+    return unless connect_user
+    separator = connect_user.updater
+    separated_at = connect_user.updated
+    if self.update(active: false, updated_at: separated_at)
+      LogEntry.person_separated_from_connect self, Person.return_from_connect_user(separator), separated_at
+    end
+  end
+
+  def get_connect_user
+    ConnectUser.find_by email: self.email
+  end
+
   private
 
   def generate_display_name
