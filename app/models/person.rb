@@ -141,13 +141,26 @@ class Person < ActiveRecord::Base
     return unless connect_user
     separator = connect_user.updater
     separated_at = connect_user.updated
-    if self.update(active: false, updated_at: separated_at)
-      LogEntry.person_separated_from_connect self, Person.return_from_connect_user(separator), separated_at
-    end
+    self.update(active: false, updated_at: separated_at)
   end
 
   def get_connect_user
     ConnectUser.find_by email: self.email
+  end
+
+  def separate
+    self.update(active: false, updated_at: separated_at)
+  end
+
+  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil)
+    return false unless self and self.id
+    entry = LogEntry.new person: self,
+                         action: action,
+                         trackable: trackable,
+                         referenceable: referenceable
+    entry.created_at = created_at if created_at
+    entry.updated_at = updated_at if updated_at
+    entry.save ? true : false
   end
 
   private

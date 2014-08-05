@@ -25,6 +25,12 @@ class ConnectUser < ConnectModel
     self.order :created
   end
 
+  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil)
+    person = Person.return_from_connect_user self
+    return false unless person
+    person.log?(action, trackable, referenceable, created_at, updated_at)
+  end
+
   def active?
     if isactive == 'Y'
       true

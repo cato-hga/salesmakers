@@ -17,7 +17,7 @@ RSpec.describe API::V1::PeopleController, :type => :controller do
     it 'creates a log entry upon import' do
       expect {
         onboard
-      }.to change(LogEntry.all, :count).by(1)
+      }.to change(LogEntry.all, :count).by_at_least(1)
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe API::V1::PeopleController, :type => :controller do
     it 'creates a log entry upon separation' do
       expect {
         separate
-      }.to change(LogEntry.all, :count).by(1)
+      }.to change(LogEntry.all, :count).by_at_least(1)
     end
   end
 end
