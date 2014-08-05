@@ -20,6 +20,7 @@ require 'factory_girl_rails'
 
 RSpec.configure do |config|
 
+
   config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end

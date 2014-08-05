@@ -55,6 +55,9 @@ Rails.application.routes.draw do
 
   resources :themes, except: [:show]
 
+  resources :permissions
+  resources :permission_groups
+
   get 'widgets/sales'
   get 'widgets/sales/people/:person_id', to: 'widgets#person_sales', as: 'person_sales_widget'
   get 'widgets/hours'
