@@ -68,12 +68,13 @@ $(function () {
 			speed: 600,
 			autoplay: 4000,
 			slidesPerView: slidesPer,
+			calculateHeight: true,
 			tdFlow: {
-				rotate: 30,
-				depth: 150,
-				stretch: 10,
+				rotate: 0,
+				depth: 300,
+				stretch: 0,
 				modifier: 1,
-				shadows: true
+				shadows: false
 			}
 		});
 	});

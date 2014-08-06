@@ -43,7 +43,7 @@
 // We use these to control various global styles
 // $body-bg: #fff;
 // $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+// $body-font-family: "Open Sans", "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
@@ -56,9 +56,9 @@
 // $default-float: left;
 
 // We use these as default colors throughout
-// $primary-color: #008CBA;
+$primary-color: #d62121;
 // $secondary-color: #e7e7e7;
-// $alert-color: #f04124;
+$alert-color: #d62121;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
@@ -77,11 +77,11 @@
 //Media Query Ranges
 //$small-range: (0em, 40em);
 //$medium-range: (40.063em, 70em);
-//$large-range: (70.063em, 90em);
+$large-range: (70.063em, 90em);
 //$xlarge-range: (90.063em, 120em);
 //$xxlarge-range: (120.063em, 99999999em);
 //
-//$screen: "only screen";
+$screen: "only screen";
 //
 //$landscape: "#{$screen} and (orientation: landscape)";
 //$portrait: "#{$screen} and (orientation: portrait)";
@@ -92,7 +92,7 @@
 //$medium-up: "#{$screen} and (min-width:#{lower-bound($medium-range)})";
 //$medium-only: "#{$screen} and (min-width:#{lower-bound($medium-range)}) and (max-width:#{upper-bound($medium-range)})";
 //
-//$large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
+$large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 //$large-only: "#{$screen} and (min-width:#{lower-bound($large-range)}) and (max-width:#{upper-bound($large-range)})";
 //
 //$xlarge-up: "#{$screen} and (min-width:#{lower-bound($xlarge-range)})";
@@ -1177,11 +1177,17 @@
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-// $topbar-bg-color: #333;
+ $topbar-bg-color: white ;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
-//$topbar-height: 2.8125rem;
+  $topbar-height: 60px;
+
+@media #{$large-up} {
+	nav {
+		height: auto !important;
+	}
+}
 // $topbar-margin-bottom: 0;
 
 // Controlling the styles for the title in the top bar
@@ -1189,33 +1195,42 @@
 // $topbar-title-font-size: rem-calc(17);
 
 // Style the top bar dropdown elements
-// $topbar-dropdown-bg: #333;
-// $topbar-dropdown-link-color: #fff;
-// $topbar-dropdown-link-bg: #333;
+$topbar-dropdown-bg: white;
+$topbar-dropdown-link-color: black;
+$topbar-dropdown-link-bg: white;
 // $topbar-dropdown-link-weight: $font-weight-normal;
 // $topbar-dropdown-toggle-size: 5px;
-// $topbar-dropdown-toggle-color: #fff;
+$topbar-dropdown-toggle-color: black;
 // $topbar-dropdown-toggle-alpha: 0.4;
+.top-bar-section .has-dropdown .dropdown li a {
+	border: solid #333 1px;
+	height: 45px;
+	margin-top: 45 / 3;
+}
+
+.top-bar-section .has-dropdown .dropdown li:not(.has-form) a:not(.button) {
+
+}
 
 // Set the link colors and styles for top-level nav
-// $topbar-link-color: #fff;
-// $topbar-link-color-hover: #fff;
+ $topbar-link-color: black;
+ $topbar-link-color-hover: $alert-color;
 // $topbar-link-color-active: #fff;
 // $topbar-link-color-active-hover: #fff;
 // $topbar-link-weight: $font-weight-normal;
-// $topbar-link-font-size: rem-calc(13);
+$topbar-link-font-size: rem-calc(14);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 // $topbar-link-bg: $topbar-bg;
 // $topbar-link-bg-color-hover: #272727;
-// $topbar-link-bg-hover: #272727;
+ $topbar-link-bg-hover: white;
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
 // $topbar-link-text-transform: none;
-// $topbar-link-padding: $topbar-height / 3;
+$topbar-link-padding: $topbar-height / 3;
 
 // $topbar-button-font-size: 0.75rem;
-// $topbar-button-top: 7px;
+$topbar-button-top: round(0.5*($topbar-height - 45)) + 7;
 
 // $topbar-dropdown-label-color: #777;
 // $topbar-dropdown-label-text-transform: uppercase;

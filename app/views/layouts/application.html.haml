@@ -13,7 +13,9 @@
 
   %body
 
-    = render "shared/top_navigation"
+    #header
+      = render "shared/top_navigation"
+      .clear
     .off-canvas-wrap{ data: { offcanvas: '' } }
       .inner-wrap
         = render "shared/off_canvas_navigation"

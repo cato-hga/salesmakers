@@ -73,11 +73,13 @@ sizes, pagination, etc.
 ================================================================*/
 .swiper-container,
 .swiper-placeholder {
-  height: 15em;
+    min-height: 15em;
 }
 
 .swiper-container {
     text-align: left;
+    padding: 0.5em 0;
+
 }
 
 .swiper-placeholder {
@@ -92,14 +94,24 @@ sizes, pagination, etc.
 
 .swiper-slide {
     padding: 0 1em 0;
-    background-color: #666;
-    color: white;
-    -moz-border-radius: 1em;
-    border-radius: 1em;
+    /*background-color: #fff;*/
+    color: black;
+    /*-moz-border-radius: 1em;*/
+    /*border-radius: 1em;*/
+    box-shadow: 2px 2px 2px #bbb;
+    background: #ffffff; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ffffff), color-stop(94%, #eaeaea), color-stop(100%, #dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .swiper-slide a {
-    color: #f04124;
+    color: #d62121;
 }
 
 .swiper-slide .post img {
@@ -127,10 +139,12 @@ sizes, pagination, etc.
     min-height: 15em;
 }
 .swiper-slide-active {
-    border-right: 1px dotted black;
-    border-left: 1px dotted black;
-    background-color: black;
-    color: white;
+    /*border: 1px dotted #d62121;
+    #border-left: 1px dotted #d62121;*/
+    background: white;
+    color: black;
+    box-shadow: 2px 2px 2px #bbb;
+    height: 14.75em;
 
 }
 
