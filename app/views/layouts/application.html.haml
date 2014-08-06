@@ -19,7 +19,7 @@
     .off-canvas-wrap{ data: { offcanvas: '' } }
       .inner-wrap
         = render "shared/off_canvas_navigation"
-        #container
+        .container
           %header
             %h1
               = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
@@ -32,7 +32,7 @@
                   = content_tag :div, msg
                   %a.close(href='#') &times;
         .slider= yield :slider
-        #container
+        .container
           %section#content
             = yield
 

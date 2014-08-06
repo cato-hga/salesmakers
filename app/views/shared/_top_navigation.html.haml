@@ -3,51 +3,51 @@
     %li
       %a= link_to image_tag('logo_nav.png'), root_path
   %section.top-bar-section
-    %ul.right
-      %li.has-dropdown
-        = link_to 'Projects', '#'
-        %ul.dropdown
-          - for project in @projects
-            %li.has-dropdown
-              = link_to project.name, '#'
-              %ul.dropdown
-                %li
-                  %a{ href: "#" } Sales Entry
-                %li.has-dropdown
-                  %a{ href: "#" } Areas &amp; Locations
-                  %ul.dropdown
-                    %li
-                      = link_to 'Area Types', client_project_area_types_path(project.client, project)
-                    %li
-                      = link_to 'Areas', client_project_areas_path(project.client, project)
-                %li
-                  %a{ href: "#" } Gift Cards
-                %li.divider
-                %li
-                  = link_to 'Edit Project', edit_client_project_path(project.client, project)
-      %li
-        = link_to icon('torso-business') + ' Clients', clients_path
-      %li
-        %a= link_to icon('torsos-all') + ' People', people_path
-      %li
-        = link_to icon('clipboard-pencil') + ' Training', '#'
-      %li.has-dropdown
-        = link_to icon('tablet-portrait') + ' Assets', devices_path
-        %ul.dropdown
-          %li
-            = link_to 'Devices', devices_path
-          %li
-            = link_to 'Lines', lines_path
-      %li
-        = link_to icon('graph-bar') + ' Reports', reports_path
-      %li.divider
-      %li.has-dropdown
-        %a{ href: "#" }= current_user.email
-        %ul.dropdown
-          %li
-            = link_to icon('widget') + ' My Settings', edit_person_profile_path(current_user)
-          %li.divider
-          %li
-            = link_to icon('x') + ' Sign Out', logout_path
-      %li.has-form
-        = link_to icon('asterisk') + ' Help', '#', class: 'small button radius'
+    .right
+      %ul.left
+        %li.has-dropdown
+          = link_to 'Projects', '#'
+          %ul.dropdown
+            - for project in @projects
+              %li.has-dropdown
+                = link_to project.name, '#'
+                %ul.dropdown
+                  %li
+                    %a{ href: "#" } Sales Entry
+                  %li.has-dropdown
+                    %a{ href: "#" } Areas &amp; Locations
+                    %ul.dropdown
+                      %li
+                        = link_to 'Area Types', client_project_area_types_path(project.client, project)
+                      %li
+                        = link_to 'Areas', client_project_areas_path(project.client, project)
+                  %li
+                    %a{ href: "#" } Gift Cards
+                  %li.divider
+                  %li
+                    = link_to 'Edit Project', edit_client_project_path(project.client, project)
+        %li
+          = link_to icon('torso-business') + ' Clients', clients_path
+        %li
+          %a= link_to icon('torsos-all') + ' People', people_path
+        %li
+          = link_to icon('clipboard-pencil') + ' Training', '#'
+        %li.has-dropdown
+          = link_to icon('tablet-portrait') + ' Assets', devices_path
+          %ul.dropdown
+            %li
+              = link_to 'Devices', devices_path
+            %li
+              = link_to 'Lines', lines_path
+        %li
+          = link_to icon('graph-bar') + ' Reports', reports_path
+        %li.has-dropdown
+          %a{ href: "#" }= current_user.email
+          %ul.dropdown
+            %li
+              = link_to icon('widget') + ' My Settings', edit_person_profile_path(current_user)
+            %li.divider
+            %li
+              = link_to icon('x') + ' Sign Out', logout_path
+        %li.has-form
+          = link_to icon('asterisk') + ' Help', '#', class: 'small button radius'

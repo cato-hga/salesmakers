@@ -48,6 +48,15 @@
       = link_to icon('x') + ' Sign Out', logout_path
   %ul.off-canvas-list
     %li
+      %label Super User
+    %li
+      = link_to 'Log', log_entries_path
+    %li
+      = link_to 'Departments', departments_path
+    %li
+      = link_to 'Themes', themes_path
+  %ul.off-canvas-list
+    %li
       %label Support
     %li
       = link_to icon('asterisk') + ' Help', '#'

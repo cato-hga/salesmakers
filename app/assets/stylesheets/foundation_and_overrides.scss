@@ -47,6 +47,8 @@
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
+$font-weight-bold: bold;
+
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
 
@@ -509,7 +511,7 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 // We use these to style the labels in different ways
 // $form-label-pointer: pointer;
 // $form-label-font-size: rem-calc(14);
-// $form-label-font-weight: $font-weight-normal;
+$form-label-font-weight: $font-weight-bold;
 // $form-label-line-height: 1.5;
 // $form-label-font-color: scale-color(#000, $lightness: 30%);
 // $form-label-small-transform: capitalize;
@@ -668,18 +670,18 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 
 // $include-html-off-canvas-classes: $include-html-classes;
 
-// $tabbar-bg: #333;
+$tabbar-bg: white;
 // $tabbar-height: rem-calc(90);
 // $tabbar-line-height: $tabbar-height;
-// $tabbar-color: #fff;
+//$tabbar-color: $primary-color;
 // $tabbar-middle-padding: 0 rem-calc(10);
 
 // Off Canvas Divider Styles
 // $tabbar-right-section-border: solid 1px scale-color($tabbar-bg, $lightness: 13%);
-// $tabbar-left-section-border: solid 1px scale-color($tabbar-bg, $lightness: -50%);
+$tabbar-left-section-border: solid 2px $primary-color;
 
 // Off Canvas Tab Bar Headers
-// $tabbar-header-color: #fff;
+$tabbar-header-color: $primary-color;
 // $tabbar-header-weight: $font-weight-bold;
 // $tabbar-header-line-height: $tabbar-height;
 // $tabbar-header-margin: 0;
@@ -702,7 +704,7 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 // $off-canvas-link-border-bottom: 1px solid scale-color($off-canvas-bg, $lightness: -25%);
 
 // Off Canvas Menu Icon Variables
-// $tabbar-menu-icon-color: #fff;
+$tabbar-menu-icon-color: $primary-color;
 // $tabbar-menu-icon-hover: scale-color($tabbar-menu-icon-color, $lightness: -30%);
 
 // $tabbar-menu-icon-text-indent: rem-calc(35);
@@ -790,7 +792,7 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 
 // We use these for the pagination anchor links
 // $pagination-link-pad: rem-calc(1 10 1);
-// $pagination-link-font-color: #999;
+$pagination-link-font-color: $primary-color;
 // $pagination-link-active-bg: scale-color(#fff, $lightness: -10%);
 
 // We use these for disabled anchor links
@@ -1203,7 +1205,7 @@ $topbar-dropdown-link-bg: white;
 $topbar-dropdown-toggle-color: black;
 // $topbar-dropdown-toggle-alpha: 0.4;
 .top-bar-section .has-dropdown .dropdown li a {
-	border: solid #333 1px;
+	border: solid #e5e5e5 1px;
 	height: 45px;
 	margin-top: 45 / 3;
 }
