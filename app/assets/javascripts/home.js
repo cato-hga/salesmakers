@@ -8,14 +8,25 @@ function outputMessage(message) {
 	if (!message['subject']) {
 		return;
 	}
-	console.log(message['subject']);
-	var avatar = '';
-	if (message['subject']['avatar_url']) {
-		avatar = '<img src="' + message['subject']['avatar_url'] + '" class="groupme_avatar">';
+	var subject = message['subject'];
+	if (subject['name'] == 'GroupMe') {
+		return;
 	}
-	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + message['subject']['name'] + '</span><span class="groupme_text"></span>' + message['subject']['text'] + '</span></div></div>');
+	console.log(subject);
+	var avatar = '';
+	var text = '';
+	if (subject['avatar_url']) {
+		avatar = '<img src="' + subject['avatar_url'] + '" class="groupme_avatar">';
+	}
+	if (subject['text']) {
+		text = subject['text'];
+	}
+	if (subject['picture_url']) {
+		text += '<img src="' + subject['picture_url'] + '" class="groupme_image">';
+	}
+	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + subject['name'] + '</span><span class="groupme_text"></span>' + text + '</span></div></div>');
 	$('#groupme_widget .inner').animate({
-		scrollTop: $('#groupme_widget .messages .groupme_message:last').position().top
+		scrollTop: $('#groupme_widget .inner').height()
 	}, 1000);
 }
 
