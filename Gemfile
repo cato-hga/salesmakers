@@ -34,6 +34,7 @@ gem 'capistrano-rvm', '0.1.1', require: false
 gem 'capistrano3-puma', '0.6.1', require: false
 gem 'puma', '2.9.0'
 gem 'foreman', '0.74.0'
+gem 'emoji', '1.0.1'
 
 group :development do
   gem 'letter_opener', '1.2.0'

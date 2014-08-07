@@ -28,6 +28,7 @@ $nav_height: 60px;
 $line_height: 1.05em;
 $high_res_font_size: 1.2em;
 $high_res_spaced_lines: 1.1em;
+$widget_initial_height: 400px;
 
 $rbd_red: #d62121;
 $shadow: 2px 2px 2px #ccc;
@@ -228,6 +229,31 @@ th input[ type = submit ] {
 .bottom_spacing {
 	margin-bottom: $spacing;
 }
+
+#groupme_widget {
+	.inner {
+		max-height: $widget_initial_height;
+		overflow-y: scroll;
+		.groupme_message {
+			border-bottom: 2px dotted $rbd_red;
+			padding: $spacing 0;
+			img.groupme_avatar {
+				vertical-align: top;
+				margin-right: 0.5em;
+				max-height: 100px;
+			}
+			.groupme_name {
+				font-weight: bold;
+				display: block;
+				margin-bottom: $spacing;
+			}
+			.groupme_text {
+
+			}
+		}
+	}
+}
+
 
 footer {
 	&.admin {
@@ -448,7 +474,7 @@ body {
 
 	.widget {
 		&> .inner {
-			min-height: 400px;
+			min-height: $widget_initial_height;
 		}
 	}
 

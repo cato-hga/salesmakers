@@ -3,6 +3,23 @@
 //= require swiper
 //= require swiper.3dflow
 
+
+function outputMessage(message) {
+	if (!message['subject']) {
+		return;
+	}
+	console.log(message['subject']);
+	var avatar = '';
+	if (message['subject']['avatar_url']) {
+		avatar = '<img src="' + message['subject']['avatar_url'] + '" class="groupme_avatar">';
+	}
+	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + message['subject']['name'] + '</span><span class="groupme_text"></span>' + message['subject']['text'] + '</span></div></div>');
+	$('#groupme_widget .inner').animate({
+		scrollTop: $('#groupme_widget .messages .groupme_message:last').position().top
+	}, 1000);
+}
+
+
 $(function () {
 	$(document).foundation();
 	var width = $(window).width();
@@ -77,6 +94,12 @@ $(function () {
 				shadows: false
 			}
 		});
+	});
+
+	var pushClient = new GroupmePushClient('7a853610f0ca01310e5a065d7b71239d');
+	pushClient.baseUri = "https://push.groupme.com";
+	pushClient.subscribe('/user/12486363', {
+		message: function(message) { outputMessage(message); }
 	});
 
 });

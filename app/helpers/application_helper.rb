@@ -192,4 +192,8 @@ module ApplicationHelper
     empty_columns
   end
 
+  def emojify(text)
+    Emoji.replace_unicode_moji_with_images text.html_safe
+  end
+
 end

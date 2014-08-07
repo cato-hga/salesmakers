@@ -7,16 +7,26 @@
   .row.full-width
     %span#alerts_widget
     %span#sales_widget
-    %span#hours_widget
+    #groupme_widget.widget.large-4.columns
+      .inner
+        %h3 GroupMe
+        .messages
   .row.full-width
+    %span#hours_widget
     %span#social_widget
     %span#tickets_widget
-    %span#image_gallery_widget
   .row.full-width
+    %span#image_gallery_widget
     %span#inventory_widget
     %span#staffing_widget
-    %span#gaming_widget
   .row.full-width
+    %span#gaming_widget
     %span#commissions_widget
     %span#training_widget
+  .row.full-width
     %span#gift_cards_widget
+    .large-4.columns
+    .large-4.columns
+
+%script(src="https://push.groupme.com/faye/client.js" type="text/javascript")
+%script(src="https://push.groupme.com/client.js" type="text/javascript")

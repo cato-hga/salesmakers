@@ -1,8 +1,8 @@
 require 'apis/groupme'
+require 'apis/mojo'
 
 class WidgetsController < ApplicationController
   layout "widget"
-  require 'apis/mojo'
 
   def sales
 

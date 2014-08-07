@@ -10,7 +10,7 @@
               - if message.text
                 - text = message.text.split[0..60].join(' ')
                 %p
-                  = text
+                  = emojify(text)
                   - unless text.length == message.text.length
                     %span.comment ... (More)
             - if message.avatar
