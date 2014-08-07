@@ -46,9 +46,28 @@ p {
 }
 
 nav.top-bar {
+
 	padding-top: $spacing;
 	padding-bottom: $spacing !important;
 
+	#popout_notifications {
+		width: 30%;
+		max-width: none;
+		line-height: 1.2em;
+		.notification {
+			margin: $spacing auto;
+			padding: 1em 0;
+			box-shadow: $shadow;
+			.heading {
+				font-size: large;
+				display: block;
+				margin-bottom: $spacing / 2;
+			}
+			hr {
+				margin: 0.25em auto;
+			}
+		}
+	}
 
 	.title-area {
 		img {
@@ -56,15 +75,12 @@ nav.top-bar {
 			margin-top: $nav_height / 10 / 2;
 			margin-left: $spacing;
 		}
-		.notifications {
-			display: inline-block;
-			padding: $spacing;
-			min-height: 2.5em;
-			line-height: 0.5em;
-			margin-left: 1em;
-			box-shadow: $shadow;
-			font-size: 1em;
-		}
+	}
+	.button.notifications {
+		box-shadow: $shadow;
+		padding: 1em 4em 1em 2em;
+		vertical-align: top;
+		margin-left: 1em;
 	}
 
 	ul {

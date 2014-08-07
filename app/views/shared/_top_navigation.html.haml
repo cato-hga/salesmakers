@@ -2,7 +2,45 @@
   %ul.title-area
     %li
       %a= link_to image_tag('logo_nav.png'), root_path
-      .alert-box.success.notifications 4
+  .left
+    #popout_notifications.f-dropdown.content(data-dropdown-content="")
+      .row.full-width.notification
+        .large-3.columns= image_tag 'avatars/4.jpg', class: 'avatar'
+        .large-9.columns
+          %span.heading
+            Lisa Wuong
+            %span.timestamp.small.comment.right
+              Yesterday, 7:34pm
+          %hr/
+          %span.content
+            Found your answer to
+            %a(href="#")
+              %em "Cannot sign in to ADP"
+            useful.
+      .row.full-width.notification
+        .large-3.columns= image_tag 'avatars/7.jpg', class: 'avatar'
+        .large-9.columns
+          %span.heading
+            Jim Galley
+            %span.timestamp.small.comment.right
+              Friday, 11:08am
+          %hr/
+          %span.content
+            Liked your article
+            %a(href="#")
+              %em "How our Team Can Live our Dream"
+      .row.full-width.notification
+        .large-3.columns= image_tag 'avatars/8.jpg', class: 'avatar'
+        .large-9.columns
+          %span.heading
+            Bryon Johnson
+            %span.timestamp.small.comment.right
+              8/7, 3:17pm
+          %hr/
+          %span.content
+            Is now following you.
+
+    %a.button.success.notifications.dropdown{ data: { dropdown: 'popout_notifications' } } 3
   %section.top-bar-section
     .right
       %ul.left
