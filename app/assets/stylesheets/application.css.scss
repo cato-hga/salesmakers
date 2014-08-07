@@ -286,6 +286,10 @@ th input[ type = submit ] {
 	}
 }
 
+//.widgets .row .row {
+//	max-width: auto;
+//	width: 100%;
+//}
 
 footer {
 	&.admin {
@@ -504,7 +508,7 @@ body {
 		}
 	}
 
-	.widget {
+	#groupme_widget {
 		&> .inner {
 			min-height: $widget_initial_height;
 		}

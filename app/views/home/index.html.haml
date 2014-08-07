@@ -1,13 +1,28 @@
+- content_for :action_buttons do
+  = new_button '#' # TODO: FILL ME IN
 - content_for :slider do
   -# = render 'shared/social_swiper'
   .swiper-placeholder
     = image_tag 'loading.gif', class: :loading
     %span#groupme_slider_widget
 .widgets.row.full-width
-  .row.full-width
+  .large-4.columns
     %span#alerts_widget
     %span#sales_widget
-    #online_now.widget.large-4.columns
+    %span#tickets_widget
+    %span#staffing_widget
+    %span#training_widget
+  .large-4.columns
+    #groupme_widget.widget.full-width
+      .inner
+        %h3 GroupMe
+        .messages
+    %span#hours_widget
+    %span#image_gallery_widget
+    %span#gaming_widget
+    %span#gift_cards_widget
+  .large-4.columns
+    #online_now.widget.full-width
       .inner
         %h3 Online Now
         .avatars
@@ -18,25 +33,9 @@
             - 3.times do |num|
               .large-3.columns= image_tag 'avatars/' + (num+5).to_s + '.jpg'
             .large-3.columns
-  .row.full-width
-    %span#hours_widget
     %span#social_widget
-    #groupme_widget.widget.large-4.columns
-      .inner
-        %h3 GroupMe
-        .messages
-  .row.full-width
-    %span#tickets_widget
-    %span#image_gallery_widget
     %span#inventory_widget
-  .row.full-width
-    %span#staffing_widget
-    %span#gaming_widget
     %span#commissions_widget
-  .row.full-width
-    %span#training_widget
-    %span#gift_cards_widget
-    .large-4.columns
 
 %script(src="https://push.groupme.com/faye/client.js" type="text/javascript")
 %script(src="https://push.groupme.com/client.js" type="text/javascript")
