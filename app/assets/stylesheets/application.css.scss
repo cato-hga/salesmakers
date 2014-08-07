@@ -28,7 +28,7 @@ $nav_height: 60px;
 $line_height: 1.05em;
 $high_res_font_size: 1.2em;
 $high_res_spaced_lines: 1.1em;
-$widget_initial_height: 400px;
+$widget_initial_height: 300px;
 
 $rbd_red: #d62121;
 $shadow: 2px 2px 2px #ccc;
@@ -264,7 +264,7 @@ th input[ type = submit ] {
 
 #groupme_widget {
 	.inner {
-		max-height: $widget_initial_height;
+		// max-height: $widget_initial_height;
 		overflow-y: scroll;
 		.groupme_message {
 			border-bottom: 2px dotted $rbd_red;
@@ -286,10 +286,6 @@ th input[ type = submit ] {
 	}
 }
 
-//.widgets .row .row {
-//	max-width: auto;
-//	width: 100%;
-//}
 
 footer {
 	&.admin {

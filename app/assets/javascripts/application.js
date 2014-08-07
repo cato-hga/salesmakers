@@ -19,6 +19,13 @@
 // require jquery-ui-datepicker
 // require_tree .
 
+function resizeWidgets() {
+	$('.widgets').children('.row').each(function () {
+		var maxHeight = Math.max.apply(Math, $(this).find('.widget .inner').map(function(){ return $(this).height(); }).get());
+		$(this).find('.inner').height(maxHeight);
+	});
+}
+
 $(function(){
 	$(document).foundation();
 	$('a.left-off-canvas-toggle').on('click',function(){
