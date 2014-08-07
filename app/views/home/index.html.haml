@@ -7,25 +7,35 @@
   .row.full-width
     %span#alerts_widget
     %span#sales_widget
+    #online_now.widget.large-4.columns
+      .inner
+        %h3 Online Now
+        .avatars
+          .row.full-width
+            - 4.times do |num|
+              .large-3.columns= image_tag 'avatars/' + (num+1).to_s + '.jpg'
+          .row.full-width
+            - 3.times do |num|
+              .large-3.columns= image_tag 'avatars/' + (num+5).to_s + '.jpg'
+            .large-3.columns
+  .row.full-width
+    %span#hours_widget
+    %span#social_widget
     #groupme_widget.widget.large-4.columns
       .inner
         %h3 GroupMe
         .messages
   .row.full-width
-    %span#hours_widget
-    %span#social_widget
     %span#tickets_widget
-  .row.full-width
     %span#image_gallery_widget
     %span#inventory_widget
-    %span#staffing_widget
   .row.full-width
+    %span#staffing_widget
     %span#gaming_widget
     %span#commissions_widget
-    %span#training_widget
   .row.full-width
+    %span#training_widget
     %span#gift_cards_widget
-    .large-4.columns
     .large-4.columns
 
 %script(src="https://push.groupme.com/faye/client.js" type="text/javascript")

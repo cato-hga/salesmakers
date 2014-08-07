@@ -26,7 +26,7 @@ function outputMessage(message) {
 	}
 	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + subject['name'] + '</span><span class="groupme_text"></span>' + text + '</span></div></div>');
 	$('#groupme_widget .inner').animate({
-		scrollTop: $('#groupme_widget .inner').height()
+		scrollTop: $('#groupme_widget .inner')[0].scrollHeight
 	}, 1000);
 }
 

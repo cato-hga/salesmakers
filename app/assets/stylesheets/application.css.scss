@@ -56,6 +56,15 @@ nav.top-bar {
 			margin-top: $nav_height / 10 / 2;
 			margin-left: $spacing;
 		}
+		.notifications {
+			display: inline-block;
+			padding: $spacing;
+			min-height: 2.5em;
+			line-height: 0.5em;
+			margin-left: 1em;
+			box-shadow: $shadow;
+			font-size: 1em;
+		}
 	}
 
 	ul {
@@ -95,6 +104,7 @@ nav.top-bar, nav.tab-bar {
 }
 
 .slider {
+	clear: both;
 	margin: auto $spacing;
 }
 
@@ -120,6 +130,12 @@ nav.top-bar, nav.tab-bar {
 }
 
 .widget > .inner {
+	.avatars {
+		img {
+			margin-bottom: $spacing;
+			box-shadow: $shadow;
+		}
+	}
 	box-shadow: $shadow;
 	padding: 0.9375rem;
 	margin: 0.9375rem 0;
@@ -292,10 +308,6 @@ body {
 	background-color: #e5e5e5;
 }
 
-.slider {
-	clear: both;
-}
-
 .breadcrumbs {
 
 	background-color: white;
@@ -455,6 +467,10 @@ body {
 			width: 10em;
 			display: inline-block;
 		}
+	}
+
+	.slider {
+		margin: auto 0;
 	}
 
 	section#content {
