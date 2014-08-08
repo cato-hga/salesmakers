@@ -1,0 +1,40 @@
+@import 'variables';
+
+@media (min-width: $high_res_cutoff){
+
+	form.search_form {
+		float: right;
+		margin-top: 1em;
+
+		input[type = text], select, textarea {
+			width: 10em;
+			display: inline-block;
+		}
+	}
+
+	.slider {
+		margin: auto 0;
+	}
+
+	section#content {
+		clear: both;
+	}
+
+	.container {
+		&>header {
+			.top-pagination {
+				clear:both;
+			}
+			h1 {
+				float:left;
+			}
+		}
+	}
+
+	#groupme_widget {
+		&> .inner {
+			min-height: $widget_initial_height;
+		}
+	}
+
+}

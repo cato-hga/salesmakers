@@ -16,7 +16,7 @@ function outputMessage(message) {
 	var avatar = '';
 	var text = '';
 	if (subject['avatar_url']) {
-		avatar = '<img src="' + subject['avatar_url'] + '" class="groupme_avatar">';
+		avatar = '<img src="' + subject['avatar_url'] + '" class="groupme_avatar avatar">';
 	}
 	if (subject['text']) {
 		text = subject['text'];
