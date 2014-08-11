@@ -54,6 +54,8 @@ p
   box-shadow: $shadow
   margin-bottom: $spacing
 
+.avatar
+  border: 3px solid #e5e5e5
 .stat,
 .breadcrumbs
   box-shadow: $shadow
@@ -84,6 +86,11 @@ table
   & > .inner
     padding: 0.9375rem
     background-color: #fff
+  a.close
+    float: right
+    margin: auto $spacing/2
+    font-size: x-large
+    color: #ccc
 
 .inactive,
 .inactive a
@@ -289,3 +296,18 @@ body
 
 #saleschart
   height: 300px
+
+.widget_loading
+  display: none
+  text-align: center
+  padding-top: 2em
+
+article
+  img.left
+    margin-right: $spacing
+  img.right
+    margin-left: $spacing
+  img
+    max-width: 100%
+    box-shadow: $shadow
+    border: 3px solid #e5e5e5

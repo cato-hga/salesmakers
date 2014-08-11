@@ -1,0 +1,10 @@
+@import 'variables';
+
+@media only screen and (min-width: $tablet_cutoff) {
+
+	article {
+		img {
+			max-width: 50%;
+		}
+	}
+}

@@ -39,5 +39,10 @@
           %footer
             = yield :footer
 
+
         = render "shared/admin_navigation"
         %a.exit-off-canvas
+    .widget_loading
+      =image_tag 'loading.gif'
+      %br
+      %em Loading...

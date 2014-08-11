@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+
+  resources :blog_posts do
+    member do
+      get 'publish'
+      get 'approve'
+      get 'deny'
+    end
+  end
+
   get 'gallery/index'
 
   root 'home#index'
