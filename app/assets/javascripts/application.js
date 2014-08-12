@@ -39,12 +39,19 @@ $(function(){
 	});
 });
 
-function expandWidget(element) {
-	element.find('.inner').children().wrap('<div class="collapsed"></div>');
+function wrapAndHide(element) {
+	element.find('.inner').wrapInner('<div class="collapsed"></div>');
 	element.find('.collapsed').hide();
+}
+
+function unwrapAndShow(element) {
+	element.find('.inner .collapsed').show();
+}
+
+function expandWidget(element) {
+	wrapAndHide(element);
 	var row = element.parent('.row');
-	row.find('.large-12').find('.inner .collapsed').show();
-	row.find('.large-12').find('.inner').html(element.find('.collapsed').show());
+	row.find('.large-12').each(function() { unwrapAndShow($(this)); });
 	row.find('.large-12').switchClass('large-12', 'large-6');
 	element.detach().prependTo(row);
 	element.find('.inner').html($('.widget_loading:first').clone().show());

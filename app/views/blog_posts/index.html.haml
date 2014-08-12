@@ -1,3 +1,7 @@
+- title 'RBD Blog'
+- content_for :action_buttons do
+  = new_button(new_blog_post_path)
+
 .widgets.row.full-width
   .row.full-width
     .widget.large-4.columns{ data: { expand_url: '/blog_posts/1'}}
@@ -5,7 +9,7 @@
         %h3.expandwidget Lorem Ipsum Dolor Sit
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/1.jpg'), '#'
+            = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
             .small.comment.centered_text 3 days ago
           .medium-9.columns
             .excerpt
@@ -15,7 +19,7 @@
         %h3.expandwidget  Consectetur Adipisicing Elit
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/2.jpg'), '#'
+            = link_to image_tag('avatars/2.jpg', class: :avatar), '#'
             .small.comment.centered_text about a week ago
           .medium-9.columns
             .excerpt
@@ -25,7 +29,7 @@
         %h3.expandwidget  sed do eiusmod tempor incididunt ut
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/3.jpg'), '#'
+            = link_to image_tag('avatars/3.jpg', class: :avatar), '#'
             .small.comment.centered_text about a month ago
           .medium-9.columns
             .excerpt
@@ -37,7 +41,7 @@
         %h3.expandwidget Lorem Ipsum Dolor Sit
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/4.jpg'), '#'
+            = link_to image_tag('avatars/4.jpg', class: :avatar), '#'
             .small.comment.centered_text 3 days ago
           .medium-9.columns
             .excerpt
@@ -47,7 +51,7 @@
         %h3.expandwidget  Consectetur Adipisicing Elit
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/5.jpg'), '#'
+            = link_to image_tag('avatars/5.jpg', class: :avatar), '#'
             .small.comment.centered_text about a week ago
           .medium-9.columns
             .excerpt
@@ -57,7 +61,7 @@
         %h3.expandwidget  sed do eiusmod tempor incididunt ut
         .row.full-width
           .medium-3.columns
-            .avatar= link_to image_tag('avatars/6.jpg'), '#'
+            = link_to image_tag('avatars/6.jpg', class: :avatar), '#'
             .small.comment.centered_text about a month ago
           .medium-9.columns
             .excerpt

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :media
+
   resources :blog_posts do
     member do
       get 'publish'
@@ -7,6 +9,7 @@ Rails.application.routes.draw do
       get 'deny'
     end
   end
+  get 'blog', to: 'blog_posts#index', as: :blog
 
   get 'gallery/index'
 
