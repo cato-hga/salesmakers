@@ -44,17 +44,26 @@ function wrapAndHide(element) {
 	element.find('.collapsed').hide();
 }
 
-function unwrapAndShow(element) {
-	element.find('.inner .collapsed').show();
+function replaceWithCollapsed(element) {
+	var collapsed = element.find('.inner .collapsed');
+	collapsed.siblings().remove();
+	collapsed.show().contents().unwrap();
 }
 
-function expandWidget(element) {
-	wrapAndHide(element);
-	var row = element.parent('.row');
-	row.find('.large-12').each(function() { unwrapAndShow($(this)); });
-	row.find('.large-12').switchClass('large-12', 'large-6');
-	element.detach().prependTo(row);
-	element.find('.inner').html($('.widget_loading:first').clone().show());
+function makeTwoColumn(element) {
+	element.switchClass('large-12', 'large-6');
+}
+
+function moveToBeginning(element, row) {
+	element.prependTo(row);
+}
+
+function showLoading(element) {
+	element.find('.inner').prepend($('.widget_loading:first').clone().show());
+
+}
+
+function replaceWithData(element) {
 	var url = element.data('expand-url');
 	$.get(url, function( data ) {
 		element.find('.inner').css("height", "auto");
@@ -64,17 +73,41 @@ function expandWidget(element) {
 			collapseWidget($(this).parents('.widget'));
 		});
 	});
-	row.find('.large-4').not('.large-4:first').switchClass('large-4', 'large-6', 400);
-	element.switchClass('large-4 large-6', 'large-12', 1000, 'swing', function(){resizeWidgets()} );
+}
+
+function makeFullWidth(element) {
+	element.switchClass('large-4 large-6', 'large-12', 500, 'swing', function(){resizeWidgets()} );
 	$('html,body').animate({
 		scrollTop: element.offset().top
 	}, 300);
 	element.find('.inner').prepend('<a class="close">X</a>');
 }
 
+function expandWidget(element) {
+	wrapAndHide(element);
+	var row = element.parent('.row');
+	var largeblocks = row.find('.large-12');
+
+	largeblocks.each(function() {
+		replaceWithCollapsed($(this));
+		makeTwoColumn($(this));
+	});
+
+	moveToBeginning(element, row);
+	showLoading(element);
+	replaceWithData(element);
+
+
+	row.find('.large-4').not('.large-4:first').each(function(){
+		makeTwoColumn($(this));
+	});
+
+	makeFullWidth(element);
+}
+
 function collapseWidget(element){
 	var row = element.parent('.row');
 	element.find('.inner .collapsed').show();
 	element.find('.inner').html(element.find('.collapsed').show());
-	row.find('.widget').switchClass('large-12 large-6', 'large-4', 1000, 'swing', function(){resizeWidgets()} );
+	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
 }
