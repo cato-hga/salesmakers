@@ -8,16 +8,6 @@
       width: 30%
       max-width: none
       line-height: 1.2em
-      .notification
-        margin: $spacing auto
-        padding: 1em 0
-        box-shadow: $shadow
-        .heading
-          font-size: large
-          display: block
-          margin-bottom: $spacing / 2
-        hr
-          margin: 0.25em auto
     .title-area
       img
         margin-top: $nav_height / 10 / 2
@@ -322,6 +312,7 @@ article
 
 .accepted_answer, .submitted_answer:hover
   color: #43ac6a
+  font-weight: bold
   i
     font-size: 4em
 
@@ -333,3 +324,19 @@ article
   i
     font-size: 4em
 
+.votes
+  display: inline-block
+  position: relative
+  margin-left: -1em
+  font-weight: bold
+
+.notification, .question_preview
+  margin: $spacing auto
+  padding: 1em 0
+  box-shadow: $shadow
+  .heading
+    font-size: large
+    display: block
+    margin-bottom: $spacing / 2
+  hr
+    margin: 0.25em auto

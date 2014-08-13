@@ -2,9 +2,53 @@
 
 .widget.medium-6.large-4.columns
   .inner
-    %h3 My Questions
+    %h3
+      My Questions
+      = new_button('#')
+    .row.full-width.question_preview
+      %a.heading
+        How do I clock in with BlueForce?
+      %hr/
+      %span.content
+        I can't clock in, Help!
 
 .widget.medium-6.large-8.columns
   .inner
     %h3 Unanswered Questions
-
+    .row.full-width.question_preview
+      .large-3.columns.centered_text
+        = image_tag 'avatars/4.jpg', class: 'avatar'
+        %div
+          %strong Lisa Wuong
+        .small.comment Yesterday, 7:34pm
+      .large-9.columns
+        %a.heading
+          How do I clock in with BlueForce?
+        %hr/
+        %span.content
+          I can't clock in, Help!
+    .row.full-width.question_preview
+      .large-3.columns.centered_text
+        = image_tag 'avatars/8.jpg', class: 'avatar'
+        %div
+          %strong Bryon Johnson
+        .small.comment Yesterday, 3:17pm
+      .large-9.columns
+        %a.heading
+          How do I install MaaS360 on my tablet?
+        %hr/
+        %span.content
+          Having problems installing MaaS360 on my tablet, what do?
+    .row.full-width.question_preview
+      .large-3.columns.centered_text
+        = image_tag 'avatars/7.jpg', class: 'avatar'
+        %div
+          %strong Jim Galley
+        .small.comment 2 days ago, 9am
+      .large-9.columns
+        %a.heading
+          Error: "Invalid Product Type. Please re-select"
+        %hr/
+        %span.content
+          I was entering in my sale yesterday when I got this error, please help! I did everything correctly but the
+          error won't go away!

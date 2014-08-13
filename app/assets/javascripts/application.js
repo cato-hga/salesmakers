@@ -33,9 +33,8 @@ $(function(){
 
 	});
 	resizeWidgets();
-	$('.expandwidget').click(function(){
+	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
-
 	});
 });
 
@@ -107,7 +106,10 @@ function expandWidget(element) {
 
 function collapseWidget(element){
 	var row = element.parent('.row');
+	var widget_index = element.data('widget-index');
 	element.find('.inner .collapsed').show();
 	element.find('.inner').html(element.find('.collapsed').show());
+	var afterWidget = $(row.find('.widget[data-widget-index="' + (widget_index-1) + '"]'));
+	element.insertAfter(afterWidget);
 	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
 }
