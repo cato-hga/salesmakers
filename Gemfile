@@ -61,3 +61,5 @@ group :development, :test do
   gem 'faker', '1.3.0'
   gem 'stack_rescue', '0.0.1'
 end
+
+gem 'newrelic_rpm', group: :production

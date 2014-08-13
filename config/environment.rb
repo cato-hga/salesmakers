@@ -7,3 +7,4 @@ Rails.application.initialize!
 CASClient::Frameworks::Rails::Filter.configure(
     :cas_base_url => "https://auth.rbdconnect.com/cas/"
 )
+
