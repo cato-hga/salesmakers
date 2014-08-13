@@ -1,0 +1,51 @@
+- title('Why is your mother fat?')
+
+%ul.breadcrumbs
+  %li Existentialism
+  %li Health
+  %li Maternal
+  %li Weight
+
+.widget.large-12.columns.question
+  .inner
+    .row.full-width
+      .medium-3.columns.centered_text
+        = image_tag 'avatars/1.jpg', class: :avatar
+        %div
+          %strong Anthony Atkinson
+        .small.comment Yesterday at 3:15 pm
+      .medium-9.columns
+        .question_text
+          I used to be very attracted to your mother, but recently she's gained a lot of weight.
+          %br
+          What has changed since the last time we hooked up?
+.row.full-width
+  .large-12.columns
+    %h3 2 Answers
+
+.widget.large-12.columns.answer
+  .inner
+    .row.full-width
+      .medium-3.columns.centered_text
+        %h4.accepted_answer Accepted Answer
+        = image_tag 'avatars/2.jpg', class: :avatar
+        %div
+          %strong Stephen Miles
+        .small.comment Today at 11:17 am
+        .accepted_answer= icon('check')
+      .medium-9.columns
+        .answer_text
+          Cause she can't put down the cheeseburgers!
+.widget.large-12.columns
+  .inner
+    .row.full-width
+      .medium-3.columns.centered_text
+        = image_tag 'avatars/3.jpg', class: :avatar
+        %div
+          %strong Emma Rafferty
+        .small.comment Today at 11:15am
+        .submitted_answer= icon('check')
+      .medium-9.columns
+        .answer_text
+          How rude!
+

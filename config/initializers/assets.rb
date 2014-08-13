@@ -22,4 +22,5 @@ Rails.application.config.assets.precompile += %w( themes.js )
 Rails.application.config.assets.precompile += %w( gallery.js )
 Rails.application.config.assets.precompile += %w( blog_posts.js )
 Rails.application.config.assets.precompile += %w( media.js )
+Rails.application.config.assets.precompile += %w( questions.js )
 
