@@ -49,3 +49,13 @@
         .answer_text
           How rude!
 
+.widget.large-12.columns
+  .inner
+    .row.full-width
+      .medium-3.columns.centered_text
+        = image_tag 'avatars/9.jpg', class: :avatar
+      .medium-9.columns
+        %h3 Answer Anthony's question:
+        %textarea(placeholder="Type your answer here" )
+        %input.button(type="submit" value="Answer")
+
