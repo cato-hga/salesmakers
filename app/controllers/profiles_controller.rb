@@ -16,6 +16,11 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def show
+    person = Person.find params[:person_id]
+    @profile = Profile.find_by person: person
+  end
+
   private
 
   def profile_params

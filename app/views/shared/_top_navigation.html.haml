@@ -88,7 +88,7 @@
         -#%li
         -#  = link_to icon('graph-bar') + ' Reports', reports_path
         %li.has-dropdown
-          %a{ href: "#" }= current_user.email
+          = link_to current_user.email, person_profile_path(current_user)
           %ul.dropdown
             %li
               = link_to icon('widget') + ' My Settings', edit_person_profile_path(current_user)
