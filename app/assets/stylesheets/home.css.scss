@@ -4,11 +4,19 @@
 
 @import 'swiper';
 @import 'swiper.3dflow';
+@import 'variables';
 
 #image_gallery_widget {
 	img {
 		margin: .1em;
 		border: 5px solid #ccc;
 		max-height: 100px;
+	}
+}
+
+#jobs {
+	a {
+		margin: $spacing !important;
+		display: block;
 	}
 }
