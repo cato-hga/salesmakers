@@ -21,15 +21,26 @@
 // require_tree .
 
 
+
 function resizeWidgets() {
 	var width = $(window).width();
 	if( width < 761)
 		return;
 	$('.widgets').children('.row').each(function () {
-		var maxHeight = Math.max.apply(Math, $(this).find('.large-4 .inner, .large-6 .inner').map(function(){ return $(this).height(); }).get());
+		var height = $('.large-4 .inner, .large-6 .inner').height();
+		$(this).find('.large-4 .inner, .large-6 .inner').height('auto');
+		var maxHeight = Math.max.apply(Math, $(this).find('.large-4 .inner, .large-6 .inner').map(function(){
+			return $(this).height();
+		}).get());
 		$(this).find('.large-4 .inner, .large-6 .inner').height(maxHeight);
 	});
 }
+
+$(window).resize(function(){
+	resizeWidgets();
+});
+
+
 
 $(function(){
 	$(document).foundation();
