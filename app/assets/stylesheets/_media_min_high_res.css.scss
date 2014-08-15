@@ -28,6 +28,10 @@
 			h1 {
 				float:left;
 			}
+
+			.tags {
+				margin-top: $spacing;
+			}
 		}
 	}
 
@@ -42,6 +46,7 @@
 			max-width: 30%;
 		}
 	}
+
 
 }
 

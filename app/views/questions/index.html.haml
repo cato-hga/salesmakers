@@ -3,14 +3,58 @@
 .widget.medium-6.large-4.columns
   .inner
     %h3
-      My Questions
+      My Open Questions
       = new_button('#')
     .row.full-width.question_preview
-      %a.heading
-        How do I clock in with BlueForce?
-      %hr/
-      %span.content
-        I can't clock in, Help!
+      .my_questions
+        %a.heading
+          How do I clock in with BlueForce?
+        %span.content
+          I can't clock in, Help!
+        .small.comment
+          Submitted two days ago &vert;
+          %a 0 Answers
+        %hr/
+      .my_questions
+        %a.heading
+          How do I clock in with Minutworx?
+        %span.content
+          I can't clock in, Help!
+        .small.comment
+          Submitted three days ago &vert;
+          %a 1 Answer
+        %hr/
+      .my_questions
+        %a.heading
+          How do I enter a sale?
+        %span.content
+          I keep on getting an error!
+        .small.comment
+          Submitted yesterday &vert;
+          %a 2 Answers
+
+  .inner
+    %h3
+      My Solved Questions
+    .row.full-width.question_preview
+      .my_questions
+        %a.heading
+          How do I log in with clearsea?
+        %span.content
+          Getting a Server Busy error!
+        .small.comment
+          Answered yesterday by
+          %a Lisa Wuong
+        %hr
+      .my_questions
+        %a.heading
+          When do I get my tablet?
+        %span.content
+          New hire here, when do I get my tablet?!
+        .small.comment
+          Answered 2 days ago by
+          %a Bryon Johnson
+
 
 .widget.medium-6.large-8.columns
   .inner
@@ -24,9 +68,15 @@
       .large-9.columns
         %a.heading
           How do I clock in with BlueForce?
-        %hr/
         %span.content
           I can't clock in, Help!
+        .tags
+          %a
+            = icon('price-tag')
+            Clocking In
+          %a
+            = icon('price-tag')
+            Blueforce
     .row.full-width.question_preview
       .large-3.columns.centered_text
         = image_tag 'avatars/8.jpg', class: 'avatar'
@@ -36,9 +86,15 @@
       .large-9.columns
         %a.heading
           How do I install MaaS360 on my tablet?
-        %hr/
         %span.content
           Having problems installing MaaS360 on my tablet, what do?
+        .tags
+          %a
+            = icon('price-tag')
+            MaaS360
+          %a
+            = icon('price-tag')
+            Tablets
     .row.full-width.question_preview
       .large-3.columns.centered_text
         = image_tag 'avatars/7.jpg', class: 'avatar'
@@ -48,7 +104,10 @@
       .large-9.columns
         %a.heading
           Error: "Invalid Product Type. Please re-select"
-        %hr/
         %span.content
           I was entering in my sale yesterday when I got this error, please help! I did everything correctly but the
           error won't go away!
+        .tags
+          %a
+            = icon('price-tag')
+            Sales Errors

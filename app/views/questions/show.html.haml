@@ -1,10 +1,18 @@
 - title('Why is your mother fat?')
-
-%ul.breadcrumbs
-  %li Existentialism
-  %li Health
-  %li Maternal
-  %li Weight
+- content_for :header do
+  .tags.right
+    %a
+      = icon('price-tag')
+      Existentialism
+    %a
+      = icon('price-tag')
+      Health
+    %a
+      = icon('price-tag')
+      Maternal
+    %a
+      = icon('price-tag')
+      Weight
 
 .widget.large-12.columns.question
   .inner

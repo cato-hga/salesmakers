@@ -1,2 +1,45 @@
-%h1 Media#index
-%p Find me in app/views/media/index.html.haml
+- content_for :slider do
+  .swiper-placeholder
+    .swiper-container
+      %h3 Latest Media
+      .swiper-wrapper
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/1.gif')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/2.jpeg')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/3.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/4.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/5.jpeg')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/6.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/7.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/8.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/9.png')
+        .swiper-slide
+          .slide.full-width
+            .inner
+              = image_tag ('media_mock/10.png')
