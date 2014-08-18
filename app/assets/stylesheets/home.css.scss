@@ -20,3 +20,9 @@
 		display: block;
 	}
 }
+
+#poll {
+	input[type=checkbox] {
+		margin-right: $spacing;
+	}
+}
