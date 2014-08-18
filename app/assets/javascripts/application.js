@@ -14,11 +14,15 @@
 // require jquery.turbolinks
 //= require jquery_ujs
 //= require modernizr
-//= require foundation
+//= require foundation_new/foundation
+//= require foundation_new/foundation.offcanvas
+//= require foundation_new/foundation.topbar
 //= require jquery-ui.min
+
 // require turbolinks
 // require jquery-ui-datepicker
 // require_tree .
+
 
 
 
@@ -43,14 +47,16 @@ $(window).resize(function(){
 
 
 $(function(){
-	$(document).foundation();
-	$('a.left-off-canvas-toggle').on('click',function(){
-
+	$(document).foundation({
+		offcanvas: {
+			open_method: 'overlap_single'
+		}
 	});
 	resizeWidgets();
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
 	});
+
 });
 
 function wrapAndHide(element) {

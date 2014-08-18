@@ -12,7 +12,7 @@ gem 'sdoc', '0.4.0',  group: :doc
 
 # ------ Our gems below this line --------
 
-gem 'foundation-rails', git: 'https://github.com/zurb/foundation-rails.git' #'5.3.0.1'
+#gem 'foundation-rails', git: 'https://github.com/zurb/foundation-rails.git' #'5.3.3.0'
 gem 'chartkick', '1.2.5'
 gem 'haml-rails', '0.5.3'
 gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git'

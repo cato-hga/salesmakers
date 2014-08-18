@@ -52,6 +52,11 @@ p
 .breadcrumbs
   box-shadow: $shadow
 
+.small_avatar
+  @extend .avatar
+  max-height: 5em
+  margin: $spacing / 6
+
 .container,
 .slider
   clear: both
@@ -180,7 +185,7 @@ footer
     height: 45px
     background-color: white
     border-top: 2px solid $rbd_red
-    z-index: 999
+    z-index: 1004
     nav.top-bar
       padding-top: 0
       line-height: 1em
@@ -372,3 +377,19 @@ article
 header
   .tags
     margin-top: 0
+
+.widget.wall_post
+  display: inline-block
+  vertical-align: top
+
+.widget.chat .strong
+  vertical-align: top
+
+.chat-icon
+  margin-right: $spacing
+  i
+    font-size: xx-large
+    color: $rbd_red
+
+.right-off-canvas-menu
+  background-color: white

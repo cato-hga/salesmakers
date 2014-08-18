@@ -2,7 +2,7 @@
 //= require chartkick
 //= require swiper
 //= require swiper.3dflow
-
+//= require masonry.min
 
 function outputMessage(message) {
 	if (!message['subject']) {
@@ -24,105 +24,111 @@ function outputMessage(message) {
 	if (subject['picture_url']) {
 		text += '<img src="' + subject['picture_url'] + '" class="groupme_image">';
 	}
-	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + subject['name'] + '</span><span class="groupme_text"></span>' + text + '</span></div></div>');
-	$('#groupme_widget .inner').animate({
-		scrollTop: $('#groupme_widget .inner')[0].scrollHeight
-	}, 1000);
+//	$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">' + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + subject['name'] + '</span><span class="groupme_text"></span>' + text + '</span></div></div>');
+//	$('#groupme_widget .inner').animate({
+//		scrollTop: $('#groupme_widget .inner')[0].scrollHeight
+//	}, 1000);
 }
 
 
 $(function () {
 	$(document).foundation();
-	var width = $(window).width();
-	var slidesPer = 1;
-	if (width > 760) slidesPer = 2;
-	if (width > 1270) slidesPer = 3;
+//	var width = $(window).width();
+//	var slidesPer = 1;
+//	if (width > 760) slidesPer = 2;
+//	if (width > 1270) slidesPer = 3;
 
-	$.get("/widgets/sales", function( data ) {
-		$( "#sales_widget").append( data );
-		resizeWidgets();
-	});
+//	$.get("/widgets/sales", function( data ) {
+//		$( "#sales_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/hours", function( data ) {
+//		$( "#hours_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/tickets", function( data ) {
+//		$( "#tickets_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/social", function( data ) {
+//		$( "#social_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/alerts", function( data ) {
+//		$( "#alerts_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/image_gallery", function( data ) {
+//		$( "#image_gallery_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/inventory", function( data ) {
+//		$( "#inventory_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/staffing", function( data ) {
+//		$( "#staffing_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/gaming", function( data ) {
+//		$( "#gaming_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/commissions", function( data ) {
+//		$( "#commissions_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/training", function( data ) {
+//		$( "#training_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/gift_cards", function( data ) {
+//		$( "#gift_cards_widget").append( data );
+//		resizeWidgets();
+//	});
+//
+//	$.get("/widgets/groupme_slider", function( data ) {
+//		$('.swiper-placeholder img.loading').hide();
+//		$( "#groupme_slider_widget").append( data );
+//		var mySwiper = $('.swiper-container').swiper({
+//			mode: 'horizontal',
+//			loop: true,
+//			centeredSlides: true,
+//			speed: 600,
+//			autoplay: 4000,
+//			slidesPerView: slidesPer,
+//			calculateHeight: true,
+//			tdFlow: {
+//				rotate: 0,
+//				depth: 300,
+//				stretch: 0,
+//				modifier: 1,
+//				shadows: false
+//			}
+//		});
+//	});
 
-	$.get("/widgets/hours", function( data ) {
-		$( "#hours_widget").append( data );
-		resizeWidgets();
-	});
+//	var pushClient = new GroupmePushClient('7a853610f0ca01310e5a065d7b71239d');
+//	pushClient.baseUri = "https://push.groupme.com";
+//	pushClient.subscribe('/user/12486363', {
+//		message: function(message) { outputMessage(message); }
+//	});
 
-	$.get("/widgets/tickets", function( data ) {
-		$( "#tickets_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/social", function( data ) {
-		$( "#social_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/alerts", function( data ) {
-		$( "#alerts_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/image_gallery", function( data ) {
-		$( "#image_gallery_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/inventory", function( data ) {
-		$( "#inventory_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/staffing", function( data ) {
-		$( "#staffing_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/gaming", function( data ) {
-		$( "#gaming_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/commissions", function( data ) {
-		$( "#commissions_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/training", function( data ) {
-		$( "#training_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/gift_cards", function( data ) {
-		$( "#gift_cards_widget").append( data );
-		resizeWidgets();
-	});
-
-	$.get("/widgets/groupme_slider", function( data ) {
-		$('.swiper-placeholder img.loading').hide();
-		$( "#groupme_slider_widget").append( data );
-		var mySwiper = $('.swiper-container').swiper({
-			mode: 'horizontal',
-			loop: true,
-			centeredSlides: true,
-			speed: 600,
-			autoplay: 4000,
-			slidesPerView: slidesPer,
-			calculateHeight: true,
-			tdFlow: {
-				rotate: 0,
-				depth: 300,
-				stretch: 0,
-				modifier: 1,
-				shadows: false
-			}
-		});
-	});
-
-	var pushClient = new GroupmePushClient('7a853610f0ca01310e5a065d7b71239d');
-	pushClient.baseUri = "https://push.groupme.com";
-	pushClient.subscribe('/user/12486363', {
-		message: function(message) { outputMessage(message); }
+	var $container = $('.wall');
+	$container.masonry({
+		columnWidth: ".wall_post",
+		itemSelector: ".widget"
 	});
 
 });

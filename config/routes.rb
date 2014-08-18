@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   resources :home, only: [ :index ]
+    get 'home/dashboard'
   resources :people do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
