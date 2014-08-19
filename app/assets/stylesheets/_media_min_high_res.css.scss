@@ -55,6 +55,10 @@
 	.right-off-canvas-menu {
 		width: 30%;
 		box-shadow: -2px 0 8px 3px #ccc;
+		height: 80vh;
+		position: fixed;
+		top: 101px;
+		bottom: 0;
 	}
 }
 
