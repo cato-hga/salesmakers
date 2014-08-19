@@ -12,64 +12,297 @@
 -#      .inner
 -#
 
+- content_for :action_buttons do
+  = link_to 'Switch to Dashboard', home_dashboard_path, class: [:button, :tiny, :rounded, :inline_button]
+
+
+- content_for :slider do
+  -#= render 'shared/social_swiper'
+  .swiper-placeholder
+    = image_tag 'loading.gif', class: :loading
+    %span#groupme_slider_widget
+
 .wall
   .widget.wall_post
     .inner
-      1 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus nulla vitae est venenatis, ac pretium enim ultricies. Phasellus eget magna non diam tempor vehicula eu commodo elit. Aliquam erat volutpat. Cras malesuada sollicitudin nunc nec pharetra. Curabitur mollis congue lorem in sollicitudin. Quisque purus arcu, ultrices vel risus at, ullamcorper commodo sapien. Integer a felis nec metus consectetur egestas quis eget ligula. Morbi accumsan erat ut tellus gravida vehicula.
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text Just now
+        .medium-9.columns
+          .post_content
+            %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lacus nunc, ultrices at facilisis non, elementum placerat turpis. Aenean iaculis diam nec ultrices euismod. Vivamus dapibus orci id blandit feugiat. Curabitur egestas rutrum dolor, nec faucibus lectus scelerisque eget. Suspendisse tristique, quam id egestas ultrices, nisl lacus aliquam leo, at eleifend nisi enim a velit. Vestibulum at aliquet lectus. Vestibulum dictum elit ac odio dictum, eget lobortis odio euismod. Cras sollicitudin, erat sit amet rhoncus molestie, massa arcu ultrices mauris, sed mattis enim nulla ut nulla. Duis porta tellus eros, ut dictum arcu fringilla ac.
+            %p Phasellus a ultrices libero. Quisque vulputate, quam quis tristique aliquet, justo urna cursus eros, vitae tincidunt urna magna at ipsum. Morbi lobortis fringilla egestas. Quisque nec odio varius, tincidunt sapien sit amet, pharetra dolor. Morbi rhoncus egestas faucibus. Pellentesque convallis tempor dictum. Nunc suscipit feugiat arcu in sagittis. Vestibulum vitae diam id leo pellentesque iaculis. Cras imperdiet justo vel turpis consequat, quis tincidunt diam eleifend. Mauris nec semper tortor, non laoreet augue. Vivamus tristique sagittis nibh a tincidunt. Mauris neque magna, viverra id nisi nec, tempus malesuada elit. Mauris magna lectus, interdum id leo quis, dapibus sollicitudin odio. Aliquam auctor cursus purus a consectetur.
+            %p Nulla auctor enim eget est facilisis, vitae tincidunt sapien auctor. Donec ipsum tellus, accumsan a varius at, sollicitudin et turpis. Nunc sit amet adipiscing nunc. Aliquam erat volutpat. Donec id arcu sit amet eros faucibus lobortis eget ac mauris. Integer ut vestibulum tellus. Nulla nunc orci, scelerisque vel metus sit amet, vehicula hendrerit libero. Vivamus vitae mi non nisi condimentum porttitor. Duis varius in odio vitae cursus. Nam eros odio, faucibus ut malesuada id, placerat vel orci. Integer orci enim, mollis et sem non, dictum viverra eros. Quisque a tellus elit. Donec ornare congue elementum. Phasellus sed facilisis leo. Ut ultrices magna sit amet lectus venenatis, vitae congue lectus scelerisque.
+            %p Donec porttitor purus at enim hendrerit, ut aliquam neque varius. Pellentesque accumsan viverra odio sed luctus. Aliquam ultricies mattis mauris, vitae egestas felis pellentesque non. Maecenas suscipit sem non arcu condimentum, nec euismod mauris rutrum. Pellentesque tempor porttitor dignissim. Duis ornare urna vel risus fermentum tempor. Mauris in nisi non eros accumsan vestibulum nec et neque. Mauris in ipsum purus. Fusce rutrum sapien eu risus pharetra, quis dapibus diam sollicitudin. Nulla aliquet egestas tortor, eget sollicitudin nisi suscipit nec. Donec orci nisl, mattis porta commodo cursus, elementum at ante. Aliquam ultrices tempor tellus sit amet dignissim. In sit amet laoreet dui. Donec fermentum dolor nunc, in mattis justo vehicula at.
+            %p Vestibulum in urna tempus, volutpat risus eget, sollicitudin sapien. Etiam non risus tempor, cursus dolor nec, iaculis velit. Ut tempor leo justo, id fermentum enim aliquam et. Nunc dapibus faucibus felis eu lobortis. Quisque convallis augue et urna placerat eleifend. Praesent pharetra turpis a urna sodales sollicitudin non et justo. Fusce consectetur sed purus eget faucibus. Donec ut euismod magna. Suspendisse vel iaculis augue, id pharetra nulla. Duis tincidunt purus in odio ullamcorper, at laoreet orci gravida.   .widget.wall_post
+  .widget.wall_post#jobs
+    .inner
+      %h3 Open Jobs at RBD
+      %strong Refer your friends to receive $$$!
+      %a
+        = icon('torsos')
+        Operations Specialist (Home Office, Full Time) - St Petersburg, FL
+      %a
+        = icon('torsos')
+        Sales Specialist - Tampa Territory
+      %a
+        = icon('torsos')
+        Sales Manager - Orlando Territory
+  .widget.wall_post#poll
+    .inner
+      %h3 Daily Poll
+      %strong What is your favorite Pokemon Game?
+      %br
+      %br
+      %input(type="checkbox") Pokemon Red
+      %br
+      %input(type="checkbox") Pokemon Blue
+      %br
+      .tiny.button Submit!
+  .widget.wall_post#online_now
+    .inner
+      %h3 Online Now
+      .avatars
+        .row.full-width
+          - 4.times do |num|
+            .small-3.columns= image_tag 'avatars/' + (num+1).to_s + '.jpg', class: 'avatar'
+        .row.full-width
+          - 4.times do |num|
+            .small-3.columns= image_tag 'avatars/' + (num+6).to_s + '.jpg', class: 'avatar'
+          .large-3.columns
   .widget.wall_post
     .inner
-      2 Suspendisse mollis arcu vel tellus pulvinar feugiat. Donec convallis turpis dui, id placerat ligula iaculis id. Fusce euismod vulputate elementum. Cras faucibus ipsum in pharetra sagittis. Etiam sodales ullamcorper tellus nec tincidunt. Nullam quis tempor magna. Nullam et ultrices purus, in ultricies est. Sed sodales, leo in pulvinar dapibus, quam neque ultricies nunc, in egestas lacus arcu vel risus. Cras ante mauris, dapibus id rhoncus vel, venenatis malesuada turpis.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/2.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text today at 3 PM
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      3 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean a ultricies leo, molestie accumsan metus. Aenean sapien odio, tempor at dapibus vulputate, ornare fermentum lectus. Praesent non felis eu nulla dignissim malesuada sed eget neque. Morbi faucibus massa sollicitudin mauris rhoncus, sit amet ullamcorper nulla vestibulum. Phasellus nec lorem nec nisl condimentum iaculis sed quis nibh. Integer a nibh tortor. Pellentesque eu nisl non tellus laoreet sagittis sed rutrum lorem. Quisque volutpat, diam eu tincidunt sollicitudin, nisi ante egestas massa, ut venenatis dolor dui id lectus. Pellentesque dapibus nisi erat. Phasellus quis lacus augue. Aenean interdum, sapien in semper pulvinar, ligula est viverra odio, quis convallis mi est dignissim lacus. Fusce quis fermentum justo.
+      %h3  sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/3.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text today at 11:37 AM
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
   .widget.wall_post
     .inner
-      4 Nullam eros dui, sodales quis lorem vel, posuere rhoncus diam. Sed at arcu libero. Aliquam erat volutpat. Curabitur a porttitor dolor. Nulla augue nisi, consectetur sit amet enim vitae, faucibus condimentum lectus. Sed scelerisque semper leo eget condimentum. Phasellus in enim eget massa tempor pretium eu vel purus. Donec quis aliquam justo. Suspendisse at leo rhoncus lectus mattis gravida. Sed neque ligula, elementum et porta nec, auctor tincidunt mi. Aliquam malesuada massa lectus, non venenatis leo pellentesque ut. Nam feugiat accumsan libero a euismod. Maecenas sodales ipsum ante, in molestie sem sollicitudin vel. Curabitur scelerisque, risus quis vestibulum vulputate, mauris ligula facilisis erat, id malesuada dolor nunc id nibh. Duis pretium tellus in sapien ultricies scelerisque. Aliquam congue purus vel aliquam consequat.
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/4.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text today at 9:05 AM
+        .medium-9.columns
+          .post_content
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   .widget.wall_post
     .inner
-      5 Sed sit amet dui ut purus fringilla placerat. Maecenas in facilisis diam. Curabitur nec tortor in augue vestibulum lacinia. Fusce sed magna luctus, auctor enim eu, ullamcorper sapien. Sed accumsan semper diam, eget tristique justo varius non. Nullam eleifend at nibh sit amet consectetur. Morbi eget nunc quam. Curabitur congue ligula at rutrum viverra. Praesent convallis pretium risus eget sollicitudin. In tincidunt pharetra magna quis blandit. Ut ut luctus erat. Aliquam posuere tortor sit amet massa ultrices condimentum. Vestibulum eros risus, rutrum et ullamcorper sit amet, pulvinar id elit. Proin vitae velit lacus. Mauris volutpat vitae sem ac vulputate.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/5.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text yesterday at 11:15 PM
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      6 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus nulla vitae est venenatis, ac pretium enim ultricies. Phasellus eget magna non diam tempor vehicula eu commodo elit. Aliquam erat volutpat. Cras malesuada sollicitudin nunc nec pharetra. Curabitur mollis congue lorem in sollicitudin. Quisque purus arcu, ultrices vel risus at, ullamcorper commodo sapien. Integer a felis nec metus consectetur egestas quis eget ligula. Morbi accumsan erat ut tellus gravida vehicula.
+      %h3 sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/6.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text yesterday at 10 AM
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...  .widget.wall_post
+    .inner
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 3 days ago
+        .medium-9.columns
+          .post_content
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum...
   .widget.wall_post
     .inner
-      7 Suspendisse mollis arcu vel tellus pulvinar feugiat. Donec convallis turpis dui, id placerat ligula iaculis id. Fusce euismod vulputate elementum. Cras faucibus ipsum in pharetra sagittis. Etiam sodales ullamcorper tellus nec tincidunt. Nullam quis tempor magna. Nullam et ultrices purus, in ultricies est. Sed sodales, leo in pulvinar dapibus, quam neque ultricies nunc, in egestas lacus arcu vel risus. Cras ante mauris, dapibus id rhoncus vel, venenatis malesuada turpis.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/2.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 3 days ago
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      8 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean a ultricies leo, molestie accumsan metus. Aenean sapien odio, tempor at dapibus vulputate, ornare fermentum lectus. Praesent non felis eu nulla dignissim malesuada sed eget neque. Morbi faucibus massa sollicitudin mauris rhoncus, sit amet ullamcorper nulla vestibulum. Phasellus nec lorem nec nisl condimentum iaculis sed quis nibh. Integer a nibh tortor. Pellentesque eu nisl non tellus laoreet sagittis sed rutrum lorem. Quisque volutpat, diam eu tincidunt sollicitudin, nisi ante egestas massa, ut venenatis dolor dui id lectus. Pellentesque dapibus nisi erat. Phasellus quis lacus augue. Aenean interdum, sapien in semper pulvinar, ligula est viverra odio, quis convallis mi est dignissim lacus. Fusce quis fermentum justo.
+      %h3  sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/3.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 4 days ago
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
   .widget.wall_post
     .inner
-      9 Nullam eros dui, sodales quis lorem vel, posuere rhoncus diam. Sed at arcu libero. Aliquam erat volutpat. Curabitur a porttitor dolor. Nulla augue nisi, consectetur sit amet enim vitae, faucibus condimentum lectus. Sed scelerisque semper leo eget condimentum. Phasellus in enim eget massa tempor pretium eu vel purus. Donec quis aliquam justo. Suspendisse at leo rhoncus lectus mattis gravida. Sed neque ligula, elementum et porta nec, auctor tincidunt mi. Aliquam malesuada massa lectus, non venenatis leo pellentesque ut. Nam feugiat accumsan libero a euismod. Maecenas sodales ipsum ante, in molestie sem sollicitudin vel. Curabitur scelerisque, risus quis vestibulum vulputate, mauris ligula facilisis erat, id malesuada dolor nunc id nibh. Duis pretium tellus in sapien ultricies scelerisque. Aliquam congue purus vel aliquam consequat.
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/4.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 5 days ago
+        .medium-9.columns
+          .post_content
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   .widget.wall_post
     .inner
-      10 Sed sit amet dui ut purus fringilla placerat. Maecenas in facilisis diam. Curabitur nec tortor in augue vestibulum lacinia. Fusce sed magna luctus, auctor enim eu, ullamcorper sapien. Sed accumsan semper diam, eget tristique justo varius non. Nullam eleifend at nibh sit amet consectetur. Morbi eget nunc quam. Curabitur congue ligula at rutrum viverra. Praesent convallis pretium risus eget sollicitudin. In tincidunt pharetra magna quis blandit. Ut ut luctus erat. Aliquam posuere tortor sit amet massa ultrices condimentum. Vestibulum eros risus, rutrum et ullamcorper sit amet, pulvinar id elit. Proin vitae velit lacus. Mauris volutpat vitae sem ac vulputate.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/5.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text a week ago
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      11 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus nulla vitae est venenatis, ac pretium enim ultricies. Phasellus eget magna non diam tempor vehicula eu commodo elit. Aliquam erat volutpat. Cras malesuada sollicitudin nunc nec pharetra. Curabitur mollis congue lorem in sollicitudin. Quisque purus arcu, ultrices vel risus at, ullamcorper commodo sapien. Integer a felis nec metus consectetur egestas quis eget ligula. Morbi accumsan erat ut tellus gravida vehicula.
+      %h3 sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/6.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text a week ago
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
+    .inner
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 9 days ago
+        .medium-9.columns
+          .post_content
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum...
   .widget.wall_post
     .inner
-      12 Suspendisse mollis arcu vel tellus pulvinar feugiat. Donec convallis turpis dui, id placerat ligula iaculis id. Fusce euismod vulputate elementum. Cras faucibus ipsum in pharetra sagittis. Etiam sodales ullamcorper tellus nec tincidunt. Nullam quis tempor magna. Nullam et ultrices purus, in ultricies est. Sed sodales, leo in pulvinar dapibus, quam neque ultricies nunc, in egestas lacus arcu vel risus. Cras ante mauris, dapibus id rhoncus vel, venenatis malesuada turpis.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/2.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 10 days ago
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      13 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean a ultricies leo, molestie accumsan metus. Aenean sapien odio, tempor at dapibus vulputate, ornare fermentum lectus. Praesent non felis eu nulla dignissim malesuada sed eget neque. Morbi faucibus massa sollicitudin mauris rhoncus, sit amet ullamcorper nulla vestibulum. Phasellus nec lorem nec nisl condimentum iaculis sed quis nibh. Integer a nibh tortor. Pellentesque eu nisl non tellus laoreet sagittis sed rutrum lorem. Quisque volutpat, diam eu tincidunt sollicitudin, nisi ante egestas massa, ut venenatis dolor dui id lectus. Pellentesque dapibus nisi erat. Phasellus quis lacus augue. Aenean interdum, sapien in semper pulvinar, ligula est viverra odio, quis convallis mi est dignissim lacus. Fusce quis fermentum justo.
+      %h3  sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/3.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text 2 weeks ago ago
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
   .widget.wall_post
     .inner
-      14 Nullam eros dui, sodales quis lorem vel, posuere rhoncus diam. Sed at arcu libero. Aliquam erat volutpat. Curabitur a porttitor dolor. Nulla augue nisi, consectetur sit amet enim vitae, faucibus condimentum lectus. Sed scelerisque semper leo eget condimentum. Phasellus in enim eget massa tempor pretium eu vel purus. Donec quis aliquam justo. Suspendisse at leo rhoncus lectus mattis gravida. Sed neque ligula, elementum et porta nec, auctor tincidunt mi. Aliquam malesuada massa lectus, non venenatis leo pellentesque ut. Nam feugiat accumsan libero a euismod. Maecenas sodales ipsum ante, in molestie sem sollicitudin vel. Curabitur scelerisque, risus quis vestibulum vulputate, mauris ligula facilisis erat, id malesuada dolor nunc id nibh. Duis pretium tellus in sapien ultricies scelerisque. Aliquam congue purus vel aliquam consequat.
+      %h3 Lorem Ipsum Dolor Sit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/4.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text about 3 weeks ago
+        .medium-9.columns
+          .post_content
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   .widget.wall_post
     .inner
-      15 Sed sit amet dui ut purus fringilla placerat. Maecenas in facilisis diam. Curabitur nec tortor in augue vestibulum lacinia. Fusce sed magna luctus, auctor enim eu, ullamcorper sapien. Sed accumsan semper diam, eget tristique justo varius non. Nullam eleifend at nibh sit amet consectetur. Morbi eget nunc quam. Curabitur congue ligula at rutrum viverra. Praesent convallis pretium risus eget sollicitudin. In tincidunt pharetra magna quis blandit. Ut ut luctus erat. Aliquam posuere tortor sit amet massa ultrices condimentum. Vestibulum eros risus, rutrum et ullamcorper sit amet, pulvinar id elit. Proin vitae velit lacus. Mauris volutpat vitae sem ac vulputate.
+      %h3  Consectetur Adipisicing Elit
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/5.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text about 3 weeks ago
+        .medium-9.columns
+          .post_content
+            ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
   .widget.wall_post
     .inner
-      16 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent luctus nulla vitae est venenatis, ac pretium enim ultricies. Phasellus eget magna non diam tempor vehicula eu commodo elit. Aliquam erat volutpat. Cras malesuada sollicitudin nunc nec pharetra. Curabitur mollis congue lorem in sollicitudin. Quisque purus arcu, ultrices vel risus at, ullamcorper commodo sapien. Integer a felis nec metus consectetur egestas quis eget ligula. Morbi accumsan erat ut tellus gravida vehicula.
-  .widget.wall_post
-    .inner
-      17 Suspendisse mollis arcu vel tellus pulvinar feugiat. Donec convallis turpis dui, id placerat ligula iaculis id. Fusce euismod vulputate elementum. Cras faucibus ipsum in pharetra sagittis. Etiam sodales ullamcorper tellus nec tincidunt. Nullam quis tempor magna. Nullam et ultrices purus, in ultricies est. Sed sodales, leo in pulvinar dapibus, quam neque ultricies nunc, in egestas lacus arcu vel risus. Cras ante mauris, dapibus id rhoncus vel, venenatis malesuada turpis.
-  .widget.wall_post
-    .inner
-      18 Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aenean a ultricies leo, molestie accumsan metus. Aenean sapien odio, tempor at dapibus vulputate, ornare fermentum lectus. Praesent non felis eu nulla dignissim malesuada sed eget neque. Morbi faucibus massa sollicitudin mauris rhoncus, sit amet ullamcorper nulla vestibulum. Phasellus nec lorem nec nisl condimentum iaculis sed quis nibh. Integer a nibh tortor. Pellentesque eu nisl non tellus laoreet sagittis sed rutrum lorem. Quisque volutpat, diam eu tincidunt sollicitudin, nisi ante egestas massa, ut venenatis dolor dui id lectus. Pellentesque dapibus nisi erat. Phasellus quis lacus augue. Aenean interdum, sapien in semper pulvinar, ligula est viverra odio, quis convallis mi est dignissim lacus. Fusce quis fermentum justo.
-  .widget.wall_post
-    .inner
-      19 Nullam eros dui, sodales quis lorem vel, posuere rhoncus diam. Sed at arcu libero. Aliquam erat volutpat. Curabitur a porttitor dolor. Nulla augue nisi, consectetur sit amet enim vitae, faucibus condimentum lectus. Sed scelerisque semper leo eget condimentum. Phasellus in enim eget massa tempor pretium eu vel purus. Donec quis aliquam justo. Suspendisse at leo rhoncus lectus mattis gravida. Sed neque ligula, elementum et porta nec, auctor tincidunt mi. Aliquam malesuada massa lectus, non venenatis leo pellentesque ut. Nam feugiat accumsan libero a euismod. Maecenas sodales ipsum ante, in molestie sem sollicitudin vel. Curabitur scelerisque, risus quis vestibulum vulputate, mauris ligula facilisis erat, id malesuada dolor nunc id nibh. Duis pretium tellus in sapien ultricies scelerisque. Aliquam congue purus vel aliquam consequat.
-  .widget.wall_post
-    .inner
-      20 Sed sit amet dui ut purus fringilla placerat. Maecenas in facilisis diam. Curabitur nec tortor in augue vestibulum lacinia. Fusce sed magna luctus, auctor enim eu, ullamcorper sapien. Sed accumsan semper diam, eget tristique justo varius non. Nullam eleifend at nibh sit amet consectetur. Morbi eget nunc quam. Curabitur congue ligula at rutrum viverra. Praesent convallis pretium risus eget sollicitudin. In tincidunt pharetra magna quis blandit. Ut ut luctus erat. Aliquam posuere tortor sit amet massa ultrices condimentum. Vestibulum eros risus, rutrum et ullamcorper sit amet, pulvinar id elit. Proin vitae velit lacus. Mauris volutpat vitae sem ac vulputate.
+      %h3 sed do eiusmod tempor incididunt ut
+      .row.full-width
+        .medium-3.columns.centered_text
+          = link_to image_tag('avatars/6.jpg', class: :avatar), '#'
+          %div
+            %strong Anthony Atkinson
+          .small.comment.centered_text about a month ago
+        .medium-9.columns
+          .post_content
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
+
+:javascript
+  $(function(){
+
+    var width = $(window).width();
+    var slidesPer = 1;
+    if (width > 760) slidesPer = 2;
+    if (width > 1270) slidesPer = 3;
+
+    $.get("/widgets/groupme_slider", function (data) {
+      $('.swiper-placeholder img.loading').hide();
+      $("#groupme_slider_widget").append(data);
+      var mySwiper = $('.swiper-container').swiper({
+        mode: 'horizontal',
+        loop: true,
+        centeredSlides: true,
+        speed: 600,
+        autoplay: 4000,
+        slidesPerView: slidesPer,
+        calculateHeight: true,
+        tdFlow: {
+          rotate: 0,
+          depth: 300,
+          stretch: 0,
+          modifier: 1,
+          shadows: false
+        }
+      });
+    });
+  });

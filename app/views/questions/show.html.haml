@@ -1,32 +1,25 @@
-- title('Why is your mother fat?')
+- title('How do I clock in with Minuteworx?')
 - content_for :header do
   .tags.right
     %a
       = icon('price-tag')
-      Existentialism
+      Clocking In
     %a
       = icon('price-tag')
-      Health
-    %a
-      = icon('price-tag')
-      Maternal
-    %a
-      = icon('price-tag')
-      Weight
+      Blueforce
 
 .widget.large-12.columns.question
   .inner
     .row.full-width
       .medium-3.columns.centered_text
-        = image_tag 'avatars/1.jpg', class: :avatar
+        = image_tag 'avatars/4.jpg', class: :avatar
         %div
-          %strong Anthony Atkinson
-        .small.comment Yesterday at 3:15 pm
+          %strong Lisa Wuong
+        .small.comment Yesterday at 7:34 pm
       .medium-9.columns
         .question_text
-          I used to be very attracted to your mother, but recently she's gained a lot of weight.
-          %br
-          What has changed since the last time we hooked up?
+          I can't clock in, Help!
+
 .row.full-width
   .large-12.columns
     %h3 2 Answers
@@ -36,9 +29,9 @@
     .row.full-width
       .medium-3.columns.centered_text
         %h4.accepted_answer Accepted Answer
-        = image_tag 'avatars/2.jpg', class: :avatar
+        = image_tag 'avatars/7.jpg', class: :avatar
         %div
-          %strong Stephen Miles
+          %strong Jim Galley
         .small.comment Today at 11:17 am
         .accepted_answer
           = icon('check')
@@ -46,14 +39,15 @@
             12
       .medium-9.columns
         .answer_text
-          Cause she can't put down the cheeseburgers!
+          Check out this article for info on setting up your punch clock!
+          = link_to 'http://support.rbdconnect.com/help/article/123871', 'http://support.rbdconnect.com/help/article/123871'
 .widget.large-12.columns
   .inner
     .row.full-width
       .medium-3.columns.centered_text
-        = image_tag 'avatars/3.jpg', class: :avatar
+        = image_tag 'avatars/8.jpg', class: :avatar
         %div
-          %strong Emma Rafferty
+          %strong Bryon Johnson
         .small.comment Today at 11:15am
         .submitted_answer
           = icon('check')
@@ -61,7 +55,7 @@
             20
       .medium-9.columns
         .answer_text
-          How rude!
+          Your manager will have the details
 
 .widget.large-12.columns
   .inner
@@ -69,7 +63,7 @@
       .medium-3.columns.centered_text
         = image_tag 'avatars/9.jpg', class: :avatar
       .medium-9.columns
-        %h3 Answer Anthony's question:
+        %h3 Answer Lisa's question:
         %textarea(placeholder="Type your answer here" )
         %input.button(type="submit" value="Answer")
 

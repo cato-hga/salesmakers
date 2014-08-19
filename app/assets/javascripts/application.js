@@ -17,8 +17,8 @@
 //= require foundation_new/foundation
 //= require foundation_new/foundation.offcanvas
 //= require foundation_new/foundation.topbar
+//= require foundation_new/foundation.dropdown
 //= require jquery-ui.min
-
 // require turbolinks
 // require jquery-ui-datepicker
 // require_tree .
