@@ -35,6 +35,9 @@ $(function () {
 	var $container = $('.wall');
 
 	$('.wall_post .post_content').readmore({
+		maxHeight: 500,
+		heightMargin: 100,
+		moreLink: '<a href="#">More</a>',
 		afterToggle: function(){
 			$container.masonry(
 
