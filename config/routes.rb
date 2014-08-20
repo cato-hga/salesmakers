@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+
+  resources :groupmes
+
   resources :questions
 
   resources :media

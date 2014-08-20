@@ -1,0 +1,2 @@
+module GroupMeHelper
+end
