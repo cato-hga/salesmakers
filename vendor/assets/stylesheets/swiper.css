@@ -114,6 +114,10 @@ sizes, pagination, etc.
     color: #d62121;
 }
 
+.swiper-slide .post {
+    font-size: 0.9em;
+}
+
 .swiper-slide .post img {
     max-height: 13em;
     float: left;
@@ -126,9 +130,14 @@ sizes, pagination, etc.
     max-width: 48%;
     float: right;
 }
+
+.swiper-slide .author {
+    font-size: 0.8em;
+}
+
 .swiper-slide .actions {
     margin-top: .5em;
-    font-size: small;
+    font-size: 0.8em;
 }
 
 .swiper-slide .inner {

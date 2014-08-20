@@ -1,5 +1,28 @@
 @import 'variables';
 
 @media (min-width: $mobile_cutoff){
+	article {
+		img {
+			max-width: 50%;
+		}
+	}
 
+	.widget {
+		.medium-3{
+			text-align: center;
+		}
+	}
+
+	.excerpt {
+		margin-top: 0;
+	}
+
+	.widget.wall_post, .widget.chat {
+		width: 46%;
+		margin: 2%;
+	}
+
+	.widget.chat {
+		float: right;
+	}
 }
