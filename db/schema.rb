@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820170913) do
+ActiveRecord::Schema.define(version: 20140821145725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -136,15 +136,15 @@ ActiveRecord::Schema.define(version: 20140820170913) do
   add_index "log_entries", ["trackable_id", "trackable_type"], name: "index_log_entries_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "people", force: true do |t|
-    t.string   "first_name",                          null: false
-    t.string   "last_name",                           null: false
+    t.string   "first_name",                           null: false
+    t.string   "last_name",                            null: false
     t.string   "display_name"
-    t.string   "email",                               null: false
+    t.string   "email",                                null: false
     t.string   "personal_email"
     t.integer  "position_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",               default: true, null: false
+    t.boolean  "active",                default: true, null: false
     t.string   "connect_user_id"
     t.integer  "supervisor_id"
     t.string   "office_phone"
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 20140820170913) do
     t.string   "home_phone"
     t.integer  "eid"
     t.string   "groupme_access_token"
+    t.datetime "groupme_token_updated"
   end
 
   create_table "permission_groups", force: true do |t|

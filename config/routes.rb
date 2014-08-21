@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :group_mes do
+    get 'auth', on: :collection
+    get 'called_back', on: :collection
+    get 'groups', on: :collection
+    get 'chat_aside', on: :collection
+  end
 
-  resources :groupmes
+  #get 'group_me/auth', as: 'group_me_auth'
 
   resources :questions
 

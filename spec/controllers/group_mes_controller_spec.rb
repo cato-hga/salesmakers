@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GroupMeController, :type => :controller do
+RSpec.describe GroupMesController, :type => :controller do
 
   describe "GET 'auth'" do
     it "returns http success" do

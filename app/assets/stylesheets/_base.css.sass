@@ -55,7 +55,14 @@ p
 .small_avatar
   @extend .avatar
   max-height: 5em
-  margin: $spacing / 6
+  margin: $spacing / 6 !important
+
+.chat_avatar
+  @extend .avatar
+  width: 52px
+  height: 52px
+  margin: $spacing / 6 !important
+
 
 .container,
 .slider
@@ -399,3 +406,9 @@ header
   top: 45px
   bottom: 0
   overflow-y: auto
+
+#chat_aside
+  .timestamp
+    line-height: 1em
+  .content
+    line-height: 1em

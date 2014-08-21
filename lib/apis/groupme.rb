@@ -3,8 +3,8 @@ class GroupMe
   base_uri 'https://api.groupme.com/v3'
   format :json
 
-  def initialize
-    @access_token = '7a853610f0ca01310e5a065d7b71239d'
+  def initialize(access_token)
+    @access_token = access_token
   end
 
   def get_groups

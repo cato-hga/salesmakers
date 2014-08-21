@@ -103,7 +103,7 @@ class WidgetsController < ApplicationController
   end
 
   def groupme_slider
-    groupme = GroupMe.new
+    groupme = GroupMe.new current_user.groupme_access_token
     messages = groupme.get_recent_messages 10, 3
     messages = messages.sort
     @messages = (messages.count < 15) ? messages.reverse : messages[0..14].reverse

@@ -1,0 +1,23 @@
+.row.full-width.notification
+  .large-3.columns.centered_text
+    - if group['image_url']
+      = image_tag group['image_url'] + '.avatar', class: 'chat_avatar'
+    - else
+      = image_tag 'https://app.groupme.com/images/default-avatar.jpg', class: 'chat_avatar'
+    - if group['messages'] and group['messages']['last_message_created_at']
+      .timestamp.small.comment
+        = Time.at(group['messages']['last_message_created_at']).strftime '%m/%d/%Y %-l:%M%P'
+  .large-9.columns
+    %span.heading
+      = group['name']
+    .content.small
+      =  group['messages']['preview']['nickname'] + ': ' + group['messages']['preview']['text']
+    -#  .large-3.columns= image_tag 'chat_mock/1team1dream.png', class: 'small_avatar'
+    -#  .large-9.columns
+    -#    %span.heading
+    -#      1 Team 1 Dream Leadership Group
+    -#      %span.timestamp.small.comment.right
+    -#        Yesterday, 7:34pm by RBD Otis Hall
+    -#    %hr/
+    -#    %span.content
+    -#      "Locked in Hollywood"

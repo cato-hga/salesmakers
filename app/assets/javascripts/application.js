@@ -57,6 +57,10 @@ $(function(){
 		expandWidget($(this).parents('.widget'));
 	});
 
+    $.get("/group_mes/chat_aside", function (data) {
+        $("#chat_aside").append(data);
+    });
+
 });
 
 function wrapAndHide(element) {
@@ -134,3 +138,4 @@ function collapseWidget(element){
 	element.insertAfter(afterWidget);
 	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
 }
+
