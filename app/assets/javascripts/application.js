@@ -19,12 +19,10 @@
 //= require foundation_new/foundation.topbar
 //= require foundation_new/foundation.dropdown
 //= require jquery-ui.min
+//= require chat
 // require turbolinks
 // require jquery-ui-datepicker
 // require_tree .
-
-
-
 
 function resizeWidgets() {
 	var width = $(window).width();
@@ -56,10 +54,6 @@ $(function(){
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
 	});
-
-    $.get("/group_mes/chat_aside", function (data) {
-        $("#chat_aside").append(data);
-    });
 
 });
 

@@ -90,11 +90,12 @@ table
   & > .inner
     padding: 0.9375rem
     background-color: #fff
-  a.close
-    float: right
-    margin: auto $spacing/2
-    font-size: x-large
-    color: #ccc
+
+a.close
+  float: right
+  margin: auto $spacing/2
+  font-size: x-large
+  color: #ccc
 
 .inactive,
 .inactive a
@@ -401,14 +402,41 @@ header
 
 .right-off-canvas-menu
   background-color: white
-  height: 100vh
   position: fixed
   top: 45px
   bottom: 0
   overflow-y: auto
+  width: 90%
 
 #chat_aside
   .timestamp
     line-height: 1em
+    color: black
+    margin-top: $spacing
   .content
     line-height: 1em
+    color: black
+  .group_me_login
+    padding: 10em 2em
+  .group_preview
+    border-bottom: 1px solid #ddd
+    padding: ($spacing / 2) 0
+  .centered_text
+    margin: 0 !important
+  .chat_message
+    @extend .group_preview
+    .timestamp
+      margin-top: 0
+  .chat_loading
+    text-align: center
+    padding-top: 2em
+
+
+#chat_aside a.close
+  display: none
+
+.chat_entry
+  margin-top: $spacing
+  .row
+    border-bottom: 1px solid #ddd
+    padding: 0 $spacing

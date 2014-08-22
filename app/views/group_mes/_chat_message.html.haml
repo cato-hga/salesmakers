@@ -1,0 +1,14 @@
+.row.full-width.chat_message
+  .large-2.columns.centered_text
+    - if message.avatar
+      = image_tag message.avatar, class: [:chat_avatar]
+    - else
+      = image_tag 'https://app.groupme.com/images/default-avatar.jpg', class: [:chat_avatar]
+  .large-10.columns
+    %strong.small= message.author
+    .timestamp.small.comment.right
+      = message.created_at.strftime '%m/%d/%Y %-l:%M%P'
+    .content
+      - if message.attachments and message.attachments.count > 0
+        %img{ src: message.attachments[0]['url'] }
+      = message.text

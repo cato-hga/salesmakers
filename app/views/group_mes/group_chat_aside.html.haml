@@ -1,0 +1,8 @@
+%form.chat_entry
+  .row
+    %input{ type: 'text', placeholder: 'Type your message here, and hit "Enter" to submit'}
+    %input{ type: 'hidden', name: 'Chat' }
+    -#TODO: Button isn't centering correctly. Fix!
+- for message in @messages do
+  = render partial: 'chat_message', locals:{ message: message }
+
