@@ -1,4 +1,5 @@
 require 'apis/groupme'
+require 'json'
 
 class GroupMesController < ApplicationController
   before_action :setup_groupme
@@ -34,7 +35,15 @@ class GroupMesController < ApplicationController
 
   def group_chat_aside
     @messages = @groupme.get_messages(params[:group_id], 10)
+    @group_id = params[:group_id]
   end
+
+
+  def post_message
+    @response = @groupme.send_message params[:group_id], params[:message]
+  end
+
+
 
   private
 

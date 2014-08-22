@@ -39,7 +39,8 @@ class GroupMe
         likes = 0
         likes = message['favorited_by'].count if message['favorited_by']
         next if likes < minimum_likes
-        group_me_message = GroupMeMessage.new group_name, message['name'], message['attachments'], message['text'], message['created_at'], likes, message['avatar_url']
+        group_me_message = GroupMeMessage.new group_name, message['name'], message['attachments'], message['text'],
+                                              message['created_at'], likes, message['avatar_url']
         messages << group_me_message
         before = message['id']
       end
@@ -80,13 +81,31 @@ class GroupMe
   def doGet(path, query = nil)
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
-    self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
+    self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json',
+                                                         'Accept' => 'application/json'} }
   end
 
   def doPost(path, body, query = nil)
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
-    self.class.post path, { body: body, query: query_hash, headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
+    self.class.post path, { body: body, query: query_hash, headers: { 'Content-Type' => 'application/json',
+                                                                      'Accept' => 'application/json'} }
+  end
+
+  def send_message(group_id, message_text)
+    group_me_message =  {
+        message: {
+            source_guid: SecureRandom.uuid,
+            text: message_text
+        }
+        # attachments: {
+        #     type: attachment_type,
+        #     url: attachment_url,
+        # }
+    }.to_json
+    #Separate out attachments hash and put into group me message if an attachment exists
+    response = doPost "/groups/#{group_id}/messages", group_me_message
+    group_me_message
   end
 
 end

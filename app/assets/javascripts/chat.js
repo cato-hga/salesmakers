@@ -56,4 +56,6 @@ function outputMessage(message){
     //console.log(message['subject']['name'] + ': ' + message['subject']['text']);
 }
 
+function inputMessage(message_text){
 
+}

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get 'groups', on: :collection
     get 'groups_aside', on: :collection
     get 'group_chat_aside/:group_id', to: 'group_mes#group_chat_aside', on: :collection
+    post 'post_message', on: :collection
   end
 
   #get 'group_me/auth', as: 'group_me_auth'

@@ -1,8 +1,8 @@
-%form.chat_entry
-  .row
-    %input{ type: 'text', placeholder: 'Type your message here, and hit "Enter" to submit'}
-    %input{ type: 'hidden', name: 'Chat' }
-    -#TODO: Button isn't centering correctly. Fix!
+= form_tag '/group_mes/post_message', method: :post, remote: true do
+  .row.chat_entry
+    = text_field_tag :message, nil, placeholder: 'Type your message here, and hit "Enter" to submit'
+    = submit_tag 'send', type: 'hidden', name: 'chat'
+    = hidden_field_tag :group_id, @group_id
 - for message in @messages do
   = render partial: 'chat_message', locals:{ message: message }
 
