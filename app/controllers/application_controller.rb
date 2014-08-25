@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
 
   def permission_denied
     flash[:error] = 'You are not authorized to perform that action'
-    redirect_to :back
+    unless request.env['HTTP_REFERER']
+      redirect_to '/'
+    else
+      redirect_to :back
+    end
   end
 end
