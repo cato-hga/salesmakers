@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :area do
-    name 'East Retail Region'
+    name 'Tampa Retail Territory'
     area_type
     project
   end

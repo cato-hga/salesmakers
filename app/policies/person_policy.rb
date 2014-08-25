@@ -1,7 +1,7 @@
 class PersonPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      scope
+      scope.visible(user)
     end
   end
 end

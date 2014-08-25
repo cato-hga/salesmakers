@@ -1,4 +1,4 @@
-class PeopleController < ApplicationController
+class PeopleController < ProtectedController
   require 'apis/mojo'
 
   def index

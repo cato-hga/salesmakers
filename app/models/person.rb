@@ -26,6 +26,52 @@ class Person < ActiveRecord::Base
   has_many :devices
   has_one :profile
 
+  scope :visible, ->(person = nil) {
+    return Person.none unless person
+    people = Array.new
+    position = person.position
+
+    return team_members unless position
+
+    if position.all_field_visibility?
+      people = people.concat Person.all_field_members
+    end
+    if position.all_corporate_visibility?
+      people = people.concat Person.all_hq_members
+    end
+    if position.hq?
+      people = people.concat person.department_members
+    end
+
+    people = people.concat person.team_members
+    return Person.none if people.count < 1
+
+    Person.where("id IN (#{people.map(&:id).join(',')})")
+  }
+
+  def team_members
+    people = Array.new
+    for person_area in self.person_areas do
+      people = people.concat person_area.area.people.to_a
+    end
+    people.flatten
+  end
+
+  def department_members
+    return Person.none unless self.position
+    self.position.department.people
+  end
+
+  def self.all_field_members
+    positions = Position.where( field: true )
+    Person.where( position: positions)
+  end
+
+  def self.all_hq_members
+    positions = Position.where( hq: true )
+    Person.where( position: positions )
+  end
+
   def self.return_from_connect_user(connect_user)
     email = connect_user.email
     first_name = connect_user.firstname
@@ -173,5 +219,6 @@ class Person < ActiveRecord::Base
   def create_profile
     Profile.find_or_create_by person: self
   end
+
 
 end
