@@ -1,4 +1,4 @@
-class DepartmentsController < ApplicationController
+class DepartmentsController < ProtectedController
   def index
     authorize Department.new
     @departments = policy_scope(Department).all

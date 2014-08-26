@@ -1,4 +1,4 @@
-class PositionsController < ApplicationController
+class PositionsController < ProtectedController
   def index
     authorize Position.new
     @department = Department.find params[:department_id]
