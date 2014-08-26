@@ -25,6 +25,7 @@ class Person < ActiveRecord::Base
   has_many :device_deployments
   has_many :devices
   has_one :profile
+  has_many :permissions, through: :position
 
   scope :visible, ->(person = nil) {
     return Person.none unless person

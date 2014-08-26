@@ -6,4 +6,5 @@ class Permission < ActiveRecord::Base
 
   belongs_to :permission_group
   has_and_belongs_to_many :positions
+
 end

@@ -34,6 +34,10 @@ class ApplicationPolicy
     has_permission? 'destroy'
   end
 
+  def search?
+    index?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end
