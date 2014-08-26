@@ -1,7 +1,8 @@
 class PositionsController < ApplicationController
   def index
+    authorize Position.new
     @department = Department.find params[:department_id]
-    @positions = Position.where department: @department
+    @positions = policy_scope(Position).where department: @department
   end
 
   def new

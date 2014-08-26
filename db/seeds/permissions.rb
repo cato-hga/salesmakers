@@ -40,6 +40,7 @@ ops_and_execs_positions = [
 pg_people = PermissionGroup.create name: 'People'
 areas_and_locations = PermissionGroup.create name: 'Areas and Locations'
 clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
+departments_and_positions = PermissionGroup.create name: 'Departments and Positions'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -60,8 +61,12 @@ client_index = Permission.create key: 'client_index',
                                  permission_group: clients_and_projects
 
 department_index = Permission.create key: 'department_index',
-                                     description: 'can view list of department',
-                                     permission_group: clients_and_projects
+                                     description: 'can view list of departments',
+                                     permission_group: departments_and_positions
+
+position_index = Permission.create key: 'position_index',
+                                   description: 'can view list of positions',
+                                   permission_group: departments_and_positions
 
 
 for position in all_positions do
@@ -79,3 +84,5 @@ end
 
 pos_admin.permissions << department_index
 pos_ssd.permissions << department_index
+pos_admin.permissions << position_index
+pos_ssd.permissions << position_index
