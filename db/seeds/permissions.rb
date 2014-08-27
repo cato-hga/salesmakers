@@ -41,6 +41,7 @@ pg_people = PermissionGroup.create name: 'People'
 areas_and_locations = PermissionGroup.create name: 'Areas and Locations'
 clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
 departments_and_positions = PermissionGroup.create name: 'Departments and Positions'
+widgets_permission_group = PermissionGroup.create name: 'Widgets'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -68,6 +69,33 @@ position_index = Permission.create key: 'position_index',
                                    description: 'can view list of positions',
                                    permission_group: departments_and_positions
 
+widgets = [
+    'sales',
+    'hours',
+    'tickets',
+    'social',
+    'alerts',
+    'image_gallery',
+    'inventory',
+    'staffing',
+    'gaming',
+    'commissions',
+    'training',
+    'gift_cards',
+    'pnl',
+    'hps',
+    'assets',
+    'groupme_slider'
+]
+
+for widget in widgets do
+  widget_permission = Permission.create key: 'widget_' + widget,
+                                        description: 'can view list the' + widget + ' widget',
+                                        permission_group: widgets_permission_group
+  for position in all_positions do
+    position.permissions << widget_permission
+  end
+end
 
 for position in all_positions do
   position.permissions << person_index
@@ -86,3 +114,5 @@ pos_admin.permissions << department_index
 pos_ssd.permissions << department_index
 pos_admin.permissions << position_index
 pos_ssd.permissions << position_index
+
+

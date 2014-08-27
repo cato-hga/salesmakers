@@ -1,26 +1,39 @@
--#.row.full-width.widgets
--#  .large-10.medium-9.columns
--#    .row.full-width
--#      .large-6.columns
--#        .widget
--#          .inner
--#      .large-6.columns
--#        .widget
--#          .inner
--#  .large-2.medium-3.columns
--#    .widget
--#      .inner
--#
-
 - content_for :action_buttons do
   = link_to 'Switch to Dashboard', home_dashboard_path, class: [:button, :tiny, :rounded, :inline_button]
+- if policy(:widget).groupme_slider?
+  - content_for :slider do
+    .swiper-placeholder
+      = image_tag 'loading.gif', class: :loading
+      %span#groupme_slider_widget
+      :javascript
+        $(function(){
 
+          var width = $(window).width();
+          var slidesPer = 1;
+          if (width > 760) slidesPer = 2;
+          if (width > 1270) slidesPer = 3;
 
-- content_for :slider do
-  -#= render 'shared/social_swiper'
-  .swiper-placeholder
-    = image_tag 'loading.gif', class: :loading
-    %span#groupme_slider_widget
+          $.get("/widgets/groupme_slider", function (data) {
+            $('.swiper-placeholder img.loading').hide();
+            $("#groupme_slider_widget").append(data);
+            var mySwiper = $('.swiper-container').swiper({
+              mode: 'horizontal',
+              loop: true,
+              centeredSlides: true,
+              speed: 600,
+              autoplay: 4000,
+              slidesPerView: slidesPer,
+              calculateHeight: true,
+              tdFlow: {
+                rotate: 0,
+                depth: 300,
+                stretch: 0,
+                modifier: 1,
+                shadows: false
+              }
+            });
+          });
+        });
 
 .wall
   .widget.wall_post
@@ -276,33 +289,3 @@
         .medium-9.columns
           .post_content
             At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
-
-:javascript
-  $(function(){
-
-    var width = $(window).width();
-    var slidesPer = 1;
-    if (width > 760) slidesPer = 2;
-    if (width > 1270) slidesPer = 3;
-
-    $.get("/widgets/groupme_slider", function (data) {
-      $('.swiper-placeholder img.loading').hide();
-      $("#groupme_slider_widget").append(data);
-      var mySwiper = $('.swiper-container').swiper({
-        mode: 'horizontal',
-        loop: true,
-        centeredSlides: true,
-        speed: 600,
-        autoplay: 4000,
-        slidesPerView: slidesPer,
-        calculateHeight: true,
-        tdFlow: {
-          rotate: 0,
-          depth: 300,
-          stretch: 0,
-          modifier: 1,
-          shadows: false
-        }
-      });
-    });
-  });
