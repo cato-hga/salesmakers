@@ -42,6 +42,7 @@ areas_and_locations = PermissionGroup.create name: 'Areas and Locations'
 clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
 departments_and_positions = PermissionGroup.create name: 'Departments and Positions'
 widgets_permission_group = PermissionGroup.create name: 'Widgets'
+audit_permission_group = PermissionGroup.create name: 'Audit'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -68,6 +69,10 @@ department_index = Permission.create key: 'department_index',
 position_index = Permission.create key: 'position_index',
                                    description: 'can view list of positions',
                                    permission_group: departments_and_positions
+
+log_entry_index = Permission.create key: 'log_entry_index',
+                                    description: 'can view logs',
+                                    permission_group: audit_permission_group
 
 widgets = [
     'sales',
@@ -114,5 +119,8 @@ pos_admin.permissions << department_index
 pos_ssd.permissions << department_index
 pos_admin.permissions << position_index
 pos_ssd.permissions << position_index
+pos_admin.permissions << log_entry_index
+pos_ssd.permissions << log_entry_index
+
 
 
