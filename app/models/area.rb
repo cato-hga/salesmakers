@@ -1,4 +1,5 @@
 class Area < ActiveRecord::Base
+  after_save :create_wall
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
@@ -7,6 +8,7 @@ class Area < ActiveRecord::Base
   belongs_to :project
   has_many :person_areas
   has_many :people, through: :person_areas
+  has_one :wall, as: :wallable
   has_ancestry
 
 
@@ -28,4 +30,11 @@ class Area < ActiveRecord::Base
 
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
+
+  private
+
+    def create_wall
+      return if self.wall
+      Wall.create wallable: self
+    end
 end
