@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828153421) do
+ActiveRecord::Schema.define(version: 20140828181156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,33 @@ ActiveRecord::Schema.define(version: 20140828153421) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "secondary_identifier"
+  end
+
+  create_table "group_me_groups", force: true do |t|
+    t.integer  "group_num",  null: false
+    t.integer  "area_id"
+    t.string   "name",       null: false
+    t.string   "avatar_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_me_posts", force: true do |t|
+    t.integer  "group_me_group_id", null: false
+    t.datetime "posted_at",         null: false
+    t.string   "group_me_user_num", null: false
+    t.text     "json",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_me_users", force: true do |t|
+    t.string   "group_me_user_num", null: false
+    t.integer  "person_id"
+    t.string   "name",              null: false
+    t.string   "avatar_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "line_states", force: true do |t|
