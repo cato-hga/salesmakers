@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828201908) do
+ActiveRecord::Schema.define(version: 20140828202130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -319,31 +319,33 @@ ActiveRecord::Schema.define(version: 20140828201908) do
   end
 
   create_table "uploaded_images", force: true do |t|
-    t.string   "url",        null: false
-    t.string   "thumb_url",  null: false
-    t.string   "medium_url", null: false
-    t.string   "large_url",  null: false
-    t.integer  "person_id",  null: false
+    t.string   "url",                    null: false
+    t.string   "thumb_url",              null: false
+    t.string   "medium_url",             null: false
+    t.string   "large_url",              null: false
+    t.integer  "person_id",              null: false
     t.string   "caption"
-    t.integer  "width",      null: false
-    t.integer  "height",     null: false
+    t.integer  "width",                  null: false
+    t.integer  "height",                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "score",      default: 0, null: false
   end
 
   create_table "uploaded_videos", force: true do |t|
-    t.string   "url",                   null: false
-    t.string   "screenshot_url",        null: false
-    t.string   "screenshot_thumb_url",  null: false
-    t.string   "screenshot_medium_url", null: false
-    t.string   "screenshot_large_url",  null: false
+    t.string   "url",                               null: false
+    t.string   "screenshot_url",                    null: false
+    t.string   "screenshot_thumb_url",              null: false
+    t.string   "screenshot_medium_url",             null: false
+    t.string   "screenshot_large_url",              null: false
     t.string   "screenshot_caption"
     t.text     "description"
-    t.integer  "width",                 null: false
-    t.integer  "height",                null: false
+    t.integer  "width",                             null: false
+    t.integer  "height",                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "person_id",             null: false
+    t.integer  "person_id",                         null: false
+    t.integer  "score",                 default: 0, null: false
   end
 
   create_table "wall_posts", force: true do |t|
