@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828192644) do
+ActiveRecord::Schema.define(version: 20140828201359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,6 +180,13 @@ ActiveRecord::Schema.define(version: 20140828192644) do
   add_index "log_entries", ["referenceable_id", "referenceable_type"], name: "index_log_entries_on_referenceable_id_and_referenceable_type", using: :btree
   add_index "log_entries", ["trackable_id", "trackable_type"], name: "index_log_entries_on_trackable_id_and_trackable_type", using: :btree
 
+  create_table "media", force: true do |t|
+    t.integer  "medium_id",   null: false
+    t.string   "medium_type", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "people", force: true do |t|
     t.string   "first_name",                           null: false
     t.string   "last_name",                            null: false
@@ -307,6 +314,33 @@ ActiveRecord::Schema.define(version: 20140828192644) do
   create_table "themes", force: true do |t|
     t.string   "name",         null: false
     t.string   "display_name", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "uploaded_images", force: true do |t|
+    t.string   "url",        null: false
+    t.string   "thumb_url",  null: false
+    t.string   "medium_url", null: false
+    t.string   "large_url",  null: false
+    t.integer  "person_id",  null: false
+    t.string   "caption"
+    t.integer  "width",      null: false
+    t.integer  "height",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "uploaded_videos", force: true do |t|
+    t.string   "url",                   null: false
+    t.string   "screenshot_url",        null: false
+    t.string   "screenshot_thumb_url",  null: false
+    t.string   "screenshot_medium_url", null: false
+    t.string   "screenshot_large_url",  null: false
+    t.string   "screenshot_caption"
+    t.text     "description"
+    t.integer  "width",                 null: false
+    t.integer  "height",                null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
