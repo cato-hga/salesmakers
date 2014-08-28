@@ -1,4 +1,5 @@
 class UploadedVideo < ActiveRecord::Base
+  include UploadableMedia
   include Publishable
 
   has_one :medium
