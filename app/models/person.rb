@@ -2,6 +2,7 @@ class Person < ActiveRecord::Base
 
   before_validation :generate_display_name
   after_save :create_profile
+  after_save :create_wall
 
   validates :first_name, length: { minimum: 2 }
   validates :last_name, length: { minimum: 2 }
@@ -26,6 +27,7 @@ class Person < ActiveRecord::Base
   has_many :devices
   has_one :profile
   has_many :permissions, through: :position
+  has_one :wall, as: :wallable
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
@@ -212,14 +214,18 @@ class Person < ActiveRecord::Base
 
   private
 
-  def generate_display_name
-    return unless first_name and last_name
-    self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
-  end
+    def generate_display_name
+      return unless first_name and last_name
+      self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+    end
 
-  def create_profile
-    Profile.find_or_create_by person: self
-  end
+    def create_profile
+      Profile.find_or_create_by person: self
+    end
 
-
+    def create_wall
+      wall = self.wall
+      return if wall
+      Wall.create wallable: self
+    end
 end
