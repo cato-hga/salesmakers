@@ -224,8 +224,7 @@ class Person < ActiveRecord::Base
     end
 
     def create_wall
-      wall = self.wall
-      return if wall
+      return if self.wall
       Wall.create wallable: self
     end
 end
