@@ -212,6 +212,11 @@ class Person < ActiveRecord::Base
     entry.save ? true : false
   end
 
+  def create_wall
+    return if self.wall
+    Wall.create wallable: self
+  end
+
   private
 
     def generate_display_name
@@ -221,10 +226,5 @@ class Person < ActiveRecord::Base
 
     def create_profile
       Profile.find_or_create_by person: self
-    end
-
-    def create_wall
-      return if self.wall
-      Wall.create wallable: self
     end
 end
