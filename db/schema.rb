@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828182143) do
+ActiveRecord::Schema.define(version: 20140828185745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -243,11 +243,45 @@ ActiveRecord::Schema.define(version: 20140828182143) do
     t.boolean  "hq"
   end
 
+  create_table "profile_educations", force: true do |t|
+    t.integer  "profile_id"
+    t.string   "school"
+    t.integer  "start_year"
+    t.integer  "end_year"
+    t.string   "degree"
+    t.string   "field_of_study"
+    t.text     "activities_societies"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "profile_experiences", force: true do |t|
+    t.integer  "profile_id"
+    t.string   "company_name"
+    t.string   "title"
+    t.string   "location"
+    t.date     "started"
+    t.date     "ended"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "profile_skills", force: true do |t|
+    t.integer  "profile_id"
+    t.string   "skill"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "profiles", force: true do |t|
     t.integer  "person_id",  null: false
     t.string   "theme_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "interests"
+    t.text     "bio"
   end
 
   create_table "projects", force: true do |t|
