@@ -7,7 +7,7 @@
   - @blog_posts.each_slice(3) do |group|
     .widgets.row.full-width
       - for blog_post in group
-        .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 0}}
+        .widget.large-4.columns{ data: { expand_url: blog_post_path(blog_post), widget_index: 0 } }
           .inner
             %h3.expandwidget= blog_post.title
             .row.full-width
@@ -15,11 +15,13 @@
                 = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
                 %div
                   %strong= blog_post.person.name
-                .small.comment.centered_text= blog_post.created_at
+                .small.comment.centered_text
+                  = time_ago_in_words(blog_post.created_at)
+                  ago
               .medium-9.columns
                 .excerpt
                   = blog_post.excerpt
-                  %a.expandwidget.small.comment{ data: { expand_url: '/blog_posts/1'}} (more)
+                  %a.expandwidget.small.comment{ data: { expand_url: blog_post_path(blog_post) } } (more)
       = empty_columns(@blog_posts, group, 3, 'widget')
 - else
   %p

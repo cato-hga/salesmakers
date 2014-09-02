@@ -1,4 +1,6 @@
 class Profile < ActiveRecord::Base
+  include PersonVisibility
+
   before_validation :set_defaults, :nullify_values
 
   validates :person, presence: true

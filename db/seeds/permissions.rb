@@ -101,13 +101,22 @@ blog_post_index = Permission.create key: 'blog_post_index',
                                     permission_group: posts_permission_group
 
 question_index = Permission.create key: 'question_index',
-                                    description: 'can view list of questions',
-                                    permission_group: q_and_a_permission_group
+                                   description: 'can view list of questions',
+                                   permission_group: q_and_a_permission_group
+
+profile_update_others = Permission.create key: 'profile_update_others',
+                                        description: 'can update profiles of others',
+                                        permission_group: profiles_permission_group
+
+profile_update = Permission.create key: 'profile_update',
+                                 description: 'can update own profile',
+                                 permission_group: profiles_permission_group
 
 for widget in widgets do
   widget_permission = Permission.create key: 'widget_' + widget,
                                         description: 'can view list the' + widget + ' widget',
                                         permission_group: widgets_permission_group
+
   for position in all_positions do
     position.permissions << widget_permission
   end
@@ -118,6 +127,8 @@ for position in all_positions do
   position.permissions << area_index
   position.permissions << blog_post_index
   position.permissions << question_index
+  position.permissions << profile_update
+
 end
 
 for position in hq_positions do
@@ -126,14 +137,16 @@ end
 
 for position in ops_and_execs_positions do
   position.permissions << client_index
+  position.permissions << profile_update_others
 end
 
-pos_admin.permissions << department_index
-pos_ssd.permissions << department_index
-pos_admin.permissions << position_index
-pos_ssd.permissions << position_index
-pos_admin.permissions << log_entry_index
-pos_ssd.permissions << log_entry_index
+for position in [pos_admin, pos_ssd] do
+  position.permissions << department_index
+  position.permissions << position_index
+  position.permissions << log_entry_index
+  position.permissions << profile_update_others
+end
+
 
 
 

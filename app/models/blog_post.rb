@@ -3,4 +3,6 @@ class BlogPost < ActiveRecord::Base
   include PersonVisibility
 
   belongs_to :person
+
+  default_scope { order( created_at: :desc) }
 end

@@ -13,7 +13,8 @@ class BlogPostsController < ProtectedController
   end
 
   def show
-
+    @blog_post = BlogPost.find params[:id]
+    authorize @blog_post
   end
 
   def edit
