@@ -1,3 +1,8 @@
-- for group in @groups do
-  = render partial: 'group_preview', locals: { group: group }
-
+- if @current_person and @current_person.groupme_access_token
+  - if @groups
+    - for group in @groups do
+      = render partial: 'group_preview', locals: { group: group }
+  - else
+    You are not a member of any groups.
+- else
+  Not linked to GroupMe text here.

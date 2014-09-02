@@ -57,13 +57,16 @@ class Person < ActiveRecord::Base
     people = people.concat person.team_members
     return Person.none if people.count < 1
 
-    Person.where("id IN (#{people.map(&:id).join(',')})")
+    Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
   }
 
   def team_members
     people = Array.new
     for person_area in self.person_areas do
-      people = people.concat person_area.area.people.to_a
+      areas = person_area.area.subtree
+      for area in areas do
+        people = people.concat area.people.to_a
+      end
     end
     people.flatten
   end

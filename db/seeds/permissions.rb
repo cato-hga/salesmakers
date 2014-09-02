@@ -43,6 +43,9 @@ clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
 departments_and_positions = PermissionGroup.create name: 'Departments and Positions'
 widgets_permission_group = PermissionGroup.create name: 'Widgets'
 audit_permission_group = PermissionGroup.create name: 'Audit'
+profiles_permission_group = PermissionGroup.create name: 'Profiles'
+q_and_a_permission_group = PermissionGroup.create name: 'Questions and Answers'
+posts_permission_group = PermissionGroup.create name: 'Posts and Posting'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -93,6 +96,14 @@ widgets = [
     'groupme_slider'
 ]
 
+blog_post_index = Permission.create key: 'blog_post_index',
+                                    description: 'can view list of blog posts',
+                                    permission_group: posts_permission_group
+
+question_index = Permission.create key: 'question_index',
+                                    description: 'can view list of questions',
+                                    permission_group: q_and_a_permission_group
+
 for widget in widgets do
   widget_permission = Permission.create key: 'widget_' + widget,
                                         description: 'can view list the' + widget + ' widget',
@@ -105,6 +116,8 @@ end
 for position in all_positions do
   position.permissions << person_index
   position.permissions << area_index
+  position.permissions << blog_post_index
+  position.permissions << question_index
 end
 
 for position in hq_positions do

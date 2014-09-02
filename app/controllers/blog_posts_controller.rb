@@ -1,7 +1,9 @@
-class BlogPostsController < ApplicationController
+class BlogPostsController < ProtectedController
   layout false, only: :show
 
   def index
+    authorize BlogPost.new
+    @blog_posts = policy_scope(BlogPost).all
   end
 
   def new
