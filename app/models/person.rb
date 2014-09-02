@@ -37,7 +37,6 @@ class Person < ActiveRecord::Base
   has_many :answers
   has_many :answer_upvotes
 
-
   scope :visible, ->(person = nil) {
     return Person.none unless person
     people = Array.new
