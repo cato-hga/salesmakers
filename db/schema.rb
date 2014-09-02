@@ -11,10 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828202130) do
+ActiveRecord::Schema.define(version: 20140902135934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "answer_upvotes", force: true do |t|
+    t.integer  "answer_id",  null: false
+    t.integer  "person_id",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "answers", force: true do |t|
+    t.integer  "person_id",   null: false
+    t.integer  "question_id", null: false
+    t.text     "content",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "area_types", force: true do |t|
     t.string   "name",       null: false
@@ -301,6 +316,15 @@ ActiveRecord::Schema.define(version: 20140828202130) do
   create_table "publications", force: true do |t|
     t.integer  "publishable_id",   null: false
     t.string   "publishable_type", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "questions", force: true do |t|
+    t.integer  "person_id",  null: false
+    t.integer  "answer_id"
+    t.string   "title",      null: false
+    t.text     "content",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

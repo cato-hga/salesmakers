@@ -28,6 +28,15 @@ class Person < ActiveRecord::Base
   has_one :profile
   has_many :permissions, through: :position
   has_one :wall, as: :wallable
+  has_one :group_me_user
+  has_many :uploaded_images
+  has_many :uploaded_videos
+  has_many :blog_posts
+  has_many :wall_posts
+  has_many :questions
+  has_many :answers
+  has_many :answer_upvotes
+
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
