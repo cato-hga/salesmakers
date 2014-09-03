@@ -39,7 +39,7 @@ class GroupMe
         likes = 0
         likes = message['favorited_by'].count if message['favorited_by']
         next if likes < minimum_likes
-        group_me_message = GroupMeMessage.new group_name, message['name'], message['attachments'], message['text'],
+        group_me_message = GroupMeApiMessage.new group_name, message['name'], message['attachments'], message['text'],
                                               message['created_at'], likes, message['avatar_url']
         messages << group_me_message
         before = message['id']
@@ -77,6 +77,11 @@ class GroupMe
     urls
   end
 
+  def get_me
+    response = doGet '/users/me'
+    return response['response'] if response and response['response']
+    nil
+  end
 
   def doGet(path, query = nil)
     query_hash = { token: @access_token }
@@ -110,7 +115,7 @@ class GroupMe
 
 end
 
-class GroupMeMessage
+class GroupMeApiMessage
 
   include Comparable
 

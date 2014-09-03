@@ -13,9 +13,16 @@ class GroupMesController < ApplicationController
     if params[:access_token] and current_user
       current_user.update groupme_access_token: params[:access_token],
                           groupme_token_updated: Time.now
+      setup_groupme
+      group_me_user_json = @groupme.get_me
+      GroupMeUser.create_from_json group_me_user_json, @current_person
     end
 
     redirect_to root_url
+  end
+
+  def incoming_bot_message
+    #existing_message = GroupMePost.find_by
   end
 
 
