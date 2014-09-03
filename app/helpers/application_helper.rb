@@ -3,6 +3,10 @@ module ApplicationHelper
     content_for(:title) { page_title }
   end
 
+  def visible_projects
+    Project.visible @current_person
+  end
+
   def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do

@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   resources :log_entries, only: [ :index ]
 
   resources :clients do
-    resources :projects do
+    resources :projects, except: :index do
       resources :area_types
       resources :areas
       resources :channels

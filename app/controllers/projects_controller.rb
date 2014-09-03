@@ -1,6 +1,4 @@
-class ProjectsController < ApplicationController
-  def index
-  end
+class ProjectsController < ProtectedController
 
   def edit
   end

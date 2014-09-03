@@ -6,9 +6,8 @@ class ClientsController < ProtectedController
   end
 
   def show
-    #@clients = Client.find params[:id]
-    #TODO AUTHORIZE MEH
-
+    @client = Client.find params[:id]
+    authorize @client
   end
 
   def new

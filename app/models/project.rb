@@ -8,4 +8,13 @@ class Project < ActiveRecord::Base
   has_many :areas
 
   default_scope { order(:name) }
+  scope :visible, -> (person = nil) {
+    return self.none unless person
+    return self.all if person.position and person.position.hq?
+    projects = Array.new
+    for person_area in person.person_areas do
+      projects << person_area.area.project unless projects.include? person_area.area.project
+    end
+    projects
+  }
 end

@@ -48,7 +48,7 @@
           %li.has-dropdown
             = link_to icon('clipboard-notes') + ' Projects', '#'
             %ul.dropdown
-              - for project in @projects
+              - for project in visible_projects
                 %li.has-dropdown
                   = link_to project.name, '#'
                   %ul.dropdown
