@@ -2,6 +2,7 @@ require 'apis/groupme'
 require 'json'
 
 class GroupMesController < ApplicationController
+  protect_from_forgery except: :incoming_bot_message
   before_action :setup_groupme
   layout false
 
@@ -15,14 +16,24 @@ class GroupMesController < ApplicationController
                           groupme_token_updated: Time.now
       setup_groupme
       group_me_user_json = @groupme.get_me
-      GroupMeUser.create_from_json group_me_user_json, @current_person
+      GroupMeUser.find_or_create_from_json group_me_user_json, @current_person
     end
 
     redirect_to root_url
   end
 
   def incoming_bot_message
-    #existing_message = GroupMePost.find_by
+    existing_message = GroupMePost.find_by message_num: params[:id]
+    return if existing_message
+    group_me_user = GroupMeUser.find_or_create_by group_me_user_num: params[:user_id],
+                                                  name: params[:name],
+                                                  avatar_url: params[:avatar_url]
+
+    GroupMePost.create group_me_group_id: params[:group_id],
+                       message_num: params[:id],
+                       posted_at: Time.now,
+                       json: request.body.read,
+                       group_me_user: group_me_user
   end
 
 
