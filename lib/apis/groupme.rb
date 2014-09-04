@@ -7,8 +7,18 @@ class GroupMe
     @access_token = access_token
   end
 
+  def self.new_global
+    self.new '7a853610f0ca01310e5a065d7b71239d'
+  end
+
   def get_groups
     doGet '/groups', { per_page: 100 }
+  end
+
+  def get_group(group_id)
+    response = doGet '/groups/' + group_id
+    return nil unless response and response['response']
+    response['response']
   end
 
   def get_messages(group_id, max = 5, group_name = nil, minimum_likes = 0)

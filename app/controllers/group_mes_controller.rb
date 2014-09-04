@@ -24,20 +24,19 @@ class GroupMesController < ApplicationController
   end
 
   def incoming_bot_message
-    logger.info "Log me!"
+    json = request.body.read
     existing_message = GroupMePost.find_by message_num: params[:id]
     return if existing_message
-    logger.debug "No Existing message"
-    group_me_user = GroupMeUser.find_or_create_by group_me_user_num: params[:user_id],
-                                                  name: params[:name],
-                                                  avatar_url: params[:avatar_url]
-
+    group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
+    unless group_me_user
+      GroupMeGroup.update_group params[:group_id]
+      group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
+    end
     post = GroupMePost.create group_me_group_id: params[:group_id],
-                             message_num: params[:id],
-                             posted_at: Time.now,
-                             json: request.body.read,
-                             group_me_user: group_me_user
-    logger.debug post.id
+                              message_num: params[:id],
+                              posted_at: Time.now,
+                              json: json,
+                              group_me_user: group_me_user
   end
 
 
@@ -66,11 +65,10 @@ class GroupMesController < ApplicationController
   end
 
 
-
   private
 
-    def setup_groupme
-      @groupme = GroupMe.new current_user.groupme_access_token
-    end
+  def setup_groupme
+    @groupme = GroupMe.new current_user.groupme_access_token
+  end
 
 end
