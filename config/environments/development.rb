@@ -37,4 +37,7 @@ Rails.application.configure do
 
   #Letter_opener support
   config.action_mailer.delivery_method = :letter_opener
+
+  config.log_level = :debug
+
 end
