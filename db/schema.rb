@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904164424) do
+ActiveRecord::Schema.define(version: 20140904171137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,13 +152,14 @@ ActiveRecord::Schema.define(version: 20140904164424) do
   add_index "group_me_likes", ["group_me_user_id"], name: "index_group_me_likes_on_group_me_user_id", using: :btree
 
   create_table "group_me_posts", force: true do |t|
-    t.integer  "group_me_group_id", null: false
-    t.datetime "posted_at",         null: false
-    t.text     "json",              null: false
+    t.integer  "group_me_group_id",             null: false
+    t.datetime "posted_at",                     null: false
+    t.text     "json",                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_me_user_id",  null: false
-    t.string   "message_num",       null: false
+    t.integer  "group_me_user_id",              null: false
+    t.string   "message_num",                   null: false
+    t.integer  "like_count",        default: 0, null: false
   end
 
   create_table "group_me_users", force: true do |t|

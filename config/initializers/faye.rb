@@ -22,6 +22,11 @@ Thread.new do
 
     GroupMeClient.subscribe '/group/8936279' do |message|
       Rails.logger.debug message.inspect
+      if message['type'] and message['type'] == 'favorite'
+        GroupMeLike.create_from_json message['subject']
+      else
+        Rails.logger.debug 'No message type'
+      end
     end
   }
 end

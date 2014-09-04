@@ -36,6 +36,7 @@ class Person < ActiveRecord::Base
   has_many :questions
   has_many :answers
   has_many :answer_upvotes
+  has_many :group_me_likes, through: :group_me_user
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
