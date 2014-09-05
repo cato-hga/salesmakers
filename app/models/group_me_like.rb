@@ -11,5 +11,10 @@ class GroupMeLike < ActiveRecord::Base
                            group_me_post: group_me_message
 
     group_me_message.increment! :like_count if new_like
+    group_me_message.reload
+    if group_me_message.like_count == group_me_message.group_me_group.likes_threshold and group_me_message.person and group_me_message.group_me_group.area
+      publication = Publication.publish group_me_message, group_me_message.person
+      WallPost.create_from_publication publication, Wall.fetch_wall(group_me_message.group_me_group.area)
+    end
   end
 end

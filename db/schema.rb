@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904171137) do
+ActiveRecord::Schema.define(version: 20140905154500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20140904171137) do
     t.integer  "group_me_user_id",              null: false
     t.string   "message_num",                   null: false
     t.integer  "like_count",        default: 0, null: false
+    t.integer  "person_id"
   end
 
   create_table "group_me_users", force: true do |t|
