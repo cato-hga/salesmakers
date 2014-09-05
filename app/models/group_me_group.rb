@@ -28,4 +28,15 @@ class GroupMeGroup < ActiveRecord::Base
     end
     group_me_group.group_me_users << group_users
   end
+
+  def likes_threshold
+    member_count = self.group_me_users.count
+    if member_count < 10
+      4
+    elsif member_count < 20
+      5
+    else
+      6
+    end
+  end
 end
