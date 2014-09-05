@@ -18,6 +18,9 @@ class GroupMeUser < ActiveRecord::Base
       existing_user.person = person if person
       return existing_user
     end
+    unless person
+      person = Person.find_by group_me_user_id: group_me_user_num
+    end
     GroupMeUser.create group_me_user_num: group_me_user_num,
                        person: person,
                        name: name,
