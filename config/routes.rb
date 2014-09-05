@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'posts/create'
+
   resources :group_mes do
     get 'auth', on: :collection
     get 'called_back', on: :collection
