@@ -32,6 +32,7 @@ class GroupMesController < ApplicationController
       GroupMeGroup.update_group params[:group_id]
       group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
     end
+    return unless group_me_user
     post = GroupMePost.create group_me_group_id: params[:group_id],
                               message_num: params[:id],
                               posted_at: Time.now,
