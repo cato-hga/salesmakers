@@ -1,3 +1,4 @@
+#TODO TEST ME
 class RealConnectModel < ActiveRecord::Base
   self.abstract_class = true
   establish_connection :rbd_connect_production

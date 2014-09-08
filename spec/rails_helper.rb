@@ -3,10 +3,9 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-#require 'shoulda/matchers'
+#require 'shoulda/matchers' There are currently conflicts between shoulda_matchers and another gem
 require 'capybara/rails'
 require 'support/policies'
-
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

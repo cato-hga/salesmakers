@@ -1,6 +1,8 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
+#TODO: TESTS
+
 RSpec.describe Person, :type => :model do
 
   it do

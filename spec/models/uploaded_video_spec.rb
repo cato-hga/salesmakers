@@ -1,5 +1,8 @@
 require 'rails_helper'
+require 'shoulda/matchers'
 
 RSpec.describe UploadedVideo, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it { should have_one :medium } #TODO: This fails?
+  it { should belong_to :person }
 end

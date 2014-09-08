@@ -1,5 +1,9 @@
 require 'rails_helper'
+require 'shoulda/matchers'
 
 RSpec.describe Question, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it { should belong_to :person }
+  it { should belong_to :answer }
+  it { should have_many :answers }
 end

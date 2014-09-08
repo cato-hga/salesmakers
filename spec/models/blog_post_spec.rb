@@ -1,5 +1,10 @@
 require 'rails_helper'
+require 'shoulda/matchers'
+
 
 RSpec.describe BlogPost, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it { should belong_to(:person) }
+
+  #TODO: Test default_scope
 end

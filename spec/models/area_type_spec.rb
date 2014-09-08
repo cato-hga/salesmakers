@@ -6,4 +6,8 @@ RSpec.describe AreaType, :type => :model do
   it { should ensure_length_of(:name).is_at_least(3) }
   it { should validate_presence_of(:project) }
 
+  it { should belong_to(:project) }
+  it { should have_many(:areas) }
+
+  #TODO: Test default scope
 end
