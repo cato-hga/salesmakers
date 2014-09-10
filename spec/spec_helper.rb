@@ -14,7 +14,10 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'simplecov'
+SimpleCov.start 'rails'
 require 'pundit/rspec'
+require 'support/pundit_matcher'
 require 'database_cleaner'
 require 'factory_girl_rails'
 
