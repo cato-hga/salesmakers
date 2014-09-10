@@ -13,8 +13,8 @@ describe 'GroupMe API' do
   end
 
   it 'should return at least one group' do
-    groups = @groupme.get_groups
-    expect(groups['response'].count).to be > 0
+    group = @groupme.get_group '8936279'
+    expect(group).to_not be_nil
   end
 
   it 'should get a list of messages from groups' do

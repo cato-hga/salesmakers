@@ -64,5 +64,46 @@ RSpec.describe Person, :type => :model do
       person.home_phone = 5565565566
       should be_valid
     end
+
+    #TODO: Review this test
+    it 'should clean the phone numbers' do
+      person.mobile_phone = '800-555-1212'
+      subject.clean_phone_numbers
+      expect(person.mobile_phone).to eq('8005551212')
+    end
+
   end
+
+  describe 'related members' do
+    let(:person) { create :person }
+    it 'should return team members' do
+      expect(person.team_members).to_not be_nil
+    end
+
+    it 'should return department members' do
+      expect(person.department_members).to_not be_nil
+    end
+
+    it 'should return all HQ members if person has all HQ visibility' do
+      person.position.hq = true
+      expect(Person.all_hq_members).to_not be_nil #TODO: Is this actually correct?
+                                                  #I feel like i'm reading the reason for the method wrong
+    end
+
+    #TODO: Test all_field_members
+  end
+
+  #TODO: Test Returning from RBDC user
+  # describe 'from RBDConnect' do
+  #   let(:connect_user) { create :connect_user }
+  #
+  #   subject { connect_user }
+  #
+  #   it 'should return a person from connect user' do
+  #     @connect_user = Person.return_from_connect_user(connect_user)
+  #     expect(@connect_user.first_name).to eq('Steve')
+  #   end
+  # end
+
+
 end

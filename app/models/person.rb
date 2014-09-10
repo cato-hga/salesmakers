@@ -129,6 +129,7 @@ class Person < ActiveRecord::Base
     self.display_name
   end
 
+  #TODO: Why is this setting a phone number value?
   def clean_phone_numbers
     if self.mobile_phone
       self.mobile_phone = self.mobile_phone.strip

@@ -16,6 +16,7 @@ RSpec.describe Area, :type => :model do
 
   #TODO: Test :visible scope
 
+
   #TODO: Below test doesn't seem to work. Null value in column 'wallable_id" "
   # describe 'create_wall' do
   #   it 'should create wall after saving' do
