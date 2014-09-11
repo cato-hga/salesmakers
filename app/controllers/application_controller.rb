@@ -10,6 +10,14 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
 
+  protected
+
+  def setup_new_publishables
+    @text_post = TextPost.new
+    @uploaded_image = UploadedImage.new
+    @uploaded_video = UploadedVideo.new
+  end
+
   private
 
   def set_current_user

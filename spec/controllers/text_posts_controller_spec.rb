@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, :type => :controller do
+RSpec.describe TextPostsController, :type => :controller do
 
   describe "GET 'create'" do
     it "returns http success" do

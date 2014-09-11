@@ -10,5 +10,5 @@ require 'rails_helper'
 #     end
 #   end
 # end
-RSpec.describe PostsHelper, :type => :helper do
+RSpec.describe TextPostsHelper, :type => :helper do
 end

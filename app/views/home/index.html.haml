@@ -38,6 +38,13 @@
 .wall
   .widget.wall_post
     .inner
+      = form_for @text_post, remote: true do |f|
+        = f.text_area :content
+        = f.submit 'Post'
+
+
+  .widget.wall_post
+    .inner
       %h3 Lorem Ipsum Dolor Sit
       .row.full-width
         .large-3.columns.centered_text
