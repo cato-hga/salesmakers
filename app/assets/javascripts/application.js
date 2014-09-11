@@ -18,6 +18,7 @@
 //= require foundation_new/foundation.offcanvas
 //= require foundation_new/foundation.topbar
 //= require foundation_new/foundation.dropdown
+//= require foundation_new/foundation.tab
 //= require jquery-ui.min
 //= require chat
 // require turbolinks
@@ -54,6 +55,7 @@ $(function(){
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
 	});
+
 
 });
 

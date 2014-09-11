@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  get 'posts/create'
+
+
+  resources :text_posts, only: [:create, :show]
+  resources :uploaded_videos, only: :create
+  resources :uploaded_images, only: :create
 
   resources :group_mes do
     get 'auth', on: :collection

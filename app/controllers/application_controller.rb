@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter
-  before_action :set_current_user, :get_projects
+  before_action :set_current_user, :get_projects, :setup_default_wall
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -18,11 +18,20 @@ class ApplicationController < ActionController::Base
     @uploaded_video = UploadedVideo.new
   end
 
+  def setup_default_wall
+    return unless @current_person and @current_person.position
+    if @current_person.position.hq?
+      @wall = Wall.find_by wallable: @current_person.position.department
+    else
+      @wall = Wall.find_by wallable: @current_person.person_areas.first.area
+    end
+  end
+
   private
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    ##@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #TL
+    #@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #TL
     #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
     #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
   end

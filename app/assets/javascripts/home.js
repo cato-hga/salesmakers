@@ -49,7 +49,17 @@ $(function () {
 		columnWidth: ".wall_post",
 		itemSelector: ".widget"
 	});
+
+    $('#new_text_post').on('ajax:success', function(e, data, status, xhr){
+        var $new_post = $('#new_text_post').parents('.widget').after(xhr.responseText);
+        $container.masonry('reloadItems');
+        $container.masonry('layout');
+    }).on('ajax:error', function(e, xhr, status, error){
+        $('#new_text_post').append(xhr.responseText);
+    });
 });
+
+
 
 //GroupMe Widget - saving code
 //

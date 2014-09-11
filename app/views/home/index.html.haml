@@ -1,46 +1,64 @@
 - content_for :action_buttons do
   = link_to 'Switch to Dashboard', home_dashboard_path, class: [:button, :tiny, :rounded, :inline_button]
-- if policy(:widget).groupme_slider?
-  - content_for :slider do
-    .swiper-placeholder
-      = image_tag 'loading.gif', class: :loading
-      %span#groupme_slider_widget
-      :javascript
-        $(function(){
-
-          var width = $(window).width();
-          var slidesPer = 1;
-          if (width > 760) slidesPer = 2;
-          if (width > 1270) slidesPer = 3;
-
-          $.get("/widgets/groupme_slider", function (data) {
-            $('.swiper-placeholder img.loading').hide();
-            $("#groupme_slider_widget").append(data);
-            var mySwiper = $('.swiper-container').swiper({
-              mode: 'horizontal',
-              loop: true,
-              centeredSlides: true,
-              speed: 600,
-              autoplay: 4000,
-              slidesPerView: slidesPer,
-              calculateHeight: true,
-              tdFlow: {
-                rotate: 0,
-                depth: 300,
-                stretch: 0,
-                modifier: 1,
-                shadows: false
-              }
-            });
-          });
-        });
+-#- if policy(:widget).groupme_slider?
+-#  - content_for :slider do
+-#    .swiper-placeholder
+-#      = image_tag 'loading.gif', class: :loading
+-#      %span#groupme_slider_widget
+-#      :javascript
+-#        $(function(){
+-#
+-#          var width = $(window).width();
+-#          var slidesPer = 1;
+-#          if (width > 760) slidesPer = 2;
+-#          if (width > 1270) slidesPer = 3;
+-#
+-#          $.get("/widgets/groupme_slider", function (data) {
+-#            $('.swiper-placeholder img.loading').hide();
+-#            $("#groupme_slider_widget").append(data);
+-#            var mySwiper = $('.swiper-container').swiper({
+-#              mode: 'horizontal',
+-#              loop: true,
+-#              centeredSlides: true,
+-#              speed: 600,
+-#              autoplay: 4000,
+-#              slidesPerView: slidesPer,
+-#              calculateHeight: true,
+-#              tdFlow: {
+-#                rotate: 0,
+-#                depth: 300,
+-#                stretch: 0,
+-#                modifier: 1,
+-#                shadows: false
+-#              }
+-#            });
+-#          });
+-#        });
 
 .wall
   .widget.wall_post
     .inner
-      = form_for @text_post, remote: true do |f|
-        = f.text_area :content
-        = f.submit 'Post'
+      %dl#post_tabs.tabs{ data: { tab: '' } }
+        %dd.active
+          = link_to 'Text', '#text_tab'
+        %dd
+          = link_to 'Photos', '#photos_tab'
+        %dd
+          = link_to 'Video', '#video_tab'
+      .tabs-content
+        #text_tab.content.active
+          = form_for @text_post, remote: true do |f|
+            = f.text_area :content, placeholder: 'Share with ' + @wall.wallable.name
+            = hidden_field_tag 'wall_id', @wall.id
+            = f.submit 'Share', class: 'button'
+        #photos_tab.content
+          = form_for @uploaded_image, remote: true, multipart: true do |f|
+            = file_field_tag 'image'
+            = f.submit 'Share', class: 'button'
+        #video_tab.content
+          = form_for @uploaded_video, remote: true do |f|
+            = f.text_field :url, placeholder: 'Link'
+            = f.submit 'Share', class: 'button'
 
 
   .widget.wall_post
