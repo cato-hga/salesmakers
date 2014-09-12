@@ -58,20 +58,3 @@ $(function () {
         $('#new_text_post').append(xhr.responseText);
     });
 });
-
-
-
-//GroupMe Widget - saving code
-//
-//$('#groupme_widget .messages').append('<div class="row full-width groupme_message"><div class="large-2 columns">'
-//      + avatar + '</div><div class="large-10 columns"><span class="groupme_name">' + subject['name'] + '</span><
-//      span class="groupme_text"></span>' + text + '</span></div></div>');
-//$('#groupme_widget .inner').animate({
-//    scrollTop: $('#groupme_widget .inner')[0].scrollHeight
-//}, 1000);
-//
-//var pushClient = new GroupmePushClient('7a853610f0ca01310e5a065d7b71239d');
-//pushClient.baseUri = "https://push.groupme.com";
-//pushClient.subscribe('/user/12486363', {
-//    message: function(message) { outputMessage(message); }
-//});
