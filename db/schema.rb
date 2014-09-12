@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140905193558) do
+ActiveRecord::Schema.define(version: 20140912185051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -365,17 +365,17 @@ ActiveRecord::Schema.define(version: 20140905193558) do
   end
 
   create_table "uploaded_images", force: true do |t|
-    t.string   "url",                    null: false
-    t.string   "thumb_url",              null: false
-    t.string   "medium_url",             null: false
-    t.string   "large_url",              null: false
-    t.integer  "person_id",              null: false
+    t.string   "image_uid",                 null: false
+    t.string   "thumbnail_uid",             null: false
+    t.string   "medium_uid",                null: false
+    t.string   "large_uid",                 null: false
+    t.integer  "person_id",                 null: false
     t.string   "caption"
-    t.integer  "width",                  null: false
-    t.integer  "height",                 null: false
+    t.integer  "width",                     null: false
+    t.integer  "height",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "score",      default: 0, null: false
+    t.integer  "score",         default: 0, null: false
   end
 
   create_table "uploaded_videos", force: true do |t|
