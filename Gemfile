@@ -65,4 +65,7 @@ group :development, :test do
   gem 'stack_rescue', '0.0.1'
 end
 
-gem 'newrelic_rpm', group: :production
+group :production do
+  gem 'newrelic_rpm'
+  gem 'rack-cache', require: 'rack/cache'
+end

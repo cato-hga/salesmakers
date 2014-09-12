@@ -20,7 +20,7 @@
             = f.submit 'Share', class: 'button'
         #photos_tab.content
           = form_for @uploaded_image, remote: true, multipart: true do |f|
-            = file_field_tag 'image'
+            = f.file_field :image
             = f.submit 'Share', class: 'button'
         #video_tab.content
           = form_for @uploaded_video, remote: true do |f|
