@@ -37,6 +37,7 @@ gem 'foreman', '0.74.0'
 gem 'emoji', '1.0.1'
 gem 'faye', '1.0.3'
 gem 'metric_fu'
+gem 'dragonfly', '1.0.7'
 
 group :development do
   gem 'letter_opener', '1.2.0'
