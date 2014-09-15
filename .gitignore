@@ -23,3 +23,5 @@
 /.idea/reconnect.iml
 .idea/*
 .rvmrcconfig/database.yml
+public/*
+coverage/*

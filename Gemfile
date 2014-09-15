@@ -38,6 +38,7 @@ gem 'emoji', '1.0.1'
 gem 'faye', '1.0.3'
 gem 'metric_fu'
 gem 'dragonfly', '1.0.7'
+gem 'remotipart', '1.2.1'
 
 group :development do
   gem 'letter_opener', '1.2.0'

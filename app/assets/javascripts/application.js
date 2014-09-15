@@ -21,6 +21,8 @@
 //= require foundation_new/foundation.tab
 //= require jquery-ui.min
 //= require chat
+//= require jquery.remotipart
+//= require imagesloaded.min
 // require turbolinks
 // require jquery-ui-datepicker
 // require_tree .
