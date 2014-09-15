@@ -14,17 +14,20 @@
           = link_to 'Video', '#video_tab'
       .tabs-content
         #text_tab.content.active
-          = form_for @text_post, remote: true do |f|
+          = form_for @text_post, remote: true, authenticity_token: true do |f|
             = f.text_area :content, placeholder: 'Share with ' + @wall.wallable.name
             = hidden_field_tag 'wall_id', @wall.id
             = f.submit 'Share', class: 'button'
         #photos_tab.content
-          = form_for @uploaded_image, remote: true, multipart: true do |f|
+          = form_for @uploaded_image, remote: true, authenticity_token: true do |f|
             = f.file_field :image
+            = f.text_field :caption, placeholder: 'Enter image caption'
+            = hidden_field_tag 'wall_id', @wall.id
             = f.submit 'Share', class: 'button'
         #video_tab.content
-          = form_for @uploaded_video, remote: true do |f|
+          = form_for @uploaded_video, remote: true, authenticity_token: true do |f|
             = f.text_field :url, placeholder: 'Link'
+            = hidden_field_tag 'wall_id', @wall.id
             = f.submit 'Share', class: 'button'
 
   .widget.wall_post

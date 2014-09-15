@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912185051) do
+ActiveRecord::Schema.define(version: 20140915151446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -211,8 +211,8 @@ ActiveRecord::Schema.define(version: 20140912185051) do
   add_index "log_entries", ["trackable_id", "trackable_type"], name: "index_log_entries_on_trackable_id_and_trackable_type", using: :btree
 
   create_table "media", force: true do |t|
-    t.integer  "medium_id",   null: false
-    t.string   "medium_type", null: false
+    t.integer  "mediable_id",   null: false
+    t.string   "mediable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -367,12 +367,10 @@ ActiveRecord::Schema.define(version: 20140912185051) do
   create_table "uploaded_images", force: true do |t|
     t.string   "image_uid",                 null: false
     t.string   "thumbnail_uid",             null: false
-    t.string   "medium_uid",                null: false
+    t.string   "preview_uid",               null: false
     t.string   "large_uid",                 null: false
     t.integer  "person_id",                 null: false
     t.string   "caption"
-    t.integer  "width",                     null: false
-    t.integer  "height",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "score",         default: 0, null: false

@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
 
   resources :text_posts, only: [:create, :show]
-  resources :uploaded_videos, only: :create
-  resources :uploaded_images, only: :create
+  resources :uploaded_videos, only: [:create, :show]
+  resources :uploaded_images, only: [:create, :show]
 
   resources :group_mes do
     get 'auth', on: :collection

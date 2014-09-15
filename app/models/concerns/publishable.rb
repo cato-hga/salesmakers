@@ -20,7 +20,7 @@ module Publishable
 
   protected
 
-    def create_publication(person)
+    def create_publication
       Publication.find_or_create_by publishable: self
     end
 
