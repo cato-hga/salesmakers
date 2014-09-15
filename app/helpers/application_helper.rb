@@ -1,4 +1,6 @@
 module ApplicationHelper
+  include AutoHtml
+
   def title( page_title )
     content_for(:title) { page_title }
   end
@@ -200,4 +202,24 @@ module ApplicationHelper
     Emoji.replace_unicode_moji_with_images text.html_safe
   end
 
+  def transform_url(url)
+    auto_html url do
+      html_escape
+      image
+      youtube( autoplay: false)
+      vimeo(show_title: true, show_byline: true)
+      link target: "_blank", rel: "nofollow"
+    end
+  end
+
+  def display_post(post)
+    if post.is_a? TextPost
+      return render partial: 'text_posts/text_post', locals: { post: post }, layout: 'layouts/widget'
+    elsif post.is_a? UploadedImage
+      return render partial: 'uploaded_images/uploaded_image', locals: { post: post }, layout: 'layouts/widget'
+    elsif post.is_a? UploadedVideo
+      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post }, layout: 'layouts/widget'
+    end
+    nil
+  end
 end

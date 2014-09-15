@@ -6,6 +6,7 @@ module Publishable
     after_save :create_publication
 
     has_one :publication, as: :publishable
+    has_many :wall_posts, through: :publications
   end
 
   def update_score

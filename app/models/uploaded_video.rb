@@ -3,6 +3,7 @@ class UploadedVideo < ActiveRecord::Base
   include Publishable
   include PersonVisibility
 
-  has_one :medium
   belongs_to :person
+
+
 end
