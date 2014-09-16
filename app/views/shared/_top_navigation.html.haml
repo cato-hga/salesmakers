@@ -3,45 +3,6 @@
     %ul.title-area
       %li
         %a= link_to image_tag('logo_nav.png'), root_path
-    .left
-      #popout_notifications.f-dropdown.content(data-dropdown-content="")
-        .row.full-width.notification
-          .large-3.columns= image_tag 'avatars/4.jpg', class: 'avatar'
-          .large-9.columns
-            %span.heading
-              Lisa Wuong
-              %span.timestamp.small.comment.right
-                Yesterday, 7:34pm
-            %hr/
-            %span.content
-              Found your answer to
-              %a(href="#")
-                %em "Cannot sign in to ADP"
-              useful.
-        .row.full-width.notification
-          .large-3.columns= image_tag 'avatars/7.jpg', class: 'avatar'
-          .large-9.columns
-            %span.heading
-              Jim Galley
-              %span.timestamp.small.comment.right
-                Friday, 11:08am
-            %hr/
-            %span.content
-              Liked your article
-              %a(href="#")
-                %em "How our Team Can Live our Dream"
-        .row.full-width.notification
-          .large-3.columns= image_tag 'avatars/8.jpg', class: 'avatar'
-          .large-9.columns
-            %span.heading
-              Bryon Johnson
-              %span.timestamp.small.comment.right
-                8/7, 3:17pm
-            %hr/
-            %span.content
-              Is now following you.
-
-      %a.button.success.notifications.dropdown{ data: { dropdown: 'popout_notifications' } } 3
     %section.top-bar-section
       .right
         %ul.left
@@ -52,8 +13,6 @@
                 %li.has-dropdown
                   = link_to project.name, '#'
                   %ul.dropdown
-                    -#%li
-                    -#  %a{ href: "#" } Sales Entry
                     %li.has-dropdown
                       %a{ href: "#" } Areas &amp; Locations
                       %ul.dropdown
@@ -61,8 +20,6 @@
                           = link_to 'Area Types', client_project_area_types_path(project.client, project)
                         %li
                           = link_to 'Areas', client_project_areas_path(project.client, project)
-                    -#%li
-                    -#  %a{ href: "#" } Gift Cards
                     %li.divider
                     %li
                       = link_to 'Edit Project', edit_client_project_path(project.client, project)
@@ -70,33 +27,11 @@
             = link_to icon('torso-business') + ' Clients', clients_path
           %li
             = link_to icon('torsos-all') + ' People', people_path
-          %li
-            = link_to icon('lightbulb') + ' Solution Center', questions_path
-          %li
-            = link_to icon('page-multiple') + ' Blog', blog_path
-          %li
-            = link_to icon('photo') + ' Media', media_path
 
-          -#%li
-          -#  = link_to icon('clipboard-pencil') + ' Training', '#'
-          -#%li.has-dropdown
-          -#  = link_to icon('tablet-portrait') + ' Assets', devices_path
-          -#  %ul.dropdown
-          -#    %li
-          -#      = link_to 'Devices', devices_path
-          -#    %li
-          -#      = link_to 'Lines', lines_path
-          -#%li
-          -#  = link_to icon('graph-bar') + ' Reports', reports_path
           %li.has-dropdown
-            = link_to current_user.email, person_profile_path(current_user)
+            = link_to current_user.email, person_path(current_user)
             %ul.dropdown
               %li
-                = link_to icon('widget') + ' My Settings', edit_person_profile_path(current_user)
-              %li.divider
-              %li
                 = link_to icon('x') + ' Sign Out', logout_path
-          %li.has-form
-            = link_to icon('asterisk') + ' Help', '#', class: 'small button'
           %li
             = link_to icon('comments'), '#', class: 'right-off-canvas-toggle chat-icon'

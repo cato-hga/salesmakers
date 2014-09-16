@@ -112,6 +112,12 @@ profile_update = Permission.create key: 'profile_update',
                                  description: 'can update own profile',
                                  permission_group: profiles_permission_group
 
+person_update_own_basic = Permission.create key: 'person_update_own_basic',
+                                 description: 'can update own basic information',
+                                 permission_group: profiles_permission_group
+
+#TODO: Give some permission to update others
+
 for widget in widgets do
   widget_permission = Permission.create key: 'widget_' + widget,
                                         description: 'can view list the' + widget + ' widget',
@@ -128,6 +134,7 @@ for position in all_positions do
   position.permissions << blog_post_index
   position.permissions << question_index
   position.permissions << profile_update
+  position.permissions << person_update_own_basic
 
 end
 

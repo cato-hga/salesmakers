@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
     end
-    resource :profile, only: [:edit, :update, :show]
+    resource :profile, only: [:edit, :update]
   end
 
   resources :lines

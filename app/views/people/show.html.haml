@@ -1,4 +1,8 @@
 - title @person.display_name
+- if @person == @current_person
+  - content_for :action_buttons do
+    = edit_button edit_person_profile_path(@person)
+
 %ul.breadcrumbs
   - for area in @person.areas
     %li= link_to area.project.client.name, area.project.client
@@ -8,25 +12,14 @@
 
 .widgets.row.full-width
   .row.full-width
-    .widget.large-4.columns.centered_text
+    .widget.large-4.medium-6.columns.centered_text
       .inner
-        = image_tag 'avatars/4.jpg', class: :avatar
+        = image_tag avatar_url @person
         %br
-        %em Tampa Territory
+        %em= @person.position.name
         %br
-        %em Vonage Retail Project
-        %br
-        %br
-        %a 35 followers
-        &vert; 1,990 views
-        %br
-        %br
-        %a Connect on LinkedIn!
-        %br
-        %a Connect on Google+!
-        %br
-        %a Connect on Facebook
-    .large-4.columns.widget
+        %em= @person.position.department.name
+    .widget.large-4.medium-6.columns
       .inner
         %h3 Basic Information
         .comment.bottom_spacing
@@ -71,16 +64,47 @@
           %p
             %strong Home Phone:
             = phone_link @person.home_phone, nil
-        %p
-          %strong Address:
-          %br/
-          123 Wallaby Way
-          %br/
-          St Pete, FL 33701
-    .widget.large-4.columns
+
+    .widget.large-4.medium-6.columns
       .inner
         %h3 Bio
         %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+  .row.full-width
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 Education
+        %strong Test Degree
+        %p Random field of study
+        %strong Test College
+        %em 2003 to 2007
+        %p Activities and Societies
+        %p Description
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 Experience
+        %strong Title
+        %strong Fake Title
+        %em 2003 - 2007
+        %em St Pete, FL
+        %p description
+        %h3 Experience 2
+        %strong Title 2
+        %strong Fake Title 2
+        %em 2003 - 2008
+        %em St Pete, FL
+        %p description 2
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 Skills
+        %p Skill 1
+        %p Skill 2
+        %p Skill 3
+
+
+
+
+
   .row.full-width
     .large-4.columns.widget
       .inner
@@ -90,135 +114,4 @@
           %span.comment.right.vertical_space
             In "Test Group" on 8/18/2014
     .large-4.columns.widget
-      .inner
-        %h3 Recent Questions and Solutions
-        .neutral.padded.full-width
     .large-4.columns.widget
-      .inner
-        %h3 RBD Influence
-        -# CHART?
-
-  .row.full-width
-    %span#hpschart
-    %span#alerts_widget
-    %span#tickets_widget
-  .row.full-width
-    %span#pnlchart
-    %span#saleschart
-    %span#hourschart
-  .row.full-width
-    %span#gift_cards_widget
-    %span#inventory_widget
-    %span#assets_widget
-
-  .large-4.columns
-  - if @creator_tickets.count > 0
-    .tickets.widget
-      .inner
-        %h2 Support Ticket History
-        - ticket_count = 0
-        - for ticket in @creator_tickets
-          - ticket_count = ticket_count + 1
-          .large-4.columns
-            .neutral.rounded.full-width.padded.vertical_space
-              %p
-                %strong
-                  = NameCase(ticket['ticket']['title'])
-                  = surround '(#', ')' do
-                    = ticket['ticket']['id']
-              %p
-                - description = ticket['ticket']['description'].split[0..25].join(' ').html_safe
-                - if description != ticket['ticket']['description'].split.join(' ')
-                  - description = description + '...' + content_tag(:em, '(more)')
-                = description
-              %span.small.comment.right.vertical_space
-                Last Changed
-                - updated = Time.strptime ticket['ticket']['updated_on'], '%Y-%m-%dT%H:%M:%SZ'
-                = updated.strftime '%m/%d/%Y %-l:%M%P'
-        .vertical_space
-
-  .row.full-width
-    .large-6.columns.widget
-      .inner
-        %h2 Online Training
-        .row.full-width
-          .large-3.columns
-            %strong 7 Steps to Yes!
-          .large-9.columns
-            .progress.radius.round.success
-              %span.meter(style="width: 100%")
-        .vertical_space
-        .row.full-width
-          .large-3.columns
-            %strong Vonage New Hire Training
-          .large-9.columns
-            .progress.radius.round.incomplete
-              %span.meter(style="width: 75%")
-        .vertical_space
-        .row.full-width
-          .large-3.columns
-            %strong Vonage - Process &amp; Procedures
-          .large-9.columns
-            .progress.radius.round.alert
-              %span.meter(style="width: 1%")
-    .large-6.columns.widget
-      .inner
-        %h2 Video Training
-        .ok.rounded.full-width.padded
-          %p
-            %strong
-              Video Training 1
-          %p
-            "Great job, very easy to talk to. Will be a great sales rep."
-          %span.small.comment.right.vertical_space
-            Trained by: Cheri Sauter on 07/01/2014
-        .bad.rounded.full-width.padded.vertical_space
-          %p
-            %strong
-              Video Training 2
-          %p
-            "Did not show up"
-          %span.small.comment.right.vertical_space
-            Trained by: Cheri Sauter on 07/03/2014
-  .row.full-width.widgets
-    .large-4.columns.widget
-      .inner
-        %h2 Paperwork History
-        .ok.rounded.full-width.padded
-          %strong New Hire Paperwork
-          %span.small.comment.right
-            Completed on 06/31/2014
-        .bad.rounded.full-width.padded.vertical_space
-          %strong Counseling Verification Form
-          .vertical_space
-          %em Not signed by Employee
-          %span.small.comment.right
-            Last updated on 07/13/2014
-    .large-4.columns.widget
-      .inner
-        %h2 Shipping History
-        .row.full-width
-          .large-3.columns
-            %strong Samsung GalaxyTab 3
-          .large-9.columns
-            .progress.radius.round.success
-              %span.meter(style="width: 100%")
-            .small.comment.right.right_text_aligned Delivered on: 07/03/2014
-        .vertical_space
-        .row.full-width
-          .large-3.columns
-            %strong Supplies
-          .large-9.columns
-            .progress.radius.round.incomplete
-              %span.meter(style="width: 50%")
-            .small.comment.right.right_text_aligned At destination sort Facility (Lubbock,TX), as of 07/14/2014
-    .large-4.columns.widget
-      .inner
-        %h2 Employee Notes
-        .neutral.rounded.padded.full-width
-          Employee called about pay period date 6/01-6/15, issue was resolved over phone
-          %span.comment.right.right_text_aligned.vertical_space Added by Alice Daly on 07/12/2014 at 3:45pm
-        .vertical_space
-        .neutral.rounded.padded.full-width
-          Natalia could not connect to her training class via ClearSea, and called the IT Hotline. Issue was resolved, has been instructed to reschedule
-          %span.comment.right.right_text_aligned.vertical_space Added by David Korb on 07/03/2014 at 11:59am

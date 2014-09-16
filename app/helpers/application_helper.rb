@@ -176,7 +176,11 @@ module ApplicationHelper
   end
 
   def new_button(path)
-    link_to icon('plus') + ' New', path, class: [:button, :tiny, :rounded, :inline_button]
+    link_to icon('plus') + ' New', path, class: [:button, :rounded, :inline_button]
+  end
+
+  def edit_button(path)
+    link_to icon('page-edit') + ' Edit', path, class: [:button, :rounded, :inline_button]
   end
 
   def last_slice(array, i)

@@ -14,6 +14,7 @@ class PeopleController < ProtectedController
     mojo = Mojo.new
     @creator_tickets = mojo.creator_all_tickets @person.email, 12
     @assignee_tickets = mojo.assignee_open_tickets @person.email
+    @profile = @person.profile
   end
 
   def new
@@ -28,7 +29,18 @@ class PeopleController < ProtectedController
   end
 
   def update
-    #TODO Authorize
+    @person = policy_scope(Person).find params[:id]
+    if @person == @current_person
+      authorize @person, :update_own_basic?
+    else
+      authorize @person
+    end
+    @person.profile.update_avatar(params[:image]) if params[:image]
+    if @person.update_attributes person_params
+      redirect_to :back
+    else
+      render 'profiles/edit'
+    end
   end
 
   def destroy
@@ -40,4 +52,11 @@ class PeopleController < ProtectedController
     render :index
   end
 
+  private
+
+  def person_params
+    if @person == @current_person
+      params.require(:person).permit :personal_email, :mobile_phone, :home_phone, :office_phone
+    end
+  end
 end

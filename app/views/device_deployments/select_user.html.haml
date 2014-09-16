@@ -11,7 +11,7 @@
     = f.text_field :position_name_cont, placeholder: 'Position'
     = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
     = f.text_field :areas_name_cont, placeholder: 'Area(s)'
-    = f.submit 'search', class: 'button tiny'
+    = f.submit 'Search', class: 'button'
   .top-pagination
     = paginate @people
 
@@ -35,7 +35,7 @@
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - if person.active?
-      - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: 'button tiny'
+      - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: 'button'
     - else
       - deploy_button = ''
     - rows << table_row([eid, display_name, email, phone, position, supervisor, area, deploy_button])

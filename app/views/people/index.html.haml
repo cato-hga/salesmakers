@@ -5,11 +5,12 @@
     = f.text_field :eid_eq, placeholder: 'EID'
     = f.text_field :display_name_cont, placeholder: 'Name'
     = f.text_field :email_cont, placeholder: 'Email'
-    = f.text_field :mobile_phone_cont, placeholder: 'Phone'
+    -#= f.text_field :mobile_phone_cont, placeholder: 'Phone' TODO: Fix this Commented out - Extra spaces break search
+
     = f.text_field :position_name_cont, placeholder: 'Position'
     = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
     = f.text_field :areas_name_cont, placeholder: 'Area(s)'
-    = f.submit 'Search', class: [:button, :tiny, :inline_button]
+    = f.submit 'Search', class: [:button, :inline_button]
   .top-pagination
     = paginate @people
 

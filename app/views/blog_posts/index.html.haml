@@ -7,7 +7,7 @@
   - @blog_posts.each_slice(3) do |group|
     .widgets.row.full-width
       - for blog_post in group
-        .widget.large-4.columns{ data: { expand_url: blog_post_path(blog_post), widget_index: 0 } }
+        .widget.large-4.medium-6.columns{ data: { expand_url: blog_post_path(blog_post), widget_index: 0 } }
           .inner
             %h3.expandwidget= blog_post.title
             .row.full-width
@@ -25,83 +25,4 @@
       = empty_columns(@blog_posts, group, 3, 'widget')
 - else
   %p
-    No posts to show. 
-
-
--#.widgets.row.full-width
--#  .row.full-width
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 0}}
--#      .inner
--#        %h3.expandwidget Lorem Ipsum Dolor Sit
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/1.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text 3 days ago
--#          .medium-9.columns
--#            .excerpt
--#              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum...
--#              %a.expandwidget.small.comment{ data: { expand_url: '/blog_posts/1'}} (more)
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 1}}
--#      .inner
--#        %h3.expandwidget  Consectetur Adipisicing Elit
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/2.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text about a week ago
--#          .medium-9.columns
--#            .excerpt
--#              ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 2}}
--#      .inner
--#        %h3.expandwidget  sed do eiusmod tempor incididunt ut
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/3.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text about a month ago
--#          .medium-9.columns
--#            .excerpt
--#              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
--#.widgets.row.full-width
--#  .row.full-width
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 0}}
--#      .inner
--#        %h3.expandwidget Lorem Ipsum Dolor Sit
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/4.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text 3 days ago
--#          .medium-9.columns
--#            .excerpt
--#              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 1}}
--#      .inner
--#        %h3.expandwidget  Consectetur Adipisicing Elit
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/5.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text about a week ago
--#          .medium-9.columns
--#            .excerpt
--#              ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit...
--#    .widget.large-4.columns{ data: { expand_url: '/blog_posts/1', widget_index: 2}}
--#      .inner
--#        %h3.expandwidget  sed do eiusmod tempor incididunt ut
--#        .row.full-width
--#          .medium-3.columns.centered_text
--#            = link_to image_tag('avatars/6.jpg', class: :avatar), '#'
--#            %div
--#              %strong Anthony Atkinson
--#            .small.comment.centered_text about a month ago
--#          .medium-9.columns
--#            .excerpt
--#              At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus...
+    No posts to show.

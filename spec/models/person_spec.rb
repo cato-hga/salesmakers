@@ -65,11 +65,9 @@ RSpec.describe Person, :type => :model do
       should be_valid
     end
 
-    #TODO: Review this test
     it 'should clean the phone numbers' do
-      person.mobile_phone = '800-555-1212'
-      subject.clean_phone_numbers
-      expect(person.mobile_phone).to eq('8005551212')
+      person.mobile_phone = '716-415-8130'
+      expect(person.mobile_phone).to eq('7164158130')
     end
 
   end

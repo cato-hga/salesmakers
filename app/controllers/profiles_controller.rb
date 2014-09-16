@@ -1,8 +1,8 @@
 class ProfilesController < ProtectedController
 
   def edit
-    person = Person.find params[:person_id]
-    @profile = Profile.find_by person: person
+    @person = Person.find params[:person_id]
+    @profile = Profile.find_by person: @person
     authorize @profile
     @themes = Theme.all
   end
@@ -17,12 +17,6 @@ class ProfilesController < ProtectedController
     else
       render :edit
     end
-  end
-
-  def show
-    person = Person.find params[:person_id]
-    @profile = Profile.find_by person: person
-    authorize @profile
   end
 
   private

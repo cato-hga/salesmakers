@@ -4,7 +4,7 @@
       = icon('magnifying-glass')
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :name_cont, placeholder: 'Client'
-    = f.submit 'search', class: 'button tiny'
+    = f.submit 'Search', class: 'button'
 
 %section
   - header = header_row ['Name']

@@ -1,4 +1,6 @@
+require 'validators/phone_number_validator'
 class Person < ActiveRecord::Base
+  include ActiveModel::Validations
 
   before_validation :generate_display_name
   after_save :create_profile
@@ -9,13 +11,8 @@ class Person < ActiveRecord::Base
   validates :display_name, length: { minimum: 5 }
   validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
   validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
-  validates :home_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
-  validates :home_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.mobile_phone }
-  validates :office_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
-  validates :office_phone, presence: true, unless: Proc.new { |p| p.home_phone or p.mobile_phone }
-  validates :mobile_phone, format: { with: /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/ }, allow_blank: true
-  validates :mobile_phone, presence: true, unless: Proc.new { |p| p.office_phone or p.home_phone }
   validates :connect_user_id, uniqueness: true, allow_nil: true
+  validates_with PhoneNumberValidator
 
   belongs_to :position
   belongs_to :connect_user
@@ -127,22 +124,6 @@ class Person < ActiveRecord::Base
 
   def name
     self.display_name
-  end
-
-  #TODO: Why is this setting a phone number value?
-  def clean_phone_numbers
-    if self.mobile_phone
-      self.mobile_phone = self.mobile_phone.strip
-      self.mobile_phone = '8005551212' unless /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(self.mobile_phone)
-    end
-    if self.home_phone
-      self.home_phone = self.home_phone.strip
-      self.home_phone = '8005551212' unless /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(self.home_phone)
-    end
-    if self.office_phone
-      self.office_phone = self.office_phone.strip
-      self.office_phone = '8005551212' unless /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(self.office_phone)
-    end
   end
 
   def add_area_from_connect
