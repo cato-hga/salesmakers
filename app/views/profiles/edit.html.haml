@@ -7,7 +7,7 @@
         %h3 Basic Information
         - if @person.errors and @person.errors.any?
           - @person.errors.full_messages.each do |msg|
-            = msg
+            .alert.alert-box= msg
         = image_tag( avatar_url(@person) )
         = form_for @person do |f|
           = f.file_field :image
