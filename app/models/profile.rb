@@ -11,13 +11,9 @@ class Profile < ActiveRecord::Base
   has_many :profile_skills
 
   dragonfly_accessor :image do
-    copy_to(:avatar) { |a| a.avatar('80x80#') }
+    copy_to(:avatar) { |a| a.thumb('80x80#') }
   end
   dragonfly_accessor :avatar
-
-  def update_avatar(image)
-    self.update image: image
-  end
 
   private
 

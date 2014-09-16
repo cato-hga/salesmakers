@@ -8,9 +8,10 @@
         - if @person.errors and @person.errors.any?
           - @person.errors.full_messages.each do |msg|
             .alert.alert-box= msg
-        = image_tag( avatar_url(@person) )
         = form_for @person do |f|
-          = f.file_field :image
+          .row.full-width
+            .large-4.medium-6.columns.centered_text= image_tag( avatar_url(@person), class: :avatar )
+            .large-8.medium-6.columns= f.file_field :image
           = f.label :personal_email
           = f.text_field :personal_email
           = f.label :mobile_phone
@@ -20,3 +21,6 @@
           = f.label :office_phone
           = f.text_field :office_phone
           = f.submit 'Save', class: 'button'
+
+    .widget.large-4.medium-6.columns
+      .inner

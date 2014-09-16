@@ -228,6 +228,7 @@ module ApplicationHelper
   end
 
   def avatar_url(person)
+    return person.profile.avatar.url if person.profile.avatar
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
     "http://gravatar.com/avatar/#{gravatar_id}.png"
   end

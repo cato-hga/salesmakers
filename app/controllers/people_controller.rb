@@ -35,7 +35,9 @@ class PeopleController < ProtectedController
     else
       authorize @person
     end
-    @person.profile.update_avatar(params[:image]) if params[:image]
+    if image_params
+      @person.profile.update_attributes image_params
+    end
     if @person.update_attributes person_params
       redirect_to :back
     else
@@ -58,5 +60,9 @@ class PeopleController < ProtectedController
     if @person == @current_person
       params.require(:person).permit :personal_email, :mobile_phone, :home_phone, :office_phone
     end
+  end
+
+  def image_params
+    params.require(:person).permit :image
   end
 end

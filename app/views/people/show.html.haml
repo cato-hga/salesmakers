@@ -3,12 +3,13 @@
   - content_for :action_buttons do
     = edit_button edit_person_profile_path(@person)
 
-%ul.breadcrumbs
-  - for area in @person.areas
-    %li= link_to area.project.client.name, area.project.client
-    %li= link_to area.project.name, client_project_path(area.project.client, area.project)
-    - for parent_area in area.path
-      %li= area_link(parent_area)
+- if @person.areas.count > 0
+  %ul.breadcrumbs
+    - for area in @person.areas
+      %li= link_to area.project.client.name, area.project.client
+      %li= link_to area.project.name, client_project_path(area.project.client, area.project)
+      - for parent_area in area.path
+        %li= area_link(parent_area)
 
 .widgets.row.full-width
   .row.full-width
@@ -52,15 +53,15 @@
           %p
             %strong Personal Email:
             = mail_to @person.personal_email
-        - if @person.mobile_phone
+        - if @person.mobile_phone.present?
           %p
             %strong Mobile Phone:
             = phone_link @person.mobile_phone, nil
-        - if @person.office_phone
+        - if @person.office_phone.present?
           %p
             %strong Office Phone:
             = phone_link @person.office_phone, nil
-        - if @person.home_phone
+        - if @person.home_phone.present?
           %p
             %strong Home Phone:
             = phone_link @person.home_phone, nil
