@@ -1,10 +1,1 @@
-.row.full-width
-  .large-3.columns.centered_text
-    -# TODO: AVATARS
-    = link_to image_tag( avatar_url(post.person), class: :avatar), '#'
-    %div
-      %strong= post.person.display_name
-    .small.comment.centered_text= time_ago_in_words(post.created_at)
-  .large-9.columns
-    .post_content
-      = image_tag post.publication.publishable.preview.url if post.publication.publishable.image_stored?
+= image_tag post.publication.publishable.preview.url if post.publication.publishable.image_stored?

@@ -49,11 +49,29 @@ function outputMessage(message){
         return;
     }
     var preview = $('.group_preview[data-group-id=' + message['subject']['group_id'] + ']');
+    var chat = $('.group_chat[data-group-id=' + message['subject']['group_id'] + ']');
     preview.find('.content').html('<strong>' + message['subject']['name'] + ': </strong>' + message['subject']['text']);
-    console.log(JSON.stringify(message));
+    //console.log(JSON.stringify(message));
 
     preview.prependTo('#chat_aside');
     //console.log(message['subject']['name'] + ': ' + message['subject']['text']);
+//    console.log('chat.length ' + chat.length);
+//    if(chat.length > 0){
+//        chat.prepend('<div class="row full-width chat_message">'
+//          +  '<div class="large-2 columns centered_text">'
+//          +  '<img src="https://i.groupme.com/140x132.png.2fe5e450e4220131a42522000b2204cd" class="chat_avatar" alt="140x132.png">'
+//          +  '</div>'
+//          +  '<div class="large-10 columns">'
+//          +  '<strong class="small">RBD</strong>'
+//          +  '<div class="timestamp small comment right">'
+//          +  '09/16/2014 8:57pm'
+//      +  '</div>'
+//      +  '<div class="content">'
+//      +  'Register referrals here: http://bit.ly/1yzN1DN'
+//      +  '</div>'
+//      +  '</div>'
+//      +  '</div>');
+//    }
 }
 
 function inputMessage(message_text){

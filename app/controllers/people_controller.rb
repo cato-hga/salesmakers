@@ -39,7 +39,8 @@ class PeopleController < ProtectedController
       @person.profile.update_attributes image_params
     end
     if @person.update_attributes person_params
-      redirect_to :back
+      flash[:notice] = 'Profile saved.'
+      redirect_to @person
     else
       render 'profiles/edit'
     end

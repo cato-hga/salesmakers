@@ -1,3 +1,12 @@
 .widget.wall_post
   .inner
-    = yield
+    .row.full-width
+      .large-3.columns.centered_text
+        = link_to image_tag( avatar_url(post.person), class: :avatar), '#'
+        %div
+          %strong
+            = link_to post.person.display_name, post.person
+        .small.comment.centered_text= time_ago_in_words(post.created_at)
+      .large-9.columns
+        .post_content
+          = yield

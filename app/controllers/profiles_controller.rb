@@ -13,7 +13,7 @@ class ProfilesController < ProtectedController
     authorize @profile
     if @profile.update_attributes profile_params
       flash[:notice] = 'Profile saved.'
-      redirect_to root_path
+      redirect_to person
     else
       render :edit
     end
@@ -22,6 +22,6 @@ class ProfilesController < ProtectedController
   private
 
   def profile_params
-    params.require(:profile).permit(:theme_name)
+    params.require(:profile).permit(:bio)
   end
 end

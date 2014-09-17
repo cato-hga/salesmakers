@@ -11,7 +11,7 @@
         = form_for @person do |f|
           .row.full-width
             .large-4.medium-6.columns.centered_text= image_tag( avatar_url(@person), class: :avatar )
-            .large-8.medium-6.columns= f.file_field :image
+            .large-8.medium-6.columns= f.file_field :image, accept: 'image/png,image/jpeg,image/gif'
           = f.label :personal_email
           = f.text_field :personal_email
           = f.label :mobile_phone
@@ -24,3 +24,8 @@
 
     .widget.large-4.medium-6.columns
       .inner
+        %h3 Bio
+        = form_for @profile, url: person_profile_path(@person), method: :put do |f|
+          = f.text_area :bio, rows: 15
+          = f.submit 'Save', class: 'button'
+
