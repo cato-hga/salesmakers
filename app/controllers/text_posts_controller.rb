@@ -1,5 +1,5 @@
 class TextPostsController < ApplicationController
-  layout 'wall_post'
+  layout false
 
   def create
     @text_post = TextPost.new text_post_params

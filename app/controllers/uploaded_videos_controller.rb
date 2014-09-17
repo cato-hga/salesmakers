@@ -1,5 +1,5 @@
 class UploadedVideosController < ApplicationController
-  layout 'wall_post'
+  layout false
 
   def create
     @uploaded_video = UploadedVideo.new uploaded_video_params

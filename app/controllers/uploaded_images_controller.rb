@@ -1,5 +1,5 @@
 class UploadedImagesController < ApplicationController
-  layout 'wall_post'
+  layout false
 
   def create
     @uploaded_image = UploadedImage.new uploaded_image_params
