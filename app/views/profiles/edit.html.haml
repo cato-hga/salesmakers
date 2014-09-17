@@ -25,13 +25,14 @@
     .widget.large-4.medium-6.columns
       .inner
         %h3 Bio
-        = form_for @profile, url: person_profile_path(@person), method: :put do |f|
+        = form_for @profile, method: :put do |f|
           = f.text_area :bio, rows: 15
           = f.submit 'Save', class: 'button'
 
     .widget.large-4.medium-6.columns
       .inner
         %h3 Experience
+        = render 'profile_experiences/listing'
 
 
 

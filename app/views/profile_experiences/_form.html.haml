@@ -1,16 +1,30 @@
 = render partial: 'shared/errors', locals: { object: @profile_experience }
-= form_for [@profile_experience.profile.person, @profile_experience.profile, @profile_experience] do |f|
+= form_for [@profile_experience.profile, @profile_experience] do |f|
   = f.label :title
   = f.text_field :title
   = f.label :company_name
   = f.text_field :company_name
   = f.label :started #TODO: Edit Date_Selects
   = f.date_select :started
-  = f.label :ended
-  = f.date_select :ended
+  %div
+    = f.check_box :currently_employed
+    %strong Currently employed here?
+  #ended
+    = f.label :ended
+    = f.date_select :ended
   = f.label :location
   = f.text_field :location
   = f.label :description
   = f.text_area :description
   = f.hidden_field :profile_id
   = f.submit 'Save', class: 'button'
+:javascript
+  $(function(){
+    $('#profile_experience_currently_employed').change(function(){
+      if(this.checked) {
+        $('#ended').hide();
+      } else {
+        $('#ended').show();
+      }
+    });
+  });

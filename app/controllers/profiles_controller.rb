@@ -1,8 +1,8 @@
 class ProfilesController < ProtectedController
 
   def edit
-    @person = Person.find params[:person_id]
-    @profile = Profile.find_by person: @person
+    @profile = Profile.find params[:id]
+    @person = @profile.person
     @profile_experiences = ProfileExperience.where profile: @profile
     @profile_skills = ProfileSkill.where profile: @profile
     @profile_educations = ProfileEducation.where profile: @profile
@@ -11,8 +11,8 @@ class ProfilesController < ProtectedController
   end
 
   def update
-    person = Person.find params[:person_id]
-    @profile = Profile.find_by person: person
+    @profile = Profile.find params[:id]
+    person = @profile.person
     authorize @profile
     if @profile.update_attributes profile_params
       flash[:notice] = 'Profile saved.'

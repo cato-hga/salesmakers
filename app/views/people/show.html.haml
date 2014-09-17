@@ -1,7 +1,7 @@
 - title @person.display_name
 - if @person == @current_person
   - content_for :action_buttons do
-    = edit_button edit_person_profile_path(@person)
+    = edit_button edit_profile_path(@person.profile)
 
 - if @person.areas.count > 0
   %ul.breadcrumbs

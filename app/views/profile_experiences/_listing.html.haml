@@ -1,0 +1,18 @@
+- if @profile_experiences and @profile_experiences.count > 0
+  - for profile_experience in @profile_experiences do
+    .profile_experience
+      .title
+        = profile_experience.title
+        - if profile_experience.profile.person == @current_person
+          = link_to 'Edit', edit_profile_profile_experience_path(profile_experience.profile, profile_experience)
+      .company_name= profile_experience.company_name
+      .location= profile_experience.location
+      .date_range
+        = profile_experience.started.strftime '%m/%Y'
+        = '-'
+        - if profile_experience.currently_employed?
+          Present
+        - else
+          = profile_experience.ended.strftime '%m/%Y'
+      - if profile_experience.description
+        .description= profile_experience.description
