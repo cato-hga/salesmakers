@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   resources :text_posts, only: [:create, :show]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
@@ -37,7 +36,11 @@ Rails.application.routes.draw do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
     end
-    resource :profile, only: [:edit, :update]
+    resource :profile, only: [:edit, :update] do
+      resources :profile_experiences, except: :index
+      resources :profile_educations, except: :index
+      resources :profile_skills, except: :index
+    end
   end
 
   resources :lines

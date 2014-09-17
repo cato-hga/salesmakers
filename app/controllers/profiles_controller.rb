@@ -3,7 +3,9 @@ class ProfilesController < ProtectedController
   def edit
     @person = Person.find params[:person_id]
     @profile = Profile.find_by person: @person
-    @profile_experience = ProfileExperience.find_by profile: @profile
+    @profile_experiences = ProfileExperience.where profile: @profile
+    @profile_skills = ProfileSkill.where profile: @profile
+    @profile_educations = ProfileEducation.where profile: @profile
     authorize @profile
     @themes = Theme.all
   end
@@ -21,6 +23,12 @@ class ProfilesController < ProtectedController
   end
 
   private
+
+
+
+
+
+
 
   def profile_params
     params.require(:profile).permit(:bio)
