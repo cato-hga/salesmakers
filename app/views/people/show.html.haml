@@ -15,7 +15,7 @@
   .row.full-width
     .widget.large-4.medium-6.columns.centered_text
       .inner
-        = image_tag avatar_url @person
+        = image_tag avatar_url(@person), class: 'avatar'
         %br
         %em= @person.position.name
         %br
@@ -90,17 +90,7 @@
     .widget.large-4.medium-6.columns
       .inner
         %h3 Experience
-        %strong Title
-        %strong Fake Title
-        %em 2003 - 2007
-        %em St Pete, FL
-        %p description
-        %h3 Experience 2
-        %strong Title 2
-        %strong Fake Title 2
-        %em 2003 - 2008
-        %em St Pete, FL
-        %p description 2
+        = render 'profile_experiences/listing'
     .widget.large-4.medium-6.columns
       .inner
         %h3 Skills

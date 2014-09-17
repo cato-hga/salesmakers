@@ -1,6 +1,6 @@
 class ProfileExperiencesController < ApplicationController
   def new
-    person = Person.find params[:person_id]
+    person = @current_person
     @profile_experience = ProfileExperience.new profile: person.profile
   end
 

@@ -15,6 +15,7 @@ class PeopleController < ProtectedController
     @creator_tickets = mojo.creator_all_tickets @person.email, 12
     @assignee_tickets = mojo.assignee_open_tickets @person.email
     @profile = @person.profile
+    @profile_experiences = @profile.profile_experiences
   end
 
   def new

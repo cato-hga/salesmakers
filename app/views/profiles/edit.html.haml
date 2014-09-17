@@ -31,7 +31,9 @@
 
     .widget.large-4.medium-6.columns
       .inner
-        %h3 Experience
+        %h3
+          Experience
+          = new_button new_profile_profile_experience_path(@profile)
         = render 'profile_experiences/listing'
 
 

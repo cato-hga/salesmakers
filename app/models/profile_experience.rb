@@ -6,4 +6,6 @@ class ProfileExperience < ActiveRecord::Base
   validates :location, presence: true
   validates :started, presence: true
   validates :ended, presence: true, unless: :currently_employed?
+
+  default_scope{ order currently_employed: :desc, ended: :desc }
 end
