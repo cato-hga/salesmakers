@@ -42,7 +42,38 @@ $(function(){
             message: function(message) { outputMessage(message); }
         });
     }
+
+	$('body').on('ajax:complete', '#group_me_post', function(event, xhr, status) {
+		$('#group_me_post')[0].reset();
+	});
 });
+
+function zeroFill( number, width )
+{
+	width -= number.toString().length;
+	if ( width > 0 )
+	{
+		return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+	}
+	return number + ""; // always return a string
+}
+
+function formatAMPMDate(date) {
+	var strTime = zeroFill(date.getMonth(), 2)
+		+ '/'
+		+ zeroFill(date.getDate(), 2)
+		+ '/'
+		+ zeroFill(date.getFullYear(), 4)
+		+ ' ';
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	strTime += hours + ':' + minutes + ' ' + ampm;
+	return strTime;
+}
 
 function outputMessage(message){
     if(message['type'] != 'line.create'){
@@ -50,30 +81,48 @@ function outputMessage(message){
     }
     var preview = $('.group_preview[data-group-id=' + message['subject']['group_id'] + ']');
     var chat = $('.group_chat[data-group-id=' + message['subject']['group_id'] + ']');
-    preview.find('.content').html('<strong>' + message['subject']['name'] + ': </strong>' + message['subject']['text']);
-    //console.log(JSON.stringify(message));
+    var preview_content = '<strong>' + message['subject']['name'];
+	if ((message['subject']['attachments'] != null)
+		&& (message['subject']['attachments'].length > 0)
+		&& (message['subject']['attachments'][0]['type'] == 'image')) {
+		preview_content += '</strong> posted an image.';
+	} else {
+		preview_content += ':</strong> ' + message['subject']['text'];
+	}
+	preview.find('.content').html(preview_content);
+    console.log(JSON.stringify(message));
 
     preview.prependTo('#chat_aside');
-    //console.log(message['subject']['name'] + ': ' + message['subject']['text']);
-//    console.log('chat.length ' + chat.length);
-//    if(chat.length > 0){
-//        chat.prepend('<div class="row full-width chat_message">'
-//          +  '<div class="large-2 columns centered_text">'
-//          +  '<img src="https://i.groupme.com/140x132.png.2fe5e450e4220131a42522000b2204cd" class="chat_avatar" alt="140x132.png">'
-//          +  '</div>'
-//          +  '<div class="large-10 columns">'
-//          +  '<strong class="small">RBD</strong>'
-//          +  '<div class="timestamp small comment right">'
-//          +  '09/16/2014 8:57pm'
-//      +  '</div>'
-//      +  '<div class="content">'
-//      +  'Register referrals here: http://bit.ly/1yzN1DN'
-//      +  '</div>'
-//      +  '</div>'
-//      +  '</div>');
-//    }
-}
-
-function inputMessage(message_text){
-
+    // console.log(message['subject']['name'] + ': ' + message['subject']['text']);
+    if(chat.length > 0) {
+		var sent = new Date(message['subject']['created_at']*1000);
+        var content = '<div class="row full-width chat_message">'
+          +  '<div class="large-2 columns centered_text">'
+          +  '<img src="'
+		+ message['subject']['avatar_url']
+		+ '" class="chat_avatar">'
+          +  '</div>'
+          +  '<div class="large-10 columns">'
+          +  '<strong class="small">'
+		+ message['subject']['name']
+		+ '</strong>'
+          +  '<div class="timestamp small comment right">'
+          +  formatAMPMDate(sent)
+      +  '</div>'
+      +  '<div class="content">';
+		if ((message['subject']['attachments'] != null)
+			&& (message['subject']['attachments'].length > 0)
+			&& (message['subject']['attachments'][0]['type'] == 'image')) {
+			content += '<img src="'
+				+ message['subject']['attachments'][0]['url']
+				+ '.large">'
+		}
+		if (message['subject']['text'] != null) {
+			content += '<div>' + message['subject']['text'] + '</div>';
+		}
+      content +=  '</div>'
+      +  '</div>'
+      +  '</div>';
+		chat.prepend(content);
+    }
 }

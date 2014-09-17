@@ -11,7 +11,11 @@
     .heading
       = link_to group['name'], '#', class: :group_link
     .content.small
-      %strong=  group['messages']['preview']['nickname'] + ': '
-      = group['messages']['preview']['text']
+      - if group['messages']['preview']['attachments'] and group['messages']['preview']['attachments'].count > 0 and group['messages']['preview']['attachments'][0]['type'] == 'image'
+        %strong=  group['messages']['preview']['nickname'] + ' '
+        posted an image.
+      - else
+        %strong=  group['messages']['preview']['nickname'] + ': '
+        = group['messages']['preview']['text']
   .large-1.columns
     %a.close X

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :uploaded_images, only: [:create, :show]
 
   resources :group_mes do
-    get 'auth', on: :collection
+    get 'auth', on: :collection, as: 'auth'
     get 'called_back', on: :collection
     get 'groups', on: :collection
     get 'groups_aside', on: :collection
