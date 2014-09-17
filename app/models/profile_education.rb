@@ -7,6 +7,6 @@ class ProfileEducation < ActiveRecord::Base
   validates :start_year, numericality: { greater_than: 1900, less_than: 2100 }
   validates :start_year, numericality: { greater_than: 1900, less_than: 2100 }
 
-  default_scope { order ended_year: :desc, started_year: :desc }
+  default_scope { order end_year: :desc, start_year: :desc }
 
 end

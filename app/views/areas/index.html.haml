@@ -2,15 +2,16 @@
 - content_for :action_buttons do
   = new_button new_client_project_area_path
 - if @areas and not @areas.empty?
-  - @areas.each_slice(3) do |group|
-    .row.full-width
-      - for area in group
-        - areas = area.descendants.arrange
-        .large-4.medium-6.columnswidget
-          .inner
-            %h3= area.name
-            = nested_areas areas
-      = empty_columns(@areas, group, 3, 'widget')
+  .widgets
+    - @areas.each_slice(3) do |group|
+      .row.full-width
+        - for area in group
+          - areas = area.descendants.arrange
+          .large-4.medium-6.columns.widget
+            .inner
+              %h3= area.name
+              = nested_areas areas
+        = empty_columns(@areas, group, 3, 'widget')
 - else
   %p
     No records to show. Create a new Area by using the "New" button.

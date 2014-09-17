@@ -19,6 +19,7 @@
 //= require foundation_new/foundation.topbar
 //= require foundation_new/foundation.dropdown
 //= require foundation_new/foundation.tab
+//= require foundation_new/foundation.alert
 //= require jquery-ui.min
 //= require chat
 //= require jquery.remotipart
