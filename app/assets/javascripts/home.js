@@ -5,30 +5,6 @@
 //= require masonry.min
 //= require readmore
 
-function outputMessage(message) {
-	if (!message['subject']) {
-		return;
-	}
-	var subject = message['subject'];
-	if (subject['name'] == 'GroupMe') {
-		return;
-	}
-	console.log(subject);
-	var avatar = '';
-	var text = '';
-	if (subject['avatar_url']) {
-		avatar = '<img src="' + subject['avatar_url'] + '" class="groupme_avatar avatar">';
-	}
-	if (subject['text']) {
-		text = subject['text'];
-	}
-	if (subject['picture_url']) {
-		text += '<img src="' + subject['picture_url'] + '" class="groupme_image">';
-	}
-
-}
-
-
 $(function () {
 	$(document).foundation();
 
