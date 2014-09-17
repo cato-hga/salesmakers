@@ -9,7 +9,7 @@ vonage_retail = Project.create name: 'Vonage Retail',
                                client: vonage
 vonage_events = Project.create name: 'Vonage Events',
                                client: vonage
-corporate = Project.create name: 'RBD Corporate',
+headquarters = Project.create name: 'RBD Company HQ',
                            client: rbh
 sprint_retail = Project.create name: 'Sprint Retail',
                            client: sprint
@@ -27,12 +27,12 @@ vem = AreaType.create name: 'Vonage Event Market',
 vet = AreaType.create name: 'Vonage Event Team',
                       project: vonage_events
 
-co = AreaType.create name: 'Corporate Office',
-                     project: corporate
-cd = AreaType.create name: 'Corporate Department',
-                     project: corporate
-ct = AreaType.create name: 'Corporate Team',
-                     project: corporate
+hqo = AreaType.create name: 'Company HQ',
+                     project: headquarters
+hqd = AreaType.create name: 'HQ Department',
+                     project: headquarters
+hqt = AreaType.create name: 'HQ Team',
+                     project: headquarters
 
 srr = AreaType.create name: 'Sprint Retail Region',
                       project: sprint_retail
@@ -95,7 +95,7 @@ vers_connect.each do |ver_connect|
   end
 end
 
-#TODO Add Corporate trees
+#TODO Add  trees
 
 sr_connect = ConnectRegion.find_by_value 'Sprint-1'
 srrs_connect = sr_connect.children

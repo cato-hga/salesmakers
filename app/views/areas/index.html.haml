@@ -6,7 +6,7 @@
     .row.full-width
       - for area in group
         - areas = area.descendants.arrange
-        .large-4.medium-6..columnswidget
+        .large-4.medium-6.columnswidget
           .inner
             %h3= area.name
             = nested_areas areas
