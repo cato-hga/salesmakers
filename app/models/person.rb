@@ -36,6 +36,7 @@ class Person < ActiveRecord::Base
   has_many :group_me_likes, through: :group_me_user
   has_many :group_me_posts
 
+
   scope :visible, ->(person = nil) {
     return Person.none unless person
     people = Array.new

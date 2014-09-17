@@ -29,3 +29,24 @@
           = f.text_area :bio, rows: 15
           = f.submit 'Save', class: 'button'
 
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 Experience
+        = form_for @profile_experience, url: person_profile_path(@person), method: :put do |f|
+          = f.label :title
+          = f.text_field :title
+          = f.label :company_name
+          = f.text_field :company_name
+          = f.label :started #TODO: Move these to year drop-downs
+          = f.text_field :started
+          = f.label :ended
+          = f.text_field :ended
+          = f.label :location
+          = f.text_field :location
+          = f.label :description
+          = f.text_area :description
+          = f.submit 'Save', class: 'button' #TODO: Add multiple experiences
+
+
+
+

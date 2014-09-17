@@ -3,6 +3,7 @@ class ProfilesController < ProtectedController
   def edit
     @person = Person.find params[:person_id]
     @profile = Profile.find_by person: @person
+    @profile_experience = ProfileExperience.find_by profile: @profile
     authorize @profile
     @themes = Theme.all
   end
