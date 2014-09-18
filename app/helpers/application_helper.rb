@@ -254,4 +254,12 @@ module ApplicationHelper
       'Unknown'
     end
   end
+
+  def likes(post)
+    if post.likes.where(person: @current_person, wall_post: post).count > 0
+      content_tag :div, icon('star'), class: :liked
+    else
+      link_to icon('star'), create_like_path(post.id), class: :unliked, remote: true
+    end
+  end
 end

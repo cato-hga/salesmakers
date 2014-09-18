@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
+
   resources :text_posts, only: [:create, :show]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
+
+  get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
 
   resources :group_mes do
     get 'auth', on: :collection, as: 'auth'

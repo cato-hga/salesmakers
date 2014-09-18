@@ -3,6 +3,7 @@ class WallPost < ActiveRecord::Base
   belongs_to :wall
   belongs_to :person
   belongs_to :publication
+  has_many :likes
 
   default_scope { order created_at: :desc}
 
