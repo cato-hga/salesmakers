@@ -9,7 +9,15 @@
         .posted_to
           to
           = wall_link post.wall.wallable
-        .small.comment.centered_text= time_ago_in_words(post.created_at) + ' ago'
+        .small.comment.centered_text
+          = time_ago_in_words(post.created_at) + ' ago'
+          .xx-small
+            - if post.created_at.strftime('%m/%d/%Y') == Time.now.strftime('%m/%d/%Y')
+              = post.created_at.strftime('%l:%M%P %Z')
+            - elsif post.created_at.year == Time.now.year
+              = post.created_at.strftime('%m/%d %l:%M%P %Z')
+            - else
+              = post.created_at.strftime('%m/%d/%Y %l:%M%P %Z')
       .large-9.columns
         .post_content
           = yield
