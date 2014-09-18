@@ -8,8 +8,4 @@ class PersonPolicy < ApplicationPolicy
   def update_own_basic?
     has_permission? 'update_own_basic'
   end
-
-  def about?
-    show?
-  end
 end

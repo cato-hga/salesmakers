@@ -1,4 +1,5 @@
 class PeopleController < ProtectedController
+  after_action :verify_authorized, except: [:index, :about, :show]
   require 'apis/mojo'
 
   def index
@@ -9,13 +10,17 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
-    authorize @person
     @wall = @person.wall
+    redirect_to about_person_path(@person) unless policy_scope(Person).include?(@person)
   end
 
   def about
     @person = Person.find params[:id]
-    authorize @person
+    if policy_scope(Person).include?(@person)
+      @show_wall = true
+    else
+      false
+    end
     @log_entries = LogEntry.where trackable_type: 'Person', trackable_id: @person.id
     mojo = Mojo.new
     @creator_tickets = mojo.creator_all_tickets @person.email, 12

@@ -1,6 +1,6 @@
 - title @person.display_name
 - content_for :action_buttons do
-  = link_to icon('thumbnails') + ' Wall', @person, class: [:button, :inline_button]
+  = link_to icon('thumbnails') + ' Wall', @person, class: [:button, :inline_button] if @show_wall
   - if @person == @current_person
     = edit_button edit_profile_path(@person.profile)
 
@@ -30,19 +30,20 @@
           %span.comment.small.round.ok.label.inline_button Active
         - else
           %span.comment.small.round.bad.label.inline_button Inactive
-      -unless @person.active?
+      - if @show_wall
+        -unless @person.active?
+          %p
+            %strong Last Day Worked:
+            = (Date.today - 42.days).strftime '%m/%d/%Y'
+          %p
+            %strong Termination Date:
+            = (Date.today - 41.days).strftime '%m/%d/%Y'
         %p
-          %strong Last Day Worked:
-          = (Date.today - 42.days).strftime '%m/%d/%Y'
+          %strong Hire Date:
+          = (Date.today - 73.days).strftime '%m/%d/%Y'
         %p
-          %strong Termination Date:
-          = (Date.today - 41.days).strftime '%m/%d/%Y'
-      %p
-        %strong Hire Date:
-        = (Date.today - 73.days).strftime '%m/%d/%Y'
-      %p
-        %strong First Shift:
-        = (Date.today - 70.days).strftime '%m/%d/%Y'
+          %strong First Shift:
+          = (Date.today - 70.days).strftime '%m/%d/%Y'
       - if @person.supervisor
         %p
           %strong Supervisor:
@@ -50,7 +51,7 @@
       %p
         %strong Email:
         = mail_to @person.email
-      - if @person.personal_email
+      - if @person.personal_email and @show_wall
         %p
           %strong Personal Email:
           = mail_to @person.personal_email
@@ -76,10 +77,11 @@
           %em
             = @person.display_name
             has not added a bio :-(
-  .widget.person_widget
-    .inner
-      %h3 Education
-      = render 'profile_educations/listing'
+  - if @profile_educations.count > 0
+    .widget.person_widget
+      .inner
+        %h3 Education
+        = render 'profile_educations/listing'
   .widget.person_widget
     .inner
       %h3 Experience
