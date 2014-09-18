@@ -1,1 +1,4 @@
+- if post.publication.publishable.caption?
+  .uploaded_image_caption
+    = post.publication.publishable.caption
 = image_tag post.publication.publishable.preview.url if post.publication.publishable.image_stored?
