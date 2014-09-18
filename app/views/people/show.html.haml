@@ -4,8 +4,6 @@
 
 
 .widgets
-  .widget
-    .inner
-      = render 'shared/share_form'
+  = render 'shared/share_form'
   - for post in @wall_posts
     = display_post post

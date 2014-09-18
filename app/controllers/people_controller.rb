@@ -13,6 +13,7 @@ class PeopleController < ProtectedController
     @person = Person.find params[:id]
     redirect_to about_person_path(@person) unless show_wall?(@person)
     @wall = @person.wall
+    @walls = Wall.where id: @person.wall.id
     @wall_posts = @wall.wall_posts
   end
 

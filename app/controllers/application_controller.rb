@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter
-  before_action :set_current_user, :check_active,  :get_projects, :setup_default_wall, :setup_new_publishables
+  before_action :set_current_user, :check_active,  :get_projects, :setup_default_walls, :setup_new_publishables
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     @uploaded_video = UploadedVideo.new
   end
 
-  def setup_default_wall
+  def setup_default_walls
     return unless @current_person and @current_person.position
     if @current_person.position.hq?
       @wall = Wall.find_by wallable: @current_person.position.department
@@ -27,16 +27,17 @@ class ApplicationController < ActionController::Base
     else
       @wall = Wall.find_by wallable: @current_person
     end
+    @walls = Wall.postable(@current_person)
   end
 
   private
 
   def set_current_user
-    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
+    #@current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
     #@current_person = Person.find_by_email 'abegum@rbd-von.com' #Rep
     #@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #inactive
     #@current_person = Person.find_by_email 'amickens@retaildoneright.com' #TL
-    #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
+    @current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
     #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
     #@current_person = Person.find_by_email 'sdesjarlais@retaildoneright.com' #Other Depart
   end
