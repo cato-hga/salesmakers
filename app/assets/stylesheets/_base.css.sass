@@ -91,7 +91,7 @@ table
     .columns:last-child
       padding-right: 0
       margin-right: 0
-
+    
 .widget
   & > .inner
     padding: 0.9375rem
@@ -394,7 +394,7 @@ header
   .tags
     margin-top: 0
 
-.widgets .widget
+.widget.wall_post, .widget.person_widget
   display: inline-block
   vertical-align: top
   width: 100%
@@ -402,7 +402,7 @@ header
     font-style: italic
     font-size: small
     margin-bottom: 1em
-
+    
 .widget.chat .strong
   vertical-align: top
 
@@ -475,3 +475,11 @@ header
 
 .xx-small
   font-size: xx-small
+
+.uploaded_image_caption
+  margin-bottom: $spacing
+  margin-left: $spacing/2
+
+.post_content
+  img
+    box-shadow: $shadow
