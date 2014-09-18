@@ -22,16 +22,18 @@ class ApplicationController < ActionController::Base
     return unless @current_person and @current_person.position
     if @current_person.position.hq?
       @wall = Wall.find_by wallable: @current_person.position.department
-    else
+    elsif @current_person.person_areas.count > 0
       @wall = Wall.find_by wallable: @current_person.person_areas.first.area
+    else
+      @wall = Wall.find_by wallable: @current_person
     end
   end
 
   private
 
   def set_current_user
-    #@current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    @current_person = Person.find_by_email 'abegum@rbd-von.com' #Rep
+    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
+    #@current_person = Person.find_by_email 'abegum@rbd-von.com' #Rep
     #@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #inactive
     #@current_person = Person.find_by_email 'amickens@retaildoneright.com' #TL
     #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM

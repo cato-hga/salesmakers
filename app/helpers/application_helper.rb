@@ -243,7 +243,7 @@ module ApplicationHelper
     if wallable.is_a? Area
       area_link wallable
     elsif wallable.is_a? Department
-      department_link department
+      department_link wallable
     elsif wallable.is_a? Person
       if wallable == @current_person
         link_to 'Me', @current_person

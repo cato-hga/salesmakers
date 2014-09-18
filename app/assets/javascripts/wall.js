@@ -28,9 +28,11 @@ $(function () {
 
     $('#new_text_post').on('ajax:success', function(e, data, status, xhr){
         var $new_post = $('#new_text_post').parents('.widget').after(xhr.responseText);
-        $container.masonry('reloadItems');
-        $container.masonry('layout');
-        $('#new_text_post')[0].reset();
+		imagesLoaded($container, function(){
+			$container.masonry('reloadItems');
+			$container.masonry('layout');
+		});
+		$('#new_text_post')[0].reset();
     }).on('ajax:error', function(e, xhr, status, error){
         $('#new_text_post').append(xhr.responseText);
         $container.masonry('reloadItems');
@@ -39,7 +41,7 @@ $(function () {
 
     $('#new_uploaded_image').on('ajax:success', function(e, data, status, xhr){
         var $new_post = $('#new_uploaded_image').parents('.widget').after(xhr.responseText);
-        imagesLoaded($new_post, function(){
+        imagesLoaded($container, function(){
             $container.masonry('reloadItems');
             $container.masonry('layout');
         });
@@ -52,8 +54,10 @@ $(function () {
 
     $('#new_uploaded_video').on('ajax:success', function(e, data, status, xhr){
         var $new_post = $('#new_uploaded_video').parents('.widget').after(xhr.responseText);
-        $container.masonry('reloadItems');
-        $container.masonry('layout');
+		imagesLoaded($container, function(){
+			$container.masonry('reloadItems');
+			$container.masonry('layout');
+		});
         $('#new_uploaded_video')[0].reset();
     }).on('ajax:error', function(e, xhr, status, error){
         $('#new_uploaded_video').append(xhr.responseText);

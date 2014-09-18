@@ -2,9 +2,7 @@
   =# link_to 'Switch to Dashboard', home_dashboard_path, class: [:button,:rounded, :inline_button]
 
 .widgets
-  .widget
-    .inner
-      = render 'shared/share_form'
+  = render 'shared/share_form'
 
   - for wall_post in @wall_posts do
     = display_post wall_post
