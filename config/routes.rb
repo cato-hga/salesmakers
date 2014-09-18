@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :uploaded_images, only: [:create, :show]
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
+  get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 
   resources :group_mes do
     get 'auth', on: :collection, as: 'auth'
