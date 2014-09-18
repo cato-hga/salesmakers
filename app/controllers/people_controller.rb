@@ -1,6 +1,6 @@
 class PeopleController < ProtectedController
   after_action :verify_authorized, except: [:index, :about, :show]
-  after_action :verify_policy_scoped
+  after_action :verify_policy_scoped, except: [:about, :show]
   require 'apis/mojo'
 
   def index
@@ -11,14 +11,14 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
-    redirect_to about_person_path(@person) unless policy_scope(Person).include?(@person)
+    redirect_to about_person_path(@person) unless show_wall?(@person)
     @wall = @person.wall
     @wall_posts = @wall.wall_posts
   end
 
   def about
     @person = Person.find params[:id]
-    if policy_scope(Person).include?(@person)
+    if show_wall? @person
       @show_wall = true
     else
       false
@@ -80,5 +80,13 @@ class PeopleController < ProtectedController
 
   def image_params
     params.require(:person).permit :image
+  end
+
+  def show_wall?(person)
+    if person == @current_person.supervisor or not policy_scope(Person).include?(person)
+      false
+    else
+      true
+    end
   end
 end

@@ -4,9 +4,9 @@
 $(function () {
     $(document).foundation();
 
-    var $container = $('.wall');
+    var $container = $('.widgets');
 
-    $('.wall_post .post_content').readmore({
+    $('.widget .post_content').readmore({
         maxHeight: 500,
         heightMargin: 100,
         moreLink: '<a href="#">More</a>',
@@ -18,7 +18,7 @@ $(function () {
     });
 
     $container.masonry({
-        columnWidth: ".wall_post",
+        columnWidth: ".widget",
         itemSelector: ".widget"
     });
 

@@ -21,6 +21,10 @@ module ApplicationHelper
     link_to area.name, client_project_area_path(area.project.client, area.project, area)
   end
 
+  def department_link(department)
+    link_to department.name, department
+  end
+
   def phone_link(phone,classes)
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
@@ -232,5 +236,22 @@ module ApplicationHelper
     return person.profile.avatar.url if person.profile.avatar
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
     "http://gravatar.com/avatar/#{gravatar_id}.png"
+  end
+
+  def wall_link(wallable)
+    return nil unless wallable
+    if wallable.is_a? Area
+      area_link wallable
+    elsif wallable.is_a? Department
+      department_link department
+    elsif wallable.is_a? Person
+      if wallable == @current_person
+        link_to 'Me', @current_person
+      else
+        person_link wallable
+      end
+    else
+      'Unknown'
+    end
   end
 end
