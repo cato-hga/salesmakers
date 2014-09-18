@@ -6,7 +6,7 @@
 $(function () {
 	$(document).foundation();
 
-    var $container = $('#content');
+    var $container = $('.widgets');
     $container.masonry({
         columnWidth: ".person_widget",
         itemSelector: ".widget"

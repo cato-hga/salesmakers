@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter
-  before_action :set_current_user, :get_projects, :setup_default_wall, :setup_new_publishables
+  before_action :set_current_user, :check_active,  :get_projects, :setup_default_wall, :setup_new_publishables
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -38,6 +38,12 @@ class ApplicationController < ActionController::Base
 
   def current_user
     @current_person
+  end
+
+  def check_active
+    if @current_person and not @current_person.active?
+      raise ActionController::RoutingError.new('Forbidden')
+    end
   end
 
   def get_projects
