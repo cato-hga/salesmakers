@@ -30,8 +30,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_current_user
-    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #TL
+    #@current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
+    @current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #TL
     #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
     #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
   end

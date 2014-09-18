@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     get 'home/dashboard'
 
   resources :people do
+    member do
+      get 'about', to: 'people#about', as: :about
+    end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
     end

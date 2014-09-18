@@ -105,16 +105,20 @@ question_index = Permission.create key: 'question_index',
                                    permission_group: q_and_a_permission_group
 
 profile_update_others = Permission.create key: 'profile_update_others',
-                                        description: 'can update profiles of others',
-                                        permission_group: profiles_permission_group
+                                          description: 'can update profiles of others',
+                                          permission_group: profiles_permission_group
 
 profile_update = Permission.create key: 'profile_update',
-                                 description: 'can update own profile',
-                                 permission_group: profiles_permission_group
+                                   description: 'can update own profile',
+                                   permission_group: profiles_permission_group
 
 person_update_own_basic = Permission.create key: 'person_update_own_basic',
-                                 description: 'can update own basic information',
-                                 permission_group: profiles_permission_group
+                                            description: 'can update own basic information',
+                                            permission_group: profiles_permission_group
+
+wall_show_all_walls = Permission.create key: 'wall_show_all_walls',
+                                   description: 'can see all walls',
+                                   permission_group: posts_permission_group
 
 #TODO: Give some permission to update others
 
@@ -145,6 +149,7 @@ end
 for position in ops_and_execs_positions do
   position.permissions << client_index
   position.permissions << profile_update_others
+  position.permissions << wall_show_all_walls
 end
 
 for position in [pos_admin, pos_ssd] do

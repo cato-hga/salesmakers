@@ -12,4 +12,8 @@ class WallPost < ActiveRecord::Base
                            wall: wall,
                            person: publication.publishable.person
   end
+
+  def self.visible(person)
+    self.where wall: Wall.visible(person)
+  end
 end

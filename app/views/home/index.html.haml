@@ -6,12 +6,6 @@
     .inner
       = render 'shared/share_form'
 
-  - wall_posts = @wall_posts.to_a
-  - 2.times do
-    - if wall_posts.count > 0
-      - wall_post = wall_posts.shift
-      = display_post wall_post.publication.publishable
-  - for row in wall_posts.each_slice 3 do
-    - for wall_post in row do
-      = display_post wall_post.publication.publishable
+  - for wall_post in @wall_posts do
+    = display_post wall_post.publication.publishable
 = paginate @wall_posts

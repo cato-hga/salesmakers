@@ -1,5 +1,5 @@
-//= require google_jsapi
-//= require chartkick
+// require google_jsapi
+// require chartkick
 //= require masonry.min
 
 
