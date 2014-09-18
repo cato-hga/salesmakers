@@ -1,9 +1,16 @@
 //= require google_jsapi
 //= require chartkick
+//= require masonry.min
 
 
 $(function () {
 	$(document).foundation();
 
-	resizeWidgets();
+    var $container = $('#content');
+    $container.masonry({
+        columnWidth: ".person_widget",
+        itemSelector: ".widget"
+    });
+
+    resizeWidgets();
 });

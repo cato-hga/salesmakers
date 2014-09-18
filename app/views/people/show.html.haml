@@ -11,88 +11,85 @@
       - for parent_area in area.path
         %li= area_link(parent_area)
 
-.widgets.row.full-width
-  .row.full-width
-    .widget.large-4.medium-6.columns
-      .inner
-        = render 'shared/share_form'
-    .widget.large-4.medium-6.columns.centered_text
-      .inner
-        = image_tag avatar_url(@person), class: 'avatar'
-        %br
-        %em= @person.position.name
-        %br
-        %em= @person.position.department.name
-    .widget.large-4.medium-6.columns
-      .inner
-        %h3 Basic Information
-        .comment.bottom_spacing
-          = @person.position.name
-          - if @person.active?
-            %span.comment.small.round.ok.label.inline_button Active
-          - else
-            %span.comment.small.round.bad.label.inline_button Inactive
-        -unless @person.active?
-          %p
-            %strong Last Day Worked:
-            = (Date.today - 42.days).strftime '%m/%d/%Y'
-          %p
-            %strong Termination Date:
-            = (Date.today - 41.days).strftime '%m/%d/%Y'
-        %p
-          %strong Hire Date:
-          = (Date.today - 73.days).strftime '%m/%d/%Y'
-        %p
-          %strong First Shift:
-          = (Date.today - 70.days).strftime '%m/%d/%Y'
-        - if @person.supervisor
-          %p
-            %strong Supervisor:
-            = link_to @person.supervisor.display_name, @person.supervisor
-        %p
-          %strong Email:
-          = mail_to @person.email
-        - if @person.personal_email
-          %p
-            %strong Personal Email:
-            = mail_to @person.personal_email
-        - if @person.mobile_phone.present?
-          %p
-            %strong Mobile Phone:
-            = phone_link @person.mobile_phone, nil
-        - if @person.office_phone.present?
-          %p
-            %strong Office Phone:
-            = phone_link @person.office_phone, nil
-        - if @person.home_phone.present?
-          %p
-            %strong Home Phone:
-            = phone_link @person.home_phone, nil
-  .row.full-width
-    .widget.large-4.medium-6.columns
-      .inner
-        %h3 Bio
-        - if @person.profile.bio
-          %p= @person.profile.bio.gsub(/\n/, '<br/>').html_safe
-        - else
-          %p
-            %em
-              = @person.display_name
-              has not added a bio :-(
-    .widget.large-4.medium-6.columns
-      .inner
-        %h3 Education
-        = render 'profile_educations/listing'
-    .widget.large-4.medium-6.columns
-      .inner
-        %h3 Experience
-        = render 'profile_experiences/listing'
-    -#.widget.large-4.medium-6.columns
-    -#  .inner
-    -#    %h3 Recent Wall Posts
-    -#    .neutral.padded.full-width
-    -#      Testing testing 123
-    -#      %span.comment.right.vertical_space
-    -#        In "Test Group" on 8/18/2014
-    -#.large-4.columns.widget
-    -#.large-4.columns.widget
+.widget.person_widget
+  .inner
+    = render 'shared/share_form'
+.widget.person_widget.centered_text
+  .inner
+    = image_tag avatar_url(@person), class: 'avatar'
+    %br
+    %em= @person.position.name
+    %br
+    %em= @person.position.department.name
+.widget.person_widget
+  .inner
+    %h3 Basic Information
+    .comment.bottom_spacing
+      = @person.position.name
+      - if @person.active?
+        %span.comment.small.round.ok.label.inline_button Active
+      - else
+        %span.comment.small.round.bad.label.inline_button Inactive
+    -unless @person.active?
+      %p
+        %strong Last Day Worked:
+        = (Date.today - 42.days).strftime '%m/%d/%Y'
+      %p
+        %strong Termination Date:
+        = (Date.today - 41.days).strftime '%m/%d/%Y'
+    %p
+      %strong Hire Date:
+      = (Date.today - 73.days).strftime '%m/%d/%Y'
+    %p
+      %strong First Shift:
+      = (Date.today - 70.days).strftime '%m/%d/%Y'
+    - if @person.supervisor
+      %p
+        %strong Supervisor:
+        = link_to @person.supervisor.display_name, @person.supervisor
+    %p
+      %strong Email:
+      = mail_to @person.email
+    - if @person.personal_email
+      %p
+        %strong Personal Email:
+        = mail_to @person.personal_email
+    - if @person.mobile_phone.present?
+      %p
+        %strong Mobile Phone:
+        = phone_link @person.mobile_phone, nil
+    - if @person.office_phone.present?
+      %p
+        %strong Office Phone:
+        = phone_link @person.office_phone, nil
+    - if @person.home_phone.present?
+      %p
+        %strong Home Phone:
+        = phone_link @person.home_phone, nil
+.widget.person_widget
+  .inner
+    %h3 Bio
+    - if @person.profile.bio
+      %p= @person.profile.bio.gsub(/\n/, '<br/>').html_safe
+    - else
+      %p
+        %em
+          = @person.display_name
+          has not added a bio :-(
+.widget.person_widget
+  .inner
+    %h3 Education
+    = render 'profile_educations/listing'
+.widget.person_widget
+  .inner
+    %h3 Experience
+    = render 'profile_experiences/listing'
+-#.widget.person_widget.large-4.medium-6.columns
+-#  .inner
+-#    %h3 Recent Wall Posts
+-#    .neutral.padded.full-width
+-#      Testing testing 123
+-#      %span.comment.right.vertical_space
+-#        In "Test Group" on 8/18/2014
+-#.large-4.columns.widget.person_widget
+-#.large-4.columns.widget.person_widget
