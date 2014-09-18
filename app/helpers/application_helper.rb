@@ -217,11 +217,12 @@ module ApplicationHelper
   end
 
   def display_post(post)
-    if post.is_a? TextPost
+    publishable = post.publication.publishable
+    if publishable.is_a? TextPost
       return render partial: 'text_posts/text_post', locals: { post: post }, layout: 'layouts/widget'
-    elsif post.is_a? UploadedImage
+    elsif publishable.is_a? UploadedImage
       return render partial: 'uploaded_images/uploaded_image', locals: { post: post }, layout: 'layouts/widget'
-    elsif post.is_a? UploadedVideo
+    elsif publishable.is_a? UploadedVideo
       return render partial: 'uploaded_videos/uploaded_video', locals: { post: post }, layout: 'layouts/widget'
     end
     nil

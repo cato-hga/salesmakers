@@ -3,6 +3,9 @@
   = link_to icon('eye') + ' About', about_person_path(@person), class: [:button, :inline_button]
 
 
-.widget.person_widget
-  .inner
-    = render 'shared/share_form'
+.wall
+  .widget.wall_post
+    .inner
+      = render 'shared/share_form'
+  - for post in @wall_posts
+    = display_post post

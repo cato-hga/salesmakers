@@ -7,5 +7,5 @@
       = render 'shared/share_form'
 
   - for wall_post in @wall_posts do
-    = display_post wall_post.publication.publishable
+    = display_post wall_post
 = paginate @wall_posts
