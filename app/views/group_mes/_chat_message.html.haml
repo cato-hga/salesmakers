@@ -10,5 +10,5 @@
       = message.created_at.strftime '%m/%d/%Y %-l:%M%P'
     .content
       - if message.attachments and message.attachments.count > 0 and message.attachments[0]['type'] == 'image'
-        %img{ src: message.attachments[0]['url'] + '.large' }
-      %div= message.text
+        %img{ src: message.attachments[0]['url'] + (message.attachments[0]['url'].include?('groupme') ? '.large' : '') }
+      %div= message.text.html_safe if message.text
