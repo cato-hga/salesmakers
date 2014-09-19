@@ -23,6 +23,9 @@
               = post.created_at.strftime('%m/%d/%Y %l:%M%P %Z')
         .post_actions
           = likes post
+          %br
+          - if WallPostPolicy.new(@current_person, post).destroy?
+            = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
       .large-9.columns
         .post_content
           = yield

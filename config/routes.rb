@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :text_posts, only: [:create, :show]
+  resources :text_posts, only: [:create, :show, :destroy]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
+  resources :wall_posts, only: :destroy
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
