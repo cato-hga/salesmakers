@@ -268,7 +268,7 @@ module ApplicationHelper
   def likes(post)
     if post.likes.where(person: @current_person, wall_post: post).count > 0 and post.publication.publishable.person != @current_person
       #content_tag :div, icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count), class: :liked
-      link_to(icon('star'), destroy_like_path(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+      link_to(icon('star'), destroy_like_path(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     elsif post.publication.publishable.person == @current_person
       icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
     else

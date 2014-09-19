@@ -72,12 +72,24 @@ $(function () {
 
 function setupUnlikeEvent(post_id) {
     $('#unlike-' + post_id).on('ajax:success', function(event, xhr, data, status) {
-        $('#unlike-' + post_id).css('color', '#dddddd').switchClass('liked', 'unliked').attr('href', '/like/' + post_id).setupLikeEvent(post_id);
+        $('#unlike-' + post_id).css('color', '#dddddd').switchClass('liked', 'unliked').attr('href', '/like/' + post_id);
+        $('#unlike-' + post_id).off('ajax:success');
+        var current_count = parseInt($('#unlike-' + post_id).parents('.post_actions').find('.count').html());
+        current_count--;
+        $('#unlike-' + post_id).parents('.post_actions').find('.count').html(current_count);
+        $('#unlike-' + post_id).attr('id', 'like-' + post_id);
+        setupLikeEvent(post_id);
     });
 }
 
 function setupLikeEvent(post_id) {
     $('#like-' + post_id).on('ajax:success', function(event, xhr, data, status) {
-        $('#like-' + post_id).css('color', '#ffcc00').switchClass('unliked', 'liked').attr('href', '/unlike/' + post_id).setupUnlikeEvent(post_id);
+        $('#like-' + post_id).css('color', '#ffcc00').switchClass('unliked', 'liked').attr('href', '/unlike/' + post_id);
+        $('#like-' + post_id).off('ajax:success');
+        var current_count = parseInt($('#like-' + post_id).parents('.post_actions').find('.count').html());
+        current_count++;
+        $('#like-' + post_id).parents('.post_actions').find('.count').html(current_count);
+        $('#like-' + post_id).attr('id', 'unlike-' + post_id);
+        setupUnlikeEvent(post_id);
     });
 }
