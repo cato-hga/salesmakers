@@ -25,6 +25,9 @@ class DepartmentsController < ProtectedController
   end
 
   def show
-    #TODO AUTHORIZE MEH
+    @department = Department.find params[:id]
+    authorize @department
+    @wall = @department.wall
+    @wall_posts = @wall.wall_posts
   end
 end

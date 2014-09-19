@@ -1,2 +1,6 @@
-%h1 Departments#show
-%p Find me in app/views/departments/show.html.haml
+- title @department.name + "'s Wall"
+
+.widgets
+  = render 'shared/share_form'
+  - for post in @wall_posts
+    = display_post post
