@@ -12,8 +12,14 @@
         = '-'
         = profile_education.end_year
       - if profile_education.activities_societies
-        .activities_societies= profile_education.activities_societies
+        .vertical_space
+          %strong Activities &amp; Societies:
+          .activities_societies
+            = profile_education.activities_societies
       - if profile_education.description
-        .description= profile_education.description
+        .vertical_space
+          %strong More info:
+          .description
+            = profile_education.description
 - else
   %em No previous education added

@@ -8,13 +8,18 @@
       .company_name= profile_experience.company_name
       .location= profile_experience.location
       .date_range
-        = profile_experience.started.strftime '%m/%Y'
+        = profile_experience.started.strftime '%B %Y'
         = '-'
         - if profile_experience.currently_employed?
-          Present
+          %strong Present
         - else
-          = profile_experience.ended.strftime '%m/%Y'
+          = profile_experience.ended.strftime '%B %Y'
       - if profile_experience.description
-        .description= profile_experience.description
+        .vertical_space
+          %strong Job Description:
+        .description
+          = profile_experience.description
+      %hr
+      -#TODO: I have no idea how to make the last record not have an HR tag
 - else
   %em No previous experience added
