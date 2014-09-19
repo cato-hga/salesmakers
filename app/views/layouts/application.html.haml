@@ -7,6 +7,7 @@
     = stylesheet_link_tag 'application', params[:controller], media: 'all'
     = stylesheet_link_tag current_theme + '/application' if current_theme
     = javascript_include_tag 'application', params[:controller]
+    = favicon_link_tag '/favicon.ico'
     = csrf_meta_tags
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
 

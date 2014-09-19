@@ -1,4 +1,4 @@
-- title @person.display_name
+- social_title @person
 
 .widgets.row.full-width
   .row.full-width
@@ -24,8 +24,11 @@
 
     .widget.large-4.medium-6.columns
       .inner
-        %h3 Bio
+        %h3 OneConnect Profile
         = form_for @profile, method: :put do |f|
+          = f.label :nickname
+          = f.text_field :nickname
+          = f.label :bio
           = f.text_area :bio, rows: 15
           = f.submit 'Save', class: 'button'
 

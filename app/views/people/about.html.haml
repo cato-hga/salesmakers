@@ -16,6 +16,8 @@
 .widgets
   .widget.person_widget.centered_text
     .inner
+      %strong= '"' + @person.profile.nickname + '"'
+      %br
       = image_tag avatar_url(@person), class: 'avatar'
       %br
       %em= @person.position.name

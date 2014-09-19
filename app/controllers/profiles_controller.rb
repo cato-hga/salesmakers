@@ -31,6 +31,6 @@ class ProfilesController < ProtectedController
 
 
   def profile_params
-    params.require(:profile).permit(:bio)
+    params.require(:profile).permit(:bio, :nickname)
   end
 end
