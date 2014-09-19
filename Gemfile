@@ -4,70 +4,66 @@ gem 'rails', '4.1.1'
 gem 'pg', '0.17.1'
 gem 'sass-rails', '4.0.3'
 gem 'uglifier', '1.3.0'
-#gem 'coffee-rails', '4.0.0'
 gem 'jquery-rails', '3.1.0'
-#gem 'turbolinks', '2.2.2'
 gem 'jbuilder', '2.0'
 gem 'sdoc', '0.4.0',  group: :doc
 
 # ------ Our gems below this line --------
 
-#gem 'foundation-rails', git: 'https://github.com/zurb/foundation-rails.git' #'5.3.3.0'
-gem 'chartkick', '1.2.5'
-gem 'haml-rails', '0.5.3'
-gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git'
-gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git'
-gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git'
-gem 'ransack', '1.2.3'
-gem 'kaminari', '0.16.1'
-gem 'httparty', '0.13.1'
-#gem 'jquery-turbolinks', '2.0.2'
-gem 'namecase', '1.1.0'
-gem 'foundation-icons-sass-rails', '3.0.0'
+gem 'chartkick', '1.2.5' # Easy Google Charts creation in Rails
+gem 'haml-rails', '0.5.3' # HAML template engine
+gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git' # CAS client for Ruby
+gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git' # Allow current_user to work in models
+gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git' # Tree-based hierarchies for models
+gem 'ransack', '1.2.3' # ActiveRecord search
+gem 'kaminari', '0.16.1' # Pagination
+gem 'httparty', '0.13.1' # HTTP REST API client
+gem 'namecase', '1.1.0' # Easily turn names into proper cases
+gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
 gem 'groupdate', '2.2.1'
-gem 'swiper-rails', '1.0.2'
-gem 'pundit', git: 'https://github.com/elabs/pundit.git'
-gem 'capistrano', '3.2.1'
-gem 'capistrano-bundler', '1.1.2', require: false
-gem 'capistrano-rails', '1.1.1', require: false
-gem 'capistrano-rvm', '0.1.1', require: false
-gem 'capistrano3-puma', '0.6.1', require: false
-gem 'puma', '2.9.0'
-gem 'foreman', '0.74.0'
-gem 'emoji', '1.0.1'
-gem 'faye', '1.0.3'
-gem 'metric_fu'
-gem 'dragonfly', '1.0.7'
-gem 'remotipart', '1.2.1'
-gem 'auto_html', '1.6.4'
+gem 'swiper-rails', '1.0.2' # Content slider
+gem 'pundit', git: 'https://github.com/elabs/pundit.git' # Role-based authorization
+gem 'capistrano', '3.2.1' # Automated deployment
+gem 'capistrano-bundler', '1.1.2', require: false # Capistrano bundler integration
+gem 'capistrano-rails', '1.1.1', require: false # Capistrano Rails integration
+gem 'capistrano-rvm', '0.1.1', require: false # Capistrano RVM integration
+gem 'capistrano3-puma', '0.6.1', require: false # Capistrano Puma integration
+gem 'puma', '2.9.0' # Web server
+gem 'foreman', '0.74.0' # Deployment automation
+gem 'emoji', '1.0.1' # Automatic emoji embeds
+gem 'faye', '1.0.3' # GroupMe client websockets
+gem 'metric_fu' # Code metrics
+gem 'dragonfly', '1.0.7' # Image and file storage
+gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
+gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 
 group :development do
-  gem 'letter_opener', '1.2.0'
-  gem 'spring', '1.1.3'
-  gem 'better_errors', '1.1.0'
-  gem 'binding_of_caller', '0.7.2'
-  gem 'hirb', '0.7.2'
-  gem 'awesome_print', '1.2.0'
+  gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development
+  gem 'spring', '1.1.3' # Rails environment preloading
+  gem 'better_errors', '1.1.0' # More in-depth error messages and debugging
+  gem 'binding_of_caller', '0.7.2' # Required by better_errors
+  gem 'hirb', '0.7.2' # Pretty console printing of model information
+  gem 'awesome_print', '1.2.0' # Pretty console printing
   gem 'coderay', '1.1.0'
   gem 'coolline', '0.4.3'
-  gem 'guard-rspec', '4.2.10', require: false
+  gem 'guard-rspec', '4.2.10', require: false # Automated spec runs
 end
 
 group :test do
-  gem 'capybara', '2.3.0'
-  gem 'factory_girl_rails', '4.4.1'
-  gem 'database_cleaner', '1.3.0'
-  gem 'simplecov', '0.9.0', require: false
-  gem 'shoulda-matchers', '2.6.2', require: false
+  gem 'capybara', '2.3.0' # Testing views and interactions
+  gem 'factory_girl_rails', '4.4.1' # Easily create mock objects for testing
+  gem 'database_cleaner', '1.3.0' # Automated cleaning of test database between spec runs
+  gem 'simplecov', '0.9.0', require: false # Easily see amount of code covered by tests
+  gem 'shoulda-matchers', '2.6.2', require: false # Easy model validation test methods
 end
 
 group :development, :test do
-  gem 'rspec-rails', '3.0.1'
-  gem 'faker', '1.3.0'
-  gem 'stack_rescue', '0.0.1'
+  gem 'rspec-rails', '3.0.1' # Rspec test framework
+  gem 'faker', '1.3.0' # Easily create fake data for mocked objects
+  gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
 end
 
 group :production do
-  gem 'newrelic_rpm'
-  gem 'rack-cache', require: 'rack/cache'
+  gem 'newrelic_rpm' # NewRelic agent
+  gem 'rack-cache', require: 'rack/cache' # Cache, used by Dragonfly
 end
