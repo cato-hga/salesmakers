@@ -32,7 +32,7 @@
                 .alert-box{ class: (name.to_s == 'notice' ? 'success' : 'alert'), data: { alert: '' } }
                   = content_tag :div, msg
                   %a.close(href='#') &times;
-        .slider= yield :slider
+        -#.slider= yield :slider Commenting out. Not needed
         .container
           %section#content
             = yield
