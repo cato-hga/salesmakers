@@ -5,7 +5,10 @@
         = link_to image_tag( avatar_url(post.person), class: :avatar), '#'
         %div
           %strong
-            = link_to post.person.display_name, post.person
+            - if post.person.profile.nickname.present?
+              = link_to post.person.profile.nickname, post.person
+            - else
+              = link_to post.person.display_name, post.person
         .posted_to
           to
           = wall_link post.wall.wallable
