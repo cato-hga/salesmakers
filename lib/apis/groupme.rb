@@ -5,13 +5,6 @@ class GroupMe
 
   def initialize(access_token)
     @access_token = access_token
-    powerups_url = "https://powerup.groupme.com/powerups"
-    response = HTTParty.get(powerups_url)
-    if response.success?
-      @powerups = response['powerups']
-    else
-      @powerups = Array.new
-    end
   end
 
   def self.new_global
@@ -57,7 +50,7 @@ class GroupMe
         likes = message['favorited_by'].count if message['favorited_by']
         next if likes < minimum_likes
         group_me_message = GroupMeApiMessage.new group_name, message['name'], message['attachments'], message['text'],
-                                              message['created_at'], likes, message['avatar_url'], @powerups
+                                              message['created_at'], likes, message['avatar_url']
         messages << group_me_message
         before = message['id']
       end
@@ -132,11 +125,39 @@ class GroupMe
 
 end
 
+class GroupMeEmojiFilter
+
+  def self.filter(text, attachments)
+    if attachments and attachments.count > 0 and GroupMePowerUps.count > 0
+      for attachment in attachments do
+        if attachment['type'] and attachment['type'] == 'emoji'
+          pack_id = attachment['charmap'][0][0]
+          powerup_id = attachment['charmap'][0][1]
+          powerup_pack = GroupMePowerUps.find { |pack| pack['meta']['pack_id'] == pack_id }
+          next unless powerup_pack
+          inline = powerup_pack['meta']['inline'].find { |inline| inline['x'] == 20 }
+          next unless inline
+          image = inline['image_url']
+          pixel_down = 20 * powerup_id * -1
+          image_html = '<span style="'
+          image_html += "background: url(#{image}) no-repeat left top;"
+          image_html += "background-size: 20px auto !important;"
+          image_html += "background-position: 0 #{pixel_down}px;"
+          image_html += '" class="emoji"></span>'
+          text.gsub! attachment['placeholder'], image_html
+        end
+      end
+    end
+    text
+  end
+
+end
+
 class GroupMeApiMessage
 
   include Comparable
 
-  def initialize(group_name, author, attachments, text, created_at, likes, avatar, powerups)
+  def initialize(group_name, author, attachments, text, created_at, likes, avatar)
     @group_name = group_name
     @author = author
     @attachments = attachments
@@ -144,7 +165,7 @@ class GroupMeApiMessage
     @created_at = created_at
     @likes = likes
     @avatar = avatar
-    @powerups = powerups
+    @powerups = GroupMePowerUps
   end
 
   def group_name
@@ -160,27 +181,7 @@ class GroupMeApiMessage
   end
 
   def text
-    if attachments and attachments.count > 0 and @powerups.count > 0
-      for attachment in attachments do
-        if attachment['type'] and attachment['type'] == 'emoji'
-          pack_id = attachment['charmap'][0][0]
-          powerup_id = attachment['charmap'][0][1]
-          powerup_pack = @powerups.find { |pack| pack['meta']['pack_id'] == pack_id }
-          next unless powerup_pack
-          inline = powerup_pack['meta']['inline'].find { |inline| inline['x'] == 20 }
-          next unless inline
-          image = inline['image_url']
-          pixel_down = 20 * powerup_id * -1
-          image_html = '<span style="'
-          image_html += "background: url(#{image}) no-repeat left top;"
-          image_html += "background-size: 20px auto !important;"
-          image_html += "background-position: 0 #{pixel_down}px;"
-          image_html += '" class="emoji"></span>'
-          @text.gsub! attachment['placeholder'], image_html
-        end
-      end
-    end
-    @text
+    GroupMeEmojiFilter.filter @text, attachments
   end
 
   def created_at

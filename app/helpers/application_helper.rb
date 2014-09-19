@@ -1,7 +1,9 @@
+require 'apis/groupme'
+
 module ApplicationHelper
   include AutoHtml
 
-  def title( page_title )
+  def title(page_title)
     content_for(:title) { page_title }
   end
 
@@ -33,7 +35,7 @@ module ApplicationHelper
     link_to department.name, department
   end
 
-  def phone_link(phone,classes)
+  def phone_link(phone, classes)
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
   end
@@ -222,7 +224,7 @@ module ApplicationHelper
     auto_html url do
       html_escape
       image
-      youtube( autoplay: false)
+      youtube(autoplay: false)
       vimeo(show_title: true, show_byline: true)
       link target: "_blank", rel: "nofollow"
     end
@@ -273,4 +275,9 @@ module ApplicationHelper
       link_to(icon('star'), create_like_path(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     end
   end
+
+  def groupme_emoji_filter(text, attachments)
+    GroupMeEmojiFilter.filter(text, attachments).html_safe
+  end
+
 end

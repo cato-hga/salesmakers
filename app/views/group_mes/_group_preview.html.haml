@@ -16,6 +16,6 @@
         posted an image.
       - else
         %strong=  group['messages']['preview']['nickname'] + ': '
-        = group['messages']['preview']['text']
+        = groupme_emoji_filter group['messages']['preview']['text'], group['messages']['preview']['attachments']
   .large-1.columns
     %a.close X
