@@ -14,7 +14,10 @@ class AreasController < ProtectedController
   end
 
   def show
-    #TODO AUTHORIZE MEH
+    @area = Area.find params[:id]
+    authorize @area
+    @wall = @area.wall
+    @wall_posts = @wall.wall_posts
   end
 
   def new

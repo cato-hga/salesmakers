@@ -1,2 +1,6 @@
-%h1 Areas#show
-%p Find me in app/views/areas/show.html.haml
+- title @area.name + "'s Wall"
+
+.widgets
+  = render 'shared/share_form'
+  - for post in @wall_posts
+    = display_post post
