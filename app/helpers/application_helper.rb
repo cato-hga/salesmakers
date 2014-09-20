@@ -248,6 +248,20 @@ module ApplicationHelper
     "http://gravatar.com/avatar/#{gravatar_id}.png"
   end
 
+  def avatar(person)
+    image_tag avatar_url(person), class: :avatar
+  end
+
+  def friendly_datetime(datetime)
+    if datetime.strftime('%m/%d/%Y') == Time.now.strftime('%m/%d/%Y')
+      datetime.strftime('%l:%M%P %Z')
+    elsif datetime.year == Time.now.year
+      datetime.strftime('%m/%d %l:%M%P %Z')
+    else
+      datetime.strftime('%m/%d/%Y %l:%M%P %Z')
+    end
+  end
+
   def wall_link(wallable)
     return nil unless wallable
     if wallable.is_a? Area

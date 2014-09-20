@@ -395,7 +395,7 @@ header
   .tags
     margin-top: 0
 
-.widget.wall_post, .widget.person_widget
+.widget
   display: inline-block
   vertical-align: top
   width: 100%
@@ -403,6 +403,27 @@ header
     font-style: italic
     font-size: small
     margin-bottom: 1em
+  .comments
+    padding-right: $spacing
+    border-left: 1px solid #ededed
+    padding-left: $spacing * 1.5
+    .wall_post_comment
+      font-size: small
+      hr
+        width: 90%
+        margin: ($spacing / 4) auto
+      .timestamp
+        font-style: italic
+        font-size: xx-small
+        margin-top: $spacing
+        margin-bottom: $spacing * 2
+    .show_wall_post_comment_form
+      padding-left: 0
+      margin-left: 0
+    .wall_post_comment_form
+      display: none
+      .avatar
+        display: none
     
 .widget.chat .strong
   vertical-align: top

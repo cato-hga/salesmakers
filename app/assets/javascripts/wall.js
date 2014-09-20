@@ -68,6 +68,25 @@ $(function () {
     $('#new_text_post, #new_uploaded_image, #new_uploaded_video').submit(function(){
         $(this).parents('.widget').find('.alert-box').remove();
     });
+
+	$('body').on('click', '.widget .show_wall_post_comment_form', function() {
+		$(this).hide();
+		$(this).parents('.widget').find('.wall_post_comment_form').show();
+		$container.masonry('layout');
+	});
+
+	$('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
+		var $new_wall_post_comment = $(this).parents('.comments').find('.show_wall_post_comment_form').parent('.row').before(xhr.responseText);
+		$(this)[0].reset();
+		// $(this).parents('.widget').find('.show_wall_post_comment_form').show();
+		$(this).hide();
+		$container.masonry('reloadItems');
+		$container.masonry('layout');
+	}).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
+		$(this).append(xhr.responseText);
+		$container.masonry('reloadItems');
+		$container.masonry('layout');
+	});
 });
 
 function setupUnlikeEvent(post_id) {

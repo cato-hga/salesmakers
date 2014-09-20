@@ -1,0 +1,2 @@
+module WallPostCommentsHelper
+end

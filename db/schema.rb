@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919125927) do
+ActiveRecord::Schema.define(version: 20140920132408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -393,6 +393,14 @@ ActiveRecord::Schema.define(version: 20140919125927) do
     t.datetime "updated_at"
     t.integer  "person_id",              null: false
     t.integer  "score",      default: 0, null: false
+  end
+
+  create_table "wall_post_comments", force: true do |t|
+    t.integer  "wall_post_id", null: false
+    t.integer  "person_id",    null: false
+    t.text     "comment",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "wall_posts", force: true do |t|

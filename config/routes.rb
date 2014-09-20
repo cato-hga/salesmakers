@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
   resources :wall_posts, only: :destroy
+  resources :wall_post_comments, only: [:create, :update, :destroy]
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'

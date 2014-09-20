@@ -4,6 +4,7 @@ class WallPost < ActiveRecord::Base
   belongs_to :person
   belongs_to :publication
   has_many :likes
+  has_many :wall_post_comments
 
   default_scope { order created_at: :desc}
 

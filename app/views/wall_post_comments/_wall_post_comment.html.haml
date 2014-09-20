@@ -1,0 +1,7 @@
+.wall_post_comment
+  .row.full-width
+    .large-10.medium-9.small-8.columns
+      .content= wall_post_comment.comment
+      .timestamp= friendly_datetime wall_post_comment.created_at
+    .large-2.medium-3.small-4.columns
+      = avatar wall_post_comment.person
