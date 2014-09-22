@@ -32,6 +32,8 @@
             = link_to current_user.email, person_path(current_user)
             %ul.dropdown
               %li
+                = link_to icon('torso') + ' My Profile', about_person_path(current_user)
+              %li
                 = link_to icon('x') + ' Sign Out', logout_path
           %li
             = link_to icon('comments'), '#', class: 'right-off-canvas-toggle chat-icon'
