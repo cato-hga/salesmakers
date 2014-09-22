@@ -84,9 +84,28 @@ $(function () {
     //Editing Wall Post
 	$('body').on('click', '.widget .show_wall_post_edit_form', function() {
 		$(this).hide();
-		$(this).parents('.widget').find('.wall_post_edit_comment_form').show();
+		$(this).parents('.edit_comment_form').find('.wall_post_edit_comment_form').show();
 		$container.masonry('layout');
 	});
+
+    //TODO: This
+//    $('body').on('ajax:success', '.edit_wall_post_comment', function(e, data, status, xhr) {
+//        var $edit_wall_post_comment = $(this).parents('.widget').find('.comments').append(xhr.responseText);
+//        hideCommentForm($(this).parents('.wall_post_comment_form'));
+//        relayout();
+//    }).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
+//        $(this).append(xhr.responseText);
+//        relayout();
+//    });
+
+    $('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
+        var $new_wall_post_comment = $(this).parents('.widget').find('.comments').append(xhr.responseText);
+        hideCommentForm($(this).parents('.wall_post_comment_form'));
+        relayout();
+    }).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
+        $(this).append(xhr.responseText);
+        relayout();
+    });
 
 	$('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
 		var $new_wall_post_comment = $(this).parents('.widget').find('.comments').append(xhr.responseText);
