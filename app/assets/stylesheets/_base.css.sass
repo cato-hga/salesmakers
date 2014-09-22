@@ -48,6 +48,7 @@ p
 
 .avatar
   border: 3px solid #e5e5e5
+
 .stat,
 .breadcrumbs
   box-shadow: $shadow
@@ -62,7 +63,6 @@ p
   width: 52px
   height: 52px
   margin: $spacing / 6 !important
-
 
 .container,
 .slider
@@ -89,10 +89,11 @@ table
 .widget .columns:first-child
   padding-left: 0
   margin-left: 0
+
 .widget .columns:last-child
   padding-right: 0
   margin-right: 0
-    
+
 .widget
   & > .inner
     padding: 0.9375rem
@@ -112,8 +113,10 @@ a.close
 
 .small
   font-size: small
+
 .large
   font-size: 3em
+
 .x-large
   font-size: 6em
 
@@ -421,7 +424,7 @@ header
   .show_wall_post_comment_form
     padding-left: 0
     margin-left: 0
-  .wall_post_comment_form, .change_wall_form
+  .wall_post_comment_form, .change_wall_form, .wall_post_edit_comment_form
     display: none
     margin-top: $spacing
     .avatar
@@ -467,7 +470,6 @@ header
     text-align: center
     padding-top: 2em
 
-
 #chat_aside a.close
   display: none
 
@@ -505,7 +507,7 @@ header
     box-shadow: $shadow
 
 .post_actions
-  .liked
+  .liked, .own_like
     i
       color: #ffcc00
       text-shadow: 1px 1px 1px black
@@ -516,7 +518,6 @@ header
     font-size: 1.25em
     &:hover
       color: #ffcc00
-
 
 .emoji
   width: 20px

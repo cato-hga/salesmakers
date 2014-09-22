@@ -9,9 +9,24 @@ class WallPostCommentsController < ApplicationController
   end
 
   def update
+    @wall_post_comment = WallPostComment.find params[:id]
+    if @wall_post_comment.update_attributes wall_post_comment_params
+      flash[:notice] = 'Edits saved.'
+    else
+      flash[:error] = 'Your edit could NOT be saved!'
+      redirect_to :back
+    end
   end
 
   def destroy
+    @wall_post_comment = WallPostComment.find params[:id]
+    authorize @wall_post_comment
+    if @wall_post_comment.destroy
+      flash[:notice] = 'Comment deleted'
+      redirect_to :back
+    else
+      flash[:error] = 'Comment could NOT be deleted!'
+    end
   end
 
   private
