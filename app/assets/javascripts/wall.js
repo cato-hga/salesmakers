@@ -75,6 +75,13 @@ $(function () {
 		$container.masonry('layout');
 	});
 
+    //Editing Wall Post
+	$('body').on('click', '.widget .show_wall_post_edit_form', function() {
+		$(this).hide();
+		$(this).parents('.widget').find('.wall_post_edit_comment_form').show();
+		$container.masonry('layout');
+	});
+
 	$('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
 		var $new_wall_post_comment = $(this).parents('.comments').find('.show_wall_post_comment_form').parent('.row').before(xhr.responseText);
 		$(this)[0].reset();

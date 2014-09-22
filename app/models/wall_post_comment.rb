@@ -5,4 +5,6 @@ class WallPostComment < ActiveRecord::Base
 
   belongs_to :wall_post
   belongs_to :person
+
+  default_scope { order :created_at }
 end
