@@ -14,7 +14,6 @@ class AreasController < ProtectedController
       flash[:error] = 'There is no wall for that area or you do not have permission to view it.'
       redirect_to :back
     end
-    @wall_posts = @wall.wall_posts
   end
 
   def new

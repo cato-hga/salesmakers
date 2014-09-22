@@ -13,14 +13,17 @@ class Wall < ActiveRecord::Base
     if WallPolicy.new(person, Wall.new).show_all_walls?
       walls = walls.concat Wall.where("wallable_type != 'Person'")
     else
+      walls << person.position.department.wall
       if position.hq?
         walls << position.department.wall if position.department.wall
         walls = walls.concat Wall.where("wallable_type = 'Area'")
+        walls = walls.concat Wall.where("wallable_type = 'Project'")
       else
         for person_area in person.person_areas do
           areas = person_area.area.subtree
           for area in areas do
             walls << area.wall if area.wall
+            walls << area.project.wall unless not area.project.wall or walls.include? area.project
           end
           for area in person_area.area.ancestors do
             walls << area.wall if area.wall
@@ -46,6 +49,11 @@ class Wall < ActiveRecord::Base
           walls.delete area.wall if area.wall
         end
       end
+      for wall in walls do
+        if wall.wallable.is_a? Department or wall.wallable.is_a? Project
+          walls.delete wall
+        end
+      end
     end
     self.where("\"walls\".\"id\" IN (#{walls.map(&:id).join(',')})").where.not(wallable: person)
   }
@@ -59,6 +67,10 @@ class Wall < ActiveRecord::Base
     return nil unless self.wallable
     if defined?(self.wallable.project) and self.wallable.project
       self.wallable.project.name + ' - ' + self.wallable.name
+    elsif self.wallable.is_a? Project
+      'RBD Project - ' + self.wallable.name
+    elsif self.wallable.is_a? Department
+      'RBD Department - ' + self.wallable.name
     else
       self.wallable.name if self.wallable
     end

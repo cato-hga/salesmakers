@@ -35,6 +35,10 @@ module ApplicationHelper
     link_to department.name, department
   end
 
+  def project_link(project)
+    link_to project.name, [project.client, project]
+  end
+
   def phone_link(phone, classes)
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
@@ -268,6 +272,8 @@ module ApplicationHelper
       area_link wallable
     elsif wallable.is_a? Department
       department_link wallable
+    elsif wallable.is_a? Project
+      project_link wallable
     elsif wallable.is_a? Person
       if wallable == @current_person
         link_to 'Me', @current_person

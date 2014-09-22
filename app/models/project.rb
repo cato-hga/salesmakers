@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  after_save :create_wall
 
   validates :name, presence: true, length: { minimum: 4 }
   validates :client, presence: true
@@ -6,6 +7,7 @@ class Project < ActiveRecord::Base
   belongs_to :client
   has_many :area_types
   has_many :areas
+  has_one :wall, as: :wallable
 
   default_scope { order(:name) }
   scope :visible, -> (person = nil) {
@@ -17,4 +19,9 @@ class Project < ActiveRecord::Base
     end
     projects
   }
+
+  def create_wall
+    return if self.wall
+    Wall.create wallable: self
+  end
 end
