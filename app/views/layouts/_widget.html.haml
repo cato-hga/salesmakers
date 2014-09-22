@@ -49,6 +49,7 @@
           .change_wall_form
             .row.full-width
               = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'
-              = collection_select :wall_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
+              = collection_select :wall_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: post.wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
             .row.full-width
               %a.change_wall_submit.button Save
+              %a.cancel Cancel
