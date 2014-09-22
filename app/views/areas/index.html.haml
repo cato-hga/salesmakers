@@ -6,11 +6,15 @@
     - @areas.each_slice(3) do |group|
       .row.full-width
         - for area in group
-          - areas = area.descendants.arrange
           .large-4.medium-6.columns.widget
             .inner
-              %h3= area.name
-              = nested_areas areas
+              - if area.is_childless?
+                %h3= area.parent.name
+                = link_to area.name, [area.project.client, area.project, area]
+              - else
+                - areas = area.descendants.arrange
+                %h3= area.name
+                = nested_areas areas
         = empty_columns(@areas, group, 3, 'widget')
 - else
   %p

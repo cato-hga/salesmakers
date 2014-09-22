@@ -1,22 +1,19 @@
 class AreasController < ProtectedController
-  def index
+  after_action :verify_authorized, except: [:index, :show]
+  after_action :verify_policy_scoped, except: [:index, :show]
 
+  def index
     @project = Project.find params[:project_id]
-    all_areas = policy_scope(Area).where(project: @project).arrange(order: :name)
-    if all_areas and not all_areas.empty?
-      @areas = all_areas.first.first.siblings.where project: @project
-      #authorize @areas
-      authorize Area.new
-    else
-      authorize Area.new
-      []
-    end
+    @areas = Area.member_of(@current_person).where project: @project
   end
 
   def show
     @area = Area.find params[:id]
-    authorize @area
-    @wall = @area.wall
+    @wall = policy_scope(Wall).find_by wallable: @area
+    unless @wall
+      flash[:error] = 'There is no wall for that area or you do not have permission to view it.'
+      redirect_to :back
+    end
     @wall_posts = @wall.wall_posts
   end
 
