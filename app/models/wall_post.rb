@@ -5,7 +5,7 @@ class WallPost < ActiveRecord::Base
   belongs_to :publication
   belongs_to :reposted_by_person, class_name: 'Person'
   has_many :likes
-  has_many :wall_post_comments
+  has_many :wall_post_comments, dependent: :destroy
 
   default_scope { order updated_at: :desc}
 
