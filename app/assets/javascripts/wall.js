@@ -87,6 +87,18 @@ $(function () {
 		$container.masonry('reloadItems');
 		$container.masonry('layout');
 	});
+
+    $('body').on('click', '.show_change_wall_form', function(){
+        $(this).parents('.widget').find('.change_wall_form').show();
+        $(this).hide();
+    });
+
+    $('body').on('click', '.change_wall_submit', function() {
+        var form = $(this).parents('.change_wall_form');
+        var wall_post_id = form.find('.change_wall_form_wall_post_id').val();
+        var wall_id = form.find('.change_wall_form_wall_id').val();
+        window.location.href = '/wall_posts/' + wall_post_id + '/promote/' + wall_id;
+    });
 });
 
 function setupUnlikeEvent(post_id) {
@@ -112,3 +124,4 @@ function setupLikeEvent(post_id) {
         setupUnlikeEvent(post_id);
     });
 }
+

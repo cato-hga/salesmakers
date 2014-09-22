@@ -6,7 +6,7 @@ class WallPost < ActiveRecord::Base
   has_many :likes
   has_many :wall_post_comments
 
-  default_scope { order created_at: :desc}
+  default_scope { order updated_at: :desc}
 
   def self.create_from_publication(publication, wall)
     return unless publication and publication.publishable.person and publication.publishable.person and wall

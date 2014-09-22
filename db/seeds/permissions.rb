@@ -37,6 +37,27 @@ ops_and_execs_positions = [
     pos_admin, pos_ssd
 ]
 
+not_reps_positions = [
+    pos_admin,
+    pos_ssd,
+    pos_uc,
+    pos_adv,
+    pos_advs,
+    pos_advd,
+    pos_hra,
+    pos_hras,
+    pos_vrrvp,
+    pos_vervp,
+    pos_vrrm,
+    pos_verm,
+    pos_srrm,
+    pos_vrasm,
+    pos_veasm,
+    pos_vrtm,
+    pos_vetl,
+    pos_srtm
+]
+
 pg_people = PermissionGroup.create name: 'People'
 areas_and_locations = PermissionGroup.create name: 'Areas and Locations'
 clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
@@ -120,6 +141,10 @@ wall_show_all_walls = Permission.create key: 'wall_show_all_walls',
                                    description: 'can see all walls',
                                    permission_group: posts_permission_group
 
+wall_post_promote = Permission.create key: 'wall_post_promote',
+                                   description: "can change wall post's posted wall",
+                                   permission_group: posts_permission_group
+
 #TODO: Give some permission to update others
 
 for widget in widgets do
@@ -144,6 +169,10 @@ end
 
 for position in hq_positions do
   position.permissions << area_type_index
+end
+
+for position in not_reps_positions do
+  position.permissions << wall_post_promote
 end
 
 for position in ops_and_execs_positions do

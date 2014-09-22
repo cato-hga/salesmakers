@@ -8,4 +8,8 @@ class WallPostPolicy < ApplicationPolicy
   def destroy?
     Person.visible(user).include?(record.publication.publishable.person)
   end
+
+  def promote?
+    has_permission? 'promote'
+  end
 end

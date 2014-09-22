@@ -18,9 +18,6 @@
             = friendly_datetime post.created_at
         .post_actions
           = likes post
-          %br
-          - if WallPostPolicy.new(@current_person, post).destroy?
-            = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
       .large-9.columns
         .post_content
           = yield
@@ -29,4 +26,17 @@
             = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment }
           .row.full-width
             %a.show_wall_post_comment_form.small Add Comment
+            - if @walls.count > 1
+              %span.show_change_wall_form
+                \-
+                %a.small Change Post Visibility
+              - if WallPostPolicy.new(@current_person, post).destroy?
+                \-
+                = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small
           = render partial: 'wall_post_comments/form', locals: { post: post }
+        .change_wall_form
+          .row.full-width
+            = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'
+            = collection_select :wall_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
+          .row.full-width
+            %a.change_wall_submit.button Save

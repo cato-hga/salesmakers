@@ -5,6 +5,6 @@
       .timestamp
         = friendly_datetime wall_post_comment.created_at
         by
-        = link_to  wall_post_comment.person.name, wall_post_comment.person
+        = link_to  wall_post_comment.person.name, wall_post_comment.person #TODO: Make this display the nickname of a person, if available
     .large-2.medium-3.small-4.columns
       = avatar wall_post_comment.person

@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   resources :text_posts, only: [:create, :show, :destroy]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
-  resources :wall_posts, only: :destroy
+  resources :wall_posts, only: :destroy do
+    member do
+      get 'promote/:wall_id', to: 'wall_posts#promote', as: 'promote'
+    end
+  end
+
   resources :wall_post_comments, only: [:create, :update, :destroy]
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
