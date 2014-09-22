@@ -22,6 +22,18 @@ $(function () {
         itemSelector: ".widget"
     });
 
+	$('form[data-remote=true]').on('submit', function() {
+		submitToLoading($(this));
+	});
+
+	$('#new_text_post, #new_uploaded_image, #new_uploaded_video').on('ajax:complete', function(e) {
+		$(this).find('input[type=submit]').attr('value', 'Share');
+	});
+
+	$('.new_wall_post_comment').on('ajax:complete', function(e) {
+		$(this).find('input[type=submit]').attr('value', 'Save');
+	});
+
     $(document).on('ajax:remotipartSubmit', 'form', function(evt, xhr, settings){
         settings.dataType = 'html *';
     });
@@ -85,7 +97,8 @@ $(function () {
     });
 
     $('body').on('click', '.change_wall_submit', function() {
-        var form = $(this).parents('.change_wall_form');
+        linkToLoading($(this));
+		var form = $(this).parents('.change_wall_form');
         var wall_post_id = form.find('.change_wall_form_wall_post_id').val();
         var wall_id = form.find('.change_wall_form_wall_id').val();
         window.location.href = '/wall_posts/' + wall_post_id + '/promote/' + wall_id;
@@ -115,6 +128,16 @@ function hideChangeWallForm(form) {
 	form.hide();
 	form.parents('.widget').find('.show_change_wall_form').show();
 	relayout();
+}
+
+function linkToLoading(button) {
+	button.text('Saving...').click(function(e) {
+		e.preventDefault();
+	})
+}
+
+function submitToLoading(form) {
+	form.find('input[type=submit]').attr('value', 'Saving...');
 }
 
 function setupUnlikeEvent(post_id) {
