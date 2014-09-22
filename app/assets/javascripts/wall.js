@@ -76,10 +76,10 @@ $(function () {
 	});
 
 	$('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
-		var $new_wall_post_comment = $(this).parents('.comments').find('.show_wall_post_comment_form').parent('.row').before(xhr.responseText);
+		var $new_wall_post_comment = $(this).parents('.widget').find('.comments').append(xhr.responseText);
+		$(this).parents('.widget').find('.show_wall_post_comment_form').show();
 		$(this)[0].reset();
-		// $(this).parents('.widget').find('.show_wall_post_comment_form').show();
-		$(this).hide();
+		$(this).parents('.wall_post_comment_form').hide();
 		$container.masonry('reloadItems');
 		$container.masonry('layout');
 	}).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
@@ -91,6 +91,7 @@ $(function () {
     $('body').on('click', '.show_change_wall_form', function(){
         $(this).parents('.widget').find('.change_wall_form').show();
         $(this).hide();
+		$container.masonry('reloadItems').masonry('layout');
     });
 
     $('body').on('click', '.change_wall_submit', function() {

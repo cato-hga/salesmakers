@@ -402,7 +402,6 @@ header
   .posted_to
     font-style: italic
     font-size: small
-    margin-bottom: 1em
   .comments
     padding-right: $spacing
     border-left: 1px solid #ededed
@@ -417,17 +416,17 @@ header
         font-size: xx-small
         margin-top: $spacing
         margin-bottom: $spacing * 2
-    .show_wall_post_comment_form
-      padding-left: 0
-      margin-left: 0
-    .wall_post_comment_form
-      display: none
-      .avatar
-        display: none
-  .change_wall_form
+  .actions
+    margin-top: 1em
+  .show_wall_post_comment_form
+    padding-left: 0
+    margin-left: 0
+  .wall_post_comment_form, .change_wall_form
     display: none
     margin-top: $spacing
-    
+    .avatar
+      display: none
+
 .widget.chat .strong
   vertical-align: top
 

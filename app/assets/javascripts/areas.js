@@ -1,3 +1,5 @@
+//= require wall
+
 $(function(){
 	$('.nested_areas a').bind('click', function(){
 		iconElement = $(this).children('i');

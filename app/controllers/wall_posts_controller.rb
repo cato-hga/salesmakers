@@ -8,6 +8,7 @@ class WallPostsController < ApplicationController
     end
     if Wall.postable(@current_person).include? @to_wall
       @wall_post.wall = @to_wall
+      @wall_post.reposted_by_person = @current_person
       if @wall_post.save
         flash[:notice] = "Posted to #{@to_wall.wallable.name}."
         redirect_to :back
