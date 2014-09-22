@@ -4,10 +4,11 @@ class WallPostsController < ApplicationController
     authorize @wall_post
     @to_wall = Wall.find params[:wall_id]
     if @to_wall == @wall_post.wall
-      flash[:error] = "This post is already posted to #{@wall_post.wallable.name}!"
+      flash[:error] = "This post is already posted to #{@to_wall.wallable.name}!"
     end
     if Wall.postable(@current_person).include? @to_wall
       @wall_post.wall = @to_wall
+      @wall_post.reposted_by_person = @current_person
       if @wall_post.save
         flash[:notice] = "Posted to #{@to_wall.wallable.name}."
         redirect_to :back

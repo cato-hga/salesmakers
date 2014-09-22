@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920132408) do
+ActiveRecord::Schema.define(version: 20140922161246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -404,11 +404,12 @@ ActiveRecord::Schema.define(version: 20140920132408) do
   end
 
   create_table "wall_posts", force: true do |t|
-    t.integer  "publication_id", null: false
-    t.integer  "wall_id",        null: false
-    t.integer  "person_id",      null: false
+    t.integer  "publication_id",        null: false
+    t.integer  "wall_id",               null: false
+    t.integer  "person_id",             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "reposted_by_person_id"
   end
 
   create_table "walls", force: true do |t|

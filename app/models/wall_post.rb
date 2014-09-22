@@ -3,6 +3,7 @@ class WallPost < ActiveRecord::Base
   belongs_to :wall
   belongs_to :person
   belongs_to :publication
+  belongs_to :reposted_by_person, class_name: 'Person'
   has_many :likes
   has_many :wall_post_comments
 

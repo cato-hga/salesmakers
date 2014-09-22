@@ -8,14 +8,25 @@
             - if post.person.profile.nickname.present?
               = link_to post.person.profile.nickname, post.person
             - else
-              = link_to post.person.display_name, post.person
-        .posted_to
-          to
-          = wall_link post.wall.wallable
-        .small.comment.centered_text
+              = person_link post.person
+        - unless post.updated_at - 10.second > post.created_at and post.reposted_by_person
+          .posted_to
+            to
+            = wall_link post.wall.wallable
+        .small.comment.centered_text.vertical_space
           = time_ago_in_words(post.created_at) + ' ago'
           .xx-small
             = friendly_datetime post.created_at
+        - if post.updated_at - 10.second > post.created_at and post.reposted_by_person
+          .small.comment.centered_text.vertical_space
+            Reposted to
+            = wall_link post.wall.wallable
+            = time_ago_in_words(post.updated_at) + ' ago'
+            by
+            = person_link post.reposted_by_person
+            .xx-small
+              = friendly_datetime post.updated_at
+          .vertical_space
         .post_actions
           = likes post
       .large-9.columns
@@ -24,6 +35,7 @@
         .comments
           - for wall_post_comment in post.wall_post_comments do
             = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment }
+        .actions
           .row.full-width
             %a.show_wall_post_comment_form.small Add Comment
             - if @walls.count > 1
@@ -34,9 +46,10 @@
                 \-
                 = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small
           = render partial: 'wall_post_comments/form', locals: { post: post }
-        .change_wall_form
-          .row.full-width
-            = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'
-            = collection_select :wall_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
-          .row.full-width
-            %a.change_wall_submit.button Save
+          .change_wall_form
+            .row.full-width
+              = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'
+              = collection_select :wall_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: post.wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
+            .row.full-width
+              %a.change_wall_submit.button Save
+              %a.cancel Cancel
