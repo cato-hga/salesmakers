@@ -88,7 +88,7 @@ vers_connect.each do |ver_connect|
       new_vet = Area.create name: vet_connect.name.gsub('Vonage Events - ', ''),
                             area_type: vet,
                             project: vonage_events,
-                            parent: new_ver,
+                            parent: new_vem,
                             created_at: vet_connect.created,
                             updated_at: vet_connect.updated
     end
