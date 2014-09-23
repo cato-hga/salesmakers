@@ -14,58 +14,23 @@
     %li
       = link_to 'Home', root_path
   %ul.off-canvas-list
-    - for project in @projects
+    - for project in visible_projects
       %li
         %label= project.name
-      %li
-        %a{ href: "#" } Sales Entry
-      %li
-        %a{ href: "#" } Gift Cards
-      %li
-        %a{ href: "#" } Locations
-      %li
-        = link_to 'Area Types', client_project_area_types_path(project.client, project)
+      - if AreaTypePolicy.new(@current_person, AreaType.new).index?
+        %li
+          = link_to 'Area Types', client_project_area_types_path(project.client, project)
       %li
         = link_to 'Areas', client_project_areas_path(project.client, project)
   %ul.off-canvas-list
     %li
       %label Administration
     %li
-      = link_to icon('torso-business') + ' Clients', clients_path
-    -#%li
-    -#  = link_to 'Devices', devices_path
-    -#%li
-    -#  = link_to 'Lines', lines_path
-    %li
       = link_to icon('torsos-all') + ' People', people_path
-    %li
-      = link_to icon('lightbulb') + ' Solution Center', questions_path
-    %li
-      = link_to icon('page-multiple') + ' Blog', blog_path
-    %li
-      = link_to icon('photo') + ' Media', media_path
-    -#%li
-    -#  = link_to icon('clipboard-pencil') + ' Training', '#'
-    -#%li
-    -#  = link_to icon('graph-bar') + ' Reports', reports_path
   %ul.off-canvas-list
     %li
-      %label= current_user.email
+      %label= @current_person.email
     %li
-      = link_to icon('widget') + ' My Settings', '#'
+      = link_to icon('torso') + ' My Profile', about_person_path(@current_person)
     %li
       = link_to icon('x') + ' Sign Out', logout_path
-  %ul.off-canvas-list
-    %li
-      %label Super User
-    %li
-      = link_to 'Log', log_entries_path
-    %li
-      = link_to 'Departments', departments_path
-    %li
-      = link_to 'Themes', themes_path
-  %ul.off-canvas-list
-    %li
-      %label Support
-    %li
-      = link_to icon('asterisk') + ' Help', '#'

@@ -21,20 +21,15 @@
                             = link_to 'Area Types', client_project_area_types_path(project.client, project)
                         %li
                           = link_to 'Areas', client_project_areas_path(project.client, project)
-                    -#%li.divider
-                    -#%li
-                    -#  = link_to 'Edit Project', edit_client_project_path(project.client, project)
-          - if ClientPolicy.new(@current_person, Client.new).index?
-            %li
-              = link_to icon('torso-business') + ' Clients', clients_path
+
           %li
             = link_to icon('torsos-all') + ' People', people_path
 
           %li.has-dropdown
-            = link_to current_user.email, person_path(current_user)
+            = link_to @current_person.email, person_path(@current_person)
             %ul.dropdown
               %li
-                = link_to icon('torso') + ' My Profile', about_person_path(current_user)
+                = link_to icon('torso') + ' My Profile', about_person_path(@current_person)
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
           %li
