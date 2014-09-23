@@ -46,6 +46,7 @@ class PeopleController < ProtectedController
 
   def update
     @person = policy_scope(Person).find params[:id]
+    @profile = @person.profile
     if @person == @current_person
       authorize @person, :update_own_basic?
     else
