@@ -35,6 +35,14 @@
                   GroupMe integration,
                   = link_to 'click here now.', auth_group_mes_path
                 %a.close(href='#') &times;
+            - if @current_person and not @current_person.groupme_access_token and not @current_person.groupme_token_updated
+              .alert-box.alert{ data: { alert: '' } }
+                %div
+                  You have not yet set up GroupMe integration. You're missing
+                  out on a lot of cool features! To integrate with your
+                  GroupMe account,
+                  = link_to 'click here now.', auth_group_mes_path
+                %a.close(href='#') &times;
             - flash.each do |name, msg|
               - if msg.is_a?(String)
                 .alert-box{ class: (name.to_s == 'notice' ? 'success' : 'alert'), data: { alert: '' } }
