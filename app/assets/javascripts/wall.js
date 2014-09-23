@@ -17,10 +17,14 @@ $(function () {
         }
     });
 
-    $container.masonry({
-        columnWidth: ".widget",
-        itemSelector: ".widget"
-    });
+	$container.masonry({
+		columnWidth: ".widget",
+		itemSelector: ".widget"
+	});
+
+	imagesLoaded($container, function() {
+		relayout();
+	});
 
 	$('form[data-remote=true]').on('submit', function() {
 		submitToLoading($(this));
