@@ -3,7 +3,12 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter
-  before_action :set_current_user, :check_active,  :get_projects, :setup_default_walls, :setup_new_publishables
+  before_action :set_current_user,
+                :check_active,
+                :get_projects,
+                :setup_default_walls,
+                :setup_new_publishables,
+                :filter_groupme_access_token
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -62,6 +67,13 @@ class ApplicationController < ActionController::Base
       return @current_person.profile.theme_name
     end
     nil
+  end
+
+  def filter_groupme_access_token
+    return unless @current_person and @current_person.groupme_access_token
+    if @current_person.groupme_token_updated < Time.now - 60.days
+      @current_person.update groupme_access_token: nil
+    end
   end
 
   helper_method :current_user
