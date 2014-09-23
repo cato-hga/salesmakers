@@ -27,4 +27,4 @@
             = f.text_field :url, placeholder: 'Link'
             .row.full-width
               .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
-              = collection_select :uploaded_image, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns' }
+              = collection_select :uploaded_video, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns' }
