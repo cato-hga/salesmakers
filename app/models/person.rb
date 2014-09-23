@@ -36,6 +36,9 @@ class Person < ActiveRecord::Base
   has_many :group_me_likes, through: :group_me_user
   has_many :group_me_posts
 
+  ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
+    parent.table[:mobile_phone]
+  end
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
