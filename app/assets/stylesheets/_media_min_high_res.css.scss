@@ -21,6 +21,7 @@
 
 	.container {
 		&>header {
+          padding-top: $nav-height;
 			.top-pagination {
 				clear:both;
 			}
