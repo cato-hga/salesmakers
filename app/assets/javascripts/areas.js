@@ -2,7 +2,7 @@
 // TODO: Why does this require wall?
 
 $(function(){
-	$('.nested_areas a').bind('click', function(){
+	$('.nested_areas .nested_areas_icon').bind('click', function(){
 		iconElement = $(this).children('i');
 		if (iconElement.hasClass('fi-plus')) {
 			$(this).parent().next('ul').find('li').show();

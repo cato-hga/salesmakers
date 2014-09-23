@@ -1,7 +1,7 @@
 %li.nested_areas
   - if area.children and area.children.count > 0
     - icon = icon('minus').html_safe + ' '
+    = link_to icon, '#', class: :nested_areas_icon
+    = link_to area.name, [area.project.client, area.project, area]
   - else
-    - icon = ''
-  = link_to icon, '#'
-  = link_to area.name, [area.project.client, area.project, area]
+    = link_to area.name, [area.project.client, area.project, area]
