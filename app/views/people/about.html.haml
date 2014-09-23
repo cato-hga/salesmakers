@@ -16,7 +16,10 @@
 .widgets.poeple_about
   .widget.person_widget.centered_text
     .inner
-      %strong= '"' + @person.profile.nickname + '"'
+      - if @person.profile and @person.profile.nickname
+        %strong= '"' + @person.profile.nickname + '"'
+      - else
+        %strong= @person.display_name
       %br
       = image_tag avatar_url(@person), class: 'avatar'
       %br
