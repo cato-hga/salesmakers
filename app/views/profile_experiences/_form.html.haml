@@ -4,12 +4,12 @@
   = f.text_field :title
   = f.label :company_name
   = f.text_field :company_name
-  = f.label :started #TODO: Edit Date_Selects
+  = f.label :started
   = f.date_select :started, { start_year: Date.today.year - 100,
                               end_year: Date.today.year,
                               discard_day: true,
                               order: [:month, :year],
-                              with_css_classes: true  } #TODO: Style the selectors with "year", "month" CSS classes
+                              with_css_classes: true  }
   %div
     = f.check_box :currently_employed
     %strong Currently employed here?
@@ -19,7 +19,7 @@
                               end_year: Date.today.year,
                               discard_day: true,
                               order: [:month, :year],
-                              with_css_classes: true  } #TODO: Style the selectors with "year", "month" CSS classes
+                              with_css_classes: true  }
   = f.label :location
   = f.text_field :location
   = f.label :description

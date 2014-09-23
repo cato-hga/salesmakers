@@ -11,13 +11,13 @@
                                  end_year: Date.today.year,
                                  discard_day: true,
                                  discard_month: true,
-                                 with_css_classes: true  } #TODO: Style the selectors with "year", "month" CSS classes
+                                 with_css_classes: true  }
   = f.label :end_year
   = f.date_select :end_year, { start_year: Date.today.year - 100,
                                end_year: Date.today.year,
                                discard_day: true,
                                discard_month: true,
-                               with_css_classes: true  } #TODO: Style the selectors with "year", "month" CSS classes
+                               with_css_classes: true  }
   = f.label :activities_societies, 'Activities and Societies'
   = f.text_area :activities_societies
   = f.label :description

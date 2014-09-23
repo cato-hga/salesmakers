@@ -484,8 +484,11 @@ header
   padding: 0 $spacing
 
 .profile_experience, .profile_education
-  margin-bottom: $spacing
+  margin: $spacing 0
   line-height: 1.3em
+  border-bottom: 1px solid #ccc
+  &:last-child
+    border-bottom: none
   .title, .school
     font-weight: 900
     font-size: 1.25em
