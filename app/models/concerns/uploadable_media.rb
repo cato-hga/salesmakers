@@ -13,7 +13,6 @@ module UploadableMedia
     #   media_for_images = self.where(mediable_type: 'UploadedImage').where("mediable_id IN (#{visible_images.map(&:id).join(',')})")
     #   media_for_videos = self.where(mediable_type: 'UploadedVideo').where("mediable_id IN (#{visible_videos.map(&:id).join(',')})")
     #   media_for_images.merge media_for_videos
-    #   #TODO: Test this once we have media
     # }
   end
 

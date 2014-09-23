@@ -1,5 +1,5 @@
 class PositionsController < ProtectedController
-  before_action :verify_authorized
+  after_action :verify_authorized
 
   def index
     authorize Position.new
