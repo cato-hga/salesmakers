@@ -1,5 +1,3 @@
-#TODO: TEST ME
-
 # Openbravo "asset types" (usually used for import only)
 class ConnectAssetGroup < ConnectModel
   # Openbravo table name

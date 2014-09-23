@@ -1,4 +1,6 @@
 class PositionsController < ProtectedController
+  before_action :verify_authorized
+
   def index
     authorize Position.new
     @department = Department.find params[:department_id]
@@ -6,26 +8,20 @@ class PositionsController < ProtectedController
   end
 
   def new
-    #TODO Authorize
   end
 
   def create
-    #TODO Authorize
   end
 
   def show
-    #TODO Authorize
   end
 
   def edit
-    #TODO Authorize
   end
 
   def destroy
-    #TODO Authorize
   end
 
   def update
-    #TODO Authorize
   end
 end

@@ -33,7 +33,7 @@ class Position < ActiveRecord::Base
     
     return pos_uf unless area_name and connect_user_project
     # TODO: If Openbravo Role is Company Officer and retaildoneright.com, then user is corporate
-    
+    # ^^^ NO! There are users in RBDC that are not corporate, yet fit this criteria
     retail = connect_user_region.name.include? 'Retail'
     event = connect_user_region.name.include? 'Event'
     retail = true if not retail and not event

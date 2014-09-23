@@ -10,7 +10,6 @@ module Publishable
   end
 
   def update_score
-    #TODO: Update_score
   end
 
   def create_wall_post(wall, person)

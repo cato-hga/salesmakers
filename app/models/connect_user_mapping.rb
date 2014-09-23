@@ -1,4 +1,3 @@
-#TODO: TEST ME
 class ConnectUserMapping < ConnectModel
   self.table_name = :rc_umapping
   self.primary_key = :rc_umapping_id

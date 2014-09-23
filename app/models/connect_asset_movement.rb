@@ -1,4 +1,3 @@
-#TODO: TEST ME
 # Openbravo asset movements
 class ConnectAssetMovement < ConnectModel
   # Openbravo table name

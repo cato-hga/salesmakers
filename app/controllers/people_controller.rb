@@ -1,4 +1,5 @@
 class PeopleController < ProtectedController
+  before_action :verify_authorized #TODO: Double check this
   after_action :verify_authorized, except: [:index, :about, :show]
   after_action :verify_policy_scoped, except: [:about, :show]
   require 'apis/mojo'
@@ -34,14 +35,11 @@ class PeopleController < ProtectedController
   end
 
   def new
-    #TODO Authorize
   end
 
   def create
-    #TODO Authorize
   end
   def edit
-    #TODO Authorize
   end
 
   def update
@@ -63,7 +61,6 @@ class PeopleController < ProtectedController
   end
 
   def destroy
-    #TODO Authorize
   end
 
   def search

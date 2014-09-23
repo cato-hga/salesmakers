@@ -1,4 +1,3 @@
-#TODO: TEST ME
 # Openbravo commission payments
 class ConnectOrderPayout < RealConnectModel
   # Openbravo table name

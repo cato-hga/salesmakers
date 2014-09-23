@@ -1,5 +1,3 @@
-#TODO: TEST ME
-
 # Openbravo assets. These should remain read-only (usually for the
 # purposes of imports)
 class ConnectAsset < ConnectModel
