@@ -26,7 +26,7 @@ $(function () {
 		relayout();
 	});
 
-	$('form[data-remote=true]').on('submit', function() {
+	$('body').on('submit', 'form[data-remote=true]', function() {
 		submitToLoading($(this));
 	});
 
@@ -64,13 +64,22 @@ $(function () {
     //Editing Wall Post
 	$('body').on('click', '.widget .show_wall_post_edit_form', function() {
 		$(this).hide();
-		$(this).parents('.edit_comment_form').find('.wall_post_edit_comment_form').show();
+		$(this).parents('.wall_post_comment').find('.edit_comment_form').find('.wall_post_edit_comment_form').show();
 		$container.masonry('layout');
 	});
 
     $('body').on('ajax:success', '.new_wall_post_comment', function(e, data, status, xhr) {
         var $new_wall_post_comment = $(this).parents('.widget').find('.comments').append(xhr.responseText);
         hideCommentForm($(this).parents('.wall_post_comment_form'));
+        relayout();
+    }).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
+        $(this).append(xhr.responseText);
+        relayout();
+    });
+
+    $('body').on('ajax:success', '.edit_wall_post_comment', function(e, data, status, xhr) {
+        var $edited_wall_post_comment = $(this).parents('.wall_post_comment').replaceWith(xhr.responseText);
+        hideEditCommentForm($(this).parents('.wall_post_edit_comment_form'));
         relayout();
     }).on('ajax:error', '.new_wall_post_comment', function(e, xhr, status, error) {
         $(this).append(xhr.responseText);
@@ -95,6 +104,10 @@ $(function () {
 		hideCommentForm($(this).parents('.wall_post_comment_form'));
 	});
 
+	$('body').on('click', '.wall_post_edit_comment_form .cancel', function() {
+		hideEditCommentForm($(this).parents('.wall_post_edit_comment_form'));
+	});
+
 	$('body').on('click', '.change_wall_form .cancel', function() {
 		hideChangeWallForm($(this).parents('.change_wall_form'));
 	});
@@ -108,6 +121,13 @@ function hideCommentForm(form) {
 	form.hide();
 	form.find('form')[0].reset();
 	form.parents('.widget').find('.show_wall_post_comment_form').show();
+	relayout();
+}
+
+function hideEditCommentForm(form) {
+	form.hide();
+	form.find('form')[0].reset();
+	form.parents('.widget').find('.show_wall_post_edit_form').show();
 	relayout();
 }
 
