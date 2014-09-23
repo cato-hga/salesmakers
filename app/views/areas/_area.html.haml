@@ -3,4 +3,5 @@
     - icon = icon('minus').html_safe + ' '
   - else
     - icon = ''
-  = link_to icon + area.name, [area.project.client, area.project, area]
+  = link_to icon, '#'
+  = link_to area.name, [area.project.client, area.project, area]

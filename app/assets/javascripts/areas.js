@@ -1,4 +1,5 @@
-//= require wall
+// require wall
+// TODO: Why does this require wall?
 
 $(function(){
 	$('.nested_areas a').bind('click', function(){
