@@ -1,7 +1,7 @@
 class PhoneNumberValidator < ActiveModel::Validator
   def validate(record)
     unless record.mobile_phone.present? or record.office_phone.present? or record.home_phone.present?
-      record.errors[:mobile_phone] << 'is required if there is no Home or Office phone' #TODO: Format this error
+      record.errors[:mobile_phone] << 'is required if there is no Home or Office phone'
       return
     end
     record.mobile_phone = record.mobile_phone.strip.gsub /[^0-9]/, '' if record.mobile_phone.present?

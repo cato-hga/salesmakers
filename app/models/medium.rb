@@ -3,7 +3,7 @@ class Medium < ActiveRecord::Base
 
   scope :visible, -> (person = nil)  {
     return self.none unless person
-    #TODO Should HQ people see everything?
     return self.all if person.position and person.position.hq?
+    # TODO: Media scope for non-HQ peopl
   }
 end
