@@ -1,7 +1,4 @@
-- if @person.profile.nickname? #TODO: Fix the social_name helper and apply it to here!
-  = content_for(:title) { @person.profile.nickname + '\'s Wall' }
-- else
-  = content_for(:title) { @person.display_name + '\'s Wall' }
+= content_for(:title) { @person.social_name + '\'s Wall' }
 
 - content_for :action_buttons do
   = link_to icon('eye') + ' About', about_person_path(@person), class: [:button, :inline_button]

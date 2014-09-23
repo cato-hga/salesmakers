@@ -130,6 +130,10 @@ class Person < ActiveRecord::Base
     self.display_name
   end
 
+  def social_name
+    self.profile.nickname || self.display_name
+  end
+
   def add_area_from_connect
     return unless self.connect_user_id
     connect_user = ConnectUser.find_by_ad_user_id self.connect_user_id
