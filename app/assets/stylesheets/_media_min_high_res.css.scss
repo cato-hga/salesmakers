@@ -1,6 +1,10 @@
 
 @media (min-width: $high_res_cutoff){
 
+    body {
+      padding-bottom: $nav_height !important
+    }
+
 	form.search_form {
 		float: right;
 		margin-top: 1em;

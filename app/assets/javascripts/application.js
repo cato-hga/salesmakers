@@ -42,8 +42,17 @@ function resizeWidgets() {
 	});
 }
 
+function resizeOffCanvas() {
+    $('.off-canvas-wrap .inner-wrap').css('min-height', $('aside.left-off-canvas-menu')[0].scrollHeight);
+}
+
 $(window).resize(function(){
 	resizeWidgets();
+    resizeOffCanvas();
+});
+
+$(function(){
+   resizeOffCanvas();
 });
 
 
