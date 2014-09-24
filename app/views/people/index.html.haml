@@ -30,6 +30,8 @@
       - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
     - else
       - phone = ''
+    - if phone.include? '(800) 555-1212'
+      - phone = ''
     - position = (person.position) ? link_to(person.position.name, person, class: classes) : ''
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
