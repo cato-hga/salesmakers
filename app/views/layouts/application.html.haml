@@ -11,8 +11,9 @@
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
 
   %body
-    %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
-    %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
+    - if current_user and current_user.groupme_access_token
+      %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
+      %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
     #header
       = render "shared/top_navigation"
       .clear
