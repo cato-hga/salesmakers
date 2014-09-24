@@ -8,7 +8,12 @@ class GroupMeGroup < ActiveRecord::Base
   def self.update_group(group_me_group_num)
     groupme = GroupMe.new_global
     group_json = groupme.get_group group_me_group_num
+    GroupMeGroup.update_group_via_json group_json
+  end
+
+  def self.update_group_via_json(group_json)
     return nil unless group_json
+    group_me_group_num = group_json['id']
     group_me_group = GroupMeGroup.find_by group_num: group_json['id']
     if group_me_group
       group_me_group.update name: group_json['name'],
@@ -27,6 +32,7 @@ class GroupMeGroup < ActiveRecord::Base
       group_users << group_me_user if group_me_user and not group_me_group.group_me_users.include?(group_me_user)
     end
     group_me_group.group_me_users << group_users
+    GroupMeSubscription.new group_me_group_num
   end
 
   def likes_threshold
@@ -37,6 +43,16 @@ class GroupMeGroup < ActiveRecord::Base
       5
     else
       6
+    end
+  end
+
+  def self.update_groups
+    groupme = GroupMe.new_global
+    groups = groupme.get_groups
+    return unless groups and groups['response']
+    groups = groups['response']
+    for group in groups do
+      GroupMeGroup.update_group_via_json group
     end
   end
 end

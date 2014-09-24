@@ -20,13 +20,24 @@ Thread.new do
 
     GroupMeClient.add_extension GroupMeClientAuth.new
 
-    GroupMeClient.subscribe '/group/8936279' do |message|
-      if message['type'] and message['type'] == 'favorite'
-        GroupMeLike.create_from_json message['subject']
-      else
-        Rails.logger.debug 'No message type'
+    class GroupMeSubscription
+      def initialize(group_id)
+        GroupMeClient.unsubscribe "/group/#{group_id}"
+        GroupMeClient.subscribe "/group/#{group_id}" do |message|
+          if message['type'] and message['type'] == 'favorite'
+            GroupMeLike.create_from_json message['subject']
+            Rails.logger.debug message['subject']
+          else
+            Rails.logger.debug 'No message type'
+          end
+        end
       end
     end
+
+    # GroupMeSubscription.new '8936279'
   }
 end
 
+puts 'Updating groups...'
+GroupMeGroup.update_groups
+puts 'Group updates complete.'
