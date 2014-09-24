@@ -224,8 +224,8 @@ footer
   font-style: italic
 
 body
-  padding-bottom: $nav_height !important
   background-color: #e5e5e5
+  min-height: 100%
 
 .breadcrumbs
   background-color: white
@@ -531,3 +531,7 @@ header
   width: 20px
   height: 20px
   display: inline-block
+
+//This is to fix a padding issue with the top-bar.
+.f-topbar-fixed
+  padding-top: 0 !important
