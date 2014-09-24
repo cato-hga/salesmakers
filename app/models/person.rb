@@ -158,7 +158,7 @@ class Person < ActiveRecord::Base
         reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
       end
       employment.end = ended
-      employment.end_reason
+      employment.end_reason = reason
     end
     employment.save
   end
@@ -221,12 +221,24 @@ class Person < ActiveRecord::Base
     connect_user = get_connect_user
     return unless connect_user
     separator = connect_user.updater
-    separated_at = connect_user.updated
-    self.update(active: false, updated_at: separated_at)
+    self.update(active: false, updated_at: connect_user.updated)
+    return if self.employments.count < 1
+    employment = self.employments.first
+    terminations = connect_user.connect_terminations
+    ended = connect_user.updated.to_date
+    ended = connect_user.lastcontact.to_date if connect_user.lastcontact
+    reason = 'Not Recorded'
+    if terminations and terminations.count > 0
+      ended = terminations.first.last_day_worked
+      reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
+    end
+    employment.end = ended
+    employment.end_reason = reason
+    employment.save
   end
 
   def get_connect_user
-    ConnectUser.find_by email: self.email
+    ConnectUser.find_by username: self.email
   end
 
   def separate
