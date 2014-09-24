@@ -36,6 +36,7 @@ gem 'metric_fu' # Code metrics
 gem 'dragonfly', '1.0.7' # Image and file storage
 gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
+gem 'whenever', '0.9.2' # Background tasks scheduled in a flat ruby file.
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development
