@@ -13,6 +13,7 @@ require "#{seeds}/projects"
 
 require "#{seeds}/person"
 require "#{seeds}/employee_ids"
+require "#{seeds}/employments"
 
 # require "#{seeds}/technology_service_providers"
 # require "#{seeds}/line_states"

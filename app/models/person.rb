@@ -35,6 +35,7 @@ class Person < ActiveRecord::Base
   has_many :answer_upvotes
   has_many :group_me_likes, through: :group_me_user
   has_many :group_me_posts
+  has_many :employments
 
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
     parent.table[:mobile_phone]
@@ -132,6 +133,34 @@ class Person < ActiveRecord::Base
 
   def social_name
     self.profile.nickname || self.display_name
+  end
+
+  def import_employment_from_connect
+    return unless self.connect_user_id
+    connect_user = self.connect_user
+    bpartner = connect_user.connect_business_partner
+    return unless bpartner
+    salary_categories = bpartner.connect_business_partner_salary_categories
+    return unless salary_categories
+    employment_started = salary_categories.first
+    return unless employment_started
+    employment = Employment.new person: self,
+                                start: employment_started.datefrom,
+                                created_at: connect_user.created,
+                                updated_at: employment_started.updated
+    unless self.active?
+      terminations = connect_user.connect_terminations
+      ended = connect_user.updated.to_date
+      ended = connect_user.lastcontact.to_date if connect_user.lastcontact
+      reason = 'Not Recorded'
+      if terminations and terminations.count > 0
+        ended = terminations.first.last_day_worked
+        reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
+      end
+      employment.end = ended
+      employment.end_reason
+    end
+    employment.save
   end
 
   def add_area_from_connect
