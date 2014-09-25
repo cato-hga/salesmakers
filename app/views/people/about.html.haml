@@ -36,19 +36,23 @@
         - else
           %span.comment.small.round.bad.label.inline_button Inactive
       - if @show_wall
-        -unless @person.active?
+        - if not @person.active? and @person.employments.count > 0 and @person.employments.first.end
           %p
             %strong Last Day Worked:
-            = (Date.today - 42.days).strftime '%m/%d/%Y'
+            - if @person.employments.first.end.strftime('%Y').to_i < 2008
+              Unknown
+            - else
+              = @person.employments.first.end.strftime('%-m/%-d/%Y')
           %p
             %strong Termination Date:
-            = (Date.today - 41.days).strftime '%m/%d/%Y'
-        %p
-          %strong Hire Date:
-          = (Date.today - 73.days).strftime '%m/%d/%Y'
-        %p
-          %strong First Shift:
-          = (Date.today - 70.days).strftime '%m/%d/%Y'
+            - if @person.employments.first.end.strftime('%Y').to_i < 2008
+              Unknown
+            - else
+              = @person.employments.first.updated_at.strftime('%-m/%-d/%Y')
+        - if @person.employments.count > 0
+          %p
+            %strong Hire Date:
+            = @person.employments.first.start.strftime('%-m/%-d/%Y')
       - if @person.supervisor
         %p
           %strong Supervisor:

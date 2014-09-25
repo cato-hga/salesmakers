@@ -151,13 +151,16 @@ class Person < ActiveRecord::Base
     unless self.active?
       terminations = connect_user.connect_terminations
       ended = connect_user.updated.to_date
+      terminated = ended
       ended = connect_user.lastcontact.to_date if connect_user.lastcontact
       reason = 'Not Recorded'
       if terminations and terminations.count > 0
         ended = terminations.first.last_day_worked
+        terminated = terminations.first.created
         reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
       end
       employment.end = ended
+      employment.updated_at = terminated
       employment.end_reason = reason
     end
     employment.save
