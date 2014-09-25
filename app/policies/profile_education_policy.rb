@@ -1,5 +1,5 @@
 class ProfileEducationPolicy < ApplicationPolicy
-  class Scope < Scope
+  class Scope < Struct.new(:person, :scope)
     def resolve
       scope
     end
