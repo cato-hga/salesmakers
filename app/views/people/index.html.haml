@@ -15,10 +15,20 @@
     = paginate @people
 
 %section
-  - header = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)']
+  - header = header_row ['EID','Hired', 'Term\'d', 'Name','Email','Phone','Position','Supervisor','Area(s)']
   - rows = Array.new
   - for person in @people do
     - classes = person.active? ? '' : 'inactive'
+    - if person.employments.count > 0
+      - hired = link_to person.employments.first.start.strftime('%-m/%-d/%Y'), person, class: classes
+    - else
+      - hired = ''
+    - if person.employments.count > 0 and person.employments.first.end and person.employments.first.end.strftime('%Y').to_i < 2008
+      - termed = link_to 'Unknown', person, class: classes
+    - elsif person.employments.count > 0 and person.employments.first.end
+      - termed = link_to person.employments.first.end.strftime('%-m/%-d/%Y'), person, class: classes
+    - else
+      - termed = ''
     - eid = (person.eid) ? link_to(person.eid, person, class: classes) : ''
     - display_name = person_link person, classes
     - email = mail_to person.email, person.email, class: classes
@@ -35,7 +45,7 @@
     - position = (person.position) ? link_to(person.position.name, person, class: classes) : ''
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
-    - rows << table_row([eid, display_name, email, phone, position, supervisor, area])
+    - rows << table_row([eid, hired, termed, display_name, email, phone, position, supervisor, area])
   = table header, rows
 
 - content_for :footer do
