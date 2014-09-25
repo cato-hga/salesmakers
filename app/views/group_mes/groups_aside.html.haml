@@ -3,9 +3,12 @@
     - for group in @groups do
       = render partial: 'group_preview', locals: { group: group }
   - else
-    .centered_text
+    .centered_text.group_me_login
       You are not a member of any groups.
 - else
-  .centered_text
+  .centered_text.group_me_login
     Your GroupMe account is not currently linked to your profile.
+    %br
     = link_to 'Click here to link your GroupMe account.', auth_group_mes_path
+    %br
+    (You will be taken to GroupMe's website to do this)
