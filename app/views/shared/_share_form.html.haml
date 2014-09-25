@@ -3,11 +3,11 @@
     .inner
       %dl#post_tabs.tabs{ data: { tab: '' } }
         %dd.active
-          = link_to 'Text', '#text_tab'
+          = link_to 'Text', '#text_tab', id: 'text_tab_link'
         %dd
-          = link_to 'Photos', '#photos_tab'
+          = link_to 'Photos', '#photos_tab', id: 'photos_tab_link'
         %dd
-          = link_to 'Video', '#video_tab'
+          = link_to 'Video', '#video_tab', id: 'video_tab_link'
       .tabs-content
         #text_tab.content.active
           = form_for @text_post, remote: true, authenticity_token: true do |f|

@@ -64,3 +64,68 @@
       =image_tag 'loading.gif'
       %br
       %em Loading...
+    - unless @seen_before
+      %ol.joyride-list{ data: { joyride: '' } }
+        %li{ data: { id: 'joyride-logo', text: 'Next', options: 'prev_button: false; tip_location: right' } }
+          %p
+            When you want to go back to home, click on this logo.
+        %li{ data: { id: 'joyride-projects', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
+          %p
+            The projects RBD runs for its clients will be listed here if you
+            have permission to view them. Click on a project name in the
+            drop-down to view things posted to everyone involved in the project.
+        %li{ data: { id: 'joyride-people', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
+          %p
+            Click here to search through people that are visible to you. You can
+            find contact information for people in the list, or click on their
+            name to view their wall and profile.
+        %li{ data: { id: 'joyride-profile', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
+          %p
+            To view and edit your own profile or log out, click here.
+        %li{ data: { id: 'joyride-chat', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
+          %p
+            Use this button to view your GroupMe groups and messages.
+        %li{ data: { id: 'text_tab_link', text: 'Next', prev_text: 'Previous' } }
+          %p
+            Share plain text messages...
+        %li{ data: { id: 'photos_tab_link', text: 'Next', prev_text: 'Previous' } }
+          %p
+            \... or post a photo and add a caption...
+        %li{ data: { id: 'video_tab_link', text: 'Next', prev_text: 'Previous' } }
+          %p
+            \... and even paste in a link to a Vimeo or YouTube video to share it.
+        %li{ data: { id: 'text_post_wall_id', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+          %p
+            This drop-down will allow you to select who to post to. If
+            you have permission to post to multiple groups, you can change
+            the wall your post will be shared with here.
+        %li{ data: { id: 'first_post_author', text: 'Next', prev_text: 'Previous', options: 'tip_location: bottom' } }
+          %p
+            View a post author's wall or profile by clicking their name or photo.
+        %li{ data: { id: 'first_post_icon_star', text: 'Next', prev_text: 'Previous', options: 'tip_location: top' } }
+          %p
+            You can show that you like a post by clicking the star!
+        %li{ data: { id: 'first_post_add_comment', text: 'Next', prev_text: 'Previous', options: 'tip_location: bottom' } }
+          %p
+            Add a comment or reply to a post by clicking its "Add Comment" link.
+        %li{ data: { id: 'first_post_visibility', text: 'Next', prev_text: 'Previous', options: 'tip_location: bottom' } }
+          %p
+            Change who the post is visible to by clicking "Change Post Visibility".
+        %li{ data: { id: 'first_post_delete', text: 'Next', prev_text: 'Previous', options: 'tip_location: bottom' } }
+          %p
+            Delete a post if you feel that it's inappropriate. Careful, this cannot
+            be undone!
+        %li{ data: { button: 'End', prev_text: 'Previous' } }
+          %h4 Support and Feedback
+          %p
+            If at any time you need help or wish to provide us with feedback,
+            you can send an email to
+            = mail_to 'it@retaildoneright.com', 'it@retaildoneright.com.'
+      = javascript_include_tag 'foundation_new/foundation.joyride', params[:controller]
+      = javascript_include_tag 'foundation_new/foundation.cookie', params[:controller]
+      :javascript
+        if ($(window).width() >= 1280) {
+          imagesLoaded('body', function() {
+            $(document).foundation('joyride', 'start');
+          });
+        }

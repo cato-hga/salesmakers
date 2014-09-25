@@ -19,4 +19,20 @@ class WallPost < ActiveRecord::Base
   def self.visible(person)
     self.where wall: Wall.visible(person)
   end
+
+  def self.send_welcome_post(person)
+    return unless person and person.wall
+    sys_admin = Person.find_by email: 'retailingw@retaildoneright.com'
+    text_post = TextPost.new content: 'Welcome ' + person.social_name + '! ' +
+        'Edit your profile, check out your co-workers\' profiles, and start ' +
+        'sharing!',
+                             person: sys_admin
+    if text_post.save
+      return unless text_post.publication
+      publication = text_post.publication
+      WallPost.find_or_create_by publication: publication,
+                                 wall: person.wall,
+                                 person: sys_admin
+    end
+  end
 end

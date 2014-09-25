@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
                 :check_active,
                 :get_projects,
                 :setup_default_walls,
+                :set_last_seen,
                 :setup_new_publishables,
                 :filter_groupme_access_token
   # Prevent CSRF attacks by raising an exception.
@@ -37,6 +38,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def set_last_seen
+    @seen_before = false
+    return unless @current_person
+    Person.record_timestamps = false
+    @seen_before = @current_person.last_seen.present?
+    @current_person.update last_seen: Time.now
+    Person.record_timestamps = true
+    WallPost.send_welcome_post @current_person unless @seen_before
+  end
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
