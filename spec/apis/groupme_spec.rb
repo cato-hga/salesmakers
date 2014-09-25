@@ -4,7 +4,7 @@ require 'apis/groupme'
 describe 'GroupMe API' do
 
   before(:all) do
-    @groupme = GroupMe.new('7a853610f0ca01310e5a065d7b71239d') #TODO: should this access token not be hard coded?
+    @groupme = GroupMe.new('7a853610f0ca01310e5a065d7b71239d')
   end
 
   it 'should get a list of groups' do

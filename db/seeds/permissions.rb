@@ -4,58 +4,187 @@ Permission.destroy_all
 PermissionGroup.destroy_all
 
 pos_admin = Position.find_by_name 'System Administrator'
-pos_ssd = Position.find_by_name 'Senior Software Developer'
-pos_uf = Position.find_by_name 'Unclassified Field Employee'
-pos_uc = Position.find_by_name 'Unclassified Corporate Employee'
-pos_adv = Position.find_by_name 'Advocate'
-pos_advs = Position.find_by_name 'Advocate Supervisor'
-pos_advd = Position.find_by_name 'Advocate Director'
-pos_hra = Position.find_by_name 'HR Administrator'
-pos_hras = Position.find_by_name 'HR Administrator Supervisor'
 pos_vrrvp = Position.find_by_name 'Vonage Retail Regional Vice President'
-pos_vervp = Position.find_by_name 'Vonage Event Regional Vice President'
 pos_vrrm = Position.find_by_name 'Vonage Retail Regional Manager'
-pos_verm = Position.find_by_name 'Vonage Event Regional Manager'
-pos_srrm = Position.find_by_name 'Sprint Retail Regional Manager'
 pos_vrasm = Position.find_by_name 'Vonage Retail Area Sales Manager'
-pos_veasm = Position.find_by_name 'Vonage Event Area Sales Manager'
 pos_vrtm = Position.find_by_name 'Vonage Retail Territory Manager'
-pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
-pos_srtm = Position.find_by_name 'Sprint Retail Territory Manager'
 pos_vrss = Position.find_by_name 'Vonage Retail Sales Specialist'
+
+pos_vervp = Position.find_by_name 'Vonage Event Regional Vice President'
+pos_verm = Position.find_by_name 'Vonage Event Regional Manager'
+pos_veasm = Position.find_by_name 'Vonage Event Area Sales Manager'
+pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
+pos_velit = Position.find_by_name 'Vonage Event Leader in Training'
 pos_vess = Position.find_by_name 'Vonage Event Sales Specialist'
+
+pos_srrvp = Position.find_by_name 'Sprint Retail Regional Vice President'
+pos_srrm = Position.find_by_name 'Sprint Retail Regional Manager'
+pos_srasm = Position.find_by_name 'Sprint Retail Area Sales Manager'
+pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
 pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
+
+pos_uf = Position.find_by_name 'Unclassified Field Employee'
+pos_uc = Position.find_by_name 'Unclassified HQ Employee'
+
+pos_td = Position.find_by_name 'Training Director'
+pos_t = Position.find_by_name 'Trainer'
+
+pos_advd = Position.find_by_name 'Advocate Director'
+pos_advs = Position.find_by_name 'Advocate Supervisor'
+pos_adv = Position.find_by_name 'Advocate'
+pos_rccd = Position.find_by_name 'Recruiting Call Center Director'
+pos_rccr = Position.find_by_name 'Recruiting Call Center Representative'
+
+pos_ssd = Position.find_by_name 'Senior Software Developer'
+pos_sd = Position.find_by_name 'Software Developer'
+pos_itd = Position.find_by_name 'Information Technology Director'
+pos_itst = Position.find_by_name 'Information Technology Support Technician'
+
+pos_od = Position.find_by_name 'Operations Director'
+pos_oc = Position.find_by_name 'Operations Coordinator'
+pos_ic = Position.find_by_name 'Inventory Coordinator'
+pos_rc = Position.find_by_name 'Reporting Coordinator'
+
+pos_fa = Position.find_by_name 'Finance Administrator'
+pos_cont = Position.find_by_name 'Controller'
+pos_acc = Position.find_by_name 'Accountant'
+
+pos_md = Position.find_by_name 'Marketing Director'
+
+pos_qad = Position.find_by_name 'Quality Assurance Director'
+pos_qaa = Position.find_by_name 'Quality Assurance Administrator'
+
+pos_ceo = Position.find_by_name 'Chief Executive Officer'
+pos_coo = Position.find_by_name 'Chief Operations Officer'
+pos_cfo = Position.find_by_name 'Chief Financial Officer'
+pos_vps = Position.find_by_name 'Vice President of Sales'
+pos_ea = Position.find_by_name 'Executive Assistant'
+
+pos_pd = Position.find_by_name 'Payroll Director'
+pos_pa = Position.find_by_name 'Payroll Administrator'
+
+pos_hras = Position.find_by_name 'Human Resources Director'
+pos_hra = Position.find_by_name 'Human Resources Administrator'
 
 #Define
 all_positions = [
-    pos_admin, pos_ssd, pos_uf, pos_uc, pos_adv, pos_advs, pos_advd, pos_hra, pos_hras, pos_vrrvp, pos_vervp,
-    pos_vrrm, pos_verm, pos_srrm, pos_vrasm, pos_veasm, pos_vrtm, pos_vetl, pos_srtm, pos_vrss, pos_vess, pos_srss
+    pos_admin,
+    pos_vrrvp,
+    pos_vrrm,
+    pos_vrasm,
+    pos_vrtm,
+    pos_vrss,
+    pos_vervp,
+    pos_verm,
+    pos_veasm,
+    pos_vetl,
+    pos_velit,
+    pos_vess,
+    pos_srrvp,
+    pos_srrm,
+    pos_srasm,
+    pos_srtm,
+    pos_srss,
+    pos_uf,
+    pos_uc,
+    pos_td,
+    pos_t,
+    pos_advd,
+    pos_advs,
+    pos_adv,
+    pos_rccd,
+    pos_rccr,
+    pos_ssd,
+    pos_sd,
+    pos_itd,
+    pos_itst,
+    pos_od,
+    pos_oc,
+    pos_ic,
+    pos_rc,
+    pos_fa,
+    pos_cont,
+    pos_acc,
+    pos_md,
+    pos_qad,
+    pos_qaa,
+    pos_ceo,
+    pos_coo,
+    pos_cfo,
+    pos_vps,
+    pos_ea,
+    pos_pd,
+    pos_pa,
+    pos_hras,
+    pos_hra
 ]
+
 hq_positions = Position.where hq: true
 
 ops_and_execs_positions = [
-    pos_admin, pos_ssd
+    pos_admin,
+    pos_ceo,
+    pos_coo,
+    pos_cfo,
+    pos_vps,
+    pos_ea,
+    pos_od,
+    pos_oc,
+    pos_ic,
+    pos_rc,
+    pos_qad,
+    pos_qaa,
+    pos_ssd,
+    pos_sd,
+    pos_itd
 ]
 
 not_reps_positions = [
     pos_admin,
-    pos_ssd,
-    pos_uc,
-    pos_adv,
-    pos_advs,
-    pos_advd,
-    pos_hra,
-    pos_hras,
     pos_vrrvp,
-    pos_vervp,
     pos_vrrm,
-    pos_verm,
-    pos_srrm,
     pos_vrasm,
-    pos_veasm,
     pos_vrtm,
+    pos_vervp,
+    pos_verm,
+    pos_veasm,
     pos_vetl,
-    pos_srtm
+    pos_velit,
+    pos_srrvp,
+    pos_srrm,
+    pos_srasm,
+    pos_srtm,
+    pos_uc,
+    pos_td,
+    pos_t,
+    pos_advd,
+    pos_advs,
+    pos_adv,
+    pos_rccd,
+    pos_rccr,
+    pos_ssd,
+    pos_sd,
+    pos_itd,
+    pos_itst,
+    pos_od,
+    pos_oc,
+    pos_ic,
+    pos_rc,
+    pos_fa,
+    pos_cont,
+    pos_acc,
+    pos_md,
+    pos_qad,
+    pos_qaa,
+    pos_ceo,
+    pos_coo,
+    pos_cfo,
+    pos_vps,
+    pos_ea,
+    pos_pd,
+    pos_pa,
+    pos_hras,
+    pos_hra
 ]
 
 pg_people = PermissionGroup.create name: 'People'
@@ -138,12 +267,12 @@ person_update_own_basic = Permission.create key: 'person_update_own_basic',
                                             permission_group: profiles_permission_group
 
 wall_show_all_walls = Permission.create key: 'wall_show_all_walls',
-                                   description: 'can see all walls',
-                                   permission_group: posts_permission_group
+                                        description: 'can see all walls',
+                                        permission_group: posts_permission_group
 
 wall_post_promote = Permission.create key: 'wall_post_promote',
-                                   description: "can change wall post's posted wall",
-                                   permission_group: posts_permission_group
+                                      description: "can change wall post's posted wall",
+                                      permission_group: posts_permission_group
 
 #TODO: Give some permission to update others
 
@@ -167,7 +296,7 @@ for position in all_positions do
 
 end
 
-for position in hq_positions do
+for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst, pos_od, pos_oc] do
   position.permissions << area_type_index
 end
 
@@ -181,7 +310,7 @@ for position in ops_and_execs_positions do
   position.permissions << wall_show_all_walls
 end
 
-for position in [pos_admin, pos_ssd] do
+for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << department_index
   position.permissions << position_index
   position.permissions << log_entry_index

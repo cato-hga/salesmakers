@@ -16,6 +16,12 @@ class ConnectUser < ConnectModel
   belongs_to :updater,
              class_name: 'ConnectUser',
              foreign_key: 'updatedby'
+  has_one :connect_business_partner,
+          foreign_key: 'c_bpartner_id',
+          primary_key: 'c_bpartner_id'
+  has_many :connect_terminations,
+           foreign_key: 'ad_user_id',
+           primary_key: 'ad_user_id'
 
   def self.not_main_administrators
     self.where("username != 'retailingw@retaildoneright.com' AND username != 'aatkinson@retaildoneright.com' AND username != 'smiles@retaildoneright.com' AND (username LIKE '%@retaildoneright.com' OR username LIKE '%@rbd%.com') AND lower(firstname) != 'x' AND ad_org_id = '6B3C6669E32B43E1A1B14788C0CD0146' AND username NOT LIKE '%@%clear%.com'")

@@ -10,7 +10,7 @@ RSpec.describe Area, :type => :model do
   it { should belong_to(:project) }
   it { should have_many(:person_areas) }
   it { should have_many(:people).through(:person_areas) }
-  it { should have_one(:wall) } #TODO: test for as: :wallable here?
+  it { should have_one(:wall) }
 
   #TODO: Test for Ancestry This link looks good: http://stackoverflow.com/questions/20557022/factories-with-ancestry-for-testing
 

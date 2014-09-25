@@ -3,6 +3,7 @@ class API::V1::PeopleController < API::BaseController
 
   def onboard
     creator = get_creator
+    @person.import_employment_from_connect if @person
     if creator.log? :onboard,
                     @person,
                     nil,

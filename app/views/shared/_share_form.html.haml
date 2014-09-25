@@ -3,15 +3,15 @@
     .inner
       %dl#post_tabs.tabs{ data: { tab: '' } }
         %dd.active
-          = link_to 'Text', '#text_tab'
+          = link_to 'Text', '#text_tab', id: 'text_tab_link'
         %dd
-          = link_to 'Photos', '#photos_tab'
+          = link_to 'Photos', '#photos_tab', id: 'photos_tab_link'
         %dd
-          = link_to 'Video', '#video_tab'
+          = link_to 'Video', '#video_tab', id: 'video_tab_link'
       .tabs-content
         #text_tab.content.active
           = form_for @text_post, remote: true, authenticity_token: true do |f|
-            = f.text_area :content, placeholder: 'Share some text...'
+            = f.text_area :content, placeholder: 'Share some text...', rows: 3
             .row.full-width
               .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
               = collection_select :text_post, :wall_id, @walls.sort_by(&:name), :id, :name, { selected: @wall.id }, { class: 'large-9 medium-8 small-8 columns' }

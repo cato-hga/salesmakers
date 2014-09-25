@@ -7,34 +7,153 @@ class Position < ActiveRecord::Base
   has_and_belongs_to_many :permissions
 
   def self.return_from_connect_user(connect_user)
-    pos_uf = Position.find_by_name 'Unclassified Field Employee'
-    pos_uc = Position.find_by_name 'Unclassified Corporate Employee'
-    pos_adv = Position.find_by_name 'Advocate'
-    pos_advs = Position.find_by_name 'Advocate Supervisor'
-    pos_advd = Position.find_by_name 'Advocate Director'
-    pos_hra = Position.find_by_name 'HR Administrator'
-    pos_hras = Position.find_by_name 'HR Administrator Supervisor'
+    pos_admin = Position.find_by_name 'System Administrator'
     pos_vrrvp = Position.find_by_name 'Vonage Retail Regional Vice President'
-    pos_vervp = Position.find_by_name 'Vonage Event Regional Vice President'
     pos_vrrm = Position.find_by_name 'Vonage Retail Regional Manager'
-    pos_verm = Position.find_by_name 'Vonage Event Regional Manager'
-    pos_srrm = Position.find_by_name 'Sprint Retail Regional Manager'
     pos_vrasm = Position.find_by_name 'Vonage Retail Area Sales Manager'
-    pos_veasm = Position.find_by_name 'Vonage Event Area Sales Manager'
     pos_vrtm = Position.find_by_name 'Vonage Retail Territory Manager'
-    pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
-    pos_srtm = Position.find_by_name 'Sprint Retail Territory Manager'
     pos_vrss = Position.find_by_name 'Vonage Retail Sales Specialist'
+
+    pos_vervp = Position.find_by_name 'Vonage Event Regional Vice President'
+    pos_verm = Position.find_by_name 'Vonage Event Regional Manager'
+    pos_veasm = Position.find_by_name 'Vonage Event Area Sales Manager'
+    pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
+    pos_velit = Position.find_by_name 'Vonage Event Leader in Training'
     pos_vess = Position.find_by_name 'Vonage Event Sales Specialist'
+
+    pos_srrvp = Position.find_by_name 'Sprint Retail Regional Vice President'
+    pos_srrm = Position.find_by_name 'Sprint Retail Regional Manager'
+    pos_srasm = Position.find_by_name 'Sprint Retail Area Sales Manager'
+    pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
     pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
+
+    pos_uf = Position.find_by_name 'Unclassified Field Employee'
+    pos_uc = Position.find_by_name 'Unclassified HQ Employee'
+
+    pos_td = Position.find_by_name 'Training Director'
+    pos_t = Position.find_by_name 'Trainer'
+
+    pos_advd = Position.find_by_name 'Advocate Director'
+    pos_advs = Position.find_by_name 'Advocate Supervisor'
+    pos_adv = Position.find_by_name 'Advocate'
+    pos_rccd = Position.find_by_name 'Recruiting Call Center Director'
+    pos_rccr = Position.find_by_name 'Recruiting Call Center Representative'
+
+    pos_ssd = Position.find_by_name 'Senior Software Developer'
+    pos_sd = Position.find_by_name 'Software Developer'
+    pos_itd = Position.find_by_name 'Information Technology Director'
+    pos_itst = Position.find_by_name 'Information Technology Support Technician'
+
+    pos_od = Position.find_by_name 'Operations Director'
+    pos_oc = Position.find_by_name 'Operations Coordinator'
+    pos_ic = Position.find_by_name 'Inventory Coordinator'
+    pos_rc = Position.find_by_name 'Reporting Coordinator'
+
+    pos_fa = Position.find_by_name 'Finance Administrator'
+    pos_cont = Position.find_by_name 'Controller'
+    pos_acc = Position.find_by_name 'Accountant'
+
+    pos_md = Position.find_by_name 'Marketing Director'
+
+    pos_qad = Position.find_by_name 'Quality Assurance Director'
+    pos_qaa = Position.find_by_name 'Quality Assurance Administrator'
+
+    pos_ceo = Position.find_by_name 'Chief Executive Officer'
+    pos_coo = Position.find_by_name 'Chief Operations Officer'
+    pos_cfo = Position.find_by_name 'Chief Financial Officer'
+    pos_vps = Position.find_by_name 'Vice President of Sales'
+    pos_ea = Position.find_by_name 'Executive Assistant'
+
+    pos_pd = Position.find_by_name 'Payroll Director'
+    pos_pa = Position.find_by_name 'Payroll Administrator'
+
+    pos_hras = Position.find_by_name 'Human Resources Director'
+    pos_hra = Position.find_by_name 'Human Resources Administrator'
     connect_user_region = connect_user.region
     area_name = self.clean_area_name connect_user_region
     connect_user_project = (connect_user_region) ? connect_user_region.project : nil
-    
-    return pos_uf unless area_name and connect_user_project
-    # TODO: If Openbravo Role is Company Officer and retaildoneright.com, then user is corporate
-    # ^^^ NO! There are users in RBDC that are not corporate, yet fit this criteria
-    retail = connect_user_region.name.include? 'Retail'
+
+    case connect_user.username
+      when 'sdesjarlais@retaildoneright.com'
+        position = pos_td
+      when 'mgallenstein@retaildoneright.com'
+        position = pos_advd
+      when 'msiegel@retaildoneright.com'
+        position = pos_rccd
+      when 'matt@retaildoneright.com'
+        position = pos_itd
+      when 'rwatier@retaildoneright.com'
+        position = pos_ic
+      when 'rcushing@retaildoneright.com'
+        position = pos_od
+      when 'emontesdeoca@retaildoneright.com'
+        position = pos_fa
+      when 'bzopolsky@retaildoneright.com'
+        position = pos_cont
+      when 'cwilcox@retaildoneright.com'
+        position = pos_acc
+      when 'sriker@retaildoneright.com'
+        position = pos_md
+      when 'nissaev@retaildoneright.com'
+        position = pos_rc
+      when 'jcarmichael@retaildoneright.com'
+        position = pos_qaa
+      when 'charris@retaildoneright.com'
+        position = pos_qad
+      when 'jimmy@retaildoneright.com'
+        position = pos_ceo
+      when 'kevin@retaildoneright.com'
+        position = pos_coo
+      when 'cdipasquale@retaildoneright.com'
+        position = pos_cfo
+      when 'dharty@retaildoneright.com'
+        position = pos_vps
+      when 'mtotan@retaildoneright.com'
+        position = pos_pd
+      when 'mcarmona@retaildoneright.com'
+        position = pos_pa
+      when 'lrozar@retaildoneright.com'
+        position = pos_pa
+      when 'adaly@retaildoneright.com'
+        position = pos_pa
+      when 'jcullen@retaildoneright.com'
+        position = pos_hras
+      when 'msrinivasa@retaildoneright.com'
+        position = pos_itst
+      when 'zmathew@retaildoneright.com'
+        position = pos_itst
+      when 'dkorb@retaildoneright.com'
+        position = pos_itst
+      when 'joneal@retaildoneright.com'
+        position = pos_oc
+      when 'nhissa@retaildoneright.com'
+        position = pos_oc
+      when 'mhafer@retaildoneright.com'
+        position = pos_ea
+      when 'dshort@retaildoneright.com'
+        position = pos_ea
+      when 'jhade@retaildoneright.com'
+        position = pos_srrm
+      when 'rpitman@retaildoneright.com'
+        position = pos_srrm
+      when 'tkarlin@retaildoneright.com'
+        position = pos_srrm
+      when 'bcarter@retaildoneright.com'
+        position = pos_srrvp
+    end
+
+    return position if position
+
+    if not area_name and not connect_user_project and not connect_user.username.include? '@retaildoneright.com'
+      return pos_uf
+    elsif (connect_user_project == 'Corporate' or not connect_user_project) and connect_user.username.include? '@retaildoneright.com'
+      return pos_uc
+      # TODO: Go back and change LIT's to non-HQ
+    end
+
+    if connect_user_region.name.include? 'Retail' or connect_user_region.name.include? 'Sprint'
+      retail = true
+    end
     event = connect_user_region.name.include? 'Event'
     retail = true if not retail and not event
 
@@ -46,6 +165,11 @@ class Position < ActiveRecord::Base
     
     recruit = area_name.downcase.include? 'recruit'
     advocate = area_name.downcase.include? 'advocate'
+    hr = area_name.downcase.include? 'human'
+    training = area_name.downcase.include? 'training'
+    technology = area_name.downcase.include? 'technology'
+    operations = area_name.downcase.include? 'operations'
+    accounting = area_name.downcase.include? 'accounting'
     leader = connect_user.leader?
     
     position = nil
@@ -57,12 +181,20 @@ class Position < ActiveRecord::Base
           position = pos_srtm if sprint and retail
           position = pos_hras if corporate and recruit
           position = pos_advs if corporate and advocate
+          position = pos_hrd if corporate and hr
+          position = pos_td if corporate and training
+          position = pos_itd if corporate and technology
         else
           position = pos_vrss if vonage and retail
           position = pos_vess if vonage and event
           position = pos_srss if sprint and retail
           position = pos_hra if corporate and recruit
           position = pos_adv if corporate and advocate
+          position = pos_hra if corporate and hr
+          position = pos_t if corporate and training
+          position = pos_itst if corporate and technology
+          position = pos_oc if corporate and operations
+          position = pos_acc if corporate and accounting
         end
       when 3
         if leader
@@ -83,6 +215,12 @@ class Position < ActiveRecord::Base
           #TODO Add sprint regional vp or whatever Brian is
         end
     end
+
+    if sprint and connect_user.username.include? '@retaildoneright.com'
+      position = pos_srtm
+    end
+
+    position = pos_uf unless position
     position
   end
 

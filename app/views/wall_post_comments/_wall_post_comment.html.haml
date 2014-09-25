@@ -6,7 +6,7 @@
       .timestamp
         = friendly_datetime wall_post_comment.created_at
         by
-        = link_to  wall_post_comment.person.name, wall_post_comment.person #TODO: Make this display the nickname of a person, if available
+        = link_to  wall_post_comment.person.social_name, wall_post_comment.person
         - if wall_post_comment.person == @current_person
           %span.show_wall_post_edit_form
             |

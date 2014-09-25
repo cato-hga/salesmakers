@@ -120,8 +120,8 @@ module ApplicationHelper
     date.strftime '%A, %B %-d, %Y'
   end
 
-  def icon(name)
-    content_tag(:i, ''.html_safe, class: 'fi-' + name).html_safe
+  def icon(name, first_post = false)
+    content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
   end
 
   def person_link(person, classes = '')
@@ -234,14 +234,14 @@ module ApplicationHelper
     end
   end
 
-  def display_post(post)
+  def display_post(post, first_post = false)
     publishable = post.publication.publishable
     if publishable.is_a? TextPost
-      return render partial: 'text_posts/text_post', locals: { post: post }, layout: 'layouts/widget'
+      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
     elsif publishable.is_a? UploadedImage
-      return render partial: 'uploaded_images/uploaded_image', locals: { post: post }, layout: 'layouts/widget'
+      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
     elsif publishable.is_a? UploadedVideo
-      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post }, layout: 'layouts/widget'
+      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
     end
     nil
   end
@@ -285,14 +285,14 @@ module ApplicationHelper
     end
   end
 
-  def likes(post)
+  def likes(post, first_post = false)
     if post.likes.where(person: @current_person, wall_post: post).count > 0 and post.publication.publishable.person != @current_person
       #content_tag :div, icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count), class: :liked
-      link_to(icon('star'), destroy_like_path(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+      link_to(icon('star', first_post), destroy_like_path(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     elsif post.publication.publishable.person == @current_person
-      content_tag(:span, icon('star'), class: :own_like) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
+      content_tag(:span, icon('star', first_post), class: :own_like) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
     else
-      link_to(icon('star'), create_like_path(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+      link_to(icon('star', first_post), create_like_path(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     end
   end
 

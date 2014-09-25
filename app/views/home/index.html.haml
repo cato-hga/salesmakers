@@ -4,6 +4,11 @@
 .widgets
   = render 'shared/share_form'
 
+  - counter = 0
   - for wall_post in @wall_posts do
-    = display_post wall_post
+    - counter += 1
+    - if counter == 1
+      = display_post wall_post, true
+    - else
+      = display_post wall_post
 = paginate @wall_posts

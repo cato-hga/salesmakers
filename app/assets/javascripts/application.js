@@ -43,7 +43,7 @@ function resizeWidgets() {
 }
 
 function resizeOffCanvas() {
-    $('.off-canvas-wrap .inner-wrap').css('min-height', $('aside.left-off-canvas-menu')[0].scrollHeight);
+    $('.off-canvas-wrap .inner-wrap').css('min-height', $('aside.left-off-canvas-menu')[0].scrollHeight + 20);
 }
 
 $(window).resize(function(){

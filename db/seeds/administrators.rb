@@ -1,5 +1,6 @@
 administrator_position = Position.find_by_name 'System Administrator'
 senior_software_developer = Position.find_by_name 'Senior Software Developer'
+software_developer = Position.find_by_name 'Software Developer'
 
 Person.create first_name: 'System',
               last_name: 'Administrator',
@@ -24,6 +25,6 @@ Person.create first_name: 'Stephen',
               display_name: 'Stephen Miles',
               email: 'smiles@retaildoneright.com',
               personal_email: 'milessa42@gmail.com',
-              position_id: senior_software_developer.id,
+              position_id: software_developer.id,
               connect_user_id: '0AA3EE8FCDCF402ABCEB6280D1FC4C8D',
               mobile_phone: '8137164150'

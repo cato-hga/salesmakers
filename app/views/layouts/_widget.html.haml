@@ -1,3 +1,4 @@
+- first_post = false unless defined? first_post
 .widget
   .inner
     .row.full-width
@@ -8,9 +9,9 @@
             - if post.person.profile.nickname.present?
               = link_to post.person.profile.nickname, post.person
             - else
-              = person_link post.person
+              %span{ id: first_post ? 'first_post_author' : nil }= person_link post.person
         - unless post.updated_at - 10.second > post.created_at and post.reposted_by_person
-          .posted_to
+          .posted_to{ id: first_post ? 'first_post_posted_to' : nil }
             to
             = wall_link post.wall.wallable
         .small.comment.centered_text.vertical_space
@@ -28,7 +29,7 @@
               = friendly_datetime post.updated_at
           .vertical_space
         .post_actions
-          = likes post
+          = likes post, first_post
       .large-9.columns
         .post_content
           = yield
@@ -37,14 +38,14 @@
             = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment }
         .actions
           .row.full-width
-            %a.show_wall_post_comment_form.small Add Comment
+            %a.show_wall_post_comment_form.small{ id: first_post ? 'first_post_add_comment' : nil } Add Comment
             - if @walls.count > 1
               %span.show_change_wall_form
                 \-
-                %a.small Change Post Visibility
+                %a.small{ id: first_post ? 'first_post_visibility' : nil } Change Post Visibility
               - if WallPostPolicy.new(@current_person, post).destroy?
                 \-
-                = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small
+                = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small, id: first_post ? 'first_post_delete' : nil
           = render partial: 'wall_post_comments/form', locals: { post: post }
           .change_wall_form
             .row.full-width
