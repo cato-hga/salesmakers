@@ -60,7 +60,7 @@ $font-weight-bold: bold;
 // We use these as default colors throughout
 $primary-color: #d62121;
 // $secondary-color: #e7e7e7;
-$alert-color: #d62121;
+$alert-color: #f6f600;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
@@ -254,7 +254,7 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 // We use these to control text style.
 // $alert-font-weight: $font-weight-normal;
 // $alert-font-size: rem-calc(13);
-// $alert-font-color: #fff;
+$alert-font-color: #000;
 // $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 
 // We use this for close hover effect.
