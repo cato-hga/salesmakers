@@ -68,6 +68,7 @@ class ApplicationController < ActionController::Base
     #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
     #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
     #@current_person = Person.find_by_email 'sdesjarlais@retaildoneright.com' #Other Depart
+    #@current_person = Person.find_by_email 'aschaker@rbd-von.com' #Other Rep
   end
 
   def current_user
