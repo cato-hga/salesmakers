@@ -36,7 +36,7 @@
                   = link_to 'click here now.', auth_group_mes_path
                 %a.close(href='#') &times;
             - if @current_person and not @current_person.groupme_access_token and not @current_person.groupme_token_updated
-              .alert-box.alert{ data: { alert: '' } }
+              .alert-box.alert#joyride-groupme-alert{ data: { alert: '' } }
                 %div
                   You have not yet set up GroupMe integration. You're missing
                   out on a lot of cool features! To integrate with your
@@ -85,6 +85,9 @@
         %li{ data: { id: 'joyride-chat', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
           %p
             Use this button to view your GroupMe groups and messages.
+        %li{ data: { id: 'joyride-groupme-alert', text: 'Next', prev_text: 'Previous', options: 'tip_location: left' } }
+          %p
+            Log in to GroupMe and integrate your account to use chat features.
         %li{ data: { id: 'text_tab_link', text: 'Next', prev_text: 'Previous' } }
           %p
             Share plain text messages...
