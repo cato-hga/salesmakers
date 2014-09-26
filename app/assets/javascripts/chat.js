@@ -199,7 +199,11 @@ function outputMessage(message){
 	preview.find('.content').html(preview_content);
     console.log(JSON.stringify(message));
 
-    preview.prependTo('#chat_aside');
+    if ($('#chat_aside h3').length > 0) {
+		$('#chat_aside h3').after(preview);
+	} else {
+		preview.prependTo('#chat_aside');
+	}
     // console.log(message['subject']['name'] + ': ' + message['subject']['text']);
     if(chat.length > 0) {
 		var sent = new Date(message['subject']['created_at']*1000);
@@ -221,8 +225,12 @@ function outputMessage(message){
 			&& (message['subject']['attachments'].length > 0)
 			&& (message['subject']['attachments'][0]['type'] == 'image')) {
 			content += '<img src="'
-				+ message['subject']['attachments'][0]['url']
-				+ '.large">'
+				+ message['subject']['attachments'][0]['url'];
+			if (message['subject']['attachments'][0]['url'].indexOf("groupme.com") > -1) {
+				content += '.large">';
+			} else {
+				content += '">';
+			}
 		}
 		if (text != null) {
 			content += '<div>' + text + '</div>';

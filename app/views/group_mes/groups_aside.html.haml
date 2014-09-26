@@ -1,4 +1,5 @@
 - if @current_person and @current_person.groupme_access_token
+  %h3 GroupMe Groups
   - if @groups
     - for group in @groups do
       = render partial: 'group_preview', locals: { group: group }
