@@ -88,7 +88,7 @@ $(function(){
         $(preview).find('a.close').show();
         $(preview).siblings().remove();
         $('#chat_aside').append(
-            '<div class="chat_loading"><img src="/assets/loading.gif" alt="Loading"><br/><p>Loading...</p></div>'
+            '<div class="chat_loading"><img src="<%= asset_path('loading.gif') %>" alt="Loading"><br/><p>Loading...</p></div>'
         );
         var group_id = $(preview).data('group-id');
         $.get("/group_mes/group_chat_aside/" + group_id, function (data) {
