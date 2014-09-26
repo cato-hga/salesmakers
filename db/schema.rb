@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924200457) do
+ActiveRecord::Schema.define(version: 20140926191336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,9 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "answer_upvotes", ["answer_id"], name: "index_answer_upvotes_on_answer_id", using: :btree
+  add_index "answer_upvotes", ["person_id"], name: "index_answer_upvotes_on_person_id", using: :btree
+
   create_table "answers", force: true do |t|
     t.integer  "person_id",   null: false
     t.integer  "question_id", null: false
@@ -31,12 +34,17 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "answers", ["person_id"], name: "index_answers_on_person_id", using: :btree
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
+
   create_table "area_types", force: true do |t|
     t.string   "name",       null: false
     t.integer  "project_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "area_types", ["project_id"], name: "index_area_types_on_project_id", using: :btree
 
   create_table "areas", force: true do |t|
     t.string   "name",          null: false
@@ -49,6 +57,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
   end
 
   add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree
+  add_index "areas", ["area_type_id"], name: "index_areas_on_area_type_id", using: :btree
+  add_index "areas", ["project_id"], name: "index_areas_on_project_id", using: :btree
 
   create_table "blog_posts", force: true do |t|
     t.integer  "person_id",              null: false
@@ -59,6 +69,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "blog_posts", ["person_id"], name: "index_blog_posts_on_person_id", using: :btree
 
   create_table "clients", force: true do |t|
     t.string   "name",       null: false
@@ -84,6 +96,9 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "device_deployments", ["device_id"], name: "index_device_deployments_on_device_id", using: :btree
+  add_index "device_deployments", ["person_id"], name: "index_device_deployments_on_person_id", using: :btree
+
   create_table "device_manufacturers", force: true do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
@@ -96,6 +111,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "device_models", ["device_manufacturer_id"], name: "index_device_models_on_device_manufacturer_id", using: :btree
 
   create_table "device_states", force: true do |t|
     t.string   "name",       null: false
@@ -122,6 +139,10 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.string   "secondary_identifier"
   end
 
+  add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
+  add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
+  add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
+
   create_table "employments", force: true do |t|
     t.integer  "person_id"
     t.date     "start"
@@ -130,6 +151,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "employments", ["person_id"], name: "index_employments_on_person_id", using: :btree
 
   create_table "group_me_groups", force: true do |t|
     t.integer  "group_num",  null: false
@@ -140,13 +163,17 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "group_me_groups", ["area_id"], name: "index_group_me_groups_on_area_id", using: :btree
+
   create_table "group_me_groups_group_me_users", id: false, force: true do |t|
     t.integer "group_me_group_id", null: false
     t.integer "group_me_user_id",  null: false
   end
 
   add_index "group_me_groups_group_me_users", ["group_me_group_id", "group_me_user_id"], name: "gm_groups_and_users", using: :btree
+  add_index "group_me_groups_group_me_users", ["group_me_group_id"], name: "index_group_me_groups_group_me_users_on_group_me_group_id", using: :btree
   add_index "group_me_groups_group_me_users", ["group_me_user_id", "group_me_group_id"], name: "gm_users_and_groups", using: :btree
+  add_index "group_me_groups_group_me_users", ["group_me_user_id"], name: "index_group_me_groups_group_me_users_on_group_me_user_id", using: :btree
 
   create_table "group_me_likes", force: true do |t|
     t.integer  "group_me_user_id", null: false
@@ -172,6 +199,10 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.integer  "person_id"
   end
 
+  add_index "group_me_posts", ["group_me_group_id"], name: "index_group_me_posts_on_group_me_group_id", using: :btree
+  add_index "group_me_posts", ["group_me_user_id"], name: "index_group_me_posts_on_group_me_user_id", using: :btree
+  add_index "group_me_posts", ["person_id"], name: "index_group_me_posts_on_person_id", using: :btree
+
   create_table "group_me_users", force: true do |t|
     t.string   "group_me_user_num", null: false
     t.integer  "person_id"
@@ -181,12 +212,17 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "group_me_users", ["person_id"], name: "index_group_me_users_on_person_id", using: :btree
+
   create_table "likes", force: true do |t|
     t.integer  "person_id",    null: false
     t.integer  "wall_post_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "likes", ["person_id"], name: "index_likes_on_person_id", using: :btree
+  add_index "likes", ["wall_post_id"], name: "index_likes_on_wall_post_id", using: :btree
 
   create_table "line_states", force: true do |t|
     t.string   "name",       null: false
@@ -209,6 +245,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "lines", ["technology_service_provider_id"], name: "index_lines_on_technology_service_provider_id", using: :btree
 
   create_table "log_entries", force: true do |t|
     t.integer  "person_id",          null: false
@@ -233,6 +271,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "media", ["mediable_id", "mediable_type"], name: "index_media_on_mediable_id_and_mediable_type", using: :btree
+
   create_table "people", force: true do |t|
     t.string   "first_name",                           null: false
     t.string   "last_name",                            null: false
@@ -255,6 +295,10 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "last_seen"
   end
 
+  add_index "people", ["connect_user_id"], name: "index_people_on_connect_user_id", using: :btree
+  add_index "people", ["position_id"], name: "index_people_on_position_id", using: :btree
+  add_index "people", ["supervisor_id"], name: "index_people_on_supervisor_id", using: :btree
+
   create_table "permission_groups", force: true do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
@@ -269,13 +313,17 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "permissions", ["permission_group_id"], name: "index_permissions_on_permission_group_id", using: :btree
+
   create_table "permissions_positions", id: false, force: true do |t|
     t.integer "permission_id", null: false
     t.integer "position_id",   null: false
   end
 
   add_index "permissions_positions", ["permission_id", "position_id"], name: "index_permissions_positions_on_permission_id_and_position_id", using: :btree
+  add_index "permissions_positions", ["permission_id"], name: "index_permissions_positions_on_permission_id", using: :btree
   add_index "permissions_positions", ["position_id", "permission_id"], name: "index_permissions_positions_on_position_id_and_permission_id", using: :btree
+  add_index "permissions_positions", ["position_id"], name: "index_permissions_positions_on_position_id", using: :btree
 
   create_table "person_areas", force: true do |t|
     t.integer  "person_id",                  null: false
@@ -284,6 +332,10 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
     t.boolean  "manages",    default: false, null: false
   end
+
+  add_index "person_areas", ["area_id", "person_id"], name: "index_person_areas_on_area_id_and_person_id", using: :btree
+  add_index "person_areas", ["area_id"], name: "index_person_areas_on_area_id", using: :btree
+  add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
 
   create_table "positions", force: true do |t|
     t.string   "name"
@@ -296,6 +348,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.boolean  "field"
     t.boolean  "hq"
   end
+
+  add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
 
   create_table "profile_educations", force: true do |t|
     t.integer  "profile_id",           null: false
@@ -310,6 +364,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "profile_educations", ["profile_id"], name: "index_profile_educations_on_profile_id", using: :btree
+
   create_table "profile_experiences", force: true do |t|
     t.integer  "profile_id",         null: false
     t.string   "company_name",       null: false
@@ -323,12 +379,16 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.boolean  "currently_employed"
   end
 
+  add_index "profile_experiences", ["profile_id"], name: "index_profile_experiences_on_profile_id", using: :btree
+
   create_table "profile_skills", force: true do |t|
     t.integer  "profile_id", null: false
     t.string   "skill"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "profile_skills", ["profile_id"], name: "index_profile_skills_on_profile_id", using: :btree
 
   create_table "profiles", force: true do |t|
     t.integer  "person_id",  null: false
@@ -342,6 +402,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.string   "nickname"
   end
 
+  add_index "profiles", ["person_id"], name: "index_profiles_on_person_id", using: :btree
+
   create_table "projects", force: true do |t|
     t.string   "name",       null: false
     t.integer  "client_id",  null: false
@@ -349,12 +411,16 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "updated_at"
   end
 
+  add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
+
   create_table "publications", force: true do |t|
     t.integer  "publishable_id",   null: false
     t.string   "publishable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "publications", ["publishable_id", "publishable_type"], name: "index_publications_on_publishable_id_and_publishable_type", using: :btree
 
   create_table "questions", force: true do |t|
     t.integer  "person_id",  null: false
@@ -364,6 +430,9 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "questions", ["answer_id"], name: "index_questions_on_answer_id", using: :btree
+  add_index "questions", ["person_id"], name: "index_questions_on_person_id", using: :btree
 
   create_table "technology_service_providers", force: true do |t|
     t.string   "name",       null: false
@@ -377,6 +446,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "text_posts", ["person_id"], name: "index_text_posts_on_person_id", using: :btree
 
   create_table "themes", force: true do |t|
     t.string   "name",         null: false
@@ -397,6 +468,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.integer  "score",         default: 0, null: false
   end
 
+  add_index "uploaded_images", ["person_id"], name: "index_uploaded_images_on_person_id", using: :btree
+
   create_table "uploaded_videos", force: true do |t|
     t.string   "url",                    null: false
     t.datetime "created_at"
@@ -405,6 +478,8 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.integer  "score",      default: 0, null: false
   end
 
+  add_index "uploaded_videos", ["person_id"], name: "index_uploaded_videos_on_person_id", using: :btree
+
   create_table "wall_post_comments", force: true do |t|
     t.integer  "wall_post_id", null: false
     t.integer  "person_id",    null: false
@@ -412,6 +487,9 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "wall_post_comments", ["person_id"], name: "index_wall_post_comments_on_person_id", using: :btree
+  add_index "wall_post_comments", ["wall_post_id"], name: "index_wall_post_comments_on_wall_post_id", using: :btree
 
   create_table "wall_posts", force: true do |t|
     t.integer  "publication_id",        null: false
@@ -422,11 +500,18 @@ ActiveRecord::Schema.define(version: 20140924200457) do
     t.integer  "reposted_by_person_id"
   end
 
+  add_index "wall_posts", ["person_id"], name: "index_wall_posts_on_person_id", using: :btree
+  add_index "wall_posts", ["publication_id"], name: "index_wall_posts_on_publication_id", using: :btree
+  add_index "wall_posts", ["reposted_by_person_id"], name: "index_wall_posts_on_reposted_by_person_id", using: :btree
+  add_index "wall_posts", ["wall_id"], name: "index_wall_posts_on_wall_id", using: :btree
+
   create_table "walls", force: true do |t|
     t.integer  "wallable_id",   null: false
     t.string   "wallable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "walls", ["wallable_id", "wallable_type"], name: "index_walls_on_wallable_id_and_wallable_type", using: :btree
 
 end

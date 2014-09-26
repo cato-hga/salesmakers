@@ -43,7 +43,7 @@
               %span.show_change_wall_form
                 \-
                 %a.small{ id: first_post ? 'first_post_visibility' : nil } Change Post Visibility
-              - if WallPostPolicy.new(@current_person, post).destroy?
+              - if WallPostPolicy.new(@current_person, post).destroy?(@visible_people)
                 \-
                 = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small, id: first_post ? 'first_post_delete' : nil
           = render partial: 'wall_post_comments/form', locals: { post: post }

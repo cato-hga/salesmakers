@@ -48,6 +48,7 @@ group :development do
   gem 'coderay', '1.1.0'
   gem 'coolline', '0.4.3'
   gem 'guard-rspec', '4.2.10', require: false # Automated spec runs
+  # gem 'bullet' # Database query analysis for performance tuning.
 end
 
 group :test do
