@@ -33,10 +33,9 @@ Thread.new do
       end
     end
 
-    # GroupMeSubscription.new '8936279'
   }
 end
-#
-# puts 'Updating groups...'
-# GroupMeGroup.update_groups
-# puts 'Group updates complete.'
+
+puts 'Updating groups...'
+GroupMeGroup.update_groups
+puts 'Group updates complete.'
