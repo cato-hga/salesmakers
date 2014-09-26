@@ -3,7 +3,7 @@
   .inner
     .row.full-width
       .large-3.columns.centered_text
-        = link_to image_tag( avatar_url(post.person), class: :avatar), about_person_path(post.person)
+        = avatar(post.person)
         %div
           %strong
             - if post.person.profile.nickname.present?
