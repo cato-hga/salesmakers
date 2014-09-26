@@ -254,7 +254,7 @@ module ApplicationHelper
   end
 
   def avatar(person)
-    image_tag avatar_url(person), class: :avatar
+    link_to image_tag(avatar_url(person), class: :avatar), about_person_path(person)
   end
 
   def friendly_datetime(datetime)
