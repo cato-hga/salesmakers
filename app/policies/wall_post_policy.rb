@@ -5,8 +5,9 @@ class WallPostPolicy < ApplicationPolicy
     end
   end
 
-  def destroy?
-    Person.visible(user).include?(record.publication.publishable.person)
+  def destroy?(visible_people = nil)
+    visible_people = Person.visible(user) unless visible_people
+    visible_people.include?(record.publication.publishable.person)
   end
 
   def promote?

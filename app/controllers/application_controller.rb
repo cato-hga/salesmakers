@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
                 :setup_default_walls,
                 :set_last_seen,
                 :setup_new_publishables,
-                :filter_groupme_access_token
+                :filter_groupme_access_token,
+                :setup_accessibles
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -34,10 +35,20 @@ class ApplicationController < ActionController::Base
     else
       @wall = Wall.find_by wallable: @current_person
     end
-    @walls = Wall.postable(@current_person)
+    @walls = Wall.postable(@current_person).includes(:wallable)
   end
 
   private
+
+  def setup_accessibles
+    if @current_person
+      @visible_walls = Wall.visible(@current_person).includes(:wallable)
+      @visible_people = Person.visible(@current_person)
+    else
+      @visible_walls = Wall.none
+      @visible_people = Person.none
+    end
+  end
 
   def set_last_seen
     @seen_before = false

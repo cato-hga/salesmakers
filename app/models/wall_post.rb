@@ -16,8 +16,12 @@ class WallPost < ActiveRecord::Base
                            person: publication.publishable.person
   end
 
-  def self.visible(person)
-    self.where wall: Wall.visible(person)
+  def self.visible(person, walls = nil)
+    if walls
+      self.where(wall: walls).includes(:person, wall: :wallable, publication: :publishable, wall_post_comments: :person)
+    else
+      self.where(wall: Wall.visible(person)).includes(:person, wall: :wallable, publication: :publishable, wall_post_comments: :person)
+    end
   end
 
   def self.send_welcome_post(person)
