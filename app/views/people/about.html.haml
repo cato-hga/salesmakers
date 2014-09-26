@@ -64,7 +64,7 @@
         %p
           %strong Personal Email:
           = mail_to @person.personal_email
-      - if @person.mobile_phone.present?
+      - if @person.mobile_phone.present? and @show_wall
         %p
           %strong Mobile Phone:
           = phone_link @person.mobile_phone, nil
