@@ -2,6 +2,7 @@
 // require chartkick
 // require swiper
 // require swiper.3dflow
+//= require foundation_new/foundation.joyride
 //= require wall
 
 $(function() {
