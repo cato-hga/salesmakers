@@ -28,7 +28,7 @@
         = form_for @profile, method: :put do |f|
           = f.label :nickname
           = f.text_field :nickname
-          = f.label :bio
+          = f.label :bio, 'About me'
           = f.text_area :bio, rows: 15
           = f.submit 'Save', class: 'button'
 

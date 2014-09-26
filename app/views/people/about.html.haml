@@ -78,14 +78,22 @@
           = phone_link @person.home_phone, nil
   .widget.person_widget
     .inner
-      %h3 Bio
+      %h3
+        - if @person == @current_person
+          About Me
+        - else
+          About
+          = @person.social_name
       - if @person.profile.bio
         %p= @person.profile.bio.gsub(/\n/, '<br/>').html_safe
       - else
         %p
           %em
-            = @person.display_name
-            has not added a bio :-(
+            - if @person == @current_person
+              You have not written anything about yourself yet.
+            - else
+              = @person.social_name
+              has not written anything about themself yet.
   - if @profile_educations.count > 0
     .widget.person_widget
       .inner
@@ -95,12 +103,3 @@
     .inner
       %h3 Experience
       = render 'profile_experiences/listing'
-  -#.widget.person_widget.large-4.medium-6.columns
-  -#  .inner
-  -#    %h3 Recent Wall Posts
-  -#    .neutral.padded.full-width
-  -#      Testing testing 123
-  -#      %span.comment.right.vertical_space
-  -#        In "Test Group" on 8/18/2014
-  -#.large-4.columns.widget.person_widget
-  -#.large-4.columns.widget.person_widget
