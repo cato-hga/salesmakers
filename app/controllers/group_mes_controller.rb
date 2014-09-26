@@ -20,7 +20,9 @@ class GroupMesController < ApplicationController
       GroupMeUser.find_or_create_from_json group_me_user_json, @current_person
     end
 
+    flash[:notice] = 'GroupMe integration complete!'
     redirect_to root_url
+
   end
 
   def incoming_bot_message
