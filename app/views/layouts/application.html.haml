@@ -118,12 +118,13 @@
           %p
             Delete a post if you feel that it's inappropriate. Careful, this cannot
             be undone!
-        %li{ data: { button: 'End', prev_text: 'Previous' } }
+        %li{ data: { options: 'prev_button: false; next_button: false' } }
           %h4 Support and Feedback
           %p
             If at any time you wish to provide us with feedback,
             you can send an email to
             = mail_to 'development@retaildoneright.com', 'development@retaildoneright.com.'
+          = link_to 'Edit Your Profile Now', edit_profile_path(@current_person.profile), class: [:button, :expand, :large]
       = javascript_include_tag 'foundation_new/foundation.joyride', params[:controller]
       = javascript_include_tag 'foundation_new/foundation.cookie', params[:controller]
       :javascript
