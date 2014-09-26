@@ -228,7 +228,7 @@ module ApplicationHelper
     auto_html url do
       html_escape
       image
-      video_center
+      #video_center
       youtube(autoplay: false)
       vimeo(show_title: true, show_byline: true)
       link target: "_blank", rel: "nofollow"
