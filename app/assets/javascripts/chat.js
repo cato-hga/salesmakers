@@ -186,6 +186,7 @@ function outputMessage(message){
         return;
     }
 	text = replaceEmoji(message['subject']);
+	text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
     var preview = $('.group_preview[data-group-id=' + message['subject']['group_id'] + ']');
     var chat = $('.group_chat[data-group-id=' + message['subject']['group_id'] + ']');
     var preview_content = '<strong>' + message['subject']['name'];
