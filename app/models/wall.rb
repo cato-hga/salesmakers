@@ -38,22 +38,25 @@ class Wall < ActiveRecord::Base
   }
 
   scope :postable, ->(person = nil) {
+    visible_walls = Array.new
     walls = Array.new
-    walls = walls.concat Wall.visible(person)
+    visible_walls = visible_walls.concat Wall.visible(person)
     position = person.position
     return Wall.none unless position
 
     unless position.hq?
       for person_area in person.person_areas do
         for area in person_area.area.ancestors do
-          walls.delete area.wall if area.wall
+          visible_walls.delete area.wall if area.wall
         end
       end
-      for wall in walls do
-        if wall.wallable.is_a? Department or wall.wallable.is_a? Project
-          walls.delete wall
+      for wall in visible_walls do
+        unless wall.wallable.is_a? Department or wall.wallable.is_a? Project
+          walls << wall
         end
       end
+    else
+      walls = visible_walls
     end
     self.where("\"walls\".\"id\" IN (#{walls.map(&:id).join(',')})").where.not(wallable: person)
   }
