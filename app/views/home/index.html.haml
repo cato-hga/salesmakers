@@ -1,6 +1,7 @@
 - content_for :action_buttons do
   =# link_to 'Switch to Dashboard', home_dashboard_path, class: [:button,:rounded, :inline_button]
-  = link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour', class: [:button, :inline_button, 'show-for-large-up']
+  %span
+    .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour', class: [:button, :inline_button]
 
 .widgets
   = render 'shared/share_form'
