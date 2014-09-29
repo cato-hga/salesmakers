@@ -3,6 +3,7 @@
     %h3 Send us feedback!
 
     = simple_form_for @feedback do |f|
+      -# These hidden fields can be used to pass along debugging information
       = f.hidden_field :person, value: @current_person.display_name
       = f.hidden_field :email, value: @current_person.email
       = f.label :subject
