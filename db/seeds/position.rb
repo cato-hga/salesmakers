@@ -2,6 +2,7 @@ puts "Creating positions..."
 vonage_retail_sales = Department.find_by_name 'Vonage Retail Sales'
 vonage_event_sales = Department.find_by_name 'Vonage Event Sales'
 sprint_retail_sales = Department.find_by_name 'Sprint Retail Sales'
+rs_retail_sales = Department.find_by_name 'Rosetta Stone Retail Sales'
 unclassified_field = Department.find_by_name 'Unclassified Field'
 unclassified_hq = Department.find_by_name 'Unclassified HQ'
 training = Department.find_by_name 'Training'
@@ -136,6 +137,35 @@ Position.create [
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: sprint_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    
+                    { name: 'Rosetta Stone Retail Regional Vice President',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: rs_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    { name: 'Rosetta Stone Retail Regional Manager',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: rs_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    { name: 'Rosetta Stone Retail Territory Manager',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: rs_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    { name: 'Rosetta Stone Retail Sales Specialist',
+                      leadership: false,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: rs_retail_sales.id,
                       field: true,
                       hq: false  },
                     

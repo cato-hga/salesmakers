@@ -3,6 +3,8 @@ Department.create [
   { name: 'Vonage Retail Sales', corporate: false },
   { name: 'Vonage Event Sales', corporate: false },
   { name: 'Sprint Retail Sales', corporate: false },
+  { name: 'Rosetta Stone Retail Sales', corporate: false },
+
   { name: 'Unclassified Field', corporate: false },
   { name: 'Unclassified HQ', corporate: true },
 

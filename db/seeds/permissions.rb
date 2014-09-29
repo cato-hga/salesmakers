@@ -23,6 +23,11 @@ pos_srasm = Position.find_by_name 'Sprint Retail Area Sales Manager'
 pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
 pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
 
+pos_rsrrvp = Position.find_by_name 'Rosetta Stone Retail Regional Vice President'
+pos_rsrrm = Position.find_by_name 'Rosetta Stone Retail Regional Manager'
+pos_rsrtm = Position.find_by_name 'Rosetta Stone Retail Territory Manager'
+pos_rsrss = Position.find_by_name 'Rosetta Stone Retail Sales Specialist'
+
 pos_uf = Position.find_by_name 'Unclassified Field Employee'
 pos_uc = Position.find_by_name 'Unclassified HQ Employee'
 
@@ -85,6 +90,10 @@ all_positions = [
     pos_srasm,
     pos_srtm,
     pos_srss,
+    pos_rsrrvp,
+    pos_rsrrm,
+    pos_rsrtm,
+    pos_rsrss,
     pos_uf,
     pos_uc,
     pos_td,
@@ -154,6 +163,9 @@ not_reps_positions = [
     pos_srrm,
     pos_srasm,
     pos_srtm,
+    pos_rsrrvp,
+    pos_rsrrm,
+    pos_rsrtm,
     pos_uc,
     pos_td,
     pos_t,

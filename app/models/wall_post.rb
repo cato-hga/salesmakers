@@ -24,6 +24,20 @@ class WallPost < ActiveRecord::Base
     end
   end
 
+  def self.just_logged_in_post(person)
+    return unless person and person.wall and person.department
+    department = person.department
+    text_post = TextPost.new content: 'I just logged in for the first time!',
+                             person: person
+    if text_post.save
+      return unless text_post.publication
+      publication = text_post.publication
+      WallPost.find_or_create_by publication: publication,
+                                 wall: department.wall,
+                                 person: person
+    end
+  end
+
   def self.send_welcome_post(person)
     return unless person and person.wall
     sys_admin = Person.find_by email: 'retailingw@retaildoneright.com'
