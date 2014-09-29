@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :text_posts, only: [:create, :show, :destroy]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]
+  resources :link_posts, only: [:create, :show]
   resources :wall_posts, only: :destroy do
     member do
       get 'promote/:wall_id', to: 'wall_posts#promote', as: 'promote'

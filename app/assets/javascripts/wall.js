@@ -30,7 +30,7 @@ $(function () {
 		submitToLoading($(this));
 	});
 
-	$('#new_text_post, #new_uploaded_image, #new_uploaded_video').on('ajax:complete', function(e) {
+	$('#new_text_post, #new_uploaded_image, #new_uploaded_video, #new_link_post').on('ajax:complete', function(e) {
 		$(this).find('input[type=submit]').attr('value', 'Share');
 	});
 
@@ -42,7 +42,7 @@ $(function () {
         settings.dataType = 'html *';
     });
 
-    $('#new_text_post, #new_uploaded_image, #new_uploaded_video').on('ajax:success', function(e, data, status, xhr){
+    $('#new_text_post, #new_uploaded_image, #new_uploaded_video, #new_link_post').on('ajax:success', function(e, data, status, xhr){
         var $new_post = $(this).parents('.widget').after(xhr.responseText);
 		imagesLoaded($container, function(){
 			relayout();

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140926191336) do
+ActiveRecord::Schema.define(version: 20140929202154) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,6 +247,19 @@ ActiveRecord::Schema.define(version: 20140926191336) do
   end
 
   add_index "lines", ["technology_service_provider_id"], name: "index_lines_on_technology_service_provider_id", using: :btree
+
+  create_table "link_posts", force: true do |t|
+    t.string   "image_uid",                 null: false
+    t.string   "thumbnail_uid",             null: false
+    t.string   "preview_uid",               null: false
+    t.string   "large_uid",                 null: false
+    t.integer  "person_id",                 null: false
+    t.string   "title"
+    t.integer  "score",         default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "url",                       null: false
+  end
 
   create_table "log_entries", force: true do |t|
     t.integer  "person_id",          null: false

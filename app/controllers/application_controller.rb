@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
     @text_post = TextPost.new
     @uploaded_image = UploadedImage.new
     @uploaded_video = UploadedVideo.new
+    @link_post = LinkPost.new
     @wall_post_comment = WallPostComment.new
   end
 
