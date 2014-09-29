@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  #Feedback/Contact form
+  match '/feedback', to: 'feedbacks#new', via: 'get'
+  resources "feedbacks", only: [:new, :create]
+
   resources :text_posts, only: [:create, :show, :destroy]
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]

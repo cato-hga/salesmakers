@@ -1,0 +1,8 @@
+.centered_text
+  %h3 Send us feedback!
+
+  = simple_form_for @feedback do |f|
+    = f.input :subject, required: true
+    = f.input :message, required: true
+    = f.hidden_field :nickname
+    = f.submit 'Send', class: 'button'
