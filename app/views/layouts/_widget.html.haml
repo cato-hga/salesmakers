@@ -6,10 +6,7 @@
         = avatar(post.person)
         %div
           %strong
-            - if post.person.profile.nickname.present?
-              = link_to post.person.profile.nickname, post.person
-            - else
-              %span{ id: first_post ? 'first_post_author' : nil }= person_link post.person
+            %span{ id: first_post ? 'first_post_author' : nil }= social_link post.person
         - unless post.updated_at - 10.second > post.created_at and post.reposted_by_person
           .posted_to{ id: first_post ? 'first_post_posted_to' : nil }
             to
