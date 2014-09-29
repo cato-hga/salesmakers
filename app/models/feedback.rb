@@ -9,7 +9,7 @@ class Feedback < MailForm::Base
 
   def headers
     {
-        from: email,
+        from: 'development@retaildoneright.com',
         subject: subject,
         to: 'development@retaildoneright.com',
     }
