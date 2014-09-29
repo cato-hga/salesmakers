@@ -121,7 +121,8 @@ module ApplicationHelper
   end
 
   def social_link(person, classes = '')
-    link_to NameCase(person.social_name), person, class: classes
+    name = person.social_name.length < 4 ? person.social_name : NameCase(person.social_name)
+    link_to name, person, class: classes
   end
 
   def bare_log_entry(log_entry)
@@ -245,8 +246,9 @@ module ApplicationHelper
 
   def avatar_url(person)
     return person.profile.avatar.url if person.profile.avatar
+    default_url = asset_url 'default_avatar.jpg'
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
-    "http://gravatar.com/avatar/#{gravatar_id}.png"
+    "http://gravatar.com/avatar/#{gravatar_id}.png?d=#{CGI.escape(default_url)}"
   end
 
   def avatar(person)
