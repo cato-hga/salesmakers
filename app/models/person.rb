@@ -132,7 +132,11 @@ class Person < ActiveRecord::Base
   end
 
   def social_name
-    self.profile.nickname || self.display_name
+    if self.profile.nickname? and not self.profile.nickname.blank?
+      self.profile.nickname
+    else
+      self.display_name
+    end
   end
 
   def import_employment_from_connect

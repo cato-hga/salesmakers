@@ -7,14 +7,6 @@ module ApplicationHelper
     content_for(:title) { page_title }
   end
 
-  def social_title( person )
-    if person.profile.nickname?
-      content_for(:title) { person.profile.nickname }
-    else
-      content_for(:title) { person.display_name }
-    end
-  end
-
   def visible_projects
     Project.visible @current_person
   end
@@ -126,6 +118,10 @@ module ApplicationHelper
 
   def person_link(person, classes = '')
     link_to NameCase(person.display_name), person, class: classes
+  end
+
+  def social_link(person, classes = '')
+    link_to NameCase(person.social_name), person, class: classes
   end
 
   def bare_log_entry(log_entry)
