@@ -24,6 +24,8 @@
 //= require chat
 //= require jquery.remotipart
 //= require imagesloaded.min
+//= require magnific
+
 // require turbolinks
 // require jquery-ui-datepicker
 // require_tree .
@@ -145,5 +147,9 @@ function collapseWidget(element){
 	var afterWidget = $(row.find('.widget[data-widget-index="' + (widget_index-1) + '"]'));
 	element.insertAfter(afterWidget);
 	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
+}
+
+function openFeedback(element){
+
 }
 

@@ -15,5 +15,4 @@
 //    resizeWidgets();
 //});
 
-//= require magnific
 //= require wall
