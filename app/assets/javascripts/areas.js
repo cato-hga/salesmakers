@@ -1,3 +1,4 @@
+//= require magnific
 //= require wall
 
 $(function(){

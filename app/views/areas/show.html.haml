@@ -1,6 +1,10 @@
 - title @area.name + "'s Wall"
 
 .widgets
-  = render 'shared/share_form'
+  = render 'shared/share_form' if @show_share_form
+  - if @wall.wall_posts.count < 1
+    .widget
+      .inner
+        .comment There are no posts to show yet.
   - for post in @wall.wall_posts
     = display_post post

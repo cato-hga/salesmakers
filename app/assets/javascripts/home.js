@@ -3,6 +3,7 @@
 // require swiper
 // require swiper.3dflow
 //= require foundation_new/foundation.joyride
+//= require magnific
 //= require wall
 
 $(function() {

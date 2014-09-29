@@ -3,7 +3,7 @@ puts "Creating projects..."
 vonage = Client.find_by_name 'Vonage'
 rbh = Client.find_by_name 'Retail Business Holdings'
 sprint = Client.find_by_name 'Sprint'
-
+rs = Client.find_by_name 'Rosetta Stone'
 
 vonage_retail = Project.create name: 'Vonage Retail',
                                client: vonage
@@ -13,6 +13,8 @@ headquarters = Project.create name: 'RBD Company HQ',
                            client: rbh
 sprint_retail = Project.create name: 'Sprint Retail',
                            client: sprint
+rs_retail = Project.create name: 'Rosetta Stone Retail',
+                           client: rs
 
 vrr = AreaType.create name: 'Vonage Retail Region',
                       project: vonage_retail
@@ -38,6 +40,11 @@ srr = AreaType.create name: 'Sprint Retail Region',
                       project: sprint_retail
 srt = AreaType.create name: 'Sprint Retail Territory',
                       project: sprint_retail
+
+rsrr = AreaType.create name: 'Rosetta Stone Retail Region',
+                      project: rs_retail
+rsrt = AreaType.create name: 'Rosetta Stone Retail Territory',
+                      project: rs_retail
 
 vr_connect = ConnectRegion.find_by_value 'Vonage Retail-1'
 vrrs_connect = vr_connect.children
@@ -115,6 +122,28 @@ srrs_connect.each do |srr_connect|
                             parent: new_srr,
                             created_at: srt_connect.created,
                             updated_at: srt_connect.updated
+    end
+  end
+end
+
+rsr_connect = ConnectRegion.find_by_value 'Rosetta Stone Retail-1'
+rsrrs_connect = rsr_connect.children
+rsrrs_connect.each do |rsrr_connect|
+  new_rsrr = Area.create name: rsrr_connect.name,
+                        area_type: rsrr,
+                        project: rs_retail,
+                        created_at: rsrr_connect.created,
+                        updated_at: rsrr_connect.updated
+  rsrms_connect = rsrr_connect.children
+  rsrms_connect.each do |rsrm_connect|
+    rsrts_connect = rsrm_connect.children
+    rsrts_connect.each do |rsrt_connect|
+      new_rsrt = Area.create name: rsrt_connect.name.gsub('Rosetta Stone - ', ''),
+                            area_type: rsrt,
+                            project: rs_retail,
+                            parent: new_rsrr,
+                            created_at: rsrt_connect.created,
+                            updated_at: rsrt_connect.updated
     end
   end
 end

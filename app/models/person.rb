@@ -129,6 +129,11 @@ class Person < ActiveRecord::Base
     person
   end
 
+  def department
+    return nil unless self.position
+    self.position.department
+  end
+
   def name
     self.display_name
   end
@@ -173,9 +178,9 @@ class Person < ActiveRecord::Base
   end
 
   def return_person_area_from_connect
-    return unless self.connect_user_id
+    return nil unless self.connect_user_id
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
-    return unless connect_user
+    return nil unless connect_user
     at_vrr = AreaType.find_by_name 'Vonage Retail Region'
     at_vrm = AreaType.find_by_name 'Vonage Retail Market'
     at_vrt = AreaType.find_by_name 'Vonage Retail Territory'
@@ -183,10 +188,12 @@ class Person < ActiveRecord::Base
     at_vet = AreaType.find_by_name 'Vonage Event Team'
     at_srr = AreaType.find_by_name 'Sprint Retail Region'
     at_srt = AreaType.find_by_name 'Sprint Retail Territory'
+    at_rsrr = AreaType.find_by_name 'Rosetta Stone Retail Region'
+    at_rsrt = AreaType.find_by_name 'Rosetta Stone Retail Territory'
     connect_user_region = connect_user.region
     area_name = Position.clean_area_name connect_user_region
     connect_user_project = (connect_user_region) ? connect_user_region.project : nil
-    return unless connect_user_region and connect_user_project
+    return nil unless connect_user_region and connect_user_project
 
     retail = connect_user_region.name.include? 'Retail'
     event = connect_user_region.name.include? 'Event'
@@ -195,6 +202,7 @@ class Person < ActiveRecord::Base
     project_name = connect_user_project.name
     vonage = project_name == 'Vonage'
     sprint = project_name == 'Sprint'
+    rs = project_name == 'Rosetta Stone'
     leader = connect_user.leader?
 
     area_type = nil
@@ -203,16 +211,18 @@ class Person < ActiveRecord::Base
         area_type = at_vrt if vonage and retail
         area_type = at_vet if vonage and event
         area_type = at_srt if sprint and retail
+        area_type = at_rsrt if rs and retail
       when 3
         area_type = at_vrm if vonage and retail
       when 2
         area_type = at_vrr if vonage and retail
         area_type = at_ver if vonage and event
         area_type = at_srr if sprint and retail
+        area_type = at_rsrr if rs and retail
     end
-    return unless area_type
+    return nil unless area_type
     areas = Area.where(name: area_name, area_type: area_type)
-    return unless areas.count > 0
+    return nil unless areas.count > 0
     area = areas.first
     person_area = self.person_areas.new area: area,
                                         manages: leader
@@ -223,14 +233,15 @@ class Person < ActiveRecord::Base
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
     creator = Person.find_by_connect_user_id connect_user.createdby
     person_area = self.return_person_area_from_connect
+    return unless person_area
     if person_area.save
       leader = person_area.manages?
       return unless creator
-      created_at = leader ? area.updated_at : connect_user.created
+      created_at = leader ? person_area.area.updated_at : connect_user.created
       if leader
-        LogEntry.assign_as_manager_from_connect self, creator, area, created_at, created_at
+        LogEntry.assign_as_manager_from_connect self, creator, person_area.area, created_at, created_at
       else
-        LogEntry.assign_as_employee_from_connect self, creator, area, created_at, created_at
+        LogEntry.assign_as_employee_from_connect self, creator, person_area.area, created_at, created_at
       end
     end
   end
