@@ -1,10 +1,13 @@
-.centered_text
-  %h3 Send us feedback!
+.widget
+  .inner
+    %h3 Send us feedback!
 
-  = simple_form_for @feedback do |f|
-    = f.hidden_field :person, value: @current_person.display_name
-    = f.hidden_field :email, value: @current_person.email
-    = f.input :subject, required: true
-    = f.input :message, required: true
-    = f.hidden_field :nickname
-    = f.submit 'Send', class: 'button'
+    = simple_form_for @feedback do |f|
+      = f.hidden_field :person, value: @current_person.display_name
+      = f.hidden_field :email, value: @current_person.email
+      = f.label :subject
+      = f.text_field :subject, required: true
+      = f.label :message
+      = f.text_area :message, required: true
+      = f.hidden_field :nickname
+      = f.submit 'Send', class: 'button'
