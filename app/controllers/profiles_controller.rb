@@ -12,23 +12,18 @@ class ProfilesController < ProtectedController
 
   def update
     @profile = Profile.find params[:id]
-    person = @profile.person
+    @person = @profile.person
     authorize @profile
     if @profile.update_attributes profile_params
       flash[:notice] = 'Profile saved.'
-      redirect_to person
+      render :edit
     else
+      flash[:error] = 'Changes not saved!'
       render :edit
     end
   end
 
   private
-
-
-
-
-
-
 
   def profile_params
     params.require(:profile).permit(:bio, :nickname)
