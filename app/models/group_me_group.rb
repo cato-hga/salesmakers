@@ -54,5 +54,29 @@ class GroupMeGroup < ActiveRecord::Base
     for group in groups do
       GroupMeGroup.update_group_via_json group
     end
+    GroupMeGroup.update_bots
+  end
+
+  def self.update_bots
+    groupme = GroupMe.new_global
+    bots = groupme.get_bots
+    return unless bots and bots.count > 0
+    add_bot_to = Array.new
+    for group in GroupMeGroup.all do
+      found_bot = false
+      group_id = group.group_num.to_s
+      for bot in bots do
+        next unless bot['group_id'] and bot['name']
+        bot_group_id = bot['group_id']
+        bot_name = bot['name']
+        found_bot = true if bot_group_id == group_id and bot_name == 'OneConnect'
+      end
+      unless found_bot
+        groupme.add_bot 'OneConnect',
+                        group_id,
+                        'https://one.rbdconnect.com/group_me_bot/message',
+                        'http://i.groupme.com/140x132.png.e28948adf69f43abb2f19a7068458812'
+      end
+    end
   end
 end
