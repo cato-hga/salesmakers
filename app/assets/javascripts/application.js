@@ -65,13 +65,20 @@ $(function(){
 			open_method: 'overlap_single'
 		}
 	});
+
 	resizeWidgets();
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
 	});
 
+    $('.lightbox_feedback').magnificPopup({
+        type:'ajax'
+    });
+
 
 });
+
+
 
 function wrapAndHide(element) {
 	element.find('.inner').wrapInner('<div class="collapsed"></div>');
@@ -148,8 +155,3 @@ function collapseWidget(element){
 	element.insertAfter(afterWidget);
 	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
 }
-
-function openFeedback(element){
-
-}
-
