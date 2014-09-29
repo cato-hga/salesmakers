@@ -13,6 +13,8 @@
       %label Menu
     %li
       = link_to 'Home', root_path
+    %li
+      = link_to 'Feedback', new_feedback_path, class: 'lightbox_feedback'
   %ul.off-canvas-list
     - for project in visible_projects
       %li
