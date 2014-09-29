@@ -1,6 +1,7 @@
 - title @project.name + ' Areas'
-- content_for :action_buttons do
-  = new_button new_client_project_area_path
+- if AreaPolicy.new(@current_person, Area.new).new?
+  - content_for :action_buttons do
+    = new_button new_client_project_area_path
 - if @areas and not @areas.empty?
   .widgets
     - @areas.each_slice(3) do |group|

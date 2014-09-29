@@ -4,15 +4,17 @@ class AreasController < ProtectedController
 
   def index
     @project = Project.find params[:project_id]
-    @areas = Area.member_of(@current_person).where project: @project
+    #@areas = Area.member_of(@current_person).where project: @project
+    @areas = Area.roots.where project: @project
   end
 
   def show
     @area = Area.find params[:id]
-    @wall = policy_scope(Wall).find_by wallable: @area
-    unless @wall
-      flash[:error] = 'There is no wall for that area or you do not have permission to view it.'
-      redirect_to :back
+    @wall = Wall.find_by wallable: @area
+    if policy_scope(Wall).include? @wall
+      @show_share_form = true
+    else
+      @show_share_form = false
     end
   end
 

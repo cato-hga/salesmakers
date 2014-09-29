@@ -51,6 +51,15 @@ class Area < ActiveRecord::Base
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
 
+  scope :roots, -> {
+    areas = Array.new
+    for area in Area.all do
+      areas << area.root unless areas.include? area.root
+    end
+    return Area.none if areas.count < 1
+    Area.where("id IN (#{areas.map(&:id).join(',')})")
+  }
+
   private
 
     def create_wall
