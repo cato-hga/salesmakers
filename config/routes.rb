@@ -84,6 +84,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'people/onboard/:connect_user_id', to: 'people#onboard'
       get 'people/separate/:connect_user_id', to: 'people#separate'
+      get 'people/update/:connect_user_id', to: 'people#update'
     end
   end
 

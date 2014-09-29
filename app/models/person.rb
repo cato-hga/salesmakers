@@ -91,6 +91,8 @@ class Person < ActiveRecord::Base
   end
 
   def self.return_from_connect_user(connect_user)
+    person = Person.find_by connect_user_id: connect_user.id
+    return person if person
     email = connect_user.email
     first_name = connect_user.firstname
     last_name = connect_user.lastname
@@ -170,11 +172,10 @@ class Person < ActiveRecord::Base
     employment.save
   end
 
-  def add_area_from_connect
+  def return_person_area_from_connect
     return unless self.connect_user_id
-    connect_user = ConnectUser.find_by_ad_user_id self.connect_user_id
+    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
     return unless connect_user
-    creator = Person.find_by_connect_user_id connect_user.createdby
     at_vrr = AreaType.find_by_name 'Vonage Retail Region'
     at_vrm = AreaType.find_by_name 'Vonage Retail Market'
     at_vrt = AreaType.find_by_name 'Vonage Retail Territory'
@@ -213,14 +214,24 @@ class Person < ActiveRecord::Base
     areas = Area.where(name: area_name, area_type: area_type)
     return unless areas.count > 0
     area = areas.first
-    person_area = self.person_areas.create area: area,
-                                           manages: leader
-    return unless creator
-    created_at = leader ? area.updated_at : connect_user.created
-    if leader
-      LogEntry.assign_as_manager_from_connect self, creator, area, created_at, created_at
-    else
-      LogEntry.assign_as_employee_from_connect self, creator, area, created_at, created_at
+    person_area = self.person_areas.new area: area,
+                                        manages: leader
+    person_area
+  end
+
+  def add_area_from_connect
+    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
+    creator = Person.find_by_connect_user_id connect_user.createdby
+    person_area = self.return_person_area_from_connect
+    if person_area.save
+      leader = person_area.manages?
+      return unless creator
+      created_at = leader ? area.updated_at : connect_user.created
+      if leader
+        LogEntry.assign_as_manager_from_connect self, creator, area, created_at, created_at
+      else
+        LogEntry.assign_as_employee_from_connect self, creator, area, created_at, created_at
+      end
     end
   end
 
