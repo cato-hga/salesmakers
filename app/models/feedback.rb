@@ -9,9 +9,9 @@ class Feedback < MailForm::Base
 
   def headers
     {
+        from: email,
         subject: subject,
         to: 'development@retaildoneright.com',
-        from: email
     }
   end
 end

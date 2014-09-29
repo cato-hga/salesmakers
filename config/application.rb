@@ -16,6 +16,11 @@ Bundler.require(*Rails.groups)
 module Reconnect
   class Application < Rails::Application
 
+    #Postmark email delivery
+    config.action_mailer.delivery_method = :postmark
+    config.action_mailer.postmark_settings = { api_key: '20ac5706-f8d6-4a4d-8afc-d5c4bbdbcf44'}
+
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
