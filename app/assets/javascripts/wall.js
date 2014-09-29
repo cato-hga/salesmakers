@@ -111,6 +111,10 @@ $(function () {
 	$('body').on('click', '.change_wall_form .cancel', function() {
 		hideChangeWallForm($(this).parents('.change_wall_form'));
 	});
+
+	$('.lightbox').magnificPopup({
+		type: 'image'
+	});
 });
 
 function relayout() {
