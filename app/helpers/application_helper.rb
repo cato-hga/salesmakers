@@ -246,8 +246,9 @@ module ApplicationHelper
 
   def avatar_url(person)
     return person.profile.avatar.url if person.profile.avatar
+    default_url = asset_url 'default_avatar.jpg'
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
-    "http://gravatar.com/avatar/#{gravatar_id}.png"
+    "http://gravatar.com/avatar/#{gravatar_id}.png?d=#{CGI.escape(default_url)}"
   end
 
   def avatar(person)
