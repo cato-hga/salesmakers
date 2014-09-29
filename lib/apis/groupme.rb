@@ -93,6 +93,24 @@ class GroupMe
     nil
   end
 
+  def get_bots
+    response = doGet '/bots'
+    return unless response and response['response']
+    response['response']
+  end
+
+  def add_bot(name, group_id, callback_url = nil, avatar_url = nil)
+    new_bot = {
+        bot: {
+            name: name,
+            group_id: group_id,
+            callback_url: callback_url,
+            avatar_url: avatar_url
+        }
+    }.to_json
+    doPost '/bots', new_bot
+  end
+
   def doGet(path, query = nil)
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
