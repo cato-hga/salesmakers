@@ -32,5 +32,7 @@
                 = link_to icon('torso') + ' My Profile', about_person_path(@current_person)
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
+          %li#joyride-feedback
+            = link_to 'Feedback', new_feedback_path, class: 'button'
           %li#joyride-chat
             = link_to icon('comments'), '#', class: 'right-off-canvas-toggle chat-icon'

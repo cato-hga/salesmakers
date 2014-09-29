@@ -1,0 +1,10 @@
+.centered_text
+  %h3 Send us feedback!
+
+  = simple_form_for @feedback do |f|
+    = f.hidden_field :person, value: @current_person.display_name
+    = f.hidden_field :email, value: @current_person.email
+    = f.input :subject, required: true
+    = f.input :message, required: true
+    = f.hidden_field :nickname
+    = f.submit 'Send', class: 'button'

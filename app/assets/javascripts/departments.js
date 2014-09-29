@@ -1,2 +1,1 @@
-//= require magnific
 //= require wall
