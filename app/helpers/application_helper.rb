@@ -121,7 +121,8 @@ module ApplicationHelper
   end
 
   def social_link(person, classes = '')
-    link_to NameCase(person.social_name), person, class: classes
+    name = person.social_name.length < 4 ? person.social_name : NameCase(person.social_name)
+    link_to name, person, class: classes
   end
 
   def bare_log_entry(log_entry)
