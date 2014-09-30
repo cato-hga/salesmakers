@@ -14,7 +14,7 @@ class ProfilesController < ProtectedController
     @profile = Profile.find params[:id]
     @person = @profile.person
     authorize @profile
-    if @profile.update_attributes profile_params
+    if @profile.update profile_params
       flash[:notice] = 'Profile saved.'
       render :edit
     else
