@@ -19,5 +19,7 @@
         = empty_columns(@areas, group, 3, 'widget')
 - else
   %p
-    No records to show. Create a new Area by using the "New" button.
+    No records to show.
+    - if AreaPolicy.new(@current_person, Area.new).new?
+      Create a new Area by using the "New" button.
 
