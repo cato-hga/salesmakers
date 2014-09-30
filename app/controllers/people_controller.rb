@@ -50,9 +50,9 @@ class PeopleController < ProtectedController
       authorize @person
     end
     if image_params
-      @person.profile.update_attributes image_params
+      @person.profile.update image_params
     end
-    if @person.update_attributes person_params
+    if @person.update person_params
       flash[:notice] = 'Profile saved.'
       redirect_to edit_profile_path(@person.profile)
     else
