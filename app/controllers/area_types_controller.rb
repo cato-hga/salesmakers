@@ -1,5 +1,5 @@
 class AreaTypesController < ProtectedController
-  after_action :verify_authorization
+  after_action :verify_authorized
 
   def index
     authorize AreaType.new

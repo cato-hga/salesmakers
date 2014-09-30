@@ -241,6 +241,7 @@ class Position < ActiveRecord::Base
     area_name = connect_region.name
 
     area_name = area_name.gsub('Vonage Retail - ', '')
+    area_name = area_name.gsub('Rosetta Stone - ', '')
     area_name = area_name.gsub('Vonage Events - ', '')
     area_name = area_name.gsub('Sprint - ', '')
     area_name.gsub('Retail Team', 'Kiosk')
