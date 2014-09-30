@@ -127,6 +127,8 @@ class Position < ActiveRecord::Base
         position = pos_itst
       when 'zmathew@retaildoneright.com'
         position = pos_itst
+      when 'sgoudard@retaildoneright.com'
+        position = pos_itst
       when 'dkorb@retaildoneright.com'
         position = pos_itst
       when 'joneal@retaildoneright.com'
