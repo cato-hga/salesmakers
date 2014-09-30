@@ -1,11 +1,13 @@
 class API::BaseController < ApplicationController
-  before_action :check_ip
   respond_to :json
-  layout false
-
-  def check_ip
-    if request.remote_ip != '184.106.187.251'
-      render file: "public/401.html", status: :unauthorized
-    end
-  end
+  skip_before_action CASClient::Frameworks::Rails::Filter
+  skip_before_action :set_current_user,
+                     :check_active,
+                     :get_projects,
+                     :setup_default_walls,
+                     :set_last_seen,
+                     :setup_new_publishables,
+                     :filter_groupme_access_token,
+                     :setup_accessibles,
+                     :verify_authenticity_token
 end
