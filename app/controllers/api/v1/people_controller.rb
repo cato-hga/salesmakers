@@ -19,7 +19,7 @@ class API::V1::PeopleController < API::BaseController
   def separate
     updater = get_updater
     unless @person.separate_from_connect
-      respond with Person.new
+      respond_with Person.new
       return
     end
     updater.log? :separate,
