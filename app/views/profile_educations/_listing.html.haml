@@ -5,8 +5,10 @@
         = profile_education.school
         - if profile_education.profile.person == @current_person
           = link_to 'Edit', edit_profile_profile_education_path(profile_education.profile, profile_education)
-      .degree= profile_education.degree
-      .field_of_study= profile_education.field_of_study
+      - if profile_education.degree
+        .degree= profile_education.degree
+      - if profile_education.field_of_study
+        .field_of_study= profile_education.field_of_study
       .date_range
         = profile_education.start_year
         = '-'

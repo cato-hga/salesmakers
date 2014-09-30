@@ -21,7 +21,7 @@ class ProfileExperiencesController < ApplicationController
 
   def update
     @profile_experience = ProfileExperience.find params[:id]
-    if @profile_experience.update_attributes profile_experience_params
+    if @profile_experience.update profile_experience_params
       flash[:notice] = 'Changes saved.'
       redirect_to edit_profile_path(@profile_experience.profile)
     else

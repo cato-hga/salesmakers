@@ -20,7 +20,7 @@ class ProfileEducationsController < ApplicationController
 
   def update
     @profile_education = ProfileEducation.find params[:id]
-    if @profile_education.update_attributes profile_education_params
+    if @profile_education.update profile_education_params
       flash[:notice] = 'Changes saved.'
       redirect_to edit_profile_path(@profile_education.profile)
     else
