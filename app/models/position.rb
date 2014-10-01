@@ -192,7 +192,7 @@ class Position < ActiveRecord::Base
           position = pos_rsrtm if rs and retail
           position = pos_hras if corporate and recruit
           position = pos_advs if corporate and advocate
-          position = pos_hrd if corporate and hr
+          position = pos_hras if corporate and hr
           position = pos_td if corporate and training
           position = pos_itd if corporate and technology
         else
