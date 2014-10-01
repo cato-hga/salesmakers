@@ -7,4 +7,10 @@ class WallPostComment < ActiveRecord::Base
   belongs_to :person
 
   default_scope { order :created_at }
+
+  def is_edited?
+    if self.created_at != self.updated_at
+      true
+    end
+  end
 end
