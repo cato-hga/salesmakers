@@ -21,6 +21,10 @@ module Reconnect
     config.action_mailer.postmark_settings = { api_key: '20ac5706-f8d6-4a4d-8afc-d5c4bbdbcf44'}
 
 
+    #Setting javascript engine to regular js
+    config.generators do |g|
+      g.javascript_engine :js
+    end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
