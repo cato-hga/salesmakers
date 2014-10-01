@@ -30,6 +30,13 @@ class ProfileExperiencesController < ApplicationController
   end
 
   def destroy
+    @profile_experience = ProfileExperience.find params[:id]
+    if @profile_experience.destroy
+      flash[:notice] = 'Experience deleted!'
+      redirect_to :back
+    else
+      flash[:error] = 'Could not delete Experience!'
+    end
   end
 
   private

@@ -29,6 +29,13 @@ class ProfileEducationsController < ApplicationController
   end
 
   def destroy
+    @profile_education = ProfileEducation.find params[:id]
+    if @profile_education.destroy
+      flash[:notice] = 'Education deleted!'
+      redirect_to :back
+    else
+      flash[:error] = 'Could not delete Education!'
+    end
   end
 
   private
