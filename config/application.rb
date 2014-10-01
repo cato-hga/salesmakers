@@ -24,6 +24,7 @@ module Reconnect
     #Setting javascript engine to regular js
     config.generators do |g|
       g.javascript_engine :js
+      g.test_framework false
     end
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
