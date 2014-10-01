@@ -15,6 +15,10 @@
           %span.delete_comment
             |
             = link_to 'Delete', wall_post_comment_path(wall_post_comment), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
+        - if wall_post_comment.is_edited?
+          %br
+          %span Edited at
+          = friendly_datetime wall_post_comment.updated_at
       .edit_comment_form= render partial: 'wall_post_comments/wall_post_edit_comment', locals: { comment: wall_post_comment }
     .large-2.medium-3.small-4.columns
       = avatar wall_post_comment.person
