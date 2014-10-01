@@ -6,13 +6,7 @@
 .widgets
   = render 'shared/share_form'
 
-  - counter = 0
-  - for wall_post in @wall_posts do
-    - counter += 1
-    - if counter == 1
-      = display_post wall_post, true
-    - else
-      = display_post wall_post
+  = render 'wall_posts/wall_posts'
 = paginate @wall_posts
 
 %ol.joyride-list{ data: { joyride: '' } }

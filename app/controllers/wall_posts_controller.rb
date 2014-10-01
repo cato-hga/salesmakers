@@ -1,4 +1,6 @@
 class WallPostsController < ApplicationController
+  layout false
+
   def promote
     @wall_post = WallPost.find params[:id]
     authorize @wall_post
@@ -32,5 +34,9 @@ class WallPostsController < ApplicationController
     else
       flash[:error] = 'Post could NOT be deleted!'
     end
+  end
+
+  def show
+    @wall_post = WallPost.find params[:id]
   end
 end

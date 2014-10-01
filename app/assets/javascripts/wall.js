@@ -115,6 +115,12 @@ $(function () {
 	$('.lightbox').magnificPopup({
 		type: 'image'
 	});
+
+	$('body').on('click', '.show_new_posts', function() {
+		$('.widget.hidden').removeClass('hidden').show();
+		relayout();
+		window.new_post_notification.dismiss();
+	});
 });
 
 function relayout() {
@@ -175,3 +181,32 @@ function setupLikeEvent(post_id) {
     });
 }
 
+function notify(post_count) {
+	if ($('#new_post_count').length > 0) {
+		$('#new_post_count').text(post_count);
+	} else {
+		window.new_post_notification = new NotificationFx({
+			message: '<p><span id="new_post_count">' + post_count + '</span> new posts. <a class="show_new_posts">[show]</a>',
+			layout: 'growl',
+			effect: 'genie',
+			type: 'notice',
+			ttl: 300000,
+			wrapper: document.getElementById('main_container')
+		});
+		window.new_post_notification.show();
+	}
+}
+
+function placePost(id) {
+	$.ajax({
+		url: '/wall_posts/' + id
+	}).done(function(data) {
+		if ($('.share_form').length > 0) {
+			$('.share_form').after(data);
+		} else {
+			$('.widgets').prepend(data);
+		}
+		var new_post_count = $('.widget.hidden').length;
+		notify(new_post_count);
+	});
+}

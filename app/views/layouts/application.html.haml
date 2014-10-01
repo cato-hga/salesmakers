@@ -20,7 +20,7 @@
     .off-canvas-wrap{ data: { offcanvas: '' } }
       .inner-wrap
         = render "shared/off_canvas_navigation"
-        .container
+        .container#main_container
           %header
             %h1
               = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))

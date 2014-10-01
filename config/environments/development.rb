@@ -48,4 +48,7 @@ Rails.application.configure do
   #   Bullet.add_footer = true
   # end
 
+  # Needed for websocket-rails
+  config.middleware.delete Rack::Lock
+
 end

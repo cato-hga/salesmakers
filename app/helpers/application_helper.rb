@@ -232,16 +232,16 @@ module ApplicationHelper
     end
   end
 
-  def display_post(post, first_post = false)
+  def display_post(post, first_post = false, hide = false)
     publishable = post.publication.publishable
     if publishable.is_a? TextPost
-      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
+      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
     elsif publishable.is_a? UploadedImage
-      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
+      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
     elsif publishable.is_a? UploadedVideo
-      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
+      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
     elsif publishable.is_a? LinkPost
-      return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post }, layout: 'layouts/widget'
+      return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
     end
     nil
   end

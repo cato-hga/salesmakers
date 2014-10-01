@@ -16,6 +16,7 @@ class AreasController < ProtectedController
     else
       @show_share_form = false
     end
+    @wall_posts = @wall.wall_posts
   end
 
   def new

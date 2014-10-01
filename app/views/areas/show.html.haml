@@ -2,9 +2,8 @@
 
 .widgets
   = render 'shared/share_form' if @show_share_form
-  - if @wall.wall_posts.count < 1
+  - if @wall_posts.count < 1
     .widget
       .inner
         .comment There are no posts to show yet.
-  - for post in @wall.wall_posts
-    = display_post post
+  = render 'wall_posts/wall_posts'

@@ -1,5 +1,5 @@
 - first_post = false unless defined? first_post
-.widget
+.widget{ class: (defined?(hidden) and hidden ? 'hidden' : '') }
   .inner
     .row.full-width
       .large-3.columns.centered_text

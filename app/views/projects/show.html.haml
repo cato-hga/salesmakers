@@ -6,5 +6,4 @@
     .widget
       .inner
         .comment There are no posts here to show.
-  - for post in @wall.wall_posts
-    = display_post post
+  = render 'wall_posts/wall_posts'

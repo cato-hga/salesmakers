@@ -19,3 +19,18 @@
 @import 'media_min_tablet';
 @import 'media_max_tablet';
 @import 'media_min_high_res';
+@import 'ns-default';
+@import 'ns-style-growl';
+
+.ns-effect-genie {
+	background: black;
+	opacity: 0.8;
+	p a {
+		text-decoration: underline;
+		font-weight: normal;
+	}
+}
+
+.ns-effect-genie .ns-close::after, .ns-effect-genie .ns-close::before {
+	background: #d62121;
+}

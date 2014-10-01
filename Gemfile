@@ -7,6 +7,7 @@ gem 'uglifier', '1.3.0'
 gem 'jquery-rails', '3.1.0'
 gem 'jbuilder', '2.0'
 gem 'sdoc', '0.4.0',  group: :doc
+gem 'coffee-script', '2.3.0'
 
 # ------ Our gems below this line --------
 
@@ -37,9 +38,10 @@ gem 'dragonfly', '1.0.7' # Image and file storage
 gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 gem 'whenever', '0.9.2' # Background tasks scheduled in a flat ruby file.
-gem 'mail_form', '1.5.0' #Gem for contact/feedback form. Using based on tutorial: http://rubyonrailshelp.wordpress.com/2014/01/08/rails-4-simple-form-and-mail-form-to-make-contact-form/
-gem 'simple_form', '3.0.2' #For contact/feedback form
-gem 'postmark-rails', '0.8.0' #Postmark integration. Currently for contact/feedback form
+gem 'mail_form', '1.5.0' # Gem for contact/feedback form. Using based on tutorial: http://rubyonrailshelp.wordpress.com/2014/01/08/rails-4-simple-form-and-mail-form-to-make-contact-form/
+gem 'simple_form', '3.0.2' # For contact/feedback form
+gem 'postmark-rails', '0.8.0' # Postmark integration. Currently for contact/feedback form
+gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development

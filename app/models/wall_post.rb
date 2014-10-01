@@ -7,6 +7,8 @@ class WallPost < ActiveRecord::Base
   has_many :likes
   has_many :wall_post_comments, dependent: :destroy
 
+  after_save :broadcast
+
   default_scope { order updated_at: :desc}
 
   def self.create_from_publication(publication, wall)
@@ -53,4 +55,12 @@ class WallPost < ActiveRecord::Base
                                  person: sys_admin
     end
   end
+
+  private
+
+  def broadcast
+    return unless self.id_changed? or self.wall_id_changed?
+    WebsocketRails['wall_' + self.wall_id.to_s].trigger :new, self
+  end
+
 end

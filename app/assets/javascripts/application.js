@@ -25,6 +25,9 @@
 //= require jquery.remotipart
 //= require imagesloaded.min
 //= require magnific
+//= require websocket_rails/main
+//= require classie
+//= require notificationFx
 
 // require turbolinks
 // require jquery-ui-datepicker
@@ -74,11 +77,7 @@ $(function(){
     $('.lightbox_feedback').magnificPopup({
         type:'ajax'
     });
-
-
 });
-
-
 
 function wrapAndHide(element) {
 	element.find('.inner').wrapInner('<div class="collapsed"></div>');
@@ -155,3 +154,4 @@ function collapseWidget(element){
 	element.insertAfter(afterWidget);
 	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
 }
+
