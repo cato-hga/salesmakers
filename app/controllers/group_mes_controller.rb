@@ -63,7 +63,7 @@ class GroupMesController < ApplicationController
   end
 
   def group_chat_aside
-    @messages = @groupme.get_messages(params[:group_id], 10)
+    @messages = @groupme.get_messages(params[:group_id], 25)
     @group_id = params[:group_id]
   end
 

@@ -9,6 +9,7 @@ class ProjectsController < ProtectedController
       flash[:error] = 'Could not find a wall for that project or you are not authorized to view it.'
       redirect_to :back
     end
+    @wall_posts = @wall.wall_posts
   end
 
   def edit
