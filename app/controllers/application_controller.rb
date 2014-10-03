@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
                 :get_projects,
                 :setup_default_walls,
                 :set_last_seen,
+                :set_last_seen_profile,
                 :setup_new_publishables,
                 :filter_groupme_access_token,
                 :setup_accessibles
@@ -66,8 +67,9 @@ class ApplicationController < ActionController::Base
     @seen_before_profile = false
     return unless @current_person
     Profile.record_timestamps = false
-    @seen_before_profile = @current_person.profile.last_seen.present
-    @current_person.profile.update last_seen: Time.now
+    current_profile = @current_person.profile
+    @seen_before_profile = current_profile.last_seen.present?
+    current_profile.update last_seen: Time.now
     Profile.record_timestamps = true
   end
 

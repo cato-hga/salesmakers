@@ -1,6 +1,7 @@
 = content_for(:title) { @person.social_name }
-%span
-  .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour_profile', class: [:button, :inline_button]
+- content_for :action_buttons do
+  %span
+    .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour_profile', class: [:button, :inline_button]
 .widgets
   .row.full-width
     .widget.large-4.medium-6.columns
