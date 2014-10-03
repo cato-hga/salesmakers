@@ -280,7 +280,7 @@ module ApplicationHelper
       if wallable == @current_person
         link_to 'Me', @current_person
       else
-        person_link wallable
+        social_link wallable
       end
     else
       'Unknown'

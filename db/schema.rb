@@ -423,6 +423,7 @@ ActiveRecord::Schema.define(version: 20141002181848) do
     t.string   "avatar_uid"
     t.string   "image_uid"
     t.string   "nickname"
+    t.datetime "last_seen"
   end
 
   add_index "profiles", ["person_id"], name: "index_profiles_on_person_id", using: :btree

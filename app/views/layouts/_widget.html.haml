@@ -21,7 +21,7 @@
             = wall_link post.wall.wallable
             = time_ago_in_words(post.updated_at) + ' ago'
             by
-            = person_link post.reposted_by_person
+            = social_link post.reposted_by_person
             .xx-small
               = friendly_datetime post.updated_at
           .vertical_space

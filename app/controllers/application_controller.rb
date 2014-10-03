@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
                 :get_projects,
                 :setup_default_walls,
                 :set_last_seen,
+                :set_last_seen_profile,
                 :setup_new_publishables,
                 :filter_groupme_access_token,
                 :setup_accessibles
@@ -62,6 +63,16 @@ class ApplicationController < ActionController::Base
     Person.record_timestamps = true
     WallPost.just_logged_in_post @current_person unless @seen_before
     WallPost.send_welcome_post @current_person unless @seen_before
+  end
+
+  def set_last_seen_profile
+    @seen_before_profile = false
+    return unless @current_person
+    Profile.record_timestamps = false
+    current_profile = @current_person.profile
+    @seen_before_profile = current_profile.last_seen.present?
+    current_profile.update last_seen: Time.now
+    Profile.record_timestamps = true
   end
 
   def set_current_user
