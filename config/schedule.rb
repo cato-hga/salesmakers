@@ -22,3 +22,7 @@
 every :hour do
   runner 'GroupMeGroup.update_groups'
 end
+
+every 15.minutes do
+  runner 'DaySalesCount.import'
+end

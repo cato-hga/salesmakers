@@ -58,7 +58,8 @@ class Wall < ActiveRecord::Base
     else
       walls = visible_walls
     end
-    self.where("\"walls\".\"id\" IN (#{walls.map(&:id).join(',')})").where.not(wallable: person)
+    walls.delete person.wall if person.wall
+    Wall.where("\"walls\".\"id\" IN (#{walls.map(&:id).join(',')})")
   }
 
   def self.fetch_wall(wallable)

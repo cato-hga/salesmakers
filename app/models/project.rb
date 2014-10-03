@@ -8,6 +8,7 @@ class Project < ActiveRecord::Base
   has_many :area_types
   has_many :areas
   has_one :wall, as: :wallable
+  has_many :day_sales_counts, as: :saleable
 
   default_scope { order(:name) }
   scope :visible, -> (person = nil) {

@@ -46,9 +46,11 @@ class ApplicationController < ActionController::Base
     if @current_person
       @visible_walls = Wall.visible(@current_person).includes(:wallable)
       @visible_people = Person.visible(@current_person)
+      @visible_projects = Project.visible(@current_person)
     else
       @visible_walls = Wall.none
       @visible_people = Person.none
+      @visible_projects = Project.none
     end
   end
 

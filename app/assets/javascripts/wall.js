@@ -43,7 +43,7 @@ $(function () {
     });
 
     $('#new_text_post, #new_uploaded_image, #new_uploaded_video, #new_link_post').on('ajax:success', function(e, data, status, xhr){
-        var $new_post = $(this).parents('.widget').after(xhr.responseText);
+        var $new_post = $('#insert_posts_after').after(xhr.responseText);
 		imagesLoaded($container, function(){
 			relayout();
 		});
@@ -201,8 +201,8 @@ function placePost(id) {
 	$.ajax({
 		url: '/wall_posts/' + id
 	}).done(function(data) {
-		if ($('.share_form').length > 0) {
-			$('.share_form').after(data);
+		if ($('#insert_posts_after').length > 0) {
+			$('#insert_posts_after').after(data);
 		} else {
 			$('.widgets').prepend(data);
 		}

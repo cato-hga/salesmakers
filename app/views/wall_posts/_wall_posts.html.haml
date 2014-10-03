@@ -1,3 +1,8 @@
+%span#insert_posts_after
+- if @wall_posts.count < 1
+  .widget
+    .inner
+      .comment There are no posts to show yet.
 - counter = 0
 - for wall_post in @wall_posts do
   - counter += 1
