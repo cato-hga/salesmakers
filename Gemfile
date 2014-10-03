@@ -21,7 +21,7 @@ gem 'kaminari', '0.16.1' # Pagination
 gem 'httparty', '0.13.1' # HTTP REST API client
 gem 'namecase', '1.1.0' # Easily turn names into proper cases
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
-gem 'groupdate', '2.2.1'
+gem 'groupdate', '2.2.1' # Ability to group by dates
 gem 'swiper-rails', '1.0.2' # Content slider
 gem 'pundit', git: 'https://github.com/elabs/pundit.git' # Role-based authorization
 gem 'capistrano', '3.2.1' # Automated deployment

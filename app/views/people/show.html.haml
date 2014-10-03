@@ -6,8 +6,6 @@
 
 .widgets
   = render 'shared/share_form'
-  - if @wall.wall_posts.count < 1
-    .widget
-      .inner
-        .comment There are no posts here to show.
+  - if @person.position and not @person.position.hq?
+    = render partial: 'shared/sales_wall_widget', locals: { object: @person }
   = render 'wall_posts/wall_posts'

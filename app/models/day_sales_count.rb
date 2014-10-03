@@ -35,11 +35,11 @@ class DaySalesCount < ActiveRecord::Base
           Date.today)
   }
 
-  def for_range(range)
+  scope :for_range, ->(range) {
     where('day >= ? AND day <= ?',
           range.first,
           range.last)
-  end
+  }
 
   def self.import
     SaleImporter.new

@@ -1,4 +1,6 @@
 //= require wall
+//= require google_jsapi
+//= require chartkick
 
 $(function(){
 	$('.nested_areas .nested_areas_icon').bind('click', function(){

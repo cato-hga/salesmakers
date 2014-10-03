@@ -298,6 +298,24 @@ module ApplicationHelper
     end
   end
 
+  def past_month_sales_chart(day_sales_counts)
+    line_chart day_sales_counts.
+                   for_range((Date.today - 1.month)..Date.today).
+                   group_by_day(:day).sum :sales
+  end
+
+  def week_run_rate_multiplier
+    (7 * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_week)
+  end
+
+  def month_run_rate_multiplier
+    (((Date.today.beginning_of_month + 1.month) - Date.today.beginning_of_month) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_month)
+  end
+
+  def year_run_rate_multiplier
+    (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_year)
+  end
+
   def groupme_emoji_filter(text, attachments)
     GroupMeEmojiFilter.filter(text, attachments).html_safe
   end
