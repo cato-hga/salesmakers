@@ -9,6 +9,7 @@ class Area < ActiveRecord::Base
   has_many :person_areas
   has_many :people, through: :person_areas
   has_one :wall, as: :wallable
+  has_many :day_sales_counts, as: :saleable
   has_ancestry
 
 
