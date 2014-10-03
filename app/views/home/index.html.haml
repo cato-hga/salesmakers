@@ -5,15 +5,15 @@
 
 .widgets
   = render 'shared/share_form'
-  - unless @current_person.position and (@current_person.position.hq? or @current_person.position.leadership?)
-    = render partial: 'shared/sales_wall_widget', locals: { object: @current_person }
-  - if @current_person.position and @current_person.position.leadership? and not @current_person.position.hq? and @current_person.person_areas.count > 0
-    - for person_area in @current_person.person_areas
-      = render partial: 'shared/sales_wall_widget', locals: { object: person_area.area } if person_area.manages?
-  - if @current_person.position and @current_person.position.hq?
-    - for project in @visible_projects do
-      - if project.day_sales_counts.count > 0
-        = render partial: 'shared/sales_wall_widget', locals: { object: project }
+  -#- unless @current_person.position and (@current_person.position.hq? or @current_person.position.leadership?)
+  -#  = render partial: 'shared/sales_wall_widget', locals: { object: @current_person }
+  -#- if @current_person.position and @current_person.position.leadership? and not @current_person.position.hq? and @current_person.person_areas.count > 0
+  -#  - for person_area in @current_person.person_areas
+  -#    = render partial: 'shared/sales_wall_widget', locals: { object: person_area.area } if person_area.manages?
+  -#- if @current_person.position and @current_person.position.hq?
+  -#  - for project in @visible_projects do
+  -#    - if project.day_sales_counts.count > 0
+  -#      = render partial: 'shared/sales_wall_widget', locals: { object: project }
   = render 'wall_posts/wall_posts'
 = paginate @wall_posts
 
