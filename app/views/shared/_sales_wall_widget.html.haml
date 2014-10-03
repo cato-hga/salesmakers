@@ -1,22 +1,39 @@
-- sales_header = header_row ['','This', 'Last', 'Run Rate']
-
-- week_rr = (object.day_sales_counts.this_week.sum(:sales) * week_run_rate_multiplier).round
-- month_rr = (object.day_sales_counts.this_month.sum(:sales) * month_run_rate_multiplier).round
-- year_rr = (object.day_sales_counts.this_year.sum(:sales) * year_run_rate_multiplier).round
-
-- sales_rows = Array.new
-- sales_rows << table_row(['Day', object.day_sales_counts.today.sum(:sales), object.day_sales_counts.yesterday.sum(:sales), 'Not Available'])
-- sales_rows << table_row(['Week', object.day_sales_counts.this_week.sum(:sales), object.day_sales_counts.last_week.sum(:sales), week_rr])
-- sales_rows << table_row(['Month', object.day_sales_counts.this_month.sum(:sales), object.day_sales_counts.last_month.sum(:sales), month_rr])
-- sales_rows << table_row(['Year', object.day_sales_counts.this_year.sum(:sales), 'Not Available', year_rr])
-
-.widget
+- w = defined?(width) ? width : 12
+- if object.is_a? Project
+  - l = sales_client_project_path object.client, object
+- elsif object.is_a? Client
+  - l = sales_client_path object
+- elsif object.is_a? Person
+  - l = sales_person_path object
+- elsif object.is_a? Area
+  - l = sales_client_project_area_path object.project.client, object.project, object
+- else
+  l = ''
+.widget{ class: 'grid-' + w.to_s }
   .inner
-    %h3
-      = object.name + "'s"
-      Sales
-    = past_month_sales_chart object.day_sales_counts
-    = table(sales_header, sales_rows)
-    .small.comment
-      Last import:
-      = DaySalesCount.order(created_at: :desc).limit(1).first.created_at.strftime('%-l:%M%P')
+    .row.full-width
+      - if w < 12
+        .large-3.columns
+          %div(style="vertical-align: middle; margin-top: 0.25em; margin-bottom: 0.25em")
+            %strong= object.name + ':'
+      %div{ class: (w < 12) ? 'large-9 columns' : '' }
+        - if w == 12
+          %strong Sales:
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.today.sum(:sales)
+          today
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.yesterday.sum(:sales)
+          yesterday
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.this_week.sum(:sales)
+          this week
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.last_week.sum(:sales)
+          last week
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.this_month.sum(:sales)
+          this month
+        %a.button.secondary.radius.sale_badge{ href: l }
+          %strong= object.day_sales_counts.last_month.sum(:sales)
+          last month

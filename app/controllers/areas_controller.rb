@@ -1,5 +1,5 @@
 class AreasController < ProtectedController
-  after_action :verify_authorized, except: [:index, :show]
+  after_action :verify_authorized, except: [:index, :show, :sales]
   after_action :verify_policy_scoped, except: [:index, :show]
 
   def index
@@ -17,6 +17,14 @@ class AreasController < ProtectedController
       @show_share_form = false
     end
     @wall_posts = @wall.wall_posts
+  end
+
+  def sales
+    @area = policy_scope(Area).find params[:id]
+    unless @area
+      flash[:error] = 'You do not have permission to view sales for that area.'
+      redirect_to :back
+    end
   end
 
   def new

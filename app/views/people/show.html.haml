@@ -3,9 +3,9 @@
 - content_for :action_buttons do
   = link_to icon('eye') + ' About', about_person_path(@person), class: [:button, :inline_button]
 
+- if @person.position and not @person.position.hq?
+  = render partial: 'shared/sales_wall_widget', locals: { object: @person }
 
 .widgets
   = render 'shared/share_form'
-  - if @person.position and not @person.position.hq?
-    = render partial: 'shared/sales_wall_widget', locals: { object: @person }
   = render 'wall_posts/wall_posts'

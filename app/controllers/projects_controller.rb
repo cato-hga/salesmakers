@@ -1,5 +1,5 @@
 class ProjectsController < ProtectedController
-  after_action :verify_authorized, except: :show
+  after_action :verify_authorized, except: [:show, :sales]
   after_action :verify_policy_scoped
 
   def show
@@ -10,6 +10,14 @@ class ProjectsController < ProtectedController
       redirect_to :back
     end
     @wall_posts = @wall.wall_posts
+  end
+
+  def sales
+    @project = policy_scope(Project).find params[:id]
+    unless @project
+      flash[:error] = 'You do not have permission to view sales for that project.'
+      redirect_to :back
+    end
   end
 
   def edit

@@ -18,9 +18,18 @@
 		margin-top: 0;
 	}
 
-	.widgets .widget {
+	.widgets .widget,
+	.top_widgets .widget {
 		width: 46%;
-		margin: 2%;
+		margin: 1% 2%;
+	}
+
+	.top_widgets .widget {
+		float: left;
+		&.grid-4 {
+			width: 96%;
+			margin: 0 2%;
+		}
 	}
 
 	.widget.chat {

@@ -1,5 +1,5 @@
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :about, :show]
+  after_action :verify_authorized, except: [:index, :about, :show, :sales]
   after_action :verify_policy_scoped, except: [:about, :show]
   require 'apis/mojo'
 
@@ -15,6 +15,14 @@ class PeopleController < ProtectedController
     @wall = @person.wall
     @walls = Wall.where id: @person.wall.id
     @wall_posts = @wall.wall_posts
+  end
+
+  def sales
+    @person = policy_scope(Person).find params[:id]
+    unless @person
+      flash[:error] = 'You do not have permission to view sales for that person.'
+      redirect_to :back
+    end
   end
 
   def about
