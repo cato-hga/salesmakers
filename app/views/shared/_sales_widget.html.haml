@@ -37,4 +37,4 @@
       = past_month_sales_chart object.day_sales_counts
       .small.comment
         Last import:
-        = DaySalesCount.order(created_at: :desc).limit(1).first.created_at.strftime('%-l:%M%P')
+        = DaySalesCount.order(created_at: :desc).limit(1).first.created_at.strftime('%-m/%-d %-l:%M%P')
