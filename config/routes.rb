@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   resources :people do
     member do
       get 'about', to: 'people#about', as: :about
+      get :sales, as: :sales
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
@@ -69,8 +70,18 @@ Rails.application.routes.draw do
   resources :clients do
     resources :projects, except: :index do
       resources :area_types
-      resources :areas
+      resources :areas do
+        member do
+          get :sales, as: :sales
+        end
+      end
       resources :channels
+      member do
+        get :sales, as: :sales
+      end
+    end
+    member do
+      get :sales, as: :sales
     end
   end
 

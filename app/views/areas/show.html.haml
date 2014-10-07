@@ -1,6 +1,7 @@
 - title @area.name + "'s Wall"
 
+= render partial: 'shared/sales_wall_widget', locals: { object: @area }
+
 .widgets
   = render 'shared/share_form' if @show_share_form
-  = render partial: 'shared/sales_wall_widget', locals: { object: @area }
   = render 'wall_posts/wall_posts'
