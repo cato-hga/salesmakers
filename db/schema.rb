@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002201720) do
+ActiveRecord::Schema.define(version: 20141007190930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -457,6 +457,18 @@ ActiveRecord::Schema.define(version: 20141002201720) do
 
   add_index "questions", ["answer_id"], name: "index_questions_on_answer_id", using: :btree
   add_index "questions", ["person_id"], name: "index_questions_on_person_id", using: :btree
+
+  create_table "sales_performance_ranks", force: true do |t|
+    t.date     "day",           null: false
+    t.integer  "rankable_id",   null: false
+    t.string   "rankable_type", null: false
+    t.integer  "day_rank"
+    t.integer  "week_rank"
+    t.integer  "month_rank"
+    t.integer  "year_rank"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "technology_service_providers", force: true do |t|
     t.string   "name",       null: false
