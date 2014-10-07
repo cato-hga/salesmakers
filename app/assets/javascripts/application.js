@@ -77,6 +77,11 @@ $(function(){
     $('.lightbox_feedback').magnificPopup({
         type:'ajax'
     });
+
+//	$('body').on('click', '.chart_container .toggle_chart', function() {
+//		$(this).parents('.chart_container').find('div').toggle();
+//	});
+
 });
 
 function wrapAndHide(element) {

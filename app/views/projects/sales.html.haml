@@ -2,3 +2,5 @@
 
 .widgets
   = render partial: 'shared/sales_widget', locals: { object: @project }
+  - for root in @roots do
+    = render partial: 'shared/sales_widget', locals: { object: root, link_to_object: true }

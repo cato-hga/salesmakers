@@ -1,22 +1,40 @@
-- sales_header = header_row ['','This', 'Last', 'Run Rate']
+- if object.day_sales_counts.this_year.count > 0
+  - if defined?(link_to_object) and link_to_object
+    - link_to_object = true
+    - if object.is_a? Area
+      - link_path = sales_client_project_area_path object.project.client, object.project, object
+    - elsif object.is_a? Person
+      - link_path = sales_person_path object
+    - elsif object.is_a? Project
+      - link_path = sales_client_project_path object.client, object
+    - elsif object.is_a? Client
+      - link_path = sales_client_path object
+    - else
+      - link_to_object = false
+  - else
+    - link_to_object = false
 
-- week_rr = (object.day_sales_counts.this_week.sum(:sales) * week_run_rate_multiplier).round
-- month_rr = (object.day_sales_counts.this_month.sum(:sales) * month_run_rate_multiplier).round
-- year_rr = (object.day_sales_counts.this_year.sum(:sales) * year_run_rate_multiplier).round
+  - sales_header = header_row ['','This', 'Last', 'Run Rate']
 
-- sales_rows = Array.new
-- sales_rows << table_row(['Day', object.day_sales_counts.today.sum(:sales), object.day_sales_counts.yesterday.sum(:sales), 'Not Available'])
-- sales_rows << table_row(['Week', object.day_sales_counts.this_week.sum(:sales), object.day_sales_counts.last_week.sum(:sales), week_rr])
-- sales_rows << table_row(['Month', object.day_sales_counts.this_month.sum(:sales), object.day_sales_counts.last_month.sum(:sales), month_rr])
-- sales_rows << table_row(['Year', object.day_sales_counts.this_year.sum(:sales), 'Not Available', year_rr])
+  - week_rr = (object.day_sales_counts.this_week.sum(:sales) * week_run_rate_multiplier).round
+  - month_rr = (object.day_sales_counts.this_month.sum(:sales) * month_run_rate_multiplier).round
+  - year_rr = (object.day_sales_counts.this_year.sum(:sales) * year_run_rate_multiplier).round
 
-.widget
-  .inner
-    %h3
-      = object.name + "'s"
-      Sales
-    = past_month_sales_chart object.day_sales_counts
-    = table(sales_header, sales_rows)
-    .small.comment
-      Last import:
-      = DaySalesCount.order(created_at: :desc).limit(1).first.created_at.strftime('%-l:%M%P')
+  - sales_rows = Array.new
+  - sales_rows << table_row(['Day', object.day_sales_counts.today.sum(:sales), object.day_sales_counts.yesterday.sum(:sales), 'Not Available'])
+  - sales_rows << table_row(['Week', object.day_sales_counts.this_week.sum(:sales), object.day_sales_counts.last_week.sum(:sales), week_rr])
+  - sales_rows << table_row(['Month', object.day_sales_counts.this_month.sum(:sales), object.day_sales_counts.last_month.sum(:sales), month_rr])
+  - sales_rows << table_row(['Year', object.day_sales_counts.this_year.sum(:sales), 'Not Available', year_rr])
+
+  .widget
+    .inner
+      %h3
+        - if link_to_object
+          = link_to NameCase(object.name) + "'s Sales", link_path
+        - else
+          = object.name + "'s Sales"
+      = table(sales_header, sales_rows)
+      = past_month_sales_chart object.day_sales_counts
+      .small.comment
+        Last import:
+        = DaySalesCount.order(created_at: :desc).limit(1).first.created_at.strftime('%-l:%M%P')

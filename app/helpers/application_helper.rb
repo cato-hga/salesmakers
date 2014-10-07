@@ -299,9 +299,16 @@ module ApplicationHelper
   end
 
   def past_month_sales_chart(day_sales_counts)
+    content_tag :div,
+                #link_to('Show/Hide Chart', '#', class: 'toggle_chart') +
+                sales_line_chart(day_sales_counts),
+                class: 'chart_container'
+  end
+
+  def sales_line_chart(day_sales_counts)
     line_chart day_sales_counts.
                    for_range((Date.today - 1.month)..Date.today).
-                   group_by_day(:day).sum :sales
+                   group_by_day(:day).sum(:sales)
   end
 
   def week_run_rate_multiplier
