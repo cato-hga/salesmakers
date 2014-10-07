@@ -3,11 +3,13 @@ class SaleImporter
   def initialize(start_date = (Time.now - 1.month).to_date, end_date = Time.zone.now.to_date)
     @start_date = start_date
     @end_date = end_date
-    (start_date..end_date).each do |day|
-      DaySalesCount.where(day: day).destroy_all
-    end
     import_vonage
     import_sprint
+    DaySalesCount.where('day >= ? AND day <= ? AND updated_at < ?',
+                        @start_date,
+                        @end_date,
+                        Time.now - 15.minutes).destroy_all
+
   end
 
   private
@@ -81,6 +83,7 @@ class SaleImporter
           day_sales = DaySalesCount.find_or_initialize_by saleable: o,
                                                           day: day
           day_sales.sales = days[day][saleable_key][o]
+          day_sales.updated_at = Time.now
           day_sales.save
         end
       end
