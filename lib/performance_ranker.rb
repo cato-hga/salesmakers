@@ -3,7 +3,28 @@ class PerformanceRanker
   def self.rank_people_sales
     for project in Project.all do
       ((Date.today - 1.month)..(Date.today)).each do |day|
-        day_people_sales = day_sales_counts project, day, 'Person'
+        day_people_sales = DaySalesCount.find_by_sql("
+            SELECT
+
+            day_sales_counts.*
+
+            FROM day_sales_counts
+            LEFT OUTER JOIN people
+              ON people.id = day_sales_counts.saleable_id
+            LEFT OUTER JOIN person_areas
+              ON person_areas.person_id = people.id
+            LEFT OUTER JOIN areas
+              ON areas.id = person_areas.area_id
+            LEFT OUTER JOIN projects
+              ON projects.id = areas.project_id
+
+            WHERE
+              projects.id = " + project.id.to_s + "
+              AND day_sales_counts.saleable_type = 'Person'
+              AND day_sales_counts.day = CAST('" +
+                                                         day.strftime('%m/%d/%Y') + "' AS DATE)
+
+            ORDER BY day_sales_counts.sales DESC")
         process_day_rankings day_people_sales, day
         week_people_sales_sql = "SELECT
 
@@ -66,7 +87,24 @@ class PerformanceRanker
   def self.rank_areas_sales
     for project in Project.all do
       ((Date.today - 1.month)..(Date.today)).each do |day|
-        day_areas_sales = day_sales_counts project, day, 'Area'
+        day_areas_sales = DaySalesCount.find_by_sql("
+            SELECT
+
+            day_sales_counts.*
+
+            FROM day_sales_counts
+            LEFT OUTER JOIN areas
+              ON areas.id = person_areas.day_sales_counts.saleable_id
+            LEFT OUTER JOIN projects
+              ON projects.id = areas.project_id
+
+            WHERE
+              projects.id = " + project.id.to_s + "
+              AND day_sales_counts.saleable_type = 'Area'
+              AND day_sales_counts.day = CAST('" +
+                                                        day.strftime('%m/%d/%Y') + "' AS DATE)
+
+            ORDER BY day_sales_counts.sales DESC")
         process_day_rankings day_areas_sales, day
         week_areas_sales_sql = "SELECT
 
@@ -119,28 +157,7 @@ class PerformanceRanker
   end
 
   def self.day_sales_counts(project, day, type)
-    DaySalesCount.find_by_sql("
-            SELECT
 
-            day_sales_counts.*
-
-            FROM day_sales_counts
-            LEFT OUTER JOIN people
-              ON people.id = day_sales_counts.saleable_id
-            LEFT OUTER JOIN person_areas
-              ON person_areas.person_id = people.id
-            LEFT OUTER JOIN areas
-              ON areas.id = person_areas.area_id
-            LEFT OUTER JOIN projects
-              ON projects.id = areas.project_id
-
-            WHERE
-              projects.id = " + project.id.to_s + "
-              AND day_sales_counts.saleable_type = '" + type + "'
-              AND day_sales_counts.day = CAST('" +
-                                  day.strftime('%m/%d/%Y') + "' AS DATE)
-
-            ORDER BY day_sales_counts.sales DESC")
   end
 
   def self.process_day_rankings(day_sales_counts, day)
