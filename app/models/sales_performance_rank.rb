@@ -32,12 +32,26 @@ class SalesPerformanceRank < ActiveRecord::Base
     where(rankable: project.active_people)
   }
 
+  scope :for_project_areas, ->(project) {
+    areas_without_children = Array.new
+    areas = project.areas
+    for area in areas do
+      areas_without_children << area if area.is_childless? and not areas_without_children.include?(area)
+    end
+    areas = Area.where("id IN (#{areas_without_children.map(&:id).join(',')})")
+    where(rankable: areas)
+  }
+
   def name
     self.rankable.name
   end
 
   def self.rank_people_sales
     PerformanceRanker.rank_people_sales
+  end
+
+  def self.rank_areas_sales
+    PerformanceRanker.rank_areas_sales
   end
 
 end

@@ -130,6 +130,10 @@ module ApplicationHelper
     link_to NameCase(person.display_name), sales_person_path(person), class: classes
   end
 
+  def area_sales_link(area, classes = '')
+    link_to area.name, sales_client_project_area_path(area.project.client, area.project, area), class: classes
+  end
+
   def social_link(person, classes = '')
     name = person.social_name.length < 4 ? person.social_name : NameCase(person.social_name)
     link_to name, person, class: classes
