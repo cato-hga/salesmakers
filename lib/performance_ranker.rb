@@ -94,7 +94,7 @@ class PerformanceRanker
 
             FROM day_sales_counts
             LEFT OUTER JOIN areas
-              ON areas.id = person_areas.day_sales_counts.saleable_id
+              ON areas.id = pday_sales_counts.saleable_id
             LEFT OUTER JOIN projects
               ON projects.id = areas.project_id
 
