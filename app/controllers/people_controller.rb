@@ -19,6 +19,7 @@ class PeopleController < ProtectedController
 
   def sales
     @person = policy_scope(Person).find params[:id]
+    set_show_wall
     unless @person
       flash[:error] = 'You do not have permission to view sales for that person.'
       redirect_to :back
@@ -27,11 +28,7 @@ class PeopleController < ProtectedController
 
   def about
     @person = Person.find params[:id]
-    if show_wall? @person
-      @show_wall = true
-    else
-      false
-    end
+    set_show_wall
     @log_entries = LogEntry.where trackable_type: 'Person', trackable_id: @person.id
     mojo = Mojo.new
     @creator_tickets = mojo.creator_all_tickets @person.email, 12
@@ -93,6 +90,14 @@ class PeopleController < ProtectedController
       false
     else
       true
+    end
+  end
+
+  def set_show_wall
+    if show_wall? @person
+      @show_wall = true
+    else
+      false
     end
   end
 end

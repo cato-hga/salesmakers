@@ -1,4 +1,6 @@
 - title @project.name + "'s Wall"
+- content_for :action_buttons do
+  = link_to icon('dollar') + ' Sales', sales_client_project_path(@project.client, @project), class: [:button, :inline_button]
 
 = render partial: 'shared/sales_wall_widget', locals: { object: @project }
 

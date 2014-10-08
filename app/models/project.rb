@@ -25,4 +25,17 @@ class Project < ActiveRecord::Base
     return if self.wall
     Wall.create wallable: self
   end
+
+  def active_people
+    person_areas = Array.new
+    people = Array.new
+    areas = self.areas
+    for area in areas.includes(person_areas: :person) do
+      person_areas = person_areas.concat area.person_areas
+    end
+    for person_area in person_areas do
+      people << person_area.person if person_area.person.active?
+    end
+    Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
+  end
 end

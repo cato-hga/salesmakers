@@ -1,4 +1,6 @@
 - title @area.name + "'s Sales"
+- content_for :action_buttons do
+  = link_to icon('thumbnails') + ' Wall', client_project_area_path(@area.project.client, @area.project, @area), class: [:button, :inline_button]
 
 .widgets
   = render partial: 'shared/sales_widget', locals: { object: @area }

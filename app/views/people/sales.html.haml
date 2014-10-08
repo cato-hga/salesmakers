@@ -1,4 +1,7 @@
 - title @person.name + "'s Sales"
+- content_for :action_buttons do
+  = link_to icon('thumbnails') + ' Wall', @person, class: [:button, :inline_button] if @show_wall
+  = link_to icon('eye') + ' About', about_person_path(@person), class: [:button, :inline_button]
 
 .widgets
   = render partial: 'shared/sales_widget', locals: { object: @person }

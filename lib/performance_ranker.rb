@@ -79,6 +79,7 @@ class PerformanceRanker
             GROUP BY day_sales_counts.saleable_id
             ORDER BY sum(day_sales_counts.sales) DESC, day_sales_counts.saleable_id"
         month_people_sales = ActiveRecord::Base.connection.execute(month_people_sales_sql)
+        process_month_people_rankings month_people_sales, day
       end
     end
   end

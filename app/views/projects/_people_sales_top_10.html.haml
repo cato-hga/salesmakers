@@ -1,0 +1,31 @@
+- today_ranks = SalesPerformanceRank.today.for_project_people(@project).sort { |a, b| [a.day_rank, a.name] <=> [b.day_rank, b.name] }
+- this_week_ranks = SalesPerformanceRank.this_week.for_project_people(@project).sort { |a, b| [a.week_rank, a.name] <=> [b.week_rank, b.name] }
+- this_month_ranks = SalesPerformanceRank.this_month.for_project_people(@project).sort { |a, b| [a.month_rank, a.name] <=> [b.month_rank, b.name] }
+- table_tag = Random.rand(1000000)
+- rank_header = header_row ['Today', 'This Week', 'This Month'], table_tag
+- rank_rows = Array.new
+- (1..10).each do |num|
+  - today_rank_number = num.to_s
+  - this_week_rank_number = num.to_s
+  - this_month_rank_number = num.to_s
+  - today_rank = 'N/A'
+  - this_week_rank = 'N/A'
+  - this_month_rank = 'N/A'
+  - if today_ranks.count >= num
+    - today_rank_number = today_ranks[num-1].day_rank.to_s
+    - today_rank = person_sales_link today_ranks[num-1].rankable
+  - if this_week_ranks.count >= num
+    - this_week_rank_number = this_week_ranks[num-1].week_rank.to_s
+    - this_week_rank = person_sales_link this_week_ranks[num-1].rankable
+  - if this_month_ranks.count >= num
+    - this_month_rank_number = this_month_ranks[num-1].month_rank.to_s
+    - this_month_rank = person_sales_link this_month_ranks[num-1].rankable
+  - today_cell = '#'.html_safe + today_rank_number + '. ' + today_rank
+  - this_week_cell = '#'.html_safe + this_week_rank_number + '. ' + this_week_rank
+  - this_month_cell = '#'.html_safe + this_month_rank_number + '. ' + this_month_rank
+  - rank_rows << table_row([today_cell, this_week_cell, this_month_cell])
+
+.widget
+  .inner
+    %h3 Top 10 People &mdash; Sales
+    = table rank_header, rank_rows, true, table_tag
