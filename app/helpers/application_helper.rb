@@ -32,6 +32,7 @@ module ApplicationHelper
   end
 
   def phone_link(phone, classes)
+    return unless phone
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
   end
