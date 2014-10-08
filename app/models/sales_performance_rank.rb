@@ -1,3 +1,5 @@
+require 'performance_ranker'
+
 class SalesPerformanceRank < ActiveRecord::Base
 
   belongs_to :rankable, polymorphic: true
@@ -32,6 +34,10 @@ class SalesPerformanceRank < ActiveRecord::Base
 
   def name
     self.rankable.name
+  end
+
+  def self.rank_people_sales
+    PerformanceRanker.rank_people_sales
   end
 
 end
