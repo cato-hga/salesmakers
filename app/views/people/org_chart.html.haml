@@ -1,0 +1,34 @@
+- content_for :action_buttons do
+  = link_to icon('list') + ' Search', people_path, class: [:button, :inline_button]
+
+.widgets
+  .widget.org_chart
+    .inner
+      %h3 Company HQ
+      %ul
+        - for department in @departments
+          - active_people = department.people.where(active: true).order(:display_name).includes(:position)
+          - next unless active_people.count > 0
+          %li.nested_areas
+            %a.nested_areas_icon= icon('plus')
+            = department.name
+            %ul
+              - for person in active_people
+                %li.nested_areas
+                  = person_link person
+                  %span.small.comment= '(' + person.position.name + ')'
+
+  - for project in @visible_projects
+    - next unless project.areas.count > 0
+    - roots = Area.project_roots(project).includes(:person_areas)
+    .widget.org_chart
+      .inner
+        %h3= project.name
+        - for area in roots
+          - if area.is_childless? and area.non_managers(true).count < 1
+            - next
+          - elsif area.is_childless?
+            = link_to area.name, [area.project.client, area.project, area]
+          - else
+            - areas = area.subtree.arrange(order: :name)
+            = nested_areas areas

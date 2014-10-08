@@ -122,7 +122,7 @@ module ApplicationHelper
     content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
   end
 
-  def person_link(person, classes = '')
+  def person_link(person, classes = 'person_link')
     link_to NameCase(person.display_name), person, class: classes
   end
 

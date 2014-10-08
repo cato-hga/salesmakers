@@ -56,6 +56,7 @@ Rails.application.routes.draw do
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
+      get :org_chart, as: :org_chart
     end
   end
   resources :profiles, only: [:edit, :update] do

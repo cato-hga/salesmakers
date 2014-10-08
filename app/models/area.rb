@@ -53,6 +53,11 @@ class Area < ActiveRecord::Base
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
 
+  scope :project_roots, ->(project = nil) {
+    return Area.none unless project
+    Area.roots.where(project: project).order(:name)
+  }
+
   scope :roots, -> {
     areas = Array.new
     for area in Area.all do
@@ -61,6 +66,30 @@ class Area < ActiveRecord::Base
     return Area.none if areas.count < 1
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
+
+  def managers
+    person_areas = self.person_areas.where(manages: true)
+    return Person.none if person_areas.count < 1
+    managers = Array.new
+    for person_area in person_areas do
+      managers << person_area.person
+    end
+    Person.where("id IN (#{managers.map(&:id).join(',')})").order(:display_name)
+  end
+
+  def non_managers(only_active = false)
+    if only_active
+      person_areas = self.person_areas.joins(:person).where("people.active = true AND manages = false")
+    else
+      person_areas = self.person_areas.where(manages: false)
+    end
+    return Person.none if person_areas.count < 1
+    non_managers = Array.new
+    for person_area in person_areas do
+      non_managers << person_area.person
+    end
+    Person.where("id IN (#{non_managers.map(&:id).join(',')})").order(:display_name)
+  end
 
   private
 
