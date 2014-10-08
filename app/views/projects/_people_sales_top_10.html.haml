@@ -29,3 +29,6 @@
   .inner
     %h3 Top 10 People &mdash; Sales
     = table rank_header, rank_rows, true, table_tag
+    .small.comment
+      Last ranking update:
+      = SalesPerformanceRank.where(rankable_type: 'Person').order(updated_at: :desc).limit(1).first.updated_at.strftime('%-m/%-d %-l:%M%P')

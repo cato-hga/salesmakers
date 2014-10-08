@@ -67,4 +67,6 @@
         = DaySalesCount.order(updated_at: :desc).limit(1).first.updated_at.strftime('%-m/%-d %-l:%M%P')
         &#124;
         Last ranking update:
-        = SalesPerformanceRank.order(updated_at: :desc).limit(1).first.updated_at.strftime('%-m/%-d %-l:%M%P')
+        - rankable_type = 'Person'
+        - rankable_type = 'Area' if object.is_a? Area
+        = SalesPerformanceRank.where(rankable_type: rankable_type).order(updated_at: :desc).limit(1).first.updated_at.strftime('%-m/%-d %-l:%M%P')
