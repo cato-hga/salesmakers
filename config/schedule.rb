@@ -28,5 +28,5 @@ every 15.minutes do
 end
 
 every 15.minutes do
-  runner 'SalesPerformanceRank.import'
+  runner 'SalesPerformanceRank.rank_people_sales'
 end
