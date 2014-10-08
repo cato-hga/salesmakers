@@ -63,7 +63,7 @@
       = table(sales_header, sales_rows)
       = past_month_sales_chart object.day_sales_counts
       .small.comment
-        Last hours import:
+        Last sales import:
         = DaySalesCount.order(updated_at: :desc).limit(1).first.updated_at.strftime('%-m/%-d %-l:%M%P')
         &#124;
         Last ranking update:
