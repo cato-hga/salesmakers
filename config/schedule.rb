@@ -34,3 +34,7 @@ end
 every 15.minutes do
   runner 'SalesPerformanceRank.rank_areas_sales'
 end
+
+every 30.minutes do
+  runner 'ConnectUpdater.update(30)'
+end

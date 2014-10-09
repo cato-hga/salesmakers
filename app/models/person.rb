@@ -292,6 +292,13 @@ class Person < ActiveRecord::Base
     Wall.create wallable: self
   end
 
+  def self.update_from_connect(minutes)
+    connect_users = ConnectUser.where('updated >= ?', Time.now - minutes.minutes + (Time.zone_offset(Time.zone.now.strftime('%Z')) / 60 / 60).hours)
+    for connect_user in connect_users do
+      PersonUpdater.new(connect_user).update
+    end
+  end
+
   private
 
     def generate_display_name

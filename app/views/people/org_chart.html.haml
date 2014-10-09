@@ -31,4 +31,4 @@
             = link_to area.name, [area.project.client, area.project, area]
           - else
             - areas = area.subtree.arrange(order: :name)
-            = nested_areas areas
+            = people_nested_areas areas
