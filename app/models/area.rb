@@ -64,7 +64,7 @@ class Area < ActiveRecord::Base
       areas << area.root unless areas.include? area.root
     end
     return Area.none if areas.count < 1
-    Area.where("id IN (#{areas.map(&:id).join(',')})")
+    Area.where("id IN (#{areas.map(&:id).join(',')})").order(:name)
   }
 
   def managers
