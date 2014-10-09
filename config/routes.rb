@@ -109,6 +109,7 @@ Rails.application.routes.draw do
   resources :permission_groups
 
   get 'sessions/destroy', as: 'logout'
-
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
+
+  resources :poll_questions, only: [:create]
 end
