@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ProjectPolicy do
 
-  let(:sprint_project) { create :project, name: 'Sprint Retail'}
+  let(:sprint_retail_project) { create :project, name: 'Sprint Retail'}
   let(:vonage_retail_project) { create :project, name: 'Vonage Retail' }
 
   let(:tampa) { create :area, project: vonage_retail_project }
@@ -22,7 +22,7 @@ describe ProjectPolicy do
 
   context 'as a sales rep' do
     it 'should not show projects other than an employees own' do
-      expect(Pundit.policy_scope(tampa_person, Project.all)).not_to include(sprint_project)
+      expect(Pundit.policy_scope(tampa_person, Project.all)).not_to include(sprint_retail_project)
     end
 
     it 'should show the parent project' do
