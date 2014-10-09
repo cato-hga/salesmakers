@@ -38,6 +38,7 @@ class Person < ActiveRecord::Base
   has_many :employments
   has_many :day_sales_counts, as: :saleable
   has_many :sales_performance_ranks, as: :rankable
+  has_and_belongs_to_many :poll_question_choices
 
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
     parent.table[:mobile_phone]

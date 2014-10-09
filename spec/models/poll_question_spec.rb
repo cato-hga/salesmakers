@@ -24,12 +24,13 @@ describe PollQuestion do
   it { should validate_presence_of(:start_time) }
   specify { expect(subject).to respond_to(:end_time) }
   specify { expect(subject).to respond_to(:active) }
+  specify { expect(subject).to respond_to(:poll_question_choices) }
 
-  it 'allows a start time before today' do
+  it 'does not allow a start time before today' do
     expect(question_starting_yesterday).not_to be_valid
   end
 
-  it 'allows an end time before now' do
+  it 'does not allow an end time before now' do
     expect(question_ending_in_past).not_to be_valid
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009185321) do
+ActiveRecord::Schema.define(version: 20141009201336) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -322,6 +322,14 @@ ActiveRecord::Schema.define(version: 20141009185321) do
   add_index "people", ["position_id"], name: "index_people_on_position_id", using: :btree
   add_index "people", ["supervisor_id"], name: "index_people_on_supervisor_id", using: :btree
 
+  create_table "people_poll_question_choices", id: false, force: true do |t|
+    t.integer "person_id",               null: false
+    t.integer "poll_question_choice_id", null: false
+  end
+
+  add_index "people_poll_question_choices", ["person_id", "poll_question_choice_id"], name: "ppqc_person_choice", using: :btree
+  add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "ppqc_choice_person", using: :btree
+
   create_table "permission_groups", force: true do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
@@ -359,6 +367,14 @@ ActiveRecord::Schema.define(version: 20141009185321) do
   add_index "person_areas", ["area_id", "person_id"], name: "index_person_areas_on_area_id_and_person_id", using: :btree
   add_index "person_areas", ["area_id"], name: "index_person_areas_on_area_id", using: :btree
   add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
+
+  create_table "poll_question_choices", force: true do |t|
+    t.integer  "poll_question_id", null: false
+    t.string   "name",             null: false
+    t.text     "help_text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "poll_questions", force: true do |t|
     t.string   "question",                  null: false
