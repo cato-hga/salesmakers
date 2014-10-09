@@ -42,6 +42,7 @@ gem 'mail_form', '1.5.0' # Gem for contact/feedback form. Using based on tutoria
 gem 'simple_form', '3.0.2' # For contact/feedback form
 gem 'postmark-rails', '0.8.0' # Postmark integration. Currently for contact/feedback form
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
+gem 'spring-commands-rspec', '1.0.2' # Spring RSpec additions
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development
