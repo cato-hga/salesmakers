@@ -52,7 +52,7 @@ class PerformanceRanker
             GROUP BY day_sales_counts.saleable_id
             ORDER BY sum(day_sales_counts.sales) DESC, day_sales_counts.saleable_id"
         week_people_sales = ActiveRecord::Base.connection.execute(week_people_sales_sql)
-        process_week_people_rankings week_people_sales, day, 'Person'
+        process_week_rankings week_people_sales, day, 'Person'
         month_people_sales_sql = "SELECT
 
             day_sales_counts.saleable_id as id,
