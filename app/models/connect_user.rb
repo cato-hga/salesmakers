@@ -92,11 +92,11 @@ class ConnectUser < ConnectModel
 
     phone_number = '8005551212'
     if phone_attribute
-      phone_attribute = phone_attribute.strip
+      phone_attribute = phone_attribute.strip.gsub(/[^0-9]/, '')
       phone_number = phone_attribute if /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(phone_attribute)
     end
     if phone2_attribute
-      phone2_attribute = phone2_attribute.strip
+      phone2_attribute = phone2_attribute.strip.gsub(/[^0-9]/, '')
       phone_number = phone2_attribute if /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(phone2_attribute)
     end
     phone_number

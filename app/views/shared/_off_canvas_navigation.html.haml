@@ -31,6 +31,8 @@
       %label Administration
     %li
       = link_to icon('torsos-all') + ' People', people_path
+    %li
+      = link_to icon('torsos-all') + ' Org Chart', org_chart_people_path
   %ul.off-canvas-list
     %li
       %label= @current_person.email

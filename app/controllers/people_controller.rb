@@ -1,11 +1,10 @@
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :org_chart, :about, :show, :sales]
-  after_action :verify_policy_scoped, except: [:org_chart, :about, :show]
+  after_action :verify_authorized, except: [:index, :search, :org_chart, :about, :show, :sales]
+  after_action :verify_policy_scoped, except: [:index, :search, :org_chart, :about, :show]
   require 'apis/mojo'
 
   def index
-    authorize Person.new
-    @search = policy_scope(Person).search(params[:q])
+    @search = Person.search(params[:q])
     @people = @search.result.order('display_name').page(params[:page])
   end
 
