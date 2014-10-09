@@ -26,3 +26,11 @@ end
 every 15.minutes do
   runner 'DaySalesCount.import'
 end
+
+every 15.minutes do
+  runner 'SalesPerformanceRank.rank_people_sales'
+end
+
+every 15.minutes do
+  runner 'SalesPerformanceRank.rank_areas_sales'
+end

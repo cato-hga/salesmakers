@@ -18,6 +18,7 @@ class ProjectsController < ProtectedController
       flash[:error] = 'You do not have permission to view sales for that project.'
       redirect_to :back
     end
+    @roots = Area.roots.where(project: @project).order(:name)
   end
 
   def edit

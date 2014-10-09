@@ -1,12 +1,16 @@
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :about, :show, :sales]
-  after_action :verify_policy_scoped, except: [:about, :show]
+  after_action :verify_authorized, except: [:index, :org_chart, :about, :show, :sales]
+  after_action :verify_policy_scoped, except: [:org_chart, :about, :show]
   require 'apis/mojo'
 
   def index
     authorize Person.new
     @search = policy_scope(Person).search(params[:q])
     @people = @search.result.order('display_name').page(params[:page])
+  end
+
+  def org_chart
+    @departments = Department.joins(:positions).where('positions.hq = true').uniq
   end
 
   def show
@@ -19,6 +23,7 @@ class PeopleController < ProtectedController
 
   def sales
     @person = policy_scope(Person).find params[:id]
+    set_show_wall
     unless @person
       flash[:error] = 'You do not have permission to view sales for that person.'
       redirect_to :back
@@ -27,11 +32,7 @@ class PeopleController < ProtectedController
 
   def about
     @person = Person.find params[:id]
-    if show_wall? @person
-      @show_wall = true
-    else
-      false
-    end
+    set_show_wall
     @log_entries = LogEntry.where trackable_type: 'Person', trackable_id: @person.id
     mojo = Mojo.new
     @creator_tickets = mojo.creator_all_tickets @person.email, 12
@@ -93,6 +94,14 @@ class PeopleController < ProtectedController
       false
     else
       true
+    end
+  end
+
+  def set_show_wall
+    if show_wall? @person
+      @show_wall = true
+    else
+      false
     end
   end
 end

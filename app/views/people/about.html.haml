@@ -1,6 +1,7 @@
 - title @person.display_name
 - content_for :action_buttons do
   = link_to icon('thumbnails') + ' Wall', @person, class: [:button, :inline_button] if @show_wall
+  = link_to icon('dollar') + ' Sales', sales_person_path(@person), class: [:button, :inline_button]
   - if @person == @current_person
     = edit_button edit_profile_path(@person.profile)
 

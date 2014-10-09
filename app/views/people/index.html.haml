@@ -1,3 +1,6 @@
+- content_for :action_buttons do
+  = link_to icon('indent-more') + ' Org Chart', org_chart_people_path, class: [:button, :inline_button]
+
 - content_for :header do
   = search_form_for @search, class: 'search_form', html: { method: :post }, url: search_people_path do |f|
     = link_to 'Clear', request.path if params[:q]

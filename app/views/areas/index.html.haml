@@ -13,7 +13,7 @@
                 %h3= area.parent.name
                 = link_to area.name, [area.project.client, area.project, area]
               - else
-                - areas = area.descendants.arrange
+                - areas = area.descendants.arrange(order: :name)
                 %h3= area.name
                 = nested_areas areas
         = empty_columns(@areas, group, 3, 'widget')

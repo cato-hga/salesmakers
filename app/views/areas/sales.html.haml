@@ -1,4 +1,11 @@
 - title @area.name + "'s Sales"
+- content_for :action_buttons do
+  = link_to icon('thumbnails') + ' Wall', client_project_area_path(@area.project.client, @area.project, @area), class: [:button, :inline_button]
 
 .widgets
   = render partial: 'shared/sales_widget', locals: { object: @area }
+  - for area in @area.children.order(:name) do
+    = render partial: 'shared/sales_widget', locals: { object: area, link_to_object: true }
+  - unless @area.has_children?
+    - for person in @area.people.where(active: true).order(:display_name) do
+      = render partial: 'shared/sales_widget', locals: { object: person, link_to_object: true }

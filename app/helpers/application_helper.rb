@@ -32,11 +32,17 @@ module ApplicationHelper
   end
 
   def phone_link(phone, classes)
+    return unless phone
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
   end
 
-  def table(header, rows, show_count = true)
+  def table(header, rows, show_count = true, tag = nil)
+    if tag
+      tag = 'th_' + tag.to_s
+    else
+      tag = @random_tag
+    end
     if rows.count > 0
       table_content = ''.html_safe
       table_content = table_content + content_tag(:thead, content_tag(:tr, header))
@@ -46,7 +52,7 @@ module ApplicationHelper
       end
       table_content = table_content + content_tag(:tbody, table_rows)
       count_indicator = (@search.present? and show_count) ? content_tag(:div, @search.result.count.to_s + ' records found', class: 'record_count') : ''.html_safe
-      count_indicator + content_tag(:table, table_content, class: ['table', 'table-hover', @random_tag])
+      count_indicator + content_tag(:table, table_content, class: ['table', 'table-hover', tag])
     else
       content_tag(:div, 'No records to show.', class: 'empty')
     end
@@ -60,9 +66,9 @@ module ApplicationHelper
     content
   end
 
-  def header_row(titles)
+  def header_row(titles, tag = Random.rand(1000000))
     content = ''.html_safe
-    @random_tag = 'th_' + Random.rand(1000000).to_s
+    @random_tag = 'th_' + tag.to_s
     for cell in titles
       content = content + content_tag(:th, cell)
     end
@@ -116,8 +122,16 @@ module ApplicationHelper
     content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
   end
 
-  def person_link(person, classes = '')
+  def person_link(person, classes = 'person_link')
     link_to NameCase(person.display_name), person, class: classes
+  end
+
+  def person_sales_link(person, classes = '')
+    link_to NameCase(person.display_name), sales_person_path(person), class: classes
+  end
+
+  def area_sales_link(area, classes = '')
+    link_to area.name, sales_client_project_area_path(area.project.client, area.project, area), class: classes
   end
 
   def social_link(person, classes = '')
@@ -299,9 +313,16 @@ module ApplicationHelper
   end
 
   def past_month_sales_chart(day_sales_counts)
+    content_tag :div,
+                #link_to('Show/Hide Chart', '#', class: 'toggle_chart') +
+                sales_line_chart(day_sales_counts),
+                class: 'chart_container'
+  end
+
+  def sales_line_chart(day_sales_counts)
     line_chart day_sales_counts.
                    for_range((Date.today - 1.month)..Date.today).
-                   group_by_day(:day).sum :sales
+                   group_by_day(:day).sum(:sales)
   end
 
   def week_run_rate_multiplier
@@ -318,6 +339,13 @@ module ApplicationHelper
 
   def groupme_emoji_filter(text, attachments)
     GroupMeEmojiFilter.filter(text, attachments).html_safe
+  end
+
+  def rank_label(rank)
+    is_integer = rank.is_a?(Integer) ? true : false
+    rank = rank.to_s
+    rank = '#' + rank if is_integer
+    ' '.html_safe + content_tag(:span, rank, class: [:label, :round, :secondary])
   end
 
 end
