@@ -10,7 +10,4 @@ RSpec.describe Project, :type => :model do
   it { should have_many :area_types }
   it { should have_many :areas }
 
-  #TODO Test default_scope
-  #TODO Test :visible scope
-
 end
