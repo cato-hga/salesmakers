@@ -6,4 +6,7 @@ administrator_position:
   department: information_technology_department
   field: false
   hq: true
-  permissions: area_type_index_permission, show_all_walls_permission
+  permissions: area_type_index_permission,
+    show_all_walls_permission,
+    blog_post_index_permission,
+    blog_post_show_permission

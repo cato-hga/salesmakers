@@ -7,3 +7,8 @@ show_all_walls_permission:
   key: wall_show_all_walls
   description: view all walls
   permission_group: permission_group
+
+blog_post_index_permission:
+  key: blog_post_index
+  description: view blog posts index
+  permission_group: permission_group

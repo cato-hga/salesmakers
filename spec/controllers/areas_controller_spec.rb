@@ -14,11 +14,17 @@ describe AreasController do
 
   describe 'GET show' do
     let(:area) { create :area, project: project }
+    let(:area_hash) { hash.merge(id: area.id) }
 
     it 'should return a success status' do
-      get :show, hash.merge(id: area.id)
+      get :show, area_hash
       expect(response).to be_success
       expect(response).to render_template(:show)
+    end
+
+    it 'is passing the right area to the view' do
+      get :show, area_hash
+      expect(assigns(:area)).to eq(area)
     end
   end
 
