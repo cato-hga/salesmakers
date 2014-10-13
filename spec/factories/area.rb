@@ -1,8 +1,7 @@
 FactoryGirl.define do
 
   factory :area do
-    name 'Tampa Retail Territory'
-    area_type
-    project
+    name 'A Test Area'
+    association :area_type, strategy: :build_stubbed
   end
 end

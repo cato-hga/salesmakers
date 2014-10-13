@@ -21,28 +21,29 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
   end
 
-  describe 'uniqueness validations' do
-    before(:all) do
-      create :person, email: 'test@rbd-von.com', connect_user_id: '123456'
-      create :person, email: 'test2@rbd-von.com', connect_user_id: nil
-    end
 
-    let(:person) { build_stubbed :person }
-
-    it 'should allow multiple null values for connect_user_id' do
-      expect(person).to be_valid
-    end
-
-    it 'should not allow duplicate not null values for connect_user_id' do
-      person.connect_user_id = '123456'
-      expect(person).not_to be_valid
-    end
-
-    it 'should not allow duplicate values for email' do
-      person.email = 'test@rbd-von.com'
-      expect(person).not_to be_valid
-    end
-  end
+  # describe 'uniqueness validations' do
+  #   before(:all) do
+  #     build_stubbed :person_one, email: 'test@rbd-von.com', connect_user_id: '123456'
+  #     build_stubbed :person_two, email: 'test2@rbd-von.com', connect_user_id: nil
+  #   end
+  #
+  #   let(:person) { person_two }
+  #
+  #   it 'should allow multiple null values for connect_user_id' do
+  #     expect(person).to be_valid
+  #   end
+  #
+  #   it 'should not allow duplicate not null values for connect_user_id' do
+  #     person_two.connect_user_id = '123456'
+  #     expect(person).not_to be_valid
+  #   end
+  #
+  #   it 'should not allow duplicate values for email' do
+  #     person.email = 'test@rbd-von.com'
+  #     expect(person).not_to be_valid
+  #   end
+  # end
 
   describe 'phone number presence validation' do
 
