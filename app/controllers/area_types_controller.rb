@@ -11,19 +11,4 @@ class AreaTypesController < ProtectedController
     @area_type = AreaType.find params[:id]
     authorize @area_type
   end
-
-  def new
-  end
-
-  def create
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-  def destroy
-  end
 end

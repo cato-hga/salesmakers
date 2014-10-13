@@ -3,6 +3,7 @@ require 'shoulda/matchers'
 
 RSpec.describe Medium, :type => :model do
 
-  it { should belong_to :medium }
+  it { should belong_to :mediable }
+
 end
 

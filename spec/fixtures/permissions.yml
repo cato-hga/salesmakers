@@ -1,0 +1,9 @@
+area_type_index_permission:
+  key: area_type_index
+  description: view area types index
+  permission_group: permission_group
+
+show_all_walls_permission:
+  key: wall_show_all_walls
+  description: view all walls
+  permission_group: permission_group

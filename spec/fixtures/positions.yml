@@ -1,0 +1,9 @@
+administrator_position:
+  name: System Administrator
+  leadership: true
+  all_field_visibility: true
+  all_corporate_visibility: true
+  department: information_technology_department
+  field: false
+  hq: true
+  permissions: area_type_index_permission, show_all_walls_permission
