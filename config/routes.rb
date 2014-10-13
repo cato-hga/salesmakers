@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
 
-  get 'gallery/index'
+  # get 'gallery/index'
 
   resources :group_mes do
     get 'auth', on: :collection, as: 'auth'
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
 
   resources :home, only: [ :index ]
-  get 'home/dashboard'
+  # get 'home/dashboard'
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
