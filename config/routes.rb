@@ -57,7 +57,7 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
-  resources :media
+  resources :media, only: [:index]
 
   resources :people do
     member do

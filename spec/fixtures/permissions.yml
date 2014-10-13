@@ -27,3 +27,8 @@ log_entry_index_permission:
   key: log_entry_index
   description: view log entries index
   permission_group: permission_group
+
+medium_index_permission:
+  key: medium_index
+  description: view media index
+  permission_group: permission_group
