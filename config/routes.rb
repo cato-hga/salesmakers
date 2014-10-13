@@ -1,14 +1,13 @@
 Rails.application.routes.draw do
   root 'home#index'
 
-  # get 'blog', to: 'blog_posts#index', as: :blo
-  # resources :blog_posts do
-  #   member do
-  #     get 'publish'
-  #     get 'approve'
-  #     get 'deny'
-  #   end
-  # end
+  resources :blog_posts, only: [:index, :show] do
+    # member do
+    #   get 'publish'
+    #   get 'approve'
+    #   get 'deny'
+    # end
+  end
 
   resources :clients do
     resources :projects, except: :index do
