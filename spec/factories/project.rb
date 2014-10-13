@@ -2,6 +2,6 @@ FactoryGirl.define do
 
   factory :project do
     name 'Test Project'
-    client strategy: :build_stubbed
+    association :client, strategy: :build_stubbed
   end
 end
