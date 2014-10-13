@@ -12,3 +12,8 @@ blog_post_index_permission:
   key: blog_post_index
   description: view blog posts index
   permission_group: permission_group
+
+client_index_permission:
+  key: client_index
+  description: view clients iondex
+  permission_group: permission_group

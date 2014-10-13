@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     # end
   end
 
-  resources :clients do
+  resources :clients, only: [:index, :show] do
     resources :projects, except: :index do
       resources :area_types, only: [:index]
       resources :areas do
