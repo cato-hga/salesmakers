@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :project do
-    name 'Vonage Retail'
-    client
+    name 'Test Project'
+    client strategy: :build_stubbed
   end
 end

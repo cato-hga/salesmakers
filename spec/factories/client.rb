@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
   factory :client do
-    name 'Vonage'
+    name 'Test Client'
   end
 end
