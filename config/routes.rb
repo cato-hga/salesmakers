@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :departments do
+  resources :departments, only: [:index, :show] do
     resources :positions
   end
 

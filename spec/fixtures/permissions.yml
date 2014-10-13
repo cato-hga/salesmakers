@@ -15,5 +15,10 @@ blog_post_index_permission:
 
 client_index_permission:
   key: client_index
-  description: view clients iondex
+  description: view clients index
+  permission_group: permission_group
+
+department_index_permission:
+  key: department_index
+  description: view department index
   permission_group: permission_group

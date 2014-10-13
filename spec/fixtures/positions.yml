@@ -10,4 +10,5 @@ administrator_position:
     show_all_walls_permission,
     blog_post_index_permission,
     blog_post_show_permission,
-    client_index_permission
+    client_index_permission,
+    department_index_permission

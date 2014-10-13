@@ -1,5 +1,8 @@
 administrator_wall:
   wallable: administrator_person (Person)
 
+department_wall:
+  wallable: information_technology_department (Department)
+
 project_wall:
   wallable: project (Project)
