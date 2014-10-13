@@ -22,3 +22,8 @@ department_index_permission:
   key: department_index
   description: view department index
   permission_group: permission_group
+
+log_entry_index_permission:
+  key: log_entry_index
+  description: view log entries index
+  permission_group: permission_group

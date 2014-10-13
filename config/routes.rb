@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
   resources :link_posts, only: [:create, :show]
 
-  resources :log_entries, only: [ :index ]
+  resources :log_entries, only: [:index]
 
   resources :media
 

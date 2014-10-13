@@ -11,4 +11,5 @@ administrator_position:
     blog_post_index_permission,
     blog_post_show_permission,
     client_index_permission,
-    department_index_permission
+    department_index_permission,
+    log_entry_index_permission
