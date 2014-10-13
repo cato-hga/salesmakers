@@ -13,4 +13,5 @@ administrator_position:
     client_index_permission,
     department_index_permission,
     log_entry_index_permission,
-    medium_index_permission
+    medium_index_permission,
+    person_update_own_basic

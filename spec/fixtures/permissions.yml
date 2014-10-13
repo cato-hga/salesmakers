@@ -32,3 +32,8 @@ medium_index_permission:
   key: medium_index
   description: view media index
   permission_group: permission_group
+
+person_update_own_basic_permission:
+  key: person_update_own_basic
+  description: update own basic personal information
+  permission_group: permission_group

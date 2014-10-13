@@ -41,14 +41,6 @@ class PeopleController < ProtectedController
     @profile_educations = @profile.profile_educations
   end
 
-  def new
-  end
-
-  def create
-  end
-  def edit
-  end
-
   def update
     @person = policy_scope(Person).find params[:id]
     @profile = @person.profile
@@ -66,9 +58,6 @@ class PeopleController < ProtectedController
     else
       render 'profiles/edit'
     end
-  end
-
-  def destroy
   end
 
   def search

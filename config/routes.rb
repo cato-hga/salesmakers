@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   resources :media, only: [:index]
 
-  resources :people do
+  resources :people, only: [:index, :show, :update] do
     member do
       get 'about', to: 'people#about', as: :about
       get :sales, as: :sales
