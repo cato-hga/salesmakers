@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :clients do
     resources :projects, except: :index do
-      resources :area_types, only: [:index, :show]
+      resources :area_types, only: [:index]
       resources :areas do
         member do
           get :sales, as: :sales

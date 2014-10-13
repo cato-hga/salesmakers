@@ -6,9 +6,4 @@ class AreaTypesController < ProtectedController
     @project = Project.find params[:project_id]
     @area_types = policy_scope(AreaType.where project: @project)
   end
-
-  def show
-    @area_type = AreaType.find params[:id]
-    authorize @area_type
-  end
 end
