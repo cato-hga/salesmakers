@@ -1,0 +1,16 @@
+- title 'New Poll Question'
+
+.widget
+  .inner
+    = form_for @poll_question do |f|
+      = f.label :question
+      = f.text_field :question
+      = f.label :help_text
+      = f.text_area :help_text
+      = f.label :start_time
+      = f.text_field :start_time, class: :datetime_picker, placeholder: 'MM/DD/YYYY H:MMam'
+      = f.label :end_time
+      = f.text_field :end_time, class: :datetime_picker, placeholder: 'MM/DD/YYYY H:MMam'
+      = f.label :active
+      = f.check_box :active
+      = f.submit 'Save', class: :button

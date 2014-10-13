@@ -1,0 +1,12 @@
+.widgets
+  - if @poll_questions
+    - for poll_question in @poll_questions
+      .widget
+        .inner
+          %h3= poll_question.question
+          = poll_question.help_text if poll_question.help_text
+          %h5 Choices
+  - else
+    .widget
+      .inner
+        There are no poll questions yet.

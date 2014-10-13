@@ -25,7 +25,6 @@ require 'factory_girl_rails'
 
 RSpec.configure do |config|
 
-
   config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
@@ -33,11 +32,14 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
+    # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
+    # admin.destroy if admin
     DatabaseCleaner.strategy = :transaction
     #DatabaseCleaner.clean_with(:truncation) #Taking out. Doesn't look like it is actually needed.
     begin
       DatabaseCleaner.start
       FactoryGirl.lint
+      # FactoryGirl.create :administrator_person
     ensure
       DatabaseCleaner.clean
     end

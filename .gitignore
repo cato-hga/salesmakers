@@ -15,7 +15,7 @@
 /log/*.log
 /tmp
 
-#Custom igonres
+#Custom ignores
 
 /config/database.yml
 /.idea/*.ids
@@ -25,3 +25,4 @@
 .rvmrcconfig/database.yml
 public/*
 coverage/*
+/open-uri*

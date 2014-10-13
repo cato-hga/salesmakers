@@ -1,0 +1,5 @@
+administrator_wall:
+  wallable: administrator_person (Person)
+
+project_wall:
+  wallable: project (Project)

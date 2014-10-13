@@ -26,19 +26,4 @@ class AreasController < ProtectedController
       redirect_to :back
     end
   end
-
-  def new
-  end
-
-  def update
-  end
-
-  def destroy
-  end
-
-  def edit
-  end
-
-  def create
-  end
 end
