@@ -53,5 +53,4 @@ describe 'PollQuestions CRUD actions' do
       expect(page).to have_content poll_question.question
     end
   end
-
 end

@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   end
 
   resources :permissions
-  resources :permission_groups
+  # resources :permission_groups
 
   resources :poll_questions, only: [:new, :create, :index]
 
