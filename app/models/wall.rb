@@ -13,7 +13,7 @@ class Wall < ActiveRecord::Base
     if WallPolicy.new(person, Wall.new).show_all_walls?
       walls = walls.concat Wall.where("wallable_type != 'Person'")
     else
-      walls << person.position.department.wall
+      walls << person.position.department.wall if person.position.department.wall
       if position.hq?
         walls << position.department.wall if position.department.wall
         walls = walls.concat Wall.where("wallable_type = 'Area'")
