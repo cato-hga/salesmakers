@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     # end
   end
 
-  resources :clients do
+  resources :clients, only: [:index, :show] do
     resources :projects, except: :index do
       resources :area_types, only: [:index]
       resources :areas do
@@ -27,14 +27,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :departments do
+  resources :departments, only: [:index, :show] do
     resources :positions
   end
 
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
 
-  get 'gallery/index'
+  # get 'gallery/index'
 
   resources :group_mes do
     get 'auth', on: :collection, as: 'auth'
@@ -48,18 +48,18 @@ Rails.application.routes.draw do
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
 
   resources :home, only: [ :index ]
-  get 'home/dashboard'
+  # get 'home/dashboard'
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 
   resources :link_posts, only: [:create, :show]
 
-  resources :log_entries, only: [ :index ]
+  resources :log_entries, only: [:index]
 
-  resources :media
+  resources :media, only: [:index]
 
-  resources :people do
+  resources :people, only: [:index, :show, :update] do
     member do
       get 'about', to: 'people#about', as: :about
       get :sales, as: :sales

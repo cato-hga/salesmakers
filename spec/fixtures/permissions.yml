@@ -12,3 +12,28 @@ blog_post_index_permission:
   key: blog_post_index
   description: view blog posts index
   permission_group: permission_group
+
+client_index_permission:
+  key: client_index
+  description: view clients index
+  permission_group: permission_group
+
+department_index_permission:
+  key: department_index
+  description: view department index
+  permission_group: permission_group
+
+log_entry_index_permission:
+  key: log_entry_index
+  description: view log entries index
+  permission_group: permission_group
+
+medium_index_permission:
+  key: medium_index
+  description: view media index
+  permission_group: permission_group
+
+person_update_own_basic_permission:
+  key: person_update_own_basic
+  description: update own basic personal information
+  permission_group: permission_group
