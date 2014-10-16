@@ -37,3 +37,8 @@ person_update_own_basic_permission:
   key: person_update_own_basic
   description: update own basic personal information
   permission_group: permission_group
+
+position_index_permission:
+  key: position_index
+  description: view positions index
+  permission_group: permission_group

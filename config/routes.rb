@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   resources :departments, only: [:index, :show] do
-    resources :positions
+    resources :positions, only: [:index]
   end
 
   match '/feedback', to: 'feedbacks#new', via: 'get'
