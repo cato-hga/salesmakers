@@ -238,9 +238,10 @@ class Person < ActiveRecord::Base
     person_area = self.return_person_area_from_connect
     return unless person_area
     if person_area.save
+      area = person_area.area
       leader = person_area.manages?
       return unless creator
-      created_at = leader ? person_area.area.updated_at : connect_user.created
+      created_at = leader ? area.updated_at : connect_user.created
       if leader
         LogEntry.assign_as_manager_from_connect self, creator, person_area.area, created_at, created_at
       else
@@ -298,6 +299,21 @@ class Person < ActiveRecord::Base
     for connect_user in connect_users do
       PersonUpdater.new(connect_user).update
     end
+  end
+
+  def avatar
+    return unless profile
+    profile.avatar
+  end
+
+  def profile_avatar_url
+    return unless avatar
+    avatar.url
+  end
+
+  def group_me_avatar_url
+    return unless group_me_user
+    group_me_user.avatar_url
   end
 
   private

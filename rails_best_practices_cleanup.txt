@@ -1,12 +1,3 @@
-db/schema.rb:303 - always add db index (people => [group_me_user_id])
-app/models/device.rb:271 - law of demeter
-app/models/wall_post.rb:15 - law of demeter
-app/models/wall_post.rb:15 - law of demeter
-app/models/wall_post.rb:18 - law of demeter
-app/models/person.rb:243 - law of demeter
-app/helpers/application_helper.rb:172 - law of demeter
-app/helpers/application_helper.rb:265 - law of demeter
-app/helpers/application_helper.rb:265 - law of demeter
 app/views/log_entries/area/_create_bare.html.haml:2 - law of demeter
 app/views/log_entries/area/_create_bare.html.haml:2 - law of demeter
 app/views/log_entries/area/_create_bare.html.haml:2 - law of demeter

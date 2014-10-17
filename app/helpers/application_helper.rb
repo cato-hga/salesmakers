@@ -168,8 +168,16 @@ module ApplicationHelper
     end
   end
 
+  def name_to_file_name(name)
+    name = name.gsub(/[^A-Za-z0-9]/, '')
+    name = name.gsub(' ', '_')
+    name.underscore
+  end
+
   def line_service_provider_image(line)
-    image_file = 'service_providers/' + line.technology_service_provider.name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+    service_provider = line.technology_service_provider
+    service_provider_name = name_to_file_name service_provider.name
+    image_file = 'service_providers/' + service_provider_name + '.png'
     image = Rails.application.assets.find_asset image_file
     if image.present?
       image_tag image_file, class: 'service_provider_thumb'
@@ -261,8 +269,8 @@ module ApplicationHelper
   end
 
   def avatar_url(person)
-    return person.profile.avatar.url if person.profile.avatar
-    return person.group_me_user.avatar_url + '.avatar' if person.group_me_user and person.group_me_user.avatar_url
+    return person.avatar_url if person.avatar
+    return person.group_me_avatar_url + '.avatar' if person.group_me_avatar_url
     default_url = asset_url 'default_avatar.jpg'
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
     "http://gravatar.com/avatar/#{gravatar_id}.png?d=#{CGI.escape(default_url)}"

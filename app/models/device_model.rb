@@ -4,4 +4,8 @@ class DeviceModel < ActiveRecord::Base
   validates :device_manufacturer, presence: true
 
   belongs_to :device_manufacturer
+
+  def model_name
+    [device_manufacturer.name, name].join ' '
+  end
 end

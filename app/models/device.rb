@@ -268,7 +268,7 @@ class Device < ActiveRecord::Base
   end
 
   def model_name
-    [device_model.device_manufacturer.name, device_model.name].join ' '
+    device_model.model_name
   end
 
   def technology_service_provider

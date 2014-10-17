@@ -5,4 +5,9 @@ class Publication < ActiveRecord::Base
     return unless publishable and person
     self.find_or_create_by publishable: publishable
   end
+
+  def person
+    return unless publishable and publishable.person
+    publishable.person
+  end
 end
