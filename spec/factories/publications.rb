@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :publication do
-    publishable_id 1
-    publishable_type "MyString"
+    publishable { |p| p.association(:text_post) }
   end
 end
