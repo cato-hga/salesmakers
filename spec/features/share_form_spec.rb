@@ -53,16 +53,19 @@ describe 'Share Form' do
       click_on 'Photo'
     end
 
-    #TODO: test for just ONE instance of an image
     it 'should post image posts' do
       within('div#photos_tab') do
         fill_in 'uploaded_image_caption', with: @random_test_text
         attach_file('uploaded_image_image', "#{::Rails.root}/spec/fixtures/files/image.jpg")
         click_on 'Share'
       end
-      expect(page).to have_content(@random_test_text)
-      visit root_path
-      expect(page).to have_content(@random_test_text)
+      within('div.post_content') do
+        expect(page).to have_content(@random_test_text)
+        expect(page).to have_css('img')
+        visit root_path
+        expect(page).to have_content(@random_test_text)
+        expect(page).to have_css('img')
+      end
     end
   end
 
@@ -92,20 +95,28 @@ describe 'Share Form' do
     end
   end
 
-
-
   describe 'link sharing' do
 
     before do
-      @link_test_link = 'http://developer.android.com/preview/index.html'
+      @link_test_link = 'http://www.google.com'
+      within('div#link_tab') do
+        fill_in 'link_post_url', with: @link_test_link
+        click_on 'Share'
+      end
     end
 
     it 'should post links' do
-
+      within('div.post_content') do
+        expect(page).to have_content('Google')
+        visit root_path
+        expect(page).to have_content('Google')
+      end
     end
 
     it 'should process and display a web page' do
-
+      within('div.post_content') do
+        expect(page).to have_css('img')
+      end
     end
   end
 end
