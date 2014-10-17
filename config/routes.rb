@@ -78,7 +78,7 @@ Rails.application.routes.draw do
   resources :profiles, only: [:edit, :update] do
     resources :profile_experiences, except: :index
     resources :profile_educations, except: :index
-    resources :profile_skills, except: :index
+    # resources :profile_skills, except: :index
   end
 
   resources :questions
