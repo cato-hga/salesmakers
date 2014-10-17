@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :uploaded_video do
-    url "MyString"
-    person_id 1
-    score 1
+    url 'http://www.youtube.com/'
+    person
   end
 end
