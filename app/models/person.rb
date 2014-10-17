@@ -301,14 +301,14 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def avatar
+  def profile_avatar
     return unless profile
     profile.avatar
   end
 
   def profile_avatar_url
-    return unless avatar
-    avatar.url
+    return unless profile_avatar
+    profile_avatar.url
   end
 
   def group_me_avatar_url

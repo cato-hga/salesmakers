@@ -269,7 +269,7 @@ module ApplicationHelper
   end
 
   def avatar_url(person)
-    return person.avatar_url if person.avatar
+    return person.profile_avatar_url if person.profile_avatar
     return person.group_me_avatar_url + '.avatar' if person.group_me_avatar_url
     default_url = asset_url 'default_avatar.jpg'
     gravatar_id = Digest::MD5::hexdigest(person.email).downcase
