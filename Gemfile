@@ -57,7 +57,7 @@ group :development do
   gem 'guard-rspec', '4.2.10', require: false # Automated spec runs
   # gem 'bullet' # Database query analysis for performance tuning.
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
-  gem 'rack-mini-profiler', '0.9.2' #Performance profiling
+  #gem 'rack-mini-profiler', '0.9.2' #Performance profiling
 end
 
 group :test do
