@@ -81,7 +81,7 @@ Rails.application.routes.draw do
     # resources :profile_skills, except: :index
   end
 
-  resources :questions
+  # resources :questions
 
   resources :reports do
     member do
