@@ -83,12 +83,12 @@ Rails.application.routes.draw do
 
   # resources :questions
 
-  resources :reports do
-    member do
-      get :share, to: 'reports#share', as: 'share'
-      post :share, to: 'reports#distribute'
-    end
-  end
+  # resources :reports do
+  #   member do
+  #     get :share, to: 'reports#share', as: 'share'
+  #     post :share, to: 'reports#distribute'
+  #   end
+  # end
 
   get 'sessions/destroy', as: 'logout'
 
