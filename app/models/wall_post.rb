@@ -12,10 +12,10 @@ class WallPost < ActiveRecord::Base
   default_scope { order updated_at: :desc}
 
   def self.create_from_publication(publication, wall)
-    return unless publication and publication.publishable.person and publication.publishable.person and wall
+    return unless able_to_publish?
     self.find_or_create_by publication: publication,
                            wall: wall,
-                           person: publication.publishable.person
+                           person: publication.person
   end
 
   def self.visible(person, walls = nil)
@@ -61,6 +61,12 @@ class WallPost < ActiveRecord::Base
   def broadcast
     return unless self.id_changed? or self.wall_id_changed?
     WebsocketRails['wall_' + self.wall_id.to_s].trigger :new, self
+  end
+
+  def able_to_publish?
+    publication and
+        publication.person and
+        wall
   end
 
 end

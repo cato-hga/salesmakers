@@ -11,6 +11,10 @@ class UploadedVideosController < ApplicationController
     render :show
   end
 
+  def show
+    @uploaded_video = UploadedVideo.find params[:id]
+  end
+
   private
 
   def uploaded_video_params

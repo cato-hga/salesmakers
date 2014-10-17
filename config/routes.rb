@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
-      resources :areas do
+      resources :areas, only: [:index, :show] do
         member do
           get :sales, as: :sales
         end
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   # get 'gallery/index'
 
-  resources :group_mes do
+  resources :group_mes, only: [] do
     get 'auth', on: :collection, as: 'auth'
     get 'called_back', on: :collection
     get 'groups', on: :collection
@@ -70,14 +70,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :permissions
+  # resources :permissions
   # resources :permission_groups
 
   resources :poll_questions, only: [:new, :create, :index]
 
   resources :profiles, only: [:edit, :update] do
-    resources :profile_experiences, except: :index
-    resources :profile_educations, except: :index
+    resources :profile_experiences, except: [:index, :show]
+    resources :profile_educations, except: [:index, :show]
     # resources :profile_skills, except: :index
   end
 

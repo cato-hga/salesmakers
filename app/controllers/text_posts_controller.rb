@@ -14,6 +14,10 @@ class TextPostsController < ApplicationController
     end
   end
 
+  def show
+    @text_post = TextPost.find params[:id]
+  end
+
   private
 
   def text_post_params

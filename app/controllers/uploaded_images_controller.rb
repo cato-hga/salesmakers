@@ -11,6 +11,10 @@ class UploadedImagesController < ApplicationController
     render :show
   end
 
+  def show
+    @uploaded_image = UploadedImage.find params[:id]
+  end
+
   private
 
   def uploaded_image_params

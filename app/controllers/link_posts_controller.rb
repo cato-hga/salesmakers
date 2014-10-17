@@ -14,6 +14,10 @@ class LinkPostsController < ApplicationController
     end
   end
 
+  def show
+    @link_post = LinkPost.find params[:id]
+  end
+
   private
 
   def link_post_params
