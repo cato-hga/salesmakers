@@ -1,11 +1,10 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
-# FactoryGirl.define do
-#   factory :profile_experience do
-#     profile_id 1
-#     company_name "MyString"
-#     title "MyString"
-#     location "MyString"
-#     started "2014-09-23"
-#   end
-# end
+FactoryGirl.define do
+  factory :profile_experience do
+    profile
+    company_name 'Retail Business Development'
+    title 'Chief Awesome Officer'
+    location 'Saint Petersburg, FL'
+    started Date.today - 3.months
+    currently_employed true
+  end
+end
