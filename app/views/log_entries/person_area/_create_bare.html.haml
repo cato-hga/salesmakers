@@ -1,5 +1,7 @@
+- trackable = log_entry.trackable
 Added
-= person_link log_entry.trackable.user
+= person_link trackable.user
 to
-- area = Area.find log_entry.trackable.area
-= link_to area.name, client_project_area_path(area.project.client, area.project, area)
+- area = Area.find trackable.area
+- project = area.project
+= link_to area.name, client_project_area_path(project.client, project, area)

@@ -1,4 +1,6 @@
+- referenceable = log_entry.referenceable
+- project = referenceable.project
 Assigned
 = person_link log_entry.trackable
 as manager of
-= link_to log_entry.referenceable.name, client_project_area_path(log_entry.referenceable.project.client, log_entry.referenceable.project, log_entry.referenceable)
+= link_to referenceable.name, client_project_area_path(project.client, project, referenceable)

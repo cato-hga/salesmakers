@@ -16,7 +16,8 @@
               - for person in active_people
                 %li.nested_areas
                   = person_link person
-                  %span.small.comment= '(' + person.position.name + ')'
+                  - position = person.position
+                  %span.small.comment= '(' + position.name + ')'
 
   - for project in @visible_projects
     - next unless project.areas.count > 0

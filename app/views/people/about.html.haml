@@ -9,52 +9,65 @@
 - if @person.areas.count > 0
   %ul.breadcrumbs
     - for area in @person.areas
-      %li= link_to area.project.client.name, area.project.client
-      %li= link_to area.project.name, client_project_path(area.project.client, area.project)
+      - project = area.project
+      - client = project.client
+      %li= link_to client.name, client
+      %li= link_to project.name, client_project_path(client, project)
       - for parent_area in area.path
         %li= area_link(parent_area)
 
 .widgets.poeple_about
   .widget.person_widget.centered_text
     .inner
+      - position = @person.position
+      - department = position.department
       %strong= @person.social_name
       %br
       = image_tag avatar_url(@person), class: 'avatar'
       %br
-      %em= @person.position.name
+      %em= position.name
       %br
-      %em= @person.position.department.name
+
+      - department = @person
+      %em= department.name
   .widget.person_widget
     .inner
       %h3 Basic Information
       .comment.bottom_spacing
-        = @person.position.name
+        = position.name
         - if @person.active?
           %span.comment.small.round.ok.label.inline_button Active
         - else
           %span.comment.small.round.bad.label.inline_button Inactive
       - if @show_wall
-        - if not @person.active? and @person.employments.count > 0 and @person.employments.first.end
-          %p
-            %strong Last Day Worked:
-            - if @person.employments.first.end.strftime('%Y').to_i < 2008
-              Unknown
-            - else
-              = @person.employments.first.end.strftime('%-m/%-d/%Y')
-          %p
-            %strong Termination Date:
-            - if @person.employments.first.end.strftime('%Y').to_i < 2008
-              Unknown
-            - else
-              = @person.employments.first.updated_at.strftime('%-m/%-d/%Y')
-        - if @person.employments.count > 0
+        - employments = @person.employments
+        - if not @person.active? and employments.count > 0
+          - first_employment = employments.first
+          - employment_end = first_employment.end
+          - if employment_end
+            %p
+              %strong Last Day Worked:
+              - if employment_end.strftime('%Y').to_i < 2008
+                Unknown
+              - else
+                = employment_end.strftime('%-m/%-d/%Y')
+            %p
+              %strong Termination Date:
+              - if employment_end.strftime('%Y').to_i < 2008
+                Unknown
+              - else
+                = first_employment.updated_at.strftime('%-m/%-d/%Y')
+        - if employments.count > 0
+          - first_employment = employments.first
+          - employment_start = first_employment.start
           %p
             %strong Hire Date:
-            = @person.employments.first.start.strftime('%-m/%-d/%Y')
+            = employment_start.strftime('%-m/%-d/%Y')
       - if @person.supervisor
+        - supervisor = @person.supervisor
         %p
           %strong Supervisor:
-          = link_to @person.supervisor.display_name, @person.supervisor
+          = link_to supervisor.display_name, supervisor
       %p
         %strong Email:
         = mail_to @person.email
@@ -82,8 +95,9 @@
         - else
           About
           = @person.social_name
-      - if @person.profile.bio
-        %p= @person.profile.bio.gsub(/\n/, '<br/>').html_safe
+      - profile = @person.profile
+      - if profile.bio
+        %p= profile.bio.gsub(/\n/, '<br/>').html_safe
       - else
         %p
           %em

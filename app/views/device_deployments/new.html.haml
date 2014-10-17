@@ -12,9 +12,11 @@
       - identifier = link_to device.identifier, device
       - serial = link_to device.serial, device
       - assigned_to = (device.person) ? person_link(device.person) : ''
-      - line = (device.line) ? link_to(device.line.identifier, device.line) : ''
-      - manufacturer = device.device_manufacturer.name
-      - model = device.device_model.name
+      - line_object = device.line
+      - line = line ? link_to(line.identifier, line) : ''
+      - manufacturer = device.manufacturer_name
+      - model_object = device.device_model
+      - model = model_object.name
       - states = device_state_links device
       - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
     = table header, rows

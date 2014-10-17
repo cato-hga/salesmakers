@@ -1,9 +1,13 @@
 - header = header_row(['Date/Time', 'By', 'Type', 'Entry'])
 - rows = Array.new
 - @log_entries.each do |log_entry|
-  - date_time = log_entry.created_at.strftime '%-m/%d/%Y %-l:%M%P'
+  - created_at = log_entry.created_at
+  - trackable = log_entry.trackable
+  - trackable_class = trackable.class
+  - trackable_class_name = trackable_class.model_name
+  - date_time = created_at.strftime '%-m/%d/%Y %-l:%M%P'
   - by = person_link(log_entry.person)
-  - on = NameCase(log_entry.trackable.class.model_name.human)
+  - on = NameCase(trackable_class_name.human)
   - entry = bare_log_entry(log_entry)
   - rows << table_row([date_time, by, on, entry])
 = table header, rows, false

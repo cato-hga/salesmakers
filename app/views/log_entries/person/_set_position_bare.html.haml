@@ -1,4 +1,6 @@
+- referenceable = log_entry.referenceable
 Set position for
 = person_link log_entry.trackable
 to
-= link_to log_entry.referenceable.name, department_position_path(log_entry.referenceable.department, log_entry.referenceable)
+-# TODO: = link_to referenceable.name, department_position_path(referenceable.department, referenceable)
+= referenceable.name

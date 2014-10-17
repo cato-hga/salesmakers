@@ -1,7 +1,9 @@
+- trackable = log_entry.trackable
 Deployed
-= link_to device_link(log_entry.trackable.device)
+= link_to device_link(trackable.device)
 to
-= person_link log_entry.trackable.person
-- if log_entry.trackable.tracking_number.present?
+= person_link trackable.person
+- tracking_number = trackable.tracking_number
+- if tracking_number.present?
   = precede 'with tracking #' do
-    = tracking_link log_entry.trackable.tracking_number
+    = tracking_link tracking_number
