@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   get 'sessions/destroy', as: 'logout'
 
   resources :text_posts, only: [:create, :show]
+  resources :themes, except: [:destroy, :show]
 
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]

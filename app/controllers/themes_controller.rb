@@ -31,9 +31,6 @@ class ThemesController < ApplicationController
     end
   end
 
-  def destroy
-  end
-
   private
 
   def theme_params
