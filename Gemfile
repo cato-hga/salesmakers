@@ -60,6 +60,7 @@ end
 
 group :test do
   gem 'capybara', '2.3.0' # Testing views and interactions
+  gem 'capybara-webkit', '1.3.0' #Javascript driver for capybara
   gem 'factory_girl_rails', '4.4.1' # Easily create mock objects for testing
   gem 'database_cleaner', '1.3.0' # Automated cleaning of test database between spec runs
   gem 'simplecov', '0.9.0', require: false # Easily see amount of code covered by tests
