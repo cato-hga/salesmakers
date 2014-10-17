@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :clients, only: [:index, :show] do
-    resources :projects, except: :index do
+    resources :projects, only: [:show] do
       resources :area_types, only: [:index]
       resources :areas do
         member do
@@ -78,21 +78,22 @@ Rails.application.routes.draw do
   resources :profiles, only: [:edit, :update] do
     resources :profile_experiences, except: :index
     resources :profile_educations, except: :index
-    resources :profile_skills, except: :index
+    # resources :profile_skills, except: :index
   end
 
-  resources :questions
+  # resources :questions
 
-  resources :reports do
-    member do
-      get :share, to: 'reports#share', as: 'share'
-      post :share, to: 'reports#distribute'
-    end
-  end
+  # resources :reports do
+  #   member do
+  #     get :share, to: 'reports#share', as: 'share'
+  #     post :share, to: 'reports#distribute'
+  #   end
+  # end
 
   get 'sessions/destroy', as: 'logout'
 
-  resources :text_posts, only: [:create, :show, :destroy]
+  resources :text_posts, only: [:create, :show]
+  resources :themes, except: [:destroy, :show]
 
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]

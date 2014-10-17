@@ -15,4 +15,6 @@ administrator_position:
     log_entry_index_permission,
     medium_index_permission,
     person_update_own_basic_permission,
-    position_index_permission
+    position_index_permission,
+    profile_update_permission,
+    wall_post_promote_permission

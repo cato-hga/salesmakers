@@ -42,3 +42,13 @@ position_index_permission:
   key: position_index
   description: view positions index
   permission_group: permission_group
+
+profile_update_permission:
+  key: profile_update
+  description: update own profile
+  permission_group: permission_group
+
+wall_post_promote_permission:
+  key: wall_post_promote
+  description: can promote wall posts
+  permission_group: permission_group

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :text_post do
-    person_id 1
-    content "MyString"
+    person
+    content 'This is the postest with the mostest.'
   end
 end
