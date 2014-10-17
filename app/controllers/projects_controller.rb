@@ -21,18 +21,4 @@ class ProjectsController < ProtectedController
     @roots = Area.roots.where(project: @project).order(:name)
   end
 
-  def edit
-  end
-
-  def update
-  end
-
-  def new
-  end
-
-  def create
-  end
-
-  def destroy
-  end
 end

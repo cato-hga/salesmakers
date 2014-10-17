@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resources :clients, only: [:index, :show] do
-    resources :projects, except: :index do
+    resources :projects, only: [:show] do
       resources :area_types, only: [:index]
       resources :areas do
         member do
