@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009201336) do
+ActiveRecord::Schema.define(version: 20141017181621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20141009201336) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "day_sales_counts", ["saleable_id", "saleable_type"], name: "index_day_sales_counts_on_saleable_id_and_saleable_type", using: :btree
 
   create_table "departments", force: true do |t|
     t.string   "name"
@@ -271,6 +273,8 @@ ActiveRecord::Schema.define(version: 20141009201336) do
     t.string   "url",                       null: false
   end
 
+  add_index "link_posts", ["person_id"], name: "index_link_posts_on_person_id", using: :btree
+
   create_table "log_entries", force: true do |t|
     t.integer  "person_id",          null: false
     t.string   "action",             null: false
@@ -328,6 +332,8 @@ ActiveRecord::Schema.define(version: 20141009201336) do
   end
 
   add_index "people_poll_question_choices", ["person_id", "poll_question_choice_id"], name: "ppqc_person_choice", using: :btree
+  add_index "people_poll_question_choices", ["person_id"], name: "people_poll_choices_person", using: :btree
+  add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "people_poll_choices_person_choice", using: :btree
   add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "ppqc_choice_person", using: :btree
 
   create_table "permission_groups", force: true do |t|
@@ -375,6 +381,8 @@ ActiveRecord::Schema.define(version: 20141009201336) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "poll_question_choices", ["poll_question_id"], name: "index_poll_question_choices_on_poll_question_id", using: :btree
 
   create_table "poll_questions", force: true do |t|
     t.string   "question",                  null: false
@@ -495,6 +503,8 @@ ActiveRecord::Schema.define(version: 20141009201336) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
 
   create_table "technology_service_providers", force: true do |t|
     t.string   "name",       null: false
