@@ -56,6 +56,7 @@ group :development do
   gem 'coolline', '0.4.3'
   gem 'guard-rspec', '4.2.10', require: false # Automated spec runs
   # gem 'bullet' # Database query analysis for performance tuning.
+  gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
 end
 
 group :test do
