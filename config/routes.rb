@@ -73,7 +73,7 @@ Rails.application.routes.draw do
   # resources :permissions
   # resources :permission_groups
 
-  resources :poll_questions, only: [:new, :create, :index]
+  resources :poll_questions, except: [:show, :destroy]
 
   resources :profiles, only: [:edit, :update] do
     resources :profile_experiences, except: [:index, :show]

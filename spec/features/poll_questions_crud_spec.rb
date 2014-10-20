@@ -53,4 +53,19 @@ describe 'PollQuestions CRUD actions' do
       expect(page).to have_content poll_question.question
     end
   end
+
+  describe 'for updating' do
+    let!(:poll_question) { create :poll_question }
+
+    it 'allows a poll question to be updated' do
+      visit poll_questions_path
+      within '.widgets .widget:first-child' do
+        click_on 'Edit'
+      end
+      fill_in 'Help text', with: 'This is changed help text.'
+      click_on 'Save'
+      expect(page).to have_content('This is changed help text.')
+    end
+  end
+
 end

@@ -3,9 +3,22 @@
     - for poll_question in @poll_questions
       .widget
         .inner
-          %h3= poll_question.question
+          %h3
+            = poll_question.question
+            = edit_button edit_poll_question_path(poll_question)
           = poll_question.help_text if poll_question.help_text
+          .small.comment
+            = succeed ', ' do
+              Starts:
+              = poll_question.start_time.strftime('%m/%d/%Y %-l:%M%P')
+            - if poll_question.end_time
+              Ends:
+              = poll_question.end_time.strftime('%m/%d/%Y %-l:%M%P')
+            - else
+              does not end automatically.
           %h5 Choices
+          - if poll_question.poll_question_choices.count < 1
+            .small.comment None.
   - else
     .widget
       .inner

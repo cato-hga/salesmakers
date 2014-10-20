@@ -1,0 +1,15 @@
+= form_for @poll_question do |f|
+  - if @poll_question.errors.any?
+    - @poll_question.errors.full_messages.each do |msg|
+      .alert.alert-box= msg
+  = f.label :question
+  = f.text_field :question
+  = f.label :help_text
+  = f.text_area :help_text
+  = f.label :start_time_text, 'Start time'
+  = f.text_field :start_time_text, class: :datetime_picker
+  = f.label :end_time_text, 'End time'
+  = f.text_field :end_time_text, class: :datetime_picker
+  = f.label :active
+  .clear= f.check_box :active
+  = f.submit 'Save', class: :button

@@ -6,6 +6,29 @@ class PollQuestion < ActiveRecord::Base
 
   has_many :poll_question_choices
 
+  def start_time_text
+    if start_time
+      start_time.strftime('%m/%d/%Y %l:%M%P')
+    else
+      Time.now.strftime('%m/%d/%Y %l:%M%P')
+    end
+  end
+
+  def end_time_text
+    if end_time
+      end_time.strftime('%m/%d/%Y %l:%M%P')
+    else
+      ''
+    end
+  end
+
+  def start_time_text=(text)
+    self.start_time = Chronic.parse(text)
+  end
+
+  def end_time_text=(text)
+    self.end_time = Chronic.parse(text)
+  end
 
   private
 
