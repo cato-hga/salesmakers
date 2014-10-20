@@ -56,13 +56,13 @@ RSpec.describe Person, :type => :model do
       person.office_phone = nil
       person.home_phone = nil
       should_not be_valid
-      person.office_phone = 7274985180
+      person.office_phone = '7274985180'
       should be_valid
       person.office_phone = nil
-      person.mobile_phone = 5555555555
+      person.mobile_phone = '5555555555'
       should be_valid
       person.mobile_phone = nil
-      person.home_phone = 5565565566
+      person.home_phone = '5565565566'
       should be_valid
     end
 
