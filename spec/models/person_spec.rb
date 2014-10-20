@@ -68,6 +68,7 @@ RSpec.describe Person, :type => :model do
 
     it 'should clean the phone numbers' do
       person.mobile_phone = '716-415-8130'
+      person.save
       expect(person.mobile_phone).to eq('7164158130')
     end
 
