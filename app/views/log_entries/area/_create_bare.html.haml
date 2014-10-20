@@ -1,2 +1,4 @@
 Created the area
-= link_to log_entry.trackable.name, [:clients_and_projects, log_entry.trackable.project.client, log_entry.trackable.project, log_entry.trackable]
+- trackable = log_entry.trackable
+- project = trackable.project
+= link_to trackable.name, [:clients_and_projects, project.client, project, trackable]

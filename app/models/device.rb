@@ -267,6 +267,10 @@ class Device < ActiveRecord::Base
                                 person: created_by
   end
 
+  def manufacturer_name
+    device_manufacturer.name
+  end
+
   def model_name
     device_model.model_name
   end

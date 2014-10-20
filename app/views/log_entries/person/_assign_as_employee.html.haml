@@ -1,13 +1,16 @@
+- referenceable = log_entry.referenceable
+- project = referenceable.project
+- comment = log_entry.comment
 .entry_type
   Assigned as an employee of
-  = link_to log_entry.referenceable.name, client_project_area_path(log_entry.referenceable.project.client, log_entry.referenceable.project, log_entry.referenceable)
+  = link_to referenceable.name, client_project_area_path(project.client, project, referenceable)
   .time_ago
     = time_ago_in_words(log_entry.created_at) + ' ago'
 .entry_pertains_to= person_link log_entry.trackable
 by
 = person_link log_entry.person
-- if log_entry.comment.present? and not log_entry.comment.blank?
+- if comment.present? and not comment.blank?
   with comment
   %span.comment
     = surround '"', '"' do
-      = log_entry.comment
+      = comment
