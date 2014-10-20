@@ -6,4 +6,10 @@ FactoryGirl.define do
     association :wall, factory: :person_wall
     person
   end
+
+  factory :it_wall_post, class: WallPost do
+    publication
+    wall { Wall.where(wallable_type: 'Department').first }
+    person { Person.find_by display_name: 'System Administrator' }
+  end
 end
