@@ -13,6 +13,11 @@ class PollQuestionChoicesController < ApplicationController
 
   def update
     @poll_question_choice = PollQuestionChoice.find params[:id]
+    if @poll_question_choice.locked?
+      flash[:error] = 'The choice you are attempting to edit has ' +
+          'already been answered and cannot be edited.'
+      redirect_to poll_questions_path and return
+    end
     if @poll_question_choice.update poll_question_choice_params
       render @poll_question_choice
     else

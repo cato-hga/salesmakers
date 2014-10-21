@@ -3,6 +3,7 @@ class PollQuestion < ActiveRecord::Base
   validates :start_time, presence: true
   validate :start_time_after_beginning_of_today
   validate :end_time_before_now
+  validate :end_time_after_start_time
 
   has_many :poll_question_choices
 
@@ -38,7 +39,15 @@ class PollQuestion < ActiveRecord::Base
     for poll_question_choice in self.poll_question_choices do
       return true if poll_question_choice.answered?
     end
-    return false
+    false
+  end
+
+  def answers
+    answers = 0
+    for poll_question_choice in self.poll_question_choices do
+      answers += poll_question_choice.answers
+    end
+    answers
   end
 
   private
@@ -56,6 +65,13 @@ class PollQuestion < ActiveRecord::Base
     return unless end_time
     if end_time < Time.now
       errors.add :end_time, 'cannot be in the past'
+    end
+  end
+
+  def end_time_after_start_time
+    return unless end_time and start_time
+    if end_time < start_time
+      errors.add :end_time, 'cannot be before start time'
     end
   end
 end

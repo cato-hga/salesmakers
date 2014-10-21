@@ -34,6 +34,15 @@ describe 'PollQuestionChoices CRUD actions' do
       expect(page).to have_content(name)
       expect(page).to have_content(description)
     end
+
+    it 'does not allow editing an answered choice' do
+      person = Person.first
+      poll_question_choice.people << person
+      visit poll_questions_path
+      within '.widgets .widget:first-of-type .choices .choice:first-of-type' do
+        expect(page).not_to have_content('Edit')
+      end
+    end
   end
 
   context 'for destroying' do

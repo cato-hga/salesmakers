@@ -8,7 +8,7 @@ class PollQuestionChoice < ActiveRecord::Base
   default_scope { order :created_at }
 
   def answered?
-    if self.people.count > 0
+    if answers > 0
       return true
     end
     return false
@@ -16,5 +16,9 @@ class PollQuestionChoice < ActiveRecord::Base
 
   def locked?
     answered?
+  end
+
+  def answers
+    self.people.count
   end
 end

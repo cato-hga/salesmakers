@@ -29,6 +29,22 @@ describe PollQuestionChoicesController do
                to('This is some new help text.')
       expect(response).to be_success
     end
+
+    it 'does not allow an answered choice to be edited' do
+      poll_question_choice.save
+      person = Person.first
+      poll_question_choice.people << person
+      expect {
+        put :update,
+            poll_question_id: poll_question_choice.poll_question.id,
+            id: poll_question_choice.id,
+            poll_question_choice: {
+                help_text: 'This is some new help text.'
+            }
+        poll_question_choice.reload
+      }.not_to change(poll_question_choice, :help_text)
+      expect(response).to redirect_to(poll_questions_path)
+    end
   end
 
   describe 'DELETE destroy' do

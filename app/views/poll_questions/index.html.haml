@@ -11,16 +11,17 @@
             = edit_button edit_poll_question_path(poll_question)
             - unless poll_question.locked?
               = link_to 'Delete', poll_question_path(poll_question), method: :delete, class: 'destroy_poll_question_link'
-          = poll_question.help_text if poll_question.help_text
           .small.comment
+            = pluralize(poll_question.answers, 'Answer') + ','
             = succeed ', ' do
-              Starts:
+              Start:
               = poll_question.start_time.strftime('%m/%d/%Y %-l:%M%P')
             - if poll_question.end_time
-              Ends:
+              End:
               = poll_question.end_time.strftime('%m/%d/%Y %-l:%M%P')
             - else
               does not end automatically.
+          .poll_question_help_text= poll_question.help_text if poll_question.help_text
           .choices
             %h5 Choices
             - for poll_question_choice in poll_question.poll_question_choices

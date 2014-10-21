@@ -6,6 +6,9 @@
       font-size: small
       font-style: italic
       vertical-align: super
+  .poll_question_help_text
+    margin-top: ($spacing / 4)
+    color: #666
   .choices
     margin-top: $spacing
     .choice
@@ -16,7 +19,8 @@
       form
         display: none
       .edit_poll_question_choice_link,
-      .destroy_poll_question_choice_link
+      .destroy_poll_question_choice_link,
+      .poll_question_choice_answer_count
         display: inline
         font-size: x-small
         font-style: italic
@@ -25,3 +29,5 @@
         font-size: small
         color: #666
         margin-top: ($spacing / 4)
+      .poll_question_choice_answer_count
+        color: #070
