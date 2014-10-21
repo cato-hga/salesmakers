@@ -15,6 +15,7 @@ class PollQuestionsController < ApplicationController
 
   def index
     @poll_questions = PollQuestion.all
+    @poll_question_choice = PollQuestionChoice.new
   end
 
   def edit
@@ -29,6 +30,16 @@ class PollQuestionsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @poll_question = PollQuestion.find params[:id]
+    if @poll_question.destroy
+      flash[:notice] = 'Poll question successfully deleted.'
+    else
+      flash[:error] = 'Could not delete the poll question.'
+    end
+    redirect_to poll_questions_path
   end
 
   private

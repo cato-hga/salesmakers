@@ -213,7 +213,7 @@ module ApplicationHelper
   end
 
   def new_button(path)
-    link_to icon('plus') + ' New', path, class: [:button, :rounded, :inline_button]
+    link_to icon('plus') + ' New', path, class: [:button, :rounded, :inline_button], id: 'new_action_button'
   end
 
   def edit_button(path)

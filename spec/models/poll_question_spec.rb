@@ -40,4 +40,20 @@ describe PollQuestion do
     expect(subject).to be_valid
   end
 
+  context 'with a poll question choice that has been answered' do
+    let!(:poll_question_choice) { create :poll_question_choice }
+
+    it 'reflects as locked' do
+      person = Person.first
+      poll_question_choice.people << person
+      expect(poll_question_choice.poll_question.locked?).to be_truthy
+    end
+  end
+
+  context 'with no answered poll question choices' do
+    it 'does not reflect as locked' do
+      expect(subject.locked?).to be_falsey
+    end
+  end
+
 end

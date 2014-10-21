@@ -1,0 +1,15 @@
+- poll_question = poll_question_choice.poll_question
+.choice
+  .details
+    .poll_question_choice_name
+      = poll_question_choice.name
+      %a.edit_poll_question_choice_link(href="#") Edit
+      - unless poll_question_choice.locked?
+        = link_to 'Delete', poll_question_poll_question_choice_path(poll_question, poll_question_choice), method: :delete, class: 'destroy_poll_question_choice_link'
+    - if poll_question_choice.help_text
+      .poll_question_choice_help_text= poll_question_choice.help_text
+  = form_for [poll_question, poll_question_choice], remote: true do |f|
+    = f.text_field :name, placeholder: 'Name'
+    = f.text_area :help_text, placeholder: 'Help text'
+    = f.submit 'Save', class: 'button'
+    %a.cancel(href="#") Cancel

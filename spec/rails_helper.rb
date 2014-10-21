@@ -24,6 +24,7 @@ RSpec.configure do |config|
 
   #Turns out that including Capybara in the global config is a bad thing. Muddies the waters between feature
   #and request specs. Going to comment this out and leave it just in case we want it.
+  Capybara.javascript_driver = :webkit
   config.include Capybara::DSL
 
   config.include Rails.application.routes.url_helpers

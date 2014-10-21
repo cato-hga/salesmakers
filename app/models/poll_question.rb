@@ -30,6 +30,17 @@ class PollQuestion < ActiveRecord::Base
     self.end_time = Chronic.parse(text)
   end
 
+  def locked?
+    answered?
+  end
+
+  def answered?
+    for poll_question_choice in self.poll_question_choices do
+      return true if poll_question_choice.answered?
+    end
+    return false
+  end
+
   private
 
   def start_time_after_beginning_of_today

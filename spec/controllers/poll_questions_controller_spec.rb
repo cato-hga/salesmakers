@@ -49,4 +49,16 @@ describe PollQuestionsController do
     end
   end
 
+  describe 'DELETE destroy' do
+    let!(:poll_question) { create :poll_question }
+
+    it 'deletes a poll question' do
+      expect {
+        delete :destroy,
+               id: poll_question.id
+      }.to change(PollQuestion, :count).by(-1)
+      expect(response).to redirect_to(poll_questions_path)
+    end
+  end
+
 end
