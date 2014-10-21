@@ -12,18 +12,11 @@ RSpec.describe Area, :type => :model do
   it { should have_many(:people).through(:person_areas) }
   it { should have_one(:wall) }
 
-  #TODO: Test for Ancestry This link looks good: http://stackoverflow.com/questions/20557022/factories-with-ancestry-for-testing
+  it 'should all areas a person is a member of' do
+  end
 
-  #TODO: Test :visible scope
-
-
-  #TODO: Below test doesn't seem to work. Null value in column 'wallable_id" "
-  # describe 'create_wall' do
-  #   it 'should create wall after saving' do
-  #     area = Area.new
-  #     area.wall.should_receive(:create)
-  #     area.send(:create_wall)
-  #   end
-  # end
-
+  it 'should return project_roots' do
+    proj = Project.first
+    expect(Area.roots.where(project: proj).order(:name)).not_to be_nil
+  end
 end
