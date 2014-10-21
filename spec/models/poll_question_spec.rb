@@ -50,6 +50,13 @@ describe PollQuestion do
     expect(question_ending_before_start).not_to be_valid
   end
 
+  it 'returns a nil help text value for empty strings' do
+    subject.help_text = ''
+    subject.save
+    subject.reload
+    expect(subject.help_text).to be_nil
+  end
+
   context 'with a poll question choice that has been answered' do
     let!(:poll_question_choice) { create :poll_question_choice }
 

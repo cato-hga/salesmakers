@@ -8,8 +8,11 @@
         = link_to 'Delete', poll_question_poll_question_choice_path(poll_question, poll_question_choice), method: :delete, class: 'destroy_poll_question_choice_link'
       - else
         %span.poll_question_choice_answer_count= pluralize poll_question_choice.people.count, 'Answer'
-    - if poll_question_choice.help_text
-      .poll_question_choice_help_text= poll_question_choice.help_text
+    .poll_question_choice_help_text
+      - if poll_question_choice.help_text
+        = poll_question_choice.help_text
+      - else
+        &mdash; Edit to add help text.
   = form_for [poll_question, poll_question_choice], remote: true do |f|
     = f.text_field :name, placeholder: 'Name'
     = f.text_area :help_text, placeholder: 'Help text'

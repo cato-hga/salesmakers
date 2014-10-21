@@ -7,6 +7,8 @@ class PollQuestion < ActiveRecord::Base
 
   has_many :poll_question_choices
 
+  normalize_attributes :help_text
+
   def start_time_text
     if start_time
       start_time.strftime('%m/%d/%Y %l:%M%P')

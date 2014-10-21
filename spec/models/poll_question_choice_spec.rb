@@ -9,6 +9,13 @@ describe PollQuestionChoice do
   it { should ensure_length_of(:name).is_at_least(2) }
   specify { expect(subject).to respond_to(:help_text) }
 
+  it 'should return a nil help text value for empty strings' do
+    subject.help_text = ''
+    subject.save
+    subject.reload
+    expect(subject.help_text).to be_nil
+  end
+
   context 'with at least one answer' do
     before do
       subject.save
