@@ -4,4 +4,23 @@ class PollQuestionChoice < ActiveRecord::Base
 
   belongs_to :poll_question
   has_and_belongs_to_many :people
+
+  normalize_attributes :help_text
+
+  default_scope { order :created_at }
+
+  def answered?
+    if answers > 0
+      return true
+    end
+    return false
+  end
+
+  def locked?
+    answered?
+  end
+
+  def answers
+    self.people.count
+  end
 end

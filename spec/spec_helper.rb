@@ -25,8 +25,6 @@ require 'factory_girl_rails'
 
 RSpec.configure do |config|
 
-  Capybara.javascript_driver = :webkit
-
   config.before(:all) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end

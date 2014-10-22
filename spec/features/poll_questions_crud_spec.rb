@@ -12,9 +12,15 @@ describe 'PollQuestions CRUD actions' do
       visit poll_questions_path
       expect(page).to have_selector('h1', text: 'Poll Questions')
     end
+
+    specify 'for edit' do
+      poll_question = create :poll_question
+      visit edit_poll_question_path(poll_question)
+      expect(page).to have_selector('h1', text: poll_question.question)
+    end
   end
 
-  describe 'for creating' do
+  context 'for creating' do
     let(:poll_question) {
       build :poll_question,
             help_text: 'This is some sample help text so you can rest easy.',
@@ -23,7 +29,8 @@ describe 'PollQuestions CRUD actions' do
     }
 
     it 'creates a new poll question with minimal values' do
-      visit new_poll_question_path
+      visit poll_questions_path
+      click_on 'new_action_button'
       fill_in 'Question', with: poll_question.question
       fill_in 'Start time', with: poll_question.start_time.strftime('%m/%d/%Y %-l:%M%P')
       click_on 'Save'
@@ -32,7 +39,8 @@ describe 'PollQuestions CRUD actions' do
     end
 
     it 'creates a new poll question with all values' do
-      visit new_poll_question_path
+      visit poll_questions_path
+      click_on 'new_action_button'
       fill_in 'Question', with: poll_question.question
       fill_in 'Help text', with: poll_question.help_text
       fill_in 'Start time', with: poll_question.start_time.strftime('%m/%d/%Y %-l:%M%P')
@@ -45,7 +53,7 @@ describe 'PollQuestions CRUD actions' do
     end
   end
 
-  describe 'for reading' do
+  context 'for reading' do
     let!(:poll_question) { create :poll_question }
 
     it 'displays a question on index' do
@@ -53,4 +61,44 @@ describe 'PollQuestions CRUD actions' do
       expect(page).to have_content poll_question.question
     end
   end
+
+  context 'for updating' do
+    let!(:poll_question) { create :poll_question }
+
+    it 'allows a poll question to be updated' do
+      visit poll_questions_path
+      within '.widgets .widget:first-of-type' do
+        click_on 'Edit'
+      end
+      fill_in 'Help text', with: 'This is changed help text.'
+      click_on 'Save'
+      expect(page).to have_content('This is changed help text.')
+    end
+  end
+
+  context 'for destroying' do
+    let(:poll_question) { build :poll_question }
+
+    it 'deletes a poll question' do
+      poll_question.save
+      question = poll_question.question
+      visit poll_questions_path
+      within '.widgets .widget:first-of-type h3' do
+        click_on 'Delete'
+      end
+      expect(page).not_to have_content(question)
+    end
+
+    it 'does not allow an answered question to be destroyed' do
+      poll_question_choice = create :poll_question_choice
+      poll_question = poll_question_choice.poll_question
+      person = Person.first
+      poll_question_choice.people << person
+      visit poll_questions_path
+      within '.widgets .widget:first-of-type h3' do
+        expect(page).not_to have_content('Delete')
+      end
+    end
+  end
+
 end

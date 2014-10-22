@@ -1,5 +1,4 @@
 - if @object.errors and @object.errors.any?
-  .alert-box.alert
-    %ul
-      - @object.errors.full_messages.each do |msg|
-        %li= msg
+  - @object.errors.full_messages.each do |msg|
+    .alert-box.alert
+      = msg

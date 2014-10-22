@@ -12,7 +12,7 @@ describe PollQuestionsController do
   describe 'POST create' do
     let!(:poll_question) { build :poll_question }
 
-    it 'creates a project' do
+    it 'creates a poll question' do
       post :create, poll_question: poll_question.attributes
       expect(response).to redirect_to(poll_questions_path)
       expect(assigns(:poll_question).question).to include("?")
@@ -27,10 +27,37 @@ describe PollQuestionsController do
     end
   end
 
-  describe 'GET edit', :pending do
+  describe 'GET edit' do
+    let(:poll_question) { create :poll_question }
+
     it 'returns a success status' do
-      get :edit, id: 1
+      get :edit,
+          id: poll_question.id
       expect(response).to be_success
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'PUT update' do
+    let(:poll_question) { create :poll_question }
+
+    it 'updates a poll question' do
+      put :update,
+          id: poll_question.id,
+          poll_question: { help_text: 'This is some changed help text.' }
+      expect(response).to redirect_to(poll_questions_path)
+    end
+  end
+
+  describe 'DELETE destroy' do
+    let!(:poll_question) { create :poll_question }
+
+    it 'deletes a poll question' do
+      expect {
+        delete :destroy,
+               id: poll_question.id
+      }.to change(PollQuestion, :count).by(-1)
+      expect(response).to redirect_to(poll_questions_path)
     end
   end
 
