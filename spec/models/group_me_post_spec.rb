@@ -8,5 +8,13 @@ RSpec.describe GroupMePost, :type => :model do
   it { should have_many(:group_me_likes) }
   it { should belong_to(:person) }
 
-  #TODO: Test before_save :set_person
+  describe 'set_person callback' do
+    let(:person) { create :person }
+    let(:group_me_user) { create :group_me_user, person: person }
+    let(:group_me_post) { create :group_me_post, group_me_user: group_me_user }
+
+    it 'should set the person to a group_me_user' do
+      expect(group_me_post.person).to be(person)
+    end
+  end
 end
