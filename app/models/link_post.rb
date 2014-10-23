@@ -38,7 +38,7 @@ class LinkPost < ActiveRecord::Base
     # Generate and assign an image or set a validation error
     begin
       tempfile = temp_thumbnail_path
-      cmd = "wkhtmltoimage --quality 95 \"#{self.url}\" \"#{tempfile}\""
+      cmd = "wkhtmltoimage --disable-plugins --quality 95 \"#{self.url}\" \"#{tempfile}\""
       # p "*** grabbing thumbnail: #{cmd}"
       system(cmd) # sometimes returns false even if image was saved
       self.image = File.new(tempfile) # will throw if not saved
@@ -52,7 +52,7 @@ class LinkPost < ActiveRecord::Base
   def save_page_title
     skip_generate = self.errors.any? || !self.url_changed?
     return if skip_generate
-    open(self.url).read =~ /<title>(.*?)<\/title>/
+    encode_content(open(self.url).read) =~ /<title>(.*?)<\/title>/
     begin
       self.title = $1
     rescue => e
@@ -70,4 +70,13 @@ class LinkPost < ActiveRecord::Base
   def cleanup_temp_thumbnail
     File.delete(temp_thumbnail_path) rescue 0
   end
+
+  private
+
+    def encode_content(content)
+      content.encode 'UTF-8',
+                     invalid: :replace,
+                     undef: :replace,
+                     replace: ''
+    end
 end
