@@ -12,7 +12,7 @@ class Feedback < MailForm::Base
     {
         from: 'development@retaildoneright.com',
         subject: subject,
-        to: 'development@retaildoneright.com',
+        to: 'development@retaildoneright.com'
     }
   end
 end

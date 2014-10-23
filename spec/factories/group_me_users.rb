@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :group_me_user do
-    group_me_user_num "MyString"
-    person_id 1
-    name "MyString"
+    group_me_user_num '123'
+    name 'A GroupMe User'
   end
 end

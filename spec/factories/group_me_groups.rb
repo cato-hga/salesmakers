@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :group_me_group do
     group_num 1
-    name "MyString"
+    name 'Test GroupMe Group'
   end
 end
