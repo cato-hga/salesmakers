@@ -1,11 +1,14 @@
 class PollQuestionsController < ApplicationController
   layout false, only: :show
+  after_action :verify_authorized, except: :show
 
   def new
+    authorize PollQuestion.new
     @poll_question = PollQuestion.new
   end
 
   def create
+    authorize PollQuestion.new
     @poll_question = PollQuestion.new poll_question_params
     if @poll_question.save
       redirect_to poll_questions_path
@@ -15,6 +18,7 @@ class PollQuestionsController < ApplicationController
   end
 
   def index
+    authorize PollQuestion.new
     @poll_questions = PollQuestion.all
     @poll_question_choice = PollQuestionChoice.new
   end
@@ -25,10 +29,12 @@ class PollQuestionsController < ApplicationController
 
   def edit
     @poll_question = PollQuestion.find params[:id]
+    authorize @poll_question
   end
 
   def update
     @poll_question = PollQuestion.find params[:id]
+    authorize @poll_question
     if @poll_question.update poll_question_params
       flash[:notice] = 'The poll question has been saved.'
       redirect_to poll_questions_path
@@ -39,6 +45,7 @@ class PollQuestionsController < ApplicationController
 
   def destroy
     @poll_question = PollQuestion.find params[:id]
+    authorize @poll_question
     if @poll_question.destroy
       flash[:notice] = 'Poll question successfully deleted.'
     else

@@ -208,6 +208,7 @@ audit_permission_group = PermissionGroup.create name: 'Audit'
 profiles_permission_group = PermissionGroup.create name: 'Profiles'
 q_and_a_permission_group = PermissionGroup.create name: 'Questions and Answers'
 posts_permission_group = PermissionGroup.create name: 'Posts and Posting'
+poll_questions_permission_group = PermissionGroup.create name: 'Poll Questions'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -238,6 +239,14 @@ position_index = Permission.create key: 'position_index',
 log_entry_index = Permission.create key: 'log_entry_index',
                                     description: 'can view logs',
                                     permission_group: audit_permission_group
+
+poll_question_manage = Permission.create key: 'poll_question_manage',
+                                         description: 'can manage poll questions',
+                                         permission_group: poll_questions_permission_group
+
+poll_question_show = Permission.create key: 'poll_question_show',
+                                       description: 'can view all poll question results',
+                                       permission_group: poll_questions_permission_group
 
 widgets = [
     'sales',
@@ -320,6 +329,8 @@ for position in ops_and_execs_positions do
   position.permissions << client_index
   position.permissions << profile_update_others
   position.permissions << wall_show_all_walls
+  position.permissions << poll_question_manage
+  position.permissions << poll_question_show
 end
 
 for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
@@ -329,6 +340,5 @@ for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << profile_update_others
 end
 
-
-
-
+pos_md << poll_question_manage
+pos_md << poll_question_show
