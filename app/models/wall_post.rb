@@ -18,11 +18,24 @@ class WallPost < ActiveRecord::Base
                            person: publication.person
   end
 
-  def self.visible(person, walls = nil)
+  def self.visible(person, walls = nil, include_own = true)
+    or_condition = 'false'
+    or_condition = 'person_id = ' + person.id.to_s if include_own
     if walls
-      self.where(wall: walls).includes(:person, wall: :wallable, publication: :publishable, wall_post_comments: :person)
+      walls_condition = "wall_id IN (#{walls.map(&:id).join(',')})"
+      self.where(walls_condition + ' OR ' + or_condition).
+          includes(:person,
+                   wall: :wallable,
+                   publication: :publishable,
+                   wall_post_comments: :person)
     else
-      self.where(wall: Wall.visible(person)).includes(:person, wall: :wallable, publication: :publishable, wall_post_comments: :person)
+      walls = Wall.visible(person)
+      walls_condition = "wall_id IN (#{walls.map(&:id).join(',')})"
+      posts = self.where(walls_condition + ' OR ' + or_condition).
+          includes(:person,
+                   wall: :wallable,
+                   publication: :publishable,
+                   wall_post_comments: :person)
     end
   end
 

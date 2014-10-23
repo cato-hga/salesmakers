@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Wall Post' do
+describe 'Wall posts' do
 
   before do
     create :it_wall_post
@@ -34,32 +34,36 @@ describe 'Wall Post' do
     end
   end
 
-  describe 'viewable options (when not authorized)' do
-    it 'should not have a delete option' do
+  describe "of my own creation" do
+    let(:person) { Person.first }
+    let(:other_person) { create :person }
+    it 'should be shown on the home page' do
+      wall = Wall.create wallable: other_person
+      text_post = create :text_post,
+                         content: 'Herp derp I am a wall post.'
+      wall_post = text_post.create_wall_post wall, person
+      person.position.permissions.where(key: 'wall_show_all_walls').destroy_all
+      visit root_path
+      expect(page).to have_content(text_post.content)
     end
+  end
 
-    it 'should not have a change visibility option' do
-    end
+  describe 'viewable options (when not authorized)' do
+    it 'should not have a delete option'
+    it 'should not have a change visibility option'
   end
 
   describe 'likes' do
-    it 'should increase by one when the star is clicked' do
-    end
-
-    it 'should decrease by one when the star is clicked a second time' do
-    end
-
-    it 'should not be clickable if it is your own post' do
-    end
+    it 'should increase by one when the star is clicked'
+    it 'should decrease by one when the star is clicked a second time'
+    it 'should not be clickable if it is your own post'
   end
 
   describe 'change Post Visibility' do
-    it 'should change the wall that the post is on' do
-    end
+    it 'should change the wall that the post is on'
   end
 
   describe 'deletion' do
-    it 'should delete the Wall Post' do
-    end
+    it 'should delete the Wall Post'
   end
 end
