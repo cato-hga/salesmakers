@@ -1,4 +1,5 @@
 class PollQuestionsController < ApplicationController
+  layout false, only: :show
 
   def new
     @poll_question = PollQuestion.new
@@ -16,6 +17,10 @@ class PollQuestionsController < ApplicationController
   def index
     @poll_questions = PollQuestion.all
     @poll_question_choice = PollQuestionChoice.new
+  end
+
+  def show
+    @poll_question = PollQuestion.find params[:id]
   end
 
   def edit

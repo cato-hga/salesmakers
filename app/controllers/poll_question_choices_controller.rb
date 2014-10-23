@@ -36,6 +36,15 @@ class PollQuestionChoicesController < ApplicationController
     redirect_to poll_questions_path
   end
 
+  def choose
+    @poll_question_choice = PollQuestionChoice.find params[:id]
+    @poll_question = PollQuestion.find params[:poll_question_id]
+    unless @poll_question.answered_by?(@current_person)
+      @poll_question_choice.people << @current_person
+    end
+    redirect_to poll_question_path(@poll_question)
+  end
+
   private
 
     def poll_question_choice_params

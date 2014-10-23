@@ -17,10 +17,12 @@ describe PollQuestionChoice do
   end
 
   context 'with at least one answer' do
+    let(:person) { create :person }
+
     before do
       subject.save
-      person = Person.first
-      subject.people << person
+      admin_person = Person.first
+      subject.people << admin_person
     end
 
     it 'should reflect as locked' do
@@ -28,9 +30,13 @@ describe PollQuestionChoice do
     end
 
     it 'should reflect the correct number of answers' do
-      person = create :person
       subject.people << person
       expect(subject.answers).to eq(2)
+    end
+
+    it 'knows whether a choice has been answered by a particular person' do
+      subject.people << person
+      expect(subject.answered_by?(person)).to be_truthy
     end
   end
 

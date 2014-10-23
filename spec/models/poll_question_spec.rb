@@ -57,11 +57,30 @@ describe PollQuestion do
     expect(subject.help_text).to be_nil
   end
 
+  it 'recognizes active questions' do
+    subject.save
+    expect(PollQuestion.active).to include(subject)
+  end
+
+  it 'returns an active question within visible questions' do
+    subject.save
+    person = Person.first
+    expect(PollQuestion.visible(person)).to include(subject)
+  end
+
+  it 'does not return an already-answered question in visible questions' do
+    poll_question_choice = create :poll_question_choice
+    poll_question = poll_question_choice.poll_question
+    person = Person.first
+    person.poll_question_choices << poll_question_choice
+    expect(PollQuestion.visible(person)).not_to include(poll_question)
+  end
+
   context 'with a poll question choice that has been answered' do
     let!(:poll_question_choice) { create :poll_question_choice }
+    let(:person) { Person.first }
 
     it 'reflects as locked' do
-      person = Person.first
       poll_question_choice.people << person
       expect(poll_question_choice.poll_question.locked?).to be_truthy
     end
@@ -71,12 +90,17 @@ describe PollQuestion do
       second_poll_question_choice = create :poll_question_choice,
                                            name: 'Another choice',
                                            poll_question_id: poll_question.id
-      person = Person.first
       second_person = create :person
       poll_question_choice.people << person
       second_poll_question_choice.people << person
       second_poll_question_choice.people << second_person
       expect(poll_question.answers).to eq(3)
+    end
+
+    it 'knows if a question has been answered by a particular person' do
+      poll_question = poll_question_choice.poll_question
+      poll_question_choice.people << person
+      expect(poll_question.answered_by?(person)).to be_truthy
     end
   end
 

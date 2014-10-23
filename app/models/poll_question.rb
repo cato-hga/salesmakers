@@ -9,6 +9,24 @@ class PollQuestion < ActiveRecord::Base
 
   normalize_attributes :help_text
 
+  scope :active, -> {
+    where('start_time <= ? AND (end_time >= ? OR end_time IS NULL) AND active = ?',
+          Time.now,
+          Time.now,
+          true)
+  }
+
+  scope :visible, ->(person = nil) {
+    return PollQuestion.none unless person
+    visible_questions = Array.new
+    active.each do |poll_question|
+      visible_questions << poll_question unless
+          poll_question.answered_by?(person)
+    end
+    return active.none if visible_questions.count < 1
+    active.where("\"poll_questions\".\"id\" IN (#{visible_questions.map(&:id).join(',')})")
+  }
+
   def start_time_text
     if start_time
       start_time.strftime('%m/%d/%Y %l:%M%P')
@@ -40,6 +58,13 @@ class PollQuestion < ActiveRecord::Base
   def answered?
     for poll_question_choice in self.poll_question_choices do
       return true if poll_question_choice.answered?
+    end
+    false
+  end
+
+  def answered_by?(person)
+    for poll_question_choice in self.poll_question_choices do
+      return true if poll_question_choice.answered_by?(person)
     end
     false
   end
