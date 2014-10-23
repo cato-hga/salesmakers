@@ -44,7 +44,7 @@ describe WallPostsController do
     it 'does not allow promotion if the person cannot post to that wall' do
       request.env['HTTP_REFERER'] = root_path
       get :promote,
-          id: wall_post.id,
+          id: wall_post.id
       expect(request.flash[:error]).not_to be_nil
       expect(response).to redirect_to(root_path)
     end
