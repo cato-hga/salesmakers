@@ -61,7 +61,10 @@ describe ProfileExperiencesController do
   describe 'PUT update failure' do
     it 'does not update a profile experience record' do
       profile_experience.save
-      put :update, profile_id: profile.id, id: profile_experience.id, profile_experience: invalid_profile_experience.attributes
+      put :update,
+          profile_id: profile.id,
+          id: profile_experience.id,
+          profile_experience: invalid_profile_experience.attributes
       profile_experience.reload
       expect(response).to render_template(:edit)
     end
