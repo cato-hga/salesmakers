@@ -12,18 +12,57 @@ RSpec.describe Area, :type => :model do
   it { should have_many(:people).through(:person_areas) }
   it { should have_one(:wall) }
 
-  #TODO: Test for Ancestry This link looks good: http://stackoverflow.com/questions/20557022/factories-with-ancestry-for-testing
+  describe 'member_of scope' do
+    let(:hq_person) { Person.first }
+    let(:non_hq_area) { create :area }
+    let(:non_hq_person) { create :person }
+    let!(:non_hq_person_area) { create :person_area, area: non_hq_area, person: non_hq_person}
 
-  #TODO: Test :visible scope
+    context 'for HQ employees' do
+      it 'should return all areas a person is a member of' do
+        expect(Area.member_of(hq_person)).not_to be_nil
+      end
+    end
 
+    context 'for non-hq employees' do
+      it 'should return all areas a person is a member of' do
+        expect(Area.member_of(non_hq_person)).not_to be_nil
+      end
+    end
+  end
 
-  #TODO: Below test doesn't seem to work. Null value in column 'wallable_id" "
-  # describe 'create_wall' do
-  #   it 'should create wall after saving' do
-  #     area = Area.new
-  #     area.wall.should_receive(:create)
-  #     area.send(:create_wall)
-  #   end
-  # end
+  #TODO: Refactor the following two specs to use the RSPEC LET method
+  it ' project_roots scope should return project_roots' do
+    proj = Project.first
+    expect(Area.project_roots(proj)).not_to be_nil
+  end
 
+  it 'managers method should return all areas that a person manages' do
+    person = create :person
+    area = create :area
+    p_a = create(:person_area, person: person, area: area, manages: true)
+    expect(area.managers).not_to be_nil
+  end
+
+  describe 'non_managers method' do
+    let(:area) { create :area }
+    let(:inactive_person) { create :person, active: false }
+    let(:active_person) { create :person }
+    let!(:person_area) { create :person_area, person: active_person, area: area }
+    let!(:inactive_person_area) { create :person_area, person: inactive_person, area: area}
+
+    context 'for only active employees' do
+      it 'should return all active, non-managers of a given area' do
+        non_managers_count = area.non_managers(true).count
+        expect(non_managers_count).to eq(1)
+      end
+    end
+
+    context 'for inactive and active employees' do
+      it 'should return all non-managers of a given area' do
+        non_managers_count = area.non_managers.count
+        expect(non_managers_count).to eq(2)
+      end
+    end
+  end
 end

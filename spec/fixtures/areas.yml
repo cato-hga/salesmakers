@@ -1,0 +1,16 @@
+root_area:
+  name: Root Area
+  area_type: area_type
+  project: project
+
+child_area:
+  name: Child Area
+  area_type: area_type
+  project: project
+  ancestry: 273253473
+
+grand_child_area:
+  name: Grand Child Area
+  area_type: area_type
+  project: project
+  ancestry: 273253473/581279387
