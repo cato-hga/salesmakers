@@ -16,6 +16,11 @@ class PollQuestionChoice < ActiveRecord::Base
     return false
   end
 
+  def answered_by?(person)
+    return true if self.people.include? person
+    false
+  end
+
   def locked?
     answered?
   end

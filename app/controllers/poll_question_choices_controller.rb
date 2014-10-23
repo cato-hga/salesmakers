@@ -1,6 +1,8 @@
 class PollQuestionChoicesController < ApplicationController
+  after_action :verify_authorized, except: :choose
 
   def create
+    authorize PollQuestion.new
     @poll_question_choice = PollQuestionChoice.new poll_question_choice_params
     @poll_question_choice.poll_question_id = params[:poll_question_id]
     if @poll_question_choice.save
@@ -13,6 +15,7 @@ class PollQuestionChoicesController < ApplicationController
 
   def update
     @poll_question_choice = PollQuestionChoice.find params[:id]
+    authorize @poll_question_choice.poll_question
     if @poll_question_choice.locked?
       flash[:error] = 'The choice you are attempting to edit has ' +
           'already been answered and cannot be edited.'
@@ -28,12 +31,22 @@ class PollQuestionChoicesController < ApplicationController
 
   def destroy
     @poll_question_choice = PollQuestionChoice.find params[:id]
+    authorize @poll_question_choice.poll_question
     if not @poll_question_choice.locked? and @poll_question_choice.destroy
       flash[:notice] = 'Poll question choice deleted.'
     else
       flash[:error] = 'Could not delete poll question choice.'
     end
     redirect_to poll_questions_path
+  end
+
+  def choose
+    @poll_question_choice = PollQuestionChoice.find params[:id]
+    @poll_question = PollQuestion.find params[:poll_question_id]
+    unless @poll_question.answered_by?(@current_person)
+      @poll_question_choice.people << @current_person
+    end
+    redirect_to poll_question_path(@poll_question)
   end
 
   private

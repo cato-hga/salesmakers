@@ -40,7 +40,7 @@ describe 'PollQuestionChoices CRUD actions' do
       poll_question_choice.people << person
       visit poll_questions_path
       within '.widgets .widget:first-of-type .choices .choice:first-of-type' do
-        expect(page).not_to have_content('Edit')
+        expect(page).not_to have_selector('a', text: 'Edit')
       end
     end
   end

@@ -601,3 +601,28 @@ table
     .blocked
       font-style: italic
       opacity: 0.5
+
+.poll_question
+  .poll_question_help_text
+    color: #666
+  .choices
+    margin-top: $spacing
+    .choice
+      padding: ($spacing / 2) 0
+      margin: ($spacing / 2) 0
+      border-bottom: 1px solid #eee
+      &:last-of-type
+        border-bottom: 0
+      .choice_radio
+        float: left
+        padding: 0 ($spacing / 2)
+        clear: both
+      .details
+        display: inline-block
+        .choice_name
+          display: inline-block
+          font-weight: bold
+        .choice_help_text
+          display: inline-block
+          color: #666
+          font-size: small

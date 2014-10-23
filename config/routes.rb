@@ -73,8 +73,12 @@ Rails.application.routes.draw do
   # resources :permissions
   # resources :permission_groups
 
-  resources :poll_questions, except: [:show] do
-    resources :poll_question_choices, only: [:new, :create, :update, :destroy]
+  resources :poll_questions do
+    resources :poll_question_choices, only: [:new, :create, :update, :destroy] do
+      member do
+        get :choose, as: :choose
+      end
+    end
   end
 
   resources :profiles, only: [:edit, :update] do

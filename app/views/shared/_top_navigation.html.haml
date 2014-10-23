@@ -32,6 +32,18 @@
               %li= link_to 'Search', people_path
               %li= link_to 'Org Chart', org_chart_people_path
 
+          - admin_links = Array.new
+          - poll_questions = link_to 'Poll Questions', poll_questions_path
+          - admin_links << poll_questions if |
+            PollQuestionPolicy.new(@current_person, PollQuestion.new).index? |
+
+          - if admin_links.count > 0
+            %li.has-dropdown
+              = link_to 'Admin', '#'
+              %ul.dropdown
+                - for admin_link in admin_links
+                  %li= admin_link
+
           %li.has-dropdown#joyride-profile
             = link_to @current_person.email, person_path(@current_person)
             %ul.dropdown

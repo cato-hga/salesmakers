@@ -70,4 +70,22 @@ describe PollQuestionChoicesController do
     end
   end
 
+  describe 'GET choose' do
+    let!(:person) { Person.first }
+
+    it 'allows a person to answer a poll they have not answered yet' do
+      poll_question_choice.save
+      poll_question = poll_question_choice.poll_question
+      expect {
+        get :choose,
+            id: poll_question_choice.id,
+            poll_question_id: poll_question.id
+        person.reload
+      }.to change(person.poll_question_choices, :count).by(1)
+      expect(response).to redirect_to(poll_question_path(poll_question))
+    end
+
+    it 'does not allow a person to answer a question more than once'
+  end
+
 end

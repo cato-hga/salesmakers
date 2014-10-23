@@ -27,6 +27,18 @@ describe PollQuestionsController do
     end
   end
 
+  describe 'GET show' do
+    let!(:poll_question) { create :poll_question }
+
+    it 'returns a success status' do
+      get :show,
+          id: poll_question.id
+      expect(response).to be_success
+      expect(response).to render_template(:show)
+    end
+
+  end
+
   describe 'GET edit' do
     let(:poll_question) { create :poll_question }
 

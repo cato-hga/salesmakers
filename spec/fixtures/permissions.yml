@@ -38,6 +38,16 @@ person_update_own_basic_permission:
   description: update own basic personal information
   permission_group: permission_group
 
+poll_question_manage_permission:
+  key: poll_question_manage
+  description: manage poll questions
+  permission_group: permission_group
+
+poll_question_show_permission:
+  key: poll_question_show
+  description: view poll question results
+  permission_group: permission_group
+
 position_index_permission:
   key: position_index
   description: view positions index
