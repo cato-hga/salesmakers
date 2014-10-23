@@ -3,6 +3,7 @@ require 'rails_helper'
 describe ProfileExperiencesController do
   let(:profile) { Profile.first }
   let(:profile_experience) { build :profile_experience }
+  let(:invalid_profile_experience) { build :profile_experience, started: nil }
 
   describe 'GET new' do
     it 'returns a success status' do
@@ -13,7 +14,7 @@ describe ProfileExperiencesController do
     end
   end
 
-  describe 'POST create' do
+  describe 'POST create success' do
     it 'creates a profile experience record' do
       expect {
         post :create,
@@ -21,6 +22,13 @@ describe ProfileExperiencesController do
              profile_experience: profile_experience.attributes
       }.to change(ProfileExperience, :count).by(1)
       expect(response).to be_redirect
+    end
+  end
+
+  describe 'POST create failure' do
+    it 'does not create a profile experience record' do
+      post :create, profile_id: profile.id, profile_experience: invalid_profile_experience.attributes
+      expect(response).to render_template(:new)
     end
   end
 
@@ -47,6 +55,15 @@ describe ProfileExperiencesController do
         profile_experience.reload
       }.to change(profile_experience, :title).to('Chief Amazing Officer')
       expect(response).to be_redirect
+    end
+  end
+
+  describe 'PUT update failure' do
+    it 'does not update a profile experience record' do
+      profile_experience.save
+      put :update, profile_id: profile.id, id: profile_experience.id, profile_experience: invalid_profile_experience.attributes
+      profile_experience.reload
+      expect(response).to render_template(:edit)
     end
   end
 
