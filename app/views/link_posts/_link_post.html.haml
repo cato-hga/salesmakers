@@ -1,3 +1,3 @@
 %h5
-  %a{ href: post.publication.publishable.url, target: '_blank' }= post.publication.publishable.title
+  %a{ href: post.publication.publishable.url, target: '_blank' }= post.publication.publishable.title.html_safe
 = link_to image_tag(post.publication.publishable.preview.url, alt: post.publication.publishable.title), post.publication.publishable.url, title: post.publication.publishable.title, target: '_blank' if post.publication.publishable.image_stored?

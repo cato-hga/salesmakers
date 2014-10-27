@@ -255,7 +255,9 @@ module ApplicationHelper
   end
 
   def display_post(post, first_post = false, hide = false)
-    publishable = post.publication.publishable
+    publication = post.publication
+    return unless publication
+    publishable = publication.publishable
     if publishable.is_a? TextPost
       return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
     elsif publishable.is_a? UploadedImage

@@ -17,6 +17,7 @@ class PeopleController < ProtectedController
     redirect_to about_person_path(@person) unless show_wall?(@person)
     @wall = @person.wall
     @walls = Wall.where id: @person.wall.id
+    show_own = @person == @current_person
     @wall_posts = @wall.wall_posts
   end
 
