@@ -1,0 +1,7 @@
+group_me_post:
+  group_me_user: group_me_user
+  group_me_group: group_me_group
+  person: administrator_person
+  posted_at: <%= Time.now %>
+  json: "Test"
+  message_num: 1
