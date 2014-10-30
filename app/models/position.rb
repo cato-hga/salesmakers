@@ -78,6 +78,7 @@ class Position < ActiveRecord::Base
     area_name = self.clean_area_name connect_user_region
     connect_user_project = (connect_user_region) ? connect_user_region.project : nil
 
+    # :nocov:
     case connect_user.username
       when 'sdesjarlais@retaildoneright.com'
         position = pos_td
@@ -150,6 +151,8 @@ class Position < ActiveRecord::Base
       when 'dginn@retaildoneright.com'
         position = pos_rsrrvp
     end
+
+    # :nocov:
 
     return position if position
 

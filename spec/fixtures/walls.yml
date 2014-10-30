@@ -6,3 +6,6 @@ department_wall:
 
 project_wall:
   wallable: project (Project)
+
+area_wall:
+  wallable: root_area (Area)

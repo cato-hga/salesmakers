@@ -2,6 +2,7 @@ root_area:
   name: Root Area
   area_type: area_type
   project: project
+  groupme_group: group_me_group.group_num
 
 child_area:
   name: Child Area
