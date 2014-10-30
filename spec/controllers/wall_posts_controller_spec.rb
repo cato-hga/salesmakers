@@ -9,6 +9,7 @@ describe WallPostsController do
 
   describe 'GET promote' do
     let(:new_wall) { create :area_wall }
+    let(:person_wall) { create :person_wall, wallable: (create :person) }
 
     it 'promotes a wall post' do
       request.env['HTTP_REFERER'] = root_path
@@ -43,8 +44,13 @@ describe WallPostsController do
 
     it 'does not allow promotion if the person cannot post to that wall' do
       request.env['HTTP_REFERER'] = root_path
+      position = Person.first.position
+      position.hq = false
+      position.save
+      position.permissions.destroy_all
       get :promote,
-          id: wall_post.id
+          id: wall_post.id,
+          wall_id: new_wall.id
       expect(request.flash[:error]).not_to be_nil
       expect(response).to redirect_to(root_path)
     end

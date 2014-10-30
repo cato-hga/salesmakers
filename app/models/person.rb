@@ -141,6 +141,14 @@ class Person < ActiveRecord::Base
     self.display_name
   end
 
+  def termination_date_invalid?
+    self.employments > 0 and self.employments.first.end and self.employments.first.end.strftime('%Y').to_i < 2008
+  end
+
+  def terminated?
+    self.employments.count > 0 and self.employments.first.end
+  end
+
   def social_name
     if self.profile.nickname? and not self.profile.nickname.blank?
       self.profile.nickname
@@ -314,6 +322,20 @@ class Person < ActiveRecord::Base
   def group_me_avatar_url
     return unless group_me_user
     group_me_user.avatar_url
+  end
+
+  def default_wall
+    if self.position.hq?
+      Wall.find_by wallable: self.position.department
+    elsif person_areas.count > 0
+      Wall.find_by wallable: self.person_areas.first.area
+    else
+      Wall.find_by wallable: self
+    end
+  end
+
+  def related_log_entries
+    LogEntry.where trackable_type: 'Person', trackable_id: self.id
   end
 
   private

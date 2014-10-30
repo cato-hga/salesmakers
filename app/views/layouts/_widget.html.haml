@@ -7,7 +7,7 @@
         %div
           %strong
             %span{ id: first_post ? 'first_post_author' : nil }= social_link post.person
-        - unless post.updated_at - 10.second > post.created_at and post.reposted_by_person
+        - unless post.reposted?
           .posted_to{ id: first_post ? 'first_post_posted_to' : nil }
             to
             = wall_link post.wall.wallable
@@ -15,7 +15,7 @@
           = time_ago_in_words(post.created_at) + ' ago'
           .xx-small
             = friendly_datetime post.created_at
-        - if post.updated_at - 10.second > post.created_at and post.reposted_by_person
+        - if post.reposted?
           .small.comment.centered_text.vertical_space
             Reposted to
             = wall_link post.wall.wallable

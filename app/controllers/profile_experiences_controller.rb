@@ -10,7 +10,6 @@ class ProfileExperiencesController < ApplicationController
 
   def create
     @profile_experience = ProfileExperience.new profile_experience_params
-    @profile_experience.ended = nil if @profile_experience.currently_employed?
     if @profile_experience.save
       flash[:notice] = 'Experience added.'
       redirect_to edit_profile_path(@profile_experience.profile)

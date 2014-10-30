@@ -71,6 +71,30 @@ class LinkPost < ActiveRecord::Base
     File.delete(temp_thumbnail_path) rescue 0
   end
 
+  def self.linkify(link)
+    new_link = link
+    if unrecognized_protocol?(new_link)
+      new_link = strip_protocol(new_link)
+      return 'http://' + new_link
+    end
+    new_link = 'http://' + new_link unless slash_slash_index(new_link)
+    new_link
+  end
+
+  def self.slash_slash_index(link)
+    link.index('//')
+  end
+
+  def self.strip_protocol(link)
+    link_length = link.length
+    link[(slash_slash_index(link) + 2)..link_length]
+  end
+
+  def self.unrecognized_protocol?(link)
+    slash_slash_index(link) and not (link.starts_with?('http://') or
+        link.starts_with?('https://'))
+  end
+
   private
 
     def encode_content(content)

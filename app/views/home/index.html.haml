@@ -4,15 +4,18 @@
     .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour', class: [:button, :inline_button]
 
 - sales_bar_count = 0
-- unless @current_person.position and (@current_person.position.hq? or @current_person.position.leadership?)
+- position = @current_person.position
+- person_areas = @current_person.person_areas
+- hq = position ? position.hq? : false
+- unless position and (hq or position.leadership?)
   .top_widgets= render partial: 'shared/sales_wall_widget', locals: { object: @current_person }
-- if @current_person.position and @current_person.position.leadership? and not @current_person.position.hq? and @current_person.person_areas.count > 0
-  - for person_area in @current_person.person_areas
+- if position and position.leadership? and not position.hq? and person_areas.count > 0
+  - for person_area in person_areas
     - sales_bar_count += 1 if person_area.manages?
   .top_widgets
-    - for person_area in @current_person.person_areas
+    - for person_area in person_areas
       = render partial: 'shared/sales_wall_widget', locals: { object: person_area.area, width: 12 / sales_bar_count } if person_area.manages?
-- if @current_person.position and @current_person.position.hq?
+- if hq
   - for project in @visible_projects do
     - sales_bar_count += 1 if project.day_sales_counts.count > 0
   .top_widgets

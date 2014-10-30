@@ -29,18 +29,16 @@ class ApplicationController < ActionController::Base
   end
 
   def setup_default_walls
-    return unless @current_person and @current_person.position
-    if @current_person.position.hq?
-      @wall = Wall.find_by wallable: @current_person.position.department
-    elsif @current_person.person_areas.count > 0
-      @wall = Wall.find_by wallable: @current_person.person_areas.first.area
-    else
-      @wall = Wall.find_by wallable: @current_person
-    end
+    return unless current_person_has_position?
+    @wall = @current_person.default_wall
     @walls = Wall.postable(@current_person).includes(:wallable)
   end
 
   private
+
+  def current_person_has_position?
+    @current_person and @current_person.position
+  end
 
   def setup_accessibles
     if @current_person

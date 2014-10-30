@@ -9,9 +9,7 @@ class WallPostsController < ApplicationController
       flash[:error] = "This post is already posted to #{@to_wall.wallable.name}!"
     end
     if Wall.postable(@current_person).include? @to_wall
-      @wall_post.wall = @to_wall
-      @wall_post.reposted_by_person = @current_person
-      if @wall_post.save
+      if @wall_post.repost(@to_wall, @current_person)
         flash[:notice] = "Posted to #{@to_wall.wallable.name}."
         redirect_to :back
       else
@@ -23,7 +21,6 @@ class WallPostsController < ApplicationController
       redirect_to :back
     end
   end
-
 
   def destroy
     @wall_post = WallPost.find params[:id]

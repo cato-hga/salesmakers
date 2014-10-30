@@ -33,10 +33,11 @@ class PeopleController < ProtectedController
   def about
     @person = Person.find params[:id]
     set_show_wall
-    @log_entries = LogEntry.where trackable_type: 'Person', trackable_id: @person.id
+    @log_entries = @person.related_log_entries
     mojo = Mojo.new
-    @creator_tickets = mojo.creator_all_tickets @person.email, 12
-    @assignee_tickets = mojo.assignee_open_tickets @person.email
+    email = @person.email
+    @creator_tickets = mojo.creator_all_tickets email, 12
+    @assignee_tickets = mojo.assignee_open_tickets email
     @profile = @person.profile
     @profile_experiences = @profile.profile_experiences
     @profile_educations = @profile.profile_educations

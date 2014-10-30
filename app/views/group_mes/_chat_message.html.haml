@@ -9,6 +9,8 @@
     .timestamp.small.comment.right
       = message.created_at.strftime '%m/%d/%Y %-l:%M%P'
     .content
-      - if message.attachments and message.attachments.count > 0 and message.attachments[0]['type'] == 'image'
-        %img{ src: message.attachments[0]['url'] + (message.attachments[0]['url'].include?('groupme') ? '.large' : '') }
+      - attachments = message.attachments
+      - if message.has_image?
+        - url = message.attachments[0]['url']
+        %img{ src: url + (url.include?('groupme') ? '.large' : '') }
       = simple_format(message.text.html_safe, {}, wrapper_tag: 'div') if message.text

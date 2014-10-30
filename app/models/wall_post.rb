@@ -69,6 +69,16 @@ class WallPost < ActiveRecord::Base
     end
   end
 
+  def repost(wall, reposted_by)
+    self.wall = wall
+    self.reposted_by_person = reposted_by
+    self.save
+  end
+
+  def reposted?
+    self.updated_at - 10.second > self.created_at and self.reposted_by_person
+  end
+
   private
 
   def broadcast

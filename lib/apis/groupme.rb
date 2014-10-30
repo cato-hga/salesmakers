@@ -198,6 +198,10 @@ class GroupMeApiMessage
     @attachments
   end
 
+  def has_image?
+    attachments and attachments.count > 0 and attachments[0]['type'] == 'image'
+  end
+
   def text
     GroupMeEmojiFilter.filter @text, attachments
   end

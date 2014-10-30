@@ -1,32 +1,19 @@
-app/views/log_entries/person_area/_create_bare.html.haml:4 - move code into controller
-app/views/home/index.html.haml:7 - move code into model (@current_person use_count > 2)
-app/views/home/index.html.haml:9 - move code into model (@current_person use_count > 2)
-app/views/group_mes/_chat_message.html.haml:12 - move code into model (message use_count > 2)
-app/views/people/about.html.haml:call - move code into model (@person use_count > 2)
-app/views/people/index.html.haml:31 - move code into model (person use_count > 2)
-app/views/layouts/_widget.html.haml:10 - move code into model (post use_count > 2)
-app/views/layouts/_widget.html.haml:18 - move code into model (post use_count > 2)
 app/views/kaminari/_paginator.html.haml:7 - move code into model (page use_count > 2)
 app/controllers/api/v1/people_controller.rb:34 - move model logic into model (@person use_count > 4)
 app/controllers/api/v1/people_controller.rb:34 - move model logic into model (@connect_user use_count > 4)
-app/controllers/wall_posts_controller.rb:4 - move model logic into model (@wall_post use_count > 4)
-app/controllers/profile_experiences_controller.rb:11 - move model logic into model (@profile_experience use_count > 4)
-app/controllers/application_controller.rb:31 - move model logic into model (@current_person use_count > 4)
-app/controllers/widgets_controller.rb:127 - move model logic into model (messages use_count > 4)
-app/controllers/people_controller.rb:32 - move model logic into model (@person use_count > 4)
 app/controllers/device_deployments_controller.rb:15 - move model logic into model (@device_deployment use_count > 4)
 config/routes.rb:14 - needless deep nesting (nested_count > 2)
 config/routes.rb:20 - needless deep nesting (nested_count > 2)
-app/views/log_entries/device_deployment/_end.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/device_deployment/_create.html.haml:4 - not use time_ago_in_words
+app/views/log_entries/device_deployment/_end.html.haml:6 - not use time_ago_in_words
+app/views/log_entries/device_deployment/_create.html.haml:7 - not use time_ago_in_words
 app/views/log_entries/device/_lost_or_stolen.html.haml:4 - not use time_ago_in_words
 app/views/log_entries/device/_exchange.html.haml:4 - not use time_ago_in_words
 app/views/log_entries/device/_create.html.haml:4 - not use time_ago_in_words
 app/views/log_entries/device/_write_off.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/person/_assign_as_manager.html.haml:5 - not use time_ago_in_words
+app/views/log_entries/person/_assign_as_manager.html.haml:9 - not use time_ago_in_words
 app/views/log_entries/person/_create.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/person/_assign_as_employee.html.haml:5 - not use time_ago_in_words
-app/views/log_entries/person/_set_position.html.haml:5 - not use time_ago_in_words
+app/views/log_entries/person/_assign_as_employee.html.haml:8 - not use time_ago_in_words
+app/views/log_entries/person/_set_position.html.haml:8 - not use time_ago_in_words
 app/views/layouts/_widget.html.haml:15 - not use time_ago_in_words
 app/views/layouts/_widget.html.haml:22 - not use time_ago_in_words
 app/views/blog_posts/show.html.haml:5 - not use time_ago_in_words
@@ -63,7 +50,7 @@ app/helpers/channels_helper.rb:1 - remove empty helpers
 app/helpers/lines_helper.rb:1 - remove empty helpers
 app/helpers/likes_helper.rb:1 - remove empty helpers
 app/helpers/profile_skills_helper.rb:1 - remove empty helpers
-app/controllers/home_controller.rb:6 - remove unused methods (HomeController#dashboard)
+app/controllers/home_controller.rb:7 - remove unused methods (HomeController#dashboard)
 app/controllers/widgets_controller.rb:13 - remove unused methods (WidgetsController#person_sales)
 app/controllers/widgets_controller.rb:19 - remove unused methods (WidgetsController#hours)
 app/controllers/widgets_controller.rb:23 - remove unused methods (WidgetsController#person_hours)
@@ -91,10 +78,12 @@ app/helpers/widgets_helper.rb:95 - remove unused methods (WidgetsHelper#this_wee
 app/helpers/widgets_helper.rb:170 - remove unused methods (WidgetsHelper#hps)
 app/helpers/application_helper.rb:113 - remove unused methods (ApplicationHelper#med_date)
 app/helpers/application_helper.rb:117 - remove unused methods (ApplicationHelper#long_date)
-app/helpers/application_helper.rb:181 - remove unused methods (ApplicationHelper#device_service_provider_image)
+app/helpers/application_helper.rb:189 - remove unused methods (ApplicationHelper#device_service_provider_image)
 app/models/device.rb:227 - remove unused methods (Device#exchange_from_connect_asset_movement)
 app/models/connect_model.rb:12 - remove unused methods (ConnectModel#inactive)
 app/models/real_connect_model.rb:12 - remove unused methods (RealConnectModel#inactive)
+app/models/poll_question.rb:30 - remove unused methods (PollQuestion#start_time_text)
+app/models/poll_question.rb:38 - remove unused methods (PollQuestion#end_time_text)
 app/models/connect_order.rb:64 - remove unused methods (ConnectOrder#refunds)
 app/models/area.rb:36 - remove unused methods (Area#member_of)
 app/models/log_entry.rb:24 - remove unused methods (LogEntry#person_separated_from_connect)
@@ -104,9 +93,10 @@ app/views/shared/_off_canvas_navigation.html.haml:38 - replace instance variable
 app/views/shared/_off_canvas_navigation.html.haml:40 - replace instance variable with local variable
 app/views/shared/_social_swiper.html.haml:3 - replace instance variable with local variable
 app/views/shared/_top_navigation.html.haml:23 - replace instance variable with local variable
-app/views/shared/_top_navigation.html.haml:36 - replace instance variable with local variable
-app/views/shared/_top_navigation.html.haml:36 - replace instance variable with local variable
-app/views/shared/_top_navigation.html.haml:39 - replace instance variable with local variable
+app/views/shared/_top_navigation.html.haml:37 - replace instance variable with local variable
+app/views/shared/_top_navigation.html.haml:48 - replace instance variable with local variable
+app/views/shared/_top_navigation.html.haml:48 - replace instance variable with local variable
+app/views/shared/_top_navigation.html.haml:51 - replace instance variable with local variable
 app/views/shared/_share_form.html.haml:1 - replace instance variable with local variable
 app/views/shared/_share_form.html.haml:1 - replace instance variable with local variable
 app/views/shared/_share_form.html.haml:1 - replace instance variable with local variable
@@ -124,8 +114,10 @@ app/views/shared/_share_form.html.haml:38 - replace instance variable with local
 app/views/shared/_share_form.html.haml:38 - replace instance variable with local variable
 app/views/shared/_ajax_errors.html.haml:1 - replace instance variable with local variable
 app/views/shared/_ajax_errors.html.haml:1 - replace instance variable with local variable
-app/views/shared/_ajax_errors.html.haml:4 - replace instance variable with local variable
+app/views/shared/_ajax_errors.html.haml:2 - replace instance variable with local variable
 app/views/shared/_log_entries.html.haml:3 - replace instance variable with local variable
+app/views/home/_joyride.html.haml:65 - replace instance variable with local variable
+app/views/home/_joyride.html.haml:66 - replace instance variable with local variable
 app/views/wall_post_comments/_form.html.haml:3 - replace instance variable with local variable
 app/views/wall_post_comments/_form.html.haml:6 - replace instance variable with local variable
 app/views/wall_post_comments/_form.html.haml:10 - replace instance variable with local variable
@@ -159,6 +151,9 @@ app/views/wall_posts/_wall_posts.html.haml:27 - replace instance variable with l
 app/views/wall_posts/_wall_posts.html.haml:33 - replace instance variable with local variable
 app/views/profiles/_form.html.haml:1 - replace instance variable with local variable
 app/views/profiles/_form.html.haml:4 - replace instance variable with local variable
+app/views/poll_questions/_form.html.haml:1 - replace instance variable with local variable
+app/views/poll_questions/_form.html.haml:2 - replace instance variable with local variable
+app/views/poll_questions/_form.html.haml:3 - replace instance variable with local variable
 app/views/layouts/_widget.html.haml:39 - replace instance variable with local variable
 app/views/layouts/_widget.html.haml:39 - replace instance variable with local variable
 app/views/layouts/_widget.html.haml:39 - replace instance variable with local variable
@@ -172,13 +167,13 @@ app/views/projects/_areas_sales_top_10.html.haml:3 - replace instance variable w
 app/views/projects/_people_sales_top_10.html.haml:1 - replace instance variable with local variable
 app/views/projects/_people_sales_top_10.html.haml:2 - replace instance variable with local variable
 app/views/projects/_people_sales_top_10.html.haml:3 - replace instance variable with local variable
+config/routes.rb:77 - restrict auto-generated routes poll_questions/poll_question_choices (only: [:create, :update, :destroy])
 app/views/wall_post_comments/create.html.haml:1 - simplify render in views
 app/views/wall_post_comments/update.html.haml:1 - simplify render in views
 app/views/group_mes/groups_aside.html.haml:5 - simplify render in views
 app/views/group_mes/group_chat_aside.html.haml:8 - simplify render in views
+app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)
 app/views/log_entries/wireless_line/_suspend_bare.html.haml:3 - use query attribute (log_entry.comment?)
-app/views/log_entries/device_deployment/_end_bare.html.haml:3 - use query attribute (log_entry.comment?)
-app/views/log_entries/device_deployment/_end.html.haml:6 - use query attribute (log_entry.comment?)
 app/views/log_entries/device/_create_bare.html.haml:3 - use query attribute (log_entry.comment?)
 app/views/log_entries/device/_lost_or_stolen_bare.html.haml:4 - use query attribute (log_entry.comment?)
 app/views/log_entries/device/_write_off_bare.html.haml:3 - use query attribute (log_entry.comment?)
@@ -188,13 +183,13 @@ app/views/log_entries/device/_create.html.haml:8 - use query attribute (log_entr
 app/views/log_entries/device/_exchange_bare.html.haml:4 - use query attribute (log_entry.comment?)
 app/views/log_entries/device/_repair_bare.html.haml:4 - use query attribute (log_entry.comment?)
 app/views/log_entries/device/_write_off.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/person/_assign_as_manager.html.haml:9 - use query attribute (log_entry.comment?)
 app/views/log_entries/person/_create.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/person/_assign_as_employee.html.haml:9 - use query attribute (log_entry.comment?)
-app/views/log_entries/person/_set_position.html.haml:9 - use query attribute (log_entry.comment?)
-app/views/people/about.html.haml:65 - use query attribute (@person.mobile_phone?)
-app/views/people/about.html.haml:69 - use query attribute (@person.office_phone?)
-app/views/people/about.html.haml:73 - use query attribute (@person.home_phone?)
+app/views/people/about.html.haml:78 - use query attribute (@person.mobile_phone?)
+app/views/people/about.html.haml:82 - use query attribute (@person.office_phone?)
+app/views/people/about.html.haml:86 - use query attribute (@person.home_phone?)
+db/migrate/20141023145152_insert_poll_question_permissions.rb:55 - use say with time in migrations
+db/migrate/20141023145152_insert_poll_question_permissions.rb:56 - use say with time in migrations
+db/migrate/20141023145152_insert_poll_question_permissions.rb:57 - use say with time in migrations
 app/models/position.rb:175 - remove trailing whitespace
 config/initializers/websocket_rails.rb:40 - remove trailing whitespace
 db/seeds/position.rb:63 - remove trailing whitespace

@@ -28,10 +28,11 @@
       - hired = show_details ? link_to(person.employments.first.start.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - hired = ''
-    - if person.employments.count > 0 and person.employments.first.end and person.employments.first.end.strftime('%Y').to_i < 2008
+    - employments = person.employments
+    - if person.termination_date_invalid?
       - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
-    - elsif person.employments.count > 0 and person.employments.first.end
-      - termed = show_details ? link_to(person.employments.first.end.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+    - elsif person.terminated?
+      - termed = show_details ? link_to(employments.first.end.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - termed = ''
     - if person.eid
