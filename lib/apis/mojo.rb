@@ -1,6 +1,6 @@
 class Mojo
   include HTTParty
-  base_uri 'support.rbdconnect.com/api'
+  base_uri 'http://support.rbdconnect.com/api'
   format :json
 
   require 'open-uri'
@@ -17,20 +17,20 @@ class Mojo
   end
 
   def creator_open_tickets(email)
-    query = 'created_by_email:("' + email + '") AND status_id:(<50)'
+    query = 'created_by.email:("' + email + '") AND status_id:(<50)'
     tickets = doGet('/tickets/search/', { query: query, sf: 'updated_on', r: 1 })
     tickets
   end
 
   def creator_all_tickets(email, max = 20)
-    query = 'created_by_email:("' + email + '")'
+    query = 'created_by.email:("' + email + '")'
     tickets = doGet('/tickets/search/', { query: query, per_page: max, sf: 'updated_on', r: 1 })
     max_index = max-1
     tickets[ 0..max_index ]
   end
 
   def assignee_open_tickets(email)
-    query = 'assignee_email:("' + email + '") AND status_id:(<50)'
+    query = 'assignee.email:("' + email + '") AND status_id:(<50)'
     tickets = doGet('/tickets/search/', { query: query, sf: 'updated_on', r: 1  })
     tickets
   end
