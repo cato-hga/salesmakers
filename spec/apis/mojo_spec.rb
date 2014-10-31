@@ -14,13 +14,17 @@ describe 'Mojo API' do
     expect(ticket['user_id']).to be 1090987
   end
 
-  it 'should get all tickets for creators', :vcr do
+  it 'should get all tickets for creators',
+     :vcr,
+     pending: 'support ticket in with Mojo on created_by queries' do
     tickets = mojo.creator_all_tickets 'smiles@retaildoneright.com'
     expect(tickets.count).to be > 0
   end
 
 
-  it 'should get tickets only for specified creator', :vcr do
+  it 'should get tickets only for specified creator',
+     :vcr,
+     pending: 'support ticket in with Mojo on created_by queries' do
     tickets = mojo.creator_all_tickets 'smiles@retaildoneright.com'
     expect(tickets.count).to be > 0
     for ticket in tickets do

@@ -60,6 +60,7 @@ group :development do
   # gem 'bullet' # Database query analysis for performance tuning.
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
   #gem 'rack-mini-profiler', '0.9.2' #Performance profiling
+  gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
 end
 
 group :test do
@@ -76,7 +77,6 @@ end
 group :development, :test do
   gem 'rspec-rails', '3.0.1' # Rspec test framework
   gem 'faker', '1.3.0' # Easily create fake data for mocked objects
-  gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
 end
 
 group :production do

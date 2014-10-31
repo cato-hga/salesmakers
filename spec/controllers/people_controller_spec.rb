@@ -45,13 +45,13 @@ describe PeopleController do
   end
 
   describe 'GET about' do
-    it 'returns a success status' do
+    it 'returns a success status', :vcr do
       get :about, id: person.id
       expect(response).to be_success
       expect(response).to render_template(:about)
     end
 
-    it 'passes the correct person to the view' do
+    it 'passes the correct person to the view', :vcr do
       get :about, id: person.id
       expect(assigns(:person)).to eq(person)
     end

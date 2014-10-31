@@ -7,4 +7,3 @@ administrator_person:
   position: administrator_position
   connect_user_id: 2C908AA22CBD1292012CBD1735100034
   mobile_phone: 8005551212
-  last_seen: <%= Time.now %>

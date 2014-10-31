@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.groupme.com/v3/groups/8936279?token=7a853610f0ca01310e5a065d7b71239d
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Allow-Headers:
+      - Accept, Content-Type, X-Requested-With, X-Access-Token, User-Agent, Pragma,
+        Referrer, Cache-Control, Origin
+      Access-Control-Allow-Methods:
+      - POST, GET, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '86400'
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 31 Oct 2014 16:42:30 GMT
+      Server:
+      - nginx/1.6.2
+      X-Gm-Service:
+      - conversations
+      Content-Length:
+      - '1133'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"id":"8936279","group_id":"8936279","name":"RBD Test Playground!","phone_number":"+1 7605017632","type":"private","description":"","image_url":null,"creator_user_id":"12486363","created_at":1404310912,"updated_at":1414770577,"office_mode":false,"share_url":null,"members":[{"user_id":"12486289","nickname":"Stephen Miles","image_url":"http://i.groupme.com/3315eb50d9020130bffb1634aa036823","id":"55984244","muted":true,"autokicked":false},{"user_id":"13909278","nickname":"Anthony Atkinson","image_url":"http://i.groupme.com/1000x1000.png.cffa980726214aa4b24304dd26d0e750","id":"49740412","muted":false,"autokicked":false},{"user_id":"12486363","nickname":"RBD Information Technology","image_url":"http://i.groupme.com/140x132.png.fdacc4f2dd3b4f8baa23b54f1fc9eb50","id":"49737536","muted":false,"autokicked":false}],"messages":{"count":2500,"last_message_id":"141477057726492376","last_message_created_at":1414770577,"preview":{"nickname":"RBD Information Technology","text":"Test","image_url":"http://i.groupme.com/140x132.png.fdacc4f2dd3b4f8baa23b54f1fc9eb50","attachments":[]}},"max_members":50},"meta":{"code":200}}
+    http_version: 
+  recorded_at: Fri, 31 Oct 2014 16:42:29 GMT
+recorded_with: VCR 2.9.3

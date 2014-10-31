@@ -105,7 +105,7 @@ describe 'Share Form' do
       end
     end
 
-    it 'should post links' do
+    it 'should post links', :vcr do
       within('div.post_content') do
         expect(page).to have_content('Google')
         visit root_path
@@ -113,7 +113,7 @@ describe 'Share Form' do
       end
     end
 
-    it 'should process and display a web page' do
+    it 'should process and display a web page', :vcr do
       within('div.post_content') do
         expect(page).to have_css('img')
       end

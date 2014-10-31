@@ -1,5 +1,5 @@
 - first_post = false unless defined? first_post
-.widget{ class: (defined?(hidden) and hidden ? 'hidden' : '') }
+.widget{ class: (defined?(hidden) and hidden ? 'hidden' : ''), id: (first_post ? 'first_post' : '') }
   .inner
     .row.full-width
       .large-3.columns.centered_text
@@ -11,7 +11,7 @@
           .posted_to{ id: first_post ? 'first_post_posted_to' : nil }
             to
             = wall_link post.wall.wallable
-        .small.comment.centered_text.vertical_space
+        .small.comment.centered_text.vertical_space#first_post
           = time_ago_in_words(post.created_at) + ' ago'
           .xx-small
             = friendly_datetime post.created_at

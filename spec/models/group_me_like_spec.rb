@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-RSpec.describe GroupMeLike, :type => :model do
+describe GroupMeLike do
   it { should belong_to(:group_me_post) }
   it { should belong_to(:group_me_user) }
 
@@ -11,12 +11,8 @@ RSpec.describe GroupMeLike, :type => :model do
   let(:wall) { Wall.find_by_wallable_type 'Area' }
 
   describe 'creation from json' do
-    it 'should parse JSON' do
-      pending
-    end
-    it 'should increment the like count' do
-      pending
-    end
+    it 'should parse JSON'
+    it 'should increment the like count'
   end
 
   describe 'liking' do
