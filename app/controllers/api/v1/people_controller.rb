@@ -22,11 +22,13 @@ class API::V1::PeopleController < API::BaseController
       respond_with Person.new
       return
     end
+    last_contact = @connect_user.lastcontact
+    separated = last_contact ? last_contact : Time.now
     updater.log? :separate,
                  @person,
                  nil,
-                 @connect_user.lastcontact,
-                 @connect_user.lastcontact
+                 separated,
+                 separated
     @person.reload
     respond_with @person
   end

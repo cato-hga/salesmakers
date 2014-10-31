@@ -263,6 +263,8 @@ class Person < ActiveRecord::Base
     return unless connect_user
     separator = connect_user.updater
     self.update(active: false, updated_at: connect_user.updated)
+    updated_to_inactive = self.active? ? false : true
+    return updated_to_inactive if self.employments.count < 1
     return if self.employments.count < 1
     employment = self.employments.first
     terminations = connect_user.connect_terminations
@@ -276,6 +278,7 @@ class Person < ActiveRecord::Base
     employment.end = ended
     employment.end_reason = reason
     employment.save
+    updated_to_inactive
   end
 
   def get_connect_user

@@ -47,12 +47,12 @@ describe API::V1::PeopleController, type: :controller do
     end
 
     it 'creates a log entry upon separation',
-       :vcr,
-       pending: 'troubleshooting needed' do
+       :vcr do
       onboard
       expect {
         separate
       }.to change(LogEntry.all, :count).by_at_least(1)
     end
   end
+
 end
