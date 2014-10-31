@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&per_page=12&query=created_by_email:(%22retailingw@retaildoneright.com%22)&r=1&sf=updated_on
+    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&per_page=12&query=created_by.email:(%22retailingw@retaildoneright.com%22)&r=1&sf=updated_on
     body:
       encoding: US-ASCII
       string: ''
@@ -17,19 +17,19 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 31 Oct 2014 16:39:14 GMT
+      - Fri, 31 Oct 2014 17:37:22 GMT
       Server:
       - Apache/2.2.3 (Red Hat)
       Etag:
       - '"d751713988987e9331980363e24189ce"'
       X-Runtime:
-      - '110'
+      - '15'
       Cache-Control:
       - private, max-age=0, must-revalidate
       X-Powered-By:
       - Phusion Passenger 4.0.53
       Set-Cookie:
-      - _user_session=b50f105ec23e7a044bce5d5ba0212543; path=/; HttpOnly
+      - _user_session=20f505dff144cf7a82600fc2f0e7cfe1; path=/; HttpOnly
       Content-Length:
       - '2'
       Status:
@@ -42,10 +42,10 @@ http_interactions:
       encoding: UTF-8
       string: "[]"
     http_version: 
-  recorded_at: Fri, 31 Oct 2014 16:39:14 GMT
+  recorded_at: Fri, 31 Oct 2014 17:37:21 GMT
 - request:
     method: get
-    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&query=assignee_email:(%22retailingw@retaildoneright.com%22)%20AND%20status_id:(%3C50)&r=1&sf=updated_on
+    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&query=assignee.email:(%22retailingw@retaildoneright.com%22)%20AND%20status_id:(%3C50)&r=1&sf=updated_on
     body:
       encoding: US-ASCII
       string: ''
@@ -60,19 +60,19 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 31 Oct 2014 16:39:14 GMT
+      - Fri, 31 Oct 2014 17:37:22 GMT
       Server:
       - Apache/2.2.3 (Red Hat)
       Etag:
       - '"d751713988987e9331980363e24189ce"'
       X-Runtime:
-      - '314'
+      - '18'
       Cache-Control:
       - private, max-age=0, must-revalidate
       X-Powered-By:
       - Phusion Passenger 4.0.53
       Set-Cookie:
-      - _user_session=0e22c0c42c5492341252024bc1351ef9; path=/; HttpOnly
+      - _user_session=706e3c398b5b93c8d319f3e78a74d4b1; path=/; HttpOnly
       Content-Length:
       - '2'
       Status:
@@ -85,5 +85,5 @@ http_interactions:
       encoding: UTF-8
       string: "[]"
     http_version: 
-  recorded_at: Fri, 31 Oct 2014 16:39:15 GMT
+  recorded_at: Fri, 31 Oct 2014 17:37:22 GMT
 recorded_with: VCR 2.9.3
