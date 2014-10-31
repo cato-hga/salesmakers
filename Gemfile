@@ -69,6 +69,8 @@ group :test do
   gem 'database_cleaner', '1.3.0' # Automated cleaning of test database between spec runs
   gem 'simplecov', '0.9.0', require: false # Easily see amount of code covered by tests
   gem 'shoulda-matchers', '2.6.2', require: false # Easy model validation test methods
+  gem 'webmock', '1.20.0' # Stubbing of HTTP requests
+  gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests
 end
 
 group :development, :test do
