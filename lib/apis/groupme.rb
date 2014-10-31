@@ -138,7 +138,11 @@ class GroupMe
     }.to_json
     #Separate out attachments hash and put into group me message if an attachment exists
     response = doPost "/groups/#{group_id}/messages", group_me_message
-    group_me_message
+    if response.success?
+      group_me_message
+    else
+      nil
+    end
   end
 
 end

@@ -1,0 +1,53 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groupme.com/v3/groups/8936279/messages?token=7a853610f0ca01310e5a065d7b71239d
+    body:
+      encoding: UTF-8
+      string: '{"message":{"source_guid":"caac495d-b452-4a30-b4a7-d6f202849fd1","text":"GroupMe
+        API \"send_message\" test"}}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Allow-Headers:
+      - Accept, Content-Type, X-Requested-With
+      Access-Control-Allow-Methods:
+      - POST, GET, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '86400'
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 31 Oct 2014 15:48:55 GMT
+      Server:
+      - nginx/1.6.2
+      Status:
+      - 201 Created
+      X-Frame-Options:
+      - sameorigin
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '445'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"code":201},"response":{"message":{"id":"141477053584731998","source_guid":"caac495d-b452-4a30-b4a7-d6f202849fd1","created_at":1414770535,"user_id":"12486363","group_id":"8936279","name":"RBD
+        Information Technology","avatar_url":"http://i.groupme.com/140x132.png.fdacc4f2dd3b4f8baa23b54f1fc9eb50","text":"GroupMe
+        API \"send_message\" test","system":false,"attachments":[],"favorited_by":[],"sender_type":"user","sender_id":"12486363"}}}'
+    http_version: 
+  recorded_at: Fri, 31 Oct 2014 15:48:55 GMT
+recorded_with: VCR 2.9.3
