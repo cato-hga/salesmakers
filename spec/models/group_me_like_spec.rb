@@ -11,8 +11,21 @@ describe GroupMeLike do
   let(:wall) { Wall.find_by_wallable_type 'Area' }
 
   describe 'creation from json' do
-    it 'should parse JSON'
-    it 'should increment the like count'
+    let(:group_id) { GroupMeGroup.first.group_num }
+    let(:user_id) { group_me_user.group_me_user_num }
+    let(:post_id) { group_me_post.message_num }
+
+    it 'should increment the like count' do
+      json_info = {
+          user_id: user_id,
+          line: {
+              group_id: group_id,
+              id: post_id
+          }
+      }.to_json
+      json = JSON.parse json_info
+      expect{GroupMeLike.create_from_json(json)}.to change(GroupMeLike, :count).by(2)
+    end
   end
 
   describe 'liking' do
