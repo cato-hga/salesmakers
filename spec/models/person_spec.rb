@@ -1,8 +1,6 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-#TODO: TESTS
-
 RSpec.describe Person, :type => :model do
 
   it do
@@ -22,28 +20,72 @@ RSpec.describe Person, :type => :model do
   end
 
 
-  # describe 'uniqueness validations' do
-  #   before(:all) do
-  #     build_stubbed :person_one, email: 'test@rbd-von.com', connect_user_id: '123456'
-  #     build_stubbed :person_two, email: 'test2@rbd-von.com', connect_user_id: nil
-  #   end
-  #
-  #   let(:person) { person_two }
-  #
-  #   it 'should allow multiple null values for connect_user_id' do
-  #     expect(person).to be_valid
-  #   end
-  #
-  #   it 'should not allow duplicate not null values for connect_user_id' do
-  #     person_two.connect_user_id = '123456'
-  #     expect(person).not_to be_valid
-  #   end
-  #
-  #   it 'should not allow duplicate values for email' do
-  #     person.email = 'test@rbd-von.com'
-  #     expect(person).not_to be_valid
-  #   end
-  # end
+  describe 'uniqueness validations' do
+    let(:person) { Person.first }
+    let(:second_person) { create :person }
+
+    it 'should allow multiple null values for connect_user_id' do
+      person.connect_user_id = nil
+      person.save
+      second_person.connect_user_id = nil
+      second_person.save
+      expect(second_person).to be_valid
+    end
+
+    it 'should not allow duplicate not null values for connect_user_id' do
+      person.connect_user_id = 123
+      person.save
+      second_person.connect_user_id = 123
+      second_person.save
+      expect(second_person).not_to be_valid
+    end
+
+    it 'should not allow duplicate values for email' do
+      person.email = 'test@test.com'
+      person.save
+      second_person.email = 'test@test.com'
+      second_person.save
+      expect(second_person).not_to be_valid
+    end
+
+    it 'should not allow duplicate values for personal email' do
+      person.personal_email = 'personal@test.com'
+      person.save
+      second_person.personal_email = 'personal@test.com'
+      second_person.save
+      expect(second_person).not_to be_valid
+    end
+
+    it 'should allow duplicate null values for personal email' do
+      person.personal_email = nil
+      person.save
+      second_person.personal_email = nil
+      second_person.save
+      expect(second_person).to be_valid
+    end
+
+    it 'should allow duplicate values for first name and last name (combined)' do
+      person.first_name = 'Test'
+      person.last_name = 'Case'
+      person.save
+      second_person.first_name = 'Test'
+      second_person.last_name = 'Case'
+      second_person.save
+      expect(second_person).to be_valid
+    end
+
+    it 'should not allow duplicate values for first name, last name, and a phone number (combined)' do
+      person.first_name = 'Test'
+      person.last_name = 'Case'
+      person.mobile_phone = '8005551111'
+      person.save
+      second_person.first_name = 'Test'
+      second_person.last_name = 'Case'
+      second_person.mobile_phone = '8005551111'
+      second_person.save
+      expect(second_person).to be_valid
+    end
+  end
 
   describe 'phone number presence validation' do
 
