@@ -24,7 +24,7 @@ describe GroupMeLike do
           }
       }.to_json
       json = JSON.parse json_info
-      expect{GroupMeLike.create_from_json(json)}.to change(GroupMeLike, :count).by(2)
+      expect{GroupMeLike.create_from_json(json)}.to change(GroupMeLike, :count).by(1)
     end
   end
 
