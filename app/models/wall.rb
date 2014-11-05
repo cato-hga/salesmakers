@@ -59,6 +59,7 @@ class Wall < ActiveRecord::Base
       walls = visible_walls
     end
     walls.delete person.wall if person.wall
+    return Wall.none if walls.count < 1
     Wall.where("\"walls\".\"id\" IN (#{walls.map(&:id).join(',')})")
   }
 
