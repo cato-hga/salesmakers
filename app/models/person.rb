@@ -157,6 +157,7 @@ class Person < ActiveRecord::Base
     end
   end
 
+  #:nocov:
   def import_employment_from_connect
     return unless self.connect_user_id
     connect_user = self.connect_user
@@ -284,6 +285,7 @@ class Person < ActiveRecord::Base
   def get_connect_user
     ConnectUser.find_by username: self.email
   end
+  #:nocov:
 
   def separate
     self.update(active: false, updated_at: separated_at)
@@ -305,12 +307,14 @@ class Person < ActiveRecord::Base
     Wall.create wallable: self
   end
 
+  #:nocov:
   def self.update_from_connect(minutes)
     connect_users = ConnectUser.where('updated >= ?', Time.now - minutes.minutes + (Time.zone_offset(Time.zone.now.strftime('%Z')) / 60 / 60).hours)
     for connect_user in connect_users do
       PersonUpdater.new(connect_user).update
     end
   end
+  #:nocov:
 
   def profile_avatar
     return unless profile

@@ -147,5 +147,60 @@ RSpec.describe Person, :type => :model do
   #   end
   # end
 
+  describe '#name' do
+    it 'should return the display name as name' do
+      expect(Person.first.name).to eq(Person.first.display_name)
+    end
+  end
 
+  describe '#termination_date_invalid?' do
+    it 'should return true if (what?)'
+  end
+
+  describe '#terminated?' do
+    let(:person ) { create :person }
+    let!(:employment) { create :employment, person: person, end: Time.now }
+    it 'should return true if the first employee record has an end' do
+      expect(person.terminated?).to be_truthy
+    end
+  end
+
+  describe '#social_name' do
+    let(:person) { create :person }
+    let(:profile) { create :profile, person: person }
+    it 'should return the nickname if present' do
+      profile.nickname = 'My Nickname!'
+      expect(person.social_name).to eq(profile.nickname)
+    end
+    it 'should return the display_name if nickname is not present' do
+      expect(person.social_name).to eq(person.display_name)
+    end
+  end
+
+  describe '#profile_avatar' do
+    let(:person) { create :person }
+    let!(:profile) { create :profile, person: person, avatar: avatar }
+    let(:avatar) { 'files/image.jpg' }
+    it 'should return the persons profile avatar' do
+      expect(person.profile_avatar).not_to be_nil
+    end
+  end
+
+  describe '#profile_avatar_url' do
+    let(:person) { create :person }
+    let!(:profile) { create :profile, person: person, avatar: avatar }
+    let(:avatar) { 'files/image.jpg' }
+    it 'should return the profile_avatar url' do
+      expect(person.profile_avatar_url).not_to be_nil
+    end
+  end
+
+  describe '#group_me_avatar_url' do
+    let(:person) { create :person }
+    let(:avatar) { 'files/image.jpg' }
+    let!(:group_me_user) { create :group_me_user, person: person, avatar_url: avatar }
+    it 'should return the group me avatar url for a person' do
+      expect(person.group_me_avatar_url).not_to be_nil
+    end
+  end
 end
