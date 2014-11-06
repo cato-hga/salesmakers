@@ -48,21 +48,74 @@ describe 'Wall posts' do
   end
 
   describe 'viewable options (when not authorized)' do
-    it 'should not have a delete option'
-    it 'should not have a change visibility option'
+    let(:person) { Person.first }
+
+    before(:example) do
+      person.position.permissions.destroy_all
+      person.position.update(hq: false)
+      visit root_path
+    end
+
+    it 'should not have a delete option' do
+      within('#first_post .actions') do
+        expect(page).not_to have_selector('a', text: 'Delete')
+      end
+    end
+
+    it 'should not have a change visibility option' do
+      within('.widget:last-of-type .actions') do
+        expect(page).not_to have_css('span.show_change_wall_form')
+      end
+    end
   end
 
   describe 'likes' do
-    it 'should increase by one when the star is clicked'
-    it 'should decrease by one when the star is clicked a second time'
-    it 'should not be clickable if it is your own post'
+    before(:example) do
+      create :non_it_wall_post
+      visit root_path
+    end
+
+    it 'increases by one when the star is clicked' do
+      expect {
+        page.find('a.unliked:first-of-type').click
+      }.to change(Like, :count).by(1)
+    end
+
+    it 'decreases by one when the star is clicked a second time' do
+      page.find('a.unliked:first-of-type').click
+      visit root_path
+      expect {
+        page.find('a.liked:first-of-type').click
+      }.to change(Like, :count).by(-1)
+    end
+
+    it 'is not be clickable if it is your own post' do
+      WallPost.destroy_all
+      post = create :it_wall_post,
+                    person: Person.first
+      visit root_path
+      expect(page).not_to have_selector('a.unliked')
+    end
   end
 
-  describe 'change Post Visibility' do
-    it 'should change the wall that the post is on'
+  context 'when post visibility is changed' do
+    specify 'the wall that the post is on changes',
+            pending: 'need js: true which is not functioning properly' do
+      visit root_path
+      post = WallPost.find_by wall: Department.first.wall
+      within('.widget:last-of-type .actions') do
+        find('a', text: 'Change Post Visibility').click
+        select('RBD Project - Project', from: 'wall_post_wall_id')
+        expect {
+          find('a.change_wall_submit').click
+          post.reload
+        }.to change(post, :wall_id)
+      end
+    end
   end
 
   describe 'deletion' do
-    it 'should delete the Wall Post'
+    it 'deletes the Wall Post'
   end
+
 end

@@ -84,8 +84,6 @@ describe PollQuestionChoicesController do
       }.to change(person.poll_question_choices, :count).by(1)
       expect(response).to redirect_to(poll_question_path(poll_question))
     end
-
-    it 'does not allow a person to answer a question more than once'
   end
 
 end
