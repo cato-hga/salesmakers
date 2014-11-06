@@ -6,8 +6,9 @@
 #  * +parent+ returns the parent node of the current node or else nil if it's a root
 #  * +children+ returns an +Array+ of all children of this node or an empty +Array+ if it is a leaf node
 #
-#:nocov:
+
 module SimpleTree
+  #:nocov:
   def parent() raise "parent must be overridden"; end
   def children() raise "children must be overridden"; end
 
