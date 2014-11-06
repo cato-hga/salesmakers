@@ -7,24 +7,70 @@ RSpec.describe GroupMeGroup, :type => :model do
   it { should belong_to(:area) }
   it { should have_many(:group_me_posts) }
 
-  it 'should update groups if GroupMeGroup is found', :vcr do
-    @groups = GroupMeGroup.update_group('8936279') #TODO: Should this be hardcoded?
-    expect(@groups).to_not be_nil #TODO: << This sucks.
+
+
+  describe '.update' do
+
+    it 'should generate '
   end
 
-  it 'should return nil if GroupMeGroup is not found', :vcr do
-    @groups = GroupMeGroup.update_group('111111')
-    expect(@groups).to be_nil #TODO: << This probably sucks even more
+  describe '.update_group_via_json' do
+
+    let(:group_me_group) { GroupMeGroup.first }
+    let(:group_num) { group_me_group.group_num }
+    let(:group_me_user) { GroupMeUser.first }
+    let(:user_id) { group_me_user.group_me_user_num }
+
+    it 'should update the GroupMeGroup if GroupMeGroup is found' do
+      json_info = {
+          id: group_num,
+          name: "New Name!",
+          members: [{
+                        user_id: user_id,
+                        nickname: "Test",
+                    }]
+      }.to_json
+      group_json = JSON.parse json_info
+      GroupMeGroup.update_group_via_json group_json
+      group_me_group.reload
+      expect(group_me_group.name).to eq('New Name!')
+    end
+
+    it 'should create the GroupMeGroup if GroupMeGroup is not found' do
+      json_info = {
+          id: "2",
+          name: "New Name!",
+          members: [{
+                        user_id: user_id,
+                        nickname: "Test",
+                    }]
+      }.to_json
+      group_json = JSON.parse json_info
+      expect{
+        GroupMeGroup.update_group_via_json group_json
+        group_me_group.reload
+      }.to change(GroupMeGroup, :count).by(1)
+
+    end
   end
 
-  #TODO: Mock this out
-  # describe 'likes thresholds' do
-  #
-  #   it 'should return 4 if member count is under 10' do
-  #     likes = 5
-  #     expect(GroupMeGroup.likes_threshold).to eq('4')
-  #   end
-  #
-  # end
+  describe '#likes_threshold' do
+    let(:group_me_group) { GroupMeGroup.first }
 
+    it 'should return a likes threshold based upon the user count of a GroupMeGroup' do
+      expect(group_me_group.likes_threshold).to eq(4)
+      allow(group_me_group.group_me_users).to receive(:count).and_return(10)
+      expect(group_me_group.likes_threshold).to eq(5)
+      allow(group_me_group.group_me_users).to receive(:count).and_return(20)
+      expect(group_me_group.likes_threshold).to eq(6)
+    end
+  end
+
+  describe '.update_groups' do
+    it 'should update multiple groups'
+  end
+
+  describe '.update_bots' do
+    pending
+  end
 end
