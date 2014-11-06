@@ -31,7 +31,7 @@ module ApplicationHelper
     link_to project.name, [project.client, project]
   end
 
-  def phone_link(phone, classes)
+  def phone_link(phone, classes = nil)
     return unless phone
     phone_string = phone.to_s
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
@@ -90,6 +90,7 @@ module ApplicationHelper
     content
   end
 
+  #:nocov:
   def line_state_links(line)
     links = Array.new
     for state in line.line_states do
@@ -105,6 +106,7 @@ module ApplicationHelper
     end
     links.join(', ').html_safe
   end
+  #:nocov:
 
   def short_date(date)
     date.strftime '%m/%d/%Y'
@@ -143,10 +145,17 @@ module ApplicationHelper
     render "log_entries/bare_log_entry", log_entry: log_entry
   end
 
+  def name_to_file_name(name)
+    name = name.gsub(' ', '_')
+    name = name.gsub(/[^A-Za-z0-9_]/, '')
+    name.underscore
+  end
+
   def render_log_entry(log_entry)
     render "log_entries/log_entry", log_entry: log_entry
   end
 
+  #:nocov:
   def device_link(device)
     link_to device.serial, device
   end
@@ -166,12 +175,6 @@ module ApplicationHelper
     else
       ''
     end
-  end
-
-  def name_to_file_name(name)
-    name = name.gsub(/[^A-Za-z0-9]/, '')
-    name = name.gsub(' ', '_')
-    name.underscore
   end
 
   def line_service_provider_image(line)
@@ -202,15 +205,12 @@ module ApplicationHelper
     link_to '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9], line
   end
 
-  def render_log_entry(log_entry)
-    render "log_entries/log_entry", log_entry: log_entry
-  end
-
   def line_display(line)
     line_string = line.identifier
     return line_string unless line_string.length == 10
     '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
   end
+  #:nocov:
 
   def new_button(path)
     link_to icon('plus') + ' New', path, class: [:button, :rounded, :inline_button], id: 'new_action_button'
@@ -239,9 +239,12 @@ module ApplicationHelper
     empty_columns
   end
 
+  #:nocov:
+  # WTF? Don't know how to test this.
   def emojify(text)
-    Emoji.replace_unicode_moji_with_images text.html_safe
+    Emoji.replace_unicode_emoji_with_images text.html_safe
   end
+  #:nocov:
 
   def transform_url(url)
     auto_html url do
@@ -260,12 +263,18 @@ module ApplicationHelper
     publishable = publication.publishable
     if publishable.is_a? TextPost
       return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+    #:nocov:
+    # Testing with DragonFly?
     elsif publishable.is_a? UploadedImage
       return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+    #:nocov:
     elsif publishable.is_a? UploadedVideo
       return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+    #:nocov:
+    # Testing with Dragonfly?
     elsif publishable.is_a? LinkPost
       return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+    #:nocov:
     end
     nil
   end
@@ -335,6 +344,8 @@ module ApplicationHelper
                    group_by_day(:day).sum(:sales)
   end
 
+  #:nocov:
+  # IT'S JUST MATH, people
   def week_run_rate_multiplier
     (7 * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_week)
   end
@@ -346,6 +357,7 @@ module ApplicationHelper
   def year_run_rate_multiplier
     (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_year)
   end
+  #:nocov:
 
   def groupme_emoji_filter(text, attachments)
     GroupMeEmojiFilter.filter(text, attachments).html_safe
