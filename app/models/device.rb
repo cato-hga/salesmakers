@@ -11,6 +11,8 @@ class Device < ActiveRecord::Base
   has_many :device_deployments
   has_one :device_manufacturer, through: :device_model
 
+  #:nocov:
+
   def self.create_from_connect_asset_movement(serial, device_model_id, line, movement, created_by)
     device_state_emails = [
         'assets@retaildoneright.com',
@@ -266,6 +268,8 @@ class Device < ActiveRecord::Base
                                 updated_at: movement.updated,
                                 person: created_by
   end
+
+  #:nocov:
 
   def manufacturer_name
     device_manufacturer.name
