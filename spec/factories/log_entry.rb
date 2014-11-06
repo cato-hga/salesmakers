@@ -3,6 +3,6 @@ FactoryGirl.define do
   factory :log_entry do
     person
     action 'create'
-    trackable { build :device }
+    trackable { create :person }
   end
 end

@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :uploaded_video do
-    url 'http://www.youtube.com/'
+    url 'https://www.youtube.com/watch?v=IBYfA3zTxFE'
     person
   end
 end
