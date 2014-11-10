@@ -1,6 +1,7 @@
 class API::V1::PeopleController < API::BaseController
   before_action :get_person, only: [:onboard, :separate, :update]
 
+  #:nocov:
   def onboard
     creator = get_creator
     @person.import_employment_from_connect if @person
@@ -89,4 +90,6 @@ class API::V1::PeopleController < API::BaseController
     updater_connect_user = @connect_user.updater
     Person.return_from_connect_user updater_connect_user || []
   end
+
+  #:nocov:
 end

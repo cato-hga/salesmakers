@@ -1,6 +1,6 @@
 class SaleImporter
 
-  #nocov:
+  #:nocov:
   def initialize(start_date = (Time.now - 1.month).to_date, end_date = Time.zone.now.to_date)
     @start_date = start_date
     @end_date = end_date
