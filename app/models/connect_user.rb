@@ -23,6 +23,7 @@ class ConnectUser < ConnectModel
            foreign_key: 'ad_user_id',
            primary_key: 'ad_user_id'
 
+  #:nocov:
   def self.not_main_administrators
     self.where("username != 'retailingw@retaildoneright.com' AND username != 'aatkinson@retaildoneright.com' AND username != 'smiles@retaildoneright.com' AND (username LIKE '%@retaildoneright.com' OR username LIKE '%@rbd%.com') AND lower(firstname) != 'x' AND ad_org_id = '6B3C6669E32B43E1A1B14788C0CD0146' AND username NOT LIKE '%@%clear%.com'")
   end
@@ -101,4 +102,6 @@ class ConnectUser < ConnectModel
     end
     phone_number
   end
+
+  #:nocov:
 end
