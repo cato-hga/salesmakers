@@ -16,8 +16,8 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 # Uncomment the next two lines for code coverage
-# require 'simplecov'
-# SimpleCov.start 'rails'
+require 'simplecov'
+SimpleCov.start 'rails'
 require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'database_cleaner'
