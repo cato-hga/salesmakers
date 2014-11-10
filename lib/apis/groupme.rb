@@ -179,6 +179,9 @@ class GroupMeApiMessage
 
   include Comparable
 
+  #TODO: Review whether or not these need to be attr_accessor or reader/writer. I have set it to accessor during refactoring just to be safe
+  attr_accessor :group_name, :author, :attachments, :avatar, :likes
+
   def initialize(group_name, author, attachments, text, created_at, likes, avatar)
     @group_name = group_name
     @author = author
@@ -188,18 +191,6 @@ class GroupMeApiMessage
     @likes = likes
     @avatar = avatar
     @powerups = GroupMePowerUps
-  end
-
-  def group_name
-    @group_name
-  end
-
-  def author
-    @author
-  end
-
-  def attachments
-    @attachments
   end
 
   def has_image?
@@ -212,14 +203,6 @@ class GroupMeApiMessage
 
   def created_at
     Time.at(@created_at).to_datetime
-  end
-
-  def likes
-    @likes
-  end
-
-  def avatar
-    @avatar
   end
 
   def <=> other
