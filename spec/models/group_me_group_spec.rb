@@ -9,9 +9,8 @@ RSpec.describe GroupMeGroup, :type => :model do
 
 
 
-  describe '.update' do
-
-    it 'should generate '
+  describe '.update_group' do
+    it 'should generate group_json and pass off to .update_group_via_json'
   end
 
   describe '.update_group_via_json' do
