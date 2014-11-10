@@ -71,15 +71,29 @@ describe ProfileExperiencesController do
   end
 
   describe 'DELETE destroy' do
-    it 'destroys a profile education record' do
+    subject { delete :destroy,
+                     profile_id: profile.id,
+                     id: profile_experience.id }
+
+    before(:each) do
       profile_experience.save
       request.env['HTTP_REFERER'] = root_path
-      expect {
-        delete :destroy,
-               profile_id: profile.id,
-               id: profile_experience.id
-      }.to change(ProfileExperience, :count).by(-1)
-      expect(response).to redirect_to(root_path)
+    end
+
+    context 'success' do
+      it 'destroys a profile education record' do
+        expect{subject}.to change(ProfileExperience, :count).by(-1)
+        expect(response).to redirect_to(root_path)
+      end
+
+      it 'flashes a deleted notice' do
+        expect(subject.request.flash[:notice]).to eq('Experience deleted!')
+      end
+    end
+
+    context 'failure' do
+      it 'should not destroy a profile education record'
+      it 'should flash an error message'
     end
   end
 end
