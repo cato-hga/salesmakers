@@ -5,6 +5,7 @@ class ConnectModel < ActiveRecord::Base
   before_create :set_create_audit, :set_update_audit, :set_active
   before_update :set_update_audit
 
+  #:nocov:
   def self.active
     self.where(isactive: 'Y')
   end
@@ -54,4 +55,6 @@ class ConnectModel < ActiveRecord::Base
   def set_active
     self["isactive"] = "Y"
   end
+
+  #:nocov:
 end

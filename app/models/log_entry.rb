@@ -11,6 +11,7 @@ class LogEntry < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
 
+  #:nocov:
   def self.person_onboarded_from_connect(person, creator, created = nil, updated = nil)
     return unless person and creator and person.valid? and creator.valid?
     entry = self.new action: 'create',
@@ -64,6 +65,7 @@ class LogEntry < ActiveRecord::Base
     entry.updated_at = updated if updated
     entry.save
   end
+  #:nocov:
 
   private
 
