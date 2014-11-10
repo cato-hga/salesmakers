@@ -48,3 +48,22 @@ describe 'GroupMe API' do
     expect(message).not_to be_nil
   end
 end
+
+describe 'GroupMe API Message' do
+
+  describe '#has_image?' do
+    it 'should return true if a message has attachments of type image'
+  end
+
+  describe '#text' do
+    pending
+  end
+
+  describe '#created_at' do
+    it 'should return the created_at attribute'
+  end
+
+  describe '#<=> other' do
+    pending
+  end
+end
