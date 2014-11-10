@@ -6,6 +6,7 @@ class Position < ActiveRecord::Base
   has_many :people
   has_and_belongs_to_many :permissions
 
+  #:nocov:
   def self.return_from_connect_user(connect_user)
     pos_admin = Position.find_by_name 'System Administrator'
     pos_vrrvp = Position.find_by_name 'Vonage Retail Regional Vice President'
@@ -78,7 +79,6 @@ class Position < ActiveRecord::Base
     area_name = self.clean_area_name connect_user_region
     connect_user_project = (connect_user_region) ? connect_user_region.project : nil
 
-    # :nocov:
     case connect_user.username
       when 'sdesjarlais@retaildoneright.com'
         position = pos_td
@@ -240,6 +240,7 @@ class Position < ActiveRecord::Base
     position = pos_uf unless position
     position
   end
+  #:nocov:
 
   def self.clean_area_name(connect_region)
     return nil unless connect_region and connect_region.name
