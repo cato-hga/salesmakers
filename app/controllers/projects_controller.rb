@@ -2,6 +2,7 @@ class ProjectsController < ProtectedController
   after_action :verify_authorized, except: [:show, :sales]
   after_action :verify_policy_scoped
 
+  #TODO: We should revisit this. Extremely hard to test and not even sure if it works currently.
   def show
     @project = Project.find params[:id]
     @wall = policy_scope(Wall).find_by wallable: @project
