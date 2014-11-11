@@ -42,6 +42,15 @@ GEM
       activesupport (= 4.1.1)
       builder (~> 3.1)
       erubis (~> 2.7.0)
+    active_shipping (0.12.4)
+      active_utils (~> 2.2.0)
+      activesupport (>= 2.3.5)
+      builder
+      i18n
+      json (>= 1.5.1)
+    active_utils (2.2.3)
+      activesupport (>= 2.3.11)
+      i18n
     activemodel (4.1.1)
       activesupport (= 4.1.1)
       builder (~> 3.1)
@@ -460,6 +469,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_shipping (= 0.12.4)
   ancestry!
   attribute_normalizer (= 1.2.0)
   auto_html (= 1.6.4)

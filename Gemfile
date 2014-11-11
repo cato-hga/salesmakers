@@ -46,6 +46,7 @@ gem 'spring-commands-rspec', '1.0.2' # Spring RSpec additions
 # gem 'foundation-datetimepicker-rails', '0.1.3' # Date/Time picker for Foundation
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
+gem 'active_shipping', '0.12.4' # Shipping integration for many carriers
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development
