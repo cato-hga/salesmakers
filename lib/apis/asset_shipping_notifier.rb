@@ -25,6 +25,7 @@ class AssetShippingNotifier
 
   def send_group_me_hal_message(hal_mti, person, group_me_group_num)
     tracking_info = hal_mti.tracking_info
+    tracking_number = hal_mti.connect_asset_movement.tracking
     return unless tracking_info.params
     pickup_location = pickup_location tracking_info
     return unless pickup_location
@@ -32,8 +33,18 @@ class AssetShippingNotifier
     return unless asset_type
     track_reply = tracking_info.params['TrackReply']
     message = "#{person.display_name} has a package "
+    message += "with tracking ##{tracking_number} "
     message += "containing a #{asset_type} that is now "
-    message += "awaiting pickup at #{pickup_location}."
+    message += "awaiting pickup"
+    if pickup_location
+      message += " at #{pickup_location}."
+    else
+      last_shipment_event = tracking_info.shipment_events.last
+      shipped_to_city = last_shipment_event.location.city
+      shipped_to_state = last_shipment_event.location.state
+      return unless shipped_to_city and shipped_to_state
+      message += " at the FedEx office in #{shipped_to_city}, #{shipped_to_state}."
+    end
     @groupme.send_message group_me_group_num,
                           message
   end
@@ -57,16 +68,13 @@ class AssetShippingNotifier
       begin
         tracking_info = @fedex.find_tracking_info movement.tracking
       rescue ActiveMerchant::Shipping::ResponseError
-        puts "Error in response for #{movement.tracking}"
         next
       end
       unless has_events?(tracking_info)
-        puts "Has no events"
         next
       end
       last_movement = tracking_info.shipment_events.last
       if last_movement.name.starts_with?('Held at')
-        puts "#{movement.tracking} is a HAL that's arrived"
         @held_at_location << MovementTrackingInfo.new(movement, tracking_info)
       elsif last_movement.name.starts_with?('Delivered')
         @delivered << MovementTrackingInfo.new(movement, tracking_info)
@@ -110,6 +118,7 @@ class AssetShippingNotifier
   end
 
   def format_address(address)
+    return nil unless address['StreetLines']
     formatted = address['StreetLines'].strip
     formatted += ", #{address['City']}, #{address['StateOrProvinceCode']} #{address['PostalCode']}"
   end

@@ -1,4 +1,5 @@
 require 'apis/groupme'
+require 'apis/asset_shipping_notifier'
 
 class GroupMeGroup < ActiveRecord::Base
   has_and_belongs_to_many :group_me_users, join_table: :group_me_groups_group_me_users
@@ -78,5 +79,10 @@ class GroupMeGroup < ActiveRecord::Base
                         'http://i.groupme.com/140x132.png.e28948adf69f43abb2f19a7068458812'
       end
     end
+  end
+
+  def self.notify_of_assets(hours)
+    notifier = AssetShippingNotifier.new
+    notifier.process_movements(hours)
   end
 end
