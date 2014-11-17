@@ -6,7 +6,7 @@ set :repo_url, 'git@rbd.unfuddle.com:rbd/reconnect.git'
 
 set :deploy_to, '/home/deploy'
 set :scm, :git
-set :branch, 'master'
+set :branch, 'deployment_azure'
 set :keep_releases, 5
 
 set :format, :pretty
