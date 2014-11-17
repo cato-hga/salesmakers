@@ -1,10 +1,10 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'oneconnect'
+set :application, 'rbdconnect'
 set :repo_url, 'git@rbd.unfuddle.com:rbd/reconnect.git'
 
-set :deploy_to, '/opt/oneconnect'
+set :deploy_to, '/home/deploy'
 set :scm, :git
 set :branch, 'master'
 set :keep_releases, 5
@@ -16,7 +16,7 @@ set :pty, true
 set :linked_files, %w{config/database.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-app_name = 'oneconnect'
+app_name = 'rbdconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
