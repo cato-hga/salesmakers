@@ -85,7 +85,7 @@ test:
 production:
   <<: *default
   database: reconnect_production
-  username: reconnect
+  username: deploy
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
 
 rbd_connect_test:
