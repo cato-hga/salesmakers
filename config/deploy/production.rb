@@ -6,9 +6,9 @@
 
 set :stage, :production
 
-role :app, %w{deploy@one.rbdconnect.com}
-role :web, %w{deploy@one.rbdconnect.com}
-role :db,  %w{deploy@one.rbdconnect.com}
+role :app, %w{deploy@beta.rbdconnect.com}
+role :web, %w{deploy@beta.rbdconnect.com}
+role :db,  %w{deploy@beta.rbdconnect.com}
 
 
 # Extended Server Syntax
@@ -17,7 +17,7 @@ role :db,  %w{deploy@one.rbdconnect.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'one.rbdconnect.com', user: 'deploy', roles: %w{web app}
+server 'beta.rbdconnect.com', user: 'deploy', roles: %w{web app}
 
 
 # Custom SSH Options

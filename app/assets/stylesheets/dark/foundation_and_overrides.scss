@@ -10,7 +10,7 @@
 // $rem-base: 16px;
 
 // Allows the use of rem-calc() or lower-bound() in your settings
-@import "foundation/functions";
+@import "foundation_new/foundation/functions";
 
 // $experimental: true;
 
@@ -1288,4 +1288,4 @@ $topbar-dropdown-label-bg: #111;
 // $range-slider-handle-bg-hover-color: scale-color($primary-color, $lightness: -12%);
 // $range-slider-handle-cursor: pointer;
 
-@import 'foundation';
+@import 'foundation_new/foundation';
