@@ -340,5 +340,5 @@ for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << profile_update_others
 end
 
-pos_md << poll_question_manage
-pos_md << poll_question_show
+pos_md.permissions << poll_question_manage
+pos_md.permissions << poll_question_show
