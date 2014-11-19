@@ -109,6 +109,18 @@ end
 #   end
 #
 # end
+namespace :seed do
+  desc "Seed the database."
+  task :default do
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: :production do
+          execute :rake, "db:seed"
+        end
+      end
+    end
+  end
+end
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
