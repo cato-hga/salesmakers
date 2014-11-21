@@ -1,48 +1,12 @@
 app/views/kaminari/_paginator.html.haml:7 - move code into model (page use_count > 2)
 app/controllers/api/v1/people_controller.rb:37 - move model logic into model (@person use_count > 4)
 app/controllers/api/v1/people_controller.rb:37 - move model logic into model (@connect_user use_count > 4)
-app/controllers/device_deployments_controller.rb:15 - move model logic into model (@device_deployment use_count > 4)
+app/controllers/device_deployments_controller.rb:16 - move model logic into model (@device_deployment use_count > 4)
 config/routes.rb:14 - needless deep nesting (nested_count > 2)
 config/routes.rb:20 - needless deep nesting (nested_count > 2)
 config/routes.rb:39 - overuse route customizations (customize_count > 3)
-app/controllers/widgets_controller.rb:14 - remove unused methods (WidgetsController#person_sales)
-app/controllers/widgets_controller.rb:20 - remove unused methods (WidgetsController#hours)
-app/controllers/widgets_controller.rb:24 - remove unused methods (WidgetsController#person_hours)
-app/controllers/widgets_controller.rb:30 - remove unused methods (WidgetsController#tickets)
-app/controllers/widgets_controller.rb:36 - remove unused methods (WidgetsController#person_tickets)
-app/controllers/widgets_controller.rb:44 - remove unused methods (WidgetsController#social)
-app/controllers/widgets_controller.rb:48 - remove unused methods (WidgetsController#alerts)
-app/controllers/widgets_controller.rb:52 - remove unused methods (WidgetsController#person_alerts)
-app/controllers/widgets_controller.rb:58 - remove unused methods (WidgetsController#image_gallery)
-app/controllers/widgets_controller.rb:62 - remove unused methods (WidgetsController#inventory)
-app/controllers/widgets_controller.rb:66 - remove unused methods (WidgetsController#person_inventory)
-app/controllers/widgets_controller.rb:72 - remove unused methods (WidgetsController#staffing)
-app/controllers/widgets_controller.rb:76 - remove unused methods (WidgetsController#gaming)
-app/controllers/widgets_controller.rb:84 - remove unused methods (WidgetsController#training)
-app/controllers/widgets_controller.rb:88 - remove unused methods (WidgetsController#gift_cards)
-app/controllers/widgets_controller.rb:92 - remove unused methods (WidgetsController#person_gift_cards)
-app/controllers/widgets_controller.rb:98 - remove unused methods (WidgetsController#pnl)
-app/controllers/widgets_controller.rb:102 - remove unused methods (WidgetsController#person_pnl)
-app/controllers/widgets_controller.rb:108 - remove unused methods (WidgetsController#hps)
-app/controllers/widgets_controller.rb:112 - remove unused methods (WidgetsController#person_hps)
-app/controllers/widgets_controller.rb:122 - remove unused methods (WidgetsController#person_assets)
-app/controllers/widgets_controller.rb:128 - remove unused methods (WidgetsController#groupme_slider)
-app/controllers/home_controller.rb:7 - remove unused methods (HomeController#dashboard)
-app/controllers/device_deployments_controller.rb:2 - remove unused methods (DeviceDeploymentsController#select_user)
-app/helpers/widgets_helper.rb:95 - remove unused methods (WidgetsHelper#this_week_sales_chart)
-app/helpers/widgets_helper.rb:170 - remove unused methods (WidgetsHelper#hps)
-app/helpers/application_helper.rb:115 - remove unused methods (ApplicationHelper#med_date)
-app/helpers/application_helper.rb:119 - remove unused methods (ApplicationHelper#long_date)
-app/helpers/application_helper.rb:192 - remove unused methods (ApplicationHelper#device_service_provider_image)
-app/models/device.rb:229 - remove unused methods (Device#exchange_from_connect_asset_movement)
-app/models/connect_model.rb:13 - remove unused methods (ConnectModel#inactive)
-app/models/log_entry.rb:25 - remove unused methods (LogEntry#person_separated_from_connect)
-app/models/connect_order.rb:64 - remove unused methods (ConnectOrder#refunds)
-app/models/area.rb:36 - remove unused methods (Area#member_of)
-app/models/poll_question.rb:30 - remove unused methods (PollQuestion#start_time_text)
-app/models/poll_question.rb:38 - remove unused methods (PollQuestion#end_time_text)
-app/models/real_connect_model.rb:12 - remove unused methods (RealConnectModel#inactive)
-app/controllers/device_deployments_controller.rb:15 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
+app/helpers/application_helper.rb:194 - remove unused methods (ApplicationHelper#device_service_provider_image)
+app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
 app/views/profiles/_form.html.haml:3 - replace instance variable with local variable
 app/views/profiles/_form.html.haml:6 - replace instance variable with local variable
 app/views/shared/_social_swiper.html.haml:5 - replace instance variable with local variable
@@ -76,24 +40,10 @@ app/views/poll_questions/edit.html.haml:5 - simplify render in views
 app/views/profile_experiences/new.html.haml:7 - simplify render in views
 app/views/profile_experiences/edit.html.haml:7 - simplify render in views
 app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)
-app/views/people/about.html.haml:78 - use query attribute (@person.mobile_phone?)
-app/views/people/about.html.haml:82 - use query attribute (@person.office_phone?)
-app/views/people/about.html.haml:86 - use query attribute (@person.home_phone?)
-app/views/log_entries/device/_write_off.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_create_bare.html.haml:3 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_lost_or_stolen.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_exchange_bare.html.haml:4 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_write_off_bare.html.haml:3 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_lost_or_stolen_bare.html.haml:4 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_create.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_repair_bare.html.haml:4 - use query attribute (log_entry.comment?)
-app/views/log_entries/device/_exchange.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/person/_create.html.haml:8 - use query attribute (log_entry.comment?)
-app/views/log_entries/wireless_line/_suspend_bare.html.haml:3 - use query attribute (log_entry.comment?)
 db/migrate/20141023145152_insert_poll_question_permissions.rb:55 - use say with time in migrations
 db/migrate/20141023145152_insert_poll_question_permissions.rb:56 - use say with time in migrations
 db/migrate/20141023145152_insert_poll_question_permissions.rb:57 - use say with time in migrations
-app/models/position.rb:178 - remove trailing whitespace
-db/seeds/position.rb:63 - remove trailing whitespace
+app/models/position.rb:186 - remove trailing whitespace
+db/seeds/position.rb:105 - remove trailing whitespace
 config/initializers/websocket_rails.rb:40 - remove trailing whitespace
 app/views/reports/new.html.haml:17 - remove trailing whitespace

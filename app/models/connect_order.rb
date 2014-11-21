@@ -61,7 +61,8 @@ class ConnectOrder < RealConnectModel
     self.where "documentno LIKE '%+'"
   end
 
-  def self.refunds
-    self.where "documentno LIKE '%-'"
-  end
+  # Not currently being used
+  # def self.refunds
+  #   self.where "documentno LIKE '%-'"
+  # end
 end

@@ -92,12 +92,14 @@ module WidgetsHelper
     render 'shared/stat_badge', measure: measure, stat: stat, indicator: indicator, type: type
   end
 
-  def this_week_sales_chart
-    line_chart ConnectOrder.this_week.sales.group("cast(dateordered as date)").count, {
-        id: 'this_week_sales_chart',
-        library: line_chart_library_options
-    }
-  end
+  # Not currently being used
+
+  # def this_week_sales_chart
+  #   line_chart ConnectOrder.this_week.sales.group("cast(dateordered as date)").count, {
+  #       id: 'this_week_sales_chart',
+  #       library: line_chart_library_options
+  #   }
+  # end
 
   def this_month_sales_chart
     line_chart ConnectOrder.this_month.sales.group("cast(dateordered as date)").count, {
@@ -165,10 +167,6 @@ module WidgetsHelper
             }
         }
     }
-  end
-
-  def hps
-
   end
 
   def person_hps_chart(person)

@@ -75,15 +75,15 @@
         %p
           %strong Personal Email:
           = mail_to @person.personal_email
-      - if @person.mobile_phone.present? and @show_wall
+      - if @person.mobile_phone? and @show_wall
         %p
           %strong Mobile Phone:
           = phone_link @person.mobile_phone, nil
-      - if @person.office_phone.present?
+      - if @person.office_phone?
         %p
           %strong Office Phone:
           = phone_link @person.office_phone, nil
-      - if @person.home_phone.present?
+      - if @person.home_phone?
         %p
           %strong Home Phone:
           = phone_link @person.home_phone, nil

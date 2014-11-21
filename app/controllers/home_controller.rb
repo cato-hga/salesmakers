@@ -4,7 +4,4 @@ class HomeController < ApplicationController
     @poll_questions = PollQuestion.visible(@current_person)
   end
 
-  def dashboard
-  end
-
 end

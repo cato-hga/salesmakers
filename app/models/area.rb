@@ -33,25 +33,26 @@ class Area < ActiveRecord::Base
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
 
-  scope :member_of, ->(person = nil) {
-    return Area.none unless person
-    areas = Array.new
-    if person.position and person.position.hq?
-      for area in Area.all do
-        areas << area.root unless areas.include? area.root
-      end
-      return Area.where("id IN (#{areas.map(&:id).join(',')})")
-    end
-    person_areas = person.person_areas
-
-    for person_area in person_areas do
-      areas << person_area.area
-    end
-
-    return Area.none if areas.count < 1
-
-    Area.where("id IN (#{areas.map(&:id).join(',')})")
-  }
+  # Not currently being used
+  # scope :member_of, ->(person = nil) {
+  #   return Area.none unless person
+  #   areas = Array.new
+  #   if person.position and person.position.hq?
+  #     for area in Area.all do
+  #       areas << area.root unless areas.include? area.root
+  #     end
+  #     return Area.where("id IN (#{areas.map(&:id).join(',')})")
+  #   end
+  #   person_areas = person.person_areas
+  #
+  #   for person_area in person_areas do
+  #     areas << person_area.area
+  #   end
+  #
+  #   return Area.none if areas.count < 1
+  #
+  #   Area.where("id IN (#{areas.map(&:id).join(',')})")
+  # }
 
   scope :project_roots, ->(project = nil) {
     return Area.none unless project

@@ -1,9 +1,10 @@
 class DeviceDeploymentsController < ApplicationController
-  def select_user
-    @device = Device.find params[ :device_id ]
-    @search = Person.search(params[:q])
-    @people = @search.result.order('display_name').page(params[:page])
-  end
+  # Currently not being used
+  # def select_user
+  #   @device = Device.find params[ :device_id ]
+  #   @search = Person.search(params[:q])
+  #   @people = @search.result.order('display_name').page(params[:page])
+  # end
 
   def new
     @person = Person.find params[ :person_id ]

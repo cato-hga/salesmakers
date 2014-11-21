@@ -1,7 +1,7 @@
 Flagged
 = device_link log_entry.trackable
 for exchange
-- if log_entry.comment.present? and not log_entry.comment.blank?
+- if log_entry.comment?
   with comment
   %span.comment
     = surround '"', '"' do

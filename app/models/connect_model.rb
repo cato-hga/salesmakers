@@ -10,9 +10,10 @@ class ConnectModel < ActiveRecord::Base
     self.where(isactive: 'Y')
   end
 
-  def self.inactive
-    self.where(isactive: 'N')
-  end
+  # Currently not being used
+  # def self.inactive
+  #   self.where(isactive: 'N')
+  # end
 
   protected
 
