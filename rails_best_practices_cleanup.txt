@@ -7,8 +7,4 @@ config/routes.rb:20 - needless deep nesting (nested_count > 2)
 config/routes.rb:39 - overuse route customizations (customize_count > 3)
 app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
 app/views/layouts/_widget.html.haml:46 - replace instance variable with local variable
-config/routes.rb:77 - restrict auto-generated routes poll_questions/poll_question_choices (only: [:create, :update, :destroy])
 app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)
-db/migrate/20141023145152_insert_poll_question_permissions.rb:55 - use say with time in migrations
-db/migrate/20141023145152_insert_poll_question_permissions.rb:56 - use say with time in migrations
-db/migrate/20141023145152_insert_poll_question_permissions.rb:57 - use say with time in migrations
