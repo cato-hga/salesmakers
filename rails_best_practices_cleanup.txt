@@ -8,21 +8,6 @@ config/routes.rb:39 - overuse route customizations (customize_count > 3)
 app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
 app/views/layouts/_widget.html.haml:46 - replace instance variable with local variable
 config/routes.rb:77 - restrict auto-generated routes poll_questions/poll_question_choices (only: [:create, :update, :destroy])
-app/views/home/index.html.haml:35 - simplify render in views
-app/views/wall_post_comments/update.html.haml:1 - simplify render in views
-app/views/wall_post_comments/create.html.haml:1 - simplify render in views
-app/views/group_mes/group_chat_aside.html.haml:8 - simplify render in views
-app/views/group_mes/groups_aside.html.haml:5 - simplify render in views
-app/views/projects/sales.html.haml:7 - simplify render in views
-app/views/projects/sales.html.haml:8 - simplify render in views
-app/views/themes/new.html.haml:2 - simplify render in views
-app/views/themes/edit.html.haml:2 - simplify render in views
-app/views/profile_educations/new.html.haml:6 - simplify render in views
-app/views/profile_educations/edit.html.haml:7 - simplify render in views
-app/views/poll_questions/new.html.haml:5 - simplify render in views
-app/views/poll_questions/edit.html.haml:5 - simplify render in views
-app/views/profile_experiences/new.html.haml:7 - simplify render in views
-app/views/profile_experiences/edit.html.haml:7 - simplify render in views
 app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)
 db/migrate/20141023145152_insert_poll_question_permissions.rb:55 - use say with time in migrations
 db/migrate/20141023145152_insert_poll_question_permissions.rb:56 - use say with time in migrations

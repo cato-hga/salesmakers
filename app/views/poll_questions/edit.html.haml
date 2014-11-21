@@ -2,4 +2,4 @@
 
 .widget
   .inner
-    = render partial: 'form', locals: { poll_question: @poll_question }
+    = render 'form', poll_question: @poll_question

@@ -32,4 +32,4 @@
   = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls, wall: @wall, current_person: @current_person }
 = paginate @wall_posts
 
-= render partial: 'joyride', locals: { seen_before: @seen_before, current_person: @current_person }
+= render 'joyride',  seen_before: @seen_before, current_person: @current_person
