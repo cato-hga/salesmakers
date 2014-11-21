@@ -505,6 +505,7 @@ DEPENDENCIES
   pundit!
   rack-cache
   rails (= 4.1.1)
+  rails_best_practices (= 1.15.4)
   ransack (= 1.2.3)
   remotipart (= 1.2.1)
   rspec-rails (= 3.0.1)
