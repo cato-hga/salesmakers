@@ -110,8 +110,8 @@
     .widget.person_widget
       .inner
         %h3 Education
-        = render 'profile_educations/listing'
+        = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
   .widget.person_widget
     .inner
       %h3 Experience
-      = render 'profile_experiences/listing'
+      = render partial: 'profile_experiences/listing', locals: { profile_experience: @profile_experiences, current_person: @current_person }

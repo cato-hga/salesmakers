@@ -1,6 +1,6 @@
-= form_for @poll_question do |f|
-  - if @poll_question.errors.any?
-    - @poll_question.errors.full_messages.each do |msg|
+= form_for poll_question do |f|
+  - if poll_question.errors.any?
+    - poll_question.errors.full_messages.each do |msg|
       .alert.alert-box= msg
   = f.label :question
   = f.text_field :question

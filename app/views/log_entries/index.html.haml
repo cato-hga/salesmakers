@@ -9,5 +9,5 @@
   .top-pagination
     = paginate @log_entries
 
-= render 'shared/log_entries'
+= render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
 = paginate @log_entries

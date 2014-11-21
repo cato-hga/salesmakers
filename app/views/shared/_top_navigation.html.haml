@@ -20,7 +20,7 @@
                     %li.has-dropdown
                       %a{ href: "#" } Areas &amp; Locations
                       %ul.dropdown
-                        - if AreaTypePolicy.new(@current_person, AreaType.new).index?
+                        - if AreaTypePolicy.new(current_person, AreaType.new).index?
                           %li
                             = link_to 'Area Types', client_project_area_types_path(project.client, project)
                         %li
@@ -35,7 +35,7 @@
           - admin_links = Array.new
           - poll_questions = link_to 'Poll Questions', poll_questions_path
           - admin_links << poll_questions if |
-            PollQuestionPolicy.new(@current_person, PollQuestion.new).index? |
+            PollQuestionPolicy.new(current_person, PollQuestion.new).index? |
 
           - if admin_links.count > 0
             %li.has-dropdown
@@ -45,10 +45,10 @@
                   %li= admin_link
 
           %li.has-dropdown#joyride-profile
-            = link_to @current_person.email, person_path(@current_person)
+            = link_to current_person.email, person_path(current_person)
             %ul.dropdown
               %li
-                = link_to icon('torso') + ' My Profile', about_person_path(@current_person)
+                = link_to icon('torso') + ' My Profile', about_person_path(current_person)
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
           %li#joyride-feedback

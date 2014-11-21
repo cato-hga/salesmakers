@@ -1,3 +1,5 @@
+-#RailsBestPractices
+-#Used in many places, might not want to use best practices here
 - first_post = false unless defined? first_post
 .widget{ class: (defined?(hidden) and hidden ? 'hidden' : ''), id: (first_post ? 'first_post' : '') }
   .inner
@@ -32,7 +34,7 @@
           = yield
         .comments
           - for wall_post_comment in post.wall_post_comments do
-            = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment }
+            = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment, current_person: @current_person }
         .actions
           .row.full-width
             %a.show_wall_post_comment_form.small{ id: first_post ? 'first_post_add_comment' : nil } Add Comment
@@ -43,7 +45,7 @@
             - if WallPostPolicy.new(@current_person, post).destroy?(@visible_people)
               \-
               = link_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small, id: first_post ? 'first_post_delete' : nil
-          = render partial: 'wall_post_comments/form', locals: { post: post }
+          = render partial: 'wall_post_comments/form', locals: { post: post, current_person: @current_person, wall_post_comment: @wall_post_comment }
           .change_wall_form
             .row.full-width
               = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'

@@ -39,7 +39,7 @@
         %h3#joyride-experience
           Experience
           = new_button new_profile_profile_experience_path(@profile)
-        = render 'profile_experiences/listing'
+        = render partial: 'profile_experiences/listing', locals: { profile_experience: @profile_experiences, current_person: @current_person }
 
   .row.full-width
     .widget.large-4.medium-6.columns
@@ -47,7 +47,7 @@
         %h3#joyride-education
           Education
           = new_button new_profile_profile_education_path(@profile)
-        = render 'profile_educations/listing'
+        = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
 
 
   %ol.joyride-list{ data: { joyride: '' } }

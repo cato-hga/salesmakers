@@ -5,7 +5,8 @@ class WidgetsController < ApplicationController
   after_action :verify_authorized
 
   layout "widget"
-
+  #RailsBestPractices
+  #Currently showing as unused, but not being removed because they likely will be.
   def sales
     authorize :widget, :sales?
   end

@@ -4,4 +4,4 @@
   .widgets
     .widget.large-12.columns
       .inner
-        = render 'form'
+        = render partial: 'form', locals: { profile_education: @profile_education }

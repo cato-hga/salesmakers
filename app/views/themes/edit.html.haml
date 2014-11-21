@@ -1,2 +1,2 @@
 - title 'Editing ' + @theme.display_name + ' Theme'
-= render 'form'
+= render partial: 'form', locals: { theme: @theme }

@@ -7,11 +7,11 @@
         = friendly_datetime wall_post_comment.created_at
         by
         = link_to  wall_post_comment.person.social_name, wall_post_comment.person
-        - if wall_post_comment.person == @current_person
+        - if wall_post_comment.person == current_person
           %span.show_wall_post_edit_form
             |
             %a Edit
-        - if WallPostCommentPolicy.new(@current_person, wall_post_comment).destroy?
+        - if WallPostCommentPolicy.new(current_person, wall_post_comment).destroy?
           %span.delete_comment
             |
             = link_to 'Delete', wall_post_comment_path(wall_post_comment), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
@@ -19,6 +19,6 @@
           %br
           %span Edited at
           = friendly_datetime wall_post_comment.updated_at
-      .edit_comment_form= render partial: 'wall_post_comments/wall_post_edit_comment', locals: { comment: wall_post_comment }
+      .edit_comment_form= render partial: 'wall_post_comments/wall_post_edit_comment', locals: { comment: wall_post_comment, current_person: current_person }
     .large-3.medium-3.small-4.columns
       = avatar wall_post_comment.person
