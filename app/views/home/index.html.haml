@@ -27,7 +27,7 @@
   = render 'shared/share_form'
   - for poll_question in @poll_questions
     = render poll_question
-  = render 'wall_posts/wall_posts'
+  = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls, wall: @wall, current_person: @current_person }
 = paginate @wall_posts
 
 = render 'joyride'
