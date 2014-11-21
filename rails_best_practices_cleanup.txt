@@ -4,21 +4,29 @@ app/controllers/api/v1/people_controller.rb:37 - move model logic into model (@c
 app/controllers/device_deployments_controller.rb:15 - move model logic into model (@device_deployment use_count > 4)
 config/routes.rb:14 - needless deep nesting (nested_count > 2)
 config/routes.rb:20 - needless deep nesting (nested_count > 2)
-app/views/blog_posts/show.html.haml:5 - not use time_ago_in_words
-app/views/blog_posts/index.html.haml:19 - not use time_ago_in_words
-app/views/layouts/_widget.html.haml:15 - not use time_ago_in_words
-app/views/layouts/_widget.html.haml:22 - not use time_ago_in_words
-app/views/log_entries/device_deployment/_end.html.haml:6 - not use time_ago_in_words
-app/views/log_entries/device_deployment/_create.html.haml:7 - not use time_ago_in_words
-app/views/log_entries/device/_write_off.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/device/_lost_or_stolen.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/device/_create.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/device/_exchange.html.haml:4 - not use time_ago_in_words
-app/views/log_entries/person/_assign_as_employee.html.haml:8 - not use time_ago_in_words
-app/views/log_entries/person/_set_position.html.haml:8 - not use time_ago_in_words
-app/views/log_entries/person/_assign_as_manager.html.haml:9 - not use time_ago_in_words
-app/views/log_entries/person/_create.html.haml:4 - not use time_ago_in_words
 config/routes.rb:39 - overuse route customizations (customize_count > 3)
+app/controllers/widgets_controller.rb:14 - remove unused methods (WidgetsController#person_sales)
+app/controllers/widgets_controller.rb:20 - remove unused methods (WidgetsController#hours)
+app/controllers/widgets_controller.rb:24 - remove unused methods (WidgetsController#person_hours)
+app/controllers/widgets_controller.rb:30 - remove unused methods (WidgetsController#tickets)
+app/controllers/widgets_controller.rb:36 - remove unused methods (WidgetsController#person_tickets)
+app/controllers/widgets_controller.rb:44 - remove unused methods (WidgetsController#social)
+app/controllers/widgets_controller.rb:48 - remove unused methods (WidgetsController#alerts)
+app/controllers/widgets_controller.rb:52 - remove unused methods (WidgetsController#person_alerts)
+app/controllers/widgets_controller.rb:58 - remove unused methods (WidgetsController#image_gallery)
+app/controllers/widgets_controller.rb:62 - remove unused methods (WidgetsController#inventory)
+app/controllers/widgets_controller.rb:66 - remove unused methods (WidgetsController#person_inventory)
+app/controllers/widgets_controller.rb:72 - remove unused methods (WidgetsController#staffing)
+app/controllers/widgets_controller.rb:76 - remove unused methods (WidgetsController#gaming)
+app/controllers/widgets_controller.rb:84 - remove unused methods (WidgetsController#training)
+app/controllers/widgets_controller.rb:88 - remove unused methods (WidgetsController#gift_cards)
+app/controllers/widgets_controller.rb:92 - remove unused methods (WidgetsController#person_gift_cards)
+app/controllers/widgets_controller.rb:98 - remove unused methods (WidgetsController#pnl)
+app/controllers/widgets_controller.rb:102 - remove unused methods (WidgetsController#person_pnl)
+app/controllers/widgets_controller.rb:108 - remove unused methods (WidgetsController#hps)
+app/controllers/widgets_controller.rb:112 - remove unused methods (WidgetsController#person_hps)
+app/controllers/widgets_controller.rb:122 - remove unused methods (WidgetsController#person_assets)
+app/controllers/widgets_controller.rb:128 - remove unused methods (WidgetsController#groupme_slider)
 app/controllers/home_controller.rb:7 - remove unused methods (HomeController#dashboard)
 app/controllers/device_deployments_controller.rb:2 - remove unused methods (DeviceDeploymentsController#select_user)
 app/helpers/widgets_helper.rb:95 - remove unused methods (WidgetsHelper#this_week_sales_chart)
@@ -35,21 +43,38 @@ app/models/poll_question.rb:30 - remove unused methods (PollQuestion#start_time_
 app/models/poll_question.rb:38 - remove unused methods (PollQuestion#end_time_text)
 app/models/real_connect_model.rb:12 - remove unused methods (RealConnectModel#inactive)
 app/controllers/device_deployments_controller.rb:15 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
-app/views/poll_questions/_form.html.haml:1 - replace instance variable with local variable
-app/views/poll_questions/_form.html.haml:2 - replace instance variable with local variable
-app/views/poll_questions/_form.html.haml:3 - replace instance variable with local variable
-app/views/profile_experiences/_listing.html.haml:1 - replace instance variable with local variable
-app/views/profile_experiences/_listing.html.haml:1 - replace instance variable with local variable
-app/views/profile_experiences/_listing.html.haml:2 - replace instance variable with local variable
-app/views/profile_experiences/_listing.html.haml:6 - replace instance variable with local variable
-app/views/profile_experiences/_form.html.haml:1 - replace instance variable with local variable
-app/views/profile_experiences/_form.html.haml:2 - replace instance variable with local variable
-app/views/profile_experiences/_form.html.haml:2 - replace instance variable with local variable
+app/views/profiles/_form.html.haml:3 - replace instance variable with local variable
+app/views/profiles/_form.html.haml:6 - replace instance variable with local variable
+app/views/shared/_social_swiper.html.haml:5 - replace instance variable with local variable
+app/views/shared/_ajax_errors.html.haml:3 - replace instance variable with local variable
+app/views/shared/_ajax_errors.html.haml:3 - replace instance variable with local variable
+app/views/shared/_ajax_errors.html.haml:4 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:37 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:45 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:45 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:48 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:48 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:52 - replace instance variable with local variable
 config/routes.rb:77 - restrict auto-generated routes poll_questions/poll_question_choices (only: [:create, :update, :destroy])
+app/views/home/index.html.haml:35 - simplify render in views
 app/views/wall_post_comments/update.html.haml:1 - simplify render in views
 app/views/wall_post_comments/create.html.haml:1 - simplify render in views
 app/views/group_mes/group_chat_aside.html.haml:8 - simplify render in views
 app/views/group_mes/groups_aside.html.haml:5 - simplify render in views
+app/views/projects/sales.html.haml:7 - simplify render in views
+app/views/projects/sales.html.haml:8 - simplify render in views
+app/views/themes/new.html.haml:2 - simplify render in views
+app/views/themes/edit.html.haml:2 - simplify render in views
+app/views/profile_educations/new.html.haml:6 - simplify render in views
+app/views/profile_educations/edit.html.haml:7 - simplify render in views
+app/views/poll_questions/new.html.haml:5 - simplify render in views
+app/views/poll_questions/edit.html.haml:5 - simplify render in views
+app/views/profile_experiences/new.html.haml:7 - simplify render in views
+app/views/profile_experiences/edit.html.haml:7 - simplify render in views
 app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)
 app/views/people/about.html.haml:78 - use query attribute (@person.mobile_phone?)
 app/views/people/about.html.haml:82 - use query attribute (@person.office_phone?)
