@@ -102,7 +102,6 @@ Position.create [
                       department_id: vonage_event_sales.id,
                       field: true,
                       hq: false  },
-                    
                     { name: 'Sprint Retail Regional Vice President',
                       leadership: true,
                       all_field_visibility: false,
@@ -138,7 +137,6 @@ Position.create [
                       department_id: sprint_retail_sales.id,
                       field: true,
                       hq: false  },
-                    
                     { name: 'Rosetta Stone Retail Regional Vice President',
                       leadership: true,
                       all_field_visibility: false,
@@ -167,7 +165,6 @@ Position.create [
                       department_id: rs_retail_sales.id,
                       field: true,
                       hq: false  },
-                    
                     { name: 'Unclassified Field Employee',
                       leadership: false,
                       all_field_visibility: false,
@@ -182,7 +179,6 @@ Position.create [
                       department_id: unclassified_hq.id,
                       field: false,
                       hq: true },
-
                     { name: 'Training Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -197,7 +193,6 @@ Position.create [
                       department_id: training.id,
                       field: false,
                       hq: true },
-
                     { name: 'Advocate Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -233,7 +228,6 @@ Position.create [
                       department_id: recruiting.id,
                       field: false,
                       hq: true },
-
                     { name: 'Senior Software Developer',
                       leadership: true,
                       all_field_visibility: true,
@@ -262,7 +256,6 @@ Position.create [
                       department_id: information_technology.id,
                       field: false,
                       hq: true },
-
                     { name: 'Operations Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -291,7 +284,6 @@ Position.create [
                       department_id: operations.id,
                       field: false,
                       hq: true },
-
                     { name: 'Finance Administrator',
                       leadership: false,
                       all_field_visibility: true,
@@ -313,7 +305,6 @@ Position.create [
                       department_id: accounting.id,
                       field: false,
                       hq: true },
-
                     { name: 'Marketing Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -321,7 +312,6 @@ Position.create [
                       department_id: marketing.id,
                       field: false,
                       hq: true },
-
                     { name: 'Quality Assurance Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -336,7 +326,6 @@ Position.create [
                       department_id: quality_assurance.id,
                       field: false,
                       hq: true },
-
                     { name: 'Chief Executive Officer',
                       leadership: true,
                       all_field_visibility: true,
@@ -372,7 +361,6 @@ Position.create [
                       department_id: executives.id,
                       field: false,
                       hq: true },
-
                     { name: 'Payroll Director',
                       leadership: true,
                       all_field_visibility: true,
@@ -387,7 +375,6 @@ Position.create [
                       department_id: payroll.id,
                       field: false,
                       hq: true },
-
                     { name: 'Human Resources Director',
                       leadership: false,
                       all_field_visibility: true,

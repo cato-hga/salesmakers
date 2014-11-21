@@ -5,24 +5,8 @@ app/controllers/device_deployments_controller.rb:16 - move model logic into mode
 config/routes.rb:14 - needless deep nesting (nested_count > 2)
 config/routes.rb:20 - needless deep nesting (nested_count > 2)
 config/routes.rb:39 - overuse route customizations (customize_count > 3)
-app/helpers/application_helper.rb:194 - remove unused methods (ApplicationHelper#device_service_provider_image)
 app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
-app/views/profiles/_form.html.haml:3 - replace instance variable with local variable
-app/views/profiles/_form.html.haml:6 - replace instance variable with local variable
-app/views/shared/_social_swiper.html.haml:5 - replace instance variable with local variable
-app/views/shared/_ajax_errors.html.haml:3 - replace instance variable with local variable
-app/views/shared/_ajax_errors.html.haml:3 - replace instance variable with local variable
-app/views/shared/_ajax_errors.html.haml:4 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:37 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:41 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:45 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:45 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:48 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:48 - replace instance variable with local variable
-app/views/layouts/_widget.html.haml:52 - replace instance variable with local variable
+app/views/layouts/_widget.html.haml:46 - replace instance variable with local variable
 config/routes.rb:77 - restrict auto-generated routes poll_questions/poll_question_choices (only: [:create, :update, :destroy])
 app/views/home/index.html.haml:35 - simplify render in views
 app/views/wall_post_comments/update.html.haml:1 - simplify render in views
@@ -43,7 +27,3 @@ app/controllers/poll_question_choices_controller.rb:4 - use model association (f
 db/migrate/20141023145152_insert_poll_question_permissions.rb:55 - use say with time in migrations
 db/migrate/20141023145152_insert_poll_question_permissions.rb:56 - use say with time in migrations
 db/migrate/20141023145152_insert_poll_question_permissions.rb:57 - use say with time in migrations
-app/models/position.rb:186 - remove trailing whitespace
-db/seeds/position.rb:105 - remove trailing whitespace
-config/initializers/websocket_rails.rb:40 - remove trailing whitespace
-app/views/reports/new.html.haml:17 - remove trailing whitespace

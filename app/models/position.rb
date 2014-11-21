@@ -183,7 +183,6 @@ class Position < ActiveRecord::Base
     operations = area_name.downcase.include? 'operations'
     accounting = area_name.downcase.include? 'accounting'
     leader = connect_user.leader?
-    
     position = nil
     case connect_user_region.fast_type
       when 4
