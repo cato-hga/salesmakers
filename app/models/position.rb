@@ -175,7 +175,6 @@ class Position < ActiveRecord::Base
     sprint = project_name == 'Sprint'
     rs = project_name == 'Rosetta Stone'
     corporate = project_name == 'Corporate'
-    
     recruit = area_name.downcase.include? 'recruit'
     advocate = area_name.downcase.include? 'advocate'
     hr = area_name.downcase.include? 'human'

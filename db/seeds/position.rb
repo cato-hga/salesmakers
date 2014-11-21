@@ -60,7 +60,6 @@ Position.create [
                       department_id: vonage_retail_sales.id,
                       field: true,
                       hq: false  },
-                    
                     { name: 'Vonage Event Regional Vice President',
                       leadership: true,
                       all_field_visibility: true,
