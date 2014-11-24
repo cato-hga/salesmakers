@@ -5,6 +5,8 @@ app/controllers/device_deployments_controller.rb:16 - move model logic into mode
 config/routes.rb:14 - needless deep nesting (nested_count > 2)
 config/routes.rb:20 - needless deep nesting (nested_count > 2)
 config/routes.rb:39 - overuse route customizations (customize_count > 3)
+app/models/poll_question.rb:30 - remove unused methods (PollQuestion#start_time_text)
+app/models/poll_question.rb:38 - remove unused methods (PollQuestion#end_time_text)
 app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
 app/views/layouts/_widget.html.haml:46 - replace instance variable with local variable
 app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)

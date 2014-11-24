@@ -108,7 +108,7 @@ module ApplicationHelper
   end
   #:nocov:
 
-  # Not curently being used
+  # Not curently being used. Tests are written for these methods.
 
   # def short_date(date)
   #   date.strftime '%m/%d/%Y'
