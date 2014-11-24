@@ -1,1 +1,1 @@
-= render partial: 'uploaded_image', locals: { post: @wall_post }, layout: 'layouts/widget'
+= render partial: 'uploaded_image', locals: { post: @wall_post, walls: @walls, visible_people: @visible_people, current_person: @current_person  }, layout: 'layouts/widget'

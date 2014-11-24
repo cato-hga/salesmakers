@@ -5,7 +5,7 @@
 .entry_pertains_to= device_link(log_entry.trackable)
 by
 = user_link log_entry.user
-- if log_entry.comment.present? and not log_entry.comment.blank?
+- if log_entry.comment?
   with comment
   %span.comment
     = surround '"', '"' do

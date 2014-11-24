@@ -108,17 +108,19 @@ module ApplicationHelper
   end
   #:nocov:
 
-  def short_date(date)
-    date.strftime '%m/%d/%Y'
-  end
+  # Not curently being used. Tests are written for these methods.
 
-  def med_date(date)
-    date.strftime '%a, %b %-d, %Y'
-  end
-
-  def long_date(date)
-    date.strftime '%A, %B %-d, %Y'
-  end
+  # def short_date(date)
+  #   date.strftime '%m/%d/%Y'
+  # end
+  #
+  # def med_date(date)
+  #   date.strftime '%a, %b %-d, %Y'
+  # end
+  #
+  # def long_date(date)
+  #   date.strftime '%A, %B %-d, %Y'
+  # end
 
   def icon(name, first_post = false)
     content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
@@ -189,15 +191,17 @@ module ApplicationHelper
     end
   end
 
-  def device_service_provider_image(device)
-    image_file = 'service_providers/' + device.technology_service_provider.name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
-    image = Rails.application.assets.find_asset image_file
-    if image.present?
-      image_tag image_file, class: 'service_provider_thumb'
-    else
-      ''
-    end
-  end
+  # Not currently being used
+
+  # def device_service_provider_image(device)
+  #   image_file = 'service_providers/' + device.technology_service_provider.name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+  #   image = Rails.application.assets.find_asset image_file
+  #   if image.present?
+  #     image_tag image_file, class: 'service_provider_thumb'
+  #   else
+  #     ''
+  #   end
+  # end
 
   def line_link(line)
     line_string = line.identifier
@@ -262,18 +266,18 @@ module ApplicationHelper
     return unless publication
     publishable = publication.publishable
     if publishable.is_a? TextPost
-      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
     #:nocov:
     # Testing with DragonFly?
     elsif publishable.is_a? UploadedImage
-      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
     #:nocov:
     elsif publishable.is_a? UploadedVideo
-      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
     #:nocov:
     # Testing with Dragonfly?
     elsif publishable.is_a? LinkPost
-      return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide }, layout: 'layouts/widget'
+      return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
     #:nocov:
     end
     nil

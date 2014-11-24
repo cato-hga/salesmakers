@@ -193,21 +193,22 @@ describe ApplicationHelper do
     end
   end
 
-  describe 'date display' do
-    let(:date) { Date.new 2001, 9, 11 }
-
-    it 'shows the correct short date format' do
-      expect(helper.short_date(date)).to eq('09/11/2001')
-    end
-
-    it 'shows the correct medium date format' do
-      expect(helper.med_date(date)).to eq('Tue, Sep 11, 2001')
-    end
-
-    it 'shows the correct long date format' do
-      expect(helper.long_date(date)).to eq('Tuesday, September 11, 2001')
-    end
-  end
+  # Tests commented out because the methods are not being used.
+  # describe 'date display' do
+  #   let(:date) { Date.new 2001, 9, 11 }
+  #
+  #   it 'shows the correct short date format' do
+  #     expect(helper.short_date(date)).to eq('09/11/2001')
+  #   end
+  #
+  #   it 'shows the correct medium date format' do
+  #     expect(helper.med_date(date)).to eq('Tue, Sep 11, 2001')
+  #   end
+  #
+  #   it 'shows the correct long date format' do
+  #     expect(helper.long_date(date)).to eq('Tuesday, September 11, 2001')
+  #   end
+  # end
 
   it 'displays a foundation icon properly' do
     icon_name = 'foo'

@@ -3,8 +3,8 @@
     = form_for comment, remote: true do |f|
       = f.text_area :comment, rows: 3, placeholder: 'Edit your comment'
       = f.hidden_field :wall_post_id, value: comment.wall_post.id
-      = f.hidden_field :person_id, value: @current_person.id
+      = f.hidden_field :person_id, value: current_person.id
       = f.submit 'Save', class: :button
       %a.cancel Cancel
   .large-2.medium-3.columns
-    = avatar @current_person
+    = avatar current_person

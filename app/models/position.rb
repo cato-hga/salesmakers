@@ -175,7 +175,6 @@ class Position < ActiveRecord::Base
     sprint = project_name == 'Sprint'
     rs = project_name == 'Rosetta Stone'
     corporate = project_name == 'Corporate'
-    
     recruit = area_name.downcase.include? 'recruit'
     advocate = area_name.downcase.include? 'advocate'
     hr = area_name.downcase.include? 'human'
@@ -184,7 +183,6 @@ class Position < ActiveRecord::Base
     operations = area_name.downcase.include? 'operations'
     accounting = area_name.downcase.include? 'accounting'
     leader = connect_user.leader?
-    
     position = nil
     case connect_user_region.fast_type
       when 4

@@ -2,7 +2,7 @@
   %h3 GroupMe Groups
   - if @groups
     - for group in @groups do
-      = render partial: 'group_preview', locals: { group: group }
+      = render 'group_preview', group: group
   - else
     .centered_text.group_me_login
       You are not a member of any groups.

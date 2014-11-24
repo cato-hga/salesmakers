@@ -226,19 +226,21 @@ class Device < ActiveRecord::Base
   end
 
   # Translate an Openbravo exchange status to the new DB format
-  def exchange_from_connect_asset_movement(movement, created_by)
-    # Grab the exchange state from the DB
-    exchange = DeviceState.find_by_name 'Exchanging'
-    # Add the exchange state to the Device
-    self.device_states << exchange
-    # Log the exchange
-    log_entry = LogEntry.create action: 'exchange',
-                                trackable: self,
-                                comment: movement.note,
-                                created_at: movement.created,
-                                updated_at: movement.updated,
-                                person: created_by
-  end
+  # Currently not being used
+
+  # def exchange_from_connect_asset_movement(movement, created_by)
+  #   # Grab the exchange state from the DB
+  #   exchange = DeviceState.find_by_name 'Exchanging'
+  #   # Add the exchange state to the Device
+  #   self.device_states << exchange
+  #   # Log the exchange
+  #   log_entry = LogEntry.create action: 'exchange',
+  #                               trackable: self,
+  #                               comment: movement.note,
+  #                               created_at: movement.created,
+  #                               updated_at: movement.updated,
+  #                               person: created_by
+  # end
 
   # Translate the Openbravo repair movement into the new format
   # of a state in the DB

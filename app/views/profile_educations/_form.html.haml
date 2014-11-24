@@ -1,5 +1,5 @@
-= render partial: 'shared/errors', locals: { object: @profile_education }
-= form_for [@profile_education.profile, @profile_education] do |f|
+= render partial: 'shared/errors', locals: { object: profile_education }
+= form_for [profile_education.profile, profile_education] do |f|
   = f.label :school
   = f.text_field :school
   = f.label :degree

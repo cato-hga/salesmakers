@@ -62,8 +62,8 @@
   %li{ data: { options: 'prev_button: false; next_button: false' } }
     %p
       It's time to start! Jump off by editing your profile!
-    = link_to 'Edit Your Profile Now', edit_profile_path(@current_person.profile), class: [:button, :expand, :large]
-- unless @seen_before
+    = link_to 'Edit Your Profile Now', edit_profile_path(current_person.profile), class: [:button, :expand, :large]
+- unless seen_before
   :javascript
     if ($(window).width() >= 1280) {
       imagesLoaded('body', function() {

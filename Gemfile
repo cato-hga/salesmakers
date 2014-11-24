@@ -62,6 +62,7 @@ group :development do
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
   #gem 'rack-mini-profiler', '0.9.2' #Performance profiling
   gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
+  gem 'rails_best_practices', '1.15.4' #Gem to output best practices
 end
 
 group :test do

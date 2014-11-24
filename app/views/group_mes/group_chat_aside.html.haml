@@ -5,5 +5,5 @@
     = hidden_field_tag :group_id, @group_id
 %div.group_chat{ data: { group_id: @group_id } }
   - for message in @messages do
-    = render partial: 'chat_message', locals:{ message: message }
+    = render 'chat_message', message: message
 

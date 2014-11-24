@@ -1,9 +1,9 @@
-- if @profile_educations and @profile_educations.count > 0
-  - for profile_education in @profile_educations do
+- if profile_educations and profile_educations.count > 0
+  - for profile_education in profile_educations do
     .profile_education
       .school
         = profile_education.school
-        - if profile_education.profile.person == @current_person
+        - if profile_education.profile.person == current_person
           = link_to 'Edit', edit_profile_profile_education_path(profile_education.profile, profile_education)
           = link_to 'Delete', profile_profile_education_path(profile_education.profile, profile_education), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
       - if profile_education.degree

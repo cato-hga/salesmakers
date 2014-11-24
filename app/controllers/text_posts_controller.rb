@@ -9,8 +9,7 @@ class TextPostsController < ApplicationController
       @wall_post = @text_post.create_wall_post Wall.find(wall_id), @current_person
       render :show
     else
-      @object = @text_post
-      render partial: 'shared/ajax_errors', status: :unprocessable_entity
+      render partial: 'shared/ajax_errors', status: :unprocessable_entity, locals: { object: @text_post }
     end
   end
 

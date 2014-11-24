@@ -8,8 +8,7 @@ class PollQuestionChoicesController < ApplicationController
     if @poll_question_choice.save
       render @poll_question_choice
     else
-      @object = @poll_question_choice
-      render partial: 'shared/ajax_errors', status: :bad_request
+      render partial: 'shared/ajax_errors', status: :bad_request, locals: { object: @poll_question_choice }
     end
   end
 
@@ -24,8 +23,7 @@ class PollQuestionChoicesController < ApplicationController
     if @poll_question_choice.update poll_question_choice_params
       render @poll_question_choice
     else
-      @object = @poll_question_choice
-      render partial: 'shared/ajax_errors', status: :bad_request
+      render partial: 'shared/ajax_errors', status: :bad_request, locals: { object: @poll_question_choice }
     end
   end
 

@@ -1,5 +1,5 @@
-= form_for @profile do |f|
+= form_for profile do |f|
   = render 'shared/errors', object: f.object
   = f.label :theme_name
-  = f.collection_select :theme_name, @themes, :name, :display_name, include_blank: 'Default'
+  = f.collection_select :theme_name, themes, :name, :display_name, include_blank: 'Default'
   = f.submit 'Save', class: [:button, :radius]

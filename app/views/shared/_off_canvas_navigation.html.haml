@@ -21,7 +21,7 @@
     - for project in visible_projects
       %li
         %label= project.name
-      - if AreaTypePolicy.new(@current_person, AreaType.new).index?
+      - if AreaTypePolicy.new(current_person, AreaType.new).index?
         %li
           = link_to 'Area Types', client_project_area_types_path(project.client, project)
       %li
@@ -35,8 +35,8 @@
       = link_to icon('torsos-all') + ' Org Chart', org_chart_people_path
   %ul.off-canvas-list
     %li
-      %label= @current_person.email
+      %label= current_person.email
     %li
-      = link_to icon('torso') + ' My Profile', about_person_path(@current_person)
+      = link_to icon('torso') + ' My Profile', about_person_path(current_person)
     %li
       = link_to icon('x') + ' Sign Out', logout_path

@@ -1,10 +1,10 @@
 .row.full-width.wall_post_comment_form
   .large-10.medium-9.columns
-    = form_for @wall_post_comment, remote: true do |f|
+    = form_for wall_post_comment, remote: true do |f|
       = f.text_area :comment, rows: 3, placeholder: 'Enter a comment...'
       = f.hidden_field :wall_post_id, value: post.id
-      = f.hidden_field :person_id, value: @current_person.id
+      = f.hidden_field :person_id, value: current_person.id
       = f.submit 'Save', class: :button
       %a.cancel Cancel
   .large-2.medium-3.columns
-    = avatar @current_person
+    = avatar current_person

@@ -1,6 +1,6 @@
-- today_ranks = SalesPerformanceRank.today.for_project_people(@project).sort { |a, b| [a.day_rank, a.name] <=> [b.day_rank, b.name] }
-- this_week_ranks = SalesPerformanceRank.this_week.for_project_people(@project).sort { |a, b| [a.week_rank, a.name] <=> [b.week_rank, b.name] }
-- this_month_ranks = SalesPerformanceRank.this_month.for_project_people(@project).sort { |a, b| [a.month_rank, a.name] <=> [b.month_rank, b.name] }
+- today_ranks = SalesPerformanceRank.today.for_project_people(project).sort { |a, b| [a.day_rank, a.name] <=> [b.day_rank, b.name] }
+- this_week_ranks = SalesPerformanceRank.this_week.for_project_people(project).sort { |a, b| [a.week_rank, a.name] <=> [b.week_rank, b.name] }
+- this_month_ranks = SalesPerformanceRank.this_month.for_project_people(project).sort { |a, b| [a.month_rank, a.name] <=> [b.month_rank, b.name] }
 - table_tag = Random.rand(1000000)
 - rank_header = header_row ['Today', 'This Week', 'This Month'], table_tag
 - rank_rows = Array.new

@@ -1,9 +1,9 @@
-- if @profile_experiences and @profile_experiences.count > 0
-  - for profile_experience in @profile_experiences do
+- if profile_experiences and profile_experiences.count > 0
+  - for profile_experience in profile_experiences do
     .profile_experience
       .title
         = profile_experience.title
-        - if profile_experience.profile.person == @current_person
+        - if profile_experience.profile.person == current_person
           = link_to 'Edit', edit_profile_profile_experience_path(profile_experience.profile, profile_experience)
           = link_to 'Delete', profile_profile_experience_path(profile_experience.profile, profile_experience), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
       .company_name= profile_experience.company_name

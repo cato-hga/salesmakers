@@ -9,9 +9,11 @@ class RealConnectModel < ActiveRecord::Base
     self.where(isactive: 'Y')
   end
 
-  def self.inactive
-    self.where(isactive: 'N')
-  end
+  # Not currently being used
+
+  # def self.inactive
+  #   self.where(isactive: 'N')
+  # end
 
   protected
 

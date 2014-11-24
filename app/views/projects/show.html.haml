@@ -5,5 +5,7 @@
 = render partial: 'shared/sales_wall_widget', locals: { object: @project }
 
 .widgets
-  = render 'shared/share_form'
-  = render 'wall_posts/wall_posts'
+  = render partial: 'shared/share_form', locals: { wall: @wall, current_person: @current_person, text_post: @text_post,
+                                                       uploaded_image: @uploaded_image, uploaded_video: @uploaded_video,
+                                                       link_post: @link_post, walls: @walls}
+  = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls, wall: @wall, current_person: @current_person }
