@@ -31,6 +31,8 @@ Rails.application.routes.draw do
     resources :positions, only: [:index]
   end
 
+  resources :devices, only: [:index, :show ]
+
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
 
