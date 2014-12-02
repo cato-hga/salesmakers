@@ -31,7 +31,21 @@ Rails.application.routes.draw do
     resources :positions, only: [:index]
   end
 
-  resources :devices, only: [:index, :show ]
+  resources :devices do
+    resources :device_deployments, except: [ :index, :new, :create ] do
+      collection do
+        get 'select_user'
+        get 'new/:person_id', to: 'device_deployments#new', as: 'new'
+        post 'new/:person_id', to: 'device_deployments#create'
+      end
+
+      member do
+        get 'end'
+      end
+
+    end
+  end
+
 
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
@@ -54,6 +68,8 @@ Rails.application.routes.draw do
 
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
+
+  resources :lines, only: [:index, :show]
 
   resources :link_posts, only: [:create, :show]
 
