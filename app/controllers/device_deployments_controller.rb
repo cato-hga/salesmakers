@@ -1,10 +1,9 @@
 class DeviceDeploymentsController < ApplicationController
-  # Currently not being used
-  # def select_user
-  #   @device = Device.find params[ :device_id ]
-  #   @search = Person.search(params[:q])
-  #   @people = @search.result.order('display_name').page(params[:page])
-  # end
+  def select_user
+    @device = Device.find params[ :device_id ]
+    @search = Person.search(params[:q])
+    @people = @search.result.order('display_name').page(params[:page])
+  end
 
   def new
     @person = Person.find params[ :person_id ]
@@ -14,22 +13,21 @@ class DeviceDeploymentsController < ApplicationController
   end
 
   def create
-    @person = Person.find params[ :person_id ]
-    @device = Device.find params[ :device_id ]
-    @current_devices = Device.where person: @person
     @device_deployment = DeviceDeployment.new device_params
+    @person = @device_deployment.person
+    @device = @device_deployment.device
+    @current_devices = Device.where person: @person
     @device_deployment.started = Date.today
-    @device_deployment.device = @device
-    @device_deployment.person = @person
     if @device_deployment.save
-      @device.person = @person
-      @device.save
-      flash[ :notice ] = 'Device Deployed!'
-      redirect_to @device
-    else
-      render :new
-    end
+      # @device.person = @person
+      # @device.save
+      # flash[ :notice ] = 'Device Deployed!'
+      # redirect_to @device
+  #   else
+  #     render :new
+     end
   end
+
 
   def edit
   end
@@ -46,6 +44,6 @@ class DeviceDeploymentsController < ApplicationController
   private
 
   def device_params
-    params.require( :device_deployment ).permit :tracking_number, :comment
+    params.require(:device_deployment).permit :person_id, :device_id, :started , :tracking_number, :comment
   end
 end
