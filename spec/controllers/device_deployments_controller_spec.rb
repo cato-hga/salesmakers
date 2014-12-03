@@ -35,7 +35,6 @@ describe DeviceDeploymentsController do
 
       it 'should create a device_deployment' do
         expect(DeviceDeployment.count).to eq(1)
-        expect(response).to be_success
       end
 
       it 'should set the deployment start date to today' do
@@ -51,16 +50,17 @@ describe DeviceDeploymentsController do
       end
 
       it 'should assign the device to a given person' do
-        expect(device.person_id).to eq(person.id)
+        device.reload
+        expect(device.person).to eq(person)
       end
 
-      # it 'should flash a success message' do
-      #   expect(flash[:success]).to include('Device Deployed!')
-      # end
-      #
-      # it 'should redirect to the device' do
-      #   expect(response).to redirect_to(device)
-      # end
+      it 'should flash a success message' do
+        expect(flash[:notice]).to eq('Device Deployed!')
+      end
+
+      it 'should redirect to the device' do
+        expect(response).to redirect_to(device)
+      end
 
     end
 

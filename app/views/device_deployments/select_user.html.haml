@@ -32,7 +32,7 @@
     - else
       - phone = ''
     - position_object = person.position
-    - position = position ? link_to(position.name, person, class: classes) : ''
+    - position = position_object ? link_to(position_object.name, person, class: classes) : ''
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - if person.active?

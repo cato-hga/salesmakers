@@ -15,15 +15,16 @@ class DeviceDeploymentsController < ApplicationController
   def create
     @person = Person.find params[ :person_id ]
     @device = Device.find params[ :device_id ]
+    @current_devices = Device.where person: @person
     @device_deployment = DeviceDeployment.new device_params
-    #@current_devices = Device.where person_id = @person.id
     @device_deployment.started = Date.today
-    @device.person_id = @person.id
-    if @device_deployment.save and @device.save
-      # flash[ :notice ] = 'Device Deployed!'
-      # redirect_to @device
-  #   else
-  #     render :new
+    if @device_deployment.save
+      @device.person = @person
+      @device.save
+      flash[ :notice ] = 'Device Deployed!'
+      redirect_to @device
+    else
+      render :new
      end
   end
 
@@ -34,10 +35,11 @@ class DeviceDeploymentsController < ApplicationController
   def update
   end
 
-  def end
+  def end_deployment
   end
 
   def destroy
+    end_deployment
   end
 
   private
