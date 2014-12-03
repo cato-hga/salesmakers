@@ -24,8 +24,9 @@ class DeviceDeploymentsController < ApplicationController
       flash[ :notice ] = 'Device Deployed!'
       redirect_to @device
     else
-      render :new
-     end
+      flash[ :error ] = 'Could not deploy Device!'
+      redirect_to 'new'
+    end
   end
 
 
@@ -39,7 +40,6 @@ class DeviceDeploymentsController < ApplicationController
   end
 
   def destroy
-    end_deployment
   end
 
   private

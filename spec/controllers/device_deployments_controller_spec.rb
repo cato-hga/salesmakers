@@ -2,10 +2,18 @@ require 'rails_helper'
 
 describe DeviceDeploymentsController do
 
+  let(:person) { create :person }
+  let(:device) { create :device }
+
+  describe 'GET select_user' do
+    it 'returns a success status' do
+      get :select_user, { device_id: device}
+      expect(response).to be_success
+    end
+  end
+
 
   describe 'GET new' do
-    let(:person) { create :person }
-    let(:device) { create :device }
     it 'should render the new template' do
       get :new,
           person_id: person.id,
@@ -15,11 +23,7 @@ describe DeviceDeploymentsController do
   end
 
   describe 'POST create' do
-
     context 'success' do
-      let(:person) { create :person }
-      let(:device) { create :device }
-
       before(:each) do
         post :create,
              device_id: device.id,
@@ -65,7 +69,24 @@ describe DeviceDeploymentsController do
     end
 
     context 'failure' do
-      it 'should render the new template'
+
+      before {
+        post :create,
+             device_id: device.id,
+             person_id: person.id,
+             device_deployment: {
+                 device_id: nil,
+                 person_id: nil
+             }
+      }
+
+      it 'should render the new template' do
+        expect(response).to redirect_to 'new'
+      end
+
+      it 'should flash an error message' do
+        expect(flash[:error]).to eq('Could not deploy Device!')
+      end
     end
   end
 
