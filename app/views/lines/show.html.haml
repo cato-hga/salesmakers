@@ -1,8 +1,18 @@
 = title line_display( @line )
-%p
-  -if @line.line_states.count > 0
-    - states = Array.new
-    - @line.line_states.each do |state|
-      - states << state.name
-    %em= states.join(', ')
-  %p= line_service_provider_image(@line)
+
+.widgets
+  .widget
+    .inner
+      %h2 Line State(s)
+      -if @line.line_states.count > 0
+        - states = Array.new
+        - @line.line_states.each do |state|
+          - states << state.name
+        %strong= states.join(', - ')
+      - else
+        This line does not have any states to show
+.widgets
+  .widget
+    .inner
+      %h2 Provider
+      .centered_text= line_service_provider_image(@line)
