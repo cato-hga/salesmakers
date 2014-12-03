@@ -20,12 +20,12 @@
   .widget.person_widget.centered_text
     .inner
       - position = @person.position
-      - department = position.department
+      - department = position.department if position
       %strong= @person.social_name
       %br
       = image_tag avatar_url(@person), class: 'avatar'
       %br
-      %em= position.name
+      %em= position.name if position
       %br
 
       - department = @person
@@ -34,7 +34,7 @@
     .inner
       %h3 Basic Information
       .comment.bottom_spacing
-        = position.name
+        = position.name if position
         - if @person.active?
           %span.comment.small.round.ok.label.inline_button Active
         - else
@@ -114,4 +114,4 @@
   .widget.person_widget
     .inner
       %h3 Experience
-      = render partial: 'profile_experiences/listing', locals: { profile_experience: @profile_experiences, current_person: @current_person }
+      = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
