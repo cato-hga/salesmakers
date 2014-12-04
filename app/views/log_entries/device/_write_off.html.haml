@@ -4,7 +4,7 @@
     = time_ago_in_words(log_entry.created_at) + ' ago'
 .entry_pertains_to= device_link(log_entry.trackable)
 by
-= user_link log_entry.person
+= person_link log_entry.person
 - if log_entry.comment?
   with comment
   %span.comment
