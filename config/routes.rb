@@ -32,11 +32,12 @@ Rails.application.routes.draw do
   end
 
   resources :devices do
-    resources :device_deployments, except: [ :index, :new, :create ] do
+    resources :device_deployments, except: [ :index ] do
       collection do
         get 'select_user'
         get 'new/:person_id', to: 'device_deployments#new', as: 'new'
         post 'new/:person_id', to: 'device_deployments#create'
+        get  'recoup', to: 'device_deployments#recoup'
       end
 
       member do
