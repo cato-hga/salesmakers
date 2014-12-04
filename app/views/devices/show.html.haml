@@ -1,22 +1,23 @@
 - write_off = DeviceState.find_by_name 'Written Off'
 - deployed = DeviceState.find_by_name 'Deployed'
 
-= title @device.serial
+- title @device.serial
 - content_for :action_buttons do
-  - unless @device.device_states.include? deployed
+  - unless @device.device_states.include? deployed or @device.device_states.include? write_off
     = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: [:button, :inline_button]
-    = link_to 'Recoup', '#', class: [:button, :inline_button]
-    - if not @device.device_states.include? write_off and @device.device_states.include? deployed
-      = link_to 'Write Off', '#', class: [:button, :inline_button]
+  = link_to 'Recoup', '#', class: [:button, :inline_button]
+  - unless @device.device_states.include? write_off
+    = link_to 'Write Off', '#', class: [:button, :inline_button]
 - if @device.secondary_identifier
   %h3
     Secondary ID:
     = @device.secondary_identifier
-- if @device.device_states.count > 0
-  - states = Array.new
-  - @device.device_states.each do |state|
-    - states << state.name
-  %em= states.join(', ')
+.device_states
+  - if @device.device_states.count > 0
+    - states = Array.new
+    - @device.device_states.each do |state|
+      - states << state.name
+    %em= states.join(', ')
 .widgets
   .widget
     .inner
@@ -35,7 +36,7 @@
               - states << state.name
             &mdash;
             %em= states.join(', ')
-          %p= line_service_provider_image(@device.line)
+          .centered_text= line_service_provider_image(@device.line)
         - else
           None
   .widget

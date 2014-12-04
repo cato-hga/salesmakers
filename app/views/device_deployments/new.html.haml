@@ -24,8 +24,8 @@
 = form_for @device_deployment, url: new_device_device_deployments_path(@device, @person), method: :post do |f|
   = f.label :tracking_number
   = f.text_field :tracking_number
-  = f.hidden_field :person_id, @person.id
-  = f.hidden_Field :device_id, @device.id
+  = f.hidden_field :person_id, value: @person.id
+  = f.hidden_field :device_id, value: @device.id
   = f.label :comment
   = f.text_area :comment
   = f.submit 'Deploy', class: 'button'
