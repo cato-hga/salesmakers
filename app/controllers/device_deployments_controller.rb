@@ -36,7 +36,8 @@ class DeviceDeploymentsController < ApplicationController
   def update
   end
 
-  def end_deployment
+  def recoup
+
   end
 
   def destroy
