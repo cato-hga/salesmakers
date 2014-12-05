@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'support/activerecord_single_thread_patch'
+
 
 describe 'Device Deployments CRUD actions' do
 
@@ -35,17 +37,16 @@ describe 'Device Deployments CRUD actions' do
     end
   end
 
-  describe 'GET recoup' do
+  describe 'GET recoup', js: true do
     let(:device) { create :device }
     before(:each) do
       visit device_path device
       click_link 'Recoup'
     end
 
-    it 'should prompt for confirmation', js: true do
+    it 'should prompt for confirmation' do
       expect(page).to have_content('Are you sure?')
     end
-
 
     it 'should NOT show the deployed status'
     it 'should create a log entry'
