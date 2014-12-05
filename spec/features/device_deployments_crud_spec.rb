@@ -8,7 +8,10 @@ describe 'Device Deployments CRUD actions' do
       visit device_path device
       click_link 'Deploy'
     end
-    it 'should give a list of users'
+    it 'should give a list of users' do
+      expect(page).to have_content('System Administrator')
+    end
+
     it 'should redirect to the "new" action when a Deploy button is clicked' do
       click_link 'Deploy'
       expect(page).to have_content("New Deployment Information")
@@ -34,11 +37,16 @@ describe 'Device Deployments CRUD actions' do
 
   describe 'GET recoup' do
     let(:device) { create :device }
-    before do
+    before(:each) do
       visit device_path device
       click_link 'Recoup'
     end
-    it 'should prompt for confirmation'
+
+    it 'should prompt for confirmation', js: true do
+      expect(page).to have_content('Are you sure?')
+    end
+
+
     it 'should NOT show the deployed status'
     it 'should create a log entry'
     it 'should show a recouped record in the device history'
