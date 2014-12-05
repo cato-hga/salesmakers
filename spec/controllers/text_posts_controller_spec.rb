@@ -9,7 +9,8 @@ describe TextPostsController do
       expect {
         post :create,
              text_post: text_post.attributes.merge(wall_id: wall.id)
-      }.to change(TextPost, :count).by(3)
+      }.to change(TextPost, :count).by(1) # This is changed from 3 to 1. I believe that we always thought it was weird that
+                                          # the text post was increased by 3
       expect(response).to be_success
       expect(response).to render_template(:show)
     end
