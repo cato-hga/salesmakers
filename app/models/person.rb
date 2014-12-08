@@ -10,7 +10,7 @@ class Person < ActiveRecord::Base
   validates :last_name, length: { minimum: 2 }
   validates :display_name, length: { minimum: 5 }
   validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
-  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true, uniqueness: true
+  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
   validates :connect_user_id, uniqueness: true, allow_nil: true
   validates_with PhoneNumberValidator
 
@@ -113,16 +113,17 @@ class Person < ActiveRecord::Base
     supervisor = supervisor_id ? Person.find_by_connect_user_id(supervisor_id) : nil
 
     return person if person
-    person = Person.create first_name: first_name,
-                           last_name: last_name,
-                           display_name: display_name,
-                           email: email,
-                           personal_email: personal_email,
-                           connect_user_id: connect_user.id,
-                           active: active,
-                           mobile_phone: phone,
-                           position: position,
-                           supervisor: supervisor
+    person = Person.new first_name: first_name,
+                        last_name: last_name,
+                        display_name: display_name,
+                        email: email,
+                        personal_email: personal_email,
+                        connect_user_id: connect_user.id,
+                        active: active,
+                        mobile_phone: phone,
+                        position: position,
+                        supervisor: supervisor
+    puts person.errors.full_messages.join(', ') unless person.save
     return nil unless person
     PersonArea.where(person: person).destroy_all
     LogEntry.person_onboarded_from_connect person, creator, created, updated
@@ -142,7 +143,9 @@ class Person < ActiveRecord::Base
   end
 
   def termination_date_invalid?
-    self.employments > 0 and self.employments.first.end and self.employments.first.end.strftime('%Y').to_i < 2008
+    self.employments.count > 0 and
+        self.employments.first.end and
+        self.employments.first.end.strftime('%Y').to_i < 2008
   end
 
   def terminated?
