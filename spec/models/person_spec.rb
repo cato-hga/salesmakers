@@ -48,14 +48,6 @@ RSpec.describe Person, :type => :model do
       expect(second_person).not_to be_valid
     end
 
-    it 'should not allow duplicate values for personal email' do
-      person.personal_email = 'personal@test.com'
-      person.save
-      second_person.personal_email = 'personal@test.com'
-      second_person.save
-      expect(second_person).not_to be_valid
-    end
-
     it 'should allow duplicate null values for personal email' do
       person.personal_email = nil
       person.save
