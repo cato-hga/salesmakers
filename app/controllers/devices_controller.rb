@@ -24,4 +24,9 @@ class DevicesController < ApplicationController
   def update
   end
 
+  def write_off
+    @device = Device.find params[:id]
+    render :show
+  end
+
 end
