@@ -26,7 +26,10 @@ class DevicesController < ApplicationController
 
   def write_off
     @device = Device.find params[:id]
-    render :show
+    written_off = DeviceState.find_by name: 'Written Off'
+    @device.device_states << written_off
+    @device.save
+    @current_person.log? 'write_off', @device, nil
+    redirect_to @device
   end
-
 end

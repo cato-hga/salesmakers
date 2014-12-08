@@ -32,15 +32,16 @@ describe DevicesController do
 
   describe 'GET write_off' do
     let(:device) { create :device }
+    let(:written_off) { DeviceState.find_by name: 'Written Off' }
 
     before { get :write_off, id: device.id }
 
-    it 'should return a success status' do
-      expect(response).to be_success
+    it 'should render the show template' do
+      expect(response).to redirect_to(device)
     end
 
-    it 'should render the show template' do
-      expect(response).to render_template(:show)
+    it 'should assign the "Written Off" device status' do
+      expect(device.device_states).to include(written_off)
     end
   end
 end
