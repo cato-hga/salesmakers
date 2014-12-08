@@ -1,6 +1,4 @@
 require 'rails_helper'
-require 'support/activerecord_single_thread_patch'
-
 
 describe 'Device Deployments CRUD actions' do
 
@@ -37,19 +35,41 @@ describe 'Device Deployments CRUD actions' do
     end
   end
 
-  describe 'GET recoup', js: true do
-    let(:device) { create :device }
+  describe 'GET recoup' do
+    let(:deployed_device) { create :device }
+    let(:person) { create :person }
+    let(:deployed) { DeviceState.find_by name: 'Deployed' }
+    let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
     before(:each) do
-      visit device_path device
+      deployed_device.device_states << deployed
+      deployed_device.device_deployments << device_deployment
+      deployed_device.save
+      visit device_path deployed_device
       click_link 'Recoup'
     end
 
-    it 'should prompt for confirmation' do
-      expect(page).to have_content('Are you sure?')
+    it 'should prompt for confirmation'
+    it 'should NOT show the deployed status' do
+      within('.device_states') do
+        expect(page).not_to have_content('Deployed')
+      end
     end
 
-    it 'should NOT show the deployed status'
-    it 'should create a log entry'
-    it 'should show a recouped record in the device history'
+    it 'should create a log entry' do
+      within('.history') do
+        expect(page).to have_content('Recouped')
+      end
+    end
+    it 'should set the end date for a deployment' do
+      within('.deployments') do
+        expect(page).to have_content(DateTime.now.strftime('%m/%d/%Y'))
+      end
+    end
+
+    it 'should remove the device from the persons inventory' do
+      within('.deployments') do
+        expect(page).not_to have_content('to present')
+      end
+    end
   end
 end

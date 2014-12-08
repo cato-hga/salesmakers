@@ -37,8 +37,23 @@ class DeviceDeploymentsController < ApplicationController
   end
 
   def recoup
-
+    @device = Device.find params[:device_id]
+    @device_deployment = @device.device_deployments.last
+    deployed = DeviceState.find_by name: 'Deployed'
+    @device.device_states.delete deployed
+    ended = DateTime.now
+    @device_deployment.update ended: ended
+    @device.update person_id: nil
+    log_entry = LogEntry.create action: 'end',
+                                trackable: @device_deployment,
+                                referenceable: @device,
+                                comment: 'Recouped',
+                                created_at: ended,
+                                updated_at: ended,
+                                person: @current_person
+    redirect_to @device
   end
+
 
   def destroy
   end

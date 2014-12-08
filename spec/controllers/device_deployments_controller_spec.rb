@@ -80,9 +80,25 @@ describe DeviceDeploymentsController do
   end
 
   describe 'GET recoup' do
-    it 'returns a success status' do
-      get :recoup, device_id: device
-      expect(response).to be_success
+    let(:deployed_device) { create :device }
+    let(:person) { create :person }
+    let(:deployed) { DeviceState.find_by name: 'Deployed' }
+    let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
+    context 'success' do
+      before(:each) do
+        deployed_device.device_states << deployed
+        deployed_device.device_deployments << device_deployment
+        deployed_device.person = person
+        get :recoup, device_id: deployed_device.id
+      end
+      it 'redirects to the device' do
+        expect(response).to redirect_to deployed_device
+      end
+
+      it 'removes the device from the person' do
+        deployed_device.reload
+        expect(deployed_device.person_id).not_to eq(person.id)
+      end
     end
   end
 end
