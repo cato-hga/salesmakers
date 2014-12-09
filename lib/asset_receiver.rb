@@ -18,6 +18,8 @@ class AssetReceiver
     device = Device.create device_model: @device_model,
                            serial: @serial,
                            identifier: @device_identifier
+    @creator.log? 'create', device
+    @creator.log? 'create', line
   end
 
   def valid?
