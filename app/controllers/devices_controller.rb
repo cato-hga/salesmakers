@@ -10,6 +10,7 @@ class DevicesController < ApplicationController
   end
 
   def new
+    @device = Device.new
   end
 
   def create

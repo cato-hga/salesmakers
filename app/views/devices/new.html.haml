@@ -1,2 +1,33 @@
-%h1 Devices#new
-%p Find me in app/views/devices/new.html.haml
+- title 'Add Devices'
+- content_for :action_buttons do
+  = link_to icon('plus') + ' Add Line','#', class: [:button, :inline_button]
+
+-#%section
+-#  - header = header_row ['Identifier','Serial','Assigned To','Line','Manufacturer','Model','State(s)']
+-#  - rows = Array.new
+-#  - for device in @devices do
+-#    - identifier = link_to device.identifier, device
+-#    - serial = link_to device.serial, device
+-#    - assigned_to = (device.person) ? person_link(device.person) : ''
+-#    - line_object = device.line
+-#    - line = line_object ? link_to(line_object.identifier, line_object) : ''
+-#    - manufacturer = device.manufacturer_name
+-#    - model_object = device.device_model
+-#    - model = model_object.name
+-#    - states = device_state_links device
+-#    - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
+-#  = table header, rows
+
+-#= render partial: 'shared/errors', locals: { object: profile_experience }
+
+
+
+= form_for @device do |f|
+  = f.label :device_serial
+  = f.text_field :serial
+  = f.label :device_line
+  = f.text_field :line
+  = f.label :contract_end_date
+  = f.date_select :contract_end_date
+  = f.collection_select :service_provider, :technology_service_provider.id, TechnologyServiceProvider.all, :id
+

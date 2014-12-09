@@ -14,6 +14,23 @@ describe DevicesController do
     end
   end
 
+  describe 'GET new' do
+    before { get :new }
+
+    it 'should return a success status' do
+      expect(response).to be_success
+    end
+
+    it 'should render the new template' do
+      expect(response).to render_template(:new)
+    end
+  end
+
+  describe 'POST create' do
+    before {}
+  end
+
+
   describe 'GET show' do
     let(:device) { create :device }
 
