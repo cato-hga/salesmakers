@@ -99,6 +99,10 @@ describe DeviceDeploymentsController do
         deployed_device.reload
         expect(deployed_device.person_id).not_to eq(person.id)
       end
+
+      it 'should flash a confirmation message' do
+        expect(flash[:notice]).to eq('Device Recouped!')
+      end
     end
   end
 end

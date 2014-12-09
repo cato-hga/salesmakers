@@ -41,6 +41,7 @@ class DeviceDeploymentsController < ApplicationController
     @device_deployment = @device.device_deployments.first
     @device_deployment.recoup
     @current_person.log? 'end', @device_deployment, @device
+    flash[:notice] = 'Device Recouped!'
     redirect_to @device
   end
 

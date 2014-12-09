@@ -43,5 +43,9 @@ describe DevicesController do
     it 'should assign the "Written Off" device status' do
       expect(device.device_states).to include(written_off)
     end
+
+    it 'should flash a confirmation message' do
+      expect(flash[:notice]).to eq('Device Written Off!')
+    end
   end
 end
