@@ -34,18 +34,23 @@ describe DevicesController do
     let(:device) { create :device }
     let(:written_off) { DeviceState.find_by name: 'Written Off' }
 
-    before { get :write_off, id: device.id }
+    subject { get :write_off, id: device.id }
 
     it 'should render the show template' do
-      expect(response).to redirect_to(device)
+      expect(subject.request).to redirect_to(device)
     end
 
     it 'should assign the "Written Off" device status' do
+      subject
       expect(device.device_states).to include(written_off)
     end
 
     it 'should flash a confirmation message' do
-      expect(flash[:notice]).to eq('Device Written Off!')
+      expect(subject.request.flash[:notice]).to eq('Device Written Off!')
+    end
+
+    it 'should create a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
 end
