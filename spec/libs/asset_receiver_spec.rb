@@ -10,7 +10,7 @@ RSpec.describe 'Asset Receiver' do
         line_identifier: line_identifier,
         serial: serial,
         device_identifier: device_identifier,
-        contract_end_date: Date.today + 1.year
+        contract_end_date: (Date.today + 1.year).strftime('%m/%d/%Y')
     }
   }
   let(:device_model) { create :device_model }
@@ -59,10 +59,19 @@ RSpec.describe 'Asset Receiver' do
       valid_receiver = AssetReceiver.new @attrs.merge(line_identifier: nil, service_provider: nil, contract_end_date: nil)
       expect(valid_receiver).to be_valid
     end
-    it 'require a creator (person)' do
+    it 'requires a creator (person)' do
       invalid_receiver = AssetReceiver.new @attrs.merge(creator: nil)
       expect(invalid_receiver).not_to be_valid
       expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Creator/)
+    end
+    it 'does not pass with an invalid date' do
+      invalid_receiver = AssetReceiver.new @attrs.merge(contract_end_date: '13/20/2014')
+      expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Contract End Date/)
+    end
+    it 'passes with a blank string as a date' do
+      valid_receiver = AssetReceiver.new @attrs.merge(contract_end_date: '', service_provider: nil, line_identifier: nil)
+      expect(valid_receiver).to be_valid
     end
   end
 

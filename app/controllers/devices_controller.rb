@@ -1,4 +1,6 @@
 class DevicesController < ApplicationController
+  before_action :set_models_and_providers, only: [:new, :create]
+
   def index
     @search = Device.search(params[:q])
     @devices = @search.result.order('serial').page(params[:page])
@@ -10,13 +12,12 @@ class DevicesController < ApplicationController
   end
 
   def new
-    @device_models = DeviceModel.all
-    @service_providers = TechnologyServiceProvider.all
     @device = Device.new
   end
 
   def create
-    @contract_end_date = Date.strptime receive_params[:contract_end_date], '%m/%d/%Y'
+    @device = Device.new
+    @contract_end_date = receive_params[:contract_end_date]
     @device_model = DeviceModel.find receive_params[:device_model_id]
     @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id]
     @serial = receive_params[:serial]
@@ -30,6 +31,10 @@ class DevicesController < ApplicationController
     begin
       receiver.receive
       flash[:notice] = 'Device(s) received successfully'
+      redirect_to devices_path
+    rescue AssetReceiverValidationException => e
+      flash[:error] = e.message
+      render :new
     end
   end
 
@@ -56,5 +61,10 @@ class DevicesController < ApplicationController
 
   def receive_params
     params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, :serial, :line_identifier
+  end
+
+  def set_models_and_providers
+    @device_models = DeviceModel.all
+    @service_providers = TechnologyServiceProvider.all
   end
 end

@@ -33,6 +33,11 @@ RSpec.describe 'Asset Receiving' do
         it 'creates log entries' do
           expect { subject }.to change(LogEntry, :count).by(2)
         end
+
+        it 'should redirect to devices#index' do
+          subject
+          expect(page).to have_content('records found')
+        end
       end
 
       context 'failure' do
@@ -45,10 +50,6 @@ RSpec.describe 'Asset Receiving' do
           fill_in 'Line ID', with: '12345678901'
           click_on 'Receive'
         }
-
-        it 'presents an error when form is invalid' do
-          expect { subject }.to raise_error(AssetReceiverValidationException)
-        end
       end
 
       context 'with secondary identifier' do

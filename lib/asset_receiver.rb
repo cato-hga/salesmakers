@@ -84,13 +84,16 @@ class AssetReceiver
   end
 
   def validate_contract_end_date
+    @contract_end_date = nil if @contract_end_date.present? and @contract_end_date.length < 1
     if create_line? != @contract_end_date.present?
       raise AssetReceiverValidationException,
             'A Contract End Date is required when Line Identifier and/or Service Provider is selected'
     end
     return unless create_line?
-    unless @contract_end_date.is_a? Date
-      raise AssetReceiverValidationException, 'The Contract End Date should be a valid date (MM/DD/YYYY)'
+    @contract_end_date = Chronic.parse(@contract_end_date)
+    @contract_end_date = @contract_end_date.to_date if @contract_end_date.present?
+    unless @contract_end_date.present?
+      raise AssetReceiverValidationException, 'Contract End Date is invalid or incorrectly formatted'
     end
   end
 
