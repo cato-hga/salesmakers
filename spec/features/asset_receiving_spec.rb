@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../spec/support/activerecord_single_thread_patch'
 
 RSpec.describe 'Asset Receiving' do
 
@@ -18,8 +19,8 @@ RSpec.describe 'Asset Receiving' do
           fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
           select device_model.model_name, from: 'Model'
           select service_provider.name, from: 'Service Provider'
-          fill_in 'Serial', with: serial
-          fill_in 'Line ID', with: line_identifier
+          find('.serial_field:first-of-type').set(serial)
+          find('.line_id_field:first-of-type').set(line_identifier)
           click_on 'Receive'
         }
         it 'receives an asset' do
@@ -46,8 +47,8 @@ RSpec.describe 'Asset Receiving' do
           fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
           select device_model.model_name, from: 'Model'
           select service_provider.name, from: 'Service Provider'
-          fill_in 'Serial', with: serial
-          fill_in 'Line ID', with: '12345678901'
+          find('.serial_field:first-of-type').set(serial)
+          find('.line_id_field:first-of-type').set('12345678901')
           click_on 'Receive'
         }
       end
@@ -58,7 +59,25 @@ RSpec.describe 'Asset Receiving' do
     end
 
     context 'for multiple devices' do
-      context 'with secondary identifier'
+      describe 'row addition', js: true do
+        before {
+          visit new_device_path
+          click_on 'Add'
+        }
+
+        it 'should add additional lines' do
+          expect(page).to have_css('div .serial_field', count: 2)
+        end
+
+        it 'should change the Add button to Delete for all but the last row' do
+          within('#assets .row:first-of-type') do
+            expect(page).to have_selector('.delete_row')
+          end
+          within('#assets .row:last-of-type') do
+            expect(page).to have_selector('.add_row')
+          end
+        end
+      end
     end
   end
 end

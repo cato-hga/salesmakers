@@ -4,22 +4,28 @@
 = form_tag devices_path, method: :post do
   .widget
     .inner.row.full-width
-      .medium-4.columns
+      .large-4.columns
         = label_tag 'contract_end_date', 'Contract End Date'
         = text_field_tag 'contract_end_date', nil, placeholder: 'mm/dd/yyyy', class: 'datepicker'
-      .medium-4.columns
+      .large-4.columns
         = label_tag 'device_model_id', 'Device Model'
         = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
-      .medium-4.columns
+      .large-4.columns
         = label_tag 'technology_service_provider_id', 'Service Provider'
         = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'
   .widget
     .inner
       .row.full-width
-        .medium-6.columns
-          = label_tag 'serial'
-          = text_field_tag 'serial'
-        .medium-6.columns
-          = label_tag 'line_identifier', 'Line ID'
-          = text_field_tag 'line_identifier'
+        .large-6.columns
+          %strong Serial
+        .large-6.columns
+          %strong Line ID
+      #assets
+        .row.full-width
+          .large-6.columns
+            = text_field_tag 'serial', nil, class: :serial_field
+          .large-5.columns
+            = text_field_tag 'line_identifier', nil, class: :line_id_field
+          .large-1.columns
+            %a.button.postfix.add_row(href='#') Add
       = submit_tag 'Receive', class: 'button'
