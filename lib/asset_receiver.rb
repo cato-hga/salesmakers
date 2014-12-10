@@ -12,6 +12,12 @@ class AssetReceiver
   end
 
   def receive
+    validate_creator
+    validate_device_model
+    validate_service_provider
+    validate_line_identifier
+    validate_serial
+    validate_contract_end_date
     line = Line.create identifier: @line_identifier,
                        contract_end_date: @contract_end_date,
                        technology_service_provider: @service_provider
@@ -23,53 +29,81 @@ class AssetReceiver
   end
 
   def valid?
-    valid_creator? and
-        valid_device_model? and
-        valid_service_provider? and
-        valid_line_identifier? and
-        valid_serial? and
-        valid_contract_end_date?
+    begin
+      validate_creator
+      validate_device_model
+      validate_service_provider
+      validate_line_identifier
+      validate_serial
+      validate_contract_end_date
+    rescue AssetReceiverValidationException
+      return false
+    end
+    true
   end
 
-  def valid_creator?
-    @creator.present? and not @creator.new_record?
+  def validate_creator
+    unless @creator.present? and not @creator.new_record?
+      raise AssetReceiverValidationException, 'Could not determine the Creator of the asset record'
+    end
   end
 
-  def valid_device_model?
-    @device_model.present? and not @device_model.new_record?
+  def validate_device_model
+    unless @device_model.present? and not @device_model.new_record?
+      raise AssetReceiverValidationException, 'Device Model is required'
+    end
   end
 
   def create_line?
     @service_provider.present? or @contract_end_date.present? or @line_identifier.present?
   end
 
-  def valid_service_provider?
-    return false if create_line? != @service_provider.present?
-    return true unless @service_provider.present?
-    @service_provider.present? and not @service_provider.new_record?
-  end
-
-  def valid_line_identifier?
-    return false if create_line? != @line_identifier.present?
-    if @line_identifier.present?
-      @line_identifier = @line_identifier.gsub(/[^0-9A-Za-z]/, '')
-      @line_identifier.length == 10
-    else
-      true
+  def validate_service_provider
+    if create_line? != @service_provider.present?
+      raise AssetReceiverValidationException,
+            'A Service Provider is required when Contract End Date and/or Line Identifier is selected'
+    end
+    return if @service_provider.present? or not create_line?
+    unless @service_provider.present? and not @service_provider.new_record?
+      raise AssetReceiverValidationException, 'Service Provider is required'
     end
   end
 
-  def valid_contract_end_date?
-    return false if create_line? != @contract_end_date.present?
-    return true if not create_line?
-    @contract_end_date.is_a? Date
+  def validate_line_identifier
+    if create_line? != @line_identifier.present?
+      raise AssetReceiverValidationException,
+            'A Line Identifier is required when Contract End Date and/or Service Provider is selected'
+    end
+    return unless create_line?
+    if @line_identifier.present?
+      @line_identifier = @line_identifier.gsub(/[^0-9A-Za-z]/, '')
+      unless @line_identifier.length == 10
+        raise AssetReceiverValidationException, 'Line Identifier must be 10 characters in length'
+      end
+    end
   end
 
-  def valid_serial?
-    @serial.present? and @serial.length >= 6
+  def validate_contract_end_date
+    if create_line? != @contract_end_date.present?
+      raise AssetReceiverValidationException,
+            'A Contract End Date is required when Line Identifier and/or Service Provider is selected'
+    end
+    return unless create_line?
+    unless @contract_end_date.is_a? Date
+      raise AssetReceiverValidationException, 'The Contract End Date should be a valid date (MM/DD/YYYY)'
+    end
+  end
+
+  def validate_serial
+    unless @serial.present? and @serial.length >= 6
+      raise AssetReceiverValidationException, 'A Serial must be present and at least 6 characters in length'
+    end
   end
 
   def device_identifier
     @device_identifier
   end
+end
+
+class AssetReceiverValidationException < StandardError
 end

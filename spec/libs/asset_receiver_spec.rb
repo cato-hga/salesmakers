@@ -27,45 +27,42 @@ RSpec.describe 'Asset Receiver' do
     end
     it 'do not pass when service provider is present but line identifier is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(line_identifier: nil)
-      expect(invalid_receiver).not_to be_valid_line_identifier
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Line Identifier/)
     end
     it 'do not pass when line identifier is present but service provider is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(service_provider: nil)
-      expect(invalid_receiver).not_to be_valid_service_provider
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Service Provider/)
     end
     it 'do not pass when a contract end date is present but line_identifier is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(line_identifier: nil)
-      expect(invalid_receiver).not_to be_valid_line_identifier
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Line Identifier/)
     end
     it 'do not pass when a line identifier is present but a contract end date is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(contract_end_date: nil)
-      expect(invalid_receiver).not_to be_valid_contract_end_date
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Contract End Date/)
     end
     it 'require a serial' do
       invalid_receiver = AssetReceiver.new @attrs.merge(serial: nil)
-      expect(invalid_receiver).not_to be_valid_serial
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Serial/)
     end
     it 'require a device model' do
       invalid_receiver = AssetReceiver.new @attrs.merge(device_model: nil)
-      expect(invalid_receiver).not_to be_valid_device_model
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Device Model/)
     end
     it 'allow nil values for line and service provider and contract end date' do
       valid_receiver = AssetReceiver.new @attrs.merge(line_identifier: nil, service_provider: nil, contract_end_date: nil)
-      expect(valid_receiver).to be_valid_service_provider
-      expect(valid_receiver).to be_valid_contract_end_date
-      expect(valid_receiver).to be_valid_line_identifier
       expect(valid_receiver).to be_valid
     end
     it 'require a creator (person)' do
       invalid_receiver = AssetReceiver.new @attrs.merge(creator: nil)
-      expect(invalid_receiver).not_to be_valid_creator
       expect(invalid_receiver).not_to be_valid
+      expect { invalid_receiver.receive }.to raise_error(AssetReceiverValidationException, /Creator/)
     end
   end
 
