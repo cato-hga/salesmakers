@@ -27,7 +27,54 @@ describe DevicesController do
   end
 
   describe 'POST create' do
+    context 'success (valid data)' do
+      subject {
+        post :create,
+             contract_end_date: contract_end_date.strftime('%m/%d/%Y'),
+             device_model_id: device_model.id,
+             technology_service_provider_id: service_provider.id,
+             serial: serial,
+             line_identifier: line_identifier
+      }
+      let!(:device_model) { create :device_model }
+      let!(:service_provider) { create :technology_service_provider }
+      let(:line_identifier) { '5555555555' }
+      let(:serial) { '123456789' }
+      let(:device_identifier) { '98765431' }
+      let(:contract_end_date) { Date.today + 1.year }
+      it 'creates a device' do
+        expect { subject }.to change(Device, :count).by(1)
+      end
 
+      it 'creates a line' do
+        expect { subject }.to change(Line, :count).by(1)
+      end
+
+      it 'creates log entries' do
+        expect { subject }.to change(LogEntry, :count).by(2)
+      end
+    end
+
+    context 'failure (invalid data)' do
+      subject {
+        post :create,
+             contract_end_date: contract_end_date.strftime('%m/%d/%Y'),
+             device_model_id: device_model.id,
+             technology_service_provider_id: service_provider.id,
+             serial: serial,
+             line_identifier: invalid_line_identifier
+      }
+      let!(:device_model) { create :device_model }
+      let!(:service_provider) { create :technology_service_provider }
+      let(:invalid_line_identifier) { '55505555555' }
+      let(:serial) { '123456789' }
+      let(:device_identifier) { '98765431' }
+      let(:contract_end_date) { Date.today + 1.year }
+
+      it 'should raise an error' do
+        expect { subject }.to raise_error(AssetReceiverValidationException)
+      end
+    end
   end
 
 
