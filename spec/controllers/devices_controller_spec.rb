@@ -27,7 +27,7 @@ describe DevicesController do
   end
 
   describe 'POST create' do
-    before {}
+
   end
 
 

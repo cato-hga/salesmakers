@@ -9,17 +9,6 @@ describe 'Devices CRUD actions' do
     end
   end
 
-
-  describe 'GET new' do
-    it 'should allow the user to add more rows' do
-      visit new_device_path
-      click_link('Add Line')
-      pending
-    end
-
-    it 'should allow the user to select a service provider'
-  end
-
   describe 'GET show' do
     context 'for all devices' do
       let(:device) { create :device }
