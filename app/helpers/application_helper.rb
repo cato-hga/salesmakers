@@ -108,19 +108,17 @@ module ApplicationHelper
   end
   #:nocov:
 
-  # Not curently being used. Tests are written for these methods.
+  def short_date(date)
+    date.strftime '%m/%d/%Y'
+  end
 
-  # def short_date(date)
-  #   date.strftime '%m/%d/%Y'
-  # end
-  #
-  # def med_date(date)
-  #   date.strftime '%a, %b %-d, %Y'
-  # end
-  #
-  # def long_date(date)
-  #   date.strftime '%A, %B %-d, %Y'
-  # end
+  def med_date(date)
+    date.strftime '%a, %b %-d, %Y'
+  end
+
+  def long_date(date)
+    date.strftime '%A, %B %-d, %Y'
+  end
 
   def icon(name, first_post = false)
     content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
