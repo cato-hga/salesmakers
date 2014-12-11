@@ -23,7 +23,7 @@ describe DeviceStatesController do
   end
 
   describe 'GET show' do
-    let(:state) { DeviceState.first }
+    let(:state) { create :device_state }
     before {
       get :show,
           id: state.id
@@ -37,7 +37,7 @@ describe DeviceStatesController do
   end
 
   describe 'GET edit' do
-    let(:state) { DeviceState.first }
+    let(:state) { create :device_state }
     before {
       get :edit,
           id: state.id

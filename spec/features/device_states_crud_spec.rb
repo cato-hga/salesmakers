@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Device States CRUD' do
 
   describe 'GET index' do
-    let(:state) { DeviceState.first }
+    let!(:state) { create :device_state }
     before(:each) do
       visit device_states_path
     end
