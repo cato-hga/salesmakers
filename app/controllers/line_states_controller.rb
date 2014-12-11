@@ -1,5 +1,5 @@
 class LineStatesController < ApplicationController
-  before_action :check_locked_status, only: [:edit, :update]
+  before_action :check_locked_status, only: [:edit, :update, :destroy]
 
   def index
     @line_states = LineState.all
@@ -29,6 +29,13 @@ class LineStatesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    if @line_state.destroy
+      flash[:notice] = 'Line State successfully deleted'
+    end
+    redirect_to line_states_path
   end
 
   private

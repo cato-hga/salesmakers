@@ -75,7 +75,7 @@ Rails.application.routes.draw do
 
   resources :lines, only: [:index, :show]
 
-  resources :line_states, except: [:show, :destroy]
+  resources :line_states, except: [:show]
 
   resources :link_posts, only: [:create, :show]
 

@@ -224,6 +224,15 @@ module ApplicationHelper
     link_to icon('page-edit') + ' Edit', path, class: [:button, :rounded, :inline_button]
   end
 
+  def delete_button(path)
+    link_to icon('x-circle') + ' Delete',
+            path,
+            class: [:button, :rounded, :inline_button],
+            id: 'delete_action_button',
+            method: :delete,
+            data: { confirm: 'This action cannot be undone! Are you sure?' }
+  end
+
   def last_slice(array, i)
     last_slice = (array.count % i == 0) ? i : array.count % i
     array.last(last_slice)
