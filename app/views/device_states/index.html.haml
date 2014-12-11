@@ -1,3 +1,11 @@
-- title 'Device States'
 - content_for :action_buttons do
   = new_button new_device_state_path
+
+%section
+  - header = header_row ['Name','Actions']
+  - rows = Array.new
+  - for device_state in @device_states do
+    - name = link_to device_state.name, device_state
+    - actions = link_to 'Edit State', edit_device_state_path(device_state.id)
+    - rows << table_row([name,actions])
+  = table header, rows

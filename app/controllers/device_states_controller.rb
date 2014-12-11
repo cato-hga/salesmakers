@@ -7,4 +7,12 @@ class DeviceStatesController < ApplicationController
   def new
 
   end
+
+  def show
+    @device_state = DeviceState.find params[:id]
+  end
+
+  def edit
+    @device_state = DeviceState.find params[:id]
+  end
 end
