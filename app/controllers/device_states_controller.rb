@@ -1,0 +1,2 @@
+class DeviceStatesController < ApplicationController
+end
