@@ -5,6 +5,9 @@
   - header = header_row ['Name']
   - rows = Array.new
   - for line_state in @line_states do
-    - name = link_to line_state.name, '#'
+    - if line_state.locked
+      - name = line_state.name
+    - else
+      - name = link_to line_state.name, edit_line_state_path(line_state)
     - rows << table_row([name])
   = table header, rows

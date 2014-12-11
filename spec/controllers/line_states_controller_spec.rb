@@ -39,4 +39,44 @@ describe LineStatesController do
     end
   end
 
+  describe 'GET edit' do
+    context 'for an unlocked line state' do
+      let(:line_state) { create :line_state }
+
+      before { get :edit, id: line_state.id }
+
+      it 'returns a success' do
+        expect(response).to be_success
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template(:edit)
+      end
+    end
+
+    context 'for a locked line state' do
+      let(:line_state) { create :line_state, locked: true }
+
+      it 'redirects when attempting to edit' do
+        get :edit,
+            id: line_state.id
+        expect(response).to redirect_to(line_states_path)
+      end
+    end
+  end
+
+  describe 'PUT update' do
+    let(:line_state) { create :line_state }
+    let(:new_name) { 'New Name' }
+
+    it 'updates the line state' do
+      put :update,
+          id: line_state.id,
+          line_state: {
+              name: new_name
+          }
+      expect(response).to redirect_to(line_states_path)
+    end
+  end
+
 end

@@ -33,4 +33,28 @@ describe 'LineStates CRUD actions' do
     end
   end
 
+  context 'for updating' do
+    context 'unlocked line states' do
+      let!(:line_state) { create :line_state }
+      let(:new_name) { 'New Name' }
+
+      it 'edits an unlocked line state' do
+        visit line_states_path
+        click_on line_state.name
+        fill_in 'Name', with: new_name
+        click_on 'Save'
+        expect(page).to have_content(new_name)
+      end
+    end
+
+    context 'locked line states' do
+      let!(:line_state) { create :line_state, locked: true }
+
+      it 'shows no link for a locked line state' do
+        visit line_states_path
+        expect(page).not_to have_selector('a', text: line_state.name)
+      end
+    end
+  end
+
 end
