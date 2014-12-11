@@ -58,4 +58,5 @@ VCR.configure do |c|
   c.hook_into :webmock
   c.configure_rspec_metadata!
   c.ignore_hosts '127.0.0.1', 'localhost'
+  #c.debug_logger = $stderr #Uncomment this for VCR debugging
 end
