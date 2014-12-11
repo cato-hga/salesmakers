@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe 'Wall posts' do
-
   describe 'viewable actions (when authorized)' do
     before(:example) do
+      create :project_wall
       visit root_path
     end
 

@@ -8,6 +8,7 @@ describe ApplicationHelper do
   end
 
   it "returns a list of the person's visible projects" do
+    create :project
     all_projects = Project.all
     allow(Project).to receive(:visible).and_return(all_projects)
     expect(helper.visible_projects.count).to eq(1)
@@ -20,6 +21,8 @@ describe ApplicationHelper do
   end
 
   it "returns a comma-separated list of all the person's areas" do
+    create :area
+    create :area, name: 'Blah'
     person = Person.first
     first_two_areas = Area.all.limit(2)
     for area in first_two_areas do
@@ -32,7 +35,7 @@ describe ApplicationHelper do
 
   describe 'link display methods' do
     it 'displays a link to an area' do
-      area = Area.first
+      area = create :area
       expected_selector = 'a[href="' +
           helper.client_project_area_path(area.project.client,
                                           area.project,
@@ -44,7 +47,7 @@ describe ApplicationHelper do
     end
 
     it 'displays a link to a department' do
-      department = Department.first
+      department = create :department
       expected_selector = 'a[href="' +
           helper.department_path(department) +
           '"]'
@@ -54,7 +57,7 @@ describe ApplicationHelper do
     end
 
     it 'displays a link to a project' do
-      project = Project.first
+      project = create :project
       expected_selector = 'a[href="' +
           helper.client_project_path(project.client, project) +
           '"]'
@@ -90,7 +93,7 @@ describe ApplicationHelper do
     end
 
     it "displays a link to an area's sales" do
-      area = Area.first
+      area = create :area
       expected_selector = 'a[href="' +
           helper.sales_client_project_area_path(area.project.client,
                                                 area.project,
@@ -117,21 +120,21 @@ describe ApplicationHelper do
 
     context 'for walls' do
       it 'is correct for areas' do
-        wallable = Area.first
+        wallable = create :area
         area_link = helper.area_link wallable
         markup = helper.wall_link wallable
         expect(markup).to eq(area_link)
       end
 
       it 'is correct for departments' do
-        wallable = Department.first
+        wallable = create :department
         department_link = helper.department_link wallable
         markup = helper.wall_link wallable
         expect(markup).to eq(department_link)
       end
 
       it 'is correct for projects' do
-        wallable = Project.first
+        wallable = create :project
         project_link = helper.project_link wallable
         markup = helper.wall_link wallable
         expect(markup).to eq(project_link)
@@ -279,6 +282,7 @@ describe ApplicationHelper do
   end
 
   describe 'wall post display' do
+
     before(:example) do
       @walls = Wall.all
       @wall_post_comment = WallPostComment.new

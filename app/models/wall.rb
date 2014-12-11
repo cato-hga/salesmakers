@@ -69,7 +69,7 @@ class Wall < ActiveRecord::Base
   end
 
   def name
-    return nil unless self.wallable
+    return '' unless self.wallable and self.wallable.name
     if defined?(self.wallable.project) and self.wallable.project
       self.wallable.project.name + ' - ' + self.wallable.name
     elsif self.wallable.is_a? Project

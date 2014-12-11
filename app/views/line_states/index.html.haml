@@ -1,0 +1,13 @@
+- content_for :action_buttons do
+  = new_button new_line_state_path
+
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for line_state in @line_states do
+    - if line_state.locked
+      - name = line_state.name
+    - else
+      - name = link_to line_state.name, edit_line_state_path(line_state)
+    - rows << table_row([name])
+  = table header, rows

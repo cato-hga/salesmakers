@@ -9,13 +9,13 @@ FactoryGirl.define do
 
   factory :it_wall_post, class: WallPost do
     publication
-    wall { Wall.where(wallable_type: 'Department').first }
+    association :wall, factory: :department_wall
     person { Person.find_by display_name: 'System Administrator' }
   end
 
   factory :non_it_wall_post, class: WallPost do
     association :publication, factory: :non_it_publication
-    wall { Wall.where(wallable_type: 'Department').first }
+    association :wall, factory: :department_wall
     person { Person.find_by display_name: 'System Administrator' }
   end
 end

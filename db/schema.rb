@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141111205604) do
+ActiveRecord::Schema.define(version: 20141211143415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 20141111205604) do
   add_index "day_sales_counts", ["saleable_id", "saleable_type"], name: "index_day_sales_counts_on_saleable_id_and_saleable_type", using: :btree
 
   create_table "departments", force: true do |t|
-    t.string "name", null: false
-    t.boolean "corporate", null: false
+    t.string   "name"
+    t.boolean  "corporate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -237,9 +237,10 @@ ActiveRecord::Schema.define(version: 20141111205604) do
   add_index "likes", ["wall_post_id"], name: "index_likes_on_wall_post_id", using: :btree
 
   create_table "line_states", force: true do |t|
-    t.string   "name",       null: false
+    t.string   "name",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "locked",     default: false
   end
 
   create_table "line_states_lines", id: false, force: true do |t|
@@ -303,7 +304,7 @@ ActiveRecord::Schema.define(version: 20141111205604) do
   create_table "people", force: true do |t|
     t.string   "first_name",                           null: false
     t.string   "last_name",                            null: false
-    t.string "display_name", null: false
+    t.string   "display_name"
     t.string   "email",                                null: false
     t.string   "personal_email"
     t.integer  "position_id"
@@ -396,11 +397,11 @@ ActiveRecord::Schema.define(version: 20141111205604) do
   end
 
   create_table "positions", force: true do |t|
-    t.string "name", null: false
-    t.boolean "leadership", null: false
-    t.boolean "all_field_visibility", null: false
-    t.boolean "all_corporate_visibility", null: false
-    t.integer "department_id", null: false
+    t.string   "name"
+    t.boolean  "leadership"
+    t.boolean  "all_field_visibility"
+    t.boolean  "all_corporate_visibility"
+    t.integer  "department_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "field"

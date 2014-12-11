@@ -10,9 +10,9 @@ RSpec.describe GroupMeUser, :type => :model do
 
   describe '.find_or_create_from_json' do
     let(:person) { create :person }
-    let(:group_me_user) { GroupMeUser.first }
+    let(:group_me_user) { create :group_me_user }
     let(:group_me_user_id) { group_me_user.group_me_user_num }
-    let(:json_info) { json_info = {
+    let(:json_info) { {
         user_id: group_me_user_id,
         name: 'Test',
     }.to_json }

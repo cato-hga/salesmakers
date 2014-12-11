@@ -76,6 +76,8 @@ Rails.application.routes.draw do
 
   resources :lines, only: [:index, :show, :new]
 
+  resources :line_states, except: [:show, :destroy]
+
   resources :link_posts, only: [:create, :show]
 
   resources :log_entries, only: [:index]

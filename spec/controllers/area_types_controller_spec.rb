@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AreaTypesController do
-  let!(:project) { Project.first }
+  let!(:project) { create :project }
 
   describe 'GET index' do
     it 'returns a success status' do
@@ -10,5 +10,4 @@ describe AreaTypesController do
       expect(response).to render_template(:index)
     end
   end
-
 end

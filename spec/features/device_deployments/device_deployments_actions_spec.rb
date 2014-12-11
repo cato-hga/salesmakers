@@ -21,7 +21,7 @@ describe 'Device Deployments NON-CRUD actions' do
   describe 'GET recoup' do
     let(:deployed_device) { create :device }
     let(:person) { create :person }
-    let(:deployed) { DeviceState.find_by name: 'Deployed' }
+    let!(:deployed) { create :device_state, name: 'Deployed' }
     let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
     before(:each) do
       deployed_device.device_states << deployed

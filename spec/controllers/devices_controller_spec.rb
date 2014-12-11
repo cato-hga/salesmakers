@@ -106,7 +106,7 @@ describe DevicesController do
 
   describe 'GET write_off' do
     let(:device) { create :device }
-    let(:written_off) { DeviceState.find_by name: 'Written Off' }
+    let!(:written_off) { create :device_state, name: 'Written Off' }
 
     subject { get :write_off, id: device.id }
 
