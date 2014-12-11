@@ -1,5 +1,4 @@
 require 'rails_helper'
-require_relative '../../spec/support/activerecord_single_thread_patch'
 
 RSpec.describe 'Asset Receiving' do
 
