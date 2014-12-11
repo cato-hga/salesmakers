@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :device_states, only: [:index, :new, :show, :edit]
 
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
@@ -73,7 +74,7 @@ Rails.application.routes.draw do
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 
-  resources :lines, only: [:index, :show]
+  resources :lines, only: [:index, :show, :new]
 
   resources :line_states, except: [:show]
 
