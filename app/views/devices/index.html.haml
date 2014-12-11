@@ -1,3 +1,6 @@
+- content_for :action_buttons do
+  = new_button new_device_path
+
 - content_for :header do
   = search_form_for @search, class: 'search_form' do |f|
     - if not params[:q]

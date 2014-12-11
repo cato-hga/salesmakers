@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   end
 
   resources :devices do
+    member do
+      get 'write_off'
+    end
     resources :device_deployments, except: [ :index ] do
       collection do
         get 'select_user'
