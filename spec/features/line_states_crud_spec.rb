@@ -57,4 +57,30 @@ describe 'LineStates CRUD actions' do
     end
   end
 
+  context 'for destroying', js: true do
+    let!(:line_state) { create :line_state }
+    let(:line) { create :line }
+
+    subject do
+      visit line_states_path
+      click_on line_state.name
+      page.driver.browser.accept_js_confirms
+      within '#main_container header h1' do
+        click_on 'delete_action_button'
+      end
+    end
+
+    it 'destroys a line state' do
+      subject
+      visit line_states_path
+      expect(page).not_to have_content(line_state.name)
+    end
+
+    it 'destroys each association of a line with a destroyed line state' do
+      line.line_states << line_state
+      subject
+      visit lines_path
+      expect(page).not_to have_content(line_state.name)
+    end
+  end
 end

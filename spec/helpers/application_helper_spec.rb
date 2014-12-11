@@ -260,6 +260,12 @@ describe ApplicationHelper do
     expect(markup).to have_selector('i[class="fi-page-edit"]')
   end
 
+  it 'should display a delete button' do
+    markup = helper.delete_button('/')
+    expect(markup).to have_selector('a[href="/"]')
+    expect(markup).to have_selector('i[class="fi-x-circle"]')
+  end
+
   it 'returns the correct last slice of an array' do
     array = [1, 2, 3, 4, 5, 6, 7, 8]
     last_slice = helper.last_slice array, 3

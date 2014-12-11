@@ -79,4 +79,13 @@ describe LineStatesController do
     end
   end
 
+  describe 'DELETE destroy' do
+    let(:line_state) { create :line_state }
+
+    it 'deletes the line state' do
+      delete :destroy,
+             id: line_state.id
+      expect(page).to redirect_to(line_states_path)
+    end
+  end
 end
