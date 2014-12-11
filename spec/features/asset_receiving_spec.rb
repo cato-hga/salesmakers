@@ -58,6 +58,7 @@ RSpec.describe 'Asset Receiving' do
     end
 
     context 'for multiple devices' do
+      VCR.configuration.ignore_request { true }
       describe 'row addition', js: true do
         before {
           visit new_device_path
