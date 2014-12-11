@@ -123,7 +123,6 @@ class Person < ActiveRecord::Base
                         mobile_phone: phone,
                         position: position,
                         supervisor: supervisor
-    puts person.errors.full_messages.join(', ') unless person.save
     return nil unless person
     PersonArea.where(person: person).destroy_all
     LogEntry.person_onboarded_from_connect person, creator, created, updated
