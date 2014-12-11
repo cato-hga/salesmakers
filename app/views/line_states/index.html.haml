@@ -1,0 +1,7 @@
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for line_state in @line_states do
+    - name = link_to line_state.name, '#'
+    - rows << table_row([name])
+  = table header, rows

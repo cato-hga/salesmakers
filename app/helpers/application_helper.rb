@@ -110,9 +110,9 @@ module ApplicationHelper
 
   # Not curently being used. Tests are written for these methods.
 
-  # def short_date(date)
-  #   date.strftime '%m/%d/%Y'
-  # end
+  def short_date(date)
+    date.strftime '%m/%d/%Y'
+  end
   #
   # def med_date(date)
   #   date.strftime '%a, %b %-d, %Y'
