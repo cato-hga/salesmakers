@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe DepartmentsController do
-  let(:department) { Department.first }
+  let(:department) { create :department }
 
   describe 'GET index' do
     it 'returns a success status' do

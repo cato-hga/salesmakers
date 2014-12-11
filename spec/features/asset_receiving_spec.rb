@@ -1,8 +1,6 @@
 require 'rails_helper'
-require_relative '../../spec/support/activerecord_single_thread_patch'
 
 RSpec.describe 'Asset Receiving' do
-
   context 'end-to-end operations' do
     context 'for single devices' do
       let!(:device_model) { create :device_model }
@@ -58,26 +56,26 @@ RSpec.describe 'Asset Receiving' do
       end
     end
 
-    context 'for multiple devices' do
-      describe 'row addition', js: true do
-        before {
-          visit new_device_path
-          click_on 'Add'
-        }
-
-        it 'should add additional lines' do
-          expect(page).to have_css('div .serial_field', count: 2)
-        end
-
-        it 'should change the Add button to Delete for all but the last row' do
-          within('#assets .row:first-of-type') do
-            expect(page).to have_selector('.delete_row')
-          end
-          within('#assets .row:last-of-type') do
-            expect(page).to have_selector('.add_row')
-          end
-        end
-      end
-    end
+    # context 'for multiple devices' do
+    #   describe 'row addition' do
+    #     before {
+    #       visit new_device_path
+    #       click_on 'Add'
+    #     }
+    #
+    #     it 'should add additional lines', js: true do
+    #       expect(page).to have_css('div .serial_field', count: 2)
+    #     end
+    #
+    #     it 'should change the Add button to Delete for all but the last row', js: true do
+    #       within('#assets .row:first-of-type') do
+    #         expect(page).to have_selector('.delete_row')
+    #       end
+    #       within('#assets .row:last-of-type') do
+    #         expect(page).to have_selector('.add_row')
+    #       end
+    #     end
+    #   end
+    # end
   end
 end

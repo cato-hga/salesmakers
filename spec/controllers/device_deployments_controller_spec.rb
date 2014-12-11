@@ -82,9 +82,9 @@ describe DeviceDeploymentsController do
   describe 'GET recoup' do
     let(:deployed_device) { create :device }
     let(:person) { create :person }
-    let(:deployed) { DeviceState.find_by name: 'Deployed' }
+    let(:deployed) { create :device_state, name: 'Deployed' }
     let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
-    context 'success' do
+    context 'upon success' do
       subject do
         deployed_device.device_states << deployed
         deployed_device.device_deployments << device_deployment

@@ -35,7 +35,7 @@ describe 'Devices CRUD actions' do
     context 'for deployed devices' do
       let(:deployed_device) { create :device }
       let(:person) { create :person }
-      let(:deployed) { DeviceState.find_by_name 'Deployed' }
+      let!(:deployed) { create :device_state, name: 'Deployed' }
       let!(:device_deployment) { create :device_deployment, device: deployed_device, person: person}
 
       before(:each) do

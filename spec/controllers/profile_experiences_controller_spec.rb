@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ProfileExperiencesController do
-  let(:profile) { Profile.first }
+  let(:profile) { create :profile }
   let(:profile_experience) { build :profile_experience }
   let(:invalid_profile_experience) { build :profile_experience, started: nil }
 
@@ -96,4 +96,5 @@ describe ProfileExperiencesController do
       it 'should flash an error message'
     end
   end
+  
 end

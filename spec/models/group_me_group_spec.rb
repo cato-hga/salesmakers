@@ -15,10 +15,10 @@ RSpec.describe GroupMeGroup, :type => :model do
 
   describe '.update_group_via_json' do
 
-    let(:group_me_group) { GroupMeGroup.first }
-    let(:group_num) { group_me_group.group_num }
-    let(:group_me_user) { GroupMeUser.first }
-    let(:user_id) { group_me_user.group_me_user_num }
+    let(:group_me_group) { create :group_me_group }
+    let!(:group_num) { group_me_group.group_num }
+    let(:group_me_user) { create :group_me_user }
+    let!(:user_id) { group_me_user.group_me_user_num }
 
     it 'should update the GroupMeGroup if GroupMeGroup is found' do
       json_info = {
@@ -54,7 +54,7 @@ RSpec.describe GroupMeGroup, :type => :model do
   end
 
   describe '#likes_threshold' do
-    let(:group_me_group) { GroupMeGroup.first }
+    let(:group_me_group) { create :group_me_group }
 
     it 'should return a likes threshold based upon the user count of a GroupMeGroup' do
       expect(group_me_group.likes_threshold).to eq(4)

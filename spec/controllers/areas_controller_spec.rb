@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe AreasController do
-  let(:project) { Project.first }
+  let(:project) { create :project }
   let(:hash) { { project_id: project.id, client_id: project.client.id } }
 
   describe 'GET index' do

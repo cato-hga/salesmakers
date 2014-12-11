@@ -25,32 +25,38 @@ require 'factory_girl_rails'
 
 RSpec.configure do |config|
 
-  config.before(:all) do
-    CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
-  end
-
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
+    Permission.destroy_all
+    PermissionGroup.destroy_all
+    Position.destroy_all
+    Person.destroy_all
+    FactoryGirl.create :administrator_person
     # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
     # admin.destroy if admin
     DatabaseCleaner.strategy = :transaction
     #DatabaseCleaner.clean_with(:truncation) #Taking out. Doesn't look like it is actually needed.
-    begin
-      DatabaseCleaner.start
-      FactoryGirl.lint
-      # FactoryGirl.create :administrator_person
-    ensure
-      DatabaseCleaner.clean
-    end
+  end
+
+  config.before(:all) do
+    CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
 
   config.before(:each) do
+    if RSpec.current_example.metadata[:js]
+      DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
+    end
     DatabaseCleaner.start
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
+    if RSpec.current_example.metadata[:js]
+      FactoryGirl.create :administrator_person
+    end
   end
 
 # The settings below are suggested to provide a good initial experience

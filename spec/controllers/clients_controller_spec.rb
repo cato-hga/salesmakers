@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ClientsController do
-  let(:client) { Client.first }
+  let(:client) { create :client }
 
   describe 'GET index' do
     it 'returns a success status' do

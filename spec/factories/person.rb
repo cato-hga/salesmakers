@@ -9,6 +9,6 @@ FactoryGirl.define do
     last_name 'User'
     email
     mobile_phone '5551234567'
-    association :position, strategy: :build_stubbed
+    association :position
   end
 end

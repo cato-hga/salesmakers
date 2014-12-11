@@ -4,6 +4,7 @@ describe 'Devices NON-CRUD actions' do
 
   describe 'write_off' do
     let(:device) { create :device }
+    let!(:device_state) { create :device_state, name: 'Written Off' }
 
     before(:each) do
       visit device_path device
@@ -40,4 +41,5 @@ describe 'Devices NON-CRUD actions' do
       end
     end
   end
+
 end

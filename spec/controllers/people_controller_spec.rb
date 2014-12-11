@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe PeopleController do
   let(:person) { Person.first }
+
   describe 'GET index' do
     it 'returns a success status' do
       get :index

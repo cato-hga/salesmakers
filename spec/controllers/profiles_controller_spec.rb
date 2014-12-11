@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ProfilesController do
-  let(:profile) { Profile.first }
+  let(:profile) { create :profile, person: Person.first }
 
   describe 'GET edit' do
     it 'returns a success status' do

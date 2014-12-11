@@ -5,13 +5,14 @@ describe GroupMeLike do
   it { should belong_to(:group_me_post) }
   it { should belong_to(:group_me_user) }
 
-  let(:group_me_user) { GroupMeUser.first  }
-  let(:group_me_post) { GroupMePost.first }
+
+  let(:group_me_user) { create :group_me_user }
+  let(:group_me_post) { create :group_me_post }
   let(:like) { GroupMeLike.like group_me_user, group_me_post }
-  let(:wall) { Wall.find_by_wallable_type 'Area' }
+  let!(:wall) { create :area_wall }
 
   describe 'creation from json' do
-    let(:group_id) { GroupMeGroup.first.group_num }
+    let(:group_id) { create(:group_me_group).group_num }
     let(:user_id) { group_me_user.group_me_user_num }
     let(:post_id) { group_me_post.message_num }
 
@@ -34,8 +35,11 @@ describe GroupMeLike do
     end
 
     it 'over likes threshold should create a Wall Post' do
+      group_me_post.group_me_group.group_me_users << group_me_user
+      allow(group_me_post.group_me_group).to receive(:likes_threshold).and_return(4)
       allow(group_me_post).to receive(:like_count).and_return(4)
       expect{like}.to change(WallPost, :count).by(1)
     end
   end
+
 end
