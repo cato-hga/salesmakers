@@ -28,7 +28,12 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation
+    #DatabaseCleaner.clean_with :truncation
+    Permission.destroy_all
+    PermissionGroup.destroy_all
+    Person.destroy_all
+    Position.destroy_all
+    Department.destroy_all
     FactoryGirl.create :administrator_person
     # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
     # admin.destroy if admin
@@ -40,20 +45,20 @@ RSpec.configure do |config|
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
 
-  config.around(:each) do |spec|
-    if spec.metadata[:js]
-      spec.run
-      DatabaseCleaner.clean_with :deletion
-      FactoryGirl.create :administrator_person
-    else
-      DatabaseCleaner.start
-      spec.run
-      DatabaseCleaner.clean
+  config.before(:each) do |spec|
+    DatabaseCleaner.strategy = spec.metadata[:js] ? :deletion : :transaction
+    DatabaseCleaner.start
+  end
 
-      begin
-        ActiveRecord::Base.connection.send :rollback_transaction_records, true
-      rescue
-      end
+  config.after(:each) do |spec|
+    DatabaseCleaner.clean
+    begin
+      ActiveRecord::Base.connection.send :rollback_transaction_records, true
+    rescue
+    end
+    if spec.metadata[:js]
+      FactoryGirl.create :administrator_person
+      ActiveRecord::Base.connection_pool.disconnect!
     end
   end
 
