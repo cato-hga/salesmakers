@@ -88,20 +88,20 @@ production:
   username: deploy
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
 
-rbd_connect_test:
-  adapter: postgresql
-  database: rbd_erp
-  host: test.rbdconnect.com
-  username: retailingw
-  password: r3Tailing
-  pool: 5
-  encoding: unicode
+#rbd_connect_test:
+#  adapter: postgresql
+#  database: rbd_erp
+#  host: test.rbdconnect.com
+#  username: retailingw
+#  password: r3Tailing
+#  pool: 5
+#  encoding: unicode
 
 rbd_connect_production:
   adapter: postgresql
   database: rbd_erp
   host: rbdconnect.com
-  username: retailingw
-  password: r3Tailing
+  username: reconnect
+  password: r3C0nn3ct
   pool: 5
   encoding: unicode
