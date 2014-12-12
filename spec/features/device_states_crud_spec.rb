@@ -1,24 +1,86 @@
 require 'rails_helper'
 
-describe 'Device States CRUD' do
+describe 'DeviceStates CRUD actions' do
 
-  describe 'GET index' do
-    let!(:state) { create :device_state }
-    before(:each) do
+  context 'for creating' do
+    let(:device_state) { build :device_state }
+
+    it 'has the correct page title' do
+      visit new_device_state_path
+      expect(page).to have_selector('h1', text: 'New Device State')
+    end
+
+    it 'creates a new device state' do
       visit device_states_path
-    end
-    it 'should show a list of device states' do
-      expect(page).to have_content(state.name)
-    end
-    it 'should have a button to add a new state' do
-      expect(page).to have_link('New')
-    end
-    it 'should have a button to edit states' do
-      expect(page).to have_link('Edit State')
+      within '#main_container h1' do
+        click_on 'new_action_button'
+      end
+      fill_in 'Name', with: device_state.name
+      click_on 'Save'
+      expect(page).to have_content(device_state.name)
     end
   end
 
-  describe 'GET new' do
+  context 'for reading' do
+    let!(:device_state) { create :device_state }
 
+    it 'navigates to the device states index' do
+      visit devices_path
+      within '#main_container header h1' do
+        click_on 'Edit States'
+      end
+      expect(page).to have_content(device_state.name)
+    end
+  end
+
+  context 'for updating' do
+    context 'unlocked device states' do
+      let!(:device_state) { create :device_state }
+      let(:new_name) { 'New Name' }
+
+      it 'edits an unlocked device state' do
+        visit device_states_path
+        click_on device_state.name
+        fill_in 'Name', with: new_name
+        click_on 'Save'
+        expect(page).to have_content(new_name)
+      end
+    end
+
+    context 'locked device states' do
+      let!(:device_state) { create :device_state, locked: true }
+
+      it 'shows no link for a locked device state' do
+        visit device_states_path
+        expect(page).not_to have_selector('a', text: device_state.name)
+      end
+    end
+  end
+
+  context 'for destroying', js: true do
+    let!(:device_state) { create :device_state }
+    let(:device) { create :device }
+
+    subject do
+      visit device_states_path
+      click_on device_state.name
+      page.driver.browser.accept_js_confirms
+      within '#main_container header h1' do
+        click_on 'delete_action_button'
+      end
+    end
+
+    it 'destroys a device state' do
+      subject
+      visit device_states_path
+      expect(page).not_to have_content(device_state.name)
+    end
+
+    it 'destroys each association of a device with a destroyed device state' do
+      device.device_states << device_state
+      subject
+      visit devices_path
+      expect(page).not_to have_content(device_state.name)
+    end
   end
 end

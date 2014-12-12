@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe LineStatesController do
+describe DeviceStatesController do
 
   describe 'GET index' do
     before { get :index }
@@ -27,23 +27,23 @@ describe LineStatesController do
   end
 
   describe 'POST create' do
-    let(:line_state) { build :line_state }
+    let(:device_state) { build :device_state }
 
-    it 'creates a line state' do
+    it 'creates a device state' do
       expect {
         post :create,
-             line_state: {
-                 name: line_state.name
+             device_state: {
+                 name: device_state.name
              }
-      }.to change(LineState, :count).by(1)
+      }.to change(DeviceState, :count).by(1)
     end
   end
 
   describe 'GET edit' do
-    context 'for an unlocked line state' do
-      let(:line_state) { create :line_state }
+    context 'for an unlocked device state' do
+      let(:device_state) { create :device_state }
 
-      before { get :edit, id: line_state.id }
+      before { get :edit, id: device_state.id }
 
       it 'returns a success' do
         expect(response).to be_success
@@ -54,38 +54,38 @@ describe LineStatesController do
       end
     end
 
-    context 'for a locked line state' do
-      let(:line_state) { create :line_state, locked: true }
+    context 'for a locked device state' do
+      let(:device_state) { create :device_state, locked: true }
 
       it 'redirects when attempting to edit' do
         get :edit,
-            id: line_state.id
-        expect(response).to redirect_to(line_states_path)
+            id: device_state.id
+        expect(response).to redirect_to(device_states_path)
       end
     end
   end
 
   describe 'PUT update' do
-    let(:line_state) { create :line_state }
+    let(:device_state) { create :device_state }
     let(:new_name) { 'New Name' }
 
-    it 'updates the line state' do
+    it 'updates the device state' do
       put :update,
-          id: line_state.id,
-          line_state: {
+          id: device_state.id,
+          device_state: {
               name: new_name
           }
-      expect(response).to redirect_to(line_states_path)
+      expect(response).to redirect_to(device_states_path)
     end
   end
 
   describe 'DELETE destroy' do
-    let(:line_state) { create :line_state }
+    let(:device_state) { create :device_state }
 
-    it 'deletes the line state' do
+    it 'deletes the device state' do
       delete :destroy,
-             id: line_state.id
-      expect(page).to redirect_to(line_states_path)
+             id: device_state.id
+      expect(page).to redirect_to(device_states_path)
     end
   end
 end

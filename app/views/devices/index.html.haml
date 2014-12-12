@@ -1,5 +1,6 @@
 - content_for :action_buttons do
   = new_button new_device_path
+  = link_to 'Edit States', device_states_path, class: [:button, :inline_button]
 
 - content_for :header do
   = search_form_for @search, class: 'search_form' do |f|

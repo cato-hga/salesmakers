@@ -1,0 +1,10 @@
+- if @device_state.errors.any?
+  - @device_state.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+.widget
+  .inner
+    = form_for @device_state do |f|
+      = f.label :name
+      = f.text_field :name
+      = f.submit 'Save', class: :button
+      = link_to 'Cancel', :back, class: :small
