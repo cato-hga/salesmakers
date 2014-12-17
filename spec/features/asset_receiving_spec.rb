@@ -112,7 +112,6 @@ RSpec.describe 'Asset Receiving' do
           expect(page).to have_content(line_identifier)
           expect(page).to have_content(second_line_identifier)
         end
-
       end
 
       describe 'row deletion', js: true do

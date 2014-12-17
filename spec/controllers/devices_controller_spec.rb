@@ -57,6 +57,17 @@ describe DevicesController do
       it 'should redirect to devices#index' do
         expect(subject).to redirect_to(devices_path)
       end
+
+      it 'assigns the correct line to the correct asset' do
+        subject
+        device = Device.first
+        line = Line.first
+        expect(device.line).to eq(line)
+      end
+    end
+
+    context 'multiple devices success' do
+      it 'assigns the correct line to the correct device'
     end
 
     context 'failure' do
