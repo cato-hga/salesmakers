@@ -15,4 +15,8 @@ $(function () {
         '</div>').insertAfter($(this).parents('.row'));
         $(this).text('Delete').switchClass('add_row', 'delete_row');
     });
+
+    $('body').on('click', '.delete_row', function () {
+        $(this).parents('.row').remove();
+    });
 });
