@@ -50,13 +50,14 @@ RSpec.describe 'Asset Receiving' do
           click_on 'Receive'
         }
       end
-
-      context 'with secondary identifier' do
-
-      end
     end
 
-    context 'for multiple devices' do
+    context 'with secondary identifiers' do
+
+    end
+
+
+    context 'for multiple devices success' do
       describe 'row addition', js: true do
         before {
           visit new_device_path

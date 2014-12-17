@@ -36,7 +36,7 @@
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - if person.active?
-      - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: 'button'
+      - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: 'deploy_button'
     - else
       - deploy_button = ''
     - rows << table_row([eid, display_name, email, phone, position, supervisor, area, deploy_button])

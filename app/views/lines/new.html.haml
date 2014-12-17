@@ -1,2 +1,23 @@
-%h1 Lines#new
-%p Find me in app/views/lines/new.html.haml
+- title 'Add Lines'
+
+= form_for @line do |f|
+  .widget
+    .inner.row.full-width
+      .large-6.columns
+        = f.label :contract_end_date, 'Contract End Date'
+        = f.text_field :contract_end_date, placeholder: 'mm/dd/yyyy', class: 'datepicker'
+      .large-6.columns
+        = f.label :technology_service_provider_id, 'Service Provider'
+        = f.collection_select :technology_service_provider_id, TechnologyServiceProvider.all, :id, :name, prompt: 'Select a Service Provider'
+  .widget
+    .inner
+      #lines
+        .row.full-width
+          .large-12.columns
+            %strong Line
+        .row.full-width
+          .large-11.columns
+            = f.text_field :identifier
+          .large-1.columns
+            %a.button.postfix.add_row(href='#') Add
+        = f.submit 'Receive', class: 'button'
