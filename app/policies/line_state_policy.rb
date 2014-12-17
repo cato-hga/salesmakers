@@ -1,0 +1,3 @@
+class LineStatePolicy < ApplicationPolicy
+
+end

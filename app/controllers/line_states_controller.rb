@@ -1,5 +1,7 @@
 class LineStatesController < ApplicationController
   before_action :check_locked_status, only: [:edit, :update, :destroy]
+  before_action :do_authorization
+  after_action :verify_authorized
 
   def index
     @line_states = LineState.all
@@ -39,6 +41,10 @@ class LineStatesController < ApplicationController
   end
 
   private
+
+  def do_authorization
+    authorize LineState.new
+  end
 
   def line_state_params
     params.require(:line_state).permit :name

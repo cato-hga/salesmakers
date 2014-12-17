@@ -1,5 +1,7 @@
 class DeviceStatesController < ApplicationController
   before_action :check_locked_status, only: [:edit, :update, :destroy]
+  before_action :do_authorization
+  after_action :verify_authorized
 
   def index
     @device_states = DeviceState.all
@@ -39,6 +41,10 @@ class DeviceStatesController < ApplicationController
   end
 
   private
+
+  def do_authorization
+    authorize LineState.new
+  end
 
   def device_state_params
     params.require(:device_state).permit :name

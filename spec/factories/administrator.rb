@@ -37,10 +37,21 @@ FactoryGirl.define do
     after(:create) do |person|
       permissions = Array.new
       permissions << create(:main_permission, key: 'area_type_index')
-      permissions << create(:main_permission, key: 'wall_show_all_walls')
       permissions << create(:main_permission, key: 'blog_post_index')
       permissions << create(:main_permission, key: 'client_index')
       permissions << create(:main_permission, key: 'department_index')
+      permissions << create(:main_permission, key: 'device_state_create')
+      permissions << create(:main_permission, key: 'device_state_edit')
+      permissions << create(:main_permission, key: 'device_state_destroy')
+      permissions << create(:main_permission, key: 'device_state_index')
+      permissions << create(:main_permission, key: 'device_state_new')
+      permissions << create(:main_permission, key: 'device_state_update')
+      permissions << create(:main_permission, key: 'line_state_create')
+      permissions << create(:main_permission, key: 'line_state_edit')
+      permissions << create(:main_permission, key: 'line_state_destroy')
+      permissions << create(:main_permission, key: 'line_state_index')
+      permissions << create(:main_permission, key: 'line_state_new')
+      permissions << create(:main_permission, key: 'line_state_update')
       permissions << create(:main_permission, key: 'log_entry_index')
       permissions << create(:main_permission, key: 'medium_index')
       permissions << create(:main_permission, key: 'person_update_own_basic')
@@ -49,6 +60,7 @@ FactoryGirl.define do
       permissions << create(:main_permission, key: 'position_index')
       permissions << create(:main_permission, key: 'profile_update')
       permissions << create(:main_permission, key: 'wall_post_promote')
+      permissions << create(:main_permission, key: 'wall_show_all_walls')
       for permission in permissions do
         person.position.permissions << permission
       end
