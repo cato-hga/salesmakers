@@ -57,7 +57,7 @@ RSpec.describe 'Asset Receiving' do
     end
 
 
-    context 'for multiple devices' do
+    context 'for multiple devices success' do
       describe 'row addition', js: true do
         before {
           visit new_device_path
