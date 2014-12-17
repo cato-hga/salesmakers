@@ -333,11 +333,33 @@ for position in ops_and_execs_positions do
   position.permissions << poll_question_show
 end
 
+lines_and_devices_permissions = Array.new
+line_state_index = Permission.find_by key: 'line_state_index'
+line_state_create = Permission.find_by key: 'line_state_create'
+line_state_update = Permission.find_by key: 'line_state_update'
+line_state_destroy = Permission.find_by key: 'line_state_destroy'
+device_state_index = Permission.find_by key: 'device_state_index'
+device_state_create = Permission.find_by key: 'device_state_create'
+device_state_update = Permission.find_by key: 'device_state_update'
+device_state_destroy = Permission.find_by key: 'device_state_destroy'
+lines_and_devices_permissions << line_state_index if line_state_index
+lines_and_devices_permissions << line_state_create if line_state_create
+lines_and_devices_permissions << line_state_update if line_state_update
+lines_and_devices_permissions << line_state_destroy if line_state_destroy
+lines_and_devices_permissions << device_state_index if device_state_index
+lines_and_devices_permissions << device_state_create if device_state_create
+lines_and_devices_permissions << device_state_update if device_state_update
+lines_and_devices_permissions << device_state_destroy if device_state_destroy
+
 for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << department_index
   position.permissions << position_index
   position.permissions << log_entry_index
   position.permissions << profile_update_others
+  for permission in lines_and_devices_permissions do
+    position.permissions.delete permission
+    position.permissions << permission
+  end
 end
 
 pos_md.permissions << poll_question_manage
