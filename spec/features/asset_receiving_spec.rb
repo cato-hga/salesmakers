@@ -77,6 +77,10 @@ RSpec.describe 'Asset Receiving' do
           end
         end
       end
+
+      describe 'row deletion', js: true do
+        it 'deletes the row'
+      end
     end
   end
 end

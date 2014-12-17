@@ -44,7 +44,28 @@ describe 'Line Addition' do
   end
 
   context 'for multiple lines' do
+    describe 'row addition', js: true do
+      before {
+        visit new_line_path
+        click_on 'Add'
+      }
 
+      it 'should add additional lines' do
+        expect(page).to have_css('div .line_field', count: 2)
+      end
+
+      it 'should change the Add button to Delete for all but the last row' do
+        within('#lines .row:first-of-type') do
+          expect(page).to have_selector('.delete_row')
+        end
+        within('#lines .row:last-of-type') do
+          expect(page).to have_selector('.add_row')
+        end
+      end
+    end
+
+    describe 'row deletion', js: true do
+      it 'deletes the row'
+    end
   end
-
 end
