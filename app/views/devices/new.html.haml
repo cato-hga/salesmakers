@@ -22,9 +22,9 @@
       #assets
         .row.full-width
           .large-6.columns
-            = text_field_tag 'serial', nil, class: :serial_field
+            = text_field_tag 'serial[]', nil, class: :serial_field
           .large-5.columns
-            = text_field_tag 'line_identifier', nil, class: :line_id_field
+            = text_field_tag 'line_identifier[]', nil, class: :line_id_field
           .large-1.columns
             %a.button.postfix.add_row(href='#') Add
       = submit_tag 'Receive', class: 'button'

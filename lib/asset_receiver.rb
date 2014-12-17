@@ -23,7 +23,8 @@ class AssetReceiver
                        technology_service_provider: @service_provider
     device = Device.create device_model: @device_model,
                            serial: @serial,
-                           identifier: @device_identifier
+                           identifier: @device_identifier,
+                           line: line
     @creator.log? 'create', device
     @creator.log? 'create', line
   end

@@ -20,22 +20,28 @@ class DevicesController < ApplicationController
     @contract_end_date = receive_params[:contract_end_date]
     @device_model = DeviceModel.find receive_params[:device_model_id]
     @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id]
-    @serial = receive_params[:serial]
-    @line_identifier = receive_params[:line_identifier]
-    receiver = AssetReceiver.new contract_end_date: @contract_end_date,
-                                 device_model: @device_model,
-                                 service_provider: @service_provider,
-                                 serial: @serial,
-                                 line_identifier: @line_identifier,
-                                 creator: @current_person
-    begin
+    @serials = receive_params[:serial]
+    @line_identifiers = receive_params[:line_identifier]
+    serial_count = 0
+    for serial in @serials do
+      receiver = AssetReceiver.new contract_end_date: @contract_end_date,
+                                   device_model: @device_model,
+                                   service_provider: @service_provider,
+                                   serial: serial,
+                                   line_identifier: @line_identifiers[serial_count],
+                                   creator: @current_person
       receiver.receive
-      flash[:notice] = 'Device(s) received successfully'
-      redirect_to devices_path
-    rescue AssetReceiverValidationException => e
-      flash[:error] = e.message
-      render :new
+      serial_count += 1
     end
+    # begin
+    #   receiver.receive
+    #   flash[:notice] = 'Device(s) received successfully'
+    #   redirect_to devices_path
+    # rescue AssetReceiverValidationException => e
+    #   flash[:error] = e.message
+    #   render :new
+    # end
+    redirect_to devices_path
   end
 
   def destroy
@@ -60,7 +66,7 @@ class DevicesController < ApplicationController
   private
 
   def receive_params
-    params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, :serial, :line_identifier
+    params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []
   end
 
   def set_models_and_providers

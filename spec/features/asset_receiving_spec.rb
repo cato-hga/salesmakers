@@ -48,13 +48,14 @@ RSpec.describe 'Asset Receiving' do
           find('.line_id_field:first-of-type').set('12345678901')
           click_on 'Receive'
         }
+
+        it 'sends an error'
       end
     end
 
     context 'with secondary identifiers' do
 
     end
-
 
     context 'for multiple devices' do
       describe 'row addition success', js: true do
@@ -77,47 +78,42 @@ RSpec.describe 'Asset Receiving' do
         end
       end
 
-      # describe 'device addition success', js: true do
-      #   let(:second_line_identifier) { '6666666666' }
-      #   let(:second_serial) { '987654321' }
-      #   subject {
-      #     visit new_device_path
-      #     fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
-      #     select device_model.model_name, from: 'Model'
-      #     select service_provider.name, from: 'Service Provider'
-      #     click_on 'Add'
-      #     within('#assets') do
-      #       within all('.row').first do
-      #         find('.serial_field').set(serial)
-      #         find('.line_id_field').set(line_identifier)
-      #       end
-      #       within all('.row').last do
-      #         find('.serial_field').set(second_serial)
-      #         find('.line_id_field').set(second_line_identifier)
-      #       end
-      #     end
-      #     click_on 'Receive'
-      #   }
-      #
-      #   it 'receives multiple assets' do
-      #     expect { subject }.to change(Device, :count).by(2)
-      #   end
-      #
-      #   it 'creates all lines' do
-      #     expect { subject }.to change(Line, :count).by(2)
-      #   end
-      #
-      #   it 'creates all log entries' do
-      #     expect { subject }.to change(LogEntry, :count).by(2)
-      #   end
-      #
-      #   it 'should redirect to devices#index' do
-      #     subject
-      #     expect(page).to have_content(serial)
-      #     expect(page).to have_content(second_serial)
-      #   end
+      describe 'device addition success', js: true do
+        let(:second_line_identifier) { '6666666666' }
+        let(:second_serial) { '987654321' }
+        subject {
+          visit new_device_path
+          fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
+          select device_model.model_name, from: 'Model'
+          select service_provider.name, from: 'Service Provider'
+          click_on 'Add'
+          within('#assets') do
+            within all('.row').first do
+              find('.serial_field').set(serial)
+              find('.line_id_field').set(line_identifier)
+            end
+            within all('.row').last do
+              find('.serial_field').set(second_serial)
+              find('.line_id_field').set(second_line_identifier)
+            end
+          end
+          click_on 'Receive'
+        }
+        it 'receives multiple assets' do
+          subject
+          visit devices_path
+          expect(page).to have_content(serial)
+          expect(page).to have_content(second_serial)
+        end
 
-    end
+        it 'creates all lines' do
+          subject
+          visit devices_path
+          expect(page).to have_content(line_identifier)
+          expect(page).to have_content(second_line_identifier)
+        end
+
+      end
 
       describe 'row deletion', js: true do
         before {
@@ -128,6 +124,7 @@ RSpec.describe 'Asset Receiving' do
           expect(page).to have_css('div .serial_field', count: 2)
           click_on 'Delete'
           expect(page).to have_css('div .serial_field', count: 1)
+        end
       end
     end
   end

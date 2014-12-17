@@ -33,8 +33,8 @@ describe DevicesController do
              contract_end_date: contract_end_date.strftime('%m/%d/%Y'),
              device_model_id: device_model.id,
              technology_service_provider_id: service_provider.id,
-             serial: serial,
-             line_identifier: line_identifier
+             serial: [serial],
+             line_identifier: [line_identifier]
       }
       let!(:device_model) { create :device_model }
       let!(:service_provider) { create :technology_service_provider }
@@ -73,8 +73,8 @@ describe DevicesController do
                contract_end_date: contract_end_date.strftime('%m/%d/%Y'),
                device_model_id: device_model.id,
                technology_service_provider_id: service_provider.id,
-               serial: serial,
-               line_identifier: invalid_line_identifier
+               serial: [serial],
+               line_identifier: [invalid_line_identifier]
         }
         it 'presents an error when form is invalid' do
           subject
