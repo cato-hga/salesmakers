@@ -20,6 +20,7 @@ FactoryGirl.define do
   end
 
   factory :main_permission, class: Permission do
+    key 'foobar'
     description 'Foobar this is a permission'
     association :permission_group, factory: :main_permission_group
   end
