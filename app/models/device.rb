@@ -1,4 +1,5 @@
 class Device < ActiveRecord::Base
+  before_save :set_identifier_when_blank
 
   validates :serial, presence: true, length: {minimum: 6}, uniqueness: {case_sensitive: false}
   validates :identifier, presence: true, length: {minimum: 4}, uniqueness: {case_sensitive: false}
@@ -284,5 +285,11 @@ class Device < ActiveRecord::Base
   def technology_service_provider
     return nil unless self.line
     return self.line.technology_service_provider
+  end
+
+  def set_identifier_when_blank
+    if not self.identifier or self.identifier.blank?
+      self.identifier = self.serial
+    end
   end
 end
