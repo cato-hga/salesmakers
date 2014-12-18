@@ -118,10 +118,11 @@ RSpec.describe 'Asset Receiver' do
 
     context 'with serial as identifier (no device_identifier)' do
       let(:second_device) { Device.last }
+      let(:new_serial) { '9876543' }
       it 'sets the serial as the devices identifier' do
-        receiver = AssetReceiver.new @attrs.merge(device_identifier: nil)
+        receiver = AssetReceiver.new @attrs.merge(device_identifier: nil, serial: new_serial, line_identifier: '4444444444')
         receiver.receive
-        expect(second_device.identifier).to eq(serial)
+        expect(second_device.identifier).to eq(new_serial)
       end
     end
 
