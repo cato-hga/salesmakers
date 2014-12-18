@@ -1,5 +1,6 @@
 class Device < ActiveRecord::Base
   before_save :set_identifier_when_blank
+  before_save :strip_identifying_fields
 
   validates :serial, presence: true, length: {minimum: 6}, uniqueness: {case_sensitive: false}
   validates :identifier, presence: true, length: {minimum: 4}, uniqueness: {case_sensitive: false}
@@ -291,5 +292,12 @@ class Device < ActiveRecord::Base
     if not self.identifier or self.identifier.blank?
       self.identifier = self.serial
     end
+  end
+
+  def strip_identifying_fields
+    self.serial = self.serial.
+        gsub(/[^0-9A-Za-z]/, '') unless self.serial.blank?
+    self.identifier = self.identifier.
+        gsub(/[^0-9A-Za-z]/, '') unless self.identifier.blank?
   end
 end
