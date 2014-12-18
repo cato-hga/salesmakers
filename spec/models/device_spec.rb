@@ -28,4 +28,12 @@ RSpec.describe Device, :type => :model do
       expect(device.technology_service_provider.name).to eq(line.technology_service_provider.name)
     end
   end
+
+  describe 'uniqueness validations' do
+    it 'should validate uniqueness of serial' do
+      create :device
+      device = build :device
+      expect(device).not_to be_valid
+    end
+  end
 end
