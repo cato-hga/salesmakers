@@ -9,10 +9,10 @@
     = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.include? write_off
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
-- if @device.secondary_identifier
+- unless @device.identifier == @device.serial
   %h3
     Secondary ID:
-    = @device.secondary_identifier
+    = @device.identifier
 .device_states
   - if @device.device_states.count > 0
     - states = Array.new
