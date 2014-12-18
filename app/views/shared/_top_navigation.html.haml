@@ -33,10 +33,11 @@
               %li= link_to 'Org Chart', org_chart_people_path
 
           - admin_links = Array.new
+          - admin_links << link_to('Devices', devices_path)
+          - admin_links << link_to('Lines', lines_path)
           - poll_questions = link_to 'Poll Questions', poll_questions_path
           - admin_links << poll_questions if |
             PollQuestionPolicy.new(current_person, PollQuestion.new).index? |
-
           - if admin_links.count > 0
             %li.has-dropdown
               = link_to 'Admin', '#'
