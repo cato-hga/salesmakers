@@ -76,16 +76,6 @@ describe 'Devices CRUD actions' do
       end
       it 'should have the name of who the asset is deployed to'
       it 'should have the name of who deployed the asset'
-
-    end
-
-    context 'for written-off devices' do
-      it 'should indicate that the device is written off'
-    end
-
-    context 'for devices in inventory' do
-      it 'should have the option to deploy'
-      it 'should have the option to write-off'
     end
 
     context 'for devices with a line attached' do
