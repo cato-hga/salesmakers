@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217153130) do
+ActiveRecord::Schema.define(version: 20141218203748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,14 +142,13 @@ ActiveRecord::Schema.define(version: 20141217153130) do
   add_index "device_states_devices", ["device_state_id"], name: "index_device_states_devices_on_device_state_id", using: :btree
 
   create_table "devices", force: true do |t|
-    t.string   "identifier",           null: false
-    t.string   "serial",               null: false
-    t.integer  "device_model_id",      null: false
+    t.string "identifier", null: false
+    t.string "serial", null: false
+    t.integer "device_model_id", null: false
     t.integer  "line_id"
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "secondary_identifier"
   end
 
   add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
