@@ -24,12 +24,19 @@ class DevicesController < ApplicationController
     @line_identifiers = receive_params[:line_identifier]
     serial_count = 0
     @bad_receivers = Array.new
+    clean_blank_rows
+    unless has_rows?
+      flash[:error] = 'You did not enter any device information'
+      render :new and return
+    end
     for serial in @serials do
+      line_identifier = @line_identifiers[serial_count]
+      next if serial.blank? and line_identifier.blank?
       receiver = AssetReceiver.new contract_end_date: @contract_end_date,
                                    device_model: @device_model,
                                    service_provider: @service_provider,
                                    serial: serial,
-                                   line_identifier: @line_identifiers[serial_count],
+                                   line_identifier: line_identifier,
                                    creator: @current_person
       unless receiver.valid?
         @bad_receivers << receiver
@@ -75,5 +82,23 @@ class DevicesController < ApplicationController
   def set_models_and_providers
     @device_models = DeviceModel.all
     @service_providers = TechnologyServiceProvider.all
+  end
+
+  def clean_blank_rows
+    non_blank_serials = Array.new
+    non_blank_line_ids = Array.new
+    serial_count = -1
+    for serial in @serials do
+      serial_count += 1
+      next if serial.blank? and @line_identifiers[serial_count].blank?
+      non_blank_serials << serial
+      non_blank_line_ids << @line_identifiers[serial_count]
+    end
+    @serials = non_blank_serials
+    @line_identifiers = non_blank_line_ids
+  end
+
+  def has_rows?
+    @serials.count > 0 or @line_identifiers.count > 0
   end
 end

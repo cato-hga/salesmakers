@@ -36,12 +36,37 @@ RSpec.describe 'Asset Receiving' do
           subject
           expect(page).to have_content(serial)
         end
+
+        it 'should accept a single asset with multiple (blank) rows', js: true do
+          visit new_device_path
+          fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
+          select device_model.model_name, from: 'Model'
+          select service_provider.name, from: 'Service Provider'
+          find('.serial_field:first-of-type').set(serial)
+          find('.line_id_field:first-of-type').set(line_identifier)
+          click_on 'Add'
+          click_on 'Receive'
+          expect(page).to have_content(serial)
+          expect(page).not_to have_content('Add Devices')
+        end
       end
 
       context 'failure' do
-        context 'assets WITHOUT lines' do
+        context 'no data entered' do
           before {
             visit new_device_path
+            click_on 'Receive'
+          }
+
+          it 'presents all relevant error messages' do
+            expect(page).to have_content('You did not enter any device information')
+          end
+        end
+
+        context 'assets WITHOUT serials' do
+          before {
+            visit new_device_path
+            find('.line_id_field:first-of-type').set('6666666666')
             click_on 'Receive'
           }
 

@@ -55,7 +55,7 @@ class AssetReceiver
   end
 
   def validate_device_model
-    unless self.device_model.present? and not self.device_model.new_record?
+    if self.device_model.blank?
       errors.add :device_model, 'A Device Model is required'
     end
   end
