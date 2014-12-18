@@ -26,13 +26,19 @@
           = link_to 'Area Types', client_project_area_types_path(project.client, project)
       %li
         = link_to 'Areas', client_project_areas_path(project.client, project)
+  - admin_links = Array.new
+  - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
+  - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
+  - admin_links << link_to(icon('torsos-all') + ' Org Chart', org_chart_people_path)
+  - admin_links << link_to(icon('torsos-all') + ' People', people_path)
+  - poll_questions = link_to icon('clipboard-pencil') + ' Poll Questions', poll_questions_path
+  - admin_links << poll_questions if |
+    PollQuestionPolicy.new(current_person, PollQuestion.new).index? |
   %ul.off-canvas-list
     %li
       %label Administration
-    %li
-      = link_to icon('torsos-all') + ' People', people_path
-    %li
-      = link_to icon('torsos-all') + ' Org Chart', org_chart_people_path
+    - for admin_link in admin_links do
+      %li= admin_link
   %ul.off-canvas-list
     %li
       %label= current_person.email
