@@ -5,7 +5,8 @@
 - content_for :action_buttons do
   - unless @device.device_states.include? deployed or @device.device_states.include? write_off
     = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: [:button, :inline_button]
-  = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
+  - unless @device.device_states.blank?
+    = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.include? write_off
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
 - if @device.secondary_identifier

@@ -42,4 +42,39 @@ describe 'Devices NON-CRUD actions' do
     end
   end
 
+  describe 'recoup' do
+    let(:deployed_device) { create :device }
+    let(:person) { create :person }
+    let!(:deployed) { create :device_state, name: 'Deployed' }
+    let!(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
+
+    before(:each) do
+      deployed_device.device_states << deployed
+      visit device_path deployed_device
+      click_link 'Recoup'
+    end
+    it 'should remove device states ' do
+      within('.device_states') do
+        expect(page).not_to have_content('Written Off')
+        expect(page).not_to have_content('Exchanging')
+        expect(page).not_to have_content('Lost or Stolen')
+        expect(page).not_to have_content('Deployed')
+      end
+    end
+    it 'should add a "Recouped" record in the device history' do
+      within('.history') do
+        expect(page).to have_content('Recouped')
+      end
+    end
+    it 'should no longer display the Recoup button' do
+      within('header h1') do
+        expect(page).not_to have_link('Recoup')
+      end
+    end
+    it 'should show the Deploy button' do
+      within('header h1') do
+        expect(page).to have_link('Deploy')
+      end
+    end
+  end
 end
