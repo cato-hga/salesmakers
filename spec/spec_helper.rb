@@ -31,8 +31,12 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation
-    FactoryGirl.lint
+    begin
+      DatabaseCleaner.clean_with :truncation
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean_with :truncation
+    end
     FactoryGirl.create :administrator_person
     # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
     # admin.destroy if admin
