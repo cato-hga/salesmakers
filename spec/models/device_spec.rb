@@ -7,7 +7,8 @@ RSpec.describe Device, :type => :model do
   it { should ensure_length_of(:serial).is_at_least(6) }
   it { should validate_presence_of(:device_model) }
 
-  let(:device) { create :device, line: line, device_model: device_model  }
+  let!(:device) { create :device, line: line, device_model: device_model }
+  let(:device_two) { build :device }
   let(:line) { create :line }
   let(:device_model) { create :device_model }
 
@@ -31,9 +32,7 @@ RSpec.describe Device, :type => :model do
 
   describe 'uniqueness validations' do
     it 'should validate uniqueness of serial' do
-      create :device
-      device = build :device
-      expect(device).not_to be_valid
+      expect(device_two).not_to be_valid
     end
   end
 end
