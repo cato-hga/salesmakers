@@ -10,14 +10,14 @@ class AssetReceiver
   attr_reader :errors
 
   def initialize(options = {})
-    @creator = options.fetch :creator, nil
-    @device_model = options.fetch :device_model, nil
-    @service_provider = options.fetch :service_provider, nil
-    @line_identifier = options.fetch :line_identifier, nil
-    @serial = options.fetch :serial, nil
-    @device_identifier = options.fetch :device_identifier, nil
-    @device_identifier = @serial unless @device_identifier.present?
-    @contract_end_date = options.fetch :contract_end_date, nil
+    self.creator = options.fetch :creator, nil
+    self.device_model = options.fetch :device_model, nil
+    self.service_provider = options.fetch :service_provider, nil
+    self.line_identifier = options.fetch :line_identifier, nil
+    self.serial = options.fetch :serial, nil
+    self.device_identifier = options.fetch :device_identifier, nil
+    self.device_identifier = self.serial unless self.device_identifier.present?
+    self.contract_end_date = options.fetch :contract_end_date, nil
     @errors = ActiveModel::Errors.new(self)
   end
 
@@ -37,78 +37,78 @@ class AssetReceiver
 
   def receive
     validate!
-    line = Line.create identifier: @line_identifier,
-                       contract_end_date: @contract_end_date,
-                       technology_service_provider: @service_provider
-    device = Device.create device_model: @device_model,
-                           serial: @serial,
-                           identifier: @device_identifier,
+    line = Line.create identifier: self.line_identifier,
+                       contract_end_date: self.contract_end_date,
+                       technology_service_provider: self.service_provider
+    device = Device.create device_model: self.device_model,
+                           serial: self.serial,
+                           identifier: self.device_identifier,
                            line: line
-    @creator.log? 'create', device
-    @creator.log? 'create', line
+    self.creator.log? 'create', device
+    self.creator.log? 'create', line
   end
 
   def validate_creator
-    unless @creator.present? and not @creator.new_record?
-      errors.add :creator, 'could not be determined for the asset record'
+    unless self.creator.present? and not self.creator.new_record?
+      errors.add :creator, 'A Creator could not be determined for the asset record'
     end
   end
 
   def validate_device_model
-    unless @device_model.present? and not @device_model.new_record?
-      errors.add :device_model, 'is required'
+    unless self.device_model.present? and not self.device_model.new_record?
+      errors.add :device_model, 'A Device Model is required'
     end
   end
 
   def create_line?
-    @service_provider.present? or @contract_end_date.present? or @line_identifier.present?
+    self.service_provider.present? or self.contract_end_date.present? or self.line_identifier.present?
   end
 
   def validate_service_provider
-    if create_line? != @service_provider.present?
+    if create_line? == self.service_provider.blank?
       errors.add :service_provider,
-                 'is required when Contract End Date and/or Line Identifier is selected'
+                 'A Service Provider is required when Contract End Date and/or Line Identifier is selected'
     end
-    return if @service_provider.present? or not create_line?
-    unless @service_provider.present? and not @service_provider.new_record?
-      errors.add :service_provider, 'is required'
+    return unless self.service_provider.blank? and not create_line?
+    if not self.service_provider.blank? and not self.service_provider.new_record?
+      errors.add :service_provider, 'A Service Provider is required'
     end
   end
 
   def validate_line_identifier
-    if create_line? != @line_identifier.present?
-      errors.add :line_identifier, 'is required when Contract End Date and/or Service Provider is selected'
+    if create_line? != self.line_identifier.present?
+      errors.add :line_identifier,
+                 'A Line Identifier is required when Contract End Date and/or Service Provider is selected'
     end
     return unless create_line?
-    if @line_identifier.present?
-      @line_identifier = @line_identifier.gsub(/[^0-9A-Za-z]/, '')
-      unless @line_identifier.length == 10
-        errors.add :line_identifier, 'must be 10 characters in length'
+    if self.line_identifier.present?
+      self.line_identifier = self.line_identifier.gsub(/[^0-9A-Za-z]/, '')
+      unless self.line_identifier.length == 10
+        errors.add :line_identifier, 'A Line Identifier must be 10 characters in length'
       end
     end
   end
 
   def validate_contract_end_date
-    @contract_end_date = nil if @contract_end_date.present? and @contract_end_date.length < 1
-    if create_line? != @contract_end_date.present?
-      errors.add :contract_end_date, 'is required when Line Identifier and/or Service Provider is selected'
+    self.contract_end_date = nil if self.contract_end_date.present? and
+        not self.contract_end_date.is_a?(Date) and self.contract_end_date.length < 1
+    if create_line? != self.contract_end_date.present?
+      errors.add :contract_end_date,
+                 'A Contract End Date is required when Line Identifier and/or Service Provider is selected'
     end
     return unless create_line?
-    @contract_end_date = Chronic.parse(@contract_end_date)
-    @contract_end_date = @contract_end_date.to_date if @contract_end_date.present?
-    unless @contract_end_date.present?
-      errors.add :contract_end_date, 'is invalid or incorrectly formatted'
+    return if self.contract_end_date.is_a?(Date)
+    self.contract_end_date = Chronic.parse(self.contract_end_date)
+    self.contract_end_date = self.contract_end_date.to_date if self.contract_end_date.present?
+    unless self.contract_end_date.present?
+      errors.add :contract_end_date, 'Contract End Date is invalid or incorrectly formatted'
     end
   end
 
   def validate_serial
-    unless @serial.present? and @serial.length >= 6
-      errors.add :serial, 'must be present and at least 6 characters in length'
+    unless self.serial.present? and self.serial.length >= 6
+      errors.add :serial, 'A Serial must be present and at least 6 characters in length'
     end
-  end
-
-  def device_identifier
-    @device_identifier
   end
 
   def read_attribute_for_validation(attr)

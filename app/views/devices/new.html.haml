@@ -2,16 +2,36 @@
 
 = form_tag devices_path, method: :post do
   .widget
-    .inner.row.full-width
-      .large-4.columns
-        = label_tag 'contract_end_date', 'Contract End Date'
-        = text_field_tag 'contract_end_date', nil, placeholder: 'mm/dd/yyyy', class: 'datepicker'
-      .large-4.columns
-        = label_tag 'device_model_id', 'Device Model'
-        = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
-      .large-4.columns
-        = label_tag 'technology_service_provider_id', 'Service Provider'
-        = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'
+    .inner
+      - if @bad_receivers and @bad_receivers.count > 0
+        - for receiver in @bad_receivers do
+          .row.full-width
+            .large-4.columns
+              = label_tag 'contract_end_date', 'Contract End Date'
+              = text_field_tag 'contract_end_date', receiver.contract_end_date, placeholder: 'mm/dd/yyyy', class: 'datepicker'
+              - if receiver.errors[:contract_end_date].count > 0
+                .alert= receiver.errors[:contract_end_date].join(', ')
+            .large-4.columns
+              = label_tag 'device_model_id', 'Device Model'
+              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
+              - if receiver.errors[:device_model].count > 0
+                .alert= receiver.errors[:device_model].join(', ')
+            .large-4.columns
+              = label_tag 'technology_service_provider_id', 'Service Provider'
+              = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'
+              - if receiver.errors[:service_provider].count > 0
+                .alert= receiver.errors[:service_provider].join(', ')
+      - else
+        .row.full-width
+          .large-4.columns
+            = label_tag 'contract_end_date', 'Contract End Date'
+            = text_field_tag 'contract_end_date', nil, placeholder: 'mm/dd/yyyy', class: 'datepicker'
+          .large-4.columns
+            = label_tag 'device_model_id', 'Device Model'
+            = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
+          .large-4.columns
+            = label_tag 'technology_service_provider_id', 'Service Provider'
+            = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'
   .widget
     .inner
       .row.full-width
@@ -20,11 +40,25 @@
         .large-6.columns
           %strong Line ID
       #assets
-        .row.full-width
-          .large-6.columns
-            = text_field_tag 'serial[]', nil, class: :serial_field
-          .large-5.columns
-            = text_field_tag 'line_identifier[]', nil, class: :line_id_field
-          .large-1.columns
-            %a.button.postfix.add_row(href='#') Add
+        - if @bad_receivers and @bad_receivers.count > 0
+          - for receiver in @bad_receivers do
+            .row.full_width
+              .large-6.columns
+                = text_field_tag 'serial[]', receiver.serial, class: :serial_field
+                - if receiver.errors[:serial].count > 0
+                  .alert= receiver.errors[:serial].join(', ')
+              .large-5.columns
+                = text_field_tag 'line_identifier[]', receiver.line_identifier, class: :line_id_field
+                - if receiver.errors[:line_identifier].count > 0
+                  .alert= receiver.errors[:line_identifier].join(', ')
+              .large-1.columns
+                %a.button.postfix.delete_row(href='#') Delete
+        - else
+          .row.full-width
+            .large-6.columns
+              = text_field_tag 'serial[]', nil, class: :serial_field
+            .large-5.columns
+              = text_field_tag 'line_identifier[]', nil, class: :line_id_field
+            .large-1.columns
+              %a.button.postfix.add_row(href='#') Add
       = submit_tag 'Receive', class: 'button'

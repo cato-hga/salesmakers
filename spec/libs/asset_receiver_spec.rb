@@ -33,7 +33,7 @@ RSpec.describe 'Asset Receiver' do
     it 'do not pass when line identifier is present but service provider is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(service_provider: nil)
       expect(invalid_receiver).not_to be_valid
-      expect(invalid_receiver.errors[:service_provider].count).to eq(2)
+      expect(invalid_receiver.errors[:service_provider].count).to eq(1)
     end
     it 'do not pass when a contract end date is present but line_identifier is not' do
       invalid_receiver = AssetReceiver.new @attrs.merge(line_identifier: nil)

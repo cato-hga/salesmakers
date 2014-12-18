@@ -39,17 +39,32 @@ RSpec.describe 'Asset Receiving' do
       end
 
       context 'failure' do
-        subject {
-          visit new_device_path
-          fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
-          select device_model.model_name, from: 'Model'
-          select service_provider.name, from: 'Service Provider'
-          find('.serial_field:first-of-type').set(serial)
-          find('.line_id_field:first-of-type').set('12345678901')
-          click_on 'Receive'
-        }
+        context 'assets WITHOUT lines' do
+          before {
+            visit new_device_path
+            click_on 'Receive'
+          }
 
-        it 'sends an error'
+          it 'presents all relevant error messages' do
+            expect(page).to have_content('A Device Model is required')
+            expect(page).to have_content('A Serial must be present and at least 6 characters in length')
+          end
+        end
+
+        context 'assets WITH lines' do
+          before {
+            visit new_device_path
+            find('.line_id_field:first-of-type').set('6666666666')
+            click_on 'Receive'
+          }
+          it 'presents all relevant error messages' do
+            expect(page).to have_content('A Service Provider is required when Contract End Date and/or Line Identifier is selected')
+            expect(page).to have_content('Contract End Date is invalid or incorrectly formatted')
+            expect(page).to have_content('A Contract End Date is required when Line Identifier and/or Service Provider is selected')
+            expect(page).to have_content('A Device Model is required')
+            expect(page).to have_content('A Serial must be present and at least 6 characters in length')
+          end
+        end
       end
     end
 

@@ -87,10 +87,7 @@ describe DevicesController do
                serial: [serial],
                line_identifier: [invalid_line_identifier]
         }
-        it 'presents an error when form is invalid' do
-          subject
-          expect(flash[:error]).to be_present
-        end
+
         it 'should render the new template' do
           expect(subject).to render_template(:new)
         end

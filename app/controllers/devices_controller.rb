@@ -18,11 +18,12 @@ class DevicesController < ApplicationController
   def create
     @device = Device.new
     @contract_end_date = receive_params[:contract_end_date]
-    @device_model = DeviceModel.find receive_params[:device_model_id]
-    @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id]
+    @device_model = DeviceModel.find receive_params[:device_model_id] unless receive_params[:device_model_id].blank?
+    @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id] unless receive_params[:technology_service_provider_id].blank?
     @serials = receive_params[:serial]
     @line_identifiers = receive_params[:line_identifier]
     serial_count = 0
+    @bad_receivers = Array.new
     for serial in @serials do
       receiver = AssetReceiver.new contract_end_date: @contract_end_date,
                                    device_model: @device_model,
@@ -30,19 +31,21 @@ class DevicesController < ApplicationController
                                    serial: serial,
                                    line_identifier: @line_identifiers[serial_count],
                                    creator: @current_person
-      receiver.receive
-      serial_count += 1
+      unless receiver.valid?
+        @bad_receivers << receiver
+      else
+        receiver.receive
+      end
+      serial_count+= 1
     end
-    # begin
-    #   receiver.receive
-    #   flash[:notice] = 'Device(s) received successfully'
-    #   redirect_to devices_path
-    # rescue AssetReceiverValidationException => e
-    #   flash[:error] = e.message
-    #   render :new
-    # end
-    redirect_to devices_path
+    if @bad_receivers.count > 0
+      render :new
+    else
+      flash[:notice] = 'All assets received successfully'
+      redirect_to devices_path
+    end
   end
+
 
   def destroy
   end
