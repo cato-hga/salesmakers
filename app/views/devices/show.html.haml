@@ -3,7 +3,7 @@
 
 - title @device.serial
 - content_for :action_buttons do
-  = link_to 'Edit', edit_device_path(@device), class: [:button, :inline_button]
+  = edit_button edit_device_path(@device)
   - unless @device.device_states.include? deployed or @device.device_states.include? write_off
     = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.blank?
