@@ -22,13 +22,16 @@ describe 'Devices CRUD actions' do
         expect(page).to have_css('.device_thumb')
       end
       it 'should have a secondary identifier, if applicable' do
-        expect(page).to have_content(device.secondary_identifier)
+        expect(page).to have_content(device.identifier)
       end
       it 'should have the devices model' do
         expect(page).to have_content(device.model_name)
       end
       it 'should show log entries' do
         expect(page).to have_css('.history')
+      end
+      it 'should have the option to edit a device' do
+        expect(page).to have_content('Edit')
       end
     end
 
