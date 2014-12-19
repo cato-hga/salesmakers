@@ -15,6 +15,9 @@
 .device_states
   - for device_state in @device.device_states
     = render device_state
+  = form_tag add_state_device_path(@device), method: :patch do
+    = select_tag 'device_state_id', options_from_collection_for_select(@unlocked_device_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_device_state_select'
+    = submit_tag '+', class: [:button], id: 'add_device_state'
 .widgets
   .widget
     .inner

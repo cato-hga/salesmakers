@@ -37,6 +37,9 @@ Rails.application.routes.draw do
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'
+      patch 'add_state',
+            action: :add_state,
+            as: 'add_state'
     end
     resources :device_deployments, except: [ :index ] do
       collection do

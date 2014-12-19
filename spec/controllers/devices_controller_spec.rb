@@ -136,27 +136,47 @@ describe DevicesController do
     end
   end
 
-  describe 'GET remove_state' do
+  describe 'states' do
     let(:device) { create :device }
     let(:locked_state) { create :device_state, locked: true }
     let(:unlocked_state) { create :device_state, locked: false }
 
-    it 'should remove an unlocked device state' do
-      device.device_states << unlocked_state
-      expect {
-        patch :remove_state,
-               id: device.id,
-               device_state_id: unlocked_state.id
-      }.to change(device.device_states, :count).by(-1)
+    describe 'PATCH remove_state' do
+      it 'should remove an unlocked device state' do
+        device.device_states << unlocked_state
+        expect {
+          patch :remove_state,
+                 id: device.id,
+                 device_state_id: unlocked_state.id
+        }.to change(device.device_states, :count).by(-1)
+      end
+
+      it 'should not allow the removal of a locked device state' do
+        device.device_states << locked_state
+        expect {
+          patch :remove_state,
+                id: device.id,
+                device_state_id: locked_state.id
+        }.not_to change(device.device_states, :count)
+      end
     end
 
-    it 'should not allow the removal of a locked device state' do
-      device.device_states << locked_state
-      expect {
-        patch :remove_state,
-              id: device.id,
-              device_state_id: locked_state.id
-      }.not_to change(device.device_states, :count)
+    describe 'PATCH add_state' do
+      it 'allows an unlocked state to be added' do
+        expect {
+          patch :add_state,
+                id: device.id,
+                device_state_id: unlocked_state.id
+        }.to change(device.device_states, :count).by(1)
+      end
+
+      it 'does not allow a locked state to be added' do
+        expect {
+          patch :add_state,
+                id: device.id,
+                device_state_id: locked_state.id
+        }.not_to change(device.device_states, :count)
+      end
     end
   end
 

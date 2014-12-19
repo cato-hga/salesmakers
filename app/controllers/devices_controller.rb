@@ -1,5 +1,6 @@
 class DevicesController < ApplicationController
   before_action :set_models_and_providers, only: [:new, :create]
+  before_action :set_device_and_device_state, only: [:remove_state, :add_state]
 
   def index
     @search = Device.search(params[:q])
@@ -8,6 +9,7 @@ class DevicesController < ApplicationController
 
   def show
     @device = Device.find params[:id]
+    @unlocked_device_states = DeviceState.where locked: false
     @log_entries = LogEntry.where("(trackable_type = 'Device' AND trackable_id = #{@device.id}) OR (trackable_type = 'DeviceDeployment' AND referenceable_id = #{@device.id})").order('created_at DESC')
   end
 
@@ -74,16 +76,27 @@ class DevicesController < ApplicationController
   end
 
   def remove_state
-    @device = Device.find remove_state_params[:id]
-    device_state = DeviceState.find remove_state_params[:device_state_id]
-    if device_state.locked?
-      flash[:error] = 'You cannot remove built-in device states'
-      redirect_to device_path(@device) and return
-    end
-    if @device and device_state
-      deleted = @device.device_states.delete device_state
+    if @device and @device_state
+      deleted = @device.device_states.delete @device_state
       if deleted
         flash[:notice] = 'State removed from device'
+        redirect_to device_path(@device)
+      end
+    else
+      flash[:error] = 'Could not find that device or device state'
+      redirect_to device_path(@device)
+    end
+  end
+
+  def add_state
+    if @device and @device_state
+      @device.device_states << @device_state
+      @device.reload
+      if @device.device_states.include?(@device_state)
+        flash[:notice] = 'State added to device'
+        redirect_to device_path(@device)
+      else
+        flash[:error] = 'State could not be added to device'
         redirect_to device_path(@device)
       end
     else
@@ -105,6 +118,19 @@ class DevicesController < ApplicationController
   def set_models_and_providers
     @device_models = DeviceModel.all
     @service_providers = TechnologyServiceProvider.all
+  end
+
+  def set_device_and_device_state
+    @device = Device.find remove_state_params[:id]
+    if remove_state_params[:device_state_id].blank?
+      flash[:error] = 'You did not select a state to add'
+      redirect_to device_path(@device) and return
+    end
+    @device_state = DeviceState.find remove_state_params[:device_state_id]
+    if @device_state.locked?
+      flash[:error] = 'You cannot add or remove built-in device states'
+      redirect_to device_path(@device) and return
+    end
   end
 
   def clean_blank_rows
