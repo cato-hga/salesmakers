@@ -42,4 +42,30 @@ describe 'Devices NON-CRUD actions' do
     end
   end
 
+  context 'for device states' do
+    let(:device) { create :device }
+    let(:locked_device_state) {
+      create :device_state,
+             name: 'Locked',
+             locked: true
+    }
+    let(:unlocked_device_state) {
+      create :device_state,
+             name: 'Unlocked',
+             locked: false
+    }
+
+    it 'allows an unlocked device state to be removed' do
+      device.device_states << unlocked_device_state
+      visit device_path(device)
+      find('.device_state a.remove').click
+      expect(page).not_to have_content(unlocked_device_state.name)
+    end
+
+    it 'does not allow a locked device state to be removed' do
+      device.device_states << locked_device_state
+      visit device_path(device)
+      expect(page).not_to have_selector('.device_state a.remove')
+    end
+  end
 end

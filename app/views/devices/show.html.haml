@@ -13,11 +13,8 @@
     Secondary ID:
     = @device.secondary_identifier
 .device_states
-  - if @device.device_states.count > 0
-    - states = Array.new
-    - @device.device_states.each do |state|
-      - states << state.name
-    %em= states.join(', ')
+  - for device_state in @device.device_states
+    = render device_state
 .widgets
   .widget
     .inner
@@ -65,7 +62,7 @@
   .widget
     .inner
       .history
-        - if @log_entries.count > 0
+        - if @log_entries and @log_entries.count > 0
           %h2 History
           - future = Time.now
           - for entry in @log_entries

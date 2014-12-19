@@ -73,10 +73,33 @@ class DevicesController < ApplicationController
     redirect_to @device
   end
 
+  def remove_state
+    @device = Device.find remove_state_params[:id]
+    device_state = DeviceState.find remove_state_params[:device_state_id]
+    if device_state.locked?
+      flash[:error] = 'You cannot remove built-in device states'
+      redirect_to device_path(@device) and return
+    end
+    if @device and device_state
+      deleted = @device.device_states.delete device_state
+      if deleted
+        flash[:notice] = 'State removed from device'
+        redirect_to device_path(@device)
+      end
+    else
+      flash[:error] = 'Could not find that device or device state'
+      redirect_to device_path(@device)
+    end
+  end
+
   private
 
   def receive_params
     params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []
+  end
+
+  def remove_state_params
+    params.permit :id, :device_state_id
   end
 
   def set_models_and_providers

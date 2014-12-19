@@ -135,4 +135,29 @@ describe DevicesController do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
+
+  describe 'GET remove_state' do
+    let(:device) { create :device }
+    let(:locked_state) { create :device_state, locked: true }
+    let(:unlocked_state) { create :device_state, locked: false }
+
+    it 'should remove an unlocked device state' do
+      device.device_states << unlocked_state
+      expect {
+        patch :remove_state,
+               id: device.id,
+               device_state_id: unlocked_state.id
+      }.to change(device.device_states, :count).by(-1)
+    end
+
+    it 'should not allow the removal of a locked device state' do
+      device.device_states << locked_state
+      expect {
+        patch :remove_state,
+              id: device.id,
+              device_state_id: locked_state.id
+      }.not_to change(device.device_states, :count)
+    end
+  end
+
 end

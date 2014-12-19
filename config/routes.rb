@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   resources :devices do
     member do
       get 'write_off'
+      patch 'remove_state/:device_state_id',
+            action: :remove_state,
+            as: 'remove_state'
     end
     resources :device_deployments, except: [ :index ] do
       collection do
