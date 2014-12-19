@@ -40,6 +40,10 @@ class LinesController < ApplicationController
   def update
   end
 
+  def swap
+
+  end
+
   private
 
   def line_params
