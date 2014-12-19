@@ -80,7 +80,16 @@ Rails.application.routes.draw do
   get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
   get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 
-  resources :lines, only: [:index, :show, :new, :create]
+  resources :lines, only: [:index, :show, :new, :create] do
+    member do
+      patch 'remove_state/:line_state_id',
+            action: :remove_state,
+            as: 'remove_state'
+      patch 'add_state',
+            action: :add_state,
+            as: 'add_state'
+    end
+  end
 
   resources :line_states, except: [:show]
 

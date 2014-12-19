@@ -111,7 +111,7 @@ class DevicesController < ApplicationController
     params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []
   end
 
-  def remove_state_params
+  def state_params
     params.permit :id, :device_state_id
   end
 
@@ -121,12 +121,12 @@ class DevicesController < ApplicationController
   end
 
   def set_device_and_device_state
-    @device = Device.find remove_state_params[:id]
-    if remove_state_params[:device_state_id].blank?
+    @device = Device.find state_params[:id]
+    if state_params[:device_state_id].blank?
       flash[:error] = 'You did not select a state to add'
       redirect_to device_path(@device) and return
     end
-    @device_state = DeviceState.find remove_state_params[:device_state_id]
+    @device_state = DeviceState.find state_params[:device_state_id]
     if @device_state.locked?
       flash[:error] = 'You cannot add or remove built-in device states'
       redirect_to device_path(@device) and return

@@ -1,18 +1,13 @@
 = title line_display( @line )
 
+.line_states
+  - for line_state in @line.line_states
+    = render line_state
+  = form_tag add_state_line_path(@line), method: :patch do
+    = select_tag 'line_state_id', options_from_collection_for_select(@unlocked_line_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_line_state_select'
+    = submit_tag '+', class: [:button], id: 'add_line_state'
 .widgets
   .widget
     .inner
-      %h2 Line State(s)
-      -if @line.line_states.count > 0
-        - states = Array.new
-        - @line.line_states.each do |state|
-          - states << state.name
-        %strong= states.join(', - ')
-      - else
-        This line does not have any states to show
-.widgets
-  .widget
-    .inner
-      %h2 Provider
+      %h3 Provider
       .centered_text= line_service_provider_image(@line)
