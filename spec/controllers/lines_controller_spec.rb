@@ -72,4 +72,48 @@ describe LinesController do
       end
     end
   end
+
+  describe 'states' do
+    let(:line) { create :line }
+    let(:locked_state) { create :line_state, locked: true }
+    let(:unlocked_state) { create :line_state, locked: false }
+
+    describe 'PATCH remove_state' do
+      it 'should remove an unlocked line state' do
+        line.line_states << unlocked_state
+        expect {
+          patch :remove_state,
+                id: line.id,
+                line_state_id: unlocked_state.id
+        }.to change(line.line_states, :count).by(-1)
+      end
+
+      it 'should not allow the removal of a locked line state' do
+        line.line_states << locked_state
+        expect {
+          patch :remove_state,
+                id: line.id,
+                line_state_id: locked_state.id
+        }.not_to change(line.line_states, :count)
+      end
+    end
+
+    describe 'PATCH add_state' do
+      it 'allows an unlocked state to be added' do
+        expect {
+          patch :add_state,
+                id: line.id,
+                line_state_id: unlocked_state.id
+        }.to change(line.line_states, :count).by(1)
+      end
+
+      it 'does not allow a locked state to be added' do
+        expect {
+          patch :add_state,
+                id: line.id,
+                line_state_id: locked_state.id
+        }.not_to change(line.line_states, :count)
+      end
+    end
+  end
 end

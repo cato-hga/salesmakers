@@ -15,11 +15,11 @@
     Secondary ID:
     = @device.identifier
 .device_states
-  - if @device.device_states.count > 0
-    - states = Array.new
-    - @device.device_states.each do |state|
-      - states << state.name
-    %em= states.join(', ')
+  - for device_state in @device.device_states
+    = render device_state
+  = form_tag add_state_device_path(@device), method: :patch do
+    = select_tag 'device_state_id', options_from_collection_for_select(@unlocked_device_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_device_state_select'
+    = submit_tag '+', class: [:button], id: 'add_device_state'
 .widgets
   .widget
     .inner
@@ -67,7 +67,7 @@
   .widget
     .inner
       .history
-        - if @log_entries.count > 0
+        - if @log_entries and @log_entries.count > 0
           %h2 History
           - future = Time.now
           - for entry in @log_entries

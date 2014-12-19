@@ -13,8 +13,8 @@ describe DeviceState do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a name at least 5 characters long' do
-    subject.name = 'abcd'
+  it 'requires a name at least 3 characters long' do
+    subject.name = 'ab'
     expect(subject).not_to be_valid
   end
 

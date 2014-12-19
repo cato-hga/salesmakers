@@ -35,4 +35,23 @@ RSpec.describe Device, :type => :model do
       expect(device_two).not_to be_valid
     end
   end
+
+  describe 'creation with non-alphanumeric characters' do
+    let(:serial) { '11^&22-334!4-55@66' }
+    let(:identifier) { '6@6**5(5443-32+2$11' }
+
+    it 'strips special characters from serial numbers' do
+      stripped_device = create :device,
+                               serial: serial,
+                               identifier: serial
+      expect(stripped_device.serial).to eq('112233445566')
+    end
+
+    it 'strips special characters from identifier' do
+      stripped_device = create :device,
+                               serial: serial,
+                               identifier: identifier
+      expect(stripped_device.identifier).to eq('665544332211')
+    end
+  end
 end
