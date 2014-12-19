@@ -36,8 +36,8 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     begin
-      DatabaseCleaner.clean_with :truncation
-      FactoryGirl.lint
+      #DatabaseCleaner.clean_with :truncation
+      #FactoryGirl.lint
     ensure
       DatabaseCleaner.clean_with :truncation
     end
@@ -45,7 +45,6 @@ RSpec.configure do |config|
     # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
     # admin.destroy if admin
     DatabaseCleaner.strategy = :transaction
-    #DatabaseCleaner.clean_with(:truncation) #Taking out. Doesn't look like it is actually needed.
   end
 
   config.before(:all) do
