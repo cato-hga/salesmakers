@@ -24,7 +24,6 @@ class LinesController < ApplicationController
       flash[:notice] = 'Line(s) received successfully'
       redirect_to lines_path
     else
-      puts @line.errors.full_messages.join(', ')
       flash[:error] = 'Line(s) not saved!'
       redirect_to new_line_path
     end
@@ -41,13 +40,15 @@ class LinesController < ApplicationController
   end
 
   def update
+    @device = Device.find_by serial: swap_params[:serial]
+    @new_line = Line.find_by identifier: swap_params[:line]
+    @old_line = @device.line if @device.line
+    @creator = @current_person
+    if @device.update line: @new_line
+      @creator.log? 'swap', @device
+      redirect_to lines_path
+    end
   end
-
-  def swap
-
-  end
-
-  private
   
   def remove_state
     if @line and @line_state
@@ -79,6 +80,8 @@ class LinesController < ApplicationController
     end
   end
 
+  private
+
   def set_line_and_line_state
     @line = Line.find state_params[:id]
     if state_params[:line_state_id].blank?
@@ -91,13 +94,17 @@ class LinesController < ApplicationController
       redirect_to line_path(@line) and return
     end
   end
-  
+
   def line_params
     params.require(:line).permit(:identifier, :technology_service_provider_id, :contract_end_date)
   end
 
   def state_params
     params.permit :id, :line_state_id
+  end
+
+  def swap_params
+    params.permit serial: [], line: []
   end
   
 end

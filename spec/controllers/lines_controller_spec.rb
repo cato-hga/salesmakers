@@ -73,6 +73,44 @@ describe LinesController do
     end
   end
 
+  describe 'GET swap' do
+    before { get :swap }
+    it 'should return a success status' do
+      expect(response).to be_success
+    end
+    it 'should render the index template' do
+      expect(response).to render_template(:swap)
+    end
+  end
+
+  describe 'PATCH update' do
+    let!(:old_line) { create :line }
+    let(:new_line) { create :line, identifier: '5555555555' }
+    let!(:device) { create :device, line: old_line }
+
+    subject {
+      patch :update,
+            id: old_line.id,
+            serial: [device.serial],
+            line: [new_line.identifier]
+    }
+    it 'takes the swap params and updates' do
+      subject
+      device.reload
+      expect(device.line).to eq(new_line)
+      expect(device.line).not_to eq(old_line)
+    end
+
+    it 'creates log entries' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'redirects to the lines index page' do
+      subject
+      expect(response).to redirect_to(lines_path)
+    end
+  end
+
   describe 'states' do
     let(:line) { create :line }
     let(:locked_state) { create :line_state, locked: true }
