@@ -116,4 +116,31 @@ describe LinesController do
       end
     end
   end
+
+  describe 'deactivation' do
+    let(:device) { create :device, line: line }
+    let(:active_state) { create :line_state, name: 'Active', locked: true }
+    let(:line) do
+      new_line = create :line
+      new_line.line_states << active_state
+      new_line
+    end
+
+    subject {
+      patch :deactivate,
+            id: line.id
+      line.reload
+    }
+
+    it 'deactivates a line' do
+      expect { subject }.to change(line, :active?).from(true).to(false)
+    end
+
+    it 'detaches from a device' do
+      expect {
+        subject
+        device.reload
+      }.to change(device, :line).from(line).to(nil)
+    end
+  end
 end

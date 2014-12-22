@@ -26,7 +26,7 @@
       %p
         %strong Model:
         = @device.model_name
-      %p
+      %p#line
         %strong Line:
         - if @device.line
           = line_link @device.line
@@ -36,6 +36,8 @@
               - states << state.name
             &mdash;
             %em= states.join(', ')
+          - if @device.line.active?
+            = link_to 'Deactivate', deactivate_line_path(@device.line), class: [:button, :tiny, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
           .centered_text= line_service_provider_image(@device.line)
         - else
           None

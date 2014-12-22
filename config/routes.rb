@@ -88,6 +88,9 @@ Rails.application.routes.draw do
       patch 'add_state',
             action: :add_state,
             as: 'add_state'
+      patch 'deactivate',
+            action: :deactivate,
+            as: 'deactivate'
     end
   end
 
