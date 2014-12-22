@@ -641,7 +641,15 @@ table
   margin: auto
 
 .device_states,
-.line_states
+.line_states,
+.edit_device_states,
+.edit_line_states
+  display: inline-block
+  width: auto
+  &.edit_device_states,
+  &.edit_line_states
+    display: inline-block
+    width: auto
   form
     display: inline-block
     select
