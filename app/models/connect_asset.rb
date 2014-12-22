@@ -18,4 +18,8 @@ class ConnectAsset < ConnectModel
   has_many :connect_asset_movements,
            primary_key: 'rc_asset_id',
            foreign_key: 'rc_asset_id'
+
+  def line_identifier
+    self.ptn.blank? ? nil : self.ptn.gsub(/[^0-9A-Za-z]/, '')
+  end
 end
