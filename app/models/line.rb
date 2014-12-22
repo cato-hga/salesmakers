@@ -1,7 +1,7 @@
 class Line < ActiveRecord::Base
   before_save :strip_non_alphanumeric
 
-  validates :identifier, presence: true, length: {minimum: 10}, uniqueness: {case_sensitive: false}
+  validates :identifier, presence: true, length: {is: 10}, uniqueness: {case_sensitive: false}
   validates :contract_end_date, presence: true
   validates :technology_service_provider, presence: true
 
