@@ -79,32 +79,50 @@ describe LinesController do
     let(:unlocked_state) { create :line_state, locked: false }
 
     describe 'PATCH remove_state' do
-      it 'should remove an unlocked line state' do
-        line.line_states << unlocked_state
-        expect {
+      context 'with an unlocked state' do
+        subject {
           patch :remove_state,
                 id: line.id,
                 line_state_id: unlocked_state.id
-        }.to change(line.line_states, :count).by(-1)
+        }
+
+        it 'removes the line state' do
+          line.line_states << unlocked_state
+          expect { subject }.to change(line.line_states, :count).by(-1)
+        end
+
+        it 'logs the removal of the line state' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
       end
 
-      it 'should not allow the removal of a locked line state' do
-        line.line_states << locked_state
-        expect {
-          patch :remove_state,
-                id: line.id,
-                line_state_id: locked_state.id
-        }.not_to change(line.line_states, :count)
+      context 'with a locked state' do
+        it 'allows the removal of the line state' do
+          line.line_states << locked_state
+          expect {
+            patch :remove_state,
+                  id: line.id,
+                  line_state_id: locked_state.id
+          }.not_to change(line.line_states, :count)
+        end
       end
     end
 
     describe 'PATCH add_state' do
-      it 'allows an unlocked state to be added' do
-        expect {
+      context 'with an unlocked state' do
+        subject {
           patch :add_state,
                 id: line.id,
                 line_state_id: unlocked_state.id
-        }.to change(line.line_states, :count).by(1)
+        }
+
+        it 'allows an unlocked state to be added' do
+          expect { subject }.to change(line.line_states, :count).by(1)
+        end
+
+        it 'logs the removal of the line state' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
       end
 
       it 'does not allow a locked state to be added' do

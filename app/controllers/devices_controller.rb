@@ -79,6 +79,9 @@ class DevicesController < ApplicationController
     if @device and @device_state
       deleted = @device.device_states.delete @device_state
       if deleted
+        @current_person.log? 'remove_state',
+                             @device,
+                             @device_state
         flash[:notice] = 'State removed from device'
         redirect_to device_path(@device)
       end
@@ -93,6 +96,9 @@ class DevicesController < ApplicationController
       @device.device_states << @device_state
       @device.reload
       if @device.device_states.include?(@device_state)
+        @current_person.log? 'add_state',
+                             @device,
+                             @device_state
         flash[:notice] = 'State added to device'
         redirect_to device_path(@device)
       else

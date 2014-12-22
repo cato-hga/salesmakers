@@ -47,6 +47,9 @@ class LinesController < ApplicationController
     if @line and @line_state
       deleted = @line.line_states.delete @line_state
       if deleted
+        @current_person.log? 'remove_state',
+                             @line,
+                             @line_state
         flash[:notice] = 'State removed from line'
         redirect_to line_path(@line)
       end
@@ -61,6 +64,9 @@ class LinesController < ApplicationController
       @line.line_states << @line_state
       @line.reload
       if @line.line_states.include?(@line_state)
+        @current_person.log? 'add_state',
+                             @line,
+                             @line_state
         flash[:notice] = 'State added to line'
         redirect_to line_path(@line)
       else
