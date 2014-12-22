@@ -69,6 +69,10 @@ $(function(){
 		}
 	});
 
+	$('a').not('[href^="#"]').on('click', function() {
+		$('#page_load').show();
+	});
+
 	resizeWidgets();
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));
