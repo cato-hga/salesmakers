@@ -198,4 +198,52 @@ describe DevicesController do
     end
   end
 
+  context 'lost or stolen' do
+    let(:device) { create :device }
+    let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+
+    describe 'PATCH lost_stolen' do
+      subject {
+        patch :lost_stolen,
+              id: device.id
+        device.reload
+      }
+
+      it 'does not add the Lost/Stolen state if already lost or stolen' do
+        device.device_states << lost_stolen
+        device.reload
+        expect { subject }.not_to change(device.device_states, :count)
+      end
+
+      it 'adds the Lost/Stolen state to devices that do not have it' do
+        expect { subject }.to change(device.device_states, :count).by(1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+    end
+
+    describe 'PATCH found' do
+      before { device.device_states << lost_stolen }
+
+      subject {
+        patch :found,
+              id: device.id
+        device.reload
+      }
+
+      it 'removes the Lost or Stolen device state' do
+        expect { subject }.to change(device.device_states, :count).by(-1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+    end
+
+  end
+
+
+
 end

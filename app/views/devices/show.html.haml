@@ -8,6 +8,10 @@
   = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.include? write_off
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
+  - if @device.lost_or_stolen?
+    = link_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
+  - else
+    = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen. Are you sure?' }, method: :patch
 - if @device.secondary_identifier
   %h3
     Secondary ID:

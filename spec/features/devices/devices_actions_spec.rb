@@ -42,6 +42,54 @@ describe 'Devices NON-CRUD actions' do
     end
   end
 
+  describe 'lost/stolen' do
+    let(:device) { create :device }
+    let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+
+    context 'when reporting lost or stolen' do
+      before { visit device_path(device) }
+
+      subject {
+        page.driver.browser.accept_js_confirms
+        within '#main_container header' do
+          click_on 'Lost/Stolen'
+        end
+      }
+
+      it 'does not show the "Found" button when not Lost/Stolen' do
+        expect(page).not_to have_selector('.button', text: 'Found')
+      end
+
+      it 'reports it lost or stolen', js: true do
+        subject
+        expect(page).to have_selector('.device_state', text: 'Lost or Stolen')
+      end
+    end
+
+    context 'when reporting found' do
+      before do
+        device.device_states << lost_stolen
+        visit device_path(device)
+      end
+
+      subject {
+        page.driver.browser.accept_js_confirms
+        within '#main_container header' do
+          click_on 'Found'
+        end
+      }
+
+      it 'does not show the "Lost/Stolen" button when Lost/Stolen' do
+        expect(page).not_to have_selector('.button', text: 'Lost/Stolen')
+      end
+
+      it 'reports as found', js: true do
+        subject
+        expect(page).not_to have_selector('.device_state', text: 'Lost or Stolen')
+      end
+    end
+  end
+
   context 'for device states' do
     let(:device) { create :device }
     let!(:locked_device_state) {

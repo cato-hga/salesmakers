@@ -15,6 +15,16 @@ class Device < ActiveRecord::Base
 
   #:nocov:
 
+  def lost_or_stolen?
+    lost_stolen = DeviceState.find_or_initialize_by name: 'Lost or Stolen'
+    self.device_states.include? lost_stolen
+  end
+
+  def add_state(state)
+    self.device_states << state
+    self.device_states.include? state
+  end
+
   def self.create_from_connect_asset_movement(serial, device_model_id, line, movement, created_by)
     device_state_emails = [
         'assets@retaildoneright.com',

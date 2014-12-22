@@ -75,6 +75,38 @@ class DevicesController < ApplicationController
     redirect_to @device
   end
 
+  def lost_stolen
+    @device = Device.find params[:id]
+    lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
+    if @device.device_states.include? lost_stolen_state
+      flash[:error] = 'The device was already reported lost or stolen'
+      redirect_to device_path(@device) and return
+    end
+    if @device.add_state lost_stolen_state
+      @current_person.log? 'lost_stolen',
+                           @device
+      flash[:notice] = 'Device successfully reported as lost or stolen'
+      redirect_to device_path(@device)
+    else
+      flash[:error] = 'Could not set device state to lost or stolen'
+      redirect_to device_path(@device)
+    end
+  end
+
+  def found
+    @device = Device.find params[:id]
+    lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
+    if @device.device_states.delete lost_stolen_state
+      @current_person.log? 'found',
+                           @device
+      flash[:notice] = 'Device no longer reported lost or stolen'
+      redirect_to device_path(@device)
+    else
+      flash[:error] = 'Could not remove the lost or stolen state from the device'
+      redirect_to device_path(@device)
+    end
+  end
+
   def remove_state
     if @device and @device_state
       deleted = @device.device_states.delete @device_state
@@ -93,9 +125,7 @@ class DevicesController < ApplicationController
 
   def add_state
     if @device and @device_state
-      @device.device_states << @device_state
-      @device.reload
-      if @device.device_states.include?(@device_state)
+      if @device.add_state @device_state
         @current_person.log? 'add_state',
                              @device,
                              @device_state

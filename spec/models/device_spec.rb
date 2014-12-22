@@ -54,4 +54,15 @@ RSpec.describe Device, :type => :model do
       expect(stripped_device.identifier).to eq('665544332211')
     end
   end
+
+  describe '#lost_or_stolen?' do
+    let(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+
+    it 'reports as lost or stolen when device state is present' do
+      expect {
+        device.device_states << lost_stolen
+        device.reload
+      }.to change(device, :lost_or_stolen?).from(false).to(true)
+    end
+  end
 end
