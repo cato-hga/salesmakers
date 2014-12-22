@@ -105,7 +105,7 @@ describe 'Devices NON-CRUD actions' do
 
     it 'adds an unlocked device state' do
       visit device_path(device)
-      within '.device_states' do
+      within '.edit_device_states' do
         select unlocked_device_state.name, from: 'add_device_state_select'
         click_on '+'
       end
