@@ -3,22 +3,25 @@
 
 - title @device.serial
 - content_for :action_buttons do
+  = edit_button edit_device_path(@device)
   - unless @device.device_states.include? deployed or @device.device_states.include? write_off
     = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: [:button, :inline_button]
-  = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
+  - unless @device.device_states.blank?
+    = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.include? write_off
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
   - if @device.lost_or_stolen?
     = link_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
   - else
     = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen. Are you sure?' }, method: :patch
-- if @device.secondary_identifier
+- unless @device.identifier == @device.serial
   %h3
     Secondary ID:
-    = @device.secondary_identifier
+    = @device.identifier
 .device_states
   - for device_state in @device.device_states
     = render device_state
+.edit_device_states
   = form_tag add_state_device_path(@device), method: :patch do
     = select_tag 'device_state_id', options_from_collection_for_select(@unlocked_device_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_device_state_select'
     = submit_tag '+', class: [:button], id: 'add_device_state'

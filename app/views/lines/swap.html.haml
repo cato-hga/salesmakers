@@ -1,0 +1,19 @@
+- title 'Swap Lines'
+
+= form_tag swap_lines_path, method: :patch do
+  .widget
+    .inner
+      .row.full-width
+        .large-6.columns
+          %strong Serial
+        .large-6.columns
+          %strong New Line
+      #lines
+        .row.full-width
+          .large-6.columns
+            = text_field_tag 'serial[]', nil, class: :serial_field
+          .large-5.columns
+            = text_field_tag 'line[]', nil, class: :line_field
+          .large-1.columns
+            %a.button.postfix.add_row(href='#') Add
+      = submit_tag 'Swap', class: 'button'

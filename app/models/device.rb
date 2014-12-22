@@ -1,5 +1,6 @@
 class Device < ActiveRecord::Base
-  before_save :set_identifier_when_blank
+
+before_save :set_identifier_when_blank
   before_save :strip_identifying_fields
 
   validates :serial, presence: true, length: {minimum: 6}, uniqueness: {case_sensitive: false}
