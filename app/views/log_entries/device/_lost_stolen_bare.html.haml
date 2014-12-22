@@ -1,0 +1,8 @@
+Reported
+= device_link(log_entry.trackable)
+as lost/stolen
+- if log_entry.comment?
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = log_entry.comment

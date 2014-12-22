@@ -44,6 +44,50 @@ describe 'Lines NON-CRUD actions' do
     end
   end
 
+  context 'for deactivation', js: true do
+    let(:active_state) { create :line_state, name: 'Active', locked: true }
+    let(:line) {
+      new_line = create :line
+      new_line.line_states << active_state
+      new_line
+    }
+    let!(:device) { create :device, line: line }
+
+    subject {
+      visit line_path(line)
+      page.driver.browser.accept_js_confirms
+      within '#main_container header' do
+        click_on 'Deactivate'
+      end
+    }
+
+    it 'deactivates a line' do
+      subject
+      visit lines_path
+      expect(page).not_to have_selector('a', text: 'Active')
+    end
+
+    it 'detaches a line from a device' do
+      subject
+      visit device_path(device)
+      expect(page).not_to have_content(line.identifier)
+    end
+
+    context 'from device#show' do
+      it 'deactivates and detaches the line' do
+        visit device_path(device)
+        page.driver.browser.accept_js_confirms
+        within 'p#line' do
+          click_on 'Deactivate'
+        end
+        visit device_path(device)
+        within 'p#line' do
+          expect(page).not_to have_content('Active')
+        end
+      end
+    end
+  end
+
   describe 'GET swap' do
     it 'allows the user to add multiple rows'
     it 'allows the user to delete extra rows'

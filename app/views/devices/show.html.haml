@@ -10,6 +10,10 @@
     = link_to 'Recoup', recoup_device_device_deployments_path(@device), class: [:button, :inline_button]
   - unless @device.device_states.include? write_off
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
+  - if @device.lost_or_stolen?
+    = link_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
+  - else
+    = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen. Are you sure?' }, method: :patch
 - unless @device.identifier == @device.serial
   %h3
     Secondary ID:
@@ -29,7 +33,7 @@
       %p
         %strong Model:
         = @device.model_name
-      %p
+      %p#line
         %strong Line:
         - if @device.line
           = line_link @device.line
@@ -39,6 +43,8 @@
               - states << state.name
             &mdash;
             %em= states.join(', ')
+          - if @device.line.active?
+            = link_to 'Deactivate', deactivate_line_path(@device.line), class: [:button, :tiny, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
           .centered_text= line_service_provider_image(@device.line)
         - else
           None

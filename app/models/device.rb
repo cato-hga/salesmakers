@@ -17,6 +17,16 @@ validates :line_id, uniqueness: true
 
   #:nocov:
 
+  def lost_or_stolen?
+    lost_stolen = DeviceState.find_or_initialize_by name: 'Lost or Stolen'
+    self.device_states.include? lost_stolen
+  end
+
+  def add_state(state)
+    self.device_states << state
+    self.device_states.include? state
+  end
+
   def self.create_from_connect_asset_movement(serial, device_model_id, line, movement, created_by)
     device_state_emails = [
         'assets@retaildoneright.com',
@@ -26,11 +36,21 @@ validates :line_id, uniqueness: true
         'retired@retaildoneright.com'
     ]
 
+    connect_asset = movement.connect_asset
+    identifier = serial
+    identifier = connect_asset.line_identifier if
+        connect_asset.line_identifier.present? and
+        connect_asset.line_identifier.length != 10
+
     device = self.create serial: serial,
-                         identifier: serial,
+                         identifier: identifier,
                          device_model_id: device_model_id,
                          line: line,
                          person_id: nil
+
+    unless device.valid?
+      puts serial + ' is invalid: ' + device.errors.full_messages.join(', ')
+    end
 
     # Log the creation with the same creation details that are
     # on the Openbravo movement.
@@ -62,16 +82,6 @@ validates :line_id, uniqueness: true
                                                         person: to_person,
                                                         created_at: movement.created,
                                                         updated_at: movement.updated
-      if new_deployment.valid?
-        puts 'NEW DEPLOYMENT VALID'
-      else
-        puts new_deployment.errors.inspect
-      end
-      if new_deployment.save
-        puts 'SAVED'
-      else
-        puts 'NOT SAVED'
-      end
       # Assign the device to the Person
       device.person_id = to_person.id
       # Set the Device's last updated date/time

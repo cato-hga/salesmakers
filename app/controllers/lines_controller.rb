@@ -54,6 +54,9 @@ class LinesController < ApplicationController
     if @line and @line_state
       deleted = @line.line_states.delete @line_state
       if deleted
+        @current_person.log? 'remove_state',
+                             @line,
+                             @line_state
         flash[:notice] = 'State removed from line'
         redirect_to line_path(@line)
       end
@@ -68,6 +71,9 @@ class LinesController < ApplicationController
       @line.line_states << @line_state
       @line.reload
       if @line.line_states.include?(@line_state)
+        @current_person.log? 'add_state',
+                             @line,
+                             @line_state
         flash[:notice] = 'State added to line'
         redirect_to line_path(@line)
       else
@@ -77,6 +83,22 @@ class LinesController < ApplicationController
     else
       flash[:error] = 'Could not find that line or line state'
       redirect_to line_path(@line)
+    end
+  end
+
+  def deactivate
+    @line = Line.find params[:id]
+    active_state = LineState.find_or_initialize_by name: 'Active'
+    if @line.line_states.delete(active_state)
+      devices = Device.where(line: @line)
+      for device in devices do
+        device.update line: nil
+      end
+      flash[:notice] = 'Line successfully detached and deactivated'
+      redirect_to @line
+    else
+      flash[:error] = 'Could not remove Active state from line'
+      redirect_to @line
     end
   end
 

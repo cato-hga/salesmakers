@@ -142,32 +142,50 @@ describe DevicesController do
     let(:unlocked_state) { create :device_state, locked: false }
 
     describe 'PATCH remove_state' do
-      it 'should remove an unlocked device state' do
-        device.device_states << unlocked_state
-        expect {
-          patch :remove_state,
-                 id: device.id,
-                 device_state_id: unlocked_state.id
-        }.to change(device.device_states, :count).by(-1)
-      end
-
-      it 'should not allow the removal of a locked device state' do
-        device.device_states << locked_state
-        expect {
+      context 'with an unlocked state' do
+        subject {
           patch :remove_state,
                 id: device.id,
-                device_state_id: locked_state.id
-        }.not_to change(device.device_states, :count)
+                device_state_id: unlocked_state.id
+        }
+
+        it 'removes the device state' do
+          device.device_states << unlocked_state
+          expect { subject }.to change(device.device_states, :count).by(-1)
+        end
+
+        it 'logs the removal of the device state' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
+      end
+
+      context 'with a locked state' do
+        it 'allows the removal of the device state' do
+          device.device_states << locked_state
+          expect {
+            patch :remove_state,
+                  id: device.id,
+                  device_state_id: locked_state.id
+          }.not_to change(device.device_states, :count)
+        end
       end
     end
 
     describe 'PATCH add_state' do
-      it 'allows an unlocked state to be added' do
-        expect {
+      context 'with an unlocked state' do
+        subject {
           patch :add_state,
                 id: device.id,
                 device_state_id: unlocked_state.id
-        }.to change(device.device_states, :count).by(1)
+        }
+
+        it 'allows an unlocked state to be added' do
+          expect { subject }.to change(device.device_states, :count).by(1)
+        end
+
+        it 'logs the removal of the device state' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
       end
 
       it 'does not allow a locked state to be added' do
@@ -179,5 +197,53 @@ describe DevicesController do
       end
     end
   end
+
+  context 'lost or stolen' do
+    let(:device) { create :device }
+    let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+
+    describe 'PATCH lost_stolen' do
+      subject {
+        patch :lost_stolen,
+              id: device.id
+        device.reload
+      }
+
+      it 'does not add the Lost/Stolen state if already lost or stolen' do
+        device.device_states << lost_stolen
+        device.reload
+        expect { subject }.not_to change(device.device_states, :count)
+      end
+
+      it 'adds the Lost/Stolen state to devices that do not have it' do
+        expect { subject }.to change(device.device_states, :count).by(1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+    end
+
+    describe 'PATCH found' do
+      before { device.device_states << lost_stolen }
+
+      subject {
+        patch :found,
+              id: device.id
+        device.reload
+      }
+
+      it 'removes the Lost or Stolen device state' do
+        expect { subject }.to change(device.device_states, :count).by(-1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+    end
+
+  end
+
+
 
 end

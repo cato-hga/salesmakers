@@ -69,6 +69,14 @@ $(function(){
 		}
 	});
 
+	$('a').not('[href^="#"]').not('[target="_blank"]').on('click', function() {
+		$('#page_load').show();
+	});
+
+	$('form').submit(function() {
+		$('#page_load').show();
+	});
+
 	resizeWidgets();
 	$('body').on('click', '.expandwidget', function(){
 		expandWidget($(this).parents('.widget'));

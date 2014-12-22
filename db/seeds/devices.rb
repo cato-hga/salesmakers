@@ -11,6 +11,7 @@ galaxy_tab_7 = DeviceModel.find_by_name 'Galaxy Tab 7"'
 galaxy_tab_3 = DeviceModel.find_by_name 'Galaxy Tab 3'
 ellipsis_7 = DeviceModel.find_by_name 'Ellipsis 7'
 optik = DeviceModel.find_by_name 'Optik'
+pulse = DeviceModel.find_by_name 'Pulse'
 
 device_state_emails = [
     'researchassets@retaildoneright.com',
@@ -41,7 +42,12 @@ movements = ConnectAssetMovement.ascending_by_asset
 # end
 
 asset_id = '42'
+counter = 0
 for movement in movements do
+  counter += 1
+  if counter % 50 == 0
+    puts "Imported #{counter.to_s} devices..."
+  end
   next unless movement.connect_asset and movement.connect_asset.serial
   # Reset the counter for each new asset
   if asset_id != movement.rc_asset_id
@@ -69,8 +75,6 @@ for movement in movements do
   # question.
   device = Device.find_by_serial movement.connect_asset.serial
 
-  puts movement.connect_asset.serial
-
   # Only if we're on the first movement for the asset, we'll want
   # to create the Device corresponding to it.
   if movement_counter == 1
@@ -89,6 +93,8 @@ for movement in movements do
         device_model_id = ipad_mini.id
       when 'HTC Evo View 4G'
         device_model_id = evo_view_4g.id
+      when 'LG Pulse (Virgin)'
+        device_model_id = pulse.id
       when 'Samsung Galaxy Tab 7" (Sprint)'
         device_model_id = galaxy_tab_7.id
       when 'Samsung Galaxy Tab 7" (Verizon)'

@@ -40,6 +40,12 @@ Rails.application.routes.draw do
       patch 'add_state',
             action: :add_state,
             as: 'add_state'
+      patch 'lost_stolen',
+            action: :lost_stolen,
+            as: 'lost_stolen'
+      patch 'found',
+            action: :found,
+            as: 'found'
     end
     resources :device_deployments, except: [ :index ] do
       collection do
@@ -92,6 +98,9 @@ Rails.application.routes.draw do
       patch 'add_state',
             action: :add_state,
             as: 'add_state'
+      patch 'deactivate',
+            action: :deactivate,
+            as: 'deactivate'
     end
   end
 
