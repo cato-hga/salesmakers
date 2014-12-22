@@ -21,7 +21,7 @@
   - for line in @lines do
     - service_provider = line.technology_service_provider
     - provider = link_to service_provider.name, '#'
-    - identifier = link_to line.identifier, line
+    - identifier =  line_link line
     - if line.contract_end_date == Date.parse('01/01/1901')
       - contract_end_date = ''
     - else
