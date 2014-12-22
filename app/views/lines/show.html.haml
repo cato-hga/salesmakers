@@ -11,3 +11,8 @@
     .inner
       %h3 Provider
       .centered_text= line_service_provider_image(@line)
+  .widget
+    .inner
+      %h3 Contract Info
+      %strong Contract End Date:
+      = short_date @line.contract_end_date
