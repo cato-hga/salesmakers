@@ -6,6 +6,7 @@ RSpec.describe Device, :type => :model do
   it { should ensure_length_of(:identifier).is_at_least(4) }
   it { should ensure_length_of(:serial).is_at_least(6) }
   it { should validate_presence_of(:device_model) }
+  it { should validate_uniqueness_of(:line_id) }
 
   let!(:device) { create :device, line: line, device_model: device_model }
   let(:device_two) { build :device }

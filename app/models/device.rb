@@ -6,6 +6,7 @@ before_save :set_identifier_when_blank
   validates :serial, presence: true, length: {minimum: 6}, uniqueness: {case_sensitive: false}
   validates :identifier, presence: true, length: {minimum: 4}, uniqueness: {case_sensitive: false}
   validates :device_model, presence: true
+validates :line_id, uniqueness: true
 
   belongs_to :device_model
   belongs_to :line
