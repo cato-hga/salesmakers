@@ -69,7 +69,11 @@ $(function(){
 		}
 	});
 
-	$('a').not('[href^="#"]').on('click', function() {
+	$('a').not('[href^="#"]').not('[target="_blank"]').on('click', function() {
+		$('#page_load').show();
+	});
+
+	$('form').submit(function() {
 		$('#page_load').show();
 	});
 
