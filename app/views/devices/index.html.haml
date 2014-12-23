@@ -15,6 +15,7 @@
     = f.text_field :device_manufacturer_name_cont, placeholder: 'Manufacturer'
     = f.text_field :device_model_name_cont, placeholder: 'Model'
     = f.text_field :device_states_name_cont, placeholder: 'State(s)'
+    = f.text_field :device_deployments_tracking_number_cont, placeholder: 'Tracking #'
     = f.submit 'search', class: 'button'
   .top-pagination
     = paginate @devices
