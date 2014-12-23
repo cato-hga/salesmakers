@@ -88,8 +88,27 @@ describe 'Lines NON-CRUD actions' do
     end
   end
 
-  describe 'GET swap' do
-    it 'allows the user to add multiple rows'
-    it 'allows the user to delete extra rows'
+  describe 'GET swap', js: true do
+    before {
+      visit swap_lines_path
+      click_on 'Add'
+    }
+    it 'allows the user to add multiple rows' do
+      expect(page).to have_css('div .serial_field', count: 2)
+    end
+
+    it 'should change the Add button to Delete for all but the last row' do
+      within('#lines .row:first-of-type') do
+        expect(page).to have_selector('.delete_row')
+      end
+      within('#lines .row:last-of-type') do
+        expect(page).to have_selector('.add_row')
+      end
+    end
+
+    it 'allows the user to delete extra rows' do
+      click_on 'Delete'
+      expect(page).to have_css('div .serial_field', count: 1)
+    end
   end
 end
