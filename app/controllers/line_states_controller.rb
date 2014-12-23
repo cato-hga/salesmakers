@@ -14,6 +14,8 @@ class LineStatesController < ApplicationController
   def create
     @line_state = LineState.new line_state_params
     if @line_state.save
+      @current_person.log? 'create',
+                           @line_state
       flash[:notice] = 'Line State successfully created'
       redirect_to line_states_path
     else
@@ -26,6 +28,8 @@ class LineStatesController < ApplicationController
 
   def update
     if @line_state.update line_state_params
+      @current_person.log? 'update',
+                           @line_state
       flash[:notice] = 'Line State successfully updated'
       redirect_to line_states_path
     else
