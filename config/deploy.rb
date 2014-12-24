@@ -1,12 +1,12 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'rbdconnect'
+set :application, 'oneconnect'
 set :repo_url, 'git@rbd.unfuddle.com:rbd/reconnect.git'
 
-set :deploy_to, '/home/deploy'
+set :deploy_to, '/opt/oneconnect'
 set :scm, :git
-set :branch, 'master'
+set :branch, 'asset_management'
 set :keep_releases, 5
 
 set :format, :pretty
@@ -16,7 +16,7 @@ set :pty, true
 set :linked_files, %w{config/database.yml}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-app_name = 'rbdconnect'
+app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
@@ -109,18 +109,6 @@ end
 #   end
 #
 # end
-namespace :seed do
-  desc "Seed the database."
-  task :default do
-    on roles(:app) do
-      within "#{current_path}" do
-        with rails_env: :production do
-          execute :rake, "db:seed"
-        end
-      end
-    end
-  end
-end
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
