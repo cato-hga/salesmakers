@@ -299,12 +299,13 @@ class Person < ActiveRecord::Base
     self.update(active: false, updated_at: separated_at)
   end
 
-  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil)
+  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
     return false unless self and self.id
     entry = LogEntry.new person: self,
                          action: action,
                          trackable: trackable,
-                         referenceable: referenceable
+                         referenceable: referenceable,
+                         comment: comment
     entry.created_at = created_at if created_at
     entry.updated_at = updated_at if updated_at
     entry.save ? true : false
