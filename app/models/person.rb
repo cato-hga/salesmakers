@@ -142,9 +142,15 @@ class Person < ActiveRecord::Base
   end
 
   def termination_date_invalid?
-    self.employments.count > 0 and
-        self.employments.first.end and
-        self.employments.first.end.strftime('%Y').to_i < 2008
+    begin
+      self.employments and
+          self.employments.count and
+          self.employments.count > 0 and
+          self.employments.first.end and
+          self.employments.first.end.strftime('%Y').to_i < 2008
+    rescue
+      return false
+    end
   end
 
   def terminated?
@@ -293,12 +299,13 @@ class Person < ActiveRecord::Base
     self.update(active: false, updated_at: separated_at)
   end
 
-  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil)
+  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
     return false unless self and self.id
     entry = LogEntry.new person: self,
                          action: action,
                          trackable: trackable,
-                         referenceable: referenceable
+                         referenceable: referenceable,
+                         comment: comment
     entry.created_at = created_at if created_at
     entry.updated_at = updated_at if updated_at
     entry.save ? true : false

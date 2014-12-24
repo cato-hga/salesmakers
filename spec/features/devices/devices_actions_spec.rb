@@ -95,12 +95,16 @@ describe 'Devices NON-CRUD actions' do
     let(:person) { create :person }
     let!(:deployed) { create :device_state, name: 'Deployed' }
     let!(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
+    let(:notes) { 'Good condition $0' }
 
     before(:each) do
       deployed_device.device_states << deployed
       visit device_path deployed_device
       click_link 'Recoup'
+      fill_in 'Notes', with: notes
+      click_on 'Recoup'
     end
+
     it 'should remove device states ' do
       within('.device_states') do
         expect(page).not_to have_content('Written Off')
@@ -109,22 +113,30 @@ describe 'Devices NON-CRUD actions' do
         expect(page).not_to have_content('Deployed')
       end
     end
+
     it 'should add a "Recouped" record in the device history' do
       within('.history') do
         expect(page).to have_content('Recouped')
       end
     end
+
     it 'should no longer display the Recoup button' do
       within('header h1') do
         expect(page).not_to have_link('Recoup')
       end
     end
+
     it 'should show the Deploy button' do
       within('header h1') do
         expect(page).to have_link('Deploy')
       end
     end
+
+    it 'should save the recoup notes' do
+      expect(page).to have_content(notes)
+    end
   end
+
   context 'for device states' do
     let(:device) { create :device }
     let!(:locked_device_state) {

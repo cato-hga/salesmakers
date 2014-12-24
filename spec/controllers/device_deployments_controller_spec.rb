@@ -79,34 +79,58 @@ describe DeviceDeploymentsController do
     end
   end
 
-  describe 'GET recoup' do
+  describe 'recouping' do
     let(:deployed_device) { create :device }
     let(:person) { create :person }
     let(:deployed) { create :device_state, name: 'Deployed' }
     let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
-    context 'upon success' do
-      subject do
-        deployed_device.device_states << deployed
-        deployed_device.device_deployments << device_deployment
-        deployed_device.person = person
-        get :recoup, device_id: deployed_device.id
-      end
-      it 'redirects to the device' do
-        expect(subject.request).to redirect_to deployed_device
+    let(:notes) { 'Good condition - $0' }
+
+    describe 'GET recoup_notes' do
+      before do
+        get :recoup_notes, device_id: deployed_device.id
       end
 
-      it 'removes the device from the person' do
-        deployed_device.reload
-        expect(deployed_device.person_id).not_to eq(person.id)
+      it 'returns a success status' do
+        expect(response).to be_success
       end
 
-      it 'should flash a confirmation message' do
-        expect(subject.request.flash[:notice]).to eq('Device Recouped!')
+      it 'renders the recoup_notes template' do
+        expect(response).to render_template(:recoup_notes)
       end
+    end
 
-      it 'should create a log entry' do
-        expect { subject }.to change(LogEntry, :count).by(1)
+    describe 'POST recoup' do
+      context 'upon success' do
+        subject do
+          deployed_device.device_states << deployed
+          deployed_device.device_deployments << device_deployment
+          deployed_device.person = person
+          post :recoup, device_id: deployed_device.id, notes: notes
+        end
+        it 'redirects to the device' do
+          expect(subject.request).to redirect_to deployed_device
+        end
+
+        it 'removes the device from the person' do
+          deployed_device.reload
+          expect(deployed_device.person_id).not_to eq(person.id)
+        end
+
+        it 'should flash a confirmation message' do
+          expect(subject.request.flash[:notice]).to eq('Device Recouped!')
+        end
+
+        it 'should create a log entry' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
+
+        it 'should save the notes' do
+          subject
+          expect(LogEntry.first.comment).to eq(notes)
+        end
       end
     end
   end
+
 end

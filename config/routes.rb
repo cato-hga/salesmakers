@@ -44,7 +44,8 @@ Rails.application.routes.draw do
         get 'select_user'
         get 'new/:person_id', to: 'device_deployments#new', as: 'new'
         post 'new/:person_id', to: 'device_deployments#create'
-        get  'recoup', to: 'device_deployments#recoup'
+        get  'recoup_notes', to: 'device_deployments#recoup_notes', as: 'recoup_notes'
+        post 'recoup', to: 'device_deployments#recoup', as: 'recoup'
       end
 
       member do

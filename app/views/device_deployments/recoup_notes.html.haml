@@ -1,0 +1,9 @@
+- title 'Recoup Notes for ' + @device.serial
+
+.widgets
+  .widget
+    .inner
+      = form_tag recoup_device_device_deployments_path, method: :post do
+        = label_tag 'notes', 'Notes'
+        = text_area_tag 'notes', nil, rows: 4
+        = submit_tag 'Recoup', class: [:button]

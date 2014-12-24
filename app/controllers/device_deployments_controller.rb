@@ -36,11 +36,20 @@ class DeviceDeploymentsController < ApplicationController
   def update
   end
 
-  def recoup
+  def recoup_notes
     @device = Device.find params[:device_id]
+  end
+
+  def recoup
+    @device = Device.find recoup_params[:device_id]
     @device_deployment = @device.device_deployments.first
     @device_deployment.recoup
-    @current_person.log? 'end', @device_deployment, @device
+    @current_person.log? 'end',
+                         @device_deployment,
+                         @device,
+                         nil,
+                         nil,
+                         recoup_params[:notes]
     flash[:notice] = 'Device Recouped!'
     redirect_to @device
   end
@@ -49,6 +58,10 @@ class DeviceDeploymentsController < ApplicationController
   end
 
   private
+
+  def recoup_params
+    params.permit :device_id, :notes
+  end
 
   def device_params
     params.require(:device_deployment).permit :person_id, :device_id, :started , :tracking_number, :comment
