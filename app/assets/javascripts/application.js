@@ -69,7 +69,7 @@ $(function(){
 		}
 	});
 
-	$('a').not('[href^="#"]').not('[target="_blank"]').on('click', function() {
+	$('a').not('[href^="#"]').not('[target="_blank"]').not('.nested_areas_icon').on('click', function() {
 		$('#page_load').show();
 	});
 
