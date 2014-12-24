@@ -168,7 +168,7 @@ module ApplicationHelper
   end
 
   def device_image(device)
-    image_file = 'devices/' + @device.model_name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
+    image_file = 'devices/' + device.model_name.gsub(/[^A-Za-z0-9]/, '').gsub(' ', '_').underscore + '.png'
     image = Rails.application.assets.find_asset image_file
     if image.present?
       image_tag image_file, class: 'device_thumb'

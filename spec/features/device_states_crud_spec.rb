@@ -5,19 +5,27 @@ describe 'DeviceStates CRUD actions' do
   context 'for creating' do
     let(:device_state) { build :device_state }
 
-    it 'has the correct page title' do
-      visit new_device_state_path
-      expect(page).to have_selector('h1', text: 'New Device State')
-    end
-
-    it 'creates a new device state' do
+    subject {
       visit device_states_path
       within '#main_container h1' do
         click_on 'new_action_button'
       end
       fill_in 'Name', with: device_state.name
       click_on 'Save'
+    }
+
+    it 'has the correct page title' do
+      visit new_device_state_path
+      expect(page).to have_selector('h1', text: 'New Device State')
+    end
+
+    it 'creates a new device state' do
+      subject
       expect(page).to have_content(device_state.name)
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
 
@@ -38,13 +46,22 @@ describe 'DeviceStates CRUD actions' do
       let!(:device_state) { create :device_state }
       let(:new_name) { 'New Name' }
 
-      it 'edits an unlocked device state' do
+      subject {
         visit device_states_path
         click_on device_state.name
         fill_in 'Name', with: new_name
         click_on 'Save'
+      }
+
+      it 'edits an unlocked device state' do
+        subject
         expect(page).to have_content(new_name)
       end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+
     end
 
     context 'locked device states' do

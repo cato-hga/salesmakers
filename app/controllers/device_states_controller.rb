@@ -14,6 +14,8 @@ class DeviceStatesController < ApplicationController
   def create
     @device_state = DeviceState.new device_state_params
     if @device_state.save
+      @current_person.log? 'create',
+                           @device_state
       flash[:notice] = 'Device State successfully created'
       redirect_to device_states_path
     else
@@ -26,6 +28,8 @@ class DeviceStatesController < ApplicationController
 
   def update
     if @device_state.update device_state_params
+      @current_person.log? 'update',
+                           @device_state
       flash[:notice] = 'Device State successfully updated'
       redirect_to device_states_path
     else
@@ -43,7 +47,7 @@ class DeviceStatesController < ApplicationController
   private
 
   def do_authorization
-    authorize LineState.new
+    authorize DeviceState.new
   end
 
   def device_state_params

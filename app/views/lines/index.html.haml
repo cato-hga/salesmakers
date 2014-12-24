@@ -16,18 +16,19 @@
     = paginate @lines
 
 %section
-  - header = header_row ['Provider','Identifier','Contract End Date','State(s)']
+  - header = header_row ['Provider','Identifier','Device Serial','Contract End Date','State(s)']
   - rows = Array.new
   - for line in @lines do
     - service_provider = line.technology_service_provider
     - provider = link_to service_provider.name, '#'
     - identifier =  line_link line
+    - device_link = line.device ? device_link(line.device) : ''
     - if line.contract_end_date == Date.parse('01/01/1901')
       - contract_end_date = ''
     - else
       - contract_end_date = link_to short_date(line.contract_end_date), line
     - states = line_state_links line
-    - rows << table_row([provider,identifier,contract_end_date,states])
+    - rows << table_row([provider,identifier,device_link,contract_end_date,states])
   = table header, rows
 
 - content_for :footer do

@@ -167,4 +167,19 @@ describe 'Devices NON-CRUD actions' do
       end
     end
   end
+
+  context 'for searching' do
+    let(:line) { create :line, identifier: '4444444444' }
+    let!(:device) { create :device, serial: '998899889988', identifier: '998899889988', line: line }
+    let(:tracking_number) { '885522225588' }
+    let!(:device_deployment) { create :device_deployment, tracking_number: tracking_number }
+
+    it 'searches for tracking numbers' do
+      visit devices_path
+      fill_in 'q_device_deployments_tracking_number_cont', with: tracking_number[0..7]
+      click_on 'search'
+      expect(page).to have_content(device_deployment.device.serial)
+      expect(page).not_to have_content(device.serial)
+    end
+  end
 end
