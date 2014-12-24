@@ -125,7 +125,7 @@ module ApplicationHelper
   end
 
   def person_link(person, classes = 'person_link')
-    link_to NameCase(person.display_name), person, class: classes
+    link_to NameCase(person.display_name), about_person_path(person), class: classes
   end
 
   def person_sales_link(person, classes = '')

@@ -29,29 +29,6 @@
               = yield :action_buttons
             = yield :header
           .notices
-            - if @current_person and @current_person.groupme_access_token and @current_person.groupme_token_updated < Time.now - 30.days
-              .alert-box.alert{ data: { alert: '' } }
-                %div
-                  GroupMe requires that you log in through our website every
-                  so often to continue to use its features. To renew your
-                  GroupMe integration,
-                  = link_to 'click here now.', auth_group_mes_path
-                %a.close(href='#') &times;
-            - if @current_person and @current_person.profile and not @current_person.profile.bio
-              .alert-box.alert#joyride-profile-alert{ data: { alert: '' } }
-                %div
-                  It looks like you haven't edited your profile yet! Share
-                  information about yourself with your coworkers by
-                  = link_to 'adding information to your profile here.', edit_profile_path(@current_person.profile)
-                %a.close(href='#') &times;
-            - if @current_person and not @current_person.groupme_access_token and not @current_person.groupme_token_updated
-              .alert-box.alert#joyride-groupme-alert{ data: { alert: '' } }
-                %div
-                  You have not yet set up GroupMe integration. You're missing
-                  out on a lot of cool features! To integrate with your
-                  GroupMe account,
-                  = link_to 'click here now.', auth_group_mes_path
-                %a.close(href='#') &times;
             - flash.each do |name, msg|
               - if msg.is_a?(String)
                 .alert-box{ class: (name.to_s == 'notice' ? 'success' : 'alert'), data: { alert: '' } }

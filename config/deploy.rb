@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'oneconnect'
-set :repo_url, 'git://rbd.unfuddle.com:rbd/reconnect.git'
+set :repo_url, 'git@rbd.unfuddle.com:rbd/reconnect.git'
 
 set :deploy_to, '/opt/oneconnect'
 set :scm, :git

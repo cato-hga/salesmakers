@@ -31,9 +31,6 @@
   - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
   - admin_links << link_to(icon('torsos-all') + ' Org Chart', org_chart_people_path)
   - admin_links << link_to(icon('torsos-all') + ' People', people_path)
-  - poll_questions = link_to icon('clipboard-pencil') + ' Poll Questions', poll_questions_path
-  - admin_links << poll_questions if |
-    PollQuestionPolicy.new(current_person, PollQuestion.new).index? |
   %ul.off-canvas-list
     %li
       %label Administration
