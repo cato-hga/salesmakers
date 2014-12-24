@@ -142,9 +142,15 @@ class Person < ActiveRecord::Base
   end
 
   def termination_date_invalid?
-    self.employments.count > 0 and
-        self.employments.first.end and
-        self.employments.first.end.strftime('%Y').to_i < 2008
+    begin
+      self.employments and
+          self.employments.count and
+          self.employments.count > 0 and
+          self.employments.first.end and
+          self.employments.first.end.strftime('%Y').to_i < 2008
+    rescue
+      return false
+    end
   end
 
   def terminated?
