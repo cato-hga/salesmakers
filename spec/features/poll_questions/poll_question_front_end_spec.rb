@@ -4,11 +4,12 @@ describe 'Front-end poll question behavior' do
   let(:poll_question_choice) { create :poll_question_choice }
 
   context 'without an answer from the current person' do
-    it 'displays the question on the home page' do
-      poll_question = poll_question_choice.poll_question
-      visit root_path
-      expect(page).to have_content poll_question.question
-    end
+    # Commented out - not utilized
+    # it 'displays the question on the home page' do
+    #   poll_question = poll_question_choice.poll_question
+    #   visit root_path
+    #   expect(page).to have_content poll_question.question
+    # end
 
     it 'accepts an answer and displays results',
        pending: 'js: true does not work as expected' do

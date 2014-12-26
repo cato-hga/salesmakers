@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   root 'devices#index'
 
+  resources :blog_posts, only: [:index, :show] do
+    # member do
+    #   get 'publish'
+    #   get 'approve'
+    #   get 'deny'
+    # end
+  end
+
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
@@ -60,6 +68,8 @@ Rails.application.routes.draw do
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
 
+  # get 'gallery/index'
+
   resources :group_mes, only: [] do
     get 'auth', on: :collection, as: 'auth'
     get 'called_back', on: :collection
@@ -71,7 +81,11 @@ Rails.application.routes.draw do
 
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
 
-  #resources :home, only: [ :index ]
+  resources :home, only: [:index]
+  # get 'home/dashboard'
+
+  get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
+  get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 
   resources :lines, only: [:index, :show, :new, :create, :update] do
     collection do
@@ -93,7 +107,11 @@ Rails.application.routes.draw do
 
   resources :line_states, except: [:show]
 
+  resources :link_posts, only: [:create, :show]
+
   resources :log_entries, only: [:index]
+
+  resources :media, only: [:index]
 
   resources :people, only: [:index, :show, :update] do
     member do
@@ -106,7 +124,46 @@ Rails.application.routes.draw do
     end
   end
 
+  # resources :permissions
+  # resources :permission_groups
+
+  resources :poll_questions do
+    resources :poll_question_choices, only: [:create, :update, :destroy] do
+      member do
+        get :choose, as: :choose
+      end
+    end
+  end
+
+  resources :profiles, only: [:edit, :update] do
+    resources :profile_experiences, except: [:index, :show]
+    resources :profile_educations, except: [:index, :show]
+    # resources :profile_skills, except: :index
+  end
+
+  # resources :questions
+
+  # resources :reports do
+  #   member do
+  #     get :share, to: 'reports#share', as: 'share'
+  #     post :share, to: 'reports#distribute'
+  #   end
+  # end
+
   get 'sessions/destroy', as: 'logout'
+
+  resources :text_posts, only: [:create, :show]
+  resources :themes, except: [:destroy, :show]
+
+  resources :uploaded_videos, only: [:create, :show]
+  resources :uploaded_images, only: [:create, :show]
+
+  resources :wall_posts, only: [:show, :destroy] do
+    member do
+      get 'promote/:wall_id', to: 'wall_posts#promote', as: 'promote'
+    end
+  end
+  resources :wall_post_comments, only: [:create, :update, :destroy]
 
   # ------------------------- API NAMESPACE --------------------------
 

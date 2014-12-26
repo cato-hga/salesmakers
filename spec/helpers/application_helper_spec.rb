@@ -76,7 +76,7 @@ describe ApplicationHelper do
 
     it 'displays a link to a person' do
       person = Person.first
-      expected_selector = 'a[href="' + helper.person_path(person) + '"]'
+      expected_selector = 'a[href="' + helper.about_person_path(person) + '"]'
       link_markup = helper.person_link person
       expect(link_markup).to have_selector(expected_selector)
       expect(link_markup).to have_content(person.display_name)
@@ -196,22 +196,21 @@ describe ApplicationHelper do
     end
   end
 
-  # Tests commented out because the methods are not being used.
-  # describe 'date display' do
-  #   let(:date) { Date.new 2001, 9, 11 }
-  #
-  #   it 'shows the correct short date format' do
-  #     expect(helper.short_date(date)).to eq('09/11/2001')
-  #   end
-  #
-  #   it 'shows the correct medium date format' do
-  #     expect(helper.med_date(date)).to eq('Tue, Sep 11, 2001')
-  #   end
-  #
-  #   it 'shows the correct long date format' do
-  #     expect(helper.long_date(date)).to eq('Tuesday, September 11, 2001')
-  #   end
-  # end
+  describe 'date display' do
+    let(:date) { Date.new 2001, 9, 11 }
+
+    it 'shows the correct short date format' do
+      expect(helper.short_date(date)).to eq('09/11/2001')
+    end
+
+    it 'shows the correct medium date format' do
+      expect(helper.med_date(date)).to eq('Tue, Sep 11, 2001')
+    end
+
+    it 'shows the correct long date format' do
+      expect(helper.long_date(date)).to eq('Tuesday, September 11, 2001')
+    end
+  end
 
   it 'displays a foundation icon properly' do
     icon_name = 'foo'
@@ -240,7 +239,7 @@ describe ApplicationHelper do
 
     specify 'display in full form' do
       expected_selector = 'a[href="' +
-          helper.person_path(log_entry.trackable) +
+          helper.about_person_path(log_entry.trackable) +
           '"]'
       markup = helper.render_log_entry log_entry
       expect(markup).to have_selector(expected_selector)

@@ -29,6 +29,8 @@ describe 'Device Deployments NON-CRUD actions' do
       deployed_device.save
       visit device_path deployed_device
       click_link 'Recoup'
+      fill_in 'Notes', with: 'Test recoup'
+      click_on 'Recoup'
     end
 
     it 'should prompt for confirmation'
