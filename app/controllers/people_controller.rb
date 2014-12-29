@@ -35,10 +35,10 @@ class PeopleController < ProtectedController
     set_show_wall
     @log_entries = LogEntry.for_person(@person)
     @current_devices = @person.devices
-    mojo = Mojo.new
-    email = @person.email
-    @creator_tickets = mojo.creator_all_tickets email, 12
-    @assignee_tickets = mojo.assignee_open_tickets email
+    # mojo = Mojo.new
+    # email = @person.email
+    # @creator_tickets = mojo.creator_all_tickets email, 12
+    # @assignee_tickets = mojo.assignee_open_tickets email
     @profile = @person.profile
     @profile_experiences = @profile.profile_experiences
     @profile_educations = @profile.profile_educations
