@@ -12,13 +12,15 @@
               - if receiver.errors[:contract_end_date].count > 0
                 .alert= receiver.errors[:contract_end_date].join(', ')
             .large-4.columns
+              - selected_model = receiver.device_model ? receiver.device_model.id : nil
               = label_tag 'device_model_id', 'Device Model'
-              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
+              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name', selected_model), prompt: 'Select A Device Model'
               - if receiver.errors[:device_model].count > 0
                 .alert= receiver.errors[:device_model].join(', ')
             .large-4.columns
+              - selected_service_provider = receiver.service_provider ? receiver.service_provider.id : nil
               = label_tag 'technology_service_provider_id', 'Service Provider'
-              = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'
+              = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name', selected_service_provider), prompt: 'Select a Service Provider'
               - if receiver.errors[:service_provider].count > 0
                 .alert= receiver.errors[:service_provider].join(', ')
       - else
@@ -42,7 +44,7 @@
       #assets
         - if @bad_receivers and @bad_receivers.count > 0
           - for receiver in @bad_receivers do
-            .row.full_width
+            .row.full-width
               .large-6.columns
                 = text_field_tag 'serial[]', receiver.serial, class: :serial_field
                 - if receiver.errors[:serial].count > 0
