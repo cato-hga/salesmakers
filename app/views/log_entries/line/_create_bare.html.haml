@@ -1,0 +1,7 @@
+Created Line
+= line_link log_entry.trackable
+- if log_entry.comment?
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = log_entry.comment
