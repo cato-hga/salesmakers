@@ -2,19 +2,27 @@ require 'rails_helper'
 
 describe 'Device Deployments NON-CRUD actions' do
 
-  describe 'GET select_user' do
+  context 'for deployment' do
     let(:device) { create :device }
-    before do
-      visit device_path device
-      click_link 'Deploy'
-    end
-    it 'should give a list of users' do
-      expect(page).to have_content('System Administrator')
-    end
+    let!(:deployed) { create :device_state, name: 'Deployed' }
+    let(:person) { Person.first }
+    let(:tracking_number) { '123456789' }
+    let(:comment) { 'This is a foo comment' }
 
-    it 'should redirect to the "new" action when a Deploy button is clicked' do
-      click_link 'Deploy'
-      expect(page).to have_content("New Deployment Information")
+    it 'deploys a non-deployed device' do
+      visit device_path device
+      click_on 'Deploy'
+      expect(page).to have_content(person.display_name)
+      click_on 'Deploy'
+      expect(page).to have_content('New Deployment Information')
+      fill_in 'Tracking number', with: tracking_number
+      fill_in 'Comment', with: comment
+      click_on 'Deploy'
+      device.reload
+      expect(device.device_states).to include(deployed)
+      expect(page).to have_content person.name
+      expect(page).to have_content comment
+      expect(page).not_to have_selector('a', text: 'Deploy')
     end
   end
 
@@ -33,7 +41,6 @@ describe 'Device Deployments NON-CRUD actions' do
       click_on 'Recoup'
     end
 
-    it 'should prompt for confirmation'
     it 'should NOT show the deployed status' do
       within('.device_states') do
         expect(page).not_to have_content('Deployed')

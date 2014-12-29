@@ -15,10 +15,18 @@ class DeviceDeploymentsController < ApplicationController
   def create
     @person = Person.find params[ :person_id ]
     @device = Device.find params[ :device_id ]
+    deployed = DeviceState.find_by name: 'Deployed'
     @current_devices = Device.where person: @person
     @device_deployment = DeviceDeployment.new device_params
     @device_deployment.started = Date.today
     if @device_deployment.save
+      @device.device_states << deployed if deployed
+      @current_person.log? 'create',
+                           @device_deployment,
+                           @device,
+                           nil,
+                           nil,
+                           device_params[:comment]
       @device.person = @person
       @device.save
       flash[ :notice ] = 'Device Deployed!'

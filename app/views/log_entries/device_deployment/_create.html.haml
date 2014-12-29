@@ -1,6 +1,7 @@
 - trackable = log_entry.trackable
 - device = trackable.device
 - tracking_number = trackable.tracking_number
+- comment = log_entry.comment
 .entry_type
   Deployed
   .time_ago
@@ -13,3 +14,10 @@ by
 - if tracking_number.present?
   = precede 'with tracking #' do
     = tracking_link tracking_number
+  - if comment
+    and
+- if comment
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = comment

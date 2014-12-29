@@ -23,7 +23,7 @@ describe DeviceDeploymentsController do
 
   describe 'POST create' do
     context 'success' do
-      before(:each) do
+      subject do
         post :create,
              device_id: device.id,
              person_id: person.id,
@@ -33,30 +33,47 @@ describe DeviceDeploymentsController do
                  tracking_number: '1111',
                  comment: 'Comment'
              }
-        @deployment = DeviceDeployment.first
       end
 
-      it 'should create a device_deployment' do
-        expect(DeviceDeployment.count).to eq(1)
+      let(:deployment) {
+        subject
+        DeviceDeployment.first
+      }
+
+      it 'creates a DeviceDeployment' do
+        expect{ subject }.to change(DeviceDeployment, :count).by(1)
       end
+
       it 'should set the deployment start date to today' do
-        expect(@deployment.started).to eq(Date.today)
+        expect(deployment.started).to eq(Date.today)
       end
+
       it 'should set the tracking number provided' do
-        expect(@deployment.tracking_number).to eq('1111')
+        expect(deployment.tracking_number).to eq('1111')
       end
+
       it 'should add the comment provided' do
-        expect(@deployment.comment).to eq('Comment')
+        expect(deployment.comment).to eq('Comment')
       end
+
       it 'should assign the device to a given person' do
+        subject
         device.reload
         expect(device.person).to eq(person)
       end
+
       it 'should flash a success message' do
+        subject
         expect(flash[:notice]).to eq('Device Deployed!')
       end
+
       it 'should redirect to the device' do
+        subject
         expect(response).to redirect_to(device)
+      end
+
+      it 'creates a log entry for the deployment' do
+        expect{ subject }.to change(LogEntry, :count).by(1)
       end
     end
 
