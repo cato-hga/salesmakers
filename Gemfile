@@ -40,7 +40,7 @@ gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 gem 'whenever', '0.9.2' # Background tasks scheduled in a flat ruby file.
 gem 'mail_form', '1.5.0' # Gem for contact/feedback form. Using based on tutorial: http://rubyonrailshelp.wordpress.com/2014/01/08/rails-4-simple-form-and-mail-form-to-make-contact-form/
 gem 'simple_form', '3.0.2' # For contact/feedback form
-gem 'postmark-rails', '0.8.0' # Postmark integration. Currently for contact/feedback form
+gem 'postmark-rails', '0.9.0' # Postmark integration. Currently for contact/feedback form
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'spring-commands-rspec', '1.0.2' # Spring RSpec additions
 # gem 'foundation-datetimepicker-rails', '0.1.3' # Date/Time picker for Foundation
@@ -48,6 +48,7 @@ gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'active_shipping', '0.12.4' # Shipping integration for many carriers
 gem 'nilify_blanks', '1.1.0' # Change empty strings to nil before saving certain models
+gem 'exception_notification', '4.0.1' # Send notification of uncaught Exceptions to developers (us!)
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development
