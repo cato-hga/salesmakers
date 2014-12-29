@@ -67,6 +67,16 @@ class LogEntry < ActiveRecord::Base
     entry.updated_at = updated if updated
     entry.save
   end
+
+  def self.for_person(person)
+    deployments = person.device_deployments
+    if deployments.count > 0
+      deployments_query = "trackable_id IN (#{deployments.map(&:id).join(',')})"
+    else
+      deployments_query = 'FALSE'
+    end
+    self.where("(trackable_type = 'Person' AND trackable_id = ?) OR (referenceable_type = 'Person' AND referenceable_id = ?) OR (trackable_type = 'DeviceDeployment' AND #{deployments_query})", person.id, person.id)
+  end
   #:nocov:
 
   private

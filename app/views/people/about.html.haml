@@ -109,3 +109,11 @@
     .inner
       %h3 Experience
       = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
+.widget
+  .inner
+    %h3 Current Devices
+    = render partial: 'shared/device_deployments', locals: { current_devices: @current_devices }
+.widget
+  .inner
+    %h3 Log Entries
+    = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }

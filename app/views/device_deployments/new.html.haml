@@ -6,20 +6,7 @@
 - if @current_devices.count > 0
   %h2 Current Devices Assigned
   %section
-    - header = header_row ['Identifier','Serial','Assigned To','Line','Manufacturer','Model','State(s)']
-    - rows = Array.new
-    - for device in @current_devices do
-      - identifier = link_to device.identifier, device
-      - serial = link_to device.serial, device
-      - assigned_to = (device.person) ? person_link(device.person) : ''
-      - line_object = device.line
-      - line = line ? link_to(line.identifier, line) : ''
-      - manufacturer = device.manufacturer_name
-      - model_object = device.device_model
-      - model = model_object.name
-      - states = device_state_links device
-      - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
-    = table header, rows
+    = render partial: 'shared/device_deployments', locals: { current_devices: @current_devices }
 %h2 New Deployment Information
 = form_for @device_deployment, url: new_device_device_deployments_path(@device, @person), method: :post do |f|
   = f.label :tracking_number

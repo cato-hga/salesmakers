@@ -33,7 +33,8 @@ class PeopleController < ProtectedController
   def about
     @person = Person.find params[:id]
     set_show_wall
-    @log_entries = @person.related_log_entries
+    @log_entries = LogEntry.for_person(@person)
+    @current_devices = @person.devices
     mojo = Mojo.new
     email = @person.email
     @creator_tickets = mojo.creator_all_tickets email, 12

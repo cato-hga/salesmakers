@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&per_page=12&query=created_by.email:(%22tuser1@rbd-von.com%22)&r=1&sf=updated_on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 29 Dec 2014 17:26:12 GMT
+      Server:
+      - Apache/2.2.3 (Red Hat)
+      Etag:
+      - '"d751713988987e9331980363e24189ce"'
+      X-Runtime:
+      - '18'
+      Cache-Control:
+      - private, max-age=0, must-revalidate
+      X-Powered-By:
+      - Phusion Passenger 4.0.53
+      Set-Cookie:
+      - _user_session=ea3d59215f59aedc40cec4529db1e10c; path=/; HttpOnly
+      Content-Length:
+      - '2'
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Content-Type:
+      - "*/*; charset=utf-8"
+    body:
+      encoding: UTF-8
+      string: "[]"
+    http_version: 
+  recorded_at: Mon, 29 Dec 2014 17:26:12 GMT
+- request:
+    method: get
+    uri: http://support.rbdconnect.com/api/tickets/search/?access_key=be673c9221173ec77d4b8bcd33909d2331eccf6e&query=assignee.email:(%22tuser1@rbd-von.com%22)%20AND%20status_id:(%3C50)&r=1&sf=updated_on
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 29 Dec 2014 17:26:13 GMT
+      Server:
+      - Apache/2.2.3 (Red Hat)
+      Etag:
+      - '"d751713988987e9331980363e24189ce"'
+      X-Runtime:
+      - '24'
+      Cache-Control:
+      - private, max-age=0, must-revalidate
+      X-Powered-By:
+      - Phusion Passenger 4.0.53
+      Set-Cookie:
+      - _user_session=b0b597327cd1cf52131a60d1d397b6ed; path=/; HttpOnly
+      Content-Length:
+      - '2'
+      Status:
+      - 200 OK
+      Connection:
+      - close
+      Content-Type:
+      - "*/*; charset=utf-8"
+    body:
+      encoding: UTF-8
+      string: "[]"
+    http_version: 
+  recorded_at: Mon, 29 Dec 2014 17:26:12 GMT
+recorded_with: VCR 2.9.3
