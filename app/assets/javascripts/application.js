@@ -69,11 +69,15 @@ $(function(){
 		}
 	});
 
-	$('a').not('[href^="#"]').not('[target="_blank"]').not('.nested_areas_icon').on('click', function() {
-		$('#page_load').show();
+	$('a').not('[href^="#"]').
+		not('[target="_blank"]').
+		not('.nested_areas_icon').
+		not('a:not([href])').
+		on('click', function() {
+			$('#page_load').show();
 	});
 
-	$('form').submit(function() {
+	$('form:not([data-remote])').submit(function() {
 		$('#page_load').show();
 	});
 
