@@ -2,6 +2,8 @@ require 'validators/phone_number_validator'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
 
+  nilify_blanks
+
   before_validation :generate_display_name
   after_save :create_profile
   after_save :create_wall
@@ -123,7 +125,7 @@ class Person < ActiveRecord::Base
                         mobile_phone: phone,
                         position: position,
                         supervisor: supervisor
-    return nil unless person
+    return nil unless person and person.save
     PersonArea.where(person: person).destroy_all
     LogEntry.person_onboarded_from_connect person, creator, created, updated
     LogEntry.position_set_from_connect person, creator, position, created, updated if position

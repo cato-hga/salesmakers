@@ -89,21 +89,27 @@ RSpec.describe Person, :type => :model do
       person.mobile_phone = nil
       person.office_phone = nil
       person.home_phone = nil
-      should_not be_valid
+      expect(subject).not_to be_valid
       person.office_phone = '7274985180'
-      should be_valid
+      expect(subject).to be_valid
       person.office_phone = nil
       person.mobile_phone = '5555555555'
-      should be_valid
+      expect(subject).to be_valid
       person.mobile_phone = nil
       person.home_phone = '5565565566'
-      should be_valid
+      expect(subject).to be_valid
     end
 
     it 'should clean the phone numbers' do
       person.mobile_phone = '716-415-8130'
       person.save
       expect(person.mobile_phone).to eq('7164158130')
+    end
+
+    it 'should change empty strings in phone numbers to nil' do
+      person.office_phone = ''
+      person.save
+      expect(person.office_phone).to eq(nil)
     end
 
   end
