@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Lines NON-CRUD actions' do
+describe 'actions on Lines' do
   context 'for line states' do
     let(:line) { create :line }
     let!(:locked_line_state) {

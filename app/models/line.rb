@@ -10,6 +10,10 @@ class Line < ActiveRecord::Base
 
   has_one :device
 
+  ransacker :unstripped_identifier, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
+    parent.table[:identifier]
+  end
+
   def active?
     active_state = LineState.find_or_initialize_by name: 'Active'
     self.line_states.include? active_state

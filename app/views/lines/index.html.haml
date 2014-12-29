@@ -8,7 +8,7 @@
       = icon('magnifying-glass')
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :technology_service_provider_name_cont, placeholder: 'Provider'
-    = f.text_field :identifier_cont, placeholder: 'Identifier'
+    = f.text_field :unstripped_identifier_cont, placeholder: 'Identifier'
     = f.text_field :contract_end_date_cont, placeholder: 'Contract End Date'
     = f.text_field :line_states_name_cont, placeholder: 'State(s)'
     = f.submit 'search', class: 'button'

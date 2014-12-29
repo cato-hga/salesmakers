@@ -1,12 +1,11 @@
 class Device < ActiveRecord::Base
-
-before_save :set_identifier_when_blank
+  before_save :set_identifier_when_blank
   before_save :strip_identifying_fields
 
   validates :serial, presence: true, length: {minimum: 6}, uniqueness: {case_sensitive: false}
   validates :identifier, presence: true, length: {minimum: 4}, uniqueness: {case_sensitive: false}
   validates :device_model, presence: true
-validates :line_id, uniqueness: true, allow_nil: true
+  validates :line_id, uniqueness: true, allow_nil: true
 
   belongs_to :device_model
   belongs_to :line
@@ -14,6 +13,14 @@ validates :line_id, uniqueness: true, allow_nil: true
   has_and_belongs_to_many :device_states
   has_many :device_deployments
   has_one :device_manufacturer, through: :device_model
+
+  ransacker :unstripped_identifier, formatter: proc { |v| v.strip.gsub /[^A-Za-z0-9]/, '' } do |parent|
+    parent.table[:identifier]
+  end
+
+  ransacker :unstripped_serial, formatter: proc { |v| v.strip.gsub /[^A-Za-z0-9]/, '' } do |parent|
+    parent.table[:serial]
+  end
 
   #:nocov:
 
