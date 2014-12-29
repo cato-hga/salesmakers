@@ -23,6 +23,6 @@
 /.idea/reconnect.iml
 .idea/*
 .rvmrcconfig/database.yml
-public/*
+public/system
 coverage/*
 /open-uri*
