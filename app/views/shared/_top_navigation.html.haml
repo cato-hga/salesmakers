@@ -29,16 +29,13 @@
             %ul.dropdown
               %li= link_to 'Search', people_path
               %li= link_to 'Org Chart', org_chart_people_path
-
-          - admin_links = Array.new
-          - admin_links << link_to('Devices', devices_path)
-          - admin_links << link_to('Lines', lines_path)
-          - if admin_links.count > 0
-            %li.has-dropdown
-              = link_to 'Admin', '#'
-              %ul.dropdown
-                - for admin_link in admin_links
-                  %li= admin_link
+          %li.has-dropdown
+            = link_to 'Admin', '#'
+            %ul.dropdown
+              %li= link_to('Devices', devices_path)
+              %li= link_to('Lines', lines_path)
+              %li.divider
+              %li= link_to('Log', log_entries_path)
 
           %li.has-dropdown#joyride-profile
             = link_to current_person.email, person_path(current_person)
