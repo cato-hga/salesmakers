@@ -1,6 +1,6 @@
 class DeviceModel < ActiveRecord::Base
 
-  validates :name, presence: true, length: { minimum: 5 }
+  validates :name, presence: true, length: { minimum: 3 }
   validates :device_manufacturer, presence: true
 
   belongs_to :device_manufacturer
