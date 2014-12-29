@@ -5,24 +5,27 @@
     .inner
       - if @bad_receivers and @bad_receivers.count > 0
         - for receiver in @bad_receivers do
+          - err_contract_end_date = receiver.errors[:contract_end_date].count > 0 ? true : false
+          - err_device_model = receiver.errors[:device_model].count > 0 ? true : false
+          - err_service_provider = receiver.errors[:service_provider].count > 0 ? true : false
           .row.full-width
             .large-4.columns
               = label_tag 'contract_end_date', 'Contract End Date'
-              = text_field_tag 'contract_end_date', receiver.contract_end_date, placeholder: 'mm/dd/yyyy', class: 'datepicker'
-              - if receiver.errors[:contract_end_date].count > 0
-                .alert= receiver.errors[:contract_end_date].join(', ')
+              = text_field_tag 'contract_end_date', receiver.contract_end_date, placeholder: 'mm/dd/yyyy', class: ['datepicker', (err_contract_end_date ? 'error' : nil)]
+              - if err_contract_end_date
+                .error= receiver.errors[:contract_end_date].join(', ')
             .large-4.columns
               - selected_model = receiver.device_model ? receiver.device_model.id : nil
               = label_tag 'device_model_id', 'Device Model'
-              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name', selected_model), prompt: 'Select A Device Model'
-              - if receiver.errors[:device_model].count > 0
-                .alert= receiver.errors[:device_model].join(', ')
+              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name', selected_model), prompt: 'Select A Device Model', class: (err_device_model ? 'error' : nil)
+              - if err_device_model
+                .error= receiver.errors[:device_model].join(', ')
             .large-4.columns
               - selected_service_provider = receiver.service_provider ? receiver.service_provider.id : nil
               = label_tag 'technology_service_provider_id', 'Service Provider'
-              = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name', selected_service_provider), prompt: 'Select a Service Provider'
-              - if receiver.errors[:service_provider].count > 0
-                .alert= receiver.errors[:service_provider].join(', ')
+              = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name', selected_service_provider), prompt: 'Select a Service Provider', class: (err_service_provider ? 'error' : nil)
+              - if err_service_provider
+                .error= receiver.errors[:service_provider].join(', ')
       - else
         .row.full-width
           .large-4.columns
@@ -44,15 +47,17 @@
       #assets
         - if @bad_receivers and @bad_receivers.count > 0
           - for receiver in @bad_receivers do
+            - err_serial = receiver.errors[:serial].count > 0 ? true : false
+            - err_line_identifier = receiver.errors[:line_identifier].count > 0 ? true : false
             .row.full-width
               .large-6.columns
-                = text_field_tag 'serial[]', receiver.serial, class: :serial_field
+                = text_field_tag 'serial[]', receiver.serial, class: ['serial_field', (err_serial ? 'error' : nil)]
                 - if receiver.errors[:serial].count > 0
-                  .alert= receiver.errors[:serial].join(', ')
+                  .error= receiver.errors[:serial].join(', ')
               .large-5.columns
-                = text_field_tag 'line_identifier[]', receiver.line_identifier, class: :line_id_field
+                = text_field_tag 'line_identifier[]', receiver.line_identifier, class: ['line_id_field', (err_line_identifier ? 'error' : nil)]
                 - if receiver.errors[:line_identifier].count > 0
-                  .alert= receiver.errors[:line_identifier].join(', ')
+                  .error= receiver.errors[:line_identifier].join(', ')
               .large-1.columns
                 %a.button.postfix.delete_row(href='#') Delete
         - else
