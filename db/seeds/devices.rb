@@ -1,17 +1,31 @@
 puts "Importing devices..."
 
-deployed = DeviceState.find_by_name 'Deployed'
-repairing = DeviceState.find_by_name 'Repairing'
-lost_stolen = DeviceState.find_by_name 'Lost or Stolen'
+deployed = DeviceState.find_by name: 'Deployed'
+repairing = DeviceState.find_by name: 'Repairing'
+lost_stolen = DeviceState.find_by name: 'Lost or Stolen'
 
-ipad_4 = DeviceModel.find_by_name 'iPad 4'
-ipad_mini = DeviceModel.find_by_name 'iPad Mini'
-evo_view_4g = DeviceModel.find_by_name 'Evo View 4G'
-galaxy_tab_7 = DeviceModel.find_by_name 'Galaxy Tab 7"'
-galaxy_tab_3 = DeviceModel.find_by_name 'Galaxy Tab 3'
-ellipsis_7 = DeviceModel.find_by_name 'Ellipsis 7'
-optik = DeviceModel.find_by_name 'Optik'
-pulse = DeviceModel.find_by_name 'Pulse'
+ipad_4 = DeviceModel.find_by name: 'iPad 4'
+ipad_mini = DeviceModel.find_by name: 'iPad Mini'
+ipod = DeviceModel.find_by name: 'iPod'
+evo_view_4g = DeviceModel.find_by name: 'Evo View 4G'
+galaxy_s4 = DeviceModel.find_by name: 'Galaxy S4'
+galaxy_tab_7 = DeviceModel.find_by name: 'Galaxy Tab 7"'
+galaxy_tab_3 = DeviceModel.find_by name: 'Galaxy Tab 3'
+galaxy_tab_4 = DeviceModel.find_by name: 'Galaxy Tab 4'
+ellipsis_7 = DeviceModel.find_by name: 'Ellipsis 7'
+optik = DeviceModel.find_by name: 'Optik'
+pulse = DeviceModel.find_by name: 'Pulse'
+
+air_card = DeviceModel.find_by name: 'Air Card'
+credit_card_scanner = DeviceModel.find_by name: 'Credit Card Scanner'
+desktop = DeviceModel.find_by name: 'Desktop'
+dvd_player = DeviceModel.find_by name: 'DVD Player'
+dvd_player = DeviceModel.find_by name: 'Laptop'
+netbook = DeviceModel.find_by name: 'Netbook'
+projector = DeviceModel.find_by name: 'Projector'
+tv = DeviceModel.find_by name: 'Television'
+sprint_hotspot = DeviceModel.find_by name: 'Sprint Hotspot'
+verizon_hotspot = DeviceModel.find_by name: 'Verizon Hotspot'
 
 device_state_emails = [
     'researchassets@retaildoneright.com',
@@ -46,7 +60,7 @@ counter = 0
 for movement in movements do
   counter += 1
   if counter % 50 == 0
-    puts "Imported #{counter.to_s} devices..."
+    puts "Imported #{counter.to_s} movements..."
   end
   next unless movement.connect_asset and movement.connect_asset.serial
   # Reset the counter for each new asset
@@ -82,6 +96,7 @@ for movement in movements do
     # is one of the types we need added
     device_model_id = nil
     # Get the device model for the asset
+
     case movement.connect_asset.connect_asset_group.name
       when 'iPad 4 (Sprint)'
         device_model_id = ipad_4.id
@@ -95,16 +110,43 @@ for movement in movements do
         device_model_id = evo_view_4g.id
       when 'LG Pulse (Virgin)'
         device_model_id = pulse.id
+      when 'Sprint Galaxy S4'
+        device_model_id = galaxy_s4.id
       when 'Samsung Galaxy Tab 7" (Sprint)'
         device_model_id = galaxy_tab_7.id
       when 'Samsung Galaxy Tab 7" (Verizon)'
         device_model_id = galaxy_tab_7.id
       when 'Samsung GalaxyTab 3'
         device_model_id = galaxy_tab_3.id
+      when 'Samsung Galaxy Tab 4'
+        device_model_id = galaxy_tab_4.id
       when 'ZTE Optik Tablet (Sprint)'
         device_model_id = optik.id
       when 'Verizon Ellipsis 7'
         device_model_id = ellipsis_7.id
+
+      when 'Air Card (Sprint)'
+        device_model_id = air_card.id
+      when 'Credit Card Scanners'
+        device_model_id = credit_card_scanner.id
+      when 'Desktop'
+        device_model_id = desktop.id
+      when 'DVD Players'
+        device_model_id = dvd_player.id
+      when 'iPod'
+        device_model_id = ipod.id
+      when 'Laptop'
+        device_model_id = laptop.id
+      when 'Netbook'
+        device_model_id = netbook.id
+      when 'Projectors'
+        device_model_id = projector.id
+      when 'TV'
+        device_model_id = tv.id
+      when 'Hotspot (Sprint)'
+        device_model_id = sprint_hotspot.id
+      when 'Hotspot (Verizon)'
+        device_model_id = verizon_hotspot.id
     end
     # Create the Device only if we have a Model for it
     if device_model_id
