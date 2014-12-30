@@ -16,7 +16,7 @@
     = paginate @lines
 
 %section
-  - header = header_row ['Provider','Identifier','Device Serial','Contract End Date','State(s)']
+  - header = header_row [sort_link(@search, :technology_service_provider_name),sort_link(@search, :identifier),sort_link(@search, :device_serial),sort_link(@search, :contract_end_date),'State(s)']
   - rows = Array.new
   - for line in @lines do
     - service_provider = line.technology_service_provider
