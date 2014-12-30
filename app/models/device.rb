@@ -227,7 +227,7 @@ class Device < ActiveRecord::Base
     written_off = DeviceState.find_by_name 'Written Off'
     # Take off all of the states (what we want when we encounter
     # a retired device in Openbravo)
-    self.device_states.destroy_all
+    # self.device_states.destroy_all
     # Add back the deployed state
     # self.device_states << deployed
     # Attach the written off state
@@ -283,13 +283,15 @@ class Device < ActiveRecord::Base
 
   def lost_or_stolen_from_connect_asset_movement(movement, created_by)
     lost_or_stolen = DeviceState.find_by_name 'Lost or Stolen'
-    self.device_states << lost_or_stolen
-    log_entry = LogEntry.create action: 'lost_or_stolen',
-                                trackable: self,
-                                comment: movement.note,
-                                created_at: movement.created,
-                                updated_at: movement.updated,
-                                person: created_by
+    unless self.devices_states.include? lost_or_stolen
+      self.device_states << lost_or_stolen
+      log_entry = LogEntry.create action: 'lost_or_stolen',
+                                  trackable: self,
+                                  comment: movement.note,
+                                  created_at: movement.created,
+                                  updated_at: movement.updated,
+                                  person: created_by
+    end
   end
 
   #:nocov:
