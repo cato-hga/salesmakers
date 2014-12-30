@@ -1,14 +1,23 @@
-- header = header_row [sort_link(@search, :identifier), sort_link(@search, :serial),sort_link(@search, :person_display_name, 'Assignee'),sort_link(@search, :line_identifier, 'Line'),sort_link(@search, :device_manufacturer_name, 'Manufacturer'),sort_link(@search, :device_model_name, 'Model'),'State(s)']
+- h_identifier = sort_link(@search, :identifier)
+- h_serial = sort_link(@search, :serial)
+- h_assignee = sort_link(@search, :person_display_name, 'Assignee')
+- h_deploy_date = 'Deploy Date'
+- h_line = sort_link(@search, :line_identifier, 'Line')
+- h_manufacturer = sort_link(@search, :device_manufacturer_name, 'Manufacturer')
+- h_model = sort_link(@search, :device_model_name, 'Model')
+- h_states = 'State(s)'
+- header = header_row [h_identifier, h_serial, h_assignee, h_deploy_date, h_line, h_manufacturer, h_model, h_states]
 - rows = Array.new
 - for device in @devices do
   - identifier = link_to device.identifier, device
   - serial = link_to device.serial, device
   - assigned_to = (device.person) ? person_link(device.person) : ''
+  - deploy_date = (device.deployed?) ? link_to(device.deploy_date_string, device) : ''
   - line_object = device.line
   - line = line_object ? line_link(line_object) : ''
   - manufacturer = device.manufacturer_name
   - model_object = device.device_model
   - model = model_object.name
   - states = device_state_links device
-  - rows << table_row([identifier,serial,assigned_to,line,manufacturer,model,states])
+  - rows << table_row([identifier,serial,assigned_to,deploy_date,line,manufacturer,model,states])
 = table header, rows

@@ -229,7 +229,7 @@ class Device < ActiveRecord::Base
     # a retired device in Openbravo)
     self.device_states.destroy_all
     # Add back the deployed state
-    self.device_states << deployed
+    # self.device_states << deployed
     # Attach the written off state
     self.device_states << written_off
     # Take off the wireless line since it's most likely been
@@ -293,6 +293,16 @@ class Device < ActiveRecord::Base
   end
 
   #:nocov:
+
+  def deployed?
+    self.device_deployments.count > 0 and
+        not self.device_deployments.first.ended
+  end
+
+  def deploy_date_string
+    return nil unless deployed?
+    self.device_deployments.first.started.strftime '%-m/%-d/%Y'
+  end
 
   def manufacturer_name
     device_manufacturer.name
