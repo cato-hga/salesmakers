@@ -283,7 +283,7 @@ class Device < ActiveRecord::Base
 
   def lost_or_stolen_from_connect_asset_movement(movement, created_by)
     lost_or_stolen = DeviceState.find_by_name 'Lost or Stolen'
-    unless self.devices_states.include? lost_or_stolen
+    unless self.device_states.include? lost_or_stolen
       self.device_states << lost_or_stolen
       log_entry = LogEntry.create action: 'lost_or_stolen',
                                   trackable: self,
