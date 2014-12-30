@@ -18,21 +18,31 @@
     = paginate @people
 
 %section
-  - header = header_row ['EID','Hired', 'Term\'d', 'Name','Email','Phone','Position','Supervisor','Area(s)']
+  - h_eid = sort_link @search, :eid, 'EID'
+  - h_hired = 'Hired'
+  - h_termed = 'Term\'d'
+  - h_name = sort_link @search, :display_name, 'Name'
+  - h_email = sort_link @search, :email
+  - h_phone = 'Phone'
+  - h_position = sort_link @search, :position_name, 'Position'
+  - h_supervisor = sort_link @search, :supervisor_display_name, 'Supervisor'
+  - h_areas = sort_link @search, :areas_name, 'Area(s)'
+  - header = header_row [h_eid,h_hired, h_termed,h_name,h_email,h_phone,h_position,h_supervisor,h_areas]
   - rows = Array.new
   - for person in @people do
-    - show_details = @visible_people.include?(person) ? true : false
+    - show_details = person.show_details? @visible_people
     - blocked = content_tag(:div, '-', class: :blocked)
     - classes = person.active? ? '' : 'inactive'
-    - if person.employments.count > 0
-      - hired = show_details ? link_to(person.employments.first.start.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+    - hire_date = person.hire_date
+    - if hire_date
+      - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - hired = ''
     - employments = person.employments
     - if person.termination_date_invalid?
       - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
     - elsif person.terminated?
-      - termed = show_details ? link_to(employments.first.end.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+      - termed = show_details ? link_to(person.term_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - termed = ''
     - if person.eid

@@ -1,4 +1,4 @@
-- header = header_row [sort_link(@search, :identifier), sort_link(@search, :serial),sort_link(@search, :person_display_name),sort_link(@search, :line_identifier),sort_link(@search, :device_manufacturer_name),sort_link(@search, :device_model_name),'State(s)']
+- header = header_row [sort_link(@search, :identifier), sort_link(@search, :serial),sort_link(@search, :person_display_name, 'Assignee'),sort_link(@search, :line_identifier, 'Line'),sort_link(@search, :device_manufacturer_name, 'Manufacturer'),sort_link(@search, :device_model_name, 'Model'),'State(s)']
 - rows = Array.new
 - for device in @devices do
   - identifier = link_to device.identifier, device

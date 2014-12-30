@@ -199,6 +199,28 @@ class Person < ActiveRecord::Base
     employment.save
   end
 
+  def show_details?(people)
+    people and people.include?(self)
+  end
+
+  def hire_date
+    if self.employments.count > 0
+      self.employments.first.start
+    else
+      nil
+    end
+  end
+
+  def term_date
+    if self.termination_date_invalid?
+      nil
+    elsif self.terminated?
+      self.employments.first.end
+    else
+      nil
+    end
+  end
+
   def return_person_area_from_connect
     return nil unless self.connect_user_id
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
