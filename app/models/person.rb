@@ -310,6 +310,11 @@ class Person < ActiveRecord::Base
   def separate_from_connect
     connect_user = get_connect_user
     return unless connect_user
+    for subordinate in self.employees do
+      subordinate_connect_user = subordinate.connect_user
+      next unless subordinate_connect_user
+      PersonUpdater.new(subordinate_connect_user).update
+    end
     separator = connect_user.updater
     self.update(active: false, updated_at: connect_user.updated)
     updated_to_inactive = self.active? ? false : true
