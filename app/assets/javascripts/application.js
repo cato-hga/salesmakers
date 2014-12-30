@@ -73,6 +73,7 @@ $(function(){
 		not('[target="_blank"]').
 		not('.nested_areas_icon').
 		not('a:not([href])').
+		not('a[data-attachment]').
 		on('click', function() {
 			$('#page_load').show();
 	});

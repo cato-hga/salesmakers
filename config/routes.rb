@@ -47,6 +47,9 @@ Rails.application.routes.draw do
             action: :found,
             as: 'found'
     end
+    collection do
+      get :csv, to: 'devices#csv', as: :csv
+    end
     resources :device_deployments, except: [ :index ] do
       collection do
         get 'select_user'
@@ -121,6 +124,7 @@ Rails.application.routes.draw do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
       get :org_chart, as: :org_chart
+      get :csv, to: 'people#csv', as: :csv
     end
   end
 

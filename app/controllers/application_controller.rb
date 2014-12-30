@@ -34,6 +34,10 @@ class ApplicationController < ActionController::Base
     @walls = Wall.postable(@current_person).includes(:wallable)
   end
 
+  def date_time_string
+    Time.now.strftime('%Y-%m-%d_%H-%M')
+  end
+
   private
 
   def current_person_has_position?

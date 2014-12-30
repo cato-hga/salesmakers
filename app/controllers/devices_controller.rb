@@ -7,6 +7,33 @@ class DevicesController < ApplicationController
     @devices = @search.result.order('serial').page(params[:page])
   end
 
+  def csv
+    @search = Device.search(params[:q])
+    @devices = @search.result.order('serial')
+    respond_to do |format|
+      format.html { redirect_to devices_path }
+      format.csv do
+        render csv: @devices,
+               filename: "devices_#{date_time_string}",
+               except: [
+                   :id,
+                   :device_model_id,
+                   :line_id,
+                   :person_id,
+                   :identifier,
+                   :serial
+               ],
+               add_methods: [
+                   :csv_identifier,
+                   :csv_serial,
+                   :model_name,
+                   :csv_line_identifier,
+                   :assignee_name
+               ]
+      end
+    end
+  end
+
   def show
     @device = Device.find params[:id]
     @unlocked_device_states = DeviceState.where locked: false

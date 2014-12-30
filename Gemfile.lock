@@ -358,6 +358,8 @@ GEM
       ruby_parser (>= 3.5.0, < 4.0)
       sexp_processor (~> 4.4)
     remotipart (1.2.1)
+    render_csv (2.0.0)
+      rails (>= 3.0)
     require_all (1.3.2)
     rest-client (1.7.2)
       mime-types (>= 1.16, < 3.0)
@@ -528,6 +530,7 @@ DEPENDENCIES
   rails_best_practices (= 1.15.4)
   ransack (= 1.2.3)
   remotipart (= 1.2.1)
+  render_csv (= 2.0.0)
   rspec-rails (= 3.0.1)
   rubycas-client!
   sass-rails (= 4.0.3)

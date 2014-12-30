@@ -1,11 +1,36 @@
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :search, :org_chart, :about, :show, :sales]
-  after_action :verify_policy_scoped, except: [:index, :search, :org_chart, :about, :show]
+  after_action :verify_authorized, except: [:index, :search, :csv, :org_chart, :about, :show, :sales]
+  after_action :verify_policy_scoped, except: [:index, :search, :csv, :org_chart, :about, :show]
   require 'apis/mojo'
 
   def index
     @search = Person.search(params[:q])
     @people = @search.result.order('display_name').page(params[:page])
+  end
+
+  def csv
+    @search = Person.search(params[:q])
+    @people = @search.result.order('display_name')
+    respond_to do |format|
+      format.html { redirect_to people_path }
+      format.csv do
+        render csv: @people,
+               filename: "people_#{date_time_string}",
+               except: [
+                   :id,
+                   :position_id,
+                   :connect_user_id,
+                   :supervisor_id,
+                   :groupme_access_token,
+                   :groupme_token_updated,
+                   :group_me_user_id
+               ],
+               add_methods: [
+                   :position_name,
+                   :supervisor_name
+               ]
+      end
+    end
   end
 
   def org_chart

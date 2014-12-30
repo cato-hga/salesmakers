@@ -63,12 +63,13 @@
       - phone = ''
     - if phone.include? '(800) 555-1212'
       - phone = ''
-    - position = person.position
-    - position_link = position ? link_to(position.name, person, class: classes) : ''
+    - position_name = person.position_name
+    - position_link = position_name ? link_to(position_name, person, class: classes) : ''
     - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - rows << table_row([eid, hired, termed, display_name, email, phone, position_link, supervisor, area])
   = table header, rows
 
 - content_for :footer do
+  .left= csv_link csv_people_path(params.merge(format: :csv)), @search.result.count
   = paginate @people

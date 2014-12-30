@@ -302,6 +302,26 @@ class Device < ActiveRecord::Base
     device_model.model_name
   end
 
+  def line_identifier
+    self.line ? self.line.identifier : nil
+  end
+
+  def assignee_name
+    self.person ? self.person.display_name : nil
+  end
+
+  def csv_identifier
+    self.identifier ? "'" + self.identifier : nil
+  end
+
+  def csv_serial
+    self.serial ? "'" + self.serial : nil
+  end
+
+  def csv_line_identifier
+    self.line_identifier ? "'" + self.line_identifier : nil
+  end
+
   def technology_service_provider
     return nil unless self.line
     return self.line.technology_service_provider

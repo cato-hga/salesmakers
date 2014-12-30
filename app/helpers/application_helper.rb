@@ -37,6 +37,18 @@ module ApplicationHelper
     link_to '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9], 'tel:' + phone_string, class: classes
   end
 
+  def csv_link(path, record_count)
+    if record_count >= 1000
+      data_attributes = {
+          confirm: 'Exporting this many records could take a while. After clicking OK, please wait for the export to complete.',
+          attachment: true
+      }
+    else
+      data_attributes = { attachment: true }
+    end
+    link_to 'csv', path, class: [:button, :inline_button], data: data_attributes
+  end
+
   def table(header, rows, show_count = true, tag = nil)
     if tag
       tag = 'th_' + tag.to_s

@@ -221,6 +221,22 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def position_name
+    if self.position
+      self.position.name
+    else
+      nil
+    end
+  end
+
+  def supervisor_name
+    if self.supervisor
+      self.supervisor.display_name
+    else
+      nil
+    end
+  end
+
   def return_person_area_from_connect
     return nil unless self.connect_user_id
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
