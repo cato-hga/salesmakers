@@ -11,10 +11,11 @@ User.find_by_email('retailingw@retaildoneright.com').make_current
 require "#{seeds}/clients"
 require "#{seeds}/projects"
 require "#{seeds}/connect_salesregion_ids"
+require "#{seeds}/areas_groupme_groups"
 
-# require "#{seeds}/person"
-# require "#{seeds}/employee_ids"
-# require "#{seeds}/employments"
+require "#{seeds}/person"
+require "#{seeds}/employee_ids"
+require "#{seeds}/employments"
 
 require "#{seeds}/technology_service_providers"
 require "#{seeds}/line_states"
@@ -22,6 +23,3 @@ require "#{seeds}/lines"
 require "#{seeds}/models_and_manufacturers"
 require "#{seeds}/device_states"
 require "#{seeds}/devices"
-#Remove the next two for proper import
-require "#{seeds}/employee_ids"
-require "#{seeds}/employments"
