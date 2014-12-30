@@ -30,7 +30,7 @@
           = device_link device
         %p
           %strong Model:
-          = device.model_name
+          = device.device_model_name
         - deployments = device.device_deployments
         - if deployments.count > 0 and not deployments.first.ended
           %p

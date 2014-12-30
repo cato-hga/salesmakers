@@ -19,9 +19,9 @@ RSpec.describe Device, :type => :model do
     end
   end
 
-  describe '#model_name' do
+  describe '#device_model_name' do
     it 'should return the device model name' do
-      expect(device.model_name).to eq(device_model.model_name)
+      expect(device.device_model_name).to eq(device_model.device_model_name)
     end
   end
 

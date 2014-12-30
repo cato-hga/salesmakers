@@ -33,7 +33,7 @@
         = device_image @device
       %p
         %strong Model:
-        = @device.model_name
+        = @device.device_model.device_model_name
       %p#line
         %strong Line:
         - if @device.line

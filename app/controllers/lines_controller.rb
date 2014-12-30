@@ -1,5 +1,7 @@
 class LinesController < ApplicationController
   before_action :set_line_and_line_state, only: [:remove_state, :add_state]
+  before_action :do_authorization, except: [:show]
+  after_action :verify_authorized
   
   def index
     @search = Line.search(params[:q])
@@ -8,6 +10,7 @@ class LinesController < ApplicationController
 
   def show
     @line = Line.find params[:id]
+    authorize @line
     @unlocked_line_states = LineState.where locked: false
   end
 
@@ -103,6 +106,10 @@ class LinesController < ApplicationController
   end
 
   private
+
+  def do_authorization
+    authorize Line.new
+  end
 
   def set_line_and_line_state
     @line = Line.find state_params[:id]

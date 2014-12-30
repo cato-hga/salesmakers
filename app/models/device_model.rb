@@ -5,7 +5,7 @@ class DeviceModel < ActiveRecord::Base
 
   belongs_to :device_manufacturer
 
-  def model_name
+  def device_model_name
     [device_manufacturer.name, name].join ' '
   end
 end

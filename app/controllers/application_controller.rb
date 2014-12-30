@@ -122,11 +122,12 @@ class ApplicationController < ActionController::Base
   helper_method :current_theme
 
   def permission_denied
-    flash[:error] = 'You are not authorized to perform that action'
-    unless request.env['HTTP_REFERER']
-      redirect_to '/'
-    else
-      redirect_to :back
-    end
+    # flash[:error] = 'You are not authorized to perform that action'
+    # unless request.env['HTTP_REFERER']
+    #   redirect_to '/'
+    # else
+    #   redirect_to :back
+    # end
+    render file: File.join(Rails.root, 'public/403.html'), status: 403, layout: false
   end
 end

@@ -17,7 +17,7 @@
             .large-4.columns
               - selected_model = receiver.device_model ? receiver.device_model.id : nil
               = label_tag 'device_model_id', 'Device Model'
-              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name', selected_model), prompt: 'Select A Device Model', class: (err_device_model ? 'error' : nil)
+              = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'device_model_name', selected_model), prompt: 'Select A Device Model', class: (err_device_model ? 'error' : nil)
               - if err_device_model
                 .error= receiver.errors[:device_model].join(', ')
             .large-4.columns
@@ -33,7 +33,7 @@
             = text_field_tag 'contract_end_date', nil, placeholder: 'mm/dd/yyyy', class: 'datepicker'
           .large-4.columns
             = label_tag 'device_model_id', 'Device Model'
-            = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'model_name'), prompt: 'Select A Device Model'
+            = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'device_model_name'), prompt: 'Select A Device Model'
           .large-4.columns
             = label_tag 'technology_service_provider_id', 'Service Provider'
             = select_tag 'technology_service_provider_id', options_from_collection_for_select(@service_providers, 'id', 'name'), prompt: 'Select a Service Provider'

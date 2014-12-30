@@ -1,8 +1,11 @@
 class DevicesController < ApplicationController
   before_action :set_models_and_providers, only: [:new, :create]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
+  before_action :do_authorization, except: [:show]
+  after_action :verify_authorized
 
   def index
+    authorize Device.new
     @search = Device.search(params[:q])
     @devices = @search.result.order('serial').page(params[:page])
   end
@@ -26,7 +29,7 @@ class DevicesController < ApplicationController
                add_methods: [
                    :csv_identifier,
                    :csv_serial,
-                   :model_name,
+                   :device_model_name,
                    :csv_line_identifier,
                    :assignee_name
                ]
@@ -36,6 +39,7 @@ class DevicesController < ApplicationController
 
   def show
     @device = Device.find params[:id]
+    authorize @device
     @unlocked_device_states = DeviceState.where locked: false
     @log_entries = LogEntry.where("(trackable_type = 'Device' AND trackable_id = #{@device.id}) OR (trackable_type = 'DeviceDeployment' AND referenceable_id = #{@device.id})").order('created_at DESC')
   end
@@ -169,6 +173,10 @@ class DevicesController < ApplicationController
   end
 
   private
+
+  def do_authorization
+    authorize Device.new
+  end
 
   def receive_params
     params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []

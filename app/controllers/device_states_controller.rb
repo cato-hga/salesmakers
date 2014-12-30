@@ -61,5 +61,4 @@ class DeviceStatesController < ApplicationController
       redirect_to device_states_path
     end
   end
-
 end

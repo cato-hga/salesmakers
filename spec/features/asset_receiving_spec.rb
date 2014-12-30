@@ -14,7 +14,7 @@ RSpec.describe 'Asset Receiving' do
         subject {
           visit new_device_path
           fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
-          select device_model.model_name, from: 'Model'
+          select device_model.device_model_name, from: 'Model'
           select service_provider.name, from: 'Service Provider'
           find('.serial_field:first-of-type').set(serial)
           find('.line_id_field:first-of-type').set(line_identifier)
@@ -40,7 +40,7 @@ RSpec.describe 'Asset Receiving' do
         it 'should accept a single asset with multiple (blank) rows', js: true do
           visit new_device_path
           fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
-          select device_model.model_name, from: 'Model'
+          select device_model.device_model_name, from: 'Model'
           select service_provider.name, from: 'Service Provider'
           find('.serial_field:first-of-type').set(serial)
           find('.line_id_field:first-of-type').set(line_identifier)
@@ -124,7 +124,7 @@ RSpec.describe 'Asset Receiving' do
         subject {
           visit new_device_path
           fill_in 'Contract End Date', with: contract_end_date.strftime('%m/%d/%Y')
-          select device_model.model_name, from: 'Model'
+          select device_model.device_model_name, from: 'Model'
           select service_provider.name, from: 'Service Provider'
           click_on 'Add'
           within('#assets') do
@@ -149,8 +149,12 @@ RSpec.describe 'Asset Receiving' do
         it 'creates all lines' do
           subject
           visit devices_path
-          expect(page).to have_content(line_identifier)
-          expect(page).to have_content(second_line_identifier)
+          formatted_identifier = '(' + line_identifier[0..2] + ') ' +
+              line_identifier[3..5] + '-' + line_identifier[6..9]
+          second_formatted_identifier = '(' + second_line_identifier[0..2] + ') ' +
+              second_line_identifier[3..5] + '-' + second_line_identifier[6..9]
+          expect(page).to have_content(formatted_identifier)
+          expect(page).to have_content(second_formatted_identifier)
         end
       end
 

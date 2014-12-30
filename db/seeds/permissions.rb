@@ -342,6 +342,14 @@ device_state_index = Permission.find_by key: 'device_state_index'
 device_state_create = Permission.find_by key: 'device_state_create'
 device_state_update = Permission.find_by key: 'device_state_update'
 device_state_destroy = Permission.find_by key: 'device_state_destroy'
+line_index = Permission.find_by key: 'line_index'
+line_create = Permission.find_by key: 'line_create'
+line_update = Permission.find_by key: 'line_update'
+line_destroy = Permission.find_by key: 'line_destroy'
+device_index = Permission.find_by key: 'device_index'
+device_create = Permission.find_by key: 'device_create'
+device_update = Permission.find_by key: 'device_update'
+device_destroy = Permission.find_by key: 'device_destroy'
 lines_and_devices_permissions << line_state_index if line_state_index
 lines_and_devices_permissions << line_state_create if line_state_create
 lines_and_devices_permissions << line_state_update if line_state_update
@@ -350,6 +358,14 @@ lines_and_devices_permissions << device_state_index if device_state_index
 lines_and_devices_permissions << device_state_create if device_state_create
 lines_and_devices_permissions << device_state_update if device_state_update
 lines_and_devices_permissions << device_state_destroy if device_state_destroy
+lines_and_devices_permissions << line_index if line_index
+lines_and_devices_permissions << line_create if line_create
+lines_and_devices_permissions << line_update if line_update
+lines_and_devices_permissions << line_destroy if line_destroy
+lines_and_devices_permissions << device_index if device_index
+lines_and_devices_permissions << device_create if device_create
+lines_and_devices_permissions << device_update if device_update
+lines_and_devices_permissions << device_destroy if device_destroy
 
 for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << department_index

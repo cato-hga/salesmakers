@@ -307,11 +307,13 @@ class Device < ActiveRecord::Base
   end
 
   def manufacturer_name
-    device_manufacturer.name
+    return nil unless self.device_manufacturer
+    self.device_manufacturer.name
   end
 
-  def model_name
-    device_model.model_name
+  def device_model_name
+    return '' unless self.device_model
+    self.device_model.device_model_name
   end
 
   def line_identifier

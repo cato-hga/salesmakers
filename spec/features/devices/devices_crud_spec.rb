@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Devices CRUD actions' do
-
   describe 'GET index' do
     it 'should have a link to add new devices' do
       visit devices_path
@@ -25,7 +24,7 @@ describe 'Devices CRUD actions' do
         expect(page).to have_content(device.identifier)
       end
       it 'should have the devices model' do
-        expect(page).to have_content(device.model_name)
+        expect(page).to have_content(device.device_model_name)
       end
       it 'should show log entries' do
         expect(page).to have_css('.history')
