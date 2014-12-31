@@ -13,8 +13,8 @@ headquarters = Project.create name: 'RBD Company HQ',
                            client: rbh
 sprint_retail = Project.create name: 'Sprint Retail',
                            client: sprint
-rs_retail = Project.create name: 'Rosetta Stone Retail',
-                           client: rs
+# rs_retail = Project.create name: 'Rosetta Stone Retail',
+#                            client: rs
 
 vrr = AreaType.create name: 'Vonage Retail Region',
                       project: vonage_retail
