@@ -209,6 +209,8 @@ profiles_permission_group = PermissionGroup.create name: 'Profiles'
 q_and_a_permission_group = PermissionGroup.create name: 'Questions and Answers'
 posts_permission_group = PermissionGroup.create name: 'Posts and Posting'
 poll_questions_permission_group = PermissionGroup.create name: 'Poll Questions'
+lines_permission_group = PermissionGroup.create name: 'Lines'
+devices_permission_group = PermissionGroup.create name: 'Devices'
 
 person_index = Permission.create key: 'person_index',
                                  description: 'can view list of people',
@@ -295,6 +297,73 @@ wall_post_promote = Permission.create key: 'wall_post_promote',
                                       description: "can change wall post's posted wall",
                                       permission_group: posts_permission_group
 
+line_state_index = Permission.create key: 'line_state_index',
+                                     description: 'can view line states',
+                                     permission_group: lines_permission_group
+line_state_create = Permission.create key: 'line_state_create',
+                                       description: 'can create line states',
+                                       permission_group: lines_permission_group
+line_state_update = Permission.create key: 'line_state_update',
+                                       description: 'can edit line states',
+                                       permission_group: lines_permission_group
+line_state_destroy = Permission.create key: 'line_state_destroy',
+                                        description: 'can delete line states',
+                                        permission_group: lines_permission_group
+device_state_index = Permission.create key: 'device_state_index',
+                                        description: 'can view device states',
+                                        permission_group: devices_permission_group
+device_state_create = Permission.create key: 'device_state_create',
+                                         description: 'can create device states',
+                                         permission_group: devices_permission_group
+device_state_update = Permission.create key: 'device_state_update',
+                                         description: 'can edit device states',
+                                         permission_group: devices_permission_group
+device_state_destroy = Permission.create key: 'device_state_destroy',
+                                          description: 'can delete device states',
+                                          permission_group: devices_permission_group
+line_index = Permission.create key: 'line_index',
+                                description: 'can view lines',
+                                permission_group: lines_permission_group
+line_create = Permission.create key: 'line_create',
+                                 description: 'can create lines',
+                                 permission_group: lines_permission_group
+line_update = Permission.create key: 'line_update',
+                                 description: 'can edit lines',
+                                 permission_group: lines_permission_group
+line_destroy = Permission.create key: 'line_destroy',
+                                  description: 'can delete lines',
+                                  permission_group: lines_permission_group
+device_index = Permission.create key: 'device_index',
+                                  description: 'can view devices',
+                                  permission_group: devices_permission_group
+device_create = Permission.create key: 'device_create',
+                                   description: 'can create devices',
+                                   permission_group: devices_permission_group
+device_update = Permission.create key: 'device_update',
+                                   description: 'can edit devices',
+                                   permission_group: devices_permission_group
+device_destroy = Permission.create key: 'device_destroy',
+                                    description: 'can delete devices',
+                                    permission_group: devices_permission_group
+
+lines_and_devices_permissions = Array.new
+lines_and_devices_permissions << line_state_index if line_state_index
+lines_and_devices_permissions << line_state_create if line_state_create
+lines_and_devices_permissions << line_state_update if line_state_update
+lines_and_devices_permissions << line_state_destroy if line_state_destroy
+lines_and_devices_permissions << device_state_index if device_state_index
+lines_and_devices_permissions << device_state_create if device_state_create
+lines_and_devices_permissions << device_state_update if device_state_update
+lines_and_devices_permissions << device_state_destroy if device_state_destroy
+lines_and_devices_permissions << line_index if line_index
+lines_and_devices_permissions << line_create if line_create
+lines_and_devices_permissions << line_update if line_update
+lines_and_devices_permissions << line_destroy if line_destroy
+lines_and_devices_permissions << device_index if device_index
+lines_and_devices_permissions << device_create if device_create
+lines_and_devices_permissions << device_update if device_update
+lines_and_devices_permissions << device_destroy if device_destroy
+
 #TODO: Give some permission to update others
 
 for widget in widgets do
@@ -333,39 +402,7 @@ for position in ops_and_execs_positions do
   position.permissions << poll_question_show
 end
 
-lines_and_devices_permissions = Array.new
-line_state_index = Permission.find_by key: 'line_state_index'
-line_state_create = Permission.find_by key: 'line_state_create'
-line_state_update = Permission.find_by key: 'line_state_update'
-line_state_destroy = Permission.find_by key: 'line_state_destroy'
-device_state_index = Permission.find_by key: 'device_state_index'
-device_state_create = Permission.find_by key: 'device_state_create'
-device_state_update = Permission.find_by key: 'device_state_update'
-device_state_destroy = Permission.find_by key: 'device_state_destroy'
-line_index = Permission.find_by key: 'line_index'
-line_create = Permission.find_by key: 'line_create'
-line_update = Permission.find_by key: 'line_update'
-line_destroy = Permission.find_by key: 'line_destroy'
-device_index = Permission.find_by key: 'device_index'
-device_create = Permission.find_by key: 'device_create'
-device_update = Permission.find_by key: 'device_update'
-device_destroy = Permission.find_by key: 'device_destroy'
-lines_and_devices_permissions << line_state_index if line_state_index
-lines_and_devices_permissions << line_state_create if line_state_create
-lines_and_devices_permissions << line_state_update if line_state_update
-lines_and_devices_permissions << line_state_destroy if line_state_destroy
-lines_and_devices_permissions << device_state_index if device_state_index
-lines_and_devices_permissions << device_state_create if device_state_create
-lines_and_devices_permissions << device_state_update if device_state_update
-lines_and_devices_permissions << device_state_destroy if device_state_destroy
-lines_and_devices_permissions << line_index if line_index
-lines_and_devices_permissions << line_create if line_create
-lines_and_devices_permissions << line_update if line_update
-lines_and_devices_permissions << line_destroy if line_destroy
-lines_and_devices_permissions << device_index if device_index
-lines_and_devices_permissions << device_create if device_create
-lines_and_devices_permissions << device_update if device_update
-lines_and_devices_permissions << device_destroy if device_destroy
+
 
 for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
   position.permissions << department_index
