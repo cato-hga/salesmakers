@@ -323,20 +323,22 @@ describe ApplicationHelper do
   end
 
   describe 'date and time display' do
+    let(:original_time) { Time.new(2015, 06, 01, 12, 0, 0) }
     it 'is correct on the same day' do
-      datetime = Time.now - 3.hours
+      datetime = original_time - 3.hours
+      allow(Time).to receive(:now).and_return(original_time)
       output = helper.friendly_datetime(datetime)
       expect(output).to eq(datetime.strftime('%l:%M%P %Z'))
     end
 
     it 'is correct during the same year' do
-      datetime = Time.now - 4.months - 1.day
+      datetime = original_time - 4.months - 1.day
       output = helper.friendly_datetime(datetime)
       expect(output).to eq(datetime.strftime('%m/%d %l:%M%P %Z'))
     end
 
     it 'displays the full string if not during this year' do
-      datetime = Time.now - 1.year - 2.months - 3.days
+      datetime = original_time - 1.year - 2.months - 3.days
       output = helper.friendly_datetime(datetime)
       expect(output).to eq(datetime.strftime('%m/%d/%Y %l:%M%P %Z'))
     end
