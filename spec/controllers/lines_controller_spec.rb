@@ -73,16 +73,6 @@ describe LinesController do
     end
   end
 
-  # describe 'GET swap' do
-  #   before { get :swap }
-  #   it 'should return a success status' do
-  #     expect(response).to be_success
-  #   end
-  #   it 'should render the index template' do
-  #     expect(response).to render_template(:swap)
-  #   end
-  # end
-
   describe 'PATCH update' do
     let!(:old_line) { create :line }
     let(:new_line) { create :line, identifier: '5555555555' }

@@ -42,33 +42,4 @@ describe 'Lines CRUD actions' do
       expect(page).to have_content(device_deployment.person.display_name)
     end
   end
-
-  # describe 'PATCH update' do
-  #   let(:old_line) { create :line }
-  #   let!(:new_line) { create :line, identifier: '5555555555' }
-  #   let(:device) { create :device, line: old_line }
-  #   subject {
-  #     visit swap_lines_path
-  #     within('#lines') do
-  #       within all('.row').first do
-  #         find('.serial_field').set(device.serial)
-  #         find('.line_field').set(new_line.identifier)
-  #       end
-  #     end
-  #     click_on 'Swap'
-  #   }
-  #   it 'swaps the line' do
-  #     subject
-  #     device.reload
-  #     expect(device.line).to eq(new_line)
-  #     expect(device.line).not_to eq(old_line)
-  #   end
-  #
-  #   it 'redirects to the lines index page' do
-  #     subject
-  #     expect(page).to have_content('(555) 555-5555')
-  #     expect(page).not_to have_content('New Line')
-  #   end
-  # end
-
 end
