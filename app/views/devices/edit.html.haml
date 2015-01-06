@@ -2,11 +2,11 @@
 
 .widget
   .inner
-    = form_tag edit_device_path do
+    = form_tag edit_device_path, method: :post do
       = label_tag 'Serial'
-      = text_field_tag 'serial'
+      = text_field_tag 'serial', @device.serial
       = label_tag 'Device Identifier'
-      = text_field_tag 'device_identifier'
+      = text_field_tag 'device_identifier', @device.identifier
       = label_tag 'device_model_id', 'Device Model'
-      = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'device_model_name')
+      = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'device_model_name', @device.device_model.id)
       = submit_tag 'Finish', class: 'button'

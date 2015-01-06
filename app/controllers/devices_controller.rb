@@ -92,6 +92,7 @@ class DevicesController < ApplicationController
 
   def edit
     @device = Device.find params[:id]
+    @device_model = @device.device_model
   end
 
   def update
