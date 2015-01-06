@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  before_action :set_models_and_providers, only: [:new, :create]
+  before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
@@ -91,6 +91,7 @@ class DevicesController < ApplicationController
   end
 
   def edit
+    @device = Device.find params[:id]
   end
 
   def update

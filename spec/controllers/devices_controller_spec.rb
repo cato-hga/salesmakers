@@ -257,4 +257,19 @@ describe DevicesController do
     end
   end
 
+  describe 'GET edit' do
+    let(:device) { create :device }
+    before(:each) do
+      get :edit,
+          id: device.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:edit)
+    end
+  end
 end

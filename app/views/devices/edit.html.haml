@@ -1,3 +1,12 @@
-- title 'Edit Device Attributes'
+- title 'Edit Attributes for ' + @device.serial
 
-- form_for
+.widget
+  .inner
+    = form_tag edit_device_path do
+      = label_tag 'Serial'
+      = text_field_tag 'serial'
+      = label_tag 'Device Identifier'
+      = text_field_tag 'device_identifier'
+      = label_tag 'device_model_id', 'Device Model'
+      = select_tag 'device_model_id', options_from_collection_for_select(@device_models, 'id', 'device_model_name')
+      = submit_tag 'Finish', class: 'button'
