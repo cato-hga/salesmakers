@@ -212,6 +212,5 @@ describe 'Devices NON-CRUD actions' do
     #   expect(page).to have_content '123456'
     #   expect(page).to have_content 'History' #Double check that it redirects
     # end
-
   end
 end
