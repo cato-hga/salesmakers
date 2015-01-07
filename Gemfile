@@ -77,6 +77,7 @@ group :test do
   gem 'shoulda-matchers', '2.6.2', require: false # Easy model validation test methods
   gem 'webmock', '1.20.0' # Stubbing of HTTP requests
   gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests
+  gem 'codeclimate-test-reporter', require: nil #codeclimate test coverage
 end
 
 group :development, :test do
