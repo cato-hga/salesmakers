@@ -2,11 +2,11 @@
 %html
   %head
     %title
-      RBD Connect -
+      SalesMakers -
       = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
     = stylesheet_link_tag 'application', params[:controller], media: 'all'
     = javascript_include_tag 'application', params[:controller]
-    = favicon_link_tag '/favicon.ico'
+    = favicon_link_tag '/favicon.ico?v=2'
     = csrf_meta_tags
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
 
