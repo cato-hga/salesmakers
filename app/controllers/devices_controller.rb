@@ -96,6 +96,8 @@ class DevicesController < ApplicationController
   end
 
   def update
+    @device = Device.find params[:id]
+
   end
 
   def write_off

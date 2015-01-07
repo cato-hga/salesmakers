@@ -2,7 +2,7 @@
 
 .widget
   .inner
-    = form_tag edit_device_path, method: :patch do
+    = form_tag devices_path, method: :patch do
       = label_tag 'Serial'
       = text_field_tag 'serial', @device.serial
       = label_tag 'Device Identifier'
