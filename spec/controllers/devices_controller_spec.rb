@@ -268,8 +268,30 @@ describe DevicesController do
       expect(response).to be_success
     end
 
-    it 'renders the index template' do
+    it 'renders the edit template' do
       expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'POST edit' do
+    let(:device) { create :device }
+    before(:each) do
+      patch :edit,
+            id: device.id,
+            serial: '123456'
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the show template' do
+      expect(response).to render_template(:show)
+    end
+
+    it 'updates the device with new information' do
+      device.reload
+      expect(device.serial).to eq('123456')
     end
   end
 end

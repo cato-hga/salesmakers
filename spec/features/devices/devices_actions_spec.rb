@@ -194,4 +194,24 @@ describe 'Devices NON-CRUD actions' do
       expect(page).not_to have_content(device.serial)
     end
   end
+
+  describe 'edit' do
+    let(:device) { create :device }
+    before {
+      visit device_path device
+      click_on 'Edit'
+    }
+
+    it 'has the correct device' do
+      expect(page).to have_content(device.serial)
+    end
+
+    it 'redirects to device#show upon successful edit' do
+      fill_in 'serial', with: '123456'
+      click_on 'Finish'
+      expect(page).to have_content '123456'
+      expect(page).to have_content 'History' #Double check that it redirects
+    end
+
+  end
 end
