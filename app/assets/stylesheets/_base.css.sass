@@ -53,7 +53,17 @@
                 line-height: 2em
                 height: 2em
       .divider
-        border-top: 1px solid $rbd_red
+        border-top: 1px solid $sm_blue
+
+.container
+  a
+    color: $sm_dark_blue
+    &.button
+      color: white
+  th
+    a
+      color: $sm_blue
+
 
 .inner-wrap,
 p
@@ -64,6 +74,8 @@ p
 .widget > .inner
   box-shadow: $shadow
   margin-bottom: $spacing
+  &.success
+    color: black
 
 .avatar
   border: 3px solid #e5e5e5
@@ -96,7 +108,7 @@ p
 
 nav.top-bar,
 nav.tab-bar
-  border-bottom: 2px solid $rbd_red
+  border-bottom: 2px solid $sm_blue
 
 .full-width,
 table
@@ -172,20 +184,20 @@ a.close
   display: inline-block
 
 .ok
-  background-color: #43ac6a
+  background-color: $sm_green
   color: white
   display: inline-block
 
 .warning
-  background-color: yellow
+  background-color: $sm_red
   color: black
   display: inline-block
 
 .incomplete .meter
-  background-color: yellow
+  background-color: $sm_yellow
 
 .bad
-  background-color: $rbd_red
+  background-color: $sm_red
   color: white
   display: inline-block
 
@@ -223,7 +235,7 @@ a.close
     // max-height: $widget_initial_height;
     overflow-y: scroll
     .groupme_message
-      border-bottom: 2px dotted $rbd_red
+      border-bottom: 2px dotted $sm_blue
       padding: $spacing 0
       img.groupme_avatar
         vertical-align: top
@@ -243,7 +255,7 @@ footer
     width: 100%
     height: 45px
     background-color: white
-    border-top: 2px solid $rbd_red
+    border-top: 2px solid $sm_blue
     z-index: 1004
     nav.top-bar
       padding-top: 0
@@ -309,7 +321,7 @@ body
     .call-year
       width: 100%
       font-size: 1.5em
-      background-color: $rbd-red
+      background-color: $sm_blue
       color: white
       text-transform: uppercase
       font-weight: bold
@@ -332,7 +344,7 @@ body
     .call-time
       width: 100%
       font-size: 1.1em
-      background-color: $rbd-red
+      background-color: $sm_blue
       color: white
       text-transform: uppercase
       font-weight: bold
@@ -364,7 +376,7 @@ article
   margin-top: $spacing
 
 .question .inner
-  background-color: $rbd_red
+  background-color: $sm_blue
   color: white
   border: 5px solid white
 
@@ -470,7 +482,7 @@ header
   margin-right: $spacing
   i
     font-size: xx-large
-    color: $rbd_red
+    color: $sm_blue
 
 .right-off-canvas-menu
   background-color: white
@@ -671,14 +683,14 @@ table
 
 form
   div.error
-    color: $rbd_red
+    color: $sm_blue
     margin-left: ($spacing / 2)
     margin-top: ($spacing / 2)
     font-size: small
   select.error,
   input.error
-    border: 1px solid $rbd_red
-    color: $rbd_red
+    border: 1px solid $sm_blue
+    color: $sm_blue
   #assets
     div.error
       margin-bottom: ($spacing / 2)

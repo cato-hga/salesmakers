@@ -58,10 +58,10 @@ $font-weight-bold: bold;
 // $default-float: left;
 
 // We use these as default colors throughout
-$primary-color: #d62121;
+$primary-color: #00a9e0;
 $secondary-color: #ccc;
-$alert-color: #f6d600;
-$success-color: #00dc62;
+$alert-color: #d50032;
+$success-color: #84bd00;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
 
@@ -254,7 +254,7 @@ $large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
 // We use these to control text style.
 // $alert-font-weight: $font-weight-normal;
 // $alert-font-size: rem-calc(13);
-$alert-font-color: #000;
+$alert-font-color: white;
 // $alert-font-color-alt: scale-color($secondary-color, $lightness: -66%);
 
 // We use this for close hover effect.
@@ -792,7 +792,7 @@ $tabbar-menu-icon-color: $primary-color;
 
 // We use these for the pagination anchor links
 // $pagination-link-pad: rem-calc(1 10 1);
-$pagination-link-font-color: $primary-color;
+$pagination-link-font-color: #00769d;
 // $pagination-link-active-bg: scale-color(#fff, $lightness: -10%);
 
 // We use these for disabled anchor links
@@ -1216,7 +1216,7 @@ $topbar-dropdown-toggle-color: black;
 
 // Set the link colors and styles for top-level nav
  $topbar-link-color: black;
- $topbar-link-color-hover: $primary-color;
+ $topbar-link-color-hover: #00769d;
 // $topbar-link-color-active: #fff;
 // $topbar-link-color-active-hover: #fff;
 // $topbar-link-weight: $font-weight-normal;
