@@ -216,8 +216,9 @@ describe 'Devices NON-CRUD actions' do
     it 'creates log entries' do
       fill_in 'serial', with: '123456'
       click_on 'Finish'
-      save_and_open_page
-      expect(page).to have_content 'Log Entry' #Needs to be changed
+      within('.history') do
+        expect(page).to have_content 'Updated'
+      end
     end
   end
 end
