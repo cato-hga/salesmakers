@@ -278,20 +278,20 @@ describe DevicesController do
     before(:each) do
       patch :update,
             id: device.id,
-            serial: '123456'
-    end
+            serial: '123456',
+            device_identifier: 'B56691513608935569',
+            device_model_id: device.device_model_id
 
-    it 'returns a success status' do
-      expect(response).to be_success
     end
 
     it 'renders the show template' do
-      expect(response).to render_template(:show)
+      expect(response).to redirect_to(device)
     end
 
     it 'updates the device with new information' do
       device.reload
       expect(device.serial).to eq('123456')
+      expect(device.identifier).to eq('B56691513608935569')
     end
   end
 end

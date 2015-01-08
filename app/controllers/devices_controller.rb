@@ -99,9 +99,12 @@ class DevicesController < ApplicationController
     @device = Device.find params[:id]
     serial = update_params[:serial]
     identifier = update_params[:device_identifier]
-    device_model = update_params[:device_model_id]
-    @device.update_device serial, identifier, device_model
-    @device.save
+    device_model_id = update_params[:device_model_id]
+    Device.update @device.id, serial: serial, identifier: identifier, device_model_id: device_model_id
+    if @device.save
+      redirect_to @device
+      flash[:notice] = 'Device Updated!'
+    end
   end
 
   def write_off

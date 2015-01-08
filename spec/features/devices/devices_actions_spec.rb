@@ -196,7 +196,7 @@ describe 'Devices NON-CRUD actions' do
   end
 
   describe 'edit' do
-    let(:device) { create :device }
+    let!(:device) { create :device }
     before {
       visit device_path device
       click_on 'Edit'
@@ -210,7 +210,7 @@ describe 'Devices NON-CRUD actions' do
       fill_in 'serial', with: '123456'
       click_on 'Finish'
       expect(page).to have_content '123456'
-      expect(page).to have_content 'History' #Double check that it redirects
+      expect(page).to have_content 'Device Updated!' #Double check that it redirects
     end
   end
 end
