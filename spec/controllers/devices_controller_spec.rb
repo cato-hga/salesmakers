@@ -275,7 +275,7 @@ describe DevicesController do
 
   describe 'PATCH update' do
     let(:device) { create :device }
-    before(:each) do
+    subject do
       patch :update,
             id: device.id,
             serial: '123456',
@@ -285,13 +285,19 @@ describe DevicesController do
     end
 
     it 'renders the show template' do
+      subject
       expect(response).to redirect_to(device)
     end
 
     it 'updates the device with new information' do
+      subject
       device.reload
       expect(device.serial).to eq('123456')
       expect(device.identifier).to eq('B56691513608935569')
+    end
+
+    it 'creates log entries' do
+      expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
 end

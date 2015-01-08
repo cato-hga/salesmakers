@@ -102,6 +102,7 @@ class DevicesController < ApplicationController
     device_model_id = update_params[:device_model_id]
     Device.update @device.id, serial: serial, identifier: identifier, device_model_id: device_model_id
     if @device.save
+      @current_person.log? 'update', @device
       redirect_to @device
       flash[:notice] = 'Device Updated!'
     end

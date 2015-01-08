@@ -212,5 +212,12 @@ describe 'Devices NON-CRUD actions' do
       expect(page).to have_content '123456'
       expect(page).to have_content 'Device Updated!' #Double check that it redirects
     end
+
+    it 'creates log entries' do
+      fill_in 'serial', with: '123456'
+      click_on 'Finish'
+      save_and_open_page
+      expect(page).to have_content 'Log Entry' #Needs to be changed
+    end
   end
 end
