@@ -206,11 +206,11 @@ describe 'Devices NON-CRUD actions' do
       expect(page).to have_content(device.serial)
     end
 
-    # it 'redirects to device#show upon successful edit' do
-    #   fill_in 'serial', with: '123456'
-    #   click_on 'Finish'
-    #   expect(page).to have_content '123456'
-    #   expect(page).to have_content 'History' #Double check that it redirects
-    # end
+    it 'redirects to device#show upon successful edit' do
+      fill_in 'serial', with: '123456'
+      click_on 'Finish'
+      expect(page).to have_content '123456'
+      expect(page).to have_content 'History' #Double check that it redirects
+    end
   end
 end

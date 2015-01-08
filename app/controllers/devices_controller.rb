@@ -97,7 +97,11 @@ class DevicesController < ApplicationController
 
   def update
     @device = Device.find params[:id]
-
+    serial = update_params[:serial]
+    identifier = update_params[:device_identifier]
+    device_model = update_params[:device_model_id]
+    @device.update_device serial, identifier, device_model
+    @device.save
   end
 
   def write_off
@@ -184,6 +188,10 @@ class DevicesController < ApplicationController
 
   def receive_params
     params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []
+  end
+
+  def update_params
+    params.permit :serial, :device_identifier, :device_model_id
   end
 
   def state_params

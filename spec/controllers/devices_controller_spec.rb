@@ -273,10 +273,10 @@ describe DevicesController do
     end
   end
 
-  describe 'POST edit' do
+  describe 'PATCH update' do
     let(:device) { create :device }
     before(:each) do
-      patch :edit,
+      patch :update,
             id: device.id,
             serial: '123456'
     end
@@ -285,13 +285,13 @@ describe DevicesController do
       expect(response).to be_success
     end
 
-    # it 'renders the show template' do
-    #   expect(response).to render_template(:show)
-    # end
-    #
-    # it 'updates the device with new information' do
-    #   device.reload
-    #   expect(device.serial).to eq('123456')
-    # end
+    it 'renders the show template' do
+      expect(response).to render_template(:show)
+    end
+
+    it 'updates the device with new information' do
+      device.reload
+      expect(device.serial).to eq('123456')
+    end
   end
 end
