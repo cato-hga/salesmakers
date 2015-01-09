@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe TwilioController do
 
-  describe 'POST incoming' do
+  describe 'POST incoming_voice' do
     before { post :incoming_voice, 'From' => '+18635214572' }
 
     it 'returns a success status' do
