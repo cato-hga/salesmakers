@@ -17,6 +17,17 @@ class Gateway
                                     body: text
   end
 
+  def send_text_to_person(person, text, sender)
+    phone = person.mobile_phone
+    return nil unless phone
+    formatted_number = format_number phone
+    response = @client.account.messages.create to: formatted_number,
+                                               from: @from,
+                                               body: text
+    sender.log? 'send_sms', person
+    response
+  end
+
   def call_with_message(number, text)
     formatted_number = format_number number
     encoded_text = URI::encode text
