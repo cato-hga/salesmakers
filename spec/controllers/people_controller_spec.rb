@@ -117,7 +117,7 @@ describe PeopleController do
 
     it "redirects to the person's page" do
       post :create_sms_message, id: person.id, contact_message: 'Test message'
-      expect(response).to redirect_to(person_path(person))
+      expect(response).to redirect_to(about_person_path(person))
     end
   end
 end
