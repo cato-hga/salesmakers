@@ -33,7 +33,7 @@ FactoryGirl.define do
     personal_email 'retailingw@retaildoneright.com'
     association :position, factory: :administrator_position
     connect_user_id '2C908AA22CBD1292012CBD1735100034'
-    mobile_phone '8005551212'
+    mobile_phone '8635214572'
 
     after(:create) do |person|
       permissions = Array.new

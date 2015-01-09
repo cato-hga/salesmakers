@@ -137,7 +137,16 @@ module ApplicationHelper
   end
 
   def person_link(person, classes = 'person_link')
-    link_to NameCase(person.display_name), about_person_path(person), class: classes
+    link = link_to NameCase(person.display_name), about_person_path(person), class: classes
+    if person.mobile_phone and
+        not person.mobile_phone.include? '8005551212'
+      link = link + contact_link(person)
+    end
+    link
+  end
+
+  def contact_link(person)
+    link_to icon('megaphone'), new_sms_message_person_path(person), class: [:send_contact]
   end
 
   def person_sales_link(person, classes = '')

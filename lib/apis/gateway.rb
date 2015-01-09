@@ -24,7 +24,12 @@ class Gateway
     response = @client.account.messages.create to: formatted_number,
                                                from: @from,
                                                body: text
-    sender.log? 'send_sms', person
+    sender.log? 'send_sms',
+                person,
+                nil,
+                nil,
+                nil,
+                text
     response
   end
 

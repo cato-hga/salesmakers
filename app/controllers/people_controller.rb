@@ -1,6 +1,8 @@
+require 'apis/gateway'
+
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :search, :csv, :org_chart, :about, :show, :sales]
-  after_action :verify_policy_scoped, except: [:index, :search, :csv, :org_chart, :about, :show]
+  after_action :verify_authorized, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show, :sales]
+  after_action :verify_policy_scoped, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show]
   require 'apis/mojo'
 
   def index
@@ -69,6 +71,18 @@ class PeopleController < ProtectedController
     @profile_educations = @profile.profile_educations
   end
 
+  def new_sms_message
+    @person = Person.find params[:id]
+  end
+
+  def create_sms_message
+    person = Person.find params[:id]
+    message = sms_message_params[:contact_message]
+    gateway = Gateway.new
+    gateway.send_text_to_person person, message, @current_person
+    redirect_to person_path(person)
+  end
+
   def update
     @person = policy_scope(Person).find params[:id]
     @profile = @person.profile
@@ -99,6 +113,10 @@ class PeopleController < ProtectedController
     if @person == @current_person
       params.require(:person).permit :personal_email, :mobile_phone, :home_phone, :office_phone
     end
+  end
+
+  def sms_message_params
+    params.permit :contact_message
   end
 
   def image_params
