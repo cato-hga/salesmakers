@@ -351,10 +351,6 @@ class Person < ActiveRecord::Base
                          trackable: trackable,
                          referenceable: referenceable,
                          comment: comment
-    puts entry.valid?
-    unless entry.valid?
-      puts entry.errors.full_messages.join(', ')
-    end
     entry.created_at = created_at if created_at
     entry.updated_at = updated_at if updated_at
     entry.save ? true : false
