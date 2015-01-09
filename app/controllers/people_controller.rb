@@ -80,7 +80,8 @@ class PeopleController < ProtectedController
     message = sms_message_params[:contact_message]
     gateway = Gateway.new
     gateway.send_text_to_person person, message, @current_person
-    redirect_to person_path(person)
+    flash[:notice] = 'Message successfully sent.'
+    redirect_to about_person_path(person)
   end
 
   def update
