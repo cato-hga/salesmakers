@@ -4,7 +4,7 @@ class TwilioController < ApplicationController
   after_action :set_header
   skip_before_action :verify_authenticity_token
 
-  def incoming
+  def incoming_voice
     calling_number = params['From']
     calling_number = calling_number.sub! '+1', ''
     response = Twilio::TwiML::Response.new do |r|
@@ -16,7 +16,7 @@ class TwilioController < ApplicationController
 
   private
 
-  def incoming_params
+  def incoming_voice_params
     params.permit 'From'
   end
 
