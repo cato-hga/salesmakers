@@ -273,25 +273,31 @@ describe DevicesController do
     end
   end
 
-  describe 'POST edit' do
+  describe 'PATCH update' do
     let(:device) { create :device }
-    before(:each) do
-      patch :edit,
+    subject do
+      patch :update,
             id: device.id,
-            serial: '123456'
+            serial: '123456',
+            device_identifier: 'B56691513608935569',
+            device_model_id: device.device_model_id
+
     end
 
-    it 'returns a success status' do
-      expect(response).to be_success
+    it 'renders the show template' do
+      subject
+      expect(response).to redirect_to(device)
     end
 
-    # it 'renders the show template' do
-    #   expect(response).to render_template(:show)
-    # end
-    #
-    # it 'updates the device with new information' do
-    #   device.reload
-    #   expect(device.serial).to eq('123456')
-    # end
+    it 'updates the device with new information' do
+      subject
+      device.reload
+      expect(device.serial).to eq('123456')
+      expect(device.identifier).to eq('B56691513608935569')
+    end
+
+    it 'creates log entries' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
   end
 end

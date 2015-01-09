@@ -29,14 +29,10 @@ RSpec.configure do |config|
   
   config.include FactoryGirl::Syntax::Methods
 
-  #Allows us to set focus: true on tests
-  config.filter_run :focus => true
-  config.run_all_when_everything_filtered = true
-
   config.before(:suite) do
     begin
-      #DatabaseCleaner.clean_with :truncation
-      #FactoryGirl.lint
+      DatabaseCleaner.clean_with :truncation
+      FactoryGirl.lint
     ensure
       DatabaseCleaner.clean_with :truncation
     end

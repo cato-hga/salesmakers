@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :device do
-    identifier '12345'
+    identifier '123456'
     serial 'A56691513608935569'
     device_model
   end

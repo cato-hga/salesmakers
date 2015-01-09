@@ -353,4 +353,10 @@ class Device < ActiveRecord::Base
     self.identifier = self.identifier.
         gsub(/[^0-9A-Za-z]/, '') unless self.identifier.blank?
   end
+
+  def update_device(serial, identifier, device_model_id)
+    @device.serial = serial
+    @device.identifier = identifier
+    @device.device_model_id = device_model_id
+  end
 end
