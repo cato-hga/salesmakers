@@ -13,6 +13,10 @@ class ConnectSprintSale < RealConnectModel
              foreign_key: 'c_bpartner_location_id',
              primary_key: 'c_bpartner_location_id'
 
+  scope :today, -> {
+    where('date_sold = ?', Date.today)
+  }
+
   def location
     if self.connect_business_partner_location
       self.connect_business_partner_location

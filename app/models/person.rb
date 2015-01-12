@@ -399,6 +399,18 @@ class Person < ActiveRecord::Base
     LogEntry.where trackable_type: 'Person', trackable_id: self.id
   end
 
+  def sales_today
+    return 0 unless self.connect_user_id
+    if self.person_areas.count > 0 and
+        (self.person_areas.first.area.project.name == 'Vonage Retail' or
+            self.person_areas.first.area.project.name == 'Vonage Events')
+      ConnectOrder.sales.today.where(salesrep_id: self.connect_user_id).count
+    elsif self.person_areas.count > 0 and
+        self.person_areas.first.area.project.name == 'Sprint Retail'
+      ConnectSprintSale.today.where(ad_user_id: self.connect_user_id).count
+    end
+  end
+
   private
 
     def generate_display_name
