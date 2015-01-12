@@ -2,10 +2,24 @@ require 'rails_helper'
 
 describe 'Devices CRUD actions' do
   describe 'GET index' do
-    it 'should have a link to add new devices' do
+    let!(:device) { create :device }
+    let(:written_off) { create :device_state, name: 'Written Off', locked: true }
+    let(:written_off_device) { create :device, serial: '654321', identifier: '654321' }
+    before(:each) do
+      written_off_device.device_states << written_off
       visit devices_path
+    end
+    it 'should have a link to add new devices' do
       expect(page).to have_content('New')
     end
+
+    it 'has a list of devices' do
+      expect(page).to have_content(device.serial)
+    end
+
+    # it 'does not have written off devices, by default' do
+    #   expect(page).not_to have_content(written_off_device.serial)
+    # end
   end
 
   describe 'GET show' do
