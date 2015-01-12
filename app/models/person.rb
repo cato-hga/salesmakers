@@ -42,6 +42,9 @@ class Person < ActiveRecord::Base
   has_many :sales_performance_ranks, as: :rankable
   has_and_belongs_to_many :poll_question_choices
 
+  has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
+  has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
+
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
     parent.table[:mobile_phone]
   end
@@ -409,6 +412,10 @@ class Person < ActiveRecord::Base
         self.person_areas.first.area.project.name == 'Sprint Retail'
       ConnectSprintSale.today.where(ad_user_id: self.connect_user_id).count
     end
+  end
+
+  def sms_messages
+    self.to_sms_messages.merge(self.from_sms_messages).uniq
   end
 
   private

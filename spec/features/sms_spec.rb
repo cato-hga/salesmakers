@@ -47,6 +47,9 @@ describe 'SMS messaging' do
       click_on 'Send'
       visit about_person_path(person)
       expect(page).to have_content(message)
+      within '#communication_log' do
+        expect(page).to have_content(message)
+      end
     end
   end
 
