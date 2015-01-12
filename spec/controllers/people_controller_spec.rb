@@ -108,16 +108,24 @@ describe PeopleController do
 
   describe 'POST create_sms_message', vcr: true do
     let(:person) { Person.first }
+    let(:message) { 'Test message' }
 
     it 'creates a log entry' do
       expect{
-        post :create_sms_message, id: person.id, contact_message: 'Test message'
+        post :create_sms_message, id: person.id, contact_message: message
       }.to change(LogEntry, :count).by(1)
     end
 
     it "redirects to the person's page" do
-      post :create_sms_message, id: person.id, contact_message: 'Test message'
+      post :create_sms_message, id: person.id, contact_message: message
       expect(response).to redirect_to(about_person_path(person))
+    end
+
+    it 'creates an SMS message entry' do
+      expect {
+        post :create_sms_message, id: person.id, contact_message: message
+      }.to change(SMSMessage, :count).by(1)
+
     end
   end
 end

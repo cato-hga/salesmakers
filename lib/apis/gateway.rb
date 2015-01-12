@@ -30,6 +30,12 @@ class Gateway
                 nil,
                 nil,
                 text
+
+    SMSMessage.create from_num: unformat_number(@from),
+                      from_person_id: sender.id,
+                      to_num: unformat_number(phone),
+                      to_person_id: person.id,
+                      message: text
     response
   end
 
@@ -57,6 +63,11 @@ class Gateway
       formatted_number = '+' + formatted_number
     end
     formatted_number
+  end
+
+  def unformat_number(number)
+    unformatted_number = number.sub '+1', ''
+    unformatted_number.strip.gsub /[^0-9]/, ''
   end
 end
 
