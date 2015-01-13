@@ -1,4 +1,6 @@
-- title @person.display_name
+- page_title = @person.display_name.html_safe
+- page_title = page_title + contact_link(@person) if @person.mobile_phone
+- title page_title
 
 - if @person.areas.count > 0
   %ul.breadcrumbs
@@ -117,3 +119,7 @@
   .inner
     %h3 Log Entries
     = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
+.widget
+  .inner
+    %h3 Communication Log
+    = render partial: 'shared/communication_log', locals: { sms_messages: @sms_messages }

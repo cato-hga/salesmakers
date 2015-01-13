@@ -362,4 +362,11 @@ describe ApplicationHelper do
       expect(label).to have_content('N/A')
     end
   end
+
+  it 'shows a link to send an SMS to a person' do
+    person = Person.first
+    output = helper.person_link person
+    expect(output).to have_selector('a.send_contact')
+  end
+
 end

@@ -120,6 +120,8 @@ Rails.application.routes.draw do
     member do
       get 'about', to: 'people#about', as: :about
       get :sales, as: :sales
+      get :new_sms_message, as: :new_sms_message
+      post :create_sms_message, as: :create_sms_message
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
@@ -158,6 +160,9 @@ Rails.application.routes.draw do
 
   resources :text_posts, only: [:create, :show]
   resources :themes, except: [:destroy, :show]
+
+  post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
+  post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]

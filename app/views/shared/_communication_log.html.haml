@@ -1,0 +1,17 @@
+#communication_log
+  - header = header_row ['Type','From','To','Message']
+  - rows = Array.new
+  - for sms_message in sms_messages do
+    - in_out = sms_message.inbound? ? icon('arrow-left') : icon('arrow-right')
+    - type = in_out + ' SMS'
+    - if sms_message.from_person
+      - from = person_link sms_message.from_person
+    - else
+      - from = phone_link sms_message.from_num
+    - if sms_message.to_person
+      - to = person_link sms_message.to_person
+    - else
+      - to = phone_link sms_message.to_num
+    - message = sms_message.message
+    - rows << table_row([type, from, to, message])
+  = table header, rows

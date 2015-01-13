@@ -93,4 +93,38 @@ describe PeopleController do
     end
   end
 
+  describe 'GET new_sms_message' do
+    let(:person) { Person.first }
+    before { get :new_sms_message, id: person.id }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the new_sms_message template' do
+      expect(response).to render_template(:new_sms_message)
+    end
+  end
+
+  describe 'POST create_sms_message', vcr: true do
+    let(:person) { Person.first }
+    let(:message) { 'Test message' }
+
+    it 'creates a log entry' do
+      expect{
+        post :create_sms_message, id: person.id, contact_message: message
+      }.to change(LogEntry, :count).by(1)
+    end
+
+    it "redirects to the person's page" do
+      post :create_sms_message, id: person.id, contact_message: message
+      expect(response).to redirect_to(about_person_path(person))
+    end
+
+    it 'creates an SMS message entry' do
+      expect {
+        post :create_sms_message, id: person.id, contact_message: message
+      }.to change(SMSMessage, :count).by(1)
+    end
+  end
 end

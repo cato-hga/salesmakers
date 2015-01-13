@@ -1,0 +1,11 @@
+- from = @sms_message.from_person
+%p
+  = link_to from.display_name, person_url(from)
+  has just sent an SMS that appears to have started a new thread:
+%blockquote
+  = @sms_message.message
+- if from
+  = link_to 'Click here to reply.', new_sms_message_person_url(from)
+- if @last_24_hours
+  %h3 Last 24 Hours of Communication
+  = render partial: 'shared/communication_log', locals: { sms_messages: @last_24_hours }

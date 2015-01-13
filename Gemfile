@@ -50,6 +50,7 @@ gem 'active_shipping', '0.12.4' # Shipping integration for many carriers
 gem 'nilify_blanks', '1.1.0' # Change empty strings to nil before saving certain models
 gem 'exception_notification', '4.0.1' # Send notification of uncaught Exceptions to developers (us!)
 gem 'render_csv', '2.0.0' # CSV file rendering
+gem 'twilio-ruby', '3.14.2' # Twilio SMS and Voice library
 
 group :development do
   gem 'letter_opener', '1.2.0' # Open sent emails in a browser during development

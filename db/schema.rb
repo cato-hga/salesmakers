@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230163211) do
+ActiveRecord::Schema.define(version: 20150113154649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 20141230163211) do
   add_index "day_sales_counts", ["saleable_id", "saleable_type"], name: "index_day_sales_counts_on_saleable_id_and_saleable_type", using: :btree
 
   create_table "departments", force: true do |t|
-    t.string "name", null: false
-    t.boolean "corporate", null: false
+    t.string   "name"
+    t.boolean  "corporate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -304,7 +304,7 @@ ActiveRecord::Schema.define(version: 20141230163211) do
   create_table "people", force: true do |t|
     t.string   "first_name",                           null: false
     t.string   "last_name",                            null: false
-    t.string "display_name", null: false
+    t.string   "display_name"
     t.string   "email",                                null: false
     t.string   "personal_email"
     t.integer  "position_id"
@@ -397,15 +397,16 @@ ActiveRecord::Schema.define(version: 20141230163211) do
   end
 
   create_table "positions", force: true do |t|
-    t.string "name", null: false
-    t.boolean "leadership", null: false
-    t.boolean "all_field_visibility", null: false
-    t.boolean "all_corporate_visibility", null: false
-    t.integer "department_id", null: false
+    t.string   "name"
+    t.boolean  "leadership"
+    t.boolean  "all_field_visibility"
+    t.boolean  "all_corporate_visibility"
+    t.integer  "department_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "field"
     t.boolean  "hq"
+    t.string   "twilio_number"
   end
 
   add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
@@ -507,6 +508,20 @@ ActiveRecord::Schema.define(version: 20141230163211) do
   end
 
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
+
+  create_table "sms_messages", force: true do |t|
+    t.string   "from_num",                                null: false
+    t.string   "to_num",                                  null: false
+    t.integer  "from_person_id"
+    t.integer  "to_person_id"
+    t.boolean  "inbound",                 default: false
+    t.integer  "reply_to_sms_message_id"
+    t.boolean  "replied_to",              default: false
+    t.text     "message",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sid",                                     null: false
+  end
 
   create_table "technology_service_providers", force: true do |t|
     t.string   "name",       null: false

@@ -37,6 +37,7 @@ Rails.application.configure do
 
   #Letter_opener support
   config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.default_url_options = { host: '192.168.1.150:3000' }
 
   config.log_level = :debug
 

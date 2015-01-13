@@ -42,6 +42,9 @@ class Person < ActiveRecord::Base
   has_many :sales_performance_ranks, as: :rankable
   has_and_belongs_to_many :poll_question_choices
 
+  has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
+  has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
+
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
     parent.table[:mobile_phone]
   end
@@ -397,6 +400,39 @@ class Person < ActiveRecord::Base
 
   def related_log_entries
     LogEntry.where trackable_type: 'Person', trackable_id: self.id
+  end
+
+  def sales_today
+    return 0 unless self.connect_user_id
+    if self.person_areas.count > 0 and
+        (self.person_areas.first.area.project.name == 'Vonage Retail' or
+            self.person_areas.first.area.project.name == 'Vonage Events')
+      ConnectOrder.sales.today.where(salesrep_id: self.connect_user_id).count
+    elsif self.person_areas.count > 0 and
+        self.person_areas.first.area.project.name == 'Sprint Retail'
+      ConnectSprintSale.today.where(ad_user_id: self.connect_user_id).count
+    end
+  end
+
+  def sms_messages
+    to_messages = self.to_sms_messages
+    from_messages = self.from_sms_messages
+    to_ids = to_messages.map(&:id).join(',')
+    from_ids = from_messages.map(&:id).join(',')
+    if to_ids.length > 0 and from_ids.length > 0
+      ids = "#{to_ids},#{from_ids}"
+    elsif to_ids.length > 0
+      ids = to_ids
+    elsif from_ids.length > 0
+      ids = from_ids
+    else
+      ids = nil
+    end
+    if ids
+      SMSMessage.where("id IN (#{ids})")
+    else
+      SMSMessage.none
+    end
   end
 
   private
