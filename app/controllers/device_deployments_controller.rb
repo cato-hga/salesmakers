@@ -51,7 +51,7 @@ class DeviceDeploymentsController < ApplicationController
   def recoup
     @device = Device.find recoup_params[:device_id]
     @device_deployment = @device.device_deployments.first
-    @device_deployment.recoup
+    @device_deployment.recoup recoup_params[:notes]
     @current_person.log? 'end',
                          @device_deployment,
                          @device,

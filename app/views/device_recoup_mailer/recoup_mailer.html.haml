@@ -1,0 +1,21 @@
+%p= 'An asset has just been returned and put back in inventory for ' + @person.display_name + '(' + @person.personal_email + ', ' + @person.mobile_phone + '):'
+%table
+  %tr
+    %td
+      %strong
+        %u Type
+    %td
+      %strong
+        %u Serial/Dec
+    %td
+      %strong
+        %u PTN
+  %tr
+    %td= @device.device_model_name
+    %td= @device.serial
+    %td= @line.identifier
+
+%p
+  %strong Note:
+  %em= @notes
+

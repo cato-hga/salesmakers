@@ -97,8 +97,9 @@ describe DeviceDeploymentsController do
   end
 
   describe 'recouping' do
-    let(:deployed_device) { create :device }
-    let(:person) { create :person }
+    let(:deployed_device) { create :device, line: line }
+    let(:person) { create :person, personal_email: 'test@test.com' }
+    let(:line) { create :line }
     let(:deployed) { create :device_state, name: 'Deployed' }
     let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
     let(:notes) { 'Good condition - $0' }
@@ -118,11 +119,15 @@ describe DeviceDeploymentsController do
     end
 
     describe 'POST recoup' do
-      context 'upon success' do
-        subject do
+      context 'success' do
+        before(:each) do
           deployed_device.device_states << deployed
           deployed_device.device_deployments << device_deployment
           deployed_device.person = person
+          deployed_device.save
+        end
+
+        subject do
           post :recoup, device_id: deployed_device.id, notes: notes
         end
         it 'redirects to the device' do
@@ -130,10 +135,10 @@ describe DeviceDeploymentsController do
         end
 
         it 'removes the device from the person' do
-          subject
           expect(deployed_device.person).to eq(person)
+          subject
           deployed_device.reload
-          expect(deployed_device.person_id).not_to eq(person.id)
+          expect(deployed_device.person).not_to eq(person)
         end
 
         it 'should flash a confirmation message' do

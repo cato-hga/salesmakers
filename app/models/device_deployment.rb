@@ -9,14 +9,15 @@ class DeviceDeployment < ActiveRecord::Base
 
   default_scope { order('started DESC') }
 
-  def recoup(ended = DateTime.now)
+  def recoup(notes, ended = DateTime.now)
     deployed = DeviceState.find_by name: 'Deployed'
     @device = self.device
+    @person = @device.person
+    @notes = notes
     @device.device_states.delete deployed
     ended = ended
     self.update ended: ended
-    person = @device.person
-    DeviceRecoupMailer.recoup_mailer(@device, person)
+    DeviceRecoupMailer.recoup_mailer(@device, @person, @notes).deliver
     @device.update person_id: nil
   end
 end
