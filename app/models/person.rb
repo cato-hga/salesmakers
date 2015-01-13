@@ -415,7 +415,24 @@ class Person < ActiveRecord::Base
   end
 
   def sms_messages
-    self.to_sms_messages.merge(self.from_sms_messages).uniq
+    to_messages = self.to_sms_messages
+    from_messages = self.from_sms_messages
+    to_ids = to_messages.map(&:id).join(',')
+    from_ids = from_messages.map(&:id).join(',')
+    if to_ids.length > 0 and from_ids.length > 0
+      ids = "#{to_ids},#{from_ids}"
+    elsif to_ids.length > 0
+      ids = to_ids
+    elsif from_ids.length > 0
+      ids = from_ids
+    else
+      ids = nil
+    end
+    if ids
+      SMSMessage.where("id IN (#{ids})")
+    else
+      SMSMessage.none
+    end
   end
 
   private

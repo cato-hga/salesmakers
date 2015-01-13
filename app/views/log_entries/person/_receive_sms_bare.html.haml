@@ -1,0 +1,9 @@
+- if log_entry.referenceable
+  Sent an SMS to
+  = succeed ':' do
+    = person_link log_entry.referenceable
+- else
+  Sent an SMS:
+%span.comment
+  = surround '"', '"' do
+    = log_entry.comment

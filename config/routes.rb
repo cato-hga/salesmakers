@@ -162,6 +162,7 @@ Rails.application.routes.draw do
   resources :themes, except: [:destroy, :show]
 
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
+  post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 
   resources :uploaded_videos, only: [:create, :show]
   resources :uploaded_images, only: [:create, :show]

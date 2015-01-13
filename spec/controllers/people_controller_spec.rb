@@ -125,7 +125,6 @@ describe PeopleController do
       expect {
         post :create_sms_message, id: person.id, contact_message: message
       }.to change(SMSMessage, :count).by(1)
-
     end
   end
 end

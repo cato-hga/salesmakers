@@ -31,4 +31,9 @@ describe SMSMessage do
     subject.message = nil
     expect(subject).not_to be_valid
   end
+
+  it 'requires a sid' do
+    subject.sid = nil
+    expect(subject).not_to be_valid
+  end
 end
