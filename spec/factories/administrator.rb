@@ -13,6 +13,7 @@ FactoryGirl.define do
     association :department, factory: :information_technology_department
     field false
     hq true
+    twilio_number '+12345678901'
   end
 
   factory :main_permission_group, class: PermissionGroup do

@@ -59,5 +59,19 @@ describe TwilioController do
       expect(email.to).to eq([from_person.email])
       expect(email.body.to_s).to match(/This is a sample incoming message/)
     end
+
+    it 'sends an email to everyone applicable when not a reply' do
+      post :incoming_sms,
+           From: '+18635214572',
+           To: '+12345678901',
+           Body: 'This is a message that starts a new thread.',
+           MessageSid: 'SM09876543210987654321'
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      email = ActionMailer::Base.deliveries.first
+      expect(email.subject).to eq('New SMS Thread Started by ' + from_person.display_name)
+      expect(email.to).to eq([from_person.email])
+      expect(email.body.to_s).to match(/This is a message that starts a new thread/)
+    end
   end
+
 end

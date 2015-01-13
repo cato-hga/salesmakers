@@ -85,6 +85,8 @@ class Gateway
       if reply_to_message
         reply_to_message.update replied_to: true
         NotificationMailer.sms_reply(incoming_message).deliver
+      else
+        NotificationMailer.new_sms_thread(incoming_message).deliver
       end
     end
   end

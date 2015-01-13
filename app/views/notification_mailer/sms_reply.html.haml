@@ -4,5 +4,6 @@
   has just replied to your previous text message:
 %blockquote
   = @sms_message.message
+= link_to 'Click here to reply.', new_sms_message_person_url(from)
 %h3 Last 24 Hours of Communication
 = render partial: 'shared/communication_log', locals: { sms_messages: @last_24_hours }
