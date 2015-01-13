@@ -15,6 +15,8 @@ class DeviceDeployment < ActiveRecord::Base
     @device.device_states.delete deployed
     ended = ended
     self.update ended: ended
+    person = @device.person
+    DeviceRecoupMailer.recoup_mailer(@device, person)
     @device.update person_id: nil
   end
 end

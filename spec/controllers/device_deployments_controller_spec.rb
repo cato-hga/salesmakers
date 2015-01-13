@@ -130,6 +130,8 @@ describe DeviceDeploymentsController do
         end
 
         it 'removes the device from the person' do
+          subject
+          expect(deployed_device.person).to eq(person)
           deployed_device.reload
           expect(deployed_device.person_id).not_to eq(person.id)
         end
@@ -146,8 +148,11 @@ describe DeviceDeploymentsController do
           subject
           expect(LogEntry.first.comment).to eq(notes)
         end
+
+        it 'sends an email to payroll' do
+          expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
       end
     end
   end
-
 end
