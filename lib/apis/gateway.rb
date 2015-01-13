@@ -74,7 +74,6 @@ class Gateway
                                       message: message,
                                       sid: sid
     if incoming_message.save
-      reply_to_message.update(replied_to: true) if reply_to_message
       if from_person
         from_person.log? 'receive_sms',
                          incoming_message,
@@ -82,6 +81,10 @@ class Gateway
                          nil,
                          nil,
                          message
+      end
+      if reply_to_message
+        reply_to_message.update replied_to: true
+        NotificationMailer.sms_reply(incoming_message).deliver
       end
     end
   end

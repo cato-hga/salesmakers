@@ -8,7 +8,7 @@ FactoryGirl.define do
     first_name 'Test'
     last_name 'User'
     email
-    mobile_phone '8635214572'
+    mobile_phone '7274872633'
     association :position
   end
 end

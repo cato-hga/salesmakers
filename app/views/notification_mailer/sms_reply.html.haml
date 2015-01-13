@@ -1,0 +1,8 @@
+- from = @sms_message.from_person
+%p
+  = link_to from.display_name, person_url(from)
+  has just replied to your previous text message:
+%blockquote
+  = @sms_message.message
+%h3 Last 24 Hours of Communication
+= render partial: 'shared/communication_log', locals: { sms_messages: @last_24_hours }
