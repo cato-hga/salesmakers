@@ -1,5 +1,5 @@
 - page_title = @person.display_name.html_safe
-- page_title = page_title + contact_link(@person) if @person.mobile_phone
+- page_title = page_title + contact_link(@person) if @person.mobile_phone?
 - title page_title
 
 - if @person.areas.count > 0

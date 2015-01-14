@@ -162,6 +162,18 @@ class Person < ActiveRecord::Base
     self.employments.count > 0 and self.employments.first.end
   end
 
+  def mobile_phone?
+    self.mobile_phone and self.mobile_phone != '8005551212'
+  end
+
+  def home_phone?
+    self.home_phone and self.home_phone != '8005551212'
+  end
+
+  def office_phone?
+    self.office_phone and self.office_phone != '8005551212'
+  end
+
   def social_name
     if self.profile.nickname? and not self.profile.nickname.blank?
       self.profile.nickname
