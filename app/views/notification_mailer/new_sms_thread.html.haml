@@ -1,6 +1,9 @@
 - from = @sms_message.from_person
 %p
-  = link_to from.display_name, person_url(from)
+  - if from
+    = link_to from.display_name, person_url(from)
+  - else
+    = phone_link @sms_message.from_num
   has just sent an SMS that appears to have started a new thread:
 %blockquote
   = @sms_message.message
