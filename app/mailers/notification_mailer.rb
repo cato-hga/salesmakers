@@ -36,4 +36,13 @@ class NotificationMailer < ApplicationMailer
     mail to: emails,
          subject: subject
   end
+
+  def simple_mail(to_email, subject, content, html = false)
+    content_type = 'text/plain'
+    content_type = 'text/html' if html
+    mail to: to_email,
+         subject: subject,
+         body: content,
+         content_type: content_type
+  end
 end

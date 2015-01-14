@@ -3,6 +3,10 @@ require 'rails_helper'
 describe EmailMessage do
   subject { build :email_message }
 
+  it 'is valid with all required attributes' do
+    expect(subject).to be_valid
+  end
+
   it 'requires a from_email address' do
     subject.from_email = nil
     expect(subject).not_to be_valid
@@ -10,6 +14,11 @@ describe EmailMessage do
 
   it 'requires a to_email address' do
     subject.to_email = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a subject' do
+    subject.subject = nil
     expect(subject).not_to be_valid
   end
 
@@ -36,5 +45,4 @@ describe EmailMessage do
       expect(subject.to_person).to be_nil
     end
   end
-
 end
