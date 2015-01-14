@@ -154,9 +154,9 @@ describe DeviceDeploymentsController do
           expect(LogEntry.first.comment).to eq(notes)
         end
 
-        it 'sends an email to payroll' do
-          expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
-        end
+        # it 'sends an email to payroll' do
+        #   expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        # end
       end
     end
   end

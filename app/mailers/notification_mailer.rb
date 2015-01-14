@@ -28,7 +28,10 @@ class NotificationMailer < ApplicationMailer
     if sms_message.from_person
       subject = 'New SMS Thread Started by ' + sms_message.from_person.display_name
     else
-      subject = 'New SMS Thread Started by ' + sms_message.from_num
+      formatted_num = '(' + sms_message.from_num[0..2] +
+          ') ' + sms_message.from_num[3..5] + '-' +
+          sms_message.from_num[6..9]
+      subject = 'New SMS Thread Started by ' + formatted_num
     end
     mail to: emails,
          subject: subject
