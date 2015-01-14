@@ -1,5 +1,5 @@
-%p= 'An asset has just been returned and put back in inventory for ' + @person.display_name + '(' + @person.personal_email + ', ' + @person.mobile_phone + '):'
-%table
+%p= 'An asset has just been returned and put back in inventory for ' + @person_name + '(' + @personal_email + ', ' + @person_phone + '):'
+%table{ style: "width: 100% "}
   %tr
     %td
       %strong
@@ -13,7 +13,7 @@
   %tr
     %td= @device.device_model_name
     %td= @device.serial
-    %td= @line.identifier
+    %td= @line
 
 %p
   %strong Note:
