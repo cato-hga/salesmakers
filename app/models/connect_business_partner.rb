@@ -8,6 +8,9 @@ class ConnectBusinessPartner < ConnectModel
   has_many :connect_business_partner_salary_categories,
            foreign_key: 'c_bpartner_id',
            primary_key: 'c_bpartner_id'
+  has_many :connect_business_partner_locations,
+           foreign_key: 'c_bpartner_id',
+           primary_key: 'c_bpartner_id'
   has_one :connect_salary_category,
           primary_key: 'c_salary_category_id',
           foreign_key: 'c_salary_category_id'

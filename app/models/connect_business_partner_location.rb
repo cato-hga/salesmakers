@@ -11,4 +11,7 @@ class ConnectBusinessPartnerLocation < ConnectModel
   belongs_to :connect_region,
              foreign_key: 'c_salesregion_id',
              primary_key: 'c_salesregion_id'
+  has_one :connect_location,
+          foreign_key: 'c_location_id',
+          primary_key: 'c_location_id'
 end
