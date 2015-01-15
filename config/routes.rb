@@ -68,6 +68,8 @@ Rails.application.routes.draw do
 
   resources :device_states, except: [:show]
 
+  resources :device_models, only: [:index, :new]
+
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
 
