@@ -369,4 +369,84 @@ describe ApplicationHelper do
     expect(output).to have_selector('a.send_contact')
   end
 
+  describe 'communication log entries' do
+    let(:person) { create :person }
+    let(:sms_entry) {
+      create :communication_log_entry,
+             loggable: create(:sms_message,
+                              to_num: person.mobile_phone,
+                              from_num: person.mobile_phone)
+    }
+    let(:email_entry) {
+      create :communication_log_entry,
+             loggable: create(:email_message)
+    }
+
+    describe '#communication_log_from for SMS' do
+      it 'displays a person link for when person is present' do
+        sms_entry.loggable.update from_person: person
+        output = helper.communication_log_from(sms_entry)
+        expect(output).to have_selector('a', text: person.display_name)
+      end
+
+      it 'displays a number when person is not present' do
+        output = helper.communication_log_from(sms_entry)
+        phone = sms_entry.loggable.from_num
+        formatted_phone = '(' + phone[0..2] + ') ' +
+            phone[3..5] + '-' + phone[6..9]
+        expect(output).to have_selector('a', text: formatted_phone)
+      end
+    end
+
+    describe '#communication_log_from for email' do
+      it 'displays an address for when person is not present' do
+        output = helper.communication_log_from(email_entry)
+        email = email_entry.loggable.from_email
+        expect(output).to have_selector('a', text: email)
+      end
+    end
+
+    describe '#communication_log_to for SMS' do
+      it 'displays a person link for when person is present' do
+        sms_entry.loggable.update to_person: person
+        output = helper.communication_log_to(sms_entry)
+        expect(output).to have_selector('a', text: person.display_name)
+      end
+
+      it 'displays a number when person is not present' do
+        output = helper.communication_log_to(sms_entry)
+        phone = sms_entry.loggable.from_num
+        formatted_phone = '(' + phone[0..2] + ') ' +
+            phone[3..5] + '-' + phone[6..9]
+        expect(output).to have_selector('a', text: formatted_phone)
+      end
+    end
+
+    describe '#communication_log_to for email' do
+      it 'displays a person link for when person is present' do
+        email_entry.loggable.update to_person: person
+        output = helper.communication_log_to(email_entry)
+        expect(output).to have_selector('a', text: person.display_name)
+      end
+
+      it 'displays an address for when person is not present' do
+        output = helper.communication_log_to(email_entry)
+        email = email_entry.loggable.to_email
+        expect(output).to have_selector('a', text: email)
+      end
+    end
+
+    describe '#communication_log_display' do
+      it 'displays the message body for an SMS' do
+        output = helper.communication_log_display(sms_entry)
+        expect(output).to have_selector('.comment', text: sms_entry.loggable.message)
+      end
+
+      it 'displays the subject for an email' do
+        output = helper.communication_log_display(email_entry)
+        expect(output).to have_selector('.comment', text: email_entry.loggable.subject)
+      end
+    end
+  end
+
 end

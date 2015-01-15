@@ -44,6 +44,7 @@ class Person < ActiveRecord::Base
 
   has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
   has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
+  has_many :communication_log_entries
 
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
     parent.table[:mobile_phone]

@@ -3,7 +3,7 @@ class NotificationMailer < ApplicationMailer
 
   def sms_reply(sms_message)
     @sms_message = sms_message
-    @last_24_hours = sms_message.from_person.sms_messages.
+    @last_24_hours = sms_message.from_person.communication_log_entries.
         where('created_at > ?', Time.now - 1.day)
     mail to: sms_message.to_person.email,
          subject: 'SMS Reply from ' + sms_message.from_person.display_name
@@ -12,7 +12,7 @@ class NotificationMailer < ApplicationMailer
   def new_sms_thread(sms_message)
     @sms_message = sms_message
     if sms_message.from_person
-      @last_24_hours = sms_message.from_person.sms_messages.
+      @last_24_hours = sms_message.from_person.communication_log_entries.
           where('created_at > ?', Time.now - 1.day)
     else
       @last_24_hours = nil
@@ -24,7 +24,6 @@ class NotificationMailer < ApplicationMailer
     emails = Array.new
     people.each { |p| emails << p.email }
     return if emails.count < 1
-    puts emails.join ','
     if sms_message.from_person
       subject = 'New SMS Thread Started by ' + sms_message.from_person.display_name
     else

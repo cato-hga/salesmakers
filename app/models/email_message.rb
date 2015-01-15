@@ -1,4 +1,6 @@
 class EmailMessage < ActiveRecord::Base
+  after_create :create_communication_log_entry
+
   validates :from_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }
   validates :to_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }
   validates :subject, presence: true
@@ -22,7 +24,16 @@ class EmailMessage < ActiveRecord::Base
     self[:to_email] = value.downcase
     email_person = Person.find_by email: value
     personal_email_person = Person.find_by personal_email: value
-    self.to_person = email_person
-    self.to_person = personal_email_person if personal_email_person
+    self.to_person = personal_email_person
+    self.to_person = email_person if email_person
+  end
+
+  private
+
+  def create_communication_log_entry
+    if self.to_person
+      CommunicationLogEntry.create loggable: self,
+                                   person: self.to_person
+    end
   end
 end

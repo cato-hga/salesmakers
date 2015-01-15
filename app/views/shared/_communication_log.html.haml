@@ -1,18 +1,15 @@
 #communication_log
   - header = header_row ['Date/Time','Type','From','To','Message']
   - rows = Array.new
-  - for sms_message in sms_messages do
-    - date_time = friendly_datetime sms_message.created_at
-    - in_out = sms_message.inbound? ? icon('arrow-left') : icon('arrow-right')
+  - for entry in communication_log_entries do
+    - date_time = friendly_datetime entry.created_at
+    - if entry.loggable_type == 'SMSMessage' and entry.loggable.inbound?
+      - in_out = icon('arrow-left')
+    - else
+      - in_out = icon('arrow-right')
     - type = in_out + ' SMS'
-    - if sms_message.from_person
-      - from = person_link sms_message.from_person
-    - else
-      - from = phone_link sms_message.from_num
-    - if sms_message.to_person
-      - to = person_link sms_message.to_person
-    - else
-      - to = phone_link sms_message.to_num
-    - message = content_tag :span, sms_message.message, class: [:comment]
-    - rows << table_row([date_time, type, from, to, message])
+    - from = communication_log_from(entry)
+    - to = communication_log_to(entry)
+    - display = communication_log_display(entry)
+    - rows << table_row([date_time, type, from, to, display])
   = table header, rows

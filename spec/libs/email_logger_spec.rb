@@ -10,7 +10,7 @@ describe 'Email logging' do
   }
 
   it 'sends the email' do
-    expect(ActionMailer::Base.deliveries.size).to eq(1)
+    expect(ActionMailer::Base.deliveries.size).not_to eq(0)
   end
 
   it 'saves the from_email of a sent message' do
@@ -28,4 +28,16 @@ describe 'Email logging' do
   it 'saves the content of a sent message' do
     expect(email_message.content).to include(content)
   end
+
+  describe 'communication log entries' do
+    it 'creates a CommunicationLogEntry' do
+      expect(CommunicationLogEntry.count).to eq(1)
+    end
+
+    it 'attaches the CommunicationLogEntry to the person' do
+      entry = CommunicationLogEntry.first
+      expect(entry.person).to eq(person)
+    end
+  end
+
 end

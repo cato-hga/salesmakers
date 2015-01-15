@@ -69,7 +69,7 @@ class PeopleController < ProtectedController
     @profile = @person.profile
     @profile_experiences = @profile.profile_experiences
     @profile_educations = @profile.profile_educations
-    @sms_messages = @person.sms_messages
+    @communication_log_entries = @person.communication_log_entries
   end
 
   def new_sms_message

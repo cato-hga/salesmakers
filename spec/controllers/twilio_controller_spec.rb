@@ -41,6 +41,10 @@ describe TwilioController do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
 
+    it 'creates CommunicationLogEntries' do
+      expect(CommunicationLogEntry.count).to eq(2)
+    end
+
     it 'does not create a LogEntry if there is no matching Person' do
       expect {
         post :incoming_sms,
