@@ -15,6 +15,7 @@ class PersonUpdater
     update_contact_info
     update_supervisor
     update_employees
+    @person.update_address_from_connect
   end
 
   private
@@ -22,7 +23,7 @@ class PersonUpdater
   def update_position
     new_position = Position.return_from_connect_user @connect_user
     if new_position and @person.position != new_position
-      if person.update position: new_position,
+      if @person.update position: new_position,
                        updated_at: @connect_user.updated
         LogEntry.position_set_from_connect @person,
                                            @updater,
@@ -89,7 +90,7 @@ class PersonUpdater
 
   def update_employees
     for employee in @person.employees do
-      PersonUpdater.new employee
+      PersonUpdater.new employee.connect_user
     end
     for connect_user in @connect_user.employees do
       employee = Person.return_from_connect_user connect_user

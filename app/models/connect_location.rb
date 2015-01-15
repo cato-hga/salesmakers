@@ -8,5 +8,4 @@ class ConnectLocation < ConnectModel
   belongs_to :connect_state,
              foreign_key: 'c_region_id',
              primary_key: 'c_region_id'
-
 end

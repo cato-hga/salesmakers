@@ -23,4 +23,41 @@ class PersonAddress < ActiveRecord::Base
     end
     self[:state] = value.upcase
   end
+
+  def self.update_from_connect(minutes)
+    offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
+    offset = offset * -1
+    minutes = minutes + offset
+    puts minutes.to_s + ' Minutes'
+    establish_connection(:rbd_connect_production)
+    puts connection.current_database
+    results = connection.select_all "select
+
+      u.ad_user_id
+
+      from ad_user u
+      left outer join c_bpartner bp
+        on bp.c_bpartner_id = u.c_bpartner_id
+      left outer join c_bpartner_location l
+        on l.c_bpartner_id = bp.c_bpartner_id
+      left outer join c_location a
+        on a.c_location_id = l.c_location_id
+
+      where
+        a.c_location_id is not null
+        AND a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'"
+
+    puts results.count.to_s + ' Results'
+
+    establish_connection(Rails.env.to_sym)
+
+    return unless results and results.count > 0
+
+    results.each do |row|
+      cu = ConnectUser.find_by ad_user_id: row['ad_user_id']
+      next unless cu
+      pu = PersonUpdater.new cu
+      pu.update
+    end
+  end
 end

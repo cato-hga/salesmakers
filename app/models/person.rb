@@ -40,6 +40,7 @@ class Person < ActiveRecord::Base
   has_many :employments
   has_many :day_sales_counts, as: :saleable
   has_many :sales_performance_ranks, as: :rankable
+  has_many :person_addresses
   has_and_belongs_to_many :poll_question_choices
 
   has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
@@ -351,6 +352,39 @@ class Person < ActiveRecord::Base
     updated_to_inactive
   end
 
+  def update_address_from_connect
+    return unless has_address?
+    connect_address = self.connect_user.
+        connect_business_partner.
+        connect_business_partner_locations.
+        first.
+        connect_location
+    connect_state = connect_address.connect_state
+    return unless connect_address and connect_state
+    new_address = PersonAddress.new person: self,
+                                    line_1: connect_address.address1,
+                                    line_2: connect_address.address2,
+                                    city: connect_address.city,
+                                    state: connect_state.name,
+                                    zip: connect_address.postal
+    return unless new_address.valid?
+    self.person_addresses.where(physical: true).destroy_all
+    new_address.save
+  end
+
+  def has_address?
+    return false unless self.connect_user
+    bp = self.connect_user.connect_business_partner
+    return false unless bp
+    locations = bp.connect_business_partner_locations
+    return false unless locations.count > 0
+    connect_address = locations.first.connect_location
+    return false unless connect_address
+    state = connect_address.connect_state
+    return false unless state
+    true
+  end
+
   def get_connect_user
     ConnectUser.find_by username: self.email
   end
@@ -379,7 +413,7 @@ class Person < ActiveRecord::Base
 
   #:nocov:
   def self.update_from_connect(minutes)
-    connect_users = ConnectUser.where('updated >= ?', Time.now - minutes.minutes + (Time.zone_offset(Time.zone.now.strftime('%Z')) / 60 / 60).hours)
+    connect_users = ConnectUser.where('updated >= ?', Time.now - minutes.minutes + (Time.zone_offset(Time.zone.now.strftime('%Z')) / 60 / 60))
     for connect_user in connect_users do
       PersonUpdater.new(connect_user).update
     end
