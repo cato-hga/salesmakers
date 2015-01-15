@@ -1,0 +1,10 @@
+- content_for :action_buttons do
+  = link_to icon('plus') + ' New Manufacturer', '#', class: [:button, :rounded, :inline_button], id: 'new_action_button'
+
+.widget
+  .inner
+    = form_tag @device_model, method: :post do
+      = label_tag :device_manufacturer, 'Existing Manufacturer'
+      = select('device_manufacturer', "device_manufacturer_id", DeviceManufacturer.all.collect { |c| [ c.name ]})
+      = label_tag :device_model, 'New Model'
+      = text_field_tag :device_model
