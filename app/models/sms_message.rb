@@ -1,4 +1,5 @@
 class SMSMessage < ActiveRecord::Base
+  after_create :create_communication_log_entry
   validates :from_num, length: { is: 10 }
   validates :to_num, length: { is: 10 }
   validates :message, presence: true
@@ -8,4 +9,17 @@ class SMSMessage < ActiveRecord::Base
   belongs_to :from_person, class_name: 'Person', foreign_key: 'from_person_id'
 
   default_scope { order(created_at: :desc) }
+
+  private
+
+  def create_communication_log_entry
+    if self.to_person
+      CommunicationLogEntry.create loggable: self,
+                                   person: self.to_person
+    end
+    if self.from_person
+      CommunicationLogEntry.create loggable: self,
+                                   person: self.from_person
+    end
+  end
 end
