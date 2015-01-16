@@ -7,6 +7,7 @@ class DeviceManufacturersController < ApplicationController
     @device_manufacturer = DeviceManufacturer.new create_params
     if @device_manufacturer.save
       @current_person.log? 'create', @device_manufacturer
+      flash[:notice] = 'Device manufacturer created!'
       redirect_to new_device_model_path
     end
   end
