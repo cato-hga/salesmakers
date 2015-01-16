@@ -13,4 +13,24 @@ describe DeviceManufacturersController, :type => :controller do
       expect(response).to render_template(:new)
     end
   end
+
+  describe 'POST create' do
+    subject do
+      post :create,
+           device_manufacturer: {
+               name: 'Test Manufacturer'
+           }
+    end
+
+    it 'creates a new model' do
+      expect { subject }.to change(DeviceManufacturer, :count).by(1)
+    end
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+    it 'redirects to the new_device_models path' do
+      subject
+      expect(response).to redirect_to(new_device_model_path)
+    end
+  end
 end

@@ -9,4 +9,6 @@ feature "DeviceManufacturers", :type => :feature do
       expect(page).to have_button('Submit')
     end
   end
+
+  describe 'POST create'
 end
