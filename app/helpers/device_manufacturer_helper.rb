@@ -1,0 +1,2 @@
+module DeviceManufacturerHelper
+end
