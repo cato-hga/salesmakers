@@ -196,6 +196,8 @@ GEM
     foundation-icons-sass-rails (3.0.0)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
+    geocoder (1.2.6)
+    gmaps4rails (2.1.2)
     google-search (1.0.3)
       json
     groupdate (2.2.1)
@@ -515,6 +517,8 @@ DEPENDENCIES
   faye (= 1.0.3)
   foreman (= 0.74.0)
   foundation-icons-sass-rails (= 3.0.0)
+  geocoder (= 1.2.6)
+  gmaps4rails (= 2.1.2)
   groupdate (= 2.2.1)
   guard-rspec (= 4.2.10)
   haml-rails (= 0.5.3)

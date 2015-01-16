@@ -61,6 +61,12 @@ class PeopleController < ProtectedController
     @person = Person.find params[:id]
     @physical_address = PersonAddress.find_by person: @person, physical: true
     @mailing_address = PersonAddress.find_by person: @person, physical: false
+    if @physical_address and not @physical_address.latitude and
+        not @physical_address.longitude
+      @physical_address.geocode
+      @physical_address.save
+      @physical_address.reload
+    end
     set_show_wall
     @log_entries = LogEntry.for_person(@person)
     @current_devices = @person.devices

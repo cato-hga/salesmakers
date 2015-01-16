@@ -108,11 +108,26 @@
         %h3 Physical Address
         = @physical_address.line_1
         %br/
-        - if @physical_address.line_2
+        - if @physical_address.line_2 and @physical_address.line_2.length > 0
           = @physical_address.line_2
           %br/
         = @physical_address.city + ', ' + @physical_address.state
         = @physical_address.zip
+        #physical_address_map
+    :javascript
+      handler = Gmaps.build('Google');
+      handler.buildMap({ provider: {
+        styles: mapStyle()
+      }, internal: {id: 'physical_address_map'}}, function () {
+        marker = handler.addMarker({
+          "lat": #{@physical_address.latitude},
+          "lng": #{@physical_address.longitude}
+        });
+        // handler.bounds.extendWith(markers);
+        // handler.fitMapToBounds();
+        handler.map.centerOn(marker);
+        handler.getMap().setZoom(10);
+      });
   - if @profile_educations.count > 0
     .widget.person_widget
       .inner

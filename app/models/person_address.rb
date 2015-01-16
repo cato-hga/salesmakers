@@ -1,4 +1,6 @@
 class PersonAddress < ActiveRecord::Base
+  geocoded_by :address
+
   states = Array[ "AK", "AL", "AR", "AS", "AZ", "CA", "CO",
                   "CT", "DC", "DE", "FL", "GA", "GU", "HI",
                   "IA", "ID", "IL", "IN", "KS", "KY", "LA",
@@ -22,6 +24,17 @@ class PersonAddress < ActiveRecord::Base
       return
     end
     self[:state] = value.upcase
+  end
+
+  def address
+    string_address = ''
+    string_address += self.line_1 if self.line_1
+    string_address += ', '
+    string_address += self.line_2 + ', ' if self.line_2
+    string_address += self.city + ', ' if self.city
+    string_address += self.state if self.state
+    string_address += ' ' + self.zip if self.zip
+    string_address
   end
 
   def self.update_from_connect(minutes)
