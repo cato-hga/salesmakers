@@ -27,11 +27,13 @@ describe DeviceModelsController do
   end
 
   describe 'POST create' do
-    let(:manufacturer) { create :device_manufacturer }
+    let!(:manufacturer) { create :device_manufacturer }
     subject do
       post :create,
-           name: 'Test Model',
-           device_manufacturer_id: manufacturer.id
+           device_model: {
+               name: 'Test Model',
+               device_manufacturer_id: manufacturer.id
+           }
     end
 
     it 'creates a new model' do

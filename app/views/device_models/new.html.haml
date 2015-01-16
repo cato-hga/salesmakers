@@ -3,8 +3,9 @@
 
 .widget
   .inner
-    = form_tag @device_model, method: :post do
-      = label_tag :device_manufacturer, 'Existing Manufacturer'
-      = select('device_manufacturer', "device_manufacturer_id", DeviceManufacturer.all.collect { |c| [ c.name ]})
-      = label_tag :device_model, 'New Model'
-      = text_field_tag :device_model
+    = form_for @device_model, method: :post do |f|
+      = f.label :device_manufacturer, 'Existing Manufacturer'
+      = f.select('device_manufacturer_id', options_from_collection_for_select(DeviceManufacturer.all, 'id', 'name'))
+      = f.label :name, 'New Model'
+      = f.text_field :name
+      = f.submit 'Submit', class: 'button'

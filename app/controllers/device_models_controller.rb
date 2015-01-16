@@ -18,16 +18,20 @@ class DeviceModelsController < ApplicationController
   end
 
   def create
-    @model = DeviceModel.new create_params
-    if @model.save
-      @current_person.log? 'create', @model
+    @device_model = DeviceModel.new create_params
+    puts create_params[:device_manufacturer_id]
+    if @device_model.save
+      @current_person.log? 'create', @device_model
+      flash[:notice] = 'Device model created!'
       redirect_to device_models_path
+    else
+      puts @device_model.errors.full_messages
     end
   end
 
   private
 
   def create_params
-    params.permit :device_manufacturer_id, :name
+    params.require(:device_model).permit(:device_manufacturer_id, :name)
   end
 end
