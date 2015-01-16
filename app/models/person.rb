@@ -74,6 +74,13 @@ class Person < ActiveRecord::Base
     Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
   }
 
+  def display_name
+    unless self[:display_name] and self[:display_name].length > 0
+      return ''
+    end
+    NameCase(self[:display_name])
+  end
+
   def team_members
     people = Array.new
     for person_area in self.person_areas do
