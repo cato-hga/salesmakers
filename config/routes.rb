@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   end
 
   resources :device_manufacturers, only: [:new, :create]
-  resources :device_models, only: [:index, :new, :create]
+  resources :device_models, only: [:index, :new, :create, :edit, :update]
 
 
   resources :device_states, except: [:show]

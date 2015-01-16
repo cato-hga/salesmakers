@@ -28,9 +28,25 @@ class DeviceModelsController < ApplicationController
     end
   end
 
+  def edit
+    @device_model = DeviceModel.find params[:id]
+  end
+
+  def update
+    @device_model = DeviceModel.find params[:id]
+    if @device_model.update update_params
+      @current_person.log? 'edit', @device_model
+      redirect_to device_models_path
+    end
+  end
+
   private
 
   def create_params
+    params.require(:device_model).permit(:device_manufacturer_id, :name)
+  end
+
+  def update_params
     params.require(:device_model).permit(:device_manufacturer_id, :name)
   end
 end

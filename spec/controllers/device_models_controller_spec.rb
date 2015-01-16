@@ -52,4 +52,47 @@ describe DeviceModelsController do
       expect(model.device_manufacturer).to eq(manufacturer)
     end
   end
+
+  describe 'GET edit' do
+    let(:device_model) { create :device_model }
+    before(:each) do
+      get :edit,
+          id: device_model.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+    it 'renders the edit template' do
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'PATCH update success' do
+    let(:device_model) { create :device_model }
+    subject do
+      patch :update,
+            id: device_model.id,
+            device_model: {
+                name: 'New Model Name'
+            }
+    end
+
+    it 'changes the model name' do
+      subject
+      device_model.reload
+      expect(device_model.name).to eq('New Model Name')
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'redirects to the index path' do
+      subject
+      expect(response).to redirect_to(device_models_path)
+    end
+  end
+
+  describe 'PATCH update failure'
 end

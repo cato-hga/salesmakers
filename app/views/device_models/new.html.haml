@@ -4,12 +4,4 @@
 
 .widget
   .inner
-    = form_for @device_model, method: :post do |f|
-      - if @device_model.errors.any?
-        - @device_model.errors.full_messages.each do |msg|
-          .alert.alert-box= msg
-      = f.label :device_manufacturer, 'Existing Manufacturer'
-      = f.select('device_manufacturer_id', options_from_collection_for_select(DeviceManufacturer.all, 'id', 'name'))
-      = f.label :name, 'New Model'
-      = f.text_field :name
-      = f.submit 'Submit', class: 'button'
+    = render  'form', device_model: @device_model

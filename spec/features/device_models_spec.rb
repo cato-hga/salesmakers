@@ -7,13 +7,17 @@ describe 'DeviceModels spec' do
     before(:each) do
       visit device_models_path
     end
-    it 'contains the current device types' do
+    it 'contains the current device models' do
       expect(page).to have_content(device.device_model.name)
       expect(page).to have_content(device.device_model.device_manufacturer.name)
     end
 
-    it 'contains a link to device_types#new' do
+    it 'contains a link to device_models#new' do
       expect(page).to have_content('New')
+    end
+
+    it 'contains a link to device_models#edit' do
+      expect(page).to have_content('Edit')
     end
   end
 
@@ -30,7 +34,7 @@ describe 'DeviceModels spec' do
       expect(page).to have_content('New Manufacturer')
     end
     it 'contains the option to enter a new device model' do
-      expect(page).to have_content('New Model')
+      expect(page).to have_content('Model Name')
     end
   end
 
@@ -68,6 +72,37 @@ describe 'DeviceModels spec' do
     it 'displays error messages' do
       expect(page).to have_content("Name can't be blank")
     end
+  end
+
+  describe 'edit' do
+    let(:model) { create :device_model }
+
+    it 'has a form to edit the device model' do
+      visit edit_device_model_path model
+      expect(page).to have_content('Edit')
+      expect(page).to have_button('Submit')
+      expect(page).to have_content('Model Name')
+    end
+  end
+
+  describe 'update success' do
+    let(:model) { create :device_model }
+    before(:each) do
+      visit edit_device_model_path model
+      fill_in 'device_model_name', with: 'New Model Name'
+      click_on 'Submit'
+    end
+
+    it 'changes the model name' do
+      expect(page).to have_content('New Model Name')
+    end
+
+
+    it 'redirects to the index path' do
+      expect(page).to have_content('Device Models')
+    end
+
+
   end
 end
 
