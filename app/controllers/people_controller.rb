@@ -59,6 +59,8 @@ class PeopleController < ProtectedController
 
   def about
     @person = Person.find params[:id]
+    @physical_address = PersonAddress.find_by person: @person, physical: true
+    @mailing_address = PersonAddress.find_by person: @person, physical: false
     set_show_wall
     @log_entries = LogEntry.for_person(@person)
     @current_devices = @person.devices

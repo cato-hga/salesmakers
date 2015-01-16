@@ -83,34 +83,46 @@
         %p
           %strong Home Phone:
           = phone_link @person.home_phone, nil
-  .widget.person_widget
-    .inner
-      %h3
-        - if @person == @current_person
-          About Me
-        - else
-          About
-          = @person.social_name
-      - profile = @person.profile
-      - if profile.bio
-        %p= profile.bio.gsub(/\n/, '<br/>').html_safe
-      - else
-        %p
-          %em
-            - if @person == @current_person
-              You have not written anything about yourself yet.
-            - else
-              = @person.social_name
-              has not written anything about themself yet.
+  -#.widget.person_widget
+  -#  .inner
+  -#    %h3
+  -#      - if @person == @current_person
+  -#        About Me
+  -#      - else
+  -#        About
+  -#        = @person.social_name
+  -#    - profile = @person.profile
+  -#    - if profile.bio
+  -#      %p= profile.bio.gsub(/\n/, '<br/>').html_safe
+  -#    - else
+  -#      %p
+  -#        %em
+  -#          - if @person == @current_person
+  -#            You have not written anything about yourself yet.
+  -#          - else
+  -#            = @person.social_name
+  -#            has not written anything about themself yet.
+  - if @physical_address
+    .widget
+      .inner
+        %h3 Physical Address
+        = @physical_address.line_1
+        %br/
+        - if @physical_address.line_2
+          = @physical_address.line_2
+          %br/
+        = @physical_address.city + ', ' + @physical_address.state
+        = @physical_address.zip
   - if @profile_educations.count > 0
     .widget.person_widget
       .inner
         %h3 Education
         = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
-  .widget.person_widget
-    .inner
-      %h3 Experience
-      = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
+  - if @profile_experiences.count > 0
+    .widget.person_widget
+      .inner
+        %h3 Experience
+        = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
 .widget
   .inner
     %h3 Current Devices
