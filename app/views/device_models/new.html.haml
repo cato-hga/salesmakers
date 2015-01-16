@@ -1,5 +1,6 @@
+- content_for :title, 'New Device Model'
 - content_for :action_buttons do
-  = link_to icon('plus') + ' New Manufacturer', '#', class: [:button, :rounded, :inline_button], id: 'new_action_button'
+  = link_to icon('plus') + ' New Manufacturer', new_device_manufacturer_path, class: [:button, :rounded, :inline_button], id: 'new_action_button'
 
 .widget
   .inner
