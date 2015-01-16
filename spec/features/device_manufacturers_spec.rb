@@ -10,7 +10,7 @@ feature "DeviceManufacturers", :type => :feature do
     end
   end
 
-  describe 'POST create' do
+  describe 'POST create success' do
     before(:each) do
       visit new_device_manufacturer_path
       fill_in 'device_manufacturer_name', with: 'Test Manufacturer'
@@ -27,6 +27,22 @@ feature "DeviceManufacturers", :type => :feature do
 
     it 'redirects to the new device model path' do
       expect(page).to have_content('New Device Model')
+    end
+  end
+
+  describe 'POST create failure' do
+    before(:each) do
+      visit new_device_manufacturer_path
+      fill_in 'device_manufacturer_name', with: ''
+      click_on 'Submit'
+    end
+
+    it 'renders the new template' do
+      expect(page).to have_content('New Device Manufacturer')
+    end
+
+    it 'displays error messages' do
+      expect(page).to have_content("Name can't be blank")
     end
   end
 end

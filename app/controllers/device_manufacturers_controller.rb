@@ -9,6 +9,8 @@ class DeviceManufacturersController < ApplicationController
       @current_person.log? 'create', @device_manufacturer
       flash[:notice] = 'Device manufacturer created!'
       redirect_to new_device_model_path
+    else
+      render :new
     end
   end
 

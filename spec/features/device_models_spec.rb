@@ -34,7 +34,7 @@ describe 'DeviceModels spec' do
     end
   end
 
-  describe 'create' do
+  describe 'create success' do
     let!(:manufacturer) { create :device_manufacturer }
     before(:each) do
       visit new_device_model_path
@@ -49,6 +49,24 @@ describe 'DeviceModels spec' do
 
     it 'flashes a success message' do
       expect(page).to have_content('Device model created')
+    end
+  end
+
+  describe 'create failure' do
+    let!(:manufacturer) { create :device_manufacturer }
+    before(:each) do
+      visit new_device_model_path
+      select manufacturer.name, from: 'device_model_device_manufacturer_id'
+      fill_in 'device_model_name', with: ''
+      click_on 'Submit'
+    end
+
+    it 'renders the new template' do
+      expect(page).to have_content('New Device Model')
+    end
+
+    it 'displays error messages' do
+      expect(page).to have_content("Name can't be blank")
     end
   end
 end
