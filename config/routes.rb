@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'device_manufacturer/new'
+
+  get 'device_manufacturer/create'
+
   root 'devices#index'
 
   resources :blog_posts, only: [:index, :show] do
@@ -66,7 +70,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :device_manufacturers, only: [:new, :create]
+  resources :device_models, only: [:index, :new, :create, :edit, :update]
+
+
   resources :device_states, except: [:show]
+
 
   match '/feedback', to: 'feedbacks#new', via: 'get'
   resources :feedbacks, only: [:new, :create]
