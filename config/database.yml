@@ -85,13 +85,13 @@ test:
 
 staging:
   <<: *default
-  database: reconnect_production
+  database: oneconnect_production
   username: deploy
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
 
 production:
   <<: *default
-  database: reconnect_production
+  database: oneconnect_production
   username: deploy
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
 
