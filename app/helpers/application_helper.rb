@@ -141,8 +141,9 @@ module ApplicationHelper
     content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
   end
 
-  def person_link(person, classes = 'person_link')
-    link = link_to NameCase(person.display_name), about_person_path(person), class: classes
+  def person_link(person, classes = nil)
+    classes = tack_on_inactive_class(person, classes)
+    link = link_to person.display_name, about_person_path(person), class: classes
     if person.mobile_phone and
         not person.mobile_phone.include? '8005551212'
       link = link + contact_link(person)
@@ -154,8 +155,22 @@ module ApplicationHelper
     link_to icon('megaphone'), new_sms_message_person_path(person), class: [:send_contact]
   end
 
-  def person_sales_link(person, classes = '')
+  def person_sales_link(person, classes = nil)
+    classes = tack_on_inactive_class(person, classes)
     link_to NameCase(person.display_name), sales_person_path(person), class: classes
+  end
+
+  def tack_on_inactive_class(person, classes)
+    if classes and classes.is_a? String
+      classes = [classes]
+    end
+    extra_classes = person.active? ? [] : [:inactive]
+    if classes
+      classes = classes.zip(extra_classes).flatten.compact.uniq
+    else
+      classes = extra_classes
+    end
+    classes
   end
 
   def area_sales_link(area, classes = '')

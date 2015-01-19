@@ -19,6 +19,10 @@
 //= require google_jsapi
 //= require chartkick
 //= require masonry.min
+//= require underscore.min
+//= require google_maps_api.min
+//= require marker_clusterer.min
+//= require gmaps/google
 
 $(function(){
 	$('.nested_areas .nested_areas_icon').bind('click', function(){

@@ -82,6 +82,13 @@ describe ApplicationHelper do
       expect(link_markup).to have_content(person.display_name)
     end
 
+    it 'displays a link to a person with the inactive class where appropriate' do
+      person = create :person, active: false
+      link_markup = helper.person_link person
+      expect(link_markup).to have_selector('a.inactive', text: person.display_name)
+    end
+
+
     it "displays a link to a person's sales" do
       person = Person.first
       expected_selector = 'a[href="' +
