@@ -94,5 +94,24 @@ describe DeviceModelsController do
     end
   end
 
-  describe 'PATCH update failure'
+  describe 'PATCH update failure' do
+    let(:device_model) { create :device_model }
+    subject do
+      patch :update,
+            id: device_model.id,
+            device_model: {
+                name: 'No'
+            }
+    end
+
+    it 'does not change the model name' do
+      subject
+      expect(device_model.name).not_to eq('No')
+    end
+
+    it 'renders the edit template' do
+      subject
+      expect(response).to render_template(:edit)
+    end
+  end
 end

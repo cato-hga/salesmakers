@@ -37,6 +37,8 @@ class DeviceModelsController < ApplicationController
     if @device_model.update update_params
       @current_person.log? 'edit', @device_model
       redirect_to device_models_path
+    else
+      render :edit
     end
   end
 

@@ -85,7 +85,7 @@ describe 'DeviceModels spec' do
     end
   end
 
-  describe 'update success' do
+  describe 'model update success' do
     let(:model) { create :device_model }
     before(:each) do
       visit edit_device_model_path model
@@ -101,8 +101,23 @@ describe 'DeviceModels spec' do
     it 'redirects to the index path' do
       expect(page).to have_content('Device Models')
     end
+  end
 
+  describe 'model update failure' do
+    let(:model) { create :device_model }
+    before(:each) do
+      visit edit_device_model_path model
+      fill_in 'device_model_name', with: 'No'
+      click_on 'Submit'
+    end
 
+    it 'renders the edit template' do
+      expect(page).to have_content('Edit Device Model')
+    end
+
+    it 'displays error messages' do
+      expect(page).to have_content('Name is too short')
+    end
   end
 end
 
