@@ -1,5 +1,5 @@
-threads 1, 4
-workers 1
+threads 1, 16
+workers 4
 
 on_worker_boot do
   require "active_record"
