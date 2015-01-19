@@ -58,6 +58,13 @@ namespace :deploy do
     end
   end
 
+  desc 'Staging nginx.conf copy'
+  task :copy_nginx do
+    on roles(:staging) do
+      execute 'mv /opt/oneconnect/config/staging_nginx.conf nginx.conf'
+    end
+  end
+
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
@@ -65,8 +72,10 @@ namespace :deploy do
     end
   end
 
+
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
+  after :finishing, :copy_nginx
   after  :finishing,    :restart
 end
