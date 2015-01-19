@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe 'Devices NON-CRUD actions' do
+  it 'should show the search bar' do
+    device = create :device
+    visit device_path(device)
+    expect(page).to have_selector('#q_unstripped_serial_cont')
+  end
 
   describe 'write_off' do
     let(:device) { create :device }

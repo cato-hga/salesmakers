@@ -2,18 +2,6 @@
   = new_button new_line_path
   = link_to 'Edit States', line_states_path, class: [:button, :inline_button]
   = link_to 'Swap Lines', swap_lines_path, class: [:button, :inline_button ]
-- content_for :header do
-  = search_form_for @search, class: 'search_form' do |f|
-    - if not params[:q]
-      = icon('magnifying-glass')
-    = link_to 'Clear', request.path if params[:q]
-    = f.text_field :technology_service_provider_name_cont, placeholder: 'Provider'
-    = f.text_field :unstripped_identifier_cont, placeholder: 'Identifier'
-    = f.text_field :contract_end_date_cont, placeholder: 'Contract End Date'
-    = f.text_field :line_states_name_cont, placeholder: 'State(s)'
-    = f.submit 'search', class: 'button'
-  .top-pagination
-    = paginate @lines
 
 %section
   - header = header_row [sort_link(@search, :technology_service_provider_name, 'Provider'),sort_link(@search, :identifier),sort_link(@search, :device_serial, 'Device'),sort_link(@search, :contract_end_date, 'Contract End Date'),'State(s)']

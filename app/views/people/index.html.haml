@@ -2,7 +2,9 @@
   = link_to icon('indent-more') + ' Org Chart', org_chart_people_path, class: [:button, :inline_button]
 
 - content_for :header do
-  = search_form_for @search, class: 'search_form', html: { method: :post }, url: search_people_path do |f|
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form', html: { method: :post }, url: search_people_path do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
     = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
     = f.text_field :eid_eq, placeholder: 'EID'

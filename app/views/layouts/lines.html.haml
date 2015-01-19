@@ -1,0 +1,53 @@
+!!!
+%html
+  %head
+    %title
+      SalesMakers -
+      = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+    = stylesheet_link_tag 'application', params[:controller], media: 'all'
+    = javascript_include_tag 'application', params[:controller]
+    = favicon_link_tag '/favicon.ico?v=2'
+    = csrf_meta_tags
+    %meta{name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' }
+
+  %body{ id: 'action_' + params[:controller] + '_' + params[:action] }
+    #page_load
+      = image_tag 'page_load.gif'
+    - if current_user and current_user.groupme_access_token
+      %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
+      %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
+    #header
+      = render partial: "shared/top_navigation", locals: { current_person: @current_person}
+      .clear
+    .off-canvas-wrap{ data: { offcanvas: '' } }
+      .inner-wrap
+        = render partial: "shared/off_canvas_navigation", locals: { current_person: @current_person }
+        .container#main_container
+          %header
+            %h1
+              = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+              = yield :action_buttons
+            = render partial: 'lines/search'
+            = yield :header
+          .notices
+            - flash.each do |name, msg|
+              - if msg.is_a?(String)
+                .alert-box{ class: (name.to_s == 'notice' ? 'success' : 'alert'), data: { alert: '' } }
+                  = content_tag :div, msg
+                  %a.close(href='#') &times;
+        -#.slider= yield :slider Commenting out. Not needed
+        .container
+          %section#content
+            = yield
+
+          %footer
+            = yield :footer
+
+
+      -#= render "shared/admin_navigation"
+      = render 'shared/chat'
+      %a.exit-off-canvas
+    .widget_loading
+      = image_tag 'loading.gif'
+      %br
+      %em Loading...

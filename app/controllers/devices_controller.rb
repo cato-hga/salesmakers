@@ -1,12 +1,14 @@
 class DevicesController < ApplicationController
+  before_action :search_bar
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
+  layout 'devices'
+
   def index
     authorize Device.new
-    @search = Device.search(params[:q])
     @devices = @search.result.order('serial').page(params[:page])
   end
 
@@ -185,6 +187,10 @@ class DevicesController < ApplicationController
   end
 
   private
+
+  def search_bar
+    @search = Device.search(params[:q])
+  end
 
   def do_authorization
     authorize Device.new

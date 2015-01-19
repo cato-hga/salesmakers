@@ -1,0 +1,18 @@
+= link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+= search_form_for @search, id: 'search_form' do |f|
+  = link_to "&times;".html_safe, '#', id: 'hide_search'
+  = link_to 'Clear', request.path if params[:q]
+  = f.text_field :unstripped_identifier_cont, placeholder: 'Identifier'
+  = f.text_field :unstripped_serial_cont, placeholder: 'Serial'
+  = f.text_field :person_display_name_cont, placeholder: 'Assigned To'
+  = f.text_field :device_deployments_person_display_name_cont, placeholder: 'Previously Assigned To'
+  = f.text_field :line_unstripped_identifier_cont, placeholder: 'Line'
+  = f.text_field :device_manufacturer_name_cont, placeholder: 'Manufacturer'
+  = f.text_field :device_model_name_cont, placeholder: 'Model'
+  = f.text_field :device_states_name_cont, placeholder: 'State(s)'
+  = f.text_field :device_deployments_tracking_number_cont, placeholder: 'Tracking #'
+  = f.submit 'search', class: 'button'
+- if @devices
+  .top-pagination
+    = paginate @devices

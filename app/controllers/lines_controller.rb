@@ -1,10 +1,12 @@
 class LinesController < ApplicationController
+  before_action :search_bar
   before_action :set_line_and_line_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
+
+  layout 'lines'
   
   def index
-    @search = Line.search(params[:q])
     @lines = @search.result.order('identifier').page(params[:page])
   end
 
@@ -106,6 +108,10 @@ class LinesController < ApplicationController
   end
 
   private
+
+  def search_bar
+    @search = Line.search(params[:q])
+  end
 
   def do_authorization
     authorize Line.new

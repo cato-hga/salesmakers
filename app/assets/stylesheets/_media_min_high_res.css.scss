@@ -6,14 +6,36 @@
       padding-bottom: $nav_height !important
     }
 
-	form.search_form {
-		float: right;
+	form#search_form {
 		margin-top: 1em;
+		position: absolute;
+		right: 1em;
+		background-color: white;
+		border: 2px solid #999;
+		padding-top: 1em;
+		padding-bottom: 0;
+		padding-right: 1em;
+		padding-left: 1em;
+		box-shadow: $shadow;
+		display: none;
 
 		input[type = text], select, textarea {
 			width: 10em;
 			display: inline-block;
 		}
+	}
+
+	#show_search {
+		float: right;
+		font-size: 2em;
+		margin-top: 0.5em;
+		margin-right: 0.5em;
+	}
+
+	#hide_search {
+		font-size: 1.5em;
+		color: #999;
+		vertical-align: middle;
 	}
 
 	.slider {

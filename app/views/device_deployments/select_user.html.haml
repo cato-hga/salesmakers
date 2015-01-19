@@ -1,8 +1,9 @@
 - title 'Select Person for ' + @device.serial
 - content_for :header do
-  = search_form_for @search, url: select_user_device_device_deployments_path(@device), class: 'search_form' do |f|
-    - if not params[:q]
-      = icon('magnifying-glass')
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+  = search_form_for @search, url: select_user_device_device_deployments_path(@device), id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :eid_eq, placeholder: 'EID'
     = f.text_field :display_name_cont, placeholder: 'Name'

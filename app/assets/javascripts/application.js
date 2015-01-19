@@ -91,6 +91,14 @@ $(function(){
         type:'ajax'
     });
 
+	$('body').on('click', '#show_search', function() {
+		$('#search_form').show(250);
+	});
+
+	$('body').on('click', '#hide_search', function() {
+		$('#search_form').hide(250);
+	});
+
 //	$('body').on('click', '.chart_container .toggle_chart', function() {
 //		$(this).parents('.chart_container').find('div').toggle();
 //	});

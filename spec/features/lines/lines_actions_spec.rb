@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe 'actions on Lines' do
+  it 'should show the search bar' do
+    line = create :line
+    visit line_path(line)
+    expect(page).to have_selector('#q_unstripped_identifier_cont')
+  end
+
   context 'for line states' do
     let(:line) { create :line }
     let!(:locked_line_state) {
