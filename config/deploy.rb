@@ -68,6 +68,5 @@ namespace :deploy do
   before :starting,     :check_revision
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
-  after :finishing, :copy_nginx
   after  :finishing,    :restart
 end
