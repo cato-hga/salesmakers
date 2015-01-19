@@ -6,11 +6,10 @@ set :repo_url, 'git@bitbucket.org:salesmakers/salesmakers.git'
 
 set :deploy_to, '/opt/oneconnect'
 set :scm, :git
-set :branch, 'master'
+set :branch, 'staging_environment_configuration'
 set :keep_releases, 5
 
 set :format, :pretty
-set :log_level, :debug
 set :pty, true
 
 set :linked_files, %w{config/database.yml}

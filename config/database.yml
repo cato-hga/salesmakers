@@ -82,6 +82,15 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
+staging:
+  <<: *default
+  database: reconnect_production
+  username: deploy
+  database: reconnect_production
+  username: deploy
+  password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
+
 production:
   <<: *default
   database: reconnect_production
