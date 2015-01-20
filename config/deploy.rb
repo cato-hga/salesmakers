@@ -10,6 +10,7 @@ set :branch, 'staging_environment_configuration'
 set :keep_releases, 5
 
 set :format, :pretty
+set :log_level, :debug
 set :pty, true
 
 set :linked_files, %w{config/database.yml}
