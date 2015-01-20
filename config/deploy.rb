@@ -20,11 +20,11 @@ app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
-set :puma_bind,       "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
-set :puma_state,      "#{shared_path}/tmp/pids/puma.state"
-set :puma_pid,        "#{shared_path}/tmp/pids/puma.pid"
+set :puma_bind, "unix://#{shared_path}/tmp/sockets/#{fetch(:application)}-puma.sock"
+set :puma_state, "#{shared_path}/tmp/pids/puma.state"
+set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
-set :puma_error_log,  "#{release_path}/log/puma.access.log"
+set :puma_error_log, "#{release_path}/log/puma.access.log"
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -65,9 +65,20 @@ namespace :deploy do
     end
   end
 
+  desc 'Sync staging and production database' do
+    task :dbsync do
+      on roles(:app), in: :sequence, wait: 1 do
+        execute 'pg_dump -Fc -h 10.209.169.144 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
+        execute 'dropdb -U oneconnect oneconnect_production'
+        execute 'createdb -U oneconnect -O oneconnect oneconnect_production'
+        execute 'pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
+      end
+    end
+  end
 
-  before :starting,     :check_revision
-  after  :finishing,    :compile_assets
-  after  :finishing,    :cleanup
-  after  :finishing,    :restart
+
+  before :starting, :check_revision
+  after :finishing, :compile_assets
+  after :finishing, :cleanup
+  after :finishing, :restart
 end
