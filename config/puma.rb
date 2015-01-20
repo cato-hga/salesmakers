@@ -1,5 +1,6 @@
 threads 1, 16
 workers 4
+environment ENV['RAILS_ENV'] || 'production'
 
 on_worker_boot do
   require "active_record"
