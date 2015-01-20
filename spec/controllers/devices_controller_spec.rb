@@ -300,4 +300,30 @@ describe DevicesController do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
+
+  describe 'PATCH repair' do
+    let(:device) { create :device }
+    let!(:repair) { create :device_state, name: 'Repairing', locked: true }
+
+    subject {
+      patch :repairing,
+            id: device.id
+      device.reload
+    }
+
+    it 'does not add the Repair state if already in repair' do
+      device.device_states << repair
+      device.reload
+      expect { subject }.not_to change(device.device_states, :count)
+    end
+
+    it 'adds the Repair state to devices that do not have it' do
+      expect { subject }.to change(device.device_states, :count).by(1)
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+  end
 end

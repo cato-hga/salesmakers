@@ -226,4 +226,26 @@ describe 'Devices NON-CRUD actions' do
       end
     end
   end
+
+  describe 'repair', js: true do
+    let(:device) { create :device }
+    let!(:repair) { create :device_state, name: 'Repairing', locked: true }
+    before { visit device_path(device) }
+    subject {
+      page.driver.browser.accept_js_confirms
+      within '#main_container header' do
+        click_on 'Repair'
+      end
+    }
+
+    it 'does not show the repair button when in repair' do
+      subject
+      expect(page).not_to have_selector('.button', text: 'Repair')
+    end
+
+    it 'reports it as in repair' do
+      subject
+      expect(page).to have_selector('.device_state', text: 'Repairing')
+    end
+  end
 end

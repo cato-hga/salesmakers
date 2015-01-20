@@ -50,6 +50,9 @@ Rails.application.routes.draw do
       patch 'found',
             action: :found,
             as: 'found'
+      patch 'repairing',
+            action: :repairing,
+            as: 'repairing'
     end
     collection do
       get :csv, to: 'devices#csv', as: :csv
