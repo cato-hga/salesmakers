@@ -28,7 +28,7 @@ gem 'capistrano', '3.2.1' # Automated deployment
 gem 'capistrano-bundler', '1.1.2', require: false # Capistrano bundler integration
 gem 'capistrano-rails', '1.1.1', require: false # Capistrano Rails integration
 gem 'capistrano-rvm', '0.1.1', require: false # Capistrano RVM integration
-gem 'capistrano3-puma', '0.6.1', require: false # Capistrano Puma integration
+gem 'capistrano3-puma', '0.8.2', require: false # Capistrano Puma integration
 gem 'puma', '2.9.0' # Web server
 gem 'foreman', '0.74.0' # Deployment automation
 gem 'emoji', '1.0.1' # Automatic emoji embeds
