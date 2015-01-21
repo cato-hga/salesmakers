@@ -1,15 +1,15 @@
 //= require wall.js
 
 function addRow(button) {
-    if ($('#secondary_identifier_header').length) {
-        addRowWithSecondary(button);
+    if ($('#device_identifier_header').length) {
+        addRowWithDevice(button);
     }
     else {
-        addRowWithoutSecondary(button);
+        addRowWithoutDevice(button);
     }
 }
 
-function addRowWithoutSecondary(button) {
+function addRowWithoutDevice(button) {
     $('<div class="row full-width">' +
     '<div class="large-6 columns serial_column">' +
     '<input type="text" name="serial[]" id="serial" class="serial_field">' +
@@ -25,7 +25,7 @@ function addRowWithoutSecondary(button) {
     $('.serial_field:last-of-type').focus().select();
 }
 
-function addRowWithSecondary(button) {
+function addRowWithDevice(button) {
     $('<div class="row full-width">' +
     '<div class="large-4 columns serial_column">' +
     '<input type="text" name="serial[]" id="serial" class="serial_field">' +
@@ -33,8 +33,8 @@ function addRowWithSecondary(button) {
     '<div class="large-3 columns line_column">' +
     '<input type="text" name="line_identifier[]" id="line_identifier" class="line_id_field">' +
     '</div>' +
-    '<div class="large-4 columns secondary_identifier">' +
-    '<input type="text" name="secondary_identifier[]" id="secondary_identifier" class="secondary_identifier_field">' +
+    '<div class="large-4 columns device_identifier">' +
+    '<input type="text" name="device_identifier[]" id="device_identifier" class="device_identifier_field">' +
     '</div>' +
     '<div class="large-1 columns add_delete_button">' +
     '<a href="#" class="button postfix add_row">Add</a>' +
@@ -44,12 +44,12 @@ function addRowWithSecondary(button) {
     $('.serial_field:last-of-type').focus().select();
 }
 
-function secondaryIdentifier() {
-    $('<div class="large-4 columns" id="secondary_identifier_header">' +
-    '<strong>Secondary Identifier</strong>' +
+function deviceIdentifier() {
+    $('<div class="large-4 columns" id="device_identifier_header">' +
+    '<strong>Device Identifier</strong>' +
     '</div>').insertAfter('#line_header');
-    $('<div class="large-4 columns secondary_identifier">' +
-    '<input type="text" name="secondary_identifier[]" id="secondary_identifier" class="secondary_identifier_field">' +
+    $('<div class="large-4 columns device_identifier">' +
+    '<input type="text" name="device_identifier[]" id="device_identifier" class="device_identifier_field">' +
     '</div>').insertAfter('.line_column');
     $('#serial_header').switchClass('large-6', 'large-4');
     $('#line_header').switchClass('large-6', 'large-4');
@@ -58,8 +58,8 @@ function secondaryIdentifier() {
 }
 
 $(function () {
-    $('body').on('click', '.secondary_identifier_button', function () {
-        secondaryIdentifier();
+    $('body').on('click', '.device_identifier_button', function () {
+        deviceIdentifier();
     });
 
     $('body').on('click', '.add_row', function () {
