@@ -19,6 +19,7 @@ describe DevicePolicy do
     specify { expect(policy.found?).to be_truthy }
     specify { expect(policy.add_state?).to be_truthy }
     specify { expect(policy.remove_state?).to be_truthy }
+    specify { expect(policy.repairing?).to be_truthy }
   end
 
   context 'for those without permission' do
@@ -36,6 +37,6 @@ describe DevicePolicy do
     specify { expect(policy.found?).to be_falsey }
     specify { expect(policy.add_state?).to be_falsey }
     specify { expect(policy.remove_state?).to be_falsey }
+    specify { expect(policy.repairing?).to be_falsey }
   end
-
 end

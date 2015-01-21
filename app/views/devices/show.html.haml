@@ -1,6 +1,7 @@
 - write_off = DeviceState.find_by name: 'Written Off'
 - deployed = DeviceState.find_by name: 'Deployed'
 
+
 - title @device.serial
 - content_for :action_buttons do
   = edit_button edit_device_path(@device)
@@ -14,6 +15,8 @@
     = link_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
   - else
     = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen. Are you sure?' }, method: :patch
+  - if not @device.repairing?
+    = link_to 'Repair', repairing_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will mark this device as being repaired. Are you sure?' }, method: :patch
 - unless @device.identifier == @device.serial
   %h3
     Secondary ID:

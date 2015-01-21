@@ -22,7 +22,10 @@ class Device < ActiveRecord::Base
     parent.table[:serial]
   end
 
-  #:nocov:
+  def repairing?
+    repairing = DeviceState.find_or_initialize_by name: 'Repairing'
+    self.device_states.include? repairing
+  end
 
   def lost_or_stolen?
     lost_stolen = DeviceState.find_or_initialize_by name: 'Lost or Stolen'
@@ -33,6 +36,73 @@ class Device < ActiveRecord::Base
     self.device_states << state
     self.device_states.include? state
   end
+
+  def deployed?
+    self.device_deployments.count > 0 and
+        not self.device_deployments.first.ended
+  end
+
+  def deploy_date_string
+    return nil unless deployed?
+    self.device_deployments.first.started.strftime '%-m/%-d/%Y'
+  end
+
+  def manufacturer_name
+    return nil unless self.device_manufacturer
+    self.device_manufacturer.name
+  end
+
+  def device_model_name
+    return '' unless self.device_model
+    self.device_model.device_model_name
+  end
+
+  def line_identifier
+    self.line ? self.line.identifier : nil
+  end
+
+  def assignee_name
+    self.person ? self.person.display_name : nil
+  end
+
+  def csv_identifier
+    self.identifier ? "'" + self.identifier : nil
+  end
+
+  def csv_serial
+    self.serial ? "'" + self.serial : nil
+  end
+
+  def csv_line_identifier
+    self.line_identifier ? "'" + self.line_identifier : nil
+  end
+
+  def technology_service_provider
+    return nil unless self.line
+    return self.line.technology_service_provider
+  end
+
+  def set_identifier_when_blank
+    if not self.identifier or self.identifier.blank?
+      self.identifier = self.serial
+    end
+  end
+
+  def strip_identifying_fields
+    self.serial = self.serial.
+        gsub(/[^0-9A-Za-z]/, '') unless self.serial.blank?
+    self.identifier = self.identifier.
+        gsub(/[^0-9A-Za-z]/, '') unless self.identifier.blank?
+  end
+
+  def update_device(serial, identifier, device_model_id)
+    @device.serial = serial
+    @device.identifier = identifier
+    @device.device_model_id = device_model_id
+  end
+
+  #HERE BE RBDC1 DRAGONS. PUT NEW CODE ABOVE HERE
+  #:nocov:
 
   def self.create_from_connect_asset_movement(serial, device_model_id, line, movement, created_by)
     device_state_emails = [
@@ -295,68 +365,4 @@ class Device < ActiveRecord::Base
   end
 
   #:nocov:
-
-  def deployed?
-    self.device_deployments.count > 0 and
-        not self.device_deployments.first.ended
-  end
-
-  def deploy_date_string
-    return nil unless deployed?
-    self.device_deployments.first.started.strftime '%-m/%-d/%Y'
-  end
-
-  def manufacturer_name
-    return nil unless self.device_manufacturer
-    self.device_manufacturer.name
-  end
-
-  def device_model_name
-    return '' unless self.device_model
-    self.device_model.device_model_name
-  end
-
-  def line_identifier
-    self.line ? self.line.identifier : nil
-  end
-
-  def assignee_name
-    self.person ? self.person.display_name : nil
-  end
-
-  def csv_identifier
-    self.identifier ? "'" + self.identifier : nil
-  end
-
-  def csv_serial
-    self.serial ? "'" + self.serial : nil
-  end
-
-  def csv_line_identifier
-    self.line_identifier ? "'" + self.line_identifier : nil
-  end
-
-  def technology_service_provider
-    return nil unless self.line
-    return self.line.technology_service_provider
-  end
-
-  def set_identifier_when_blank
-    if not self.identifier or self.identifier.blank?
-      self.identifier = self.serial
-    end
-  end
-
-  def strip_identifying_fields
-    self.serial = self.serial.
-        gsub(/[^0-9A-Za-z]/, '') unless self.serial.blank?
-    self.identifier = self.identifier.
-        gsub(/[^0-9A-Za-z]/, '') unless self.identifier.blank?
-  end
-
-  def update_device(serial, identifier, device_model_id)
-    @device.serial = serial
-    @device.identifier = identifier
-    @device.device_model_id = device_model_id
-  end
 end

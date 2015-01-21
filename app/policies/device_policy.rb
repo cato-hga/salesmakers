@@ -28,4 +28,8 @@ class DevicePolicy < ApplicationPolicy
   def remove_state?
     update?
   end
+
+  def repairing?
+    update?
+  end
 end

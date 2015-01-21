@@ -485,5 +485,4 @@ module ApplicationHelper
   def email_communication_log_display(entry)
     'Email: '.html_safe + content_tag(:span, entry.loggable.subject, class: [:comment])
   end
-
 end
