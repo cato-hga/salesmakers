@@ -70,6 +70,11 @@ describe DevicesController do
       it 'assigns the correct line to the correct device'
     end
 
+    context 'devices with secondary identifiers' do
+      context 'autopopulated'
+      context 'manually entered'
+    end
+
     context 'failure' do
       let!(:device_model) { create :device_model }
       let!(:service_provider) { create :technology_service_provider }
