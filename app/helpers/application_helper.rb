@@ -14,13 +14,13 @@ module ApplicationHelper
   def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do
-      links << link_to(area.name, client_project_area_path(area.project.client, area.project, area), class: classes)
+      links << link_to(area.name, client_project_area_url(area.project.client, area.project, area), class: classes)
     end
     links.join(', ').html_safe
   end
 
   def area_link(area)
-    link_to area.name, client_project_area_path(area.project.client, area.project, area)
+    link_to area.name, client_project_area_url(area.project.client, area.project, area)
   end
 
   def department_link(department)
@@ -143,7 +143,7 @@ module ApplicationHelper
 
   def person_link(person, classes = nil)
     classes = tack_on_inactive_class(person, classes)
-    link = link_to person.display_name, about_person_path(person), class: classes
+    link = link_to person.display_name, about_person_url(person), class: classes
     if person.mobile_phone and
         not person.mobile_phone.include? '8005551212'
       link = link + contact_link(person)
@@ -152,12 +152,12 @@ module ApplicationHelper
   end
 
   def contact_link(person)
-    link_to icon('megaphone'), new_sms_message_person_path(person), class: [:send_contact]
+    link_to icon('megaphone'), new_sms_message_person_url(person), class: [:send_contact]
   end
 
   def person_sales_link(person, classes = nil)
     classes = tack_on_inactive_class(person, classes)
-    link_to NameCase(person.display_name), sales_person_path(person), class: classes
+    link_to NameCase(person.display_name), sales_person_url(person), class: classes
   end
 
   def tack_on_inactive_class(person, classes)
@@ -174,7 +174,7 @@ module ApplicationHelper
   end
 
   def area_sales_link(area, classes = '')
-    link_to area.name, sales_client_project_area_path(area.project.client, area.project, area), class: classes
+    link_to area.name, sales_client_project_area_url(area.project.client, area.project, area), class: classes
   end
 
   def social_link(person, classes = '')
@@ -340,7 +340,7 @@ module ApplicationHelper
   end
 
   def avatar(person)
-    link_to image_tag(avatar_url(person), class: :avatar), about_person_path(person)
+    link_to image_tag(avatar_url(person), class: :avatar), about_person_url(person)
   end
 
   def friendly_datetime(datetime)
@@ -375,11 +375,11 @@ module ApplicationHelper
   def likes(post, first_post = false)
     if post.likes.where(person: @current_person, wall_post: post).count > 0 and post.publication.publishable.person != @current_person
       #content_tag :div, icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count), class: :liked
-      link_to(icon('star', first_post), destroy_like_path(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+      link_to(icon('star', first_post), destroy_like_url(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     elsif post.publication.publishable.person == @current_person
       content_tag(:span, icon('star', first_post), class: :own_like) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
     else
-      link_to(icon('star', first_post), create_like_path(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+      link_to(icon('star', first_post), create_like_url(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
     end
   end
 

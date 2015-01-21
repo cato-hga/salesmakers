@@ -40,5 +40,7 @@ module Reconnect
 
     config.autoload_paths << Rails.root.join('lib')
 
+    # Rails 5.0-ready for avoiding deprecation warnings
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end

@@ -2,10 +2,10 @@ require 'active_shipping'
 require 'apis/groupme'
 
 class AssetShippingNotifier
-  include ActiveMerchant::Shipping
+  #include ActiveMerchant::Shipping
 
   def initialize
-    @fedex = FedEx.new login: 'RBDOperations',
+    @fedex = ActiveShipping::FedEx.new login: 'RBDOperations',
                        password: '13F2491742jjiRzQiQvgsQ2fJ',
                        key: 'SgOmSL16OlhWHwfY',
                        account: '289194053'

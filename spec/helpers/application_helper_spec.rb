@@ -36,7 +36,7 @@ describe ApplicationHelper do
   describe 'link display methods' do
     it 'displays a link to an area' do
       area = create :area
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.client_project_area_path(area.project.client,
                                           area.project,
                                           area) +
@@ -48,7 +48,7 @@ describe ApplicationHelper do
 
     it 'displays a link to a department' do
       department = create :department
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.department_path(department) +
           '"]'
       link_markup = helper.department_link department
@@ -58,7 +58,7 @@ describe ApplicationHelper do
 
     it 'displays a link to a project' do
       project = create :project
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.client_project_path(project.client, project) +
           '"]'
       link_markup = helper.project_link project
@@ -68,7 +68,7 @@ describe ApplicationHelper do
 
     it "displays a link to a phone number" do
       phone_number = '8005551212'
-      expected_selector = 'a[href="tel:8005551212"]'
+      expected_selector = 'a[href$="tel:8005551212"]'
       link_markup = helper.phone_link phone_number, nil
       expect(link_markup).to have_selector(expected_selector)
       expect(link_markup).to have_content('(800) 555-1212')
@@ -76,7 +76,7 @@ describe ApplicationHelper do
 
     it 'displays a link to a person' do
       person = Person.first
-      expected_selector = 'a[href="' + helper.about_person_path(person) + '"]'
+      expected_selector = 'a[href$="' + helper.about_person_path(person) + '"]'
       link_markup = helper.person_link person
       expect(link_markup).to have_selector(expected_selector)
       expect(link_markup).to have_content(person.display_name)
@@ -91,7 +91,7 @@ describe ApplicationHelper do
 
     it "displays a link to a person's sales" do
       person = Person.first
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.sales_person_path(person) +
           '"]'
       link_markup = helper.person_sales_link person
@@ -101,7 +101,7 @@ describe ApplicationHelper do
 
     it "displays a link to an area's sales" do
       area = create :area
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.sales_client_project_area_path(area.project.client,
                                                 area.project,
                                                 area) +
@@ -117,7 +117,7 @@ describe ApplicationHelper do
       profile = create :profile,
                        person: person,
                        nickname: nickname
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.person_path(person) +
           '"]'
       link_markup = helper.social_link person
@@ -245,7 +245,7 @@ describe ApplicationHelper do
     end
 
     specify 'display in full form' do
-      expected_selector = 'a[href="' +
+      expected_selector = 'a[href$="' +
           helper.about_person_path(log_entry.trackable) +
           '"]'
       markup = helper.render_log_entry log_entry
@@ -256,19 +256,19 @@ describe ApplicationHelper do
 
   it 'should display a new button' do
     markup = helper.new_button('/')
-    expect(markup).to have_selector('a[href="/"]')
+    expect(markup).to have_selector('a[href$="/"]')
     expect(markup).to have_selector('i[class="fi-plus"]')
   end
 
   it 'should display an edit button' do
     markup = helper.edit_button('/')
-    expect(markup).to have_selector('a[href="/"]')
+    expect(markup).to have_selector('a[href$="/"]')
     expect(markup).to have_selector('i[class="fi-page-edit"]')
   end
 
   it 'should display a delete button' do
     markup = helper.delete_button('/')
-    expect(markup).to have_selector('a[href="/"]')
+    expect(markup).to have_selector('a[href$="/"]')
     expect(markup).to have_selector('i[class="fi-x-circle"]')
   end
 
