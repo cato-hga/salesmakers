@@ -27,7 +27,9 @@ class AssetReceiver
     validate_service_provider
     validate_line_identifier
     validate_serial
+    validate_device_identifier
     validate_contract_end_date
+
   end
 
   def valid?
@@ -108,6 +110,12 @@ class AssetReceiver
   def validate_serial
     unless self.serial.present? and self.serial.length >= 6
       errors.add :serial, 'A Serial must be present and at least 6 characters in length'
+    end
+  end
+
+  def validate_device_identifier
+    unless self.device_identifier.present? and self.device_identifier.length >= 4
+      errors.add :device_identifier, 'A Device Identifier must be present and at least 4 characters in lenght'
     end
   end
 
