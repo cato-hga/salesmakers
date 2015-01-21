@@ -55,7 +55,7 @@ Rails.application.routes.draw do
             as: 'repairing'
     end
     collection do
-      get :csv, to: 'devices#csv', as: :csv
+      get :csv, to: 'devices#csv', as: :csv, defaults: { format: :csv }
     end
     resources :device_deployments, except: [ :index ] do
       collection do
@@ -138,7 +138,7 @@ Rails.application.routes.draw do
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
       get :org_chart, as: :org_chart
-      get :csv, to: 'people#csv', as: :csv
+      get :csv, to: 'people#csv', as: :csv, defaults: { format: :csv }
     end
   end
 

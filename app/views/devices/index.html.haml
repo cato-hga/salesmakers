@@ -6,5 +6,5 @@
   = render 'table'
 
 - content_for :footer do
-  .left= csv_link csv_devices_path(params.merge(format: :csv)), @search.result.count
+  .left= csv_link csv_devices_path(params), @search.result.count
   = paginate @devices

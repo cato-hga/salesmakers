@@ -1183,7 +1183,7 @@ $tabs-navigation-active-font-color: white;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
-  $topbar-height: 60px;
+  $topbar-height: rem-calc(60);
 
 @media #{$large-up} {
 	nav {
@@ -1200,6 +1200,7 @@ $tabs-navigation-active-font-color: white;
 $topbar-dropdown-bg: white;
 $topbar-dropdown-link-color: black;
 $topbar-dropdown-link-bg: white;
+$topbar-dropdown-link-bg-hover: #ddd;
 // $topbar-dropdown-link-weight: $font-weight-normal;
 // $topbar-dropdown-toggle-size: 5px;
 $topbar-dropdown-toggle-color: black;

@@ -5,7 +5,7 @@ describe 'Email logging' do
   let(:subject) { 'This is a subject' }
   let(:content) { 'This is some content' }
   let!(:email_message) {
-    NotificationMailer.simple_mail(person.email, subject, content).deliver
+    NotificationMailer.simple_mail(person.email, subject, content).deliver_now
     EmailMessage.first
   }
 
