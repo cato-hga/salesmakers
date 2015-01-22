@@ -3,8 +3,6 @@ class AddMissingIndexes < ActiveRecord::Migration
     add_index :positions, :department_id
     add_index :permissions_positions, :permission_id
     add_index :permissions_positions, :position_id
-    add_index :group_me_groups_group_me_users, :group_me_group_id
-    add_index :group_me_groups_group_me_users, :group_me_user_id
     add_index :group_me_users, :person_id
     add_index :people, :position_id
     add_index :people, :connect_user_id
