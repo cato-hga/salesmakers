@@ -73,10 +73,10 @@ class GroupMeGroup < ActiveRecord::Base
         found_bot = true if bot_group_id == group_id and bot_name == 'OneConnect'
       end
       unless found_bot
-        groupme.add_bot 'OneConnect',
+        groupme.add_bot 'SalesCenter',
                         group_id,
                         'https://one.rbdconnect.com/group_me_bot/message',
-                        'http://i.groupme.com/140x132.png.e28948adf69f43abb2f19a7068458812'
+                        'https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e'
       end
     end
   end
