@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  root 'devices#index'
+
   resources :blog_posts, only: [:index, :show] do
     # member do
     #   get 'publish'
