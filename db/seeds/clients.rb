@@ -1,9 +1,9 @@
 puts "Creating clients..."
 
-Client.create name: 'Vonage'
+Client.find_or_create_by name: 'Vonage'
 
-Client.create name: 'Retail Business Holdings'
+Client.find_or_create_by name: 'Retail Business Holdings'
 
-Client.create name: 'Sprint'
+Client.find_or_create_by name: 'Sprint'
 
-# Client.create name: 'Rosetta Stone'
+Client.find_or_create_by name: 'Comcast'

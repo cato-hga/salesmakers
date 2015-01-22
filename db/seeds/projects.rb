@@ -1,62 +1,64 @@
 puts "Creating projects..."
 
-vonage = Client.find_by_name 'Vonage'
-rbh = Client.find_by_name 'Retail Business Holdings'
-sprint = Client.find_by_name 'Sprint'
-# rs = Client.find_by_name 'Rosetta Stone'
+vonage = Client.find_by name: 'Vonage'
+rbh = Client.find_by name: 'Retail Business Holdings'
+sprint = Client.find_by name: 'Sprint'
+comcast = Client.find_by name: 'Comcast'
 
-vonage_retail = Project.create name: 'Vonage Retail',
+vonage_retail = Project.find_or_create_by name: 'Vonage Retail',
                                client: vonage
-vonage_events = Project.create name: 'Vonage Events',
+vonage_events = Project.find_or_create_by name: 'Vonage Events',
                                client: vonage
-headquarters = Project.create name: 'RBD Company HQ',
+headquarters = Project.find_or_create_by name: 'RBD Company HQ',
                            client: rbh
-sprint_retail = Project.create name: 'Sprint Retail',
+sprint_retail = Project.find_or_create_by name: 'Sprint Retail',
                            client: sprint
-# rs_retail = Project.create name: 'Rosetta Stone Retail',
-#                            client: rs
+comcast_retail = Project.find_or_create_by name: 'Comcast Retail',
+                           client: comcast
 
-vrr = AreaType.create name: 'Vonage Retail Region',
+vrr = AreaType.find_or_create_by name: 'Vonage Retail Region',
                       project: vonage_retail
-vrm = AreaType.create name: 'Vonage Retail Market',
+vrm = AreaType.find_or_create_by name: 'Vonage Retail Market',
                       project: vonage_retail
-vrt = AreaType.create name: 'Vonage Retail Territory',
+vrt = AreaType.find_or_create_by name: 'Vonage Retail Territory',
                       project: vonage_retail
-ver = AreaType.create name: 'Vonage Event Region',
+ver = AreaType.find_or_create_by name: 'Vonage Event Region',
                       project: vonage_events
-vem = AreaType.create name: 'Vonage Event Market',
+vem = AreaType.find_or_create_by name: 'Vonage Event Market',
                       project: vonage_events
-vet = AreaType.create name: 'Vonage Event Team',
+vet = AreaType.find_or_create_by name: 'Vonage Event Team',
                       project: vonage_events
 
-hqo = AreaType.create name: 'Company HQ',
+hqo = AreaType.find_or_create_by name: 'Company HQ',
                      project: headquarters
-hqd = AreaType.create name: 'HQ Department',
+hqd = AreaType.find_or_create_by name: 'HQ Department',
                      project: headquarters
-hqt = AreaType.create name: 'HQ Team',
+hqt = AreaType.find_or_create_by name: 'HQ Team',
                      project: headquarters
 
-srr = AreaType.create name: 'Sprint Retail Region',
+srr = AreaType.find_or_create_by name: 'Sprint Retail Region',
                       project: sprint_retail
-srt = AreaType.create name: 'Sprint Retail Territory',
+srt = AreaType.find_or_create_by name: 'Sprint Retail Territory',
                       project: sprint_retail
 
-# rsrr = AreaType.create name: 'Rosetta Stone Retail Region',
-#                       project: rs_retail
-# rsrt = AreaType.create name: 'Rosetta Stone Retail Territory',
-#                       project: rs_retail
+ccrr = AreaType.find_or_create_by name: 'Comcast Retail Region',
+                      project: comcast_retail
+ccrm = AreaType.find_or_create_by name: 'Comcast Retail Market',
+                                  project: comcast_retail
+ccrt = AreaType.find_or_create_by name: 'Comcast Retail Territory',
+                      project: comcast_retail
 
 vr_connect = ConnectRegion.find_by_value 'Vonage Retail-1'
 vrrs_connect = vr_connect.children
 vrrs_connect.each do |vrr_connect|
-  new_vrr = Area.create name: vrr_connect.name,
+  new_vrr = Area.find_or_create_by name: vrr_connect.name,
                         area_type: vrr,
                         project: vonage_retail,
                         created_at: vrr_connect.created,
                         updated_at: vrr_connect.updated
   vrms_connect = vrr_connect.children
   vrms_connect.each do |vrm_connect|
-    new_vrm = Area.create name: vrm_connect.name,
+    new_vrm = Area.find_or_create_by name: vrm_connect.name,
                           area_type: vrm,
                           project: vonage_retail,
                           parent: new_vrr,
@@ -64,7 +66,7 @@ vrrs_connect.each do |vrr_connect|
                           updated_at: vrm_connect.updated
     vrts_connect = vrm_connect.children
     vrts_connect.each do |vrt_connect|
-      new_vrt = Area.create name: vrt_connect.name.gsub('Vonage Retail - ', ''),
+      new_vrt = Area.find_or_create_by name: vrt_connect.name.gsub('Vonage Retail - ', ''),
                             area_type: vrt,
                             project: vonage_retail,
                             parent: new_vrm,
@@ -77,14 +79,14 @@ end
 ve_connect = ConnectRegion.find_by_value 'Vonage Events-1'
 vers_connect = ve_connect.children
 vers_connect.each do |ver_connect|
-  new_ver = Area.create name: ver_connect.name,
+  new_ver = Area.find_or_create_by name: ver_connect.name,
                         area_type: ver,
                         project: vonage_events,
                         created_at: ver_connect.created,
                         updated_at: ver_connect.updated
   vems_connect = ver_connect.children
   vems_connect.each do |vem_connect|
-    new_vem = Area.create name: vem_connect.name,
+    new_vem = Area.find_or_create_by name: vem_connect.name,
                           area_type: vem,
                           project: vonage_events,
                           parent: new_ver,
@@ -92,7 +94,7 @@ vers_connect.each do |ver_connect|
                           updated_at: vem_connect.updated
     vets_connect = vem_connect.children
     vets_connect.each do |vet_connect|
-      new_vet = Area.create name: vet_connect.name.gsub('Vonage Events - ', ''),
+      new_vet = Area.find_or_create_by name: vet_connect.name.gsub('Vonage Events - ', ''),
                             area_type: vet,
                             project: vonage_events,
                             parent: new_vem,
@@ -107,7 +109,7 @@ end
 sr_connect = ConnectRegion.find_by_value 'Sprint-1'
 srrs_connect = sr_connect.children
 srrs_connect.each do |srr_connect|
-  new_srr = Area.create name: srr_connect.name,
+  new_srr = Area.find_or_create_by name: srr_connect.name,
                         area_type: srr,
                         project: sprint_retail,
                         created_at: srr_connect.created,
@@ -116,7 +118,7 @@ srrs_connect.each do |srr_connect|
   srms_connect.each do |srm_connect|
     srts_connect = srm_connect.children
     srts_connect.each do |srt_connect|
-      new_srt = Area.create name: srt_connect.name.gsub('Sprint - ', ''),
+      new_srt = Area.find_or_create_by name: srt_connect.name.gsub('Sprint - ', ''),
                             area_type: srt,
                             project: sprint_retail,
                             parent: new_srr,
@@ -126,24 +128,30 @@ srrs_connect.each do |srr_connect|
   end
 end
 
-# rsr_connect = ConnectRegion.find_by_value 'Rosetta Stone Retail-1'
-# rsrrs_connect = rsr_connect.children
-# rsrrs_connect.each do |rsrr_connect|
-#   new_rsrr = Area.create name: rsrr_connect.name,
-#                         area_type: rsrr,
-#                         project: rs_retail,
-#                         created_at: rsrr_connect.created,
-#                         updated_at: rsrr_connect.updated
-#   rsrms_connect = rsrr_connect.children
-#   rsrms_connect.each do |rsrm_connect|
-#     rsrts_connect = rsrm_connect.children
-#     rsrts_connect.each do |rsrt_connect|
-#       new_rsrt = Area.create name: rsrt_connect.name.gsub('Rosetta Stone - ', ''),
-#                             area_type: rsrt,
-#                             project: rs_retail,
-#                             parent: new_rsrr,
-#                             created_at: rsrt_connect.created,
-#                             updated_at: rsrt_connect.updated
-#     end
-#   end
-# end
+ccr_connect = ConnectRegion.find_by_value 'Comcast Retail-1'
+ccrrs_connect = ccr_connect.children
+ccrrs_connect.each do |ccrr_connect|
+  new_ccrr = Area.find_or_create_by name: ccrr_connect.name,
+                        area_type: ccrr,
+                        project: comcast_retail,
+                        created_at: ccrr_connect.created,
+                        updated_at: ccrr_connect.updated
+  ccrms_connect = ccrr_connect.children
+  ccrms_connect.each do |ccrm_connect|
+    new_ccrm = Area.find_or_create_by name: ccrm_connect.name,
+                                      area_type: ccrm,
+                                      project: comcast_retail,
+                                      parent: new_ccrr,
+                                      created_at: ccrm_connect.created,
+                                      updated_at: ccrm_connect.updated
+    ccrts_connect = ccrm_connect.children
+    ccrts_connect.each do |ccrt_connect|
+      new_ccrt = Area.find_or_create_by name: ccrt_connect.name.gsub('Comcast - ', ''),
+                            area_type: ccrt,
+                            project: comcast_retail,
+                            parent: new_ccrr,
+                            created_at: ccrt_connect.created,
+                            updated_at: ccrt_connect.updated
+    end
+  end
+end

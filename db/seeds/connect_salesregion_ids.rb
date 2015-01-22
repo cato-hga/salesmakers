@@ -3,7 +3,7 @@ puts "Adding RBD Connect salesregion ID's to Areas..."
 vonage = Client.find_by name: 'Vonage'
 rbh = Client.find_by name: 'Retail Business Holdings'
 sprint = Client.find_by name: 'Sprint'
-# rs = Client.find_by name: 'Rosetta Stone'
+comcast = Client.find_by name: 'Comcast'
 
 vonage_retail = Project.find_by name: 'Vonage Retail',
                                 client: vonage
@@ -13,8 +13,8 @@ headquarters = Project.find_by name: 'RBD Company HQ',
                                client: rbh
 sprint_retail = Project.find_by name: 'Sprint Retail',
                                 client: sprint
-# rs_retail = Project.find_by name: 'Rosetta Stone Retail',
-#                             client: rs
+comcast_retail = Project.find_by name: 'Comcast Retail',
+                            client: comcast
 
 vrr = AreaType.find_by name: 'Vonage Retail Region',
                        project: vonage_retail
@@ -41,10 +41,10 @@ srr = AreaType.find_by name: 'Sprint Retail Region',
 srt = AreaType.find_by name: 'Sprint Retail Territory',
                        project: sprint_retail
 
-# rsrr = AreaType.find_by name: 'Rosetta Stone Retail Region',
-#                         project: rs_retail
-# rsrt = AreaType.find_by name: 'Rosetta Stone Retail Territory',
-#                         project: rs_retail
+ccrr = AreaType.find_by name: 'Comcast Retail Region',
+                        project: comcast_retail
+ccrt = AreaType.find_by name: 'Comcast Retail Territory',
+                        project: comcast_retail
 
 vr_connect = ConnectRegion.find_by_value 'Vonage Retail-1'
 vrrs_connect = vr_connect.children
@@ -113,21 +113,25 @@ srrs_connect.each do |srr_connect|
   end
 end
 
-# rsr_connect = ConnectRegion.find_by_value 'Rosetta Stone Retail-1'
-# rsrrs_connect = rsr_connect.children
-# rsrrs_connect.each do |rsrr_connect|
-#   new_rsrr = Area.find_by name: rsrr_connect.name,
-#                          area_type: rsrr,
-#                          project: rs_retail
-#   new_rsrr.update connect_salesregion_id: rsrr_connect.c_salesregion_id if new_rsrr
-#   rsrms_connect = rsrr_connect.children
-#   rsrms_connect.each do |rsrm_connect|
-#     rsrts_connect = rsrm_connect.children
-#     rsrts_connect.each do |rsrt_connect|
-#       new_rsrt = Area.find_by name: rsrt_connect.name.gsub('Rosetta Stone - ', ''),
-#                              area_type: rsrt,
-#                              project: rs_retail
-#       new_rsrt.update connect_salesregion_id: rsrt_connect.c_salesregion_id if new_rsrt
-#     end
-#   end
-# end
+ccr_connect = ConnectRegion.find_by_value 'Comcast Retail-1'
+ccrrs_connect = ccr_connect.children
+ccrrs_connect.each do |ccrr_connect|
+  new_ccrr = Area.find_by name: ccrr_connect.name,
+                         area_type: ccrr,
+                         project: comcast_retail
+  new_ccrr.update connect_salesregion_id: ccrr_connect.c_salesregion_id if new_ccrr
+  ccrms_connect = ccrr_connect.children
+  ccrms_connect.each do |ccrm_connect|
+    new_ccrm = Area.find_by name: ccrm_connect.name,
+                           area_type: ccrm,
+                           project: comcast_retail
+    new_ccrm.update connect_salesregion_id: ccrm_connect.c_salesregion_id if new_ccrm
+    ccrts_connect = ccrm_connect.children
+    ccrts_connect.each do |ccrt_connect|
+      new_ccrt = Area.find_by name: ccrt_connect.name.gsub('Comcast - ', ''),
+                             area_type: ccrt,
+                             project: comcast_retail
+      new_ccrt.update connect_salesregion_id: ccrt_connect.c_salesregion_id if new_ccrt
+    end
+  end
+end

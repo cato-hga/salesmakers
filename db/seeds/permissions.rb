@@ -23,10 +23,9 @@ pos_srasm = Position.find_by_name 'Sprint Retail Area Sales Manager'
 pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
 pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
 
-# pos_rsrrvp = Position.find_by_name 'Rosetta Stone Retail Regional Vice President'
-# pos_rsrrm = Position.find_by_name 'Rosetta Stone Retail Regional Manager'
-# pos_rsrtm = Position.find_by_name 'Rosetta Stone Retail Territory Manager'
-# pos_rsrss = Position.find_by_name 'Rosetta Stone Retail Sales Specialist'
+pos_ccrrvp = Position.find_by_name 'Comcast Retail Regional Vice President'
+pos_ccrtm = Position.find_by_name 'Comcast Retail Territory Manager'
+pos_ccrss = Position.find_by_name 'Comcast Retail Sales Specialist'
 
 pos_uf = Position.find_by_name 'Unclassified Field Employee'
 pos_uc = Position.find_by_name 'Unclassified HQ Employee'
@@ -90,10 +89,9 @@ all_positions = [
     pos_srasm,
     pos_srtm,
     pos_srss,
-    # pos_rsrrvp,
-    # pos_rsrrm,
-    # pos_rsrtm,
-    # pos_rsrss,
+    pos_ccrrvp,
+    pos_ccrtm,
+    pos_ccrss,
     pos_uf,
     pos_uc,
     pos_td,
@@ -163,9 +161,8 @@ not_reps_positions = [
     pos_srrm,
     pos_srasm,
     pos_srtm,
-    # pos_rsrrvp,
-    # pos_rsrrm,
-    # pos_rsrtm,
+    pos_ccrrvp,
+    pos_ccrtm,
     pos_uc,
     pos_td,
     pos_t,
@@ -199,54 +196,54 @@ not_reps_positions = [
     pos_hra
 ]
 
-pg_people = PermissionGroup.create name: 'People'
-areas_and_locations = PermissionGroup.create name: 'Areas and Locations'
-clients_and_projects = PermissionGroup.create name: 'Clients and Projects'
-departments_and_positions = PermissionGroup.create name: 'Departments and Positions'
-widgets_permission_group = PermissionGroup.create name: 'Widgets'
-audit_permission_group = PermissionGroup.create name: 'Audit'
-profiles_permission_group = PermissionGroup.create name: 'Profiles'
-q_and_a_permission_group = PermissionGroup.create name: 'Questions and Answers'
-posts_permission_group = PermissionGroup.create name: 'Posts and Posting'
-poll_questions_permission_group = PermissionGroup.create name: 'Poll Questions'
-lines_permission_group = PermissionGroup.create name: 'Lines'
-devices_permission_group = PermissionGroup.create name: 'Devices'
+pg_people = PermissionGroup.find_or_create_by name: 'People'
+areas_and_locations = PermissionGroup.find_or_create_by name: 'Areas and Locations'
+clients_and_projects = PermissionGroup.find_or_create_by name: 'Clients and Projects'
+departments_and_positions = PermissionGroup.find_or_create_by name: 'Departments and Positions'
+widgets_permission_group = PermissionGroup.find_or_create_by name: 'Widgets'
+audit_permission_group = PermissionGroup.find_or_create_by name: 'Audit'
+profiles_permission_group = PermissionGroup.find_or_create_by name: 'Profiles'
+q_and_a_permission_group = PermissionGroup.find_or_create_by name: 'Questions and Answers'
+posts_permission_group = PermissionGroup.find_or_create_by name: 'Posts and Posting'
+poll_questions_permission_group = PermissionGroup.find_or_create_by name: 'Poll Questions'
+lines_permission_group = PermissionGroup.find_or_create_by name: 'Lines'
+devices_permission_group = PermissionGroup.find_or_create_by name: 'Devices'
 
-person_index = Permission.create key: 'person_index',
+person_index = Permission.find_or_create_by key: 'person_index',
                                  description: 'can view list of people',
                                  permission_group: pg_people
 
 
-area_type_index = Permission.create key: 'area_type_index',
+area_type_index = Permission.find_or_create_by key: 'area_type_index',
                                     description: 'can view list of area types',
                                     permission_group: areas_and_locations
 
-area_index = Permission.create key: 'area_index',
+area_index = Permission.find_or_create_by key: 'area_index',
                                description: 'can view list of areas',
                                permission_group: areas_and_locations
 
 
-client_index = Permission.create key: 'client_index',
+client_index = Permission.find_or_create_by key: 'client_index',
                                  description: 'can view list of clients',
                                  permission_group: clients_and_projects
 
-department_index = Permission.create key: 'department_index',
+department_index = Permission.find_or_create_by key: 'department_index',
                                      description: 'can view list of departments',
                                      permission_group: departments_and_positions
 
-position_index = Permission.create key: 'position_index',
+position_index = Permission.find_or_create_by key: 'position_index',
                                    description: 'can view list of positions',
                                    permission_group: departments_and_positions
 
-log_entry_index = Permission.create key: 'log_entry_index',
+log_entry_index = Permission.find_or_create_by key: 'log_entry_index',
                                     description: 'can view logs',
                                     permission_group: audit_permission_group
 
-poll_question_manage = Permission.create key: 'poll_question_manage',
+poll_question_manage = Permission.find_or_create_by key: 'poll_question_manage',
                                          description: 'can manage poll questions',
                                          permission_group: poll_questions_permission_group
 
-poll_question_show = Permission.create key: 'poll_question_show',
+poll_question_show = Permission.find_or_create_by key: 'poll_question_show',
                                        description: 'can view all poll question results',
                                        permission_group: poll_questions_permission_group
 
@@ -269,80 +266,80 @@ widgets = [
     'groupme_slider'
 ]
 
-blog_post_index = Permission.create key: 'blog_post_index',
+blog_post_index = Permission.find_or_create_by key: 'blog_post_index',
                                     description: 'can view list of blog posts',
                                     permission_group: posts_permission_group
 
-question_index = Permission.create key: 'question_index',
+question_index = Permission.find_or_create_by key: 'question_index',
                                    description: 'can view list of questions',
                                    permission_group: q_and_a_permission_group
 
-profile_update_others = Permission.create key: 'profile_update_others',
+profile_update_others = Permission.find_or_create_by key: 'profile_update_others',
                                           description: 'can update profiles of others',
                                           permission_group: profiles_permission_group
 
-profile_update = Permission.create key: 'profile_update',
+profile_update = Permission.find_or_create_by key: 'profile_update',
                                    description: 'can update own profile',
                                    permission_group: profiles_permission_group
 
-person_update_own_basic = Permission.create key: 'person_update_own_basic',
+person_update_own_basic = Permission.find_or_create_by key: 'person_update_own_basic',
                                             description: 'can update own basic information',
                                             permission_group: profiles_permission_group
 
-wall_show_all_walls = Permission.create key: 'wall_show_all_walls',
+wall_show_all_walls = Permission.find_or_create_by key: 'wall_show_all_walls',
                                         description: 'can see all walls',
                                         permission_group: posts_permission_group
 
-wall_post_promote = Permission.create key: 'wall_post_promote',
+wall_post_promote = Permission.find_or_create_by key: 'wall_post_promote',
                                       description: "can change wall post's posted wall",
                                       permission_group: posts_permission_group
 
-line_state_index = Permission.create key: 'line_state_index',
+line_state_index = Permission.find_or_create_by key: 'line_state_index',
                                      description: 'can view line states',
                                      permission_group: lines_permission_group
-line_state_create = Permission.create key: 'line_state_create',
+line_state_create = Permission.find_or_create_by key: 'line_state_create',
                                        description: 'can create line states',
                                        permission_group: lines_permission_group
-line_state_update = Permission.create key: 'line_state_update',
+line_state_update = Permission.find_or_create_by key: 'line_state_update',
                                        description: 'can edit line states',
                                        permission_group: lines_permission_group
-line_state_destroy = Permission.create key: 'line_state_destroy',
+line_state_destroy = Permission.find_or_create_by key: 'line_state_destroy',
                                         description: 'can delete line states',
                                         permission_group: lines_permission_group
-device_state_index = Permission.create key: 'device_state_index',
+device_state_index = Permission.find_or_create_by key: 'device_state_index',
                                         description: 'can view device states',
                                         permission_group: devices_permission_group
-device_state_create = Permission.create key: 'device_state_create',
+device_state_create = Permission.find_or_create_by key: 'device_state_create',
                                          description: 'can create device states',
                                          permission_group: devices_permission_group
-device_state_update = Permission.create key: 'device_state_update',
+device_state_update = Permission.find_or_create_by key: 'device_state_update',
                                          description: 'can edit device states',
                                          permission_group: devices_permission_group
-device_state_destroy = Permission.create key: 'device_state_destroy',
+device_state_destroy = Permission.find_or_create_by key: 'device_state_destroy',
                                           description: 'can delete device states',
                                           permission_group: devices_permission_group
-line_index = Permission.create key: 'line_index',
+line_index = Permission.find_or_create_by key: 'line_index',
                                 description: 'can view lines',
                                 permission_group: lines_permission_group
-line_create = Permission.create key: 'line_create',
+line_create = Permission.find_or_create_by key: 'line_create',
                                  description: 'can create lines',
                                  permission_group: lines_permission_group
-line_update = Permission.create key: 'line_update',
+line_update = Permission.find_or_create_by key: 'line_update',
                                  description: 'can edit lines',
                                  permission_group: lines_permission_group
-line_destroy = Permission.create key: 'line_destroy',
+line_destroy = Permission.find_or_create_by key: 'line_destroy',
                                   description: 'can delete lines',
                                   permission_group: lines_permission_group
-device_index = Permission.create key: 'device_index',
+device_index = Permission.find_or_create_by key: 'device_index',
                                   description: 'can view devices',
                                   permission_group: devices_permission_group
-device_create = Permission.create key: 'device_create',
+device_create = Permission.find_or_create_by key: 'device_create',
                                    description: 'can create devices',
                                    permission_group: devices_permission_group
-device_update = Permission.create key: 'device_update',
+device_update = Permission.find_or_create_by key: 'device_update',
                                    description: 'can edit devices',
                                    permission_group: devices_permission_group
-device_destroy = Permission.create key: 'device_destroy',
+device_destroy = Permission.find_or_create_by key: 'device_destroy',
                                     description: 'can delete devices',
                                     permission_group: devices_permission_group
 
@@ -367,7 +364,7 @@ lines_and_devices_permissions << device_destroy if device_destroy
 #TODO: Give some permission to update others
 
 for widget in widgets do
-  widget_permission = Permission.create key: 'widget_' + widget,
+  widget_permission = Permission.find_or_create_by key: 'widget_' + widget,
                                         description: 'can view list the' + widget + ' widget',
                                         permission_group: widgets_permission_group
 

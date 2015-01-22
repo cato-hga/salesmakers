@@ -1,24 +1,24 @@
 puts "Creating positions..."
-vonage_retail_sales = Department.find_by_name 'Vonage Retail Sales'
-vonage_event_sales = Department.find_by_name 'Vonage Event Sales'
-sprint_retail_sales = Department.find_by_name 'Sprint Retail Sales'
-# rs_retail_sales = Department.find_by_name 'Rosetta Stone Retail Sales'
-unclassified_field = Department.find_by_name 'Unclassified Field'
-unclassified_hq = Department.find_by_name 'Unclassified HQ'
-training = Department.find_by_name 'Training'
-recruiting = Department.find_by_name 'Recruiting'
-information_technology = Department.find_by_name 'Information Technology'
-operations = Department.find_by_name 'Operations'
-accounting = Department.find_by_name 'Accounting and Finance'
-marketing = Department.find_by_name 'Marketing'
-quality_assurance = Department.find_by_name 'Quality Assurance'
-executives = Department.find_by_name 'Executives'
-payroll = Department.find_by_name 'Payroll'
-hr = Department.find_by_name 'Human Resources'
+vonage_retail_sales = Department.find_by name: 'Vonage Retail Sales'
+vonage_event_sales = Department.find_by name: 'Vonage Event Sales'
+sprint_retail_sales = Department.find_by name: 'Sprint Retail Sales'
+comcast_retail_sales = Department.find_by name: 'Comcast Retail Sales'
+unclassified_field = Department.find_by name: 'Unclassified Field'
+unclassified_hq = Department.find_by name: 'Unclassified HQ'
+training = Department.find_by name: 'Training'
+recruiting = Department.find_by name: 'Recruiting'
+information_technology = Department.find_by name: 'Information Technology'
+operations = Department.find_by name: 'Operations'
+accounting = Department.find_by name: 'Accounting and Finance'
+marketing = Department.find_by name: 'Marketing'
+quality_assurance = Department.find_by name: 'Quality Assurance'
+executives = Department.find_by name: 'Executives'
+payroll = Department.find_by name: 'Payroll'
+hr = Department.find_by name: 'Human Resources'
 
 tn = '+17272286225'
 
-Position.create [
+positions = [
                     { name: 'System Administrator',
                       leadership: true,
                       all_field_visibility: true,
@@ -140,34 +140,27 @@ Position.create [
                       department_id: sprint_retail_sales.id,
                       field: true,
                       hq: false  },
-                    # { name: 'Rosetta Stone Retail Regional Vice President',
-                    #   leadership: true,
-                    #   all_field_visibility: false,
-                    #   all_corporate_visibility: false,
-                    #   department_id: rs_retail_sales.id,
-                    #   field: true,
-                    #   hq: false  },
-                    # { name: 'Rosetta Stone Retail Regional Manager',
-                    #   leadership: true,
-                    #   all_field_visibility: false,
-                    #   all_corporate_visibility: false,
-                    #   department_id: rs_retail_sales.id,
-                    #   field: true,
-                    #   hq: false  },
-                    # { name: 'Rosetta Stone Retail Territory Manager',
-                    #   leadership: true,
-                    #   all_field_visibility: false,
-                    #   all_corporate_visibility: false,
-                    #   department_id: rs_retail_sales.id,
-                    #   field: true,
-                    #   hq: false  },
-                    # { name: 'Rosetta Stone Retail Sales Specialist',
-                    #   leadership: false,
-                    #   all_field_visibility: false,
-                    #   all_corporate_visibility: false,
-                    #   department_id: rs_retail_sales.id,
-                    #   field: true,
-                    #   hq: false  },
+                    { name: 'Comcast Retail Regional Vice President',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: comcast_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    { name: 'Comcast Retail Territory Manager',
+                      leadership: true,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: comcast_retail_sales.id,
+                      field: true,
+                      hq: false  },
+                    { name: 'Comcast Retail Sales Specialist',
+                      leadership: false,
+                      all_field_visibility: false,
+                      all_corporate_visibility: false,
+                      department_id: comcast_retail_sales.id,
+                      field: true,
+                      hq: false  },
                     { name: 'Unclassified Field Employee',
                       leadership: false,
                       all_field_visibility: false,
@@ -397,3 +390,7 @@ Position.create [
                       field: false,
                       hq: true }
                 ]
+
+for position in positions do
+  Position.find_or_create_by position
+end

@@ -272,8 +272,9 @@ class Person < ActiveRecord::Base
     at_vet = AreaType.find_by_name 'Vonage Event Team'
     at_srr = AreaType.find_by_name 'Sprint Retail Region'
     at_srt = AreaType.find_by_name 'Sprint Retail Territory'
-    at_rsrr = AreaType.find_by_name 'Rosetta Stone Retail Region'
-    at_rsrt = AreaType.find_by_name 'Rosetta Stone Retail Territory'
+    at_ccrr = AreaType.find_by_name 'Comcast Retail Region'
+    at_ccrm = AreaType.find_by_name 'Comcast Retail Market'
+    at_ccrt = AreaType.find_by_name 'Comcast Retail Territory'
     connect_user_region = connect_user.region
     area_name = Position.clean_area_name connect_user_region
     connect_user_project = (connect_user_region) ? connect_user_region.project : nil
@@ -286,7 +287,7 @@ class Person < ActiveRecord::Base
     project_name = connect_user_project.name
     vonage = project_name == 'Vonage'
     sprint = project_name == 'Sprint'
-    rs = project_name == 'Rosetta Stone'
+    comcast = project_name == 'Comcast'
     leader = connect_user.leader?
 
     area_type = nil
@@ -295,14 +296,15 @@ class Person < ActiveRecord::Base
         area_type = at_vrt if vonage and retail
         area_type = at_vet if vonage and event
         area_type = at_srt if sprint and retail
-        area_type = at_rsrt if rs and retail
+        area_type = at_ccrt if comcast and retail
       when 3
         area_type = at_vrm if vonage and retail
+        area_type = at_ccrm if comcast and retail
       when 2
         area_type = at_vrr if vonage and retail
         area_type = at_ver if vonage and event
         area_type = at_srr if sprint and retail
-        area_type = at_rsrr if rs and retail
+        area_type = at_ccrr if comcast and retail
     end
     return nil unless area_type
     areas = Area.where(name: area_name, area_type: area_type)

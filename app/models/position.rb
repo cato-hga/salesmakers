@@ -28,10 +28,9 @@ class Position < ActiveRecord::Base
     pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
     pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
 
-    # pos_rsrrvp = Position.find_by_name 'Rosetta Stone Retail Regional Vice President'
-    # pos_rsrrm = Position.find_by_name 'Rosetta Stone Retail Regional Manager'
-    # pos_rsrtm = Position.find_by_name 'Rosetta Stone Retail Territory Manager'
-    # pos_rsrss = Position.find_by_name 'Rosetta Stone Retail Sales Specialist'
+    pos_ccrrvp = Position.find_by_name 'Comcast Retail Regional Vice President'
+    pos_ccrtm = Position.find_by_name 'Comcast Retail Territory Manager'
+    pos_ccrss = Position.find_by_name 'Comcast Retail Sales Specialist'
 
     pos_uf = Position.find_by_name 'Unclassified Field Employee'
     pos_uc = Position.find_by_name 'Unclassified HQ Employee'
@@ -145,11 +144,9 @@ class Position < ActiveRecord::Base
       when 'rpitman@retaildoneright.com'
         position = pos_srrm
       when 'tkarlin@retaildoneright.com'
-        position = pos_srrm
+        position = pos_ccrrvp
       when 'bcarter@retaildoneright.com'
         position = pos_srrvp
-      # when 'dginn@retaildoneright.com'
-      #   position = pos_rsrrvp
     end
 
     # :nocov:
@@ -163,7 +160,9 @@ class Position < ActiveRecord::Base
       # TODO: Go back and change LIT's to non-HQ
     end
 
-    if connect_user_region.name.include? 'Retail' or connect_user_region.name.include? 'Sprint'
+    if connect_user_region.name.include? 'Retail' or
+        connect_user_region.name.include? 'Sprint' or
+        connect_user_region.name.include? 'Comcast'
       retail = true
     end
     event = connect_user_region.name.include? 'Event'
@@ -173,7 +172,7 @@ class Position < ActiveRecord::Base
     project_name = connect_user_project.name
     vonage = project_name == 'Vonage'
     sprint = project_name == 'Sprint'
-    # rs = project_name == 'Rosetta Stone'
+    comcast = project_name == 'Comcast'
     corporate = project_name == 'Corporate'
     recruit = area_name.downcase.include? 'recruit'
     advocate = area_name.downcase.include? 'advocate'
@@ -190,7 +189,7 @@ class Position < ActiveRecord::Base
           position = pos_vrtm if vonage and retail
           position = pos_vetl if vonage and event
           position = pos_srtm if sprint and retail
-          # position = pos_rsrtm if rs and retail
+          position = pos_ccrtm if comcast and retail
           position = pos_hras if corporate and recruit
           position = pos_advs if corporate and advocate
           position = pos_hras if corporate and hr
@@ -200,7 +199,7 @@ class Position < ActiveRecord::Base
           position = pos_vrss if vonage and retail
           position = pos_vess if vonage and event
           position = pos_srss if sprint and retail
-          # position = pos_rsrss if rs and retail
+          position = pos_ccrss if comcast and retail
           position = pos_hra if corporate and recruit
           position = pos_adv if corporate and advocate
           position = pos_hra if corporate and hr
@@ -220,19 +219,22 @@ class Position < ActiveRecord::Base
           position = pos_vrrm if vonage and retail
           position = pos_verm if vonage and event
           position = pos_srrm if sprint and retail
-          # position = pos_rsrrm if rs and retail
         end
       when 1
         if leader
           position = pos_vrrvp if vonage and retail
           position = pos_vervp if vonage and event
           position = pos_srrvp if sprint and event
-          # position = pos_rsrrvp if rs and event
+          position = pos_ccrrvp if comcast and retail
         end
     end
 
     if sprint and connect_user.username.include? '@retaildoneright.com'
       position = pos_srtm
+    end
+
+    if comcast and connect_user.username.include? '@retaildoneright.com'
+      position = pos_ccrtm
     end
 
     position = pos_uf unless position
@@ -245,7 +247,7 @@ class Position < ActiveRecord::Base
     area_name = connect_region.name
 
     area_name = area_name.gsub('Vonage Retail - ', '')
-    area_name = area_name.gsub('Rosetta Stone - ', '')
+    area_name = area_name.gsub('Comcast - ', '')
     area_name = area_name.gsub('Vonage Events - ', '')
     area_name = area_name.gsub('Sprint - ', '')
     area_name.gsub('Retail Team', 'Kiosk')
