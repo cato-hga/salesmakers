@@ -4,6 +4,7 @@ class ConnectUpdater
     AreaUpdater.update
     Person.update_from_connect minutes
     PersonAddress.update_from_connect minutes
+    Location.update_from_connect minutes
   end
 
 end

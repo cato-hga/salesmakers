@@ -77,8 +77,8 @@ class Location < ActiveRecord::Base
   def self.update_from_connect(minutes)
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
-    minutes = minutes + offset
-    c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', Time.now - minutes)
+    num_minutes = minutes + offset
+    c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', Time.now - num_minutes.minutes)
     for c_bpl in c_bpls do
       location = Location.return_from_connect_business_partner_location(c_bpl)
       next unless location
@@ -86,6 +86,7 @@ class Location < ActiveRecord::Base
         area = c_bpl.area
         next unless area
         for location_area in location.location_areas.where(area: area) do
+          location_area.destroy
           c_updater = ConnectUser.find_by ad_user_id: c_bpl.updatedby
           updater = Person.return_from_connect_user c_updater
           if updater

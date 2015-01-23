@@ -18,7 +18,7 @@ class ConnectBusinessPartnerLocation < ConnectModel
   def city
     parts = get_parts
     return nil if parts.count < 2
-    parts[1]
+    parts[1].sub(/Event Team/, '').strip
   end
 
   def display_name
