@@ -201,7 +201,7 @@ ActiveRecord::Schema.define(version: 20150123133647) do
 
   add_index "group_me_groups", ["area_id"], name: "index_group_me_groups_on_area_id", using: :btree
 
-  create_table "group_me_groups_users", id: false, force: :cascade do |t|
+  create_table "group_me_groups_group_me_users", id: false, force: :cascade do |t|
     t.integer "group_me_group_id", null: false
     t.integer "group_me_user_id",  null: false
   end
