@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  get 'device_manufacturer/new'
-
-  get 'device_manufacturer/create'
-
-  root 'devices#index'
-
   resources :blog_posts, only: [:index, :show] do
     # member do
     #   get 'publish'
@@ -30,6 +24,8 @@ Rails.application.routes.draw do
       get :sales, as: :sales
     end
   end
+
+  resources :comcast_customers, only: [:new, :create]
 
   resources :departments, only: [:index, :show] do
     resources :positions, only: [:index]

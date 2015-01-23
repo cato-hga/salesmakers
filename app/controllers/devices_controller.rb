@@ -57,6 +57,7 @@ class DevicesController < ApplicationController
     @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id] unless receive_params[:technology_service_provider_id].blank?
     @serials = receive_params[:serial]
     @line_identifiers = receive_params[:line_identifier]
+    @device_identifiers = receive_params[:device_identifier]
     serial_count = 0
     @bad_receivers = Array.new
     clean_blank_rows
@@ -66,12 +67,14 @@ class DevicesController < ApplicationController
     end
     for serial in @serials do
       line_identifier = @line_identifiers[serial_count]
+      @device_identifiers.present? ? device_identifier = @device_identifiers[serial_count] : nil
       next if serial.blank? and line_identifier.blank?
       receiver = AssetReceiver.new contract_end_date: @contract_end_date,
                                    device_model: @device_model,
                                    service_provider: @service_provider,
                                    serial: serial,
                                    line_identifier: line_identifier,
+                                   device_identifier: device_identifier,
                                    creator: @current_person
       unless receiver.valid?
         @bad_receivers << receiver
@@ -215,7 +218,8 @@ class DevicesController < ApplicationController
   end
 
   def receive_params
-    params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: []
+    params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: [],
+                  device_identifier: []
   end
 
   def update_params

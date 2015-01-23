@@ -40,8 +40,8 @@ describe DevicesController do
       let!(:service_provider) { create :technology_service_provider }
       let(:line_identifier) { '5555555555' }
       let(:serial) { '123456789' }
-      let(:device_identifier) { '98765431' }
       let(:contract_end_date) { Date.today + 1.year }
+
       it 'creates a device' do
         expect { subject }.to change(Device, :count).by(1)
       end
@@ -68,6 +68,46 @@ describe DevicesController do
 
     context 'multiple devices success' do
       it 'assigns the correct line to the correct device'
+    end
+
+    context 'devices with secondary identifiers' do
+
+      let!(:device_model) { create :device_model }
+      let!(:service_provider) { create :technology_service_provider }
+      let(:line_identifier) { '5555555555' }
+      let(:serial) { '1234567890' }
+      let(:device_identifier) { '98765431' }
+      let(:contract_end_date) { Date.today + 1.year }
+      subject {
+        post :create,
+             contract_end_date: contract_end_date.strftime('%m/%d/%Y'),
+             device_model_id: device_model.id,
+             technology_service_provider_id: service_provider.id,
+             serial: [serial],
+             line_identifier: [line_identifier],
+             device_identifier: [device_identifier]
+      }
+
+      it 'creates a device' do
+        expect { subject }.to change(Device, :count).by(1)
+      end
+
+      it 'creates a line' do
+        expect { subject }.to change(Line, :count).by(1)
+      end
+
+      it 'assigns the correct line to the correct asset' do
+        subject
+        device = Device.first
+        line = Line.first
+        expect(device.line).to eq(line)
+      end
+
+      it 'assigns the correct secondary identifier to the correct asset' do
+        subject
+        device = Device.first
+        expect(device.identifier).to eq(device_identifier)
+      end
     end
 
     context 'failure' do

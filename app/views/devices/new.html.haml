@@ -1,4 +1,6 @@
 - title 'Add Devices'
+- content_for :action_buttons do
+  = link_to 'Manually Set Device Identifier', '#', class: ['button', 'device_identifier_button']
 
 = form_tag devices_path, method: :post do
   .widget
@@ -40,9 +42,9 @@
   .widget
     .inner
       .row.full-width
-        .large-6.columns
+        #serial_header.large-6.columns
           %strong Serial
-        .large-6.columns
+        #line_header.large-6.columns
           %strong Line ID
       #assets
         - if @bad_receivers and @bad_receivers.count > 0
@@ -50,11 +52,11 @@
             - err_serial = receiver.errors[:serial].count > 0 ? true : false
             - err_line_identifier = receiver.errors[:line_identifier].count > 0 ? true : false
             .row.full-width
-              .large-6.columns
+              .large-6.columns.serial_column
                 = text_field_tag 'serial[]', receiver.serial, class: ['serial_field', (err_serial ? 'error' : nil)]
                 - if receiver.errors[:serial].count > 0
                   .error= receiver.errors[:serial].join(', ')
-              .large-5.columns
+              .large-5.columns.line_column
                 = text_field_tag 'line_identifier[]', receiver.line_identifier, class: ['line_id_field', (err_line_identifier ? 'error' : nil)]
                 - if receiver.errors[:line_identifier].count > 0
                   .error= receiver.errors[:line_identifier].join(', ')
@@ -62,10 +64,10 @@
                 %a.button.postfix.delete_row(href='#') Delete
         - else
           .row.full-width
-            .large-6.columns
+            .large-6.columns.serial_column
               = text_field_tag 'serial[]', nil, class: :serial_field
-            .large-5.columns
+            .large-5.columns.line_column
               = text_field_tag 'line_identifier[]', nil, class: :line_id_field
-            .large-1.columns
+            .large-1.columns.add_delete_button
               %a.button.postfix.add_row(href='#') Add
       = submit_tag 'Receive', class: 'button'
