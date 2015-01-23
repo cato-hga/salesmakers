@@ -19,7 +19,7 @@ describe LocationArea do
 
   it 'does not allow duplicates' do
     subject.save
-    duplicate = build :location_area
+    duplicate = subject.dup
     expect(duplicate).not_to be_valid
   end
 end
