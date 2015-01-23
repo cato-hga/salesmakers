@@ -41,7 +41,6 @@ class PersonAddress < ActiveRecord::Base
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
     minutes = minutes + offset
-    puts minutes.to_s + ' Minutes'
     establish_connection(:rbd_connect_production)
     puts connection.current_database
     results = connection.select_all "select

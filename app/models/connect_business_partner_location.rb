@@ -28,7 +28,12 @@ class ConnectBusinessPartnerLocation < ConnectModel
   end
 
   def store_number
-    return self.fax if self.fax and self.fax.length > 0
+    if self.fax
+      stripped = self.fax.sub /SP/, ''
+      stripped = stripped.sub /POST/, ''
+      stripped = stripped.sub /WM/, ''
+    end
+    return stripped if defined? stripped
     self.c_bpartner_location_id
   end
 
@@ -44,6 +49,9 @@ class ConnectBusinessPartnerLocation < ConnectModel
     return nil unless location_name
     location_name[0] = '' if location_name[0] == '.'
     parts = location_name.split(',')
+    if parts.length > 3
+      parts = parts[parts.length-3..parts.length-1]
+    end
     stripped = Array.new
     parts.each do |part|
       stripped << part.strip
