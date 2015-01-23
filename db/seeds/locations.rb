@@ -1,0 +1,1 @@
+puts "Importing locations..."

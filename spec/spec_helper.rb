@@ -23,9 +23,7 @@ require 'database_cleaner'
 require 'factory_girl_rails'
 
 ActiveRecord::Migration.maintain_test_schema!
-
 RSpec.configure do |config|
-
   # Uncomment the next line to troubleshoot spec times!
   # config.profile_examples = 10
   
