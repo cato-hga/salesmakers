@@ -14,5 +14,39 @@ class Location < ActiveRecord::Base
   validates :channel, presence: true
 
   belongs_to :channel
-  has_and_belongs_to_many :areas
+  has_many :location_areas
+
+  def name(show_channel = true)
+    output = ''
+    output += self.channel.name + ', ' if show_channel
+    output += self.city
+    output += ', ' + self.display_name if self.display_name
+    output
+  end
+
+  def self.return_from_connect_business_partner_location(c_bpl)
+    c_loc = c_bpl.connect_location
+    return nil unless c_loc
+    c_state = c_loc.connect_state
+    city = c_bpl.city
+    return nil unless city and c_state
+    state = c_state.name
+    display_name = c_bpl.display_name
+    channel = c_bpl.connect_business_partner.get_channel
+    return nil unless channel
+    store_number = c_bpl.store_number
+    return nil unless store_number
+    new_location = Location.find_or_create_by display_name: display_name,
+                               store_number: store_number,
+                               city: city,
+                               state: state,
+                               channel: channel
+    area = c_bpl.area
+    if area and new_location
+      LocationArea.find_or_create_by location: new_location, area: area
+    end
+    new_location
+  end
+
+
 end

@@ -13,6 +13,8 @@ require "#{seeds}/projects"
 require "#{seeds}/connect_salesregion_ids"
 require "#{seeds}/areas_groupme_groups"
 
+require "#{seeds}/locations"
+
 require "#{seeds}/person"
 require "#{seeds}/employee_ids"
 require "#{seeds}/person_addresses"
