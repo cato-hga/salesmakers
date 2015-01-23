@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123133647) do
+ActiveRecord::Schema.define(version: 20150123200142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,24 +90,24 @@ ActiveRecord::Schema.define(version: 20150123133647) do
     t.string   "last_name",    null: false
     t.string   "mobile_phone"
     t.string   "other_phone"
-    t.integer  "person_id"
+    t.integer  "person_id",    null: false
     t.text     "comments"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
   create_table "comcast_sales", force: :cascade do |t|
-    t.datetime "sale_date"
-    t.integer  "person_id"
-    t.integer  "comcast_customer_id"
-    t.string   "order_number"
-    t.boolean  "tv"
-    t.boolean  "internet"
-    t.boolean  "phone"
-    t.boolean  "security"
-    t.boolean  "customer_acknowledged"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "sale_date",                             null: false
+    t.integer  "person_id",                             null: false
+    t.integer  "comcast_customer_id",                   null: false
+    t.string   "order_number",                          null: false
+    t.boolean  "tv",                    default: false, null: false
+    t.boolean  "internet",              default: false, null: false
+    t.boolean  "phone",                 default: false, null: false
+    t.boolean  "security",              default: false, null: false
+    t.boolean  "customer_acknowledged", default: false, null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "communication_log_entries", force: :cascade do |t|
