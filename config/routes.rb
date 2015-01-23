@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'devices#index'
+  root 'root_redirects#incoming_redirect'
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
     collection do
