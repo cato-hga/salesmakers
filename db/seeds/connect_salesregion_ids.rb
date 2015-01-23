@@ -43,6 +43,8 @@ srt = AreaType.find_by name: 'Sprint Retail Territory',
 
 ccrr = AreaType.find_by name: 'Comcast Retail Region',
                         project: comcast_retail
+ccrm = AreaType.find_by name: 'Comcast Retail Market',
+                        project: comcast_retail
 ccrt = AreaType.find_by name: 'Comcast Retail Territory',
                         project: comcast_retail
 

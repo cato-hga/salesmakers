@@ -22,6 +22,8 @@ require 'support/pundit_matcher'
 require 'database_cleaner'
 require 'factory_girl_rails'
 
+ActiveRecord::Migration.maintain_test_schema!
+
 RSpec.configure do |config|
 
   # Uncomment the next line to troubleshoot spec times!
