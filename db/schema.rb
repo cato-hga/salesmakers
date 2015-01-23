@@ -206,8 +206,8 @@ ActiveRecord::Schema.define(version: 20150123133647) do
     t.integer "group_me_user_id",  null: false
   end
 
-  add_index "group_me_groups_users", ["group_me_group_id", "group_me_user_id"], name: "gm_groups_and_users", using: :btree
-  add_index "group_me_groups_users", ["group_me_user_id", "group_me_group_id"], name: "gm_users_and_groups", using: :btree
+  add_index "group_me_groups_group_me_users", ["group_me_group_id", "group_me_user_id"], name: "gm_groups_and_users", using: :btree
+  add_index "group_me_groups_group_me_users", ["group_me_user_id", "group_me_group_id"], name: "gm_users_and_groups", using: :btree
 
   create_table "group_me_likes", force: :cascade do |t|
     t.integer  "group_me_user_id", null: false
