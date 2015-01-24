@@ -19,47 +19,19 @@ require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 require 'pundit/rspec'
 require 'support/pundit_matcher'
-require 'database_cleaner'
 require 'factory_girl_rails'
 
-ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
   # config.profile_examples = 10
-  
+
   config.include FactoryGirl::Syntax::Methods
 
-  config.before(:suite) do
-    begin
-      #DatabaseCleaner.clean_with :truncation
-      #FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean_with :truncation
-    end
-    FactoryGirl.create :administrator_person
-    # admin = Person.find_by(email: 'retailingw@retaildoneright.com')
-    # admin.destroy if admin
-    DatabaseCleaner.strategy = :transaction
+  config.before :suite do
+    DatabaseRewinder.clean_all
   end
-
-  config.before(:all) do
+  config.before(:each) do
+    DatabaseRewinder.clean
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
-  end
-
-  config.before(:each) do |spec|
-    DatabaseCleaner.strategy = spec.metadata[:js] ? :deletion : :transaction
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do |spec|
-    DatabaseCleaner.clean
-    begin
-      ActiveRecord::Base.connection.send :rollback_transaction_records, true
-    rescue
-    end
-    if spec.metadata[:js]
-      FactoryGirl.create :administrator_person
-      ActiveRecord::Base.connection_pool.disconnect!
-    end
   end
 end

@@ -3,7 +3,6 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
-#require 'shoulda/matchers' There are currently conflicts between shoulda_matchers and another gem
 require 'capybara/rails'
 require 'support/policies'
 
@@ -22,10 +21,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
 
-  #Turns out that including Capybara in the global config is a bad thing. Muddies the waters between feature
-  #and request specs. Going to comment this out and leave it just in case we want it.
   Capybara.javascript_driver = :webkit
-  config.include Capybara::DSL
 
   config.include Rails.application.routes.url_helpers
 
