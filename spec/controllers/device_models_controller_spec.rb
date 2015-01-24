@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe DeviceModelsController do
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   describe 'GET index' do
     before(:each) do
@@ -21,7 +25,7 @@ describe DeviceModelsController do
     it 'returns a success status' do
       expect(response).to be_success
     end
-    it 'renders the index template' do
+    it 'renders the new template' do
       expect(response).to render_template(:new)
     end
   end

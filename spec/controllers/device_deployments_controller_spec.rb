@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe DeviceDeploymentsController do
-
-  let(:person) { create :person }
   let(:device) { create :device }
 
   describe 'GET select_user' do

@@ -15,6 +15,11 @@ describe DeviceManufacturersController, :type => :controller do
   end
 
   describe 'POST create' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    end
+
     subject do
       post :create,
            device_manufacturer: {

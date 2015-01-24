@@ -3,7 +3,9 @@ require 'rails_helper'
 describe DevicesController do
 
   describe 'GET index' do
-    before { get :index }
+    before {
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index }
 
     it 'should return a success status' do
       expect(response).to be_success
@@ -15,7 +17,10 @@ describe DevicesController do
   end
 
   describe 'GET new' do
-    before { get :new }
+    before {
+      allow(controller).to receive(:policy).and_return double(new?: true)
+      get :new
+    }
 
     it 'should return a success status' do
       expect(response).to be_success
@@ -27,6 +32,11 @@ describe DevicesController do
   end
 
   describe 'POST create' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    end
     context 'success (valid data)' do
       subject {
         post :create,
@@ -138,8 +148,8 @@ describe DevicesController do
 
   describe 'GET show' do
     let(:device) { create :device }
-
     before {
+      allow(controller).to receive(:policy).and_return double(show?: true)
       get :show,
           id: device.id
     }
@@ -155,7 +165,11 @@ describe DevicesController do
   describe 'GET write_off' do
     let(:device) { create :device }
     let!(:written_off) { create :device_state, name: 'Written Off' }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(write_off?: true)
+    end
     subject { get :write_off, id: device.id }
 
     it 'should render the show template' do
@@ -180,9 +194,15 @@ describe DevicesController do
     let(:device) { create :device }
     let(:locked_state) { create :device_state, locked: true }
     let(:unlocked_state) { create :device_state, locked: false }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    end
     describe 'PATCH remove_state' do
       context 'with an unlocked state' do
+        before(:each) do
+          allow(controller).to receive(:policy).and_return double(remove_state?: true)
+        end
         subject {
           patch :remove_state,
                 id: device.id,
@@ -213,6 +233,9 @@ describe DevicesController do
 
     describe 'PATCH add_state' do
       context 'with an unlocked state' do
+        before(:each) do
+          allow(controller).to receive(:policy).and_return double(add_state?: true)
+        end
         subject {
           patch :add_state,
                 id: device.id,
@@ -241,8 +264,15 @@ describe DevicesController do
   context 'lost or stolen' do
     let(:device) { create :device }
     let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    end
 
     describe 'PATCH lost_stolen' do
+      before(:each) do
+        allow(controller).to receive(:policy).and_return double(lost_stolen?: true)
+      end
       subject {
         patch :lost_stolen,
               id: device.id
@@ -265,7 +295,10 @@ describe DevicesController do
     end
 
     describe 'PATCH found' do
-      before { device.device_states << lost_stolen }
+      before(:each) do
+        device.device_states << lost_stolen
+        allow(controller).to receive(:policy).and_return double(found?: true)
+      end
 
       subject {
         patch :found,
@@ -285,6 +318,9 @@ describe DevicesController do
   end
 
   describe 'GET csv' do
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(csv?: true)
+    end
     it 'returns a success status for CSV format' do
       get :csv,
           format: :csv
@@ -300,6 +336,7 @@ describe DevicesController do
   describe 'GET edit' do
     let(:device) { create :device }
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(edit?: true)
       get :edit,
           id: device.id
     end
@@ -315,6 +352,11 @@ describe DevicesController do
 
   describe 'PATCH update' do
     let(:device) { create :device }
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(update?: true)
+    end
     subject do
       patch :update,
             id: device.id,
@@ -344,7 +386,11 @@ describe DevicesController do
   describe 'PATCH repair' do
     let(:device) { create :device }
     let!(:repair) { create :device_state, name: 'Repairing', locked: true }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(repairing?: true)
+    end
     subject {
       patch :repairing,
             id: device.id
