@@ -1,10 +1,26 @@
 require 'rails_helper'
 
 describe 'LineStates CRUD actions' do
+  let!(:person) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
+  let(:permission_index) { create :permission, key: 'line_state_index' }
+  let(:permission_new) { create :permission, key: 'line_state_new' }
+  let(:permission_update) { create :permission, key: 'line_state_update' }
+  let(:permission_edit) { create :permission, key: 'line_state_edit' }
+  let(:permission_destroy) { create :permission, key: 'line_state_destroy' }
+  let(:permission_create) { create :permission, key: 'line_state_create' }
+  let(:position) { create :position, name: 'IT Tech', department: department }
+  let(:department) { create :department, name: 'Information Technology' }
+
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   context 'for creating' do
     let(:line_state) { build :line_state }
-
+    before(:each) do
+      position.permissions << permission_index
+      position.permissions << permission_create
+    end
     subject {
       visit line_states_path
       within '#main_container h1' do
@@ -31,8 +47,10 @@ describe 'LineStates CRUD actions' do
 
   context 'for reading' do
     let!(:line_state) { create :line_state }
-
+    let(:line_index_permission) { create :permission, key: 'line_index' }
     it 'navigates to the line states index' do
+      position.permissions << permission_index
+      position.permissions << line_index_permission
       visit lines_path
       within '#main_container header h1' do
         click_on 'Edit States'
@@ -45,7 +63,11 @@ describe 'LineStates CRUD actions' do
     context 'unlocked line states' do
       let!(:line_state) { create :line_state }
       let(:new_name) { 'New Name' }
-
+      before(:each) do
+        position.permissions << permission_index
+        position.permissions << permission_update
+        position.permissions << permission_edit
+      end
       subject {
         visit line_states_path
         click_on line_state.name
@@ -77,7 +99,12 @@ describe 'LineStates CRUD actions' do
   context 'for destroying', js: true do
     let!(:line_state) { create :line_state }
     let(:line) { create :line }
-
+    before(:each) do
+      position.permissions << permission_index
+      position.permissions << permission_destroy
+      position.permissions << permission_edit
+      position.permissions << permission_update
+    end
     subject do
       visit line_states_path
       click_on line_state.name
