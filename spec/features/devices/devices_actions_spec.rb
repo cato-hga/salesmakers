@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 describe 'Devices NON-CRUD actions' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_index) { create :permission, key: 'device_index' }
+  let(:permission_new) { create :permission, key: 'device_new' }
+  let(:permission_update) { create :permission, key: 'device_update' }
+  let(:permission_edit) { create :permission, key: 'device_edit' }
+  let(:permission_destroy) { create :permission, key: 'device_destroy' }
+  let(:permission_create) { create :permission, key: 'device_create' }
+  let(:permission_show) { create :permission, key: 'device_show' }
+
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   it 'should show the search bar' do
     device = create :device
     visit device_path(device)
@@ -12,6 +25,7 @@ describe 'Devices NON-CRUD actions' do
     let!(:device_state) { create :device_state, name: 'Written Off' }
 
     before(:each) do
+      it_tech.position.permissions << permission_update
       visit device_path device
     end
 
@@ -52,7 +66,10 @@ describe 'Devices NON-CRUD actions' do
     let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
 
     context 'when reporting lost or stolen' do
-      before { visit device_path(device) }
+      before {
+        it_tech.position.permissions << permission_update
+        visit device_path(device)
+      }
 
       subject {
         page.driver.browser.accept_js_confirms
@@ -155,6 +172,9 @@ describe 'Devices NON-CRUD actions' do
              locked: false
     }
 
+    before(:each) do
+      it_tech.position.permissions << permission_update
+    end
     it 'allows an unlocked device state to be removed' do
       device.device_states << unlocked_device_state
       visit device_path(device)
@@ -192,6 +212,7 @@ describe 'Devices NON-CRUD actions' do
     let!(:device_deployment) { create :device_deployment, tracking_number: tracking_number }
 
     it 'searches for tracking numbers' do
+      it_tech.position.permissions << permission_index
       visit devices_path
       fill_in 'q_device_deployments_tracking_number_cont', with: tracking_number[0..7]
       click_on 'search'
@@ -203,6 +224,7 @@ describe 'Devices NON-CRUD actions' do
   describe 'edit' do
     let!(:device) { create :device }
     before {
+      it_tech.position.permissions << permission_update
       visit device_path device
       click_on 'Edit'
     }
@@ -230,7 +252,10 @@ describe 'Devices NON-CRUD actions' do
   describe 'repair', js: true do
     let(:device) { create :device }
     let!(:repair) { create :device_state, name: 'Repairing', locked: true }
-    before { visit device_path(device) }
+    before {
+      it_tech.position.permissions << permission_update
+      visit device_path(device)
+    }
     subject {
       page.driver.browser.accept_js_confirms
       within '#main_container header' do
