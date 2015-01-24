@@ -1,12 +1,18 @@
 require 'rails_helper'
 
 describe 'Lines CRUD actions' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_index) { create :permission, key: 'line_index' }
 
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
   describe 'GET index' do
     let(:line) { create :line }
     let!(:device) { create :device, line: line }
 
     before {
+      it_tech.position.permissions << permission_index
       visit lines_path
     }
 

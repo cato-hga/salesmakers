@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 describe 'actions on Lines' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_index) { create :permission, key: 'line_index' }
+  let(:permission_new) { create :permission, key: 'line_new' }
+  let(:permission_update) { create :permission, key: 'line_update' }
+  let(:permission_edit) { create :permission, key: 'line_edit' }
+  let(:permission_destroy) { create :permission, key: 'line_destroy' }
+  let(:permission_create) { create :permission, key: 'line_create' }
+  let(:permission_show) { create :permission, key: 'line_show' }
+  let(:permission_state_index) { create :permission, key: 'line_state_index' }
+  let(:permission_state_new) { create :permission, key: 'line_state_new' }
+  let(:permission_state_update) { create :permission, key: 'line_state_update' }
+  let(:permission_state_edit) { create :permission, key: 'line_state_edit' }
+  let(:permission_state_destroy) { create :permission, key: 'line_state_destroy' }
+  let(:permission_state_create) { create :permission, key: 'line_state_create' }
+  let(:permission_state_show) { create :permission, key: 'line_state_show' }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   it 'should show the search bar' do
     line = create :line
     visit line_path(line)
@@ -8,6 +27,11 @@ describe 'actions on Lines' do
   end
 
   context 'for line states' do
+    before(:each) do
+      it_tech.position.permissions << permission_state_update
+      it_tech.position.permissions << permission_update
+      it_tech.position.permissions << permission_index
+    end
     let(:line) { create :line }
     let!(:locked_line_state) {
       create :line_state,
@@ -80,6 +104,11 @@ describe 'actions on Lines' do
     end
 
     context 'from device#show' do
+      let(:device_index) { create :permission, key: 'device_index' }
+      let(:device_update) { create :permission, key: 'device_update' }
+      before(:each) do
+        it_tech.position.permissions << permission_update
+      end
       it 'deactivates and detaches the line' do
         visit device_path(device)
         page.driver.browser.accept_js_confirms
