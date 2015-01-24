@@ -1,11 +1,25 @@
 require 'rails_helper'
 
 describe 'Line Addition' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_index) { create :permission, key: 'line_index' }
+  let(:permission_new) { create :permission, key: 'line_new' }
+  let(:permission_update) { create :permission, key: 'line_update' }
+  let(:permission_edit) { create :permission, key: 'line_edit' }
+  let(:permission_destroy) { create :permission, key: 'line_destroy' }
+  let(:permission_create) { create :permission, key: 'line_create' }
+  let(:permission_show) { create :permission, key: 'line_show' }
+  before(:each) do
+    it_tech.position.permissions << permission_index
+    it_tech.position.permissions << permission_new
+    it_tech.position.permissions << permission_create
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   context 'for single lines' do
     context 'success' do
       let!(:service_provider) { create :technology_service_provider }
-      let!(:creator) { create :person }
+      let!(:creator) { Person.first }
       let(:contract_end_date) { Date.today + 1.year }
       let!(:line_state) { create :line_state, name: 'Active' }
       subject {
