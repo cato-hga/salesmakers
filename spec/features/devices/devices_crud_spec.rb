@@ -1,11 +1,24 @@
 require 'rails_helper'
 
 describe 'Devices CRUD actions' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_index) { create :permission, key: 'device_index' }
+  let(:permission_new) { create :permission, key: 'device_new' }
+  let(:permission_update) { create :permission, key: 'device_update' }
+  let(:permission_edit) { create :permission, key: 'device_edit' }
+  let(:permission_destroy) { create :permission, key: 'device_destroy' }
+  let(:permission_create) { create :permission, key: 'device_create' }
+  let(:permission_show) { create :permission, key: 'device_show' }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   describe 'GET index' do
     let!(:device) { create :device }
     let(:written_off) { create :device_state, name: 'Written Off', locked: true }
     let(:written_off_device) { create :device, serial: '654321', identifier: '654321' }
     before(:each) do
+      it_tech.position.permissions << permission_index
       written_off_device.device_states << written_off
       visit devices_path
     end
@@ -26,6 +39,7 @@ describe 'Devices CRUD actions' do
     context 'for all devices' do
       let(:device) { create :device }
       before(:each) do
+        it_tech.position.permissions << permission_show
         visit device_path device
       end
       it 'should have the devices serial number' do
