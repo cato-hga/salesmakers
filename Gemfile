@@ -77,12 +77,13 @@ group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
   gem 'factory_girl_rails', '4.5.0' # Was 4.4.1 01/21/2015 - Easily create mock objects for testing
-  gem 'database_cleaner', '1.4.0' # Was 1.3.0 01/21/2015 - Automated cleaning of test database between spec runs
+  #gem 'database_cleaner', '1.4.0' # Was 1.3.0 01/21/2015 - Automated cleaning of test database between spec runs
   #gem 'simplecov', '0.9.1', require: false # Was 0.9.0 01/21/2015 - Easily see amount of code covered by tests
   gem 'shoulda-matchers', '2.7.0', require: false # Was 2.6.2 01/21/2015 - Easy model validation test methods
   gem 'webmock', '1.20.4' # Was 1.20.0 01/21/2015 - Stubbing of HTTP requests
   gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests
   gem 'codeclimate-test-reporter', '0.4.5', require: nil #codeclimate test coverage
+  gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
 end
 
 group :development, :test do
