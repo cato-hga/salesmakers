@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe DeviceDeploymentsController do
   let(:device) { create :device }
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   describe 'GET select_user' do
     it 'returns a success status' do
@@ -96,7 +100,7 @@ describe DeviceDeploymentsController do
 
   describe 'recouping' do
     let(:deployed_device) { create :device, line: line }
-    let(:person) { create :person, personal_email: 'test@test.com' }
+    let(:recouped_person) { create :person, personal_email: 'test@test.com' }
     let(:line) { create :line }
     let(:deployed) { create :device_state, name: 'Deployed' }
     let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
@@ -121,7 +125,7 @@ describe DeviceDeploymentsController do
         before(:each) do
           deployed_device.device_states << deployed
           deployed_device.device_deployments << device_deployment
-          deployed_device.person = person
+          deployed_device.person = recouped_person
           deployed_device.save
         end
 
@@ -133,10 +137,10 @@ describe DeviceDeploymentsController do
         end
 
         it 'removes the device from the person' do
-          expect(deployed_device.person).to eq(person)
+          expect(deployed_device.person).to eq(recouped_person)
           subject
           deployed_device.reload
-          expect(deployed_device.person).not_to eq(person)
+          expect(deployed_device.person).not_to eq(recouped_person)
         end
 
         it 'should flash a confirmation message' do

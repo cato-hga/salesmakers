@@ -4,6 +4,9 @@ describe PollQuestionChoicesController do
   let(:poll_question_choice) { build :poll_question_choice }
 
   describe 'POST create' do
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    end
     it 'creates poll question choices' do
       expect {
         post :create,
@@ -15,6 +18,10 @@ describe PollQuestionChoicesController do
   end
 
   describe 'PUT update' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(update?: true)
+    end
     it 'updates a poll question choice' do
       poll_question_choice.save
       expect {
@@ -48,6 +55,10 @@ describe PollQuestionChoicesController do
   end
 
   describe 'DELETE destroy' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(destroy?: true)
+    end
     it 'deletes a poll question choice' do
       poll_question_choice.save
       expect {
@@ -70,20 +81,23 @@ describe PollQuestionChoicesController do
     end
   end
 
-  describe 'GET choose' do
-    let!(:person) { Person.first }
-
-    it 'allows a person to answer a poll they have not answered yet' do
-      poll_question_choice.save
-      poll_question = poll_question_choice.poll_question
-      expect {
-        get :choose,
-            id: poll_question_choice.id,
-            poll_question_id: poll_question.id
-        person.reload
-      }.to change(person.poll_question_choices, :count).by(1)
-      expect(response).to redirect_to(poll_question_path(poll_question))
-    end
-  end
+  # NOT USING, NOT TESTING
+  # describe 'GET choose' do
+  #   let!(:person) { create :it_tech_person }
+  #   before(:each) do
+  #     allow(controller).to receive(:policy).and_return double(choose?: true)
+  #   end
+  #   it 'allows a person to answer a poll they have not answered yet' do
+  #     poll_question_choice.save
+  #     poll_question = poll_question_choice.poll_question
+  #     expect {
+  #       get :choose,
+  #           id: poll_question_choice.id,
+  #           poll_question_id: poll_question.id
+  #       person.reload
+  #     }.to change(person.poll_question_choices, :count).by(1)
+  #     expect(response).to redirect_to(poll_question_path(poll_question))
+  #   end
+  # end
 
 end

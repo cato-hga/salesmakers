@@ -3,7 +3,9 @@ require 'rails_helper'
 describe LinesController do
 
   describe 'GET index' do
-    before { get :index }
+    before {
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index }
     it 'should return a success status' do
       expect(response).to be_success
     end
@@ -13,7 +15,9 @@ describe LinesController do
   end
 
   describe 'GET new' do
-    before { get :new }
+    before {
+      allow(controller).to receive(:policy).and_return double(new?: true)
+      get :new }
     it 'should return a success status' do
       expect(response).to be_success
     end
@@ -23,6 +27,11 @@ describe LinesController do
   end
 
   describe 'POST create' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    end
     context 'success (valid data)' do
       subject {
         post :create,
@@ -77,7 +86,11 @@ describe LinesController do
     let!(:old_line) { create :line }
     let(:new_line) { create :line, identifier: '5555555555' }
     let!(:device) { create :device, line: old_line }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(update?: true)
+    end
     subject {
       patch :update,
             id: old_line.id,
@@ -107,6 +120,11 @@ describe LinesController do
     let(:unlocked_state) { create :line_state, locked: false }
 
     describe 'PATCH remove_state' do
+      let!(:person) { create :it_tech_person }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        allow(controller).to receive(:policy).and_return double(remove_state?: true)
+      end
       context 'with an unlocked state' do
         subject {
           patch :remove_state,
@@ -137,6 +155,11 @@ describe LinesController do
     end
 
     describe 'PATCH add_state' do
+      let!(:person) { create :it_tech_person }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        allow(controller).to receive(:policy).and_return double(add_state?: true)
+      end
       context 'with an unlocked state' do
         subject {
           patch :add_state,
@@ -164,6 +187,9 @@ describe LinesController do
   end
 
   describe 'deactivation' do
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(deactivate?: true)
+    end
     let(:device) { create :device, line: line }
     let(:active_state) { create :line_state, name: 'Active', locked: true }
     let(:line) do

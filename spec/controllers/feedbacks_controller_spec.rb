@@ -11,7 +11,7 @@ describe FeedbacksController do
   end
 
   describe 'POST create' do
-    let(:person) { Person.first }
+    let(:person) { create :person }
     it 'creates feedback' do
       request.env['HTTP_REFERER'] = root_path
       post :create,

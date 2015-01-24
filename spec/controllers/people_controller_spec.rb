@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe PeopleController do
-  let(:person) { Person.first }
 
   describe 'GET index' do
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(index?: true)
       get :index
       expect(response).to be_success
       expect(response).to render_template(:index)
@@ -20,6 +20,11 @@ describe PeopleController do
   end
 
   describe 'GET show' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(show?: true)
+    end
     it 'returns a success status' do
       get :show, id: person.id
       expect(response).to be_success
@@ -33,6 +38,11 @@ describe PeopleController do
   end
 
   describe 'GET sales' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(sales?: true)
+    end
     it 'returns a success status' do
       get :sales, id: person.id
       expect(response).to be_success
@@ -46,6 +56,11 @@ describe PeopleController do
   end
 
   describe 'GET about' do
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(about?: true)
+    end
     it 'returns a success status', :vcr do
       get :about, id: person.id
       expect(response).to be_success
@@ -60,7 +75,11 @@ describe PeopleController do
 
   describe 'PUT update' do
     let(:new_phone) { '8135544444' }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(update_own_basic?: true)
+    end
     it 'updates a person' do
       put :update,
           id: person.id,
@@ -94,8 +113,12 @@ describe PeopleController do
   end
 
   describe 'GET new_sms_message' do
-    let(:person) { Person.first }
-    before { get :new_sms_message, id: person.id }
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(new_sms_message?: true)
+      get :new_sms_message, id: person.id
+    end
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -107,9 +130,12 @@ describe PeopleController do
   end
 
   describe 'POST create_sms_message', vcr: true do
-    let(:person) { Person.first }
     let(:message) { 'Test message' }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(create_sms_message?: true)
+    end
     it 'creates a log entry' do
       expect{
         post :create_sms_message, id: person.id, contact_message: message

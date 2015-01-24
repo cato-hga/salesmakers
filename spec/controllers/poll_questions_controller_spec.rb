@@ -4,6 +4,7 @@ describe PollQuestionsController do
 
   describe 'GET new' do
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(new?: true)
       get :new
       expect(response).to be_success
     end
@@ -13,6 +14,7 @@ describe PollQuestionsController do
     let!(:poll_question) { build :poll_question }
 
     it 'creates a poll question' do
+      allow(controller).to receive(:policy).and_return double(create?: true)
       post :create, poll_question: poll_question.attributes
       expect(response).to redirect_to(poll_questions_path)
       expect(assigns(:poll_question).question).to include("?")
@@ -22,6 +24,7 @@ describe PollQuestionsController do
 
   describe 'GET index' do
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(index?: true)
       get :index
       expect(response).to be_success
     end
@@ -31,6 +34,7 @@ describe PollQuestionsController do
     let!(:poll_question) { create :poll_question }
 
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(show?: true)
       get :show,
           id: poll_question.id
       expect(response).to be_success
@@ -43,6 +47,7 @@ describe PollQuestionsController do
     let(:poll_question) { create :poll_question }
 
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(edit?: true)
       get :edit,
           id: poll_question.id
       expect(response).to be_success
@@ -54,6 +59,7 @@ describe PollQuestionsController do
     let(:poll_question) { create :poll_question }
 
     it 'updates a poll question' do
+      allow(controller).to receive(:policy).and_return double(update?: true)
       put :update,
           id: poll_question.id,
           poll_question: { help_text: 'This is some changed help text.' }
@@ -65,6 +71,7 @@ describe PollQuestionsController do
     let!(:poll_question) { create :poll_question }
 
     it 'deletes a poll question' do
+      allow(controller).to receive(:policy).and_return double(destroy?: true)
       expect {
         delete :destroy,
                id: poll_question.id

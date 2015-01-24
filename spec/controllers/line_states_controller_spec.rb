@@ -2,8 +2,12 @@ require 'rails_helper'
 
 describe DeviceStatesController do
 
+
   describe 'GET index' do
-    before { get :index }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index
+    end
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -15,7 +19,9 @@ describe DeviceStatesController do
   end
 
   describe 'GET new' do
-    before { get :new }
+    before {
+      allow(controller).to receive(:policy).and_return double(new?: true)
+      get :new }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -28,7 +34,11 @@ describe DeviceStatesController do
 
   describe 'POST create' do
     let(:device_state) { build :device_state }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    end
     it 'creates a device state' do
       expect {
         post :create,
@@ -43,7 +53,9 @@ describe DeviceStatesController do
     context 'for an unlocked device state' do
       let(:device_state) { create :device_state }
 
-      before { get :edit, id: device_state.id }
+      before {
+        allow(controller).to receive(:policy).and_return double(edit?: true)
+        get :edit, id: device_state.id }
 
       it 'returns a success' do
         expect(response).to be_success
@@ -68,7 +80,11 @@ describe DeviceStatesController do
   describe 'PUT update' do
     let(:device_state) { create :device_state }
     let(:new_name) { 'New Name' }
-
+    let!(:person) { create :it_tech_person }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(update?: true)
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    end
     it 'updates the device state' do
       put :update,
           id: device_state.id,
@@ -83,9 +99,10 @@ describe DeviceStatesController do
     let(:device_state) { create :device_state }
 
     it 'deletes the device state' do
+      allow(controller).to receive(:policy).and_return double(destroy?: true)
       delete :destroy,
              id: device_state.id
-      expect(page).to redirect_to(device_states_path)
+      expect(response).to redirect_to(device_states_path)
     end
   end
 end
