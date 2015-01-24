@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'shoulda/matchers'
 
 RSpec.describe Person, :type => :model do
-
+  let(:person) { create :it_tech_person }
   it do
     should ensure_length_of(:first_name).is_at_least(2)
     should ensure_length_of(:last_name).is_at_least(2)
@@ -21,7 +21,6 @@ RSpec.describe Person, :type => :model do
 
 
   describe 'uniqueness validations' do
-    let(:person) { Person.first }
     let(:second_person) { create :person }
 
     it 'should allow multiple null values for connect_user_id' do
@@ -147,7 +146,7 @@ RSpec.describe Person, :type => :model do
 
   describe '#name' do
     it 'should return the display name as name' do
-      expect(Person.first.name).to eq(Person.first.display_name)
+      expect(person.name).to eq(person.display_name)
     end
   end
 
@@ -156,7 +155,6 @@ RSpec.describe Person, :type => :model do
   end
 
   describe '#terminated?' do
-    let(:person ) { create :person }
     let!(:employment) { create :employment, person: person, end: Time.now }
     it 'should return true if the first employee record has an end' do
       expect(person.terminated?).to be_truthy
@@ -164,7 +162,6 @@ RSpec.describe Person, :type => :model do
   end
 
   describe '#social_name' do
-    let(:person) { create :person }
     let(:profile) { create :profile, person: person }
     it 'should return the nickname if present' do
       profile.nickname = 'My Nickname!'
@@ -176,7 +173,6 @@ RSpec.describe Person, :type => :model do
   end
 
   describe '#profile_avatar' do
-    let(:person) { create :person }
     let!(:profile) { create :profile, person: person, avatar: avatar }
     let(:avatar) { 'files/image.jpg' }
     it 'should return the persons profile avatar' do
@@ -185,7 +181,6 @@ RSpec.describe Person, :type => :model do
   end
 
   describe '#profile_avatar_url' do
-    let(:person) { create :person }
     let!(:profile) { create :profile, person: person, avatar: avatar }
     let(:avatar) { 'files/image.jpg' }
     it 'should return the profile_avatar url' do
@@ -194,7 +189,6 @@ RSpec.describe Person, :type => :model do
   end
 
   describe '#group_me_avatar_url' do
-    let(:person) { create :person }
     let(:avatar) { 'files/image.jpg' }
     let!(:group_me_user) { create :group_me_user, person: person, avatar_url: avatar }
     it 'should return the group me avatar url for a person' do
