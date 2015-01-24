@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe 'Device Deployments CRUD actions' do
+  let!(:it_tech) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
   describe 'GET new' do
     let(:device) { create :device, person_id: person.id}
     let(:person) { Person.first }

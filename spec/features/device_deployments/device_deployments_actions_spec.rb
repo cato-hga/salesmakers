@@ -2,10 +2,15 @@ require 'rails_helper'
 
 describe 'Device Deployments NON-CRUD actions' do
 
+  let!(:it_tech) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   context 'for deployment' do
     let(:device) { create :device }
     let!(:deployed) { create :device_state, name: 'Deployed' }
-    let(:person) { Person.first }
+    let!(:person) { Person.first }
     let(:tracking_number) { '123456789' }
     let(:comment) { 'This is a foo comment' }
 
