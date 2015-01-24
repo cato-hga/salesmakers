@@ -6,6 +6,7 @@ describe AreasController do
 
   describe 'GET index' do
     it 'should return a success status' do
+      allow(controller).to receive(:policy).and_return double(index?: true)
       get :index, hash
       expect(response).to be_success
       expect(response).to render_template(:index)
@@ -15,6 +16,9 @@ describe AreasController do
   describe 'GET show' do
     let(:area) { create :area, project: project }
     let(:area_hash) { hash.merge(id: area.id) }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(show?: true)
+    end
 
     it 'should return a success status' do
       get :show, area_hash
