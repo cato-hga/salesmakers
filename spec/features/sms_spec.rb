@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 describe 'SMS messaging' do
-
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
   describe 'links on view' do
-    let(:person) { Person.first }
-
     it 'shows for People#index and People#search' do
       visit people_path
       expect(page).to have_selector('a.send_contact')
@@ -23,8 +24,10 @@ describe 'SMS messaging' do
     context 'for DevicesController' do
       let(:device) { create :device, person: person }
       let!(:device_deployment) { create :device_deployment, device: device }
+      let(:permission_index) { create :permission, key: 'device_index' }
 
       it 'shows for Devices#index' do
+        person.position.permissions << permission_index
         visit devices_path
         expect(page).to have_selector('a.send_contact')
       end
@@ -37,7 +40,6 @@ describe 'SMS messaging' do
   end
 
   context 'sending a message' do
-    let(:person) { Person.first }
     let(:message) { 'This is an example message.' }
 
     it 'sends an SMS message', :vcr do
@@ -54,7 +56,6 @@ describe 'SMS messaging' do
   end
 
   describe 'message counter', js: true do
-    let(:person) { Person.first }
     before { visit new_sms_message_person_path(person) }
 
     it 'shows the proper message count' do

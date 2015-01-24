@@ -3,8 +3,10 @@ require 'rails_helper'
 describe 'Home CRUD actions' do
 
   describe 'on the index page' do
+    let!(:person) { create :it_tech_person }
 
     before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
       visit home_index_path
     end
 

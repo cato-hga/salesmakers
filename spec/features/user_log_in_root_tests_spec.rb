@@ -6,16 +6,13 @@ describe 'User root log ins' do
 #   #being what it should be, and redirecting properly.
   describe 'IT Department' do
       let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
-      let(:permissions) { Permission.find_by key: 'device_index' }
+      let(:permissions) { create :permission, key: 'device_index' }
       let(:position) { create :position, name: 'IT Tech', department: department }
-      let(:department) { Department.find_by name: 'Information Technology' }
+      let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
         position.permissions << permissions
         CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
         visit root_path
-      end
-      after(:each) do
-        CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
       end
       it 'routes IT to device#index' do
         expect(page).to have_content('Devices')
@@ -30,9 +27,6 @@ describe 'User root log ins' do
       comcast_position.permissions << comcast_permissions
       CASClient::Frameworks::Rails::Filter.fake("comcastemployee@cc.salesmakersinc.com")
       visit root_path
-    end
-    after(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
     end
     it 'routes Comcast to comcast_sales#new' do
       expect(page).to have_content('Comcast Order Entry')
