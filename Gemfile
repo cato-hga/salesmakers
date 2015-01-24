@@ -21,7 +21,7 @@ gem 'ransack', '1.6.2' # Was 1.2.3 01/21/2015 - ActiveRecord search
 gem 'kaminari', '0.16.2' # Was 0.16.1 01/21/2015 - Pagination
 gem 'httparty', '0.13.3' # Was 0.13.1 01/21/2015 - HTTP REST API client
 gem 'namecase', '1.1.0' # Easily turn names into proper cases
-gem 'foundation-icons-sass-rails', '3.0.0', require: false # Icon fonts for Foundation
+gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
 gem 'groupdate', '2.4.0' # Was 2.2.1 01/21/2015 - Ability to group by dates
 gem 'swiper-rails', '1.0.2', require: false # Content slider
 gem 'pundit', git: 'https://github.com/elabs/pundit.git' # Role-based authorization
@@ -77,7 +77,6 @@ group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
   gem 'factory_girl_rails', '4.5.0' # Was 4.4.1 01/21/2015 - Easily create mock objects for testing
-  #gem 'database_cleaner', '1.4.0' # Was 1.3.0 01/21/2015 - Automated cleaning of test database between spec runs
   #gem 'simplecov', '0.9.1', require: false # Was 0.9.0 01/21/2015 - Easily see amount of code covered by tests
   gem 'shoulda-matchers', '2.7.0', require: false # Was 2.6.2 01/21/2015 - Easy model validation test methods
   gem 'webmock', '1.20.4' # Was 1.20.0 01/21/2015 - Stubbing of HTTP requests
