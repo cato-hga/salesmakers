@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 describe 'PollQuestionChoices CRUD actions' do
+  let!(:it_tech) { create :it_tech_person }
+  let(:permission_manage) { create :permission, key: 'poll_question_manage' }
+  let(:permission_show) { create :permission, key: 'poll_question_show' }
+  before(:each) do
+    it_tech.position.permissions << permission_manage
+    it_tech.position.permissions << permission_show
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   context 'for creating' do
     let!(:poll_question) { create :poll_question }
