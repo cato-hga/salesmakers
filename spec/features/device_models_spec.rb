@@ -2,6 +2,11 @@ require 'rails_helper'
 
 describe 'DeviceModels spec' do
 
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   describe 'GET index' do
     let!(:device) { create :device }
     before(:each) do

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
-feature "DeviceManufacturers", :type => :feature do
+describe "DeviceManufacturers", :type => :feature do
+
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   describe 'GET new' do
     it 'has a form for adding new model' do

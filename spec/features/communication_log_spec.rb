@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe 'communication logging' do
-  let(:person) { create :person }
+  let!(:person) { create :it_tech_person }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   it 'shows an SMS message', :vcr do
     sms_message = create :sms_message, to_person: person

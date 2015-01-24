@@ -1,13 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe 'Asset Receiving' do
+  let!(:creator) { create :it_tech_person }
+  let(:permission_update) { create :permission, key: 'device_update' }
+  let(:permission_new) { create :permission, key: 'device_new' }
+  let(:permission_create) { create :permission, key: 'device_create' }
+  let(:permission_index) { create :permission, key: 'device_index' }
+  before(:each) do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
+
   context 'end-to-end operations' do
+    before(:each) do
+      creator.position.permissions << permission_new
+      creator.position.permissions << permission_create
+      creator.position.permissions << permission_index
+    end
     let!(:device_model) { create :device_model }
     let!(:service_provider) { create :technology_service_provider }
     let(:line_identifier) { '5555555555' }
     let(:serial) { '123456789' }
     let(:device_identifier) { '98765431' }
-    let!(:creator) { create :person }
     let(:contract_end_date) { Date.today + 1.year }
     context 'for single devices' do
       context 'success' do
