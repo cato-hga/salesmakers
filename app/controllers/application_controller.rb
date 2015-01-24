@@ -63,8 +63,8 @@ class ApplicationController < ActionController::Base
     @seen_before = @current_person.last_seen.present?
     @current_person.update last_seen: Time.now
     Person.record_timestamps = true
-    WallPost.just_logged_in_post @current_person unless @seen_before
-    WallPost.send_welcome_post @current_person unless @seen_before
+    #WallPost.just_logged_in_post @current_person unless @seen_before
+    #WallPost.send_welcome_post @current_person unless @seen_before
   end
 
   def set_last_seen_profile
