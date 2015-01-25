@@ -19,6 +19,7 @@ describe LineStatePolicy do
       permitted_person.position.permissions << permission_update
       permitted_person.position.permissions << permission_destroy
     end
+
     let(:policy) { LineStatePolicy.new permitted_person, LineState.new }
     specify { expect(policy.index?).to be_truthy }
     specify { expect(policy.new?).to be_truthy }

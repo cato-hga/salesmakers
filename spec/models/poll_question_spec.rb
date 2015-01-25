@@ -19,6 +19,8 @@ describe PollQuestion do
           end_time: Time.now + 1.minute
   }
 
+  let(:person) { create :it_tech_person }
+
   subject { build :poll_question }
 
   it 'is valid in its initial state' do
@@ -64,21 +66,18 @@ describe PollQuestion do
 
   it 'returns an active question within visible questions' do
     subject.save
-    person = Person.first
     expect(PollQuestion.visible(person)).to include(subject)
   end
 
   it 'does not return an already-answered question in visible questions' do
     poll_question_choice = create :poll_question_choice
     poll_question = poll_question_choice.poll_question
-    person = Person.first
     person.poll_question_choices << poll_question_choice
     expect(PollQuestion.visible(person)).not_to include(poll_question)
   end
 
   context 'with a poll question choice that has been answered' do
     let!(:poll_question_choice) { create :poll_question_choice }
-    let(:person) { Person.first }
 
     it 'reflects as locked' do
       poll_question_choice.people << person
