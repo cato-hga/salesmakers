@@ -49,7 +49,6 @@ gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'active_shipping', '1.0.0pre1', require: false # Was 0.12.4 01/21/2015 - Shipping integration for many carriers
 gem 'nilify_blanks', '1.2.0' # Was 1.1.0 01/21/2015 - Change empty strings to nil before saving certain models
-gem 'exception_notification', '4.0.1', require: false # Send notification of uncaught Exceptions to developers (us!)
 gem 'render_csv', '2.0.0' # CSV file rendering
 gem 'twilio-ruby', '3.14.4', require: false # Was 3.14.2 01/21/2015 - Twilio SMS and Voice library
 gem 'geocoder', '1.2.6' # Geocoding
@@ -93,4 +92,6 @@ end
 group :production do
   gem 'newrelic_rpm', '3.9.9.275' # NewRelic agent
   gem 'rack-cache', '1.2', require: 'rack/cache' # Cache, used by Dragonfly
+  gem 'exception_notification', '4.0.1' # Send notification of uncaught Exceptions to developers (us!)
+
 end
