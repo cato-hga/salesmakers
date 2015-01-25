@@ -23,7 +23,6 @@ gem 'httparty', '0.13.3' # Was 0.13.1 01/21/2015 - HTTP REST API client
 gem 'namecase', '1.1.0' # Easily turn names into proper cases
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
 gem 'groupdate', '2.4.0' # Was 2.2.1 01/21/2015 - Ability to group by dates
-gem 'swiper-rails', '1.0.2', require: false # Content slider
 gem 'pundit', git: 'https://github.com/elabs/pundit.git' # Role-based authorization
 gem 'capistrano', '3.3.5', require: false # Was 3.2.1 01/21/2015 - Automated deployment
 gem 'capistrano-bundler', '1.1.3', require: false # Was 1.1.2 01/21/2015 - Capistrano bundler integration
@@ -70,6 +69,10 @@ group :development do
   gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
+end
+
+group :development, :production, :staging do
+  gem 'swiper-rails', '1.0.2' # Content slider
 end
 
 group :test do
