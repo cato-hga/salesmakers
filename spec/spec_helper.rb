@@ -29,6 +29,7 @@ RSpec.configure do |config|
 
   config.before :suite do
     DatabaseRewinder.clean_all
+    #FactoryGirl.lint
   end
   config.before(:each) do
     DatabaseRewinder.clean
