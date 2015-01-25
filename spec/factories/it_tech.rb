@@ -16,5 +16,13 @@ FactoryGirl.define do
     association :department, factory: :information_technology_department
     field false
     hq true
+    trait :twilio do
+      twilio_number '+12345678901'
+    end
+  end
+
+  factory :information_technology_department, class: Department do
+    name 'Information Technology'
+    corporate true
   end
 end
