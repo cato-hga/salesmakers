@@ -9,5 +9,4 @@ FactoryGirl.define do
     field true
     hq false
   end
-
 end

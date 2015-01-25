@@ -10,5 +10,8 @@ FactoryGirl.define do
     email
     mobile_phone '7274872633'
     association :position
+    trait :mobile_two do
+      mobile_phone '7274872634'
+    end
   end
 end

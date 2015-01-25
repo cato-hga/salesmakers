@@ -13,7 +13,9 @@ describe TwilioController do
 
   describe 'POST incoming_sms' do
     let(:to_person) { create :person }
-    let(:from_person) { Person.first }
+    let(:from_person) { create :person, :mobile_two, position: from_person_position }
+    let(:from_person_position) { create :administrator_position }
+    #let(:from_person) { create :administrator_person }
     let!(:outgoing_message) {
       create :sms_message,
              to_num: to_person.mobile_phone,
@@ -66,7 +68,7 @@ describe TwilioController do
 
     it 'sends an email to everyone applicable when not a reply' do
       post :incoming_sms,
-           From: '+18635214572',
+           From: '+1' + from_person.mobile_phone,
            To: '+12345678901',
            Body: 'This is a message that starts a new thread.',
            MessageSid: 'SM09876543210987654321'
