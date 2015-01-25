@@ -14,7 +14,7 @@ describe TwilioController do
   describe 'POST incoming_sms' do
     let(:to_person) { create :person }
     let(:from_person) { create :person, :mobile_two, position: from_person_position }
-    let(:from_person_position) { create :administrator_position }
+    let(:from_person_position) { create :it_tech_position, :twilio }
     #let(:from_person) { create :administrator_person }
     let!(:outgoing_message) {
       create :sms_message,
