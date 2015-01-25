@@ -18,10 +18,10 @@ describe PollQuestionChoice do
 
   context 'with at least one answer' do
     let(:person) { create :person }
+    let(:admin_person) { create :it_tech_person }
 
     before do
       subject.save
-      admin_person = Person.first
       subject.people << admin_person
     end
 
