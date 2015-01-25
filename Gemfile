@@ -91,7 +91,9 @@ end
 
 group :production do
   gem 'newrelic_rpm', '3.9.9.275' # NewRelic agent
+end
+
+group :production, :staging do
   gem 'rack-cache', '1.2', require: 'rack/cache' # Cache, used by Dragonfly
   gem 'exception_notification', '4.0.1' # Send notification of uncaught Exceptions to developers (us!)
-
 end
