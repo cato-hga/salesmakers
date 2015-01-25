@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = "http://assets.example.com"
+  config.action_controller.asset_host = "staging.rbdconnect.com"
 
   # Precompile additional assets.
   # application.js, application.css.scss, and all non-JS/CSS in app/assets folder are already added.
@@ -84,7 +84,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {host: 'staging.rbdconnect.com'}
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                            email_prefix: '[RBDC2 STAGING] ',
+                            email_prefix: '[RBDC2 - TEST RUNS] ',
                             sender_address: 'development@retaildoneright.com',
                             exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com}
                         }
