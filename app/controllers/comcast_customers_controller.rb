@@ -5,6 +5,7 @@ class ComcastCustomersController < ApplicationController
 
   def new
     authorize ComcastCustomer.new
+    @comcast_customer = ComcastCustomer.new
   end
 
   def create
@@ -12,6 +13,8 @@ class ComcastCustomersController < ApplicationController
     if @comcast_customer.save
       @current_person.log? 'create', @comcast_customer, @current_person
       #Redirection pending COMcastSales
+    else
+      render :new
     end
   end
 

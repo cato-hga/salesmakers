@@ -1,0 +1,16 @@
+- if @comcast_customer.errors.any?
+  - @comcast_customer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @comcast_customer do |f|
+      = f.label :first_name
+      = f.text_field :first_name
+      = f.label :last_name
+      = f.text_field :last_name
+      = f.label :mobile_phone
+      = f.text_field :mobile_phone
+      = f.label :comments
+      = f.text_area :comments
+      = f.submit 'Save', class: :button

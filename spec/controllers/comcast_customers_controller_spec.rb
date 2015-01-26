@@ -22,6 +22,7 @@ describe ComcastCustomersController do
       CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
+
     context 'success' do
       subject do
         post :create,
@@ -43,6 +44,21 @@ describe ComcastCustomersController do
 
       it 'redirects to comcast_sale#new', pending: 'Comcast Sales not created' do
         expect(subject).to redirect_to(new_comcast_sales_path)
+      end
+    end
+
+    context 'failure' do
+      subject do
+        post :create,
+             comcast_customer: {
+                 first_name: '',
+                 last_name: new_customer.last_name,
+                 mobile_phone: new_customer.mobile_phone,
+                 person_id: person.id
+             }
+      end
+      it 'should render the new template' do
+        expect(subject).to render_template(:new)
       end
     end
   end
