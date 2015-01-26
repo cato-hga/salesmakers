@@ -30,14 +30,13 @@ gem 'capistrano-rails', '1.1.2', require: false # Was 1.1.1 01/21/2015 - Capistr
 gem 'capistrano-rvm', '0.1.2', require: false # Was 0.1.1 01/21/2015 - Capistrano RVM integration
 gem 'capistrano3-puma', '0.8.3', require: false # Was 0.6.1 01/21/2015 - Capistrano Puma integration
 gem 'puma', '2.11.0', require: false # Was 2.9.0 01/21/2015 - Web server
-gem 'foreman', '0.77.0', require: false # Was 0.74.0 01/21/2015 - Deployment automation
-gem 'emoji', '1.0.1', require: false # Automatic emoji embeds
+gem 'emoji', '1.0.1' # Automatic emoji embeds
 gem 'faye', '1.1.0' # Was 1.0.3 01/21/2015 - GroupMe client websockets
 gem 'metric_fu', '4.11.1', require: false # Code metrics
 gem 'dragonfly', '1.0.7' # Image and file storage
 gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
-gem 'whenever', '0.9.4', require: false # Was 0.9.2 01/21/2015 - Background tasks scheduled in a flat ruby file.
+gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a flat ruby file.
 gem 'mail_form', '1.5.0' # Gem for contact/feedback form. Using based on tutorial: http://rubyonrailshelp.wordpress.com/2014/01/08/rails-4-simple-form-and-mail-form-to-make-contact-form/
 gem 'simple_form', '3.1.0' # Was 3.0.2 01/21/2015 - For contact/feedback form
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form
@@ -48,7 +47,7 @@ gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'nilify_blanks', '1.2.0' # Was 1.1.0 01/21/2015 - Change empty strings to nil before saving certain models
 gem 'render_csv', '2.0.0' # CSV file rendering
-gem 'twilio-ruby', '3.14.4', require: false # Was 3.14.2 01/21/2015 - Twilio SMS and Voice library
+gem 'twilio-ruby', '3.14.4' # Was 3.14.2 01/21/2015 - Twilio SMS and Voice library
 gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
 
