@@ -43,7 +43,7 @@ namespace :staging do
   desc 'Sync staging and production database'
   task :sync do
     on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:halt'
+      invoke 'puma:stop'
       execute 'pg_dump -Fc -h 10.209.169.144 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
       execute 'dropdb -U oneconnect oneconnect_production'
       execute 'createdb -U oneconnect -O oneconnect oneconnect_production'
