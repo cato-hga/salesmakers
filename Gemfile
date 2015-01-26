@@ -61,10 +61,7 @@ group :development do
   gem 'coderay', '1.1.0'
   gem 'coolline', '0.5.0' # Was 0.4.3 01/21/2015
   gem 'guard-rspec', '4.5.0', require: false # Was 4.2.10 01/21/2015 - Automated spec runs
-  # gem 'bullet' # Database query analysis for performance tuning.
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
-  #gem 'rack-mini-profiler', '0.9.2' #Performance profiling
-  gem 'stack_rescue', '0.0.1' # Output stackoverflow messages based on error messages on server logs
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
 end
@@ -74,7 +71,6 @@ group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
   gem 'factory_girl_rails', '4.5.0' # Was 4.4.1 01/21/2015 - Easily create mock objects for testing
-  #gem 'simplecov', '0.9.1', require: false # Was 0.9.0 01/21/2015 - Easily see amount of code covered by tests
   gem 'shoulda-matchers', '2.7.0', require: false # Was 2.6.2 01/21/2015 - Easy model validation test methods
   gem 'webmock', '1.20.4' # Was 1.20.0 01/21/2015 - Stubbing of HTTP requests
   gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests

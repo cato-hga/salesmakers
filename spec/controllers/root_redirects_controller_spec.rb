@@ -4,7 +4,7 @@ describe RootRedirectsController do
 
   describe 'GET incoming_redirect' do
 
-    describe 'IT Department' do
+    context 'IT Department' do
       let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
       let(:permissions) { create :permission }
       let(:position) { create :position, name: 'IT Tech', department: department }
@@ -25,7 +25,7 @@ describe RootRedirectsController do
     end
 
 
-    describe 'Comcast Sales' do
+    context 'Comcast Sales' do
       let!(:comcast_employee) { create :person, position: comcast_position, email: 'comcastemployee@cc.salesmakersinc.com' }
       let(:comcast_position) { create :position, name: 'Comcast Sales Specialist', department: comcast_department }
       let(:comcast_department) { create :department, name: 'Comcast Retail Sales' }
@@ -43,5 +43,25 @@ describe RootRedirectsController do
         expect(response).to redirect_to(new_comcast_customer_path)
       end
     end
+
+    describe 'not yet implemented department' do
+      let(:person) { create :person, position: unknown_position }
+      let(:unknown_position) { create :position, department: unknown_department, name: 'Unknown' }
+      let(:unknown_department) { create :department, name: 'Unknown' }
+
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
+        get :incoming_redirect
+      end
+
+      it 'returns a success status' do
+        expect(response).to be_success
+      end
+
+      it 'renders the coming soon template' do
+        expect(response).to render_template(:incoming_redirect)
+      end
+    end
   end
+
 end

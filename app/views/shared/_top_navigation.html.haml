@@ -45,3 +45,7 @@
                 = link_to icon('torso') + ' My Profile', about_person_path(current_person)
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
+- if @staging
+  .staging_warning
+    %h3 You are on our feature-testing server.
+    %p Your changes will not be saved.
