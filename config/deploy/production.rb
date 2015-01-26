@@ -1,8 +1,8 @@
 set :stage, :production
 
-role :app, %w{deploy@new.rbdconnect.com}
-role :web, %w{deploy@new.rbdconnect.com}
-role :db, %w{deploy@new.rbdconnect.com}
+role :app, %w{deploy@newcenter.salesmakersinc.com}
+role :web, %w{deploy@newcenter.salesmakersinc.com}
+role :db, %w{deploy@newcenter.salesmakersinc.com}
 
 
-server 'new.rbdconnect.com', user: 'deploy', roles: %w{web app}
+server 'newcenter.salesmakersinc.com', user: 'deploy', roles: %w{web app}
