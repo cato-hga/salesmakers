@@ -71,9 +71,6 @@ group :development do
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
 end
 
-group :development, :production, :staging do
-  gem 'swiper-rails', '1.0.2' # Content slider
-end
 
 group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
@@ -87,14 +84,19 @@ group :test do
   gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
 end
 
+group :production do
+  gem 'newrelic_rpm', '3.9.9.275' # NewRelic agent
+end
+
 group :development, :test do
   gem 'rspec-rails', '3.1.0' # Was 3.0.1 01/21/2015 - Rspec test framework
   gem 'faker', '1.4.3' # Was 1.3.0 01/21/2015 - Easily create fake data for mocked objects
 end
 
-group :production do
-  gem 'newrelic_rpm', '3.9.9.275' # NewRelic agent
+group :development, :production, :staging do
+  gem 'swiper-rails', '1.0.2' # Content slider
 end
+
 
 group :production, :staging do
   gem 'rack-cache', '1.2', require: 'rack/cache' # Cache, used by Dragonfly
