@@ -1,8 +1,8 @@
 class ComcastSale < ActiveRecord::Base
 
   validates :sale_date, presence: true
-  validates :person_id, presence: true
-  validates :comcast_customer_id, presence: true
+  validates :person_id, presence: true, uniqueness: true
+  validates :comcast_customer_id, presence: true, uniqueness: true
   validates :tv, presence: true
   validates :internet, presence: true
   validates :phone, presence: true
