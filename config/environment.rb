@@ -9,14 +9,9 @@ cas_options = {
 }
 
 if Rails.env.production? or Rails.env == 'staging'
-    begin
-        service_url = Rails.application.routes.url_helpers.root_url
-    rescue ArgumentError
-        service_url = "http://newcenter.salesmakersinc.com/"
-    end
+    service_url = "http://newcenter.salesmakersinc.com/" if Rails.env.production?
+    service_url = "http://staging.salesmakersinc.com/" if Rails.env == 'staging'
     cas_options = cas_options.merge({ service_url: service_url })
 end
 
-
 CASClient::Frameworks::Rails::Filter.configure(cas_options)
-

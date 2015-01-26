@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = "new.rbdconnect.com"
+  config.action_controller.asset_host = "newcenter.salesmakersinc.com"
 
   # Precompile additional assets.
   # application.js, application.css.scss, and all non-JS/CSS in app/assets folder are already added.
@@ -81,7 +81,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.action_mailer.default_url_options = { host: 'new.rbdconnect.com' }
+  config.action_mailer.default_url_options = { host: 'newcenter.salesmakersinc.com' }
   config.middleware.use ExceptionNotification::Rack,
       email: {
           email_prefix: '[RBDC2] ',
