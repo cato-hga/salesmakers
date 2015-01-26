@@ -16,5 +16,4 @@ describe ComcastInstallTimeSlot do
     subject.name = 'a'
     expect(subject).not_to be_valid
   end
-
 end
