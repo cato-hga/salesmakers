@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
+                :set_staging,
                 :check_active,
                 :get_projects,
                 :setup_default_walls,
@@ -88,6 +89,10 @@ class ApplicationController < ActionController::Base
     #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
     #@current_person = Person.find_by_email 'sdesjarlais@retaildoneright.com' #Other Depart
     #@current_person = Person.find_by_email 'aschaker@rbd-von.com' #Other Rep
+  end
+
+  def set_staging
+    @staging = Rails.env == 'staging'
   end
 
   def current_user
