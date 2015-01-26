@@ -7,5 +7,4 @@ class ComcastCustomer < ActiveRecord::Base
   validates_with PhoneNumberValidator
 
   belongs_to :person
-
 end
