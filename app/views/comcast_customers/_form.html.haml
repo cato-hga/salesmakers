@@ -1,7 +1,7 @@
+- title 'Comcast Order Entry'
 - if @comcast_customer.errors.any?
   - @comcast_customer.errors.full_messages.each do |msg|
     .alert.alert-box= msg
-
 .widget
   .inner
     = form_for @comcast_customer do |f|
@@ -17,6 +17,8 @@
       = f.text_field :last_name
       = f.label :mobile_phone
       = f.text_field :mobile_phone
+      = f.label :other_phone
+      = f.text_field :other_phone
       = f.label :comments
       = f.text_area :comments
-      = f.submit 'Save', class: :button
+      = f.submit 'Enter Sale', class: :button
