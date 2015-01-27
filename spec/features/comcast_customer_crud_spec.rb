@@ -37,7 +37,7 @@ describe 'Comcast Customer CRUD actions' do
         fill_in 'First name', with: comcast_customer.first_name
         fill_in 'Last name', with: comcast_customer.last_name
         fill_in 'Mobile phone', with: comcast_customer.mobile_phone
-        click_on 'Save'
+        click_on 'Enter Sale'
       }
 
       it 'has the correct page title' do
@@ -60,7 +60,7 @@ describe 'Comcast Customer CRUD actions' do
         fill_in 'First name', with: ''
         fill_in 'Last name', with: comcast_customer.last_name
         fill_in 'Mobile phone', with: comcast_customer.mobile_phone
-        click_on 'Save'
+        click_on 'Enter Sale'
       }
 
       it 'renders the new template' do
@@ -73,4 +73,5 @@ describe 'Comcast Customer CRUD actions' do
       end
     end
   end
+
 end
