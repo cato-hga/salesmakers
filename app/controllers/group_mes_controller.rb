@@ -53,15 +53,6 @@ class GroupMesController < ApplicationController
     respond_with groups
   end
 
-  # def groups_aside
-  #   groups = @groupme.get_groups
-  #   if groups and groups['response']
-  #     @groups = groups['response']
-  #   else
-  #     []
-  #   end
-  # end
-
   def group_chat_aside
     @messages = @groupme.get_messages(params[:group_id], 25)
     @group_id = params[:group_id]
