@@ -143,7 +143,7 @@ module ApplicationHelper
 
   def person_link(person, classes = nil)
     classes = tack_on_inactive_class(person, classes)
-    link = link_to person.display_name, about_person_url(person), class: classes
+    link = link_to person.display_name, person_url(person), class: classes
     if person.mobile_phone and
         not person.mobile_phone.include? '8005551212'
       link = link + contact_link(person)
@@ -340,7 +340,7 @@ module ApplicationHelper
   end
 
   def avatar(person)
-    link_to image_tag(avatar_url(person), class: :avatar), about_person_url(person)
+    link_to image_tag(avatar_url(person), class: :avatar), person_url(person)
   end
 
   def friendly_datetime(datetime)

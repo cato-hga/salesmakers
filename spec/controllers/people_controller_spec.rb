@@ -55,24 +55,6 @@ describe PeopleController do
     end
   end
 
-  describe 'GET about' do
-    let!(:person) { create :it_tech_person }
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
-      allow(controller).to receive(:policy).and_return double(about?: true)
-    end
-    it 'returns a success status', :vcr do
-      get :about, id: person.id
-      expect(response).to be_success
-      expect(response).to render_template(:about)
-    end
-
-    it 'passes the correct person to the view', :vcr do
-      get :about, id: person.id
-      expect(assigns(:person)).to eq(person)
-    end
-  end
-
   describe 'PUT update' do
     let(:new_phone) { '8135544444' }
     let!(:person) { create :it_tech_person }

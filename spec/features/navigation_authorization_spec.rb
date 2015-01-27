@@ -33,9 +33,10 @@ describe 'Navigation Authorization' do
           expect(page).not_to have_content('Vonage')
         end
       end
-      it 'does not contain links to the Admin section' do
+      it 'does not contain links to the Admin or People section' do
         within('.top-bar') do
           expect(page).not_to have_content('Admin')
+          expect(page).not_to have_content('People')
         end
       end
     end

@@ -23,14 +23,13 @@
                             = link_to 'Area Types', client_project_area_types_path(project.client, project)
                         %li
                           = link_to 'Areas', client_project_areas_path(project.client, project)
-
-          %li.has-dropdown#joyride-people
-            = link_to icon('torsos-all') + ' People', people_path
-            %ul.dropdown
-              %li= link_to 'Search', people_path
-              %li= link_to 'Org Chart', org_chart_people_path
           -#YES. THIS IS DIRTY. But, only IT people need access anyways
           -if DevicePolicy.new(current_person, Device.new).index?
+            %li.has-dropdown#joyride-people
+              = link_to icon('torsos-all') + ' People', '#'
+              %ul.dropdown
+                %li= link_to 'Search', people_path
+                %li= link_to 'Org Chart', org_chart_people_path
             %li.has-dropdown
               = link_to 'Admin', '#'
               %ul.dropdown
@@ -41,7 +40,7 @@
                 %li= link_to('Log', log_entries_path)
 
           %li.has-dropdown#joyride-profile
-            = current_person.email
+            = link_to current_person.email, '#'
             %ul.dropdown
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
