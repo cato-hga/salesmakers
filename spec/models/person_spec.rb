@@ -195,4 +195,45 @@ RSpec.describe Person, :type => :model do
       expect(person.group_me_avatar_url).not_to be_nil
     end
   end
+
+  describe '#locations' do
+    let(:person_one) { create :person }
+    let(:person_two) { create :person }
+    let(:area_one) { create :area }
+    let(:area_two) { create :area, name: 'Area Two' }
+    let(:location_one) { create :location }
+    let(:location_two) { create :location }
+    let!(:location_area_one) {
+      create :location_area,
+             location: location_one,
+             area: area_one
+    }
+    let!(:location_area_two) {
+      create :location_area,
+             location: location_two,
+             area: area_two
+    }
+    let!(:person_area_one) {
+      create :person_area,
+             person: person_one,
+             area: area_one
+    }
+    let!(:person_area_two) {
+      create :person_area,
+             person: person_two,
+             area: area_two
+    }
+
+    before do
+      area_two.update parent: area_one
+    end
+
+    it 'should return one location for base level' do
+      expect(person_two.locations.count).to eq(1)
+    end
+
+    it 'should return location tree for non-base level' do
+      expect(person_one.locations.count).to eq(2)
+    end
+  end
 end

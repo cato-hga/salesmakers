@@ -2,6 +2,17 @@ require 'rails_helper'
 
 describe 'Comcast Customer CRUD actions' do
   let!(:person) { create :comcast_employee }
+  let(:location) { create :location }
+  let(:person_area) {
+    create :person_area,
+           person: person,
+           area: create(:area)
+  }
+  let!(:location_area) {
+    create :location_area,
+           location: location,
+           area: person_area.area
+  }
   let(:permission_index) { create :permission, key: 'comcast_customer_index' }
   let(:permission_update) { create :permission, key: 'comcast_customer_update' }
   let(:permission_destroy) { create :permission, key: 'comcast_customer_destroy' }
@@ -21,6 +32,7 @@ describe 'Comcast Customer CRUD actions' do
 
     context 'success' do
       subject {
+        select location.name, from: 'Location'
         fill_in 'First name', with: comcast_customer.first_name
         fill_in 'Last name', with: comcast_customer.last_name
         fill_in 'Mobile phone', with: comcast_customer.mobile_phone
@@ -31,14 +43,13 @@ describe 'Comcast Customer CRUD actions' do
         expect(page).to have_selector('h1', text: 'New Comcast Customer')
       end
 
-      it 'creates a new comcast customer' # do
-      #Waiting on ComcastSale
-      #subject
-      #expect(page).to have_content(comcast_customer.first_name)
-      #expect(page).to have_content(comcast_customer.last_name)
-      #end
+      it 'creates a new comcast customer' do
+        subject
+        expect(page).to have_content(comcast_customer.first_name)
+        expect(page).to have_content(comcast_customer.last_name)
+      end
 
-      it 'creates a log entry', pending: 'WTF?' do
+      it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
 

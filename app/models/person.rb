@@ -491,6 +491,14 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def locations
+    all_locations = Array.new
+    for person_area in self.person_areas do
+      all_locations << person_area.area.all_locations
+    end
+    all_locations.flatten.uniq
+  end
+
   private
 
     def generate_display_name

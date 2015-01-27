@@ -12,6 +12,7 @@ class Area < ActiveRecord::Base
   has_many :day_sales_counts, as: :saleable
   has_many :sales_performance_ranks, as: :rankable
   has_many :location_areas
+  has_many :locations, through: :location_areas
   has_ancestry
 
 
@@ -91,6 +92,11 @@ class Area < ActiveRecord::Base
       non_managers << person_area.person
     end
     Person.where("id IN (#{non_managers.map(&:id).join(',')})").order(:display_name)
+  end
+
+  def all_locations
+    subtree_person_areas = LocationArea.where area_id: self.subtree_ids
+    Location.where("id IN (#{subtree_person_areas.map(&:location_id).join(',')})")
   end
 
   private

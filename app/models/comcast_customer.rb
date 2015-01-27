@@ -18,7 +18,14 @@ end
 class ComcastCustomer < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :person_id, presence: true, uniqueness: true
-  belongs_to :person
+  validates :person, presence: true
+  validates :location, presence: true
   validates_with CustomerPhoneValidator
+
+  belongs_to :person
+  belongs_to :location
+
+  def name
+    [self.first_name, self.last_name].join(' ')
+  end
 end

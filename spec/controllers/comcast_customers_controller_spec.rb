@@ -27,6 +27,7 @@ describe ComcastCustomersController do
       subject do
         post :create,
              comcast_customer: {
+                 location_id: new_customer.location_id,
                  first_name: new_customer.first_name,
                  last_name: new_customer.last_name,
                  mobile_phone: new_customer.mobile_phone,

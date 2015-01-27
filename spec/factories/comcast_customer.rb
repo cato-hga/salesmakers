@@ -5,6 +5,7 @@ FactoryGirl.define do
     last_name 'Devereaux'
     mobile_phone '6969696969'
     person
+    location
   end
 
 end

@@ -38,4 +38,12 @@ class Project < ActiveRecord::Base
     end
     Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
   end
+
+  def locations
+    all_locations = Array.new
+    for area in self.areas do
+      all_locations << area.locations
+    end
+    all_locations.flatten.uniq
+  end
 end

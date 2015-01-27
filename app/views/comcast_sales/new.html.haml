@@ -1,4 +1,4 @@
-- title 'New Comcast Sale'
+- title 'New Comcast Sale for ' + @comcast_customer.name
 
 - if @comcast_sale.errors.any?
   - @comcast_sale.errors.full_messages.each do |msg|
