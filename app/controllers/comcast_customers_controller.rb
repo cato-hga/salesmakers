@@ -6,11 +6,11 @@ class ComcastCustomersController < ApplicationController
   def new
     authorize ComcastCustomer.new
     @comcast_customer = ComcastCustomer.new
-    comcast = Project.find_by name: 'Comcast'
+    comcast = Project.find_by name: 'Comcast Retail'
     if @current_person.position.hq? and comcast
-      @locations = comcast.locations
+      @locations = comcast.locations.sort_by { |l| l.name }
     else
-      @locations = @current_person.locations
+      @locations = @current_person.locations.sort_by { |l| l.name }
     end
   end
 
