@@ -1,10 +1,16 @@
-- title 'Comcast Order Entry'
 - if @comcast_customer.errors.any?
   - @comcast_customer.errors.full_messages.each do |msg|
     .alert.alert-box= msg
+
 .widget
   .inner
     = form_for @comcast_customer do |f|
+      - if @locations
+        - options = options_from_collection_for_select(@locations, 'id', 'name')
+      - else
+        - options = ''
+      = f.label :location_id
+      = f.select :location_id, options
       = f.label :first_name
       = f.text_field :first_name
       = f.label :last_name

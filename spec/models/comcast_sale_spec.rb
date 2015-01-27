@@ -22,4 +22,9 @@ describe ComcastSale do
     subject.security = false; subject.phone = true
     expect(subject).to be_valid
   end
+
+  it 'requires a Comcast install appointment' do
+    subject.comcast_install_appointment = nil
+    expect(subject).not_to be_valid
+  end
 end

@@ -32,6 +32,7 @@ class ConnectBusinessPartnerLocation < ConnectModel
       stripped = self.fax.sub /SP/, ''
       stripped = stripped.sub /POST/, ''
       stripped = stripped.sub /WM/, ''
+      stripped = stripped.sub /CC/, ''
     end
     return stripped if defined? stripped
     self.c_bpartner_location_id

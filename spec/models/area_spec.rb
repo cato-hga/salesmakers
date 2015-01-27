@@ -66,4 +66,33 @@ RSpec.describe Area, :type => :model do
       end
     end
   end
+
+  describe 'locations' do
+    let(:area_one) { create :area }
+    let(:area_two) { create :area, name: 'Area Two' }
+    let(:location_one) { create :location }
+    let(:location_two) { create :location }
+    let!(:location_area_one) {
+      create :location_area,
+             location: location_one,
+             area: area_one
+    }
+    let!(:location_area_two) {
+      create :location_area,
+             location: location_two,
+             area: area_two
+    }
+
+    before do
+      area_two.update parent: area_one
+    end
+
+    it 'returns only the locations in the area with #locations' do
+      expect(area_one.locations.count).to eq(1)
+    end
+
+    it 'returns all locations in the tree for #all_locations' do
+      expect(area_one.all_locations.count).to eq(2)
+    end
+  end
 end

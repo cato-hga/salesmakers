@@ -21,4 +21,47 @@ RSpec.describe Project, :type => :model do
     end
   end
 
+  describe 'locations' do
+    let(:area_one) { create :area }
+    let(:area_two) {
+      create :area,
+             name: 'Area Two',
+             project: area_one.project
+    }
+    let(:area_three) {
+      create :area,
+             name: 'Area Three',
+             project: create(:project, name: 'Project Two')
+    }
+    let(:location_one) { create :location }
+    let(:location_two) { create :location }
+    let(:location_three) { create :location }
+    let!(:location_area_one) {
+      create :location_area,
+             location: location_one,
+             area: area_one
+    }
+    let!(:location_area_two) {
+      create :location_area,
+             location: location_two,
+             area: area_two
+    }
+    let!(:location_area_three) {
+      create :location_area,
+             location: location_three,
+             area: area_three
+    }
+    let(:project_one) { area_one.project }
+    let(:project_two) { area_three.project }
+
+    before do
+      area_two.update parent: area_one
+    end
+
+    it 'returns the correct number of locations for a project' do
+      expect(project_one.locations.count).to eq(2)
+      expect(project_two.locations.count).to eq(1)
+    end
+  end
+
 end

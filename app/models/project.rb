@@ -16,6 +16,7 @@ class Project < ActiveRecord::Base
     return self.all if person.position and person.position.hq?
     projects = Array.new
     for person_area in person.person_areas do
+      next unless person_area.area
       projects << person_area.area.project unless projects.include? person_area.area.project
     end
     projects
@@ -37,5 +38,21 @@ class Project < ActiveRecord::Base
       people << person_area.person if person_area.person.active?
     end
     Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
+  end
+
+  def locations
+    all_locations = Array.new
+    for area in self.areas do
+      all_locations << area.locations
+    end
+    all_locations.flatten.uniq
+  end
+
+  def locations_for_person(person)
+    if person.position.hq?
+      self.locations.sort_by { |l| l.name }
+    else
+      person.locations.sort_by { |l| l.name }
+    end
   end
 end

@@ -5,7 +5,7 @@ FactoryGirl.define do
     leadership false
     all_field_visibility false
     all_corporate_visibility false
-    association :department, strategy: :build_stubbed
+    association :department
     field true
     hq false
   end

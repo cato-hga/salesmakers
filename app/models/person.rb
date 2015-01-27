@@ -84,6 +84,7 @@ class Person < ActiveRecord::Base
   def team_members
     people = Array.new
     for person_area in self.person_areas do
+      next unless person_area.area
       areas = person_area.area.subtree
       for area in areas do
         people = people.concat area.people.to_a
@@ -93,7 +94,7 @@ class Person < ActiveRecord::Base
   end
 
   def department_members
-    return Person.none unless self.position
+    return Person.none unless self.position and self.position.department
     self.position.department.people
   end
 
@@ -491,6 +492,14 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def locations
+    all_locations = Array.new
+    for person_area in self.person_areas do
+      all_locations << person_area.area.all_locations
+    end
+    all_locations.flatten.uniq
+  end
+
   private
 
     def generate_display_name
@@ -501,4 +510,5 @@ class Person < ActiveRecord::Base
     def create_profile
       Profile.find_or_create_by person: self
     end
+
 end

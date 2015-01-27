@@ -12,7 +12,7 @@ Channel.find_or_create_by name: "Vonage Event Teams"
 Channel.find_or_create_by name: "Sears"
 Channel.find_or_create_by name: "Walmart"
 
-rbdc_channels = ['Brandsmart', "Fry's", 'KMart',
+rbdc_channels = ['Brandsmart', 'Comcast', "Fry's", 'KMart',
                  'Microcenter', 'RBD Event Teams',
                  'Sears', 'Sprint', 'Walmart']
 
