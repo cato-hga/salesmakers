@@ -17,7 +17,7 @@ describe 'SMS messaging' do
     end
 
     it 'shows for Poeple#about' do
-      visit about_person_path(person)
+      visit person_path(person)
       expect(page).to have_selector('a.send_contact')
     end
 
@@ -47,7 +47,7 @@ describe 'SMS messaging' do
       find('a.send_contact').click
       fill_in 'contact_message', with: message
       click_on 'Send'
-      visit about_person_path(person)
+      visit person_path(person)
       expect(page).to have_content(message)
       within '#communication_log' do
         expect(page).to have_content(message)

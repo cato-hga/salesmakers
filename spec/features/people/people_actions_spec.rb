@@ -12,12 +12,12 @@ describe 'actions involving People' do
     let!(:person_address) { create :person_address, person: person }
 
     it 'should show log entries on the show page', :vcr do
-      visit about_person_path(person)
+      visit person_path(person)
       expect(page).to have_content("Created person #{person.display_name}")
     end
 
     it "should show the person's address", :vcr do
-      visit about_person_path(person)
+      visit person_path(person)
       expect(page).to have_content(person_address.line_1)
       expect(page).to have_content(person_address.city)
       expect(page).to have_content(person_address.state)

@@ -41,24 +41,6 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
-    redirect_to about_person_path(@person) unless show_wall?(@person)
-    @wall = @person.wall
-    @walls = Wall.where id: @person.wall.id
-    show_own = @person == @current_person
-    @wall_posts = @wall.wall_posts
-  end
-
-  def sales
-    @person = policy_scope(Person).find params[:id]
-    set_show_wall
-    unless @person
-      flash[:error] = 'You do not have permission to view sales for that person.'
-      redirect_to :back
-    end
-  end
-
-  def about
-    @person = Person.find params[:id]
     @physical_address = PersonAddress.find_by person: @person, physical: true
     @mailing_address = PersonAddress.find_by person: @person, physical: false
     if @physical_address and not @physical_address.latitude and
@@ -70,14 +52,19 @@ class PeopleController < ProtectedController
     set_show_wall
     @log_entries = LogEntry.for_person(@person)
     @current_devices = @person.devices
-    # mojo = Mojo.new
-    # email = @person.email
-    # @creator_tickets = mojo.creator_all_tickets email, 12
-    # @assignee_tickets = mojo.assignee_open_tickets email
     @profile = @person.profile
     @profile_experiences = @profile.profile_experiences
     @profile_educations = @profile.profile_educations
     @communication_log_entries = @person.communication_log_entries
+  end
+
+  def sales
+    @person = policy_scope(Person).find params[:id]
+    set_show_wall
+    unless @person
+      flash[:error] = 'You do not have permission to view sales for that person.'
+      redirect_to :back
+    end
   end
 
   def new_sms_message
@@ -90,7 +77,7 @@ class PeopleController < ProtectedController
     gateway = Gateway.new
     gateway.send_text_to_person person, message, @current_person
     flash[:notice] = 'Message successfully sent.'
-    redirect_to about_person_path(person)
+    redirect_to person_path(person)
   end
 
   def update

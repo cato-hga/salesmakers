@@ -135,7 +135,6 @@ Rails.application.routes.draw do
 
   resources :people, only: [:index, :show, :update] do
     member do
-      get 'about', to: 'people#about', as: :about
       get :sales, as: :sales
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message

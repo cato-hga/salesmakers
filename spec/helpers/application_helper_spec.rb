@@ -77,7 +77,7 @@ describe ApplicationHelper do
 
     it 'displays a link to a person' do
       person = Person.first
-      expected_selector = 'a[href$="' + helper.about_person_path(person) + '"]'
+      expected_selector = 'a[href$="' + helper.person_path(person) + '"]'
       link_markup = helper.person_link person
       expect(link_markup).to have_selector(expected_selector)
       expect(link_markup).to have_content(person.display_name)
@@ -247,7 +247,7 @@ describe ApplicationHelper do
 
     specify 'display in full form' do
       expected_selector = 'a[href$="' +
-          helper.about_person_path(log_entry.trackable) +
+          helper.person_path(log_entry.trackable) +
           '"]'
       markup = helper.render_log_entry log_entry
       expect(markup).to have_selector(expected_selector)

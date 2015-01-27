@@ -41,10 +41,8 @@
                 %li= link_to('Log', log_entries_path)
 
           %li.has-dropdown#joyride-profile
-            = link_to current_person.email, person_path(current_person)
+            = current_person.email
             %ul.dropdown
-              %li
-                = link_to icon('torso') + ' My Profile', about_person_path(current_person)
               %li
                 = link_to icon('x') + ' Sign Out', logout_path
 - if @staging
