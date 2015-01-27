@@ -1,12 +1,15 @@
 require 'rails_helper'
 
 describe ComcastCustomersController do
+  let(:person) { create :it_tech_person }
+  before(:each) { CASClient::Frameworks::Rails::Filter.fake(person.email) }
 
   describe 'GET new' do
     before(:each) do
       allow(controller).to receive(:policy).and_return double(new?: true)
       get :new
     end
+
     it 'returns a success status' do
       expect(response).to be_success
     end
@@ -17,9 +20,8 @@ describe ComcastCustomersController do
 
   describe 'POST create' do
     let(:new_customer) { build :comcast_customer }
-    let(:person) { create :it_tech_person }
+
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
 

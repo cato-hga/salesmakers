@@ -17,6 +17,8 @@ class ConnectBusinessPartner < ConnectModel
 
   def get_channel
     case self.name
+      when 'Comcast'
+        channel_name = 'Walmart'
       when 'Microcenter'
         channel_name = 'Micro Center'
       when 'Sprint'
