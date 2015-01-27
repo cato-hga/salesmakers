@@ -22,10 +22,10 @@ class Project < ActiveRecord::Base
     projects
   }
 
-  def create_wall
-    return if self.wall
-    Wall.create wallable: self
-  end
+  # def create_wall
+  #   return if self.wall
+  #   Wall.create wallable: self
+  # end
 
   def active_people
     person_areas = Array.new

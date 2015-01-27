@@ -15,7 +15,7 @@
 //    resizeWidgets();
 //});
 
-//= require wall
+// require wall
 //= require google_jsapi
 //= require chartkick
 //= require masonry.min

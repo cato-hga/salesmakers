@@ -310,27 +310,27 @@ module ApplicationHelper
     end
   end
 
-  def display_post(post, first_post = false, hide = false)
-    publication = post.publication
-    return unless publication
-    publishable = publication.publishable
-    if publishable.is_a? TextPost
-      return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    # Testing with DragonFly?
-    elsif publishable.is_a? UploadedImage
-      return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    elsif publishable.is_a? UploadedVideo
-      return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    # Testing with Dragonfly?
-    elsif publishable.is_a? LinkPost
-      return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    end
-    nil
-  end
+  # def display_post(post, first_post = false, hide = false)
+  #   publication = post.publication
+  #   return unless publication
+  #   publishable = publication.publishable
+  #   if publishable.is_a? TextPost
+  #     return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
+  #   #:nocov:
+  #   # Testing with DragonFly?
+  #   elsif publishable.is_a? UploadedImage
+  #     return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
+  #   #:nocov:
+  #   elsif publishable.is_a? UploadedVideo
+  #     return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
+  #   #:nocov:
+  #   # Testing with Dragonfly?
+  #   elsif publishable.is_a? LinkPost
+  #     return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
+  #   #:nocov:
+  #   end
+  #   nil
+  # end
 
   def avatar_url(person)
     return person.profile_avatar_url if person.profile_avatar
@@ -354,35 +354,35 @@ module ApplicationHelper
     end
   end
 
-  def wall_link(wallable)
-    return nil unless wallable
-    if wallable.is_a? Area
-      area_link wallable
-    elsif wallable.is_a? Department
-      department_link wallable
-    elsif wallable.is_a? Project
-      project_link wallable
-    elsif wallable.is_a? Person
-      if wallable == @current_person
-        link_to 'Me', @current_person
-      else
-        social_link wallable
-      end
-    else
-      'Unknown'
-    end
-  end
+  # def wall_link(wallable)
+  #   return nil unless wallable
+  #   if wallable.is_a? Area
+  #     area_link wallable
+  #   elsif wallable.is_a? Department
+  #     department_link wallable
+  #   elsif wallable.is_a? Project
+  #     project_link wallable
+  #   elsif wallable.is_a? Person
+  #     if wallable == @current_person
+  #       link_to 'Me', @current_person
+  #     else
+  #       social_link wallable
+  #     end
+  #   else
+  #     'Unknown'
+  #   end
+  # end
 
-  def likes(post, first_post = false)
-    if post.likes.where(person: @current_person, wall_post: post).count > 0 and post.publication.publishable.person != @current_person
-      #content_tag :div, icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count), class: :liked
-      link_to(icon('star', first_post), destroy_like_url(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
-    elsif post.publication.publishable.person == @current_person
-      content_tag(:span, icon('star', first_post), class: :own_like) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
-    else
-      link_to(icon('star', first_post), create_like_url(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
-    end
-  end
+  # def likes(post, first_post = false)
+  #   if post.likes.where(person: @current_person, wall_post: post).count > 0 and post.publication.publishable.person != @current_person
+  #     #content_tag :div, icon('star') + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count), class: :liked
+  #     link_to(icon('star', first_post), destroy_like_url(post.id), class: :liked, remote: true, id: 'unlike-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupUnlikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+  #   elsif post.publication.publishable.person == @current_person
+  #     content_tag(:span, icon('star', first_post), class: :own_like) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count)
+  #   else
+  #     link_to(icon('star', first_post), create_like_url(post.id), class: :unliked, remote: true, id: 'like-' + post.id.to_s) + ' &times; '.html_safe + content_tag(:span, post.likes.count.to_s, class: :count) + '<script type="text/javascript">$(function(){setupLikeEvent('.html_safe + post.id.to_s + ');});</script>'.html_safe
+  #   end
+  # end
 
   def past_month_sales_chart(day_sales_counts)
     content_tag :div,

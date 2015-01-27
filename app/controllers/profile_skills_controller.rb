@@ -1,3 +1,3 @@
-class ProfileSkillsController < ApplicationController
-
-end
+# class ProfileSkillsController < ApplicationController
+#
+# end

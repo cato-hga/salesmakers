@@ -1,35 +1,35 @@
-- content_for :action_buttons do
-  =# link_to 'Switch to Dashboard', home_dashboard_path, class: [:button,:rounded, :inline_button]
-  %span
-    .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour', class: [:button, :inline_button]
-
-- sales_bar_count = 0
-- position = @current_person.position
-- person_areas = @current_person.person_areas
-- hq = position ? position.hq? : false
-- unless position and (hq or position.leadership?)
-  .top_widgets= render partial: 'shared/sales_wall_widget', locals: { object: @current_person }
-- if position and position.leadership? and not position.hq? and person_areas.count > 0
-  - for person_area in person_areas
-    - sales_bar_count += 1 if person_area.manages?
-  .top_widgets
-    - for person_area in person_areas
-      = render partial: 'shared/sales_wall_widget', locals: { object: person_area.area, width: 12 / sales_bar_count } if person_area.manages?
-- if hq
-  - for project in @visible_projects do
-    - sales_bar_count += 1 if project.day_sales_counts.count > 0
-  .top_widgets
-    - for project in @visible_projects do
-      - if project.day_sales_counts.count > 0
-        = render partial: 'shared/sales_wall_widget', locals: { object: project, width: 12 / sales_bar_count, link: sales_client_project_path(project.client, project) }
-
-.widgets
-  = render partial: 'shared/share_form', locals: { wall: @wall, current_person: @current_person, text_post: @text_post,
-                                                       uploaded_image: @uploaded_image, uploaded_video: @uploaded_video,
-                                                       link_post: @link_post, walls: @walls}
-  - for poll_question in @poll_questions
-    = render poll_question
-  = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls, wall: @wall, current_person: @current_person }
-= paginate @wall_posts
-
-= render 'joyride',  seen_before: @seen_before, current_person: @current_person
+-#- content_for :action_buttons do
+-#  =# link_to 'Switch to Dashboard', home_dashboard_path, class: [:button,:rounded, :inline_button]
+-#  %span
+-#    .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour', class: [:button, :inline_button]
+-#
+-#- sales_bar_count = 0
+-#- position = @current_person.position
+-#- person_areas = @current_person.person_areas
+-#- hq = position ? position.hq? : false
+-#- unless position and (hq or position.leadership?)
+-#  .top_widgets= render partial: 'shared/sales_wall_widget', locals: { object: @current_person }
+-#- if position and position.leadership? and not position.hq? and person_areas.count > 0
+-#  - for person_area in person_areas
+-#    - sales_bar_count += 1 if person_area.manages?
+-#  .top_widgets
+-#    - for person_area in person_areas
+-#      = render partial: 'shared/sales_wall_widget', locals: { object: person_area.area, width: 12 / sales_bar_count } if person_area.manages?
+-#- if hq
+-#  - for project in @visible_projects do
+-#    - sales_bar_count += 1 if project.day_sales_counts.count > 0
+-#  .top_widgets
+-#    - for project in @visible_projects do
+-#      - if project.day_sales_counts.count > 0
+-#        = render partial: 'shared/sales_wall_widget', locals: { object: project, width: 12 / sales_bar_count, link: sales_client_project_path(project.client, project) }
+-#
+-#.widgets
+-#  = render partial: 'shared/share_form', locals: { wall: @wall, current_person: @current_person, text_post: @text_post,
+-#                                                       uploaded_image: @uploaded_image, uploaded_video: @uploaded_video,
+-#                                                       link_post: @link_post, walls: @walls}
+-#  - for poll_question in @poll_questions
+-#    = render poll_question
+-#  = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls, wall: @wall, current_person: @current_person }
+-#= paginate @wall_posts
+-#
+-#= render 'joyride',  seen_before: @seen_before, current_person: @current_person

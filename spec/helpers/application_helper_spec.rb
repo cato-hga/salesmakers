@@ -126,49 +126,49 @@ describe ApplicationHelper do
       expect(link_markup).to have_content(nickname)
     end
 
-    context 'for walls' do
-      it 'is correct for areas' do
-        wallable = create :area
-        area_link = helper.area_link wallable
-        markup = helper.wall_link wallable
-        expect(markup).to eq(area_link)
-      end
-
-      it 'is correct for departments' do
-        wallable = create :department
-        department_link = helper.department_link wallable
-        markup = helper.wall_link wallable
-        expect(markup).to eq(department_link)
-      end
-
-      it 'is correct for projects' do
-        wallable = create :project
-        project_link = helper.project_link wallable
-        markup = helper.wall_link wallable
-        expect(markup).to eq(project_link)
-      end
-
-      it 'is correct for someone else' do
-        wallable = create :person
-        person_link = helper.social_link wallable
-        markup = helper.wall_link wallable
-        expect(markup).to eq(person_link)
-      end
-
-      it 'is correct for me' do
-        wallable = Person.first
-        @current_person = wallable
-        markup = helper.wall_link wallable
-        expect(markup).to have_content('Me')
-        expect(markup).to have_selector('a')
-      end
-
-      it 'shows unknown for something that is not a wall' do
-        wallable = create :group_me_user
-        markup = helper.wall_link wallable
-        expect(markup).to eq('Unknown')
-      end
-    end
+    # context 'for walls' do
+    #   it 'is correct for areas' do
+    #     wallable = create :area
+    #     area_link = helper.area_link wallable
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to eq(area_link)
+    #   end
+    #
+    #   it 'is correct for departments' do
+    #     wallable = create :department
+    #     department_link = helper.department_link wallable
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to eq(department_link)
+    #   end
+    #
+    #   it 'is correct for projects' do
+    #     wallable = create :project
+    #     project_link = helper.project_link wallable
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to eq(project_link)
+    #   end
+    #
+    #   it 'is correct for someone else' do
+    #     wallable = create :person
+    #     person_link = helper.social_link wallable
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to eq(person_link)
+    #   end
+    #
+    #   it 'is correct for me' do
+    #     wallable = Person.first
+    #     @current_person = wallable
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to have_content('Me')
+    #     expect(markup).to have_selector('a')
+    #   end
+    #
+    #   it 'shows unknown for something that is not a wall' do
+    #     wallable = create :group_me_user
+    #     markup = helper.wall_link wallable
+    #     expect(markup).to eq('Unknown')
+    #   end
+    # end
   end
 
   describe 'table display' do
@@ -294,31 +294,31 @@ describe ApplicationHelper do
     expect(markup).to have_selector("iframe[src='#{expected_src}']")
   end
 
-  describe 'wall post display' do
-
-    before(:example) do
-      @walls = Wall.all
-      @wall_post_comment = WallPostComment.new
-      @current_person = Person.first
-    end
-
-    it 'shows a text post' do
-      text_post = create :text_post
-      wall_post = create :wall_post,
-                         publication: text_post.publication
-      markup = helper.display_post wall_post
-      expect(markup).to have_content(text_post.content)
-    end
-
-    it 'shows an uploaded video' do
-      uploaded_video = create :uploaded_video
-      wall_post = create :wall_post,
-                         publication: uploaded_video.publication
-      expected_src = '//www.youtube.com/embed/IBYfA3zTxFE'
-      markup = helper.display_post wall_post
-      expect(markup).to have_selector("iframe[src='#{expected_src}']")
-    end
-  end
+  # describe 'wall post display' do
+  #
+  #   before(:example) do
+  #     @walls = Wall.all
+  #     @wall_post_comment = WallPostComment.new
+  #     @current_person = Person.first
+  #   end
+  #
+  #   it 'shows a text post' do
+  #     text_post = create :text_post
+  #     wall_post = create :wall_post,
+  #                        publication: text_post.publication
+  #     markup = helper.display_post wall_post
+  #     expect(markup).to have_content(text_post.content)
+  #   end
+  #
+  #   it 'shows an uploaded video' do
+  #     uploaded_video = create :uploaded_video
+  #     wall_post = create :wall_post,
+  #                        publication: uploaded_video.publication
+  #     expected_src = '//www.youtube.com/embed/IBYfA3zTxFE'
+  #     markup = helper.display_post wall_post
+  #     expect(markup).to have_selector("iframe[src='#{expected_src}']")
+  #   end
+  # end
 
   it 'returns an avatar url' do
     person = Person.first

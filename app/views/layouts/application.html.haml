@@ -13,9 +13,9 @@
   %body{ id: 'action_' + params[:controller] + '_' + params[:action] }
     #page_load
       = image_tag 'page_load.gif'
-    - if current_user and current_user.groupme_access_token
-      %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
-      %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
+    -#- if current_user and current_user.groupme_access_token
+    -#  %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
+    -#  %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
     #header
       = render partial: "shared/top_navigation", locals: { current_person: @current_person}
       .clear
@@ -44,7 +44,7 @@
 
 
       -#= render "shared/admin_navigation"
-      = render 'shared/chat'
+      -#= render 'shared/chat'
       %a.exit-off-canvas
     .widget_loading
       = image_tag 'loading.gif'

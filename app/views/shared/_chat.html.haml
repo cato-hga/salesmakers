@@ -1,7 +1,7 @@
-- if current_user.groupme_access_token
-  %aside.right-off-canvas-menu#chat_aside{ data:{ access_token: true } }
-- else
-  %aside.right-off-canvas-menu#chat_aside{ data:{ access_token: false } }
-    .centered_text.group_me_login
-      %p Connect your GroupMe account in order to see your messages in this panel and gain RBD Influence!
-      = link_to 'Log in with GroupMe', auth_group_mes_path, class: :button
+-#- if current_user.groupme_access_token
+-#  %aside.right-off-canvas-menu#chat_aside{ data:{ access_token: true } }
+-#- else
+-#  %aside.right-off-canvas-menu#chat_aside{ data:{ access_token: false } }
+-#    .centered_text.group_me_login
+-#      %p Connect your GroupMe account in order to see your messages in this panel and gain RBD Influence!
+-#      = link_to 'Log in with GroupMe', auth_group_mes_path, class: :button

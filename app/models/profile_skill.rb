@@ -1,3 +1,3 @@
-class ProfileSkill < ActiveRecord::Base
-  belongs_to :profile
-end
+# class ProfileSkill < ActiveRecord::Base
+#   belongs_to :profile
+# end

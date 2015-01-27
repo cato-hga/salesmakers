@@ -1,4 +1,4 @@
-//= require wall.js
+// require wall.js
 
 function addRow(button) {
     if ($('#device_identifier_header').length) {

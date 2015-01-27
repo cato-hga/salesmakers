@@ -55,23 +55,23 @@ describe PeopleController do
     end
   end
 
-  describe 'PUT update' do
-    let(:new_phone) { '8135544444' }
-    let!(:person) { create :it_tech_person }
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
-      allow(controller).to receive(:policy).and_return double(update_own_basic?: true)
-    end
-    it 'updates a person' do
-      put :update,
-          id: person.id,
-          person: {
-              mobile_phone: new_phone
-          }
-      expect(response).to be_redirect
-      # TODO: Need a series of more robust tests as to what is/is not updating
-    end
-  end
+  # describe 'PUT update' do
+  #   let(:new_phone) { '8135544444' }
+  #   let!(:person) { create :it_tech_person }
+  #   before(:each) do
+  #     CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  #     allow(controller).to receive(:policy).and_return double(update_own_basic?: true)
+  #   end
+  #   it 'updates a person' do
+  #     put :update,
+  #         id: person.id,
+  #         person: {
+  #             mobile_phone: new_phone
+  #         }
+  #     expect(response).to be_redirect
+  #     # TODO: Need a series of more robust tests as to what is/is not updating
+  #   end
+  # end
 
   describe 'GET search' do
     it 'returns a success status' do

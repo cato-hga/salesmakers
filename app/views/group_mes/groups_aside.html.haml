@@ -1,15 +1,15 @@
-- if @current_person and @current_person.groupme_access_token
-  %h3 GroupMe Groups
-  - if @groups
-    - for group in @groups do
-      = render 'group_preview', group: group
-  - else
-    .centered_text.group_me_login
-      You are not a member of any groups.
-- else
-  .centered_text.group_me_login
-    Your GroupMe account is not currently linked to your profile.
-    %br
-    = link_to 'Click here to link your GroupMe account.', auth_group_mes_path
-    %br
-    (You will be taken to GroupMe's website to do this)
+-#- if @current_person and @current_person.groupme_access_token
+-#  %h3 GroupMe Groups
+-#  - if @groups
+-#    - for group in @groups do
+-#      = render 'group_preview', group: group
+-#  - else
+-#    .centered_text.group_me_login
+-#      You are not a member of any groups.
+-#- else
+-#  .centered_text.group_me_login
+-#    Your GroupMe account is not currently linked to your profile.
+-#    %br
+-#    = link_to 'Click here to link your GroupMe account.', auth_group_mes_path
+-#    %br
+-#    (You will be taken to GroupMe's website to do this)

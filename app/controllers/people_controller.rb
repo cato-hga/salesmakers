@@ -81,22 +81,23 @@ class PeopleController < ProtectedController
   end
 
   def update
-    @person = policy_scope(Person).find params[:id]
-    @profile = @person.profile
-    if @person == @current_person
-      authorize @person, :update_own_basic?
-    else
-      authorize @person
-    end
-    if image_params
-      @person.profile.update image_params
-    end
-    if @person.update person_params
-      flash[:notice] = 'Profile saved.'
-      redirect_to edit_profile_path(@person.profile)
-    else
-      render 'profiles/edit'
-    end
+    # Being used only for social as of right now
+    # @person = policy_scope(Person).find params[:id]
+    # @profile = @person.profile
+    # if @person == @current_person
+    #   authorize @person, :update_own_basic?
+    # else
+    #   authorize @person
+    # end
+    # if image_params
+    #   @person.profile.update image_params
+    # end
+    # if @person.update person_params
+    #   flash[:notice] = 'Profile saved.'
+    #   redirect_to edit_profile_path(@person.profile)
+    # else
+    #   render 'profiles/edit'
+    # end
   end
 
   def search

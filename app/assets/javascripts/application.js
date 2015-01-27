@@ -21,7 +21,7 @@
 //= require foundation_new/foundation.tab
 //= require foundation_new/foundation.alert
 //= require jquery-ui.min
-//= require chat
+// require chat
 //= require jquery.remotipart
 //= require imagesloaded.min
 //= require magnific

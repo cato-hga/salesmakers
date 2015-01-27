@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
                 :check_active,
                 :get_projects,
                 #:setup_default_walls,
-                :set_last_seen,
-                :set_last_seen_profile,
-                :setup_new_publishables,
-                :filter_groupme_access_token,
+                #:set_last_seen,
+                #:set_last_seen_profile,
+                #:setup_new_publishables,
+                #:filter_groupme_access_token,
                 :setup_accessibles
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -68,15 +68,15 @@ class ApplicationController < ActionController::Base
     #WallPost.send_welcome_post @current_person unless @seen_before
   end
 
-  def set_last_seen_profile
-    @seen_before_profile = false
-    return unless @current_person
-    Profile.record_timestamps = false
-    current_profile = @current_person.profile
-    @seen_before_profile = current_profile.last_seen.present?
-    current_profile.update last_seen: Time.now
-    Profile.record_timestamps = true
-  end
+  # def set_last_seen_profile
+  #   @seen_before_profile = false
+  #   return unless @current_person
+  #   Profile.record_timestamps = false
+  #   current_profile = @current_person.profile
+  #   @seen_before_profile = current_profile.last_seen.present?
+  #   current_profile.update last_seen: Time.now
+  #   Profile.record_timestamps = true
+  # end
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
@@ -109,19 +109,19 @@ class ApplicationController < ActionController::Base
     @projects = Project.all
   end
 
-  def current_theme
-    if @current_person and @current_person.profile and @current_person.profile.theme_name
-      return @current_person.profile.theme_name
-    end
-    nil
-  end
+  # def current_theme
+  #   if @current_person and @current_person.profile and @current_person.profile.theme_name
+  #     return @current_person.profile.theme_name
+  #   end
+  #   nil
+  # end
 
-  def filter_groupme_access_token
-    return unless @current_person and @current_person.groupme_access_token
-    if @current_person.groupme_token_updated < Time.now - 60.days
-      @current_person.update groupme_access_token: nil
-    end
-  end
+  # def filter_groupme_access_token
+  #   return unless @current_person and @current_person.groupme_access_token
+  #   if @current_person.groupme_token_updated < Time.now - 60.days
+  #     @current_person.update groupme_access_token: nil
+  #   end
+  # end
 
   helper_method :current_user
   helper_method :current_theme

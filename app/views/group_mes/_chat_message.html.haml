@@ -1,16 +1,16 @@
-.row.full-width.chat_message
-  .large-2.columns.centered_text
-    - if message.avatar
-      = image_tag message.avatar, class: [:chat_avatar]
-    - else
-      = image_tag 'https://app.groupme.com/images/default-avatar.jpg', class: [:chat_avatar]
-  .large-10.columns
-    %strong.small= message.author
-    .timestamp.small.comment.right
-      = message.created_at.strftime '%m/%d/%Y %-l:%M%P'
-    .content
-      - attachments = message.attachments
-      - if message.has_image?
-        - url = message.attachments[0]['url']
-        %img{ src: url + (url.include?('groupme') ? '.large' : '') }
-      = simple_format(message.text.html_safe, {}, wrapper_tag: 'div') if message.text
+-#.row.full-width.chat_message
+-#  .large-2.columns.centered_text
+-#    - if message.avatar
+-#      = image_tag message.avatar, class: [:chat_avatar]
+-#    - else
+-#      = image_tag 'https://app.groupme.com/images/default-avatar.jpg', class: [:chat_avatar]
+-#  .large-10.columns
+-#    %strong.small= message.author
+-#    .timestamp.small.comment.right
+-#      = message.created_at.strftime '%m/%d/%Y %-l:%M%P'
+-#    .content
+-#      - attachments = message.attachments
+-#      - if message.has_image?
+-#        - url = message.attachments[0]['url']
+-#        %img{ src: url + (url.include?('groupme') ? '.large' : '') }
+-#      = simple_format(message.text.html_safe, {}, wrapper_tag: 'div') if message.text

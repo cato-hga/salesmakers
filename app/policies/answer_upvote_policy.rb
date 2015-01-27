@@ -1,7 +1,7 @@
-class AnswerUpvotePolicy < ApplicationPolicy
-  class Scope < Struct.new(:person, :scope)
-    def resolve
-      scope
-    end
-  end
-end
+# class AnswerUpvotePolicy < ApplicationPolicy
+#   class Scope < Struct.new(:person, :scope)
+#     def resolve
+#       scope
+#     end
+#   end
+# end

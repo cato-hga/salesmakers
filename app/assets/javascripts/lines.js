@@ -1,4 +1,4 @@
-//= require wall.js
+// require wall.js
 $(function () {
     $('body').on('click', '.add_row', function () {
         $('<div class="row full-width">' +
