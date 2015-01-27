@@ -5,7 +5,10 @@
 .widget
   .inner
     = form_for @comcast_customer do |f|
-      - options = options_from_collection_for_select(@locations, 'id', 'name')
+      - if @locations
+        - options = options_from_collection_for_select(@locations, 'id', 'name')
+      - else
+        - options = ''
       = f.label :location_id
       = f.select :location_id, options
       = f.label :first_name

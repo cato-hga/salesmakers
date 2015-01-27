@@ -96,6 +96,7 @@ class Area < ActiveRecord::Base
 
   def all_locations
     subtree_person_areas = LocationArea.where area_id: self.subtree_ids
+    return Location.none unless subtree_person_areas.count > 0
     Location.where("id IN (#{subtree_person_areas.map(&:location_id).join(',')})")
   end
 

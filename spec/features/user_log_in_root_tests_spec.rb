@@ -28,8 +28,9 @@ describe 'User root log ins' do
       CASClient::Frameworks::Rails::Filter.fake("comcastemployee@cc.salesmakersinc.com")
       visit root_path
     end
-    it 'routes Comcast to comcast_sales#new' do
-      expect(page).to have_content('Comcast Order Entry')
+
+    it 'routes Comcast to comcast_customer#new' do
+      expect(page).to have_content('New Comcast Customer')
     end
   end
 end

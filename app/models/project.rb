@@ -16,6 +16,7 @@ class Project < ActiveRecord::Base
     return self.all if person.position and person.position.hq?
     projects = Array.new
     for person_area in person.person_areas do
+      next unless person_area.area
       projects << person_area.area.project unless projects.include? person_area.area.project
     end
     projects

@@ -38,6 +38,7 @@ class ComcastCustomersController < ApplicationController
 
   def set_locations
     comcast = Project.find_by name: 'Comcast Retail'
+    return Location.none unless comcast
     @locations = comcast.locations_for_person @current_person
   end
 end
