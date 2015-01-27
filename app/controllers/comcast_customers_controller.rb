@@ -10,6 +10,7 @@ class ComcastCustomersController < ApplicationController
 
   def create
     @comcast_customer = ComcastCustomer.new customer_params
+    @comcast_customer.person = @current_person
     if @comcast_customer.save
       @current_person.log? 'create', @comcast_customer, @current_person
       #Redirection pending COMcastSales

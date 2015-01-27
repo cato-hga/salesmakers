@@ -29,7 +29,7 @@ describe 'User root log ins' do
       visit root_path
     end
     it 'routes Comcast to comcast_sales#new' do
-      expect(page).to have_content('Comcast Order Entry')
+      expect(page).to have_content('New Comcast Customer')
     end
   end
 end
