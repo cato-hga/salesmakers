@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Forbidden (403)</title>
+  <title>The change you wanted was rejected (422)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
   body {
@@ -10,10 +10,6 @@
     text-align: center;
     font-family: arial, sans-serif;
     margin: 0;
-  }
-
-  a, a:visited, a:hover {
-    color: #d62121;
   }
 
   div.dialog {
@@ -27,7 +23,7 @@
     border-right-color: #999;
     border-left-color: #999;
     border-bottom-color: #BBB;
-    border-top: #d62121 solid 4px;
+    border-top: #00a9e0 solid 4px;
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;
     background-color: white;
@@ -37,7 +33,7 @@
 
   h1 {
     font-size: 100%;
-    color: #d62121;
+    color: #00a9e0;
     line-height: 1.5em;
   }
 
@@ -59,16 +55,13 @@
 </head>
 
 <body>
-  <!-- This file lives in public/403.html -->
+  <!-- This file lives in public/422.html -->
   <div class="dialog">
     <div>
-      <%= image_tag 'logo_nav.png' %>
-      <h1>Your access does not allow you to view this page.</h1>
-      <p>
-        If you believe that you should have access to this page,
-        please <a href="http://support.rbdconnect.com">contact support</a>.
-      </p>
+      <h1>The change you wanted was rejected.</h1>
+      <p>Maybe you tried to change something you didn't have access to.</p>
     </div>
+    <p>If you are the application owner check the logs for more information.</p>
   </div>
 </body>
 </html>
