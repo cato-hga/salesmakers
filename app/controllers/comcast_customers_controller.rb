@@ -1,17 +1,12 @@
 class ComcastCustomersController < ApplicationController
   before_action :do_authorization
+  before_action :set_locations, only: [:new, :create]
   after_action :verify_authorized
 
 
   def new
     authorize ComcastCustomer.new
     @comcast_customer = ComcastCustomer.new
-    comcast = Project.find_by name: 'Comcast Retail'
-    if @current_person.position.hq? and comcast
-      @locations = comcast.locations.sort_by { |l| l.name }
-    else
-      @locations = @current_person.locations.sort_by { |l| l.name }
-    end
   end
 
   def create
@@ -39,5 +34,10 @@ class ComcastCustomersController < ApplicationController
 
   def do_authorization
     authorize ComcastCustomer.new
+  end
+
+  def set_locations
+    comcast = Project.find_by name: 'Comcast Retail'
+    @locations = comcast.locations_for_person @current_person
   end
 end

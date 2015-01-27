@@ -46,4 +46,12 @@ class Project < ActiveRecord::Base
     end
     all_locations.flatten.uniq
   end
+
+  def locations_for_person(person)
+    if person.position.hq?
+      self.locations.sort_by { |l| l.name }
+    else
+      person.locations.sort_by { |l| l.name }
+    end
+  end
 end

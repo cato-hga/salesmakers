@@ -3,10 +3,11 @@ require 'rails_helper'
 describe 'Comcast Customer CRUD actions' do
   let!(:person) { create :comcast_employee }
   let(:location) { create :location }
+  let(:project) { create :project, name: 'Comcast Retail' }
   let(:person_area) {
     create :person_area,
            person: person,
-           area: create(:area)
+           area: create(:area, project: project)
   }
   let!(:location_area) {
     create :location_area,
@@ -52,10 +53,6 @@ describe 'Comcast Customer CRUD actions' do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
-
-      it 'redirects to comcast_sales#new'
-
-      it 'flashes a success message'
     end
 
     context 'failure' do
@@ -70,10 +67,10 @@ describe 'Comcast Customer CRUD actions' do
         expect(page).to have_selector('h1', text: 'New Comcast Customer')
       end
 
-      it 'renders error messages', pending: 'pending!' do
+      it 'renders error messages' do
+        subject
         expect(page).to have_selector('.alert')
       end
     end
-
   end
 end
