@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
                 :set_staging,
                 :check_active,
                 :get_projects,
-                :setup_default_walls,
+                #:setup_default_walls,
                 :set_last_seen,
                 :set_last_seen_profile,
                 :setup_new_publishables,
@@ -47,11 +47,11 @@ class ApplicationController < ActionController::Base
 
   def setup_accessibles
     if @current_person
-      @visible_walls = Wall.visible(@current_person).includes(:wallable)
+      #@visible_walls = Wall.visible(@current_person).includes(:wallable)
       @visible_people = Person.visible(@current_person)
       @visible_projects = Project.visible(@current_person)
     else
-      @visible_walls = Wall.none
+      #@visible_walls = Wall.none
       @visible_people = Person.none
       @visible_projects = Project.none
     end

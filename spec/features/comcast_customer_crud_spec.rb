@@ -3,21 +3,18 @@ require 'rails_helper'
 describe 'Comcast Customer CRUD actions' do
   let!(:person) { create :comcast_employee }
   let(:permission_index) { create :permission, key: 'comcast_customer_index' }
-  let(:permission_new) { create :permission, key: 'comcast_customer_new' }
   let(:permission_update) { create :permission, key: 'comcast_customer_update' }
-  let(:permission_edit) { create :permission, key: 'comcast_customer_edit' }
   let(:permission_destroy) { create :permission, key: 'comcast_customer_destroy' }
   let(:permission_create) { create :permission, key: 'comcast_customer_create' }
 
 
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("comcast_employee@cc.salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   context 'for creating' do
     let(:comcast_customer) { build :comcast_customer }
     before(:each) do
-      person.position.permissions << permission_new
       person.position.permissions << permission_create
       visit new_comcast_customer_path
     end

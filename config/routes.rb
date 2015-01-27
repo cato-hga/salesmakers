@@ -34,7 +34,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comcast_customers, only: [:new, :create]
+  resources :comcast_customers, only: [:new, :create] do
+    resources :comcast_sales, only: [:new, :create]
+  end
+
 
   resources :departments, only: [:index, :show] do
     resources :positions, only: [:index]
