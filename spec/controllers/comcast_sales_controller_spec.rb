@@ -28,7 +28,8 @@ describe ComcastSalesController do
            comcast_sale: {
                sale_date: comcast_sale.sale_date.strftime('%m/%d/%Y'),
                order_number: comcast_sale.order_number,
-               tv: comcast_sale.tv
+               tv: comcast_sale.tv,
+               comcast_install_appointment_attributes: comcast_sale.comcast_install_appointment.attributes
            }
     end
 
@@ -45,5 +46,4 @@ describe ComcastSalesController do
       expect(response).to redirect_to(new_comcast_customer_path)
     end
   end
-
 end

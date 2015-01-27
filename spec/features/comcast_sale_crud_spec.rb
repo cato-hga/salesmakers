@@ -3,11 +3,14 @@ require 'rails_helper'
 describe 'Comcast sales CRUD actions' do
   let!(:person) { create :comcast_employee }
   let(:comcast_sale) { build :comcast_sale }
+  let(:comcast_install_appointment) { build :comcast_install_appointment }
+  let!(:comcast_install_time_slot) { create :comcast_install_time_slot }
   let(:permission_index) { create :permission, key: 'comcast_sale_index' }
   let(:permission_update) { create :permission, key: 'comcast_sale_update' }
   let(:permission_destroy) { create :permission, key: 'comcast_sale_destroy' }
   let(:permission_create) { create :permission, key: 'comcast_sale_create' }
   let(:sale_date) { comcast_sale.sale_date.strftime('%m/%d/%Y') }
+  let(:install_date) { (comcast_sale.sale_date + 7.days).strftime('%m/%d/%Y') }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -26,6 +29,8 @@ describe 'Comcast sales CRUD actions' do
         fill_in 'Sale date', with: sale_date
         fill_in 'Order number', with: comcast_sale.order_number
         check 'Television'
+        fill_in 'Install date', with: install_date
+        select comcast_install_time_slot.name, from: 'Install time slot'
         click_on 'Save'
       }
 

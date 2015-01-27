@@ -126,6 +126,7 @@ module ApplicationHelper
   #:nocov:
 
   def short_date(date)
+    return '' unless date
     date.strftime '%m/%d/%Y'
   end
 

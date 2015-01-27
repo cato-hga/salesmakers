@@ -1,8 +1,10 @@
 class ComcastSalesController < ApplicationController
   before_action :setup_comcast_customer
+  before_action :setup_time_slots
 
   def new
     @comcast_sale = ComcastSale.new
+    @comcast_sale.comcast_install_appointment = ComcastInstallAppointment.new
   end
 
   def create
@@ -26,13 +28,21 @@ class ComcastSalesController < ApplicationController
     @comcast_customer = ComcastCustomer.find params[:comcast_customer_id]
   end
 
+  def setup_time_slots
+    @time_slots = ComcastInstallTimeSlot.where(active: true)
+  end
+
   def comcast_sale_params
     params.require(:comcast_sale).permit :order_number,
                                          :tv,
                                          :internet,
                                          :phone,
                                          :security,
-                                         :customer_acknowledged
+                                         :customer_acknowledged,
+                                         comcast_install_appointment_attributes: [
+                                             :install_date,
+                                             :comcast_install_time_slot_id
+                                         ]
   end
 
   def log(action)
