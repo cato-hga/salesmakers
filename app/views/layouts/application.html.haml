@@ -17,7 +17,7 @@
     -#  %input{type: 'hidden', value: current_user.groupme_access_token, id: 'group_me_access_token' }
     -#  %input{type: 'hidden', value: current_user.group_me_user_id, id: 'group_me_user_id' }
     #header
-      = render partial: "shared/top_navigation", locals: { current_person: @current_person}
+      = render partial: "shared/top_navigation", locals: { current_person: @current_person }
       .clear
     .off-canvas-wrap{ data: { offcanvas: '' } }
       .inner-wrap

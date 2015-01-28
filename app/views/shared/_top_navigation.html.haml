@@ -6,28 +6,25 @@
     %section.top-bar-section
       .left
         %ul.left
-          %li.has-dropdown#joyride-projects
-            = link_to icon('clipboard-notes') + ' Projects', '#'
-            %ul.dropdown
-              - for project in visible_projects
-                - next unless project.areas.count > 0
-                %li.has-dropdown
-                  %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
-                  %ul.dropdown
-                    - case project.name
-                      - when 'Comcast Retail'
-                        %li= link_to 'New Customer', new_comcast_customer_path
-                    -#%li= link_to 'Sales', sales_client_project_path(project.client, project)
-                    %li.has-dropdown
-                      %a{ href: "#" } Areas &amp; Locations
-                      %ul.dropdown
-                        - if AreaTypePolicy.new(current_person, AreaType.new).index?
-                          %li
-                            = link_to 'Area Types', client_project_area_types_path(project.client, project)
-                        %li
-                          = link_to 'Areas', client_project_areas_path(project.client, project)
           -#YES. THIS IS DIRTY. But, only IT people need access anyways
           -if DevicePolicy.new(current_person, Device.new).index?
+            %li.has-dropdown#joyride-projects
+              = link_to icon('clipboard-notes') + ' Projects', '#'
+              %ul.dropdown
+                - for project in visible_projects
+                  - next unless project.areas.count > 0
+                  %li.has-dropdown
+                    %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
+                    %ul.dropdown
+                      -#%li= link_to 'Sales', sales_client_project_path(project.client, project)
+                      %li.has-dropdown
+                        %a{ href: "#" } Areas &amp; Locations
+                        %ul.dropdown
+                          - if AreaTypePolicy.new(current_person, AreaType.new).index?
+                            %li
+                              = link_to 'Area Types', client_project_area_types_path(project.client, project)
+                          %li
+                            = link_to 'Areas', client_project_areas_path(project.client, project)
             %li.has-dropdown#joyride-people
               = link_to icon('torsos-all') + ' People', '#'
               %ul.dropdown
@@ -41,6 +38,9 @@
                 %li= link_to('Device Models', device_models_path)
                 %li.divider
                 %li= link_to('Log', log_entries_path)
+          -#GOD. THIS IS DIRTIER THAN WHATS ABOVE. SORRY
+          -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new).create?
+            %li= link_to 'New Customer', new_comcast_customer_path
       .right
         %ul.left
           %li.has-dropdown#joyride-profile
