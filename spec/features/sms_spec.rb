@@ -2,9 +2,12 @@ require 'rails_helper'
 
 describe 'SMS messaging' do
   let!(:person) { create :it_tech_person }
+
   before(:each) do
+    person.position.update hq: true
     CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
   end
+
   describe 'links on view' do
     it 'shows for People#index and People#search' do
       visit people_path
@@ -16,14 +19,14 @@ describe 'SMS messaging' do
       expect(page).to have_selector('a.send_contact')
     end
 
-    it 'shows for Poeple#about' do
+    it 'shows for People#about' do
       visit about_person_path(person)
       expect(page).to have_selector('a.send_contact')
     end
 
     context 'for DevicesController' do
       let(:device) { create :device, person: person }
-      let!(:device_deployment) { create :device_deployment, device: device }
+      let!(:device_deployment) { create :device_deployment, device: device, person: person }
       let(:permission_index) { create :permission, key: 'device_index' }
 
       it 'shows for Devices#index' do
@@ -32,7 +35,7 @@ describe 'SMS messaging' do
         expect(page).to have_selector('a.send_contact')
       end
 
-      it 'shows for Device#show' do
+      it 'shows for Devices#show' do
         visit device_path(device_deployment.device)
         expect(page).to have_selector('a.send_contact')
       end

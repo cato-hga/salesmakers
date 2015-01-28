@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe PeopleController do
+  let!(:person) { create :it_tech_person }
+  before do
+    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+  end
 
   describe 'GET index' do
     it 'returns a success status' do
@@ -20,9 +24,7 @@ describe PeopleController do
   end
 
   describe 'GET show' do
-    let!(:person) { create :it_tech_person }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
       allow(controller).to receive(:policy).and_return double(show?: true)
     end
     it 'returns a success status' do
