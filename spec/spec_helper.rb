@@ -33,7 +33,9 @@ RSpec.configure do |config|
     #FactoryGirl.lint
   end
   config.before(:each) do
-    DatabaseRewinder.clean
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
+  end
+  config.after(:each) do
+    DatabaseRewinder.clean
   end
 end
