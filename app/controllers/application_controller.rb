@@ -80,15 +80,7 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'smiles@retaildoneright.com' #Rep
-    #@current_person = Person.find_by_email 'retailingw@retaildoneright.com' #Rep
-    #@current_person = Person.find_by_email 'abegum@rbd-von.com' #Rep
-    #@current_person = Person.find_by_email 'kschwartz@retaildoneright.com' #inactive
-    #@current_person = Person.find_by_email 'amickens@retaildoneright.com' #TL
-    #@current_person = Person.find_by_email 'zmirza@retaildoneright.com' #ASM
-    #@current_person = Person.find_by_email 'mrenteria@retaildoneright.com' #RM
-    #@current_person = Person.find_by_email 'sdesjarlais@retaildoneright.com' #Other Depart
-    #@current_person = Person.find_by_email 'aschaker@rbd-von.com' #Other Rep
+    #@current_person = Person.find_by_email 'comcastrep@cc.salesmakersinc.com'
   end
 
   def set_staging

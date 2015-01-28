@@ -23,16 +23,24 @@ describe 'Navigation Authorization' do
         CASClient::Frameworks::Rails::Filter.fake("comcastemployee@cc.salesmakersinc.com")
         visit root_path
       end
-      it 'contains links to the sales page' do
+      it 'contains links to the Comcast project' do
         within('.top-bar') do
           expect(page).to have_content('Comcast')
         end
       end
-      it 'does not contain links to other sales pages' do
+
+      it 'contains a link to the sale entry page' do
+        within('.top-bar') do
+          expect(page).to have_content('New Customer')
+        end
+      end
+
+      it 'does not contain links to other projects' do
         within('.top-bar') do
           expect(page).not_to have_content('Vonage')
         end
       end
+
       it 'does not contain links to the Admin section' do
         within('.top-bar') do
           expect(page).not_to have_content('Admin')
@@ -125,12 +133,12 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('Lines')
         end
       end
-      it 'contains links to the sales page for all projects' do
-        within('.left-off-canvas-menu') do
-          expect(page).to have_content('COMCAST RETAIL')
-          expect(page).to have_content('VONAGE RETAIL')
-        end
-      end
+      # it 'contains links to the sales page for all projects' do
+      #   within('.left-off-canvas-menu') do
+      #     expect(page).to have_content('COMCAST RETAIL')
+      #     expect(page).to have_content('VONAGE RETAIL')
+      #   end
+      # end
       it 'contains links to Areas' do
         within('.left-off-canvas-menu') do
           expect(page).to have_content('Areas')

@@ -12,9 +12,12 @@
               - for project in visible_projects
                 - next unless project.areas.count > 0
                 %li.has-dropdown
-                  = link_to project.name, client_project_path(project.client, project)
+                  %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
                   %ul.dropdown
-                    %li= link_to 'Sales', sales_client_project_path(project.client, project)
+                    - case project.name
+                      - when 'Comcast Retail'
+                        %li= link_to 'New Customer', new_comcast_customer_path
+                    -#%li= link_to 'Sales', sales_client_project_path(project.client, project)
                     %li.has-dropdown
                       %a{ href: "#" } Areas &amp; Locations
                       %ul.dropdown

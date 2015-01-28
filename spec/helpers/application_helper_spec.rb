@@ -470,5 +470,4 @@ describe ApplicationHelper do
       expect(output).to eq(['No Anchor', 'Anchor'])
     end
   end
-
 end

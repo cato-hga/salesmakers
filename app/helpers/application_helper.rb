@@ -15,13 +15,14 @@ module ApplicationHelper
   def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do
-      links << link_to(area.name, client_project_area_url(area.project.client, area.project, area), class: classes)
+      links << area_link(area)
     end
     links.join(', ').html_safe
   end
 
   def area_link(area)
-    link_to area.name, client_project_area_url(area.project.client, area.project, area)
+    #link_to area.name, client_project_area_url(area.project.client, area.project, area)
+    area.name
   end
 
   def department_link(department)
@@ -29,7 +30,12 @@ module ApplicationHelper
   end
 
   def project_link(project)
-    link_to project.name, [project.client, project]
+    #link_to project.name, [project.client, project]
+    project.name
+  end
+
+  def client_link(client)
+    client.name
   end
 
   def phone_link(phone, classes = nil)
@@ -142,7 +148,8 @@ module ApplicationHelper
     classes = tack_on_inactive_class(person, classes)
     link = link_to person.display_name, about_person_url(person), class: classes
     if person.mobile_phone and
-        not person.mobile_phone.include? '8005551212'
+        not person.mobile_phone.include? '8005551212' and
+        person.show_details? @visible_people
       link = link + contact_link(person)
     end
     link

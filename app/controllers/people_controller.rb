@@ -7,7 +7,17 @@ class PeopleController < ProtectedController
 
   def index
     @search = Person.search(params[:q])
-    @people = @search.result.order('display_name').page(params[:page])
+    unless @current_person.position and @current_person.position.hq?
+      @people = @search.
+          result.
+          where(active: true).
+          order('display_name').
+          page(params[:page])
+      @hq = false
+    else
+      @people = @search.result.order('display_name').page(params[:page])
+      @hq = true
+    end
   end
 
   def csv
