@@ -1,4 +1,5 @@
 require 'apis/groupme'
+require 'nokogiri'
 
 module ApplicationHelper
   include AutoHtml
@@ -14,13 +15,14 @@ module ApplicationHelper
   def person_area_links(person, classes = [])
     links = Array.new
     for area in person.areas do
-      links << link_to(area.name, client_project_area_url(area.project.client, area.project, area), class: classes)
+      links << area_link(area)
     end
     links.join(', ').html_safe
   end
 
   def area_link(area)
-    link_to area.name, client_project_area_url(area.project.client, area.project, area)
+    #link_to area.name, client_project_area_url(area.project.client, area.project, area)
+    area.name
   end
 
   def department_link(department)
@@ -28,7 +30,12 @@ module ApplicationHelper
   end
 
   def project_link(project)
-    link_to project.name, [project.client, project]
+    #link_to project.name, [project.client, project]
+    project.name
+  end
+
+  def client_link(client)
+    client.name
   end
 
   def phone_link(phone, classes = nil)
@@ -86,25 +93,20 @@ module ApplicationHelper
   def header_row(titles, tag = Random.rand(1000000))
     content = ''.html_safe
     @random_tag = 'th_' + tag.to_s
-    for cell in titles
-      content = content + content_tag(:th, cell)
+    render partial: 'shared/table_header', locals: {
+                                             titles: titles,
+                                             stripped_titles: strip_titles(titles),
+                                             random_tag: '.' + @random_tag
+                                         }
+  end
+
+  def strip_titles(titles)
+    stripped = Array.new
+    for cell in titles do
+      html = Nokogiri::HTML(cell)
+      stripped << html.text
     end
-    styling = ''.html_safe
-    styling << '<style type="text/css">'.html_safe
-    styling << '@media only screen and (max-width: 800px) {'.html_safe
-    header_index = 0
-    for cell in titles
-      header_index = header_index + 1
-      styling << '.' + @random_tag + ' td:nth-of-type('.html_safe
-      styling << header_index.to_s.html_safe
-      styling << '):before { content: "'.html_safe
-      styling << cell.html_safe
-      styling << '"; } '.html_safe
-    end
-    styling << '}'.html_safe
-    styling << '</style>'.html_safe
-    content << styling.html_safe
-    content
+    stripped
   end
 
   #:nocov:
@@ -123,6 +125,7 @@ module ApplicationHelper
     end
     links.join(', ').html_safe
   end
+
   #:nocov:
 
   def short_date(date)
@@ -146,7 +149,9 @@ module ApplicationHelper
     classes = tack_on_inactive_class(person, classes)
     link = link_to person.display_name, person_url(person), class: classes
     if person.mobile_phone and
-        not person.mobile_phone.include? '8005551212'
+        not person.mobile_phone.include? '8005551212' and
+        person.show_details? @visible_people and
+        person.position.hq?
       link = link + contact_link(person)
     end
     link
@@ -254,6 +259,7 @@ module ApplicationHelper
     return line_string unless line_string.length == 10
     '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
   end
+
   #:nocov:
 
   def new_button(path)
@@ -297,6 +303,7 @@ module ApplicationHelper
   def emojify(text)
     Emoji.replace_unicode_emoji_with_images text.html_safe
   end
+
   #:nocov:
 
   def transform_url(url)
@@ -410,6 +417,7 @@ module ApplicationHelper
   def year_run_rate_multiplier
     (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_year)
   end
+
   #:nocov:
 
   def groupme_emoji_filter(text, attachments)

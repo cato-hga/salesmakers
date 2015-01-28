@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  let!(:it_tech) { create :it_tech_person } # DIRTY DIRTY DIRTY
+  let!(:it_tech) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   it 'sets the proper page title content' do
     title = 'My Cool Page'
     title_markup = helper.title title
