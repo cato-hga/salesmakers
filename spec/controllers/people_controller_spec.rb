@@ -3,7 +3,10 @@ require 'rails_helper'
 describe PeopleController do
 
   describe 'GET index' do
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     it 'returns a success status' do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(index?: true)
       get :index
       expect(response).to be_success
@@ -76,7 +79,10 @@ describe PeopleController do
   # end
 
   describe 'GET search' do
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     it 'returns a success status' do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       get :search
       expect(response).to be_success
       expect(response).to render_template(:index)
