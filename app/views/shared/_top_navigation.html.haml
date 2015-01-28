@@ -4,7 +4,7 @@
       %li
         %a= link_to image_tag('logo_nav.png', id: 'joyride-logo'), root_path
     %section.top-bar-section
-      .right
+      .left
         %ul.left
           %li.has-dropdown#joyride-projects
             = link_to icon('clipboard-notes') + ' Projects', '#'
@@ -42,7 +42,8 @@
                 %li= link_to('Device Models', device_models_path)
                 %li.divider
                 %li= link_to('Log', log_entries_path)
-
+      .right
+        %ul.left
           %li.has-dropdown#joyride-profile
             = link_to current_person.email, person_path(current_person)
             %ul.dropdown
