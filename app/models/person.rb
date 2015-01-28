@@ -113,40 +113,35 @@ class Person < ActiveRecord::Base
   def self.return_from_connect_user(connect_user)
     person = Person.find_by connect_user_id: connect_user.id
     return person if person
-    email = connect_user.email
-    first_name = connect_user.firstname
-    last_name = connect_user.lastname
-    display_name = connect_user.display_name
-    personal_email = connect_user.personal_email
-    active = connect_user.active?
-    phone = connect_user.phone
-    createdby = connect_user.createdby
-    created = connect_user.created
-    updated = connect_user.updated
-    supervisor_id = connect_user.supervisor_id
     position = Position.return_from_connect_user connect_user
-    person = Person.find_by_email email
-    creator = createdby ? Person.find_by_connect_user_id(createdby) : nil
-    supervisor = supervisor_id ? Person.find_by_connect_user_id(supervisor_id) : nil
-
+    person = Person.find_by_email connect_user.email
+    creator = connect_user.createdby ? Person.find_by_connect_user_id(connect_user.createdby) : nil
+    supervisor = connect_user.supervisor_id ? Person.find_by_connect_user_id(connect_user.supervisor_id) : nil
     return person if person
-    person = Person.new first_name: first_name,
-                        last_name: last_name,
-                        display_name: display_name,
-                        email: email,
-                        personal_email: personal_email,
+    Person.new_from_connect_user connect_user, position, supervisor, creator
+  end
+
+  def self.new_from_connect_user(connect_user, position, supervisor, creator)
+    person = Person.new first_name: connect_user.firstname,
+                        last_name: connect_user.lastname,
+                        display_name: connect_user.name,
+                        email: connect_user.username,
+                        personal_email: connect_user.description,
                         connect_user_id: connect_user.id,
-                        active: active,
-                        mobile_phone: phone,
+                        active: (connect_user.isactive == 'Y' ? true : false),
+                        mobile_phone: connect_user.phone,
                         position: position,
                         supervisor: supervisor
     return nil unless person and person.save
-    PersonArea.where(person: person).destroy_all
-    LogEntry.person_onboarded_from_connect person, creator, created, updated
-    LogEntry.position_set_from_connect person, creator, position, created, updated if position
+    Person.log_onboard_from_connect person, creator
     person.add_area_from_connect
-
     person
+  end
+
+  def self.log_onboard_from_connect(person, creator)
+    connect_user = person.connect_user
+    LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
+    LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
   end
 
   def department
@@ -319,6 +314,7 @@ class Person < ActiveRecord::Base
   end
 
   def add_area_from_connect
+    PersonArea.where(person: self).destroy_all
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
     creator = Person.find_by_connect_user_id connect_user.createdby
     person_area = self.return_person_area_from_connect
