@@ -15,11 +15,12 @@ describe 'Comcast Customer CRUD actions' do
            location: location,
            area: person_area.area
   }
-  let(:permission_index) { create :permission, key: 'comcast_customer_index' }
-  let(:permission_update) { create :permission, key: 'comcast_customer_update' }
-  let(:permission_destroy) { create :permission, key: 'comcast_customer_destroy' }
-  let(:permission_create) { create :permission, key: 'comcast_customer_create' }
-
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'comcast_customer_index', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'comcast_customer_update', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'comcast_customer_destroy', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'comcast_customer_create', permission_group: permission_group, description: description }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)

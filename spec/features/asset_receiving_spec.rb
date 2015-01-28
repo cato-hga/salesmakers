@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe 'Asset Receiving' do
   let!(:creator) { create :it_tech_person, position: position }
   let(:position) { create :it_tech_position }
-  let(:permission_update) { create :permission, key: 'device_update' }
-  let(:permission_new) { create :permission, key: 'device_new' }
-  let(:permission_create) { create :permission, key: 'device_create' }
-  let(:permission_index) { create :permission, key: 'device_index' }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_update) { Permission.new key: 'device_update', permission_group: permission_group, description: description }
+  let(:permission_new) { Permission.new key: 'device_new', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'device_create', permission_group: permission_group, description: description }
+  let(:permission_index) { Permission.new key: 'device_index', permission_group: permission_group, description: description }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(creator.email)
   end
