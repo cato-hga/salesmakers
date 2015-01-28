@@ -4,7 +4,7 @@
 
 $(function(){
 	$('.nested_areas .nested_areas_icon').bind('click', function(){
-		iconElement = $(this).children('i');
+		var iconElement = $(this).children('i');
 		if (iconElement.hasClass('fi-plus')) {
 			$(this).parent().next('ul').find('li').show();
 			$(this).children('i').removeClass('fi-plus').addClass('fi-minus');

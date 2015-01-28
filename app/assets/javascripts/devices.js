@@ -81,7 +81,7 @@ $(function () {
     });
 
     $('body').on('keypress', '.serial_field', function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             $(this).parents('.row').find('.line_id_field').focus().select();
             e.preventDefault();
             return false;

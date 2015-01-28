@@ -35,10 +35,10 @@
 
 function resizeWidgets() {
 	var width = $(window).width();
-	if( width < 761)
+	if( width < 761) {
 		return;
+	}
 	$('.widgets').children('.row').each(function () {
-		var height = $('.large-4 .inner, .large-6 .inner').height();
 		$(this).find('.large-4 .inner, .large-6 .inner').height('auto');
 		var maxHeight = Math.max.apply(Math, $(this).find('.large-4 .inner, .large-6 .inner').map(function(){
 			return $(this).height();
@@ -142,7 +142,7 @@ function replaceWithData(element) {
 }
 
 function makeFullWidth(element) {
-	element.switchClass('large-4 large-6', 'large-12', 500, 'swing', function(){resizeWidgets()} );
+	element.switchClass('large-4 large-6', 'large-12', 500, 'swing', function() { resizeWidgets(); } );
 	$('html,body').animate({
 		scrollTop: element.offset().top
 	}, 300);
@@ -182,7 +182,7 @@ function collapseWidget(element){
 }
 
 function mapStyle() {
-	style = [
+	return [
 		{
 			"featureType": "administrative",
 			"elementType": "labels.text.fill",
@@ -280,6 +280,6 @@ function mapStyle() {
 			]
 		}
 	];
-	return style;
 }
+mapStyle();
 
