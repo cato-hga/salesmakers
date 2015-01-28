@@ -25,7 +25,7 @@ describe 'SMS messaging' do
 
     context 'for DevicesController' do
       let(:device) { create :device, person: person }
-      let!(:device_deployment) { create :device_deployment, device: device }
+      let!(:device_deployment) { create :device_deployment, device: device, person: person }
       let(:permission_index) { create :permission, key: 'device_index' }
 
       it 'shows for Devices#index' do
