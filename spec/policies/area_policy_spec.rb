@@ -5,9 +5,9 @@ describe AreaPolicy do
   #TODO: Start a rewrite here. http://stackoverflow.com/questions/20557022/factories-with-ancestry-for-testing
   #Basically, we need to rewrite the areas in order to give them child factories
 
-  let(:client) { create :client }
-  let(:project) { create :project, client: client }
-  let(:territory) { create :area_type, name: 'Test Territory', project: project }
+  let(:client) { build_stubbed :client }
+  let(:project) { build_stubbed :project, client: client }
+  let(:territory) { build_stubbed :area_type, name: 'Test Territory', project: project }
 
   #Positions
   let(:sales_specialist) { build_stubbed :position }

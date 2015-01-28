@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe PersonPolicy do
 
-  let(:project) { create :project }
-  let(:sales_specialist) { create :position }
+  let(:project) { build_stubbed :project }
+  let(:sales_specialist) { build_stubbed :position }
   let(:orlando_area) { create :area, name: 'Orlando Retail Territory', project: project}
   let!(:tampa_person) {
     tampa = create :area, name: 'Tampa Retail Territory', project: project
@@ -24,7 +24,7 @@ describe PersonPolicy do
   }
 
   let(:territory_manager) {
-    create :position,
+    build_stubbed :position,
            name: 'Vonage Retail Territory Manager',
            leadership: true
   }
