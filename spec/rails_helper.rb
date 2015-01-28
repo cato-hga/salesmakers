@@ -55,4 +55,5 @@ VCR.configure do |c|
   c.configure_rspec_metadata!
   c.ignore_hosts '127.0.0.1', 'localhost', 'codeclimate.com'
   #c.debug_logger = $stderr #Uncomment this for VCR debugging
+  c.default_cassette_options = {:record => :new_episodes}
 end

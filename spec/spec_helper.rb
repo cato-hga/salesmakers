@@ -20,10 +20,11 @@ CodeClimate::TestReporter.start
 require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'factory_girl_rails'
+require 'webmock/rspec'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
-  # config.profile_examples = 10
+  config.profile_examples = 10
 
   config.include FactoryGirl::Syntax::Methods
 
