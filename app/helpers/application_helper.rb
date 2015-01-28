@@ -1,4 +1,5 @@
 require 'apis/groupme'
+require 'nokogiri'
 
 module ApplicationHelper
   include AutoHtml
@@ -84,27 +85,21 @@ module ApplicationHelper
   end
 
   def header_row(titles, tag = Random.rand(1000000))
-    content = ''.html_safe
     @random_tag = 'th_' + tag.to_s
-    for cell in titles
-      content = content + content_tag(:th, cell)
+    render partial: 'shared/table_header', locals: {
+                                             titles: titles,
+                                             stripped_titles: strip_titles(titles),
+                                             random_tag: '.' + @random_tag
+                                         }
+  end
+
+  def strip_titles(titles)
+    stripped = Array.new
+    for cell in titles do
+      html = Nokogiri::HTML(cell)
+      stripped << html.text
     end
-    styling = ''.html_safe
-    styling << '<style type="text/css">'.html_safe
-    styling << '@media only screen and (max-width: 800px) {'.html_safe
-    header_index = 0
-    for cell in titles
-      header_index = header_index + 1
-      styling << '.' + @random_tag + ' td:nth-of-type('.html_safe
-      styling << header_index.to_s.html_safe
-      styling << '):before { content: "'.html_safe
-      styling << cell.html_safe
-      styling << '"; } '.html_safe
-    end
-    styling << '}'.html_safe
-    styling << '</style>'.html_safe
-    content << styling.html_safe
-    content
+    stripped
   end
 
   #:nocov:
@@ -123,6 +118,7 @@ module ApplicationHelper
     end
     links.join(', ').html_safe
   end
+
   #:nocov:
 
   def short_date(date)
@@ -254,6 +250,7 @@ module ApplicationHelper
     return line_string unless line_string.length == 10
     '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
   end
+
   #:nocov:
 
   def new_button(path)
@@ -297,6 +294,7 @@ module ApplicationHelper
   def emojify(text)
     Emoji.replace_unicode_emoji_with_images text.html_safe
   end
+
   #:nocov:
 
   def transform_url(url)
@@ -316,18 +314,18 @@ module ApplicationHelper
     publishable = publication.publishable
     if publishable.is_a? TextPost
       return render partial: 'text_posts/text_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    # Testing with DragonFly?
+      #:nocov:
+      # Testing with DragonFly?
     elsif publishable.is_a? UploadedImage
       return render partial: 'uploaded_images/uploaded_image', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
+      #:nocov:
     elsif publishable.is_a? UploadedVideo
       return render partial: 'uploaded_videos/uploaded_video', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
-    # Testing with Dragonfly?
+      #:nocov:
+      # Testing with Dragonfly?
     elsif publishable.is_a? LinkPost
       return render partial: 'link_posts/link_post', locals: { post: post, first_post: first_post, hidden: hide, walls: @walls, visible_people: @visible_people, current_person: @current_person }, layout: 'layouts/widget'
-    #:nocov:
+      #:nocov:
     end
     nil
   end
@@ -410,6 +408,7 @@ module ApplicationHelper
   def year_run_rate_multiplier
     (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_year)
   end
+
   #:nocov:
 
   def groupme_emoji_filter(text, attachments)

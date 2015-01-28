@@ -457,4 +457,18 @@ describe ApplicationHelper do
     end
   end
 
+  describe 'table display' do
+    let(:titles) {
+      [
+          'No Anchor',
+          helper.link_to('Anchor', root_url)
+      ]
+    }
+
+    it 'strips anchors from titles for css' do
+      output = helper.strip_titles titles
+      expect(output).to eq(['No Anchor', 'Anchor'])
+    end
+  end
+
 end
