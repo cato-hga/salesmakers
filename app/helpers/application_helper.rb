@@ -149,7 +149,8 @@ module ApplicationHelper
     link = link_to person.display_name, about_person_url(person), class: classes
     if person.mobile_phone and
         not person.mobile_phone.include? '8005551212' and
-        person.show_details? @visible_people
+        person.show_details? @visible_people and
+        person.position.hq?
       link = link + contact_link(person)
     end
     link
