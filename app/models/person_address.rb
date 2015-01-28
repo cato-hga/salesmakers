@@ -37,6 +37,13 @@ class PersonAddress < ActiveRecord::Base
     string_address
   end
 
+  def self.get_physical(person)
+    return nil unless person
+    address = PersonAddress.find_by person: person, physical: true
+    address.geocode_if_necessary if address
+    address
+  end
+
   def self.update_from_connect(minutes)
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
@@ -72,4 +79,12 @@ class PersonAddress < ActiveRecord::Base
       pu.update
     end
   end
+
+  def geocode_if_necessary
+    unless self.latitude and self.longitude
+      self.geocode
+      self.save
+    end
+  end
+
 end

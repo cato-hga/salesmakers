@@ -74,6 +74,8 @@ class Person < ActiveRecord::Base
     Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
   }
 
+  default_scope { order :display_name }
+
   def display_name
     unless self[:display_name] and self[:display_name].length > 0
       return ''
@@ -456,7 +458,7 @@ class Person < ActiveRecord::Base
   # end
 
   def related_log_entries
-    LogEntry.where trackable_type: 'Person', trackable_id: self.id
+    LogEntry.for_person(self)
   end
 
   def sales_today
@@ -498,6 +500,18 @@ class Person < ActiveRecord::Base
       all_locations << person_area.area.all_locations
     end
     all_locations.flatten.uniq
+  end
+
+  def hq?
+    self.position and self.position.hq?
+  end
+
+  def physical_address
+    PersonAddress.get_physical(self)
+  end
+
+  def mailing_address
+    address = PersonAddress.find_by person: self, physical: false
   end
 
   private
