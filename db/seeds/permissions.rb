@@ -23,9 +23,9 @@ pos_srasm = Position.find_by_name 'Sprint Retail Area Sales Manager'
 pos_srtm = Position.find_by_name 'Sprint Retail Sales Director'
 pos_srss = Position.find_by_name 'Sprint Retail Sales Specialist'
 
-pos_ccrrvp = Position.find_by_name 'Comcast Retail Regional Vice President'
-pos_ccrtm = Position.find_by_name 'Comcast Retail Territory Manager'
-pos_ccrss = Position.find_by_name 'Comcast Retail Sales Specialist'
+pos_ccrrvp = Position.find_by name: 'Comcast Retail Regional Vice President'
+pos_ccrtm = Position.find_by name: 'Comcast Retail Territory Manager'
+pos_ccrss = Position.find_by name: 'Comcast Retail Sales Specialist'
 
 pos_uf = Position.find_by_name 'Unclassified Field Employee'
 pos_uc = Position.find_by_name 'Unclassified HQ Employee'
@@ -208,6 +208,7 @@ posts_permission_group = PermissionGroup.find_or_create_by name: 'Posts and Post
 poll_questions_permission_group = PermissionGroup.find_or_create_by name: 'Poll Questions'
 lines_permission_group = PermissionGroup.find_or_create_by name: 'Lines'
 devices_permission_group = PermissionGroup.find_or_create_by name: 'Devices'
+comcast_permission_group = PermissionGroup.find_or_create_by name: 'Comcast'
 
 person_index = Permission.find_or_create_by key: 'person_index',
                                  description: 'can view list of people',
@@ -361,6 +362,14 @@ lines_and_devices_permissions << device_create if device_create
 lines_and_devices_permissions << device_update if device_update
 lines_and_devices_permissions << device_destroy if device_destroy
 
+comcast_customer_create = Permission.find_or_create_by key: 'comcast_customer_create',
+                                                       description: 'can add new Comcast customers',
+                                                       permission_group: comcast_permission_group
+
+comcast_sale_create = Permission.find_or_create_by key: 'comcast_sale_create',
+                                                   description: 'can add new Comcast sales',
+                                                   permission_group: comcast_permission_group
+
 #TODO: Give some permission to update others
 
 for widget in widgets do
@@ -410,6 +419,11 @@ for position in [pos_admin, pos_ssd, pos_sd, pos_itd, pos_itst] do
     position.permissions.delete permission
     position.permissions << permission
   end
+end
+
+for position in [pos_ccrrvp, pos_ccrtm, pos_ccrss] do
+  position.permissions << comcast_customer_create
+  position.permissions << comcast_sale_create
 end
 
 pos_md.permissions << poll_question_manage

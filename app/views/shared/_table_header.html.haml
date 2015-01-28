@@ -1,0 +1,11 @@
+- header_index = 0
+- for cell in titles do
+  - stripped_cell = stripped_titles[header_index]
+  - header_index += 1
+  %th= cell
+  :css
+    @media only screen and (max-width: 800px) {
+      #{random_tag} td:nth-of-type(#{header_index.to_s}):before {
+        content: "#{stripped_cell}";
+      }
+    }

@@ -4,7 +4,7 @@
       %li
         %a= link_to image_tag('logo_nav.png', id: 'joyride-logo'), root_path
     %section.top-bar-section
-      .right
+      .left
         %ul.left
           %li.has-dropdown#joyride-projects
             = link_to icon('clipboard-notes') + ' Projects', '#'
@@ -12,9 +12,12 @@
               - for project in visible_projects
                 - next unless project.areas.count > 0
                 %li.has-dropdown
-                  = link_to project.name, client_project_path(project.client, project)
+                  %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
                   %ul.dropdown
-                    %li= link_to 'Sales', sales_client_project_path(project.client, project)
+                    - case project.name
+                      - when 'Comcast Retail'
+                        %li= link_to 'New Customer', new_comcast_customer_path
+                    -#%li= link_to 'Sales', sales_client_project_path(project.client, project)
                     %li.has-dropdown
                       %a{ href: "#" } Areas &amp; Locations
                       %ul.dropdown
@@ -38,7 +41,8 @@
                 %li= link_to('Device Models', device_models_path)
                 %li.divider
                 %li= link_to('Log', log_entries_path)
-
+      .right
+        %ul.left
           %li.has-dropdown#joyride-profile
             = link_to current_person.email, '#'
             %ul.dropdown
