@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Asset Receiving' do
-  let!(:creator) { create :it_tech_person }
+  let!(:creator) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   let(:permission_update) { create :permission, key: 'device_update' }
   let(:permission_new) { create :permission, key: 'device_new' }
   let(:permission_create) { create :permission, key: 'device_create' }
   let(:permission_index) { create :permission, key: 'device_index' }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(creator.email)
   end
 
   context 'end-to-end operations' do

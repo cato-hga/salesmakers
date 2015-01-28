@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe DeviceStatesController do
+  let!(:person) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
   describe 'GET index' do
     before {
@@ -32,11 +34,11 @@ describe DeviceStatesController do
     it 'renders the new template' do
       expect(response).to render_template(:new)
     end
+
   end
 
   describe 'POST create' do
     let(:device_state) { build :device_state }
-    let!(:person) { create :it_tech_person }
 
     it 'creates a device state' do
       allow(controller).to receive(:policy).and_return double(create?: true)
@@ -81,7 +83,6 @@ describe DeviceStatesController do
   describe 'PUT update' do
     let(:device_state) { create :device_state }
     let(:new_name) { 'New Name' }
-    let!(:person) { create :it_tech_person }
 
     it 'updates the device state' do
       allow(controller).to receive(:policy).and_return double(update?: true)
@@ -96,7 +97,6 @@ describe DeviceStatesController do
 
   describe 'DELETE destroy' do
     let(:device_state) { create :device_state }
-    let!(:person) { create :it_tech_person }
 
     it 'deletes the device state' do
       allow(controller).to receive(:policy).and_return double(destroy?: true)

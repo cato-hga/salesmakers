@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe ComcastCustomersController do
-  let(:person) { create :it_tech_person }
+  let(:person) { create :comcast_employee, position: position }
+  let(:position) { create :comcast_sales_position }
   let!(:project) { create :project, name: 'Comcast Retail' }
   before(:each) { CASClient::Frameworks::Rails::Filter.fake(person.email) }
 

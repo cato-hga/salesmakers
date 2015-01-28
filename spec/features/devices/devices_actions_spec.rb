@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'Devices NON-CRUD actions' do
-  let!(:it_tech) { create :it_tech_person }
+  let!(:it_tech) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   let(:permission_index) { create :permission, key: 'device_index' }
   let(:permission_new) { create :permission, key: 'device_new' }
   let(:permission_update) { create :permission, key: 'device_update' }
@@ -11,7 +12,7 @@ describe 'Devices NON-CRUD actions' do
   let(:permission_show) { create :permission, key: 'device_show' }
 
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
 
   it 'should show the search bar' do

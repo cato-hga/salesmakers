@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 describe 'actions involving People' do
-  let!(:it_tech) { create :it_tech_person }
+  let!(:it_tech) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   context 'when viewing' do

@@ -20,9 +20,10 @@ describe PeopleController do
   end
 
   describe 'GET show' do
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(show?: true)
     end
     it 'returns a success status' do
@@ -38,9 +39,10 @@ describe PeopleController do
   end
 
   describe 'GET sales' do
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(sales?: true)
     end
     it 'returns a success status' do
@@ -95,9 +97,10 @@ describe PeopleController do
   end
 
   describe 'GET new_sms_message' do
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(new_sms_message?: true)
       get :new_sms_message, id: person.id
     end
@@ -113,9 +116,10 @@ describe PeopleController do
 
   describe 'POST create_sms_message', vcr: true do
     let(:message) { 'Test message' }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(create_sms_message?: true)
     end
     it 'creates a log entry' do

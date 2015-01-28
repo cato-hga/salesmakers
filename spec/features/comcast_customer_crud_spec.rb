@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'Comcast Customer CRUD actions' do
-  let!(:person) { create :comcast_employee }
+  let!(:person) { create :comcast_employee, position: position }
+  let(:position) { create :comcast_sales_position }
   let(:location) { create :location }
   let(:project) { create :project, name: 'Comcast Retail' }
   let(:person_area) {

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'actions on Lines' do
-  let!(:it_tech) { create :it_tech_person }
+  let!(:it_tech) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   let(:permission_index) { create :permission, key: 'line_index' }
   let(:permission_new) { create :permission, key: 'line_new' }
   let(:permission_update) { create :permission, key: 'line_update' }
@@ -17,7 +18,7 @@ describe 'actions on Lines' do
   let(:permission_state_create) { create :permission, key: 'line_state_create' }
   let(:permission_state_show) { create :permission, key: 'line_state_show' }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
 
   it 'should show the search bar' do

@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe "DeviceManufacturers", :type => :feature do
 
-  let!(:person) { create :it_tech_person }
+  let!(:person) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   describe 'GET new' do

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'Comcast sales CRUD actions' do
-  let!(:person) { create :comcast_employee }
+  let!(:person) { create :comcast_employee, position: position }
+  let(:position) { create :comcast_sales_position }
   let(:comcast_sale) { build :comcast_sale }
   let(:comcast_install_appointment) { build :comcast_install_appointment }
   let!(:comcast_install_time_slot) { create :comcast_install_time_slot }

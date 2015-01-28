@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 describe 'SMS messaging' do
-  let!(:person) { create :it_tech_person }
+  let!(:person) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position, department: department }
+  let(:department) { create :information_technology_department }
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
   describe 'links on view' do
     it 'shows for People#index and People#search' do

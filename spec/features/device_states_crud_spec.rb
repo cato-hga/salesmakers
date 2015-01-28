@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe 'DeviceStates CRUD actions' do
 
-  let!(:person) { create :it_tech_person }
+  let!(:person) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   let(:permission_index) { create :permission, key: 'device_state_index' }
   let(:permission_new) { create :permission, key: 'device_state_new' }
   let(:permission_update) { create :permission, key: 'device_state_update' }
@@ -11,7 +12,7 @@ describe 'DeviceStates CRUD actions' do
   let(:permission_create) { create :permission, key: 'device_state_create' }
 
   before(:each) do
-    CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   context 'for creating' do

@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'searching' do
-  let!(:person) { create :it_tech_person }
+  let!(:person) { create :it_tech_person, position: position }
+  let(:position) { create :it_tech_position }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
   end

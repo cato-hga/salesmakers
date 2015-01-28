@@ -27,9 +27,10 @@ describe LinesController do
   end
 
   describe 'POST create' do
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
     context 'success (valid data)' do
@@ -86,9 +87,10 @@ describe LinesController do
     let!(:old_line) { create :line }
     let(:new_line) { create :line, identifier: '5555555555' }
     let!(:device) { create :device, line: old_line }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(update?: true)
     end
     subject {
@@ -120,9 +122,10 @@ describe LinesController do
     let(:unlocked_state) { create :line_state, locked: false }
 
     describe 'PATCH remove_state' do
-      let!(:person) { create :it_tech_person }
+      let!(:person) { create :it_tech_person, position: position }
+      let(:position) { create :it_tech_position }
       before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
         allow(controller).to receive(:policy).and_return double(remove_state?: true)
       end
       context 'with an unlocked state' do
@@ -155,9 +158,10 @@ describe LinesController do
     end
 
     describe 'PATCH add_state' do
-      let!(:person) { create :it_tech_person }
+      let!(:person) { create :it_tech_person, position: position }
+      let(:position) { create :it_tech_position }
       before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
         allow(controller).to receive(:policy).and_return double(add_state?: true)
       end
       context 'with an unlocked state' do

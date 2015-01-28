@@ -32,9 +32,10 @@ describe DevicesController do
   end
 
   describe 'POST create' do
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
     context 'success (valid data)' do
@@ -165,9 +166,10 @@ describe DevicesController do
   describe 'GET write_off' do
     let(:device) { create :device }
     let!(:written_off) { create :device_state, name: 'Written Off' }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(write_off?: true)
     end
     subject { get :write_off, id: device.id }
@@ -194,9 +196,10 @@ describe DevicesController do
     let(:device) { create :device }
     let(:locked_state) { create :device_state, locked: true }
     let(:unlocked_state) { create :device_state, locked: false }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
     end
     describe 'PATCH remove_state' do
       context 'with an unlocked state' do
@@ -264,9 +267,10 @@ describe DevicesController do
   context 'lost or stolen' do
     let(:device) { create :device }
     let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
     end
 
     describe 'PATCH lost_stolen' do
@@ -352,9 +356,10 @@ describe DevicesController do
 
   describe 'PATCH update' do
     let(:device) { create :device }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(update?: true)
     end
     subject do
@@ -386,9 +391,10 @@ describe DevicesController do
   describe 'PATCH repair' do
     let(:device) { create :device }
     let!(:repair) { create :device_state, name: 'Repairing', locked: true }
-    let!(:person) { create :it_tech_person }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(repairing?: true)
     end
     subject {
