@@ -86,5 +86,4 @@ class PersonAddress < ActiveRecord::Base
       self.save
     end
   end
-
 end
