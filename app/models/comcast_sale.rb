@@ -1,7 +1,7 @@
 class ComcastSale < ActiveRecord::Base
   validates :sale_date, presence: true
-  validates :person_id, presence: true, uniqueness: true
-  validates :comcast_customer_id, presence: true, uniqueness: true
+  validates :person_id, presence: true
+  validates :comcast_customer_id, presence: true
   validates :comcast_install_appointment, presence: true
   validate :one_selected
 
@@ -19,4 +19,5 @@ class ComcastSale < ActiveRecord::Base
       end
     end
   end
+
 end
