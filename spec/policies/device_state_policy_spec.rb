@@ -1,15 +1,14 @@
-require 'rails_helper'
-
 describe DeviceStatePolicy do
   let(:permitted_person) { create :it_tech_person }
-  let(:permission_index) { create :permission, key: 'device_state_index' }
-  let(:permission_new) { create :permission, key: 'device_state_new' }
-  let(:permission_create) { create :permission, key: 'device_state_create' }
-  let(:permission_edit) { create :permission, key: 'device_state_edit' }
-  let(:permission_update) { create :permission, key: 'device_state_update' }
-  let(:permission_destroy) { create :permission, key: 'device_state_destroy' }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'device_state_index', permission_group: permission_group, description: description }
+  let(:permission_new) { Permission.new key: 'device_state_new', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'device_state_create', permission_group: permission_group, description: description }
+  let(:permission_edit) { Permission.new key: 'device_state_edit', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'device_state_update', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'device_state_destroy', permission_group: permission_group, description: description }
   let(:unpermitted_person) { build_stubbed :person }
-
   context 'for those with permission' do
     before(:each) do
       permitted_person.position.permissions << permission_index

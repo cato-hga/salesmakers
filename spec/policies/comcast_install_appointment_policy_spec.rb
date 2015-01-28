@@ -2,10 +2,12 @@ require 'rails_helper'
 
 describe ComcastInstallAppointmentPolicy do
   let(:permitted_person) { create :comcast_employee }
-  let(:permission_index) { create :permission, key: 'comcast_install_appointment_index' }
-  let(:permission_create) { create :permission, key: 'comcast_install_appointment_create' }
-  let(:permission_update) { create :permission, key: 'comcast_install_appointment_update' }
-  let(:permission_destroy) { create :permission, key: 'comcast_install_appointment_destroy' }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'comcast_install_appointment_index', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'comcast_install_appointment_create', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'comcast_install_appointment_update', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'comcast_install_appointment_destroy', permission_group: permission_group, description: description }
   let(:unpermitted_person) { build_stubbed :person }
 
   context 'for those with permission' do
