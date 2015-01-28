@@ -52,4 +52,5 @@ Rails.application.configure do
   # Needed for websocket-rails
   config.middleware.delete Rack::Lock
 
+  config.time_zone = 'Eastern Time (US & Canada)'
 end
