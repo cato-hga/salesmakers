@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe 'Line Addition' do
   let(:it_tech) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position, permissions: [permission_index, permission_new, permission_create] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:description) { 'TestDescription' }
   let(:permission_index) { Permission.new key: 'line_index', permission_group: permission_group, description: description }
@@ -18,6 +17,7 @@ describe 'Line Addition' do
 
   context 'for single lines' do
     context 'success' do
+      let(:position) { create :it_tech_position, permissions: [permission_index, permission_create] }
       let!(:service_provider) { create :technology_service_provider }
       let!(:creator) { Person.first }
       let(:contract_end_date) { Date.today + 1.year }
@@ -61,6 +61,7 @@ describe 'Line Addition' do
 
   context 'for multiple lines' do
     describe 'row addition', js: true do
+      let(:position) { create :it_tech_position, permissions: [permission_create] }
       before {
         visit new_line_path
         click_on 'Add'
@@ -80,7 +81,7 @@ describe 'Line Addition' do
       end
     end
 
-    describe 'row deletion', js: true do
+    describe 'row deletion' do
       it 'deletes the row'
     end
   end
