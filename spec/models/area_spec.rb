@@ -10,7 +10,7 @@ RSpec.describe Area, :type => :model do
   it { should belong_to(:project) }
   it { should have_many(:person_areas) }
   it { should have_many(:people).through(:person_areas) }
-  it { should have_one(:wall) }
+  #it { should have_one(:wall) }
 
   # Scope isn't currently used. Test will pass once uncommented
   # describe 'member_of scope' do

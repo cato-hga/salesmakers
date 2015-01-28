@@ -1,4 +1,4 @@
-= content_for(:title) { @person.social_name }
+= content_for(:title) { @person.display_name }
 - content_for :action_buttons do
   %span
     .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour_profile', class: [:button, :inline_button]

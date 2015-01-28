@@ -112,19 +112,19 @@ describe ApplicationHelper do
       expect(link_markup).to have_content(area.name)
     end
 
-    it "displays a link to a person with their nickname as a social link" do
-      person = Person.first
-      nickname = 'Big Daddy'
-      profile = create :profile,
-                       person: person,
-                       nickname: nickname
-      expected_selector = 'a[href$="' +
-          helper.person_path(person) +
-          '"]'
-      link_markup = helper.social_link person
-      expect(link_markup).to have_selector(expected_selector)
-      expect(link_markup).to have_content(nickname)
-    end
+    # it "displays a link to a person with their nickname as a social link" do
+    #   person = Person.first
+    #   nickname = 'Big Daddy'
+    #   profile = create :profile,
+    #                    person: person,
+    #                    nickname: nickname
+    #   expected_selector = 'a[href$="' +
+    #       helper.person_path(person) +
+    #       '"]'
+    #   link_markup = helper.social_link person
+    #   expect(link_markup).to have_selector(expected_selector)
+    #   expect(link_markup).to have_content(nickname)
+    # end
 
     # context 'for walls' do
     #   it 'is correct for areas' do
@@ -320,15 +320,15 @@ describe ApplicationHelper do
   #   end
   # end
 
-  it 'returns an avatar url' do
-    person = Person.first
-    avatar_url = 'http://retaildoneright.com/me.jpg'
-    group_me_user = create :group_me_user,
-                           person: person,
-                           avatar_url: avatar_url
-    url = avatar_url person
-    expect(url).to eq(avatar_url + '.avatar')
-  end
+  # it 'returns an avatar url' do
+  #   person = Person.first
+  #   avatar_url = 'http://retaildoneright.com/me.jpg'
+  #   group_me_user = create :group_me_user,
+  #                          person: person,
+  #                          avatar_url: avatar_url
+  #   url = avatar_url person
+  #   expect(url).to eq(avatar_url + '.avatar')
+  # end
 
   describe 'date and time display' do
     let(:original_time) { Time.new(2015, 06, 01, 12, 0, 0) }

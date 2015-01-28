@@ -1,5 +1,5 @@
 class Department < ActiveRecord::Base
-  after_save :create_wall
+  #after_save :create_wall
   validates :name, presence: true, length: { minimum: 5 }
 
   has_many :positions
@@ -10,8 +10,8 @@ class Department < ActiveRecord::Base
 
   private
 
-    def create_wall
-      return if self.wall
-      Wall.create wallable: self
-    end
+  # def create_wall
+  #   return if self.wall
+  #   Wall.create wallable: self
+  # end
 end

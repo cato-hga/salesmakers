@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  after_save :create_wall
+  #after_save :create_wall
 
   validates :name, presence: true, length: { minimum: 4 }
   validates :client, presence: true

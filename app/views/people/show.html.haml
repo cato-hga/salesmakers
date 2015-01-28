@@ -17,9 +17,9 @@
     .inner
       - position = @person.position
       - department = position.department if position
-      %strong= @person.social_name
-      %br
-      = image_tag avatar_url(@person), class: 'avatar'
+      %strong= @person.display_name
+      -#%br
+      -#= image_tag avatar_url(@person), class: 'avatar'
       %br
       %em= position.name if position
       %br
@@ -128,16 +128,16 @@
         handler.map.centerOn(marker);
         handler.getMap().setZoom(10);
       });
-  - if @profile_educations.count > 0
-    .widget.person_widget
-      .inner
-        %h3 Education
-        = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
-  - if @profile_experiences.count > 0
-    .widget.person_widget
-      .inner
-        %h3 Experience
-        = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
+  -#- if @profile_educations.count > 0
+  -#  .widget.person_widget
+  -#    .inner
+  -#      %h3 Education
+  -#      = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
+  -#- if @profile_experiences.count > 0
+  -#  .widget.person_widget
+  -#    .inner
+  -#      %h3 Experience
+  -#      = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
 .widget
   .inner
     %h3 Current Devices

@@ -10,13 +10,13 @@ class AreasController < ProtectedController
 
   def show
     @area = Area.find params[:id]
-    @wall = Wall.find_by wallable: @area
-    if policy_scope(Wall).include? @wall
-      @show_share_form = true
-    else
-      @show_share_form = false
-    end
-    @wall_posts = @wall.wall_posts
+    # @wall = Wall.find_by wallable: @area
+    # if policy_scope(Wall).include? @wall
+    #   @show_share_form = true
+    # else
+    #   @show_share_form = false
+    # end
+    # @wall_posts = @wall.wall_posts
   end
 
   def sales

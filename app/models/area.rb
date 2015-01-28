@@ -1,5 +1,5 @@
 class Area < ActiveRecord::Base
-  after_save :create_wall
+  #after_save :create_wall
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
@@ -102,8 +102,8 @@ class Area < ActiveRecord::Base
 
   private
 
-    def create_wall
-      return if self.wall
-      Wall.create wallable: self
-    end
+  # def create_wall
+  #   return if self.wall
+  #   Wall.create wallable: self
+  # end
 end

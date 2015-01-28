@@ -1,4 +1,4 @@
-# module WidgetsHelper
+module WidgetsHelper
 #
 #
 #   def line_chart_library_options
@@ -176,4 +176,4 @@
 #     }
 #   end
 #
-# end
+end

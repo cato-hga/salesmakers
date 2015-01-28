@@ -5,8 +5,8 @@ class Person < ActiveRecord::Base
   nilify_blanks
 
   before_validation :generate_display_name
-  after_save :create_profile
-  after_save :create_wall
+  #after_save :create_profile
+  #after_save :create_wall
 
   validates :first_name, length: { minimum: 2 }
   validates :last_name, length: { minimum: 2 }
@@ -184,13 +184,13 @@ class Person < ActiveRecord::Base
     self.office_phone and self.office_phone != '8005551212'
   end
 
-  def social_name
-    if self.profile.nickname? and not self.profile.nickname.blank?
-      self.profile.nickname
-    else
-      self.display_name
-    end
-  end
+  # def social_name
+  #   if self.profile.nickname? and not self.profile.nickname.blank?
+  #     self.profile.nickname
+  #   else
+  #     self.display_name
+  #   end
+  # end
 
   #:nocov:
   def import_employment_from_connect
@@ -416,10 +416,10 @@ class Person < ActiveRecord::Base
     entry.save ? true : false
   end
 
-  def create_wall
-    return if self.wall
-    Wall.create wallable: self
-  end
+  # def create_wall
+  #   return if self.wall
+  #   Wall.create wallable: self
+  # end
 
   #:nocov:
   def self.update_from_connect(minutes)
@@ -430,30 +430,30 @@ class Person < ActiveRecord::Base
   end
   #:nocov:
 
-  def profile_avatar
-    return unless profile
-    profile.avatar
-  end
-
-  def profile_avatar_url
-    return unless profile_avatar
-    profile_avatar.url
-  end
-
-  def group_me_avatar_url
-    return unless group_me_user
-    group_me_user.avatar_url
-  end
-
-  def default_wall
-    if self.position.hq?
-      Wall.find_by wallable: self.position.department
-    elsif person_areas.count > 0
-      Wall.find_by wallable: self.person_areas.first.area
-    else
-      Wall.find_by wallable: self
-    end
-  end
+  # def profile_avatar
+  #   return unless profile
+  #   profile.avatar
+  # end
+  #
+  # def profile_avatar_url
+  #   return unless profile_avatar
+  #   profile_avatar.url
+  # end
+  #
+  # def group_me_avatar_url
+  #   return unless group_me_user
+  #   group_me_user.avatar_url
+  # end
+  #
+  # def default_wall
+  #   if self.position.hq?
+  #     Wall.find_by wallable: self.position.department
+  #   elsif person_areas.count > 0
+  #     Wall.find_by wallable: self.person_areas.first.area
+  #   else
+  #     Wall.find_by wallable: self
+  #   end
+  # end
 
   def related_log_entries
     LogEntry.where trackable_type: 'Person', trackable_id: self.id
@@ -507,8 +507,8 @@ class Person < ActiveRecord::Base
       self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
     end
 
-    def create_profile
-      Profile.find_or_create_by person: self
-    end
+  # def create_profile
+  #   Profile.find_or_create_by person: self
+  # end
 
 end

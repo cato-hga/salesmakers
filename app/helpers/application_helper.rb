@@ -178,10 +178,10 @@ module ApplicationHelper
     link_to area.name, sales_client_project_area_url(area.project.client, area.project, area), class: classes
   end
 
-  def social_link(person, classes = '')
-    name = person.social_name.length < 4 ? person.social_name : NameCase(person.social_name)
-    link_to name, person, class: classes
-  end
+  # def social_link(person, classes = '')
+  #   name = person.social_name.length < 4 ? person.social_name : NameCase(person.social_name)
+  #   link_to name, person, class: classes
+  # end
 
   def bare_log_entry(log_entry)
     render "log_entries/bare_log_entry", log_entry: log_entry

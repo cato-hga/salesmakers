@@ -49,18 +49,18 @@ class PeopleController < ProtectedController
       @physical_address.save
       @physical_address.reload
     end
-    set_show_wall
+    #set_show_wall
     @log_entries = LogEntry.for_person(@person)
     @current_devices = @person.devices
-    @profile = @person.profile
-    @profile_experiences = @profile.profile_experiences
-    @profile_educations = @profile.profile_educations
+    #@profile = @person.profile
+    #@profile_experiences = @profile.profile_experiences
+    #@profile_educations = @profile.profile_educations
     @communication_log_entries = @person.communication_log_entries
   end
 
   def sales
     @person = policy_scope(Person).find params[:id]
-    set_show_wall
+    #set_show_wall
     unless @person
       flash[:error] = 'You do not have permission to view sales for that person.'
       redirect_to :back
@@ -121,19 +121,19 @@ class PeopleController < ProtectedController
     params.require(:person).permit :image
   end
 
-  def show_wall?(person)
-    if person == @current_person.supervisor or not policy_scope(Person).include?(person)
-      false
-    else
-      true
-    end
-  end
+  # def show_wall?(person)
+  #   if person == @current_person.supervisor or not policy_scope(Person).include?(person)
+  #     false
+  #   else
+  #     true
+  #   end
+  # end
 
-  def set_show_wall
-    if show_wall? @person
-      @show_wall = true
-    else
-      false
-    end
-  end
+  # def set_show_wall
+  #   if show_wall? @person
+  #     @show_wall = true
+  #   else
+  #     false
+  #   end
+  # end
 end

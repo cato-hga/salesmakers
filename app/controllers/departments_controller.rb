@@ -9,7 +9,7 @@ class DepartmentsController < ProtectedController
   def show
     @department = Department.find params[:id]
     authorize @department
-    @wall = @department.wall
-    @wall_posts = @wall.wall_posts
+    #"#{@wall = @department.wall
+    #@wall_posts = @wall.wall_posts
   end
 end
