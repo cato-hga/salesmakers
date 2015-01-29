@@ -19,8 +19,8 @@ require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 require 'pundit/rspec'
 require 'support/pundit_matcher'
-require 'factory_girl_rails'
-require 'webmock/rspec'
+require 'support/deferred_garbage_collection'
+#require 'factory_girl_rails' #Not needed unless we're linting!
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
@@ -29,9 +29,15 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before :suite do
+    DeferredGarbageCollection.start
     DatabaseRewinder.clean_all
     #FactoryGirl.lint
   end
+
+  config.after :suite do
+    DeferredGarbageCollection.reconsider
+  end
+
   config.before(:each) do
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
   end
