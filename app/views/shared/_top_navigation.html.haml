@@ -6,8 +6,14 @@
     %section.top-bar-section
       .left
         %ul.left
-          -#YES. THIS IS DIRTY. But, only IT people need access anyways
-          -if DevicePolicy.new(current_person, Device.new).index?
+          - if PersonPolicy.new(current_person, Person.new).index?
+            %li.has-dropdown#joyride-people
+              = link_to icon('torsos-all') + ' People', '#'
+              %ul.dropdown
+                %li= link_to 'Search', people_path
+                %li= link_to 'Org Chart', org_chart_people_path
+          -# YES. THIS IS DIRTY. But, only IT people need access anyways
+          - if DevicePolicy.new(current_person, Device.new).index?
             %li.has-dropdown#joyride-projects
               = link_to icon('clipboard-notes') + ' Projects', '#'
               %ul.dropdown
@@ -25,11 +31,6 @@
                               = link_to 'Area Types', client_project_area_types_path(project.client, project)
                           %li
                             = link_to 'Areas', client_project_areas_path(project.client, project)
-            %li.has-dropdown#joyride-people
-              = link_to icon('torsos-all') + ' People', '#'
-              %ul.dropdown
-                %li= link_to 'Search', people_path
-                %li= link_to 'Org Chart', org_chart_people_path
             %li.has-dropdown
               = link_to 'Admin', '#'
               %ul.dropdown
