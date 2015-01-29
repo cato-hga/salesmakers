@@ -13,8 +13,6 @@
     -else
       %li
         = link_to 'Home', root_path
-  -#%li
-  -#  = link_to 'Feedback', new_feedback_path, class: 'lightbox_feedback'
   -# YES. THIS IS DIRTY. But, only IT people need access anyways
   -if DevicePolicy.new(current_person, Device.new).index?
     %ul.off-canvas-list
