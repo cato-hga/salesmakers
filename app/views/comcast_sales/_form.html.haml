@@ -37,5 +37,5 @@
           = a.select :comcast_install_time_slot_id, slots
         %p
           = f.check_box :customer_acknowledged
-          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s).'
-      = f.submit 'Save', class: [:button]
+          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+      = f.submit 'Complete Sale', class: [:button]
