@@ -56,6 +56,13 @@ describe 'Comcast sales CRUD actions' do
         expect(page).to have_selector('h1', 'New Comcast Customer')
       end
     end
-  end
 
+    describe 'time slots' do
+      let!(:inactive_comcast_install_time_slot) { create :comcast_install_time_slot, name: "Inactive", active: false }
+      it 'should only show active time slots' do
+        expect(page).to have_content(comcast_install_time_slot.name)
+        expect(page).not_to have_content(inactive_comcast_install_time_slot.name)
+      end
+    end
+  end
 end
