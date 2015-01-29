@@ -3,7 +3,7 @@ class ComcastSale < ActiveRecord::Base
   validates :person_id, presence: true
   validates :comcast_customer_id, presence: true
   validates :comcast_install_appointment, presence: true
-  validate :one_selected
+  validate :one_service_selected
   validate :no_future_sales
 
   belongs_to :comcast_customer
@@ -13,7 +13,7 @@ class ComcastSale < ActiveRecord::Base
 
   private
 
-  def one_selected
+  def one_service_selected
     unless self.tv? or self.internet? or self.phone? or self.security?
       [:tv, :internet, :phone, :security].each do |product|
         errors.add(product, 'or at least one other product must be selected')

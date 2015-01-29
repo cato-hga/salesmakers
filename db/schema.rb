@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129191521) do
+ActiveRecord::Schema.define(version: 20150129195625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,19 @@ ActiveRecord::Schema.define(version: 20150129191521) do
     t.boolean  "active",     default: true, null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+  end
+
+  create_table "comcast_leads", force: :cascade do |t|
+    t.integer  "comcast_customer_id",                 null: false
+    t.date     "follow_up_by"
+    t.boolean  "tv",                  default: false, null: false
+    t.boolean  "internet",            default: false, null: false
+    t.boolean  "phone",               default: false, null: false
+    t.boolean  "security",            default: false, null: false
+    t.boolean  "ok_to_call_and_text", default: false, null: false
+    t.text     "comments"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "comcast_sales", force: :cascade do |t|
