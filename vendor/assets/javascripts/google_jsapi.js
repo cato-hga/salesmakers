@@ -76,7 +76,7 @@ if (!window['google']['loader']) {
 				"params": {"callback": {"regex": "callback\u003d$1\u0026async\u003d2"}, "language": {"string": "hl"}}
 			},
 			"customSpecs": [{
-				"uri": "https://maps.googleapis.com/maps/api/js",
+				"uri": "http://maps.googleapis.com/maps/api/js",
 				"ssl": "https://maps.googleapis.com/maps/api/js",
 				"version": {"string": "v"},
 				"deferred": true,
