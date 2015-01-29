@@ -27,4 +27,9 @@ describe ComcastSale do
     subject.comcast_install_appointment = nil
     expect(subject).not_to be_valid
   end
+
+  it 'does not allow a sale to be future-dated' do
+    subject.sale_date = Date.today + 1.day
+    expect(subject).not_to be_valid
+  end
 end
