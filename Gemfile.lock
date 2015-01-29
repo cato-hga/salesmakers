@@ -13,6 +13,13 @@ GIT
       activesupport
 
 GIT
+  remote: https://github.com/elabs/pundit.git
+  revision: ce62bc5cd160efa9b59555376eeddc32acc02191
+  specs:
+    pundit (0.3.0)
+      activesupport (>= 3.0.0)
+
+GIT
   remote: https://github.com/stefankroes/ancestry.git
   revision: 2d80781c4f8f95183e446198d0128314bff0ca88
   specs:
@@ -340,8 +347,6 @@ GEM
       slop (~> 3.4)
     puma (2.11.0)
       rack (>= 1.1, < 2.0)
-    pundit (0.2.3)
-      activesupport (>= 3.0.0)
     rack (1.6.0)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -586,7 +591,7 @@ DEPENDENCIES
   pg (= 0.18.1)
   postmark-rails (= 0.10.0)
   puma (= 2.11.0)
-  pundit
+  pundit!
   rack-cache (= 1.2)
   rails (= 4.2.0)
   rails_best_practices (= 1.15.4)
