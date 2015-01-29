@@ -9,6 +9,7 @@ class ComcastSale < ActiveRecord::Base
   belongs_to :person
   has_one :comcast_install_appointment, inverse_of: :comcast_sale
   accepts_nested_attributes_for :comcast_install_appointment
+  has_one :comcast_former_provider
 
   private
 

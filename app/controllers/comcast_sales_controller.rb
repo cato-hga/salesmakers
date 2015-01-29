@@ -1,6 +1,7 @@
 class ComcastSalesController < ApplicationController
   before_action :setup_comcast_customer
   before_action :setup_time_slots
+  before_action :setup_former_providers
 
   def new
     @comcast_sale = ComcastSale.new
@@ -24,6 +25,10 @@ class ComcastSalesController < ApplicationController
 
   private
 
+  def setup_former_providers
+    @former_providers = ComcastFormerProvider.all
+  end
+
   def setup_comcast_customer
     @comcast_customer = ComcastCustomer.find params[:comcast_customer_id]
   end
@@ -34,6 +39,7 @@ class ComcastSalesController < ApplicationController
 
   def comcast_sale_params
     params.require(:comcast_sale).permit :order_number,
+                                         :comcast_former_provider_id,
                                          :tv,
                                          :internet,
                                          :phone,

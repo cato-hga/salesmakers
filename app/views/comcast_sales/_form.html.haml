@@ -10,6 +10,8 @@
       = f.text_field :sale_date, value: sale_date, placeholder: 'MM/DD/YYYY'
       = f.label :order_number
       = f.text_field :order_number
+      = f.label :comcast_former_provider, 'Previous Provider'
+      = f.select :comcast_former_provider, options_from_collection_for_select(@former_providers, 'id', 'name')
       %fieldset
         %legend Services
         .row.full-width

@@ -12,4 +12,8 @@ FactoryGirl.define do
                                                  comcast_sale: comcast_sale)
     end
   end
+
+  factory :comcast_former_provider do
+    name 'Former Provider'
+  end
 end
