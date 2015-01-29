@@ -6,5 +6,6 @@ ComcastFormerProvider.create [
                                  {name: 'DirectTV'},
                                  {name: 'Verizon FIOS'},
                                  {name: 'Time Warner'},
-                                 {name: 'Cox Communications'}
+                                 {name: 'Cox Communications'},
+                                 {name: 'Other Provider'}
                              ]
