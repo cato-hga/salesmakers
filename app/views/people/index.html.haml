@@ -30,7 +30,7 @@
   - h_supervisor = sort_link @search, :supervisor_display_name, 'Supervisor'
   - h_areas = sort_link @search, :areas_name, 'Area(s)'
   - headers = Array.new
-  - if @hq
+  - if @current_person.hq?
     - headers << [h_eid, h_hired, h_termed]
   - headers << [h_name,h_email,h_phone,h_position,h_supervisor,h_areas]
   - header = header_row headers.flatten
@@ -74,7 +74,7 @@
     - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
     - area = person_area_links person, classes
     - row = Array.new
-    - if @hq
+    - if @current_person.hq?
       - row << [eid, hired, termed]
     - row << [display_name, email, phone, position_link, supervisor, area]
     - rows << table_row(row.flatten)

@@ -7,17 +7,7 @@ class PeopleController < ProtectedController
 
   def index
     @search = Person.search(params[:q])
-    unless @current_person.position and @current_person.position.hq?
-      @people = @search.
-          result.
-          where(active: true).
-          order('display_name').
-          page(params[:page])
-      @hq = false
-    else
-      @people = @search.result.order('display_name').page(params[:page])
-      @hq = true
-    end
+    @people = filter_results(@search.result).page(params[:page])
   end
 
   def csv
@@ -51,21 +41,10 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
-    @physical_address = PersonAddress.find_by person: @person, physical: true
-    @mailing_address = PersonAddress.find_by person: @person, physical: false
-    if @physical_address and not @physical_address.latitude and
-        not @physical_address.longitude
-      @physical_address.geocode
-      @physical_address.save
-      @physical_address.reload
-    end
     #set_show_wall
-    @log_entries = LogEntry.for_person(@person)
-    @current_devices = @person.devices
     #@profile = @person.profile
     #@profile_experiences = @profile.profile_experiences
     #@profile_educations = @profile.profile_educations
-    @communication_log_entries = @person.communication_log_entries
   end
 
   def sales
@@ -131,6 +110,11 @@ class PeopleController < ProtectedController
     params.require(:person).permit :image
   end
 
+  def filter_results(results)
+    return results.where(active: true) unless @current_person.hq?
+    results
+  end
+
   # def show_wall?(person)
   #   if person == @current_person.supervisor or not policy_scope(Person).include?(person)
   #     false
@@ -146,4 +130,5 @@ class PeopleController < ProtectedController
   #     false
   #   end
   # end
+
 end

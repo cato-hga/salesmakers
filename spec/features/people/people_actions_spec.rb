@@ -12,6 +12,10 @@ describe 'actions involving People' do
     let(:person) { create :person }
     let!(:person_address) { create :person_address, person: person }
 
+    before do
+      person.position.update hq: true
+    end
+
     it 'should show log entries on the show page', :vcr do
       visit person_path(person)
       expect(page).to have_content("Created person #{person.display_name}")
@@ -25,4 +29,5 @@ describe 'actions involving People' do
       expect(page).to have_content(person_address.zip)
     end
   end
+
 end

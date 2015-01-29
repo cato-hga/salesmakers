@@ -1,41 +1,43 @@
 - page_title = @person.display_name.html_safe
-- page_title = page_title + contact_link(@person) if @person.mobile_phone?
+- page_title = page_title + contact_link(@person) if @person.mobile_phone? and @person.show_details? @visible_people and @person.position.hq?
 - title page_title
+- show_details = @person.show_details? @visible_people
 
 - if @person.areas.count > 0
   %ul.breadcrumbs
     - for area in @person.areas
       - project = area.project
       - client = project.client
-      %li= link_to client.name, client
-      %li= link_to project.name, client_project_path(client, project)
+      %li= client_link(client)
+      %li= project_link(project)
       - for parent_area in area.path
         %li= area_link(parent_area)
 
-.widgets.poeple_about
-  .widget.person_widget.centered_text
-    .inner
-      - position = @person.position
-      - department = position.department if position
-      %strong= @person.display_name
-      -#%br
-      -#= image_tag avatar_url(@person), class: 'avatar'
-      %br
-      %em= position.name if position
-      %br
-
-      - department = @person
-      %em= department.name
+.widgets.people_about
+  -#.widget.person_widget.centered_text
+  -#  .inner
+  -#    - position = @person.position
+  -#    - department = position.department if position
+  -#    %strong= @person.display_name
+  -#    -#%br
+  -#    -#= image_tag avatar_url(@person), class: 'avatar'
+  -#    %br
+  -#    %em= position.name if position
+  -#    %br
+  -#
+  -#    - department = @person
+  -#    %em= department.name
   .widget.person_widget
     .inner
       %h3 Basic Information
       .comment.bottom_spacing
+        - position = @person.position
         = position.name if position
         - if @person.active?
           %span.comment.small.round.ok.label.inline_button Active
         - else
           %span.comment.small.round.bad.label.inline_button Inactive
-      - if @show_wall
+      - if show_details
         - employments = @person.employments
         - if not @person.active? and employments.count > 0
           - first_employment = employments.first
@@ -67,11 +69,11 @@
       %p
         %strong Email:
         = mail_to @person.email
-      - if @person.personal_email and @show_wall
+      - if @person.personal_email and show_details
         %p
           %strong Personal Email:
           = mail_to @person.personal_email
-      - if @person.mobile_phone? and @show_wall
+      - if @person.mobile_phone? and show_details
         %p
           %strong Mobile Phone:
           = phone_link @person.mobile_phone, nil
@@ -79,7 +81,7 @@
         %p
           %strong Office Phone:
           = phone_link @person.office_phone, nil
-      - if @person.home_phone?
+      - if @person.home_phone? and show_details
         %p
           %strong Home Phone:
           = phone_link @person.home_phone, nil
@@ -102,17 +104,18 @@
   -#          - else
   -#            = @person.social_name
   -#            has not written anything about themself yet.
-  - if @physical_address
+  - physical_address = @person.physical_address
+  - if physical_address and show_details
     .widget
       .inner
         %h3 Physical Address
-        = @physical_address.line_1
+        = physical_address.line_1
         %br/
-        - if @physical_address.line_2 and @physical_address.line_2.length > 0
-          = @physical_address.line_2
+        - if physical_address.line_2 and physical_address.line_2.length > 0
+          = physical_address.line_2
           %br/
-        = @physical_address.city + ', ' + @physical_address.state
-        = @physical_address.zip
+        = physical_address.city + ', ' + physical_address.state
+        = physical_address.zip
         #physical_address_map
     :javascript
       handler = Gmaps.build('Google');
@@ -120,8 +123,8 @@
         styles: mapStyle()
       }, internal: {id: 'physical_address_map'}}, function () {
         marker = handler.addMarker({
-          "lat": #{@physical_address.latitude},
-          "lng": #{@physical_address.longitude}
+          "lat": #{physical_address.latitude},
+          "lng": #{physical_address.longitude}
         });
         // handler.bounds.extendWith(markers);
         // handler.fitMapToBounds();
@@ -138,15 +141,16 @@
   -#    .inner
   -#      %h3 Experience
   -#      = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
-.widget
-  .inner
-    %h3 Current Devices
-    = render partial: 'shared/device_deployments', locals: { current_devices: @current_devices }
-.widget
-  .inner
-    %h3 Log Entries
-    = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
-.widget
-  .inner
-    %h3 Communication Log
-    = render partial: 'shared/communication_log', locals: { communication_log_entries: @communication_log_entries }
+- if show_details
+  .widget
+    .inner
+      %h3 Current Devices
+      = render partial: 'shared/device_deployments', locals: { current_devices: @person.devices }
+  .widget
+    .inner
+      %h3 Log Entries
+      = render partial: 'shared/log_entries', locals: { log_entries: @person.related_log_entries }
+  .widget
+    .inner
+      %h3 Communication Log
+      = render partial: 'shared/communication_log', locals: { communication_log_entries: @person.communication_log_entries }
