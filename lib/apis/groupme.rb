@@ -8,7 +8,7 @@ class GroupMe
   end
 
   def self.new_global
-    self.new '7a853610f0ca01310e5a065d7b71239d'
+    self.new '1956b1d08a050132df253a66af516754'
   end
 
   def get_groups
@@ -49,8 +49,12 @@ class GroupMe
         likes = 0
         likes = message['favorited_by'].count if message['favorited_by']
         next if likes < minimum_likes
-        group_me_message = GroupMeApiMessage.new group_name, message['name'], message['attachments'], message['text'],
-                                              message['created_at'], likes, message['avatar_url']
+        group_me_message = GroupMeApiMessage.new group_name,
+                                                 message['name'],
+                                                 message['attachments'],
+                                                 message['text'],
+                                                 message['created_at'],
+                                                 likes, message['avatar_url']
         messages << group_me_message
         before = message['id']
       end
@@ -115,18 +119,18 @@ class GroupMe
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
     self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json',
-                                                         'Accept' => 'application/json'} }
+                                                         'Accept' => 'application/json' } }
   end
 
   def doPost(path, body, query = nil)
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
     self.class.post path, { body: body, query: query_hash, headers: { 'Content-Type' => 'application/json',
-                                                                      'Accept' => 'application/json'} }
+                                                                      'Accept' => 'application/json' } }
   end
 
   def send_message(group_id, message_text)
-    group_me_message =  {
+    group_me_message = {
         message: {
             source_guid: SecureRandom.uuid,
             text: message_text

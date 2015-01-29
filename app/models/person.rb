@@ -48,15 +48,15 @@ class Person < ActiveRecord::Base
   has_many :communication_log_entries
 
   ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
-    parent.table[:mobile_phone]
-  end
+                                  parent.table[:mobile_phone]
+                                end
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
     people = Array.new
     position = person.position
 
-    return team_members unless position
+    return person.team_members unless position
 
     if position.all_field_visibility?
       people = people.concat Person.all_field_members
@@ -101,52 +101,47 @@ class Person < ActiveRecord::Base
   end
 
   def self.all_field_members
-    positions = Position.where( field: true )
-    Person.where( position: positions)
+    positions = Position.where(field: true)
+    Person.where(position: positions)
   end
 
   def self.all_hq_members
-    positions = Position.where( hq: true )
-    Person.where( position: positions )
+    positions = Position.where(hq: true)
+    Person.where(position: positions)
   end
 
   def self.return_from_connect_user(connect_user)
     person = Person.find_by connect_user_id: connect_user.id
     return person if person
-    email = connect_user.email
-    first_name = connect_user.firstname
-    last_name = connect_user.lastname
-    display_name = connect_user.display_name
-    personal_email = connect_user.personal_email
-    active = connect_user.active?
-    phone = connect_user.phone
-    createdby = connect_user.createdby
-    created = connect_user.created
-    updated = connect_user.updated
-    supervisor_id = connect_user.supervisor_id
     position = Position.return_from_connect_user connect_user
-    person = Person.find_by_email email
-    creator = createdby ? Person.find_by_connect_user_id(createdby) : nil
-    supervisor = supervisor_id ? Person.find_by_connect_user_id(supervisor_id) : nil
-
+    person = Person.find_by_email connect_user.email
+    creator = connect_user.createdby ? Person.find_by_connect_user_id(connect_user.createdby) : nil
+    supervisor = connect_user.supervisor_id ? Person.find_by_connect_user_id(connect_user.supervisor_id) : nil
     return person if person
-    person = Person.new first_name: first_name,
-                        last_name: last_name,
-                        display_name: display_name,
-                        email: email,
-                        personal_email: personal_email,
+    Person.new_from_connect_user connect_user, position, supervisor, creator
+  end
+
+  def self.new_from_connect_user(connect_user, position, supervisor, creator)
+    person = Person.new first_name: connect_user.firstname,
+                        last_name: connect_user.lastname,
+                        display_name: connect_user.name,
+                        email: connect_user.username,
+                        personal_email: connect_user.description,
                         connect_user_id: connect_user.id,
-                        active: active,
-                        mobile_phone: phone,
+                        active: (connect_user.isactive == 'Y' ? true : false),
+                        mobile_phone: connect_user.phone,
                         position: position,
                         supervisor: supervisor
     return nil unless person and person.save
-    PersonArea.where(person: person).destroy_all
-    LogEntry.person_onboarded_from_connect person, creator, created, updated
-    LogEntry.position_set_from_connect person, creator, position, created, updated if position
+    Person.log_onboard_from_connect person, creator
     person.add_area_from_connect
-
     person
+  end
+
+  def self.log_onboard_from_connect(person, creator)
+    connect_user = person.connect_user
+    LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
+    LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
   end
 
   def department
@@ -268,57 +263,34 @@ class Person < ActiveRecord::Base
     return nil unless self.connect_user_id
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
     return nil unless connect_user
-    at_vrr = AreaType.find_by_name 'Vonage Retail Region'
-    at_vrm = AreaType.find_by_name 'Vonage Retail Market'
-    at_vrt = AreaType.find_by_name 'Vonage Retail Territory'
-    at_ver = AreaType.find_by_name 'Vonage Event Region'
-    at_vet = AreaType.find_by_name 'Vonage Event Team'
-    at_srr = AreaType.find_by_name 'Sprint Retail Region'
-    at_srt = AreaType.find_by_name 'Sprint Retail Territory'
-    at_ccrr = AreaType.find_by_name 'Comcast Retail Region'
-    at_ccrm = AreaType.find_by_name 'Comcast Retail Market'
-    at_ccrt = AreaType.find_by_name 'Comcast Retail Territory'
-    connect_user_region = connect_user.region
-    area_name = Position.clean_area_name connect_user_region
-    connect_user_project = (connect_user_region) ? connect_user_region.project : nil
-    return nil unless connect_user_region and connect_user_project
+    area_name = Position.clean_area_name connect_user.region
+    area_type = AreaType.determine_from_connect(connect_user, self.get_projects_hash, self.is_event?)
+    PersonArea.return_from_name_and_type self, area_name, area_type, connect_user.leader?
+  end
 
-    retail = connect_user_region.name.include? 'Retail'
-    event = connect_user_region.name.include? 'Event'
-    retail = true if not retail and not event
-
+  def get_projects_hash
+    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
+    return nil unless connect_user
+    connect_user_project = connect_user.project
+    return nil unless connect_user_project
     project_name = connect_user_project.name
-    vonage = project_name == 'Vonage'
-    sprint = project_name == 'Sprint'
-    comcast = project_name == 'Comcast'
-    leader = connect_user.leader?
+    return {
+        vonage: (project_name == 'Vonage'),
+        sprint: (project_name == 'Sprint'),
+        comcast: (project_name == 'Comcast')
+    }
+  end
 
-    area_type = nil
-    case connect_user_region.fast_type
-      when 4
-        area_type = at_vrt if vonage and retail
-        area_type = at_vet if vonage and event
-        area_type = at_srt if sprint and retail
-        area_type = at_ccrt if comcast and retail
-      when 3
-        area_type = at_vrm if vonage and retail
-        area_type = at_ccrm if comcast and retail
-      when 2
-        area_type = at_vrr if vonage and retail
-        area_type = at_ver if vonage and event
-        area_type = at_srr if sprint and retail
-        area_type = at_ccrr if comcast and retail
-    end
-    return nil unless area_type
-    areas = Area.where(name: area_name, area_type: area_type)
-    return nil unless areas.count > 0
-    area = areas.first
-    person_area = self.person_areas.new area: area,
-                                        manages: leader
-    person_area
+  def is_event?
+    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
+    return nil unless connect_user
+    connect_user_region = connect_user.region
+    return false unless connect_user_region
+    connect_user_region.name.include? 'Event'
   end
 
   def add_area_from_connect
+    PersonArea.where(person: self).destroy_all
     connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
     creator = Person.find_by_connect_user_id connect_user.createdby
     person_area = self.return_person_area_from_connect
@@ -400,6 +372,7 @@ class Person < ActiveRecord::Base
   def get_connect_user
     ConnectUser.find_by username: self.email
   end
+
   #:nocov:
 
   def separate
@@ -430,6 +403,7 @@ class Person < ActiveRecord::Base
       PersonUpdater.new(connect_user).update
     end
   end
+
   #:nocov:
 
   # def profile_avatar
@@ -516,10 +490,10 @@ class Person < ActiveRecord::Base
 
   private
 
-    def generate_display_name
-      return unless first_name and last_name
-      self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
-    end
+  def generate_display_name
+    return unless first_name and last_name
+    self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
+  end
 
   # def create_profile
   #   Profile.find_or_create_by person: self

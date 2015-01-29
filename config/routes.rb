@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
   resources :comcast_customers, only: [:new, :create] do
     resources :comcast_sales, only: [:new, :create]
+    resources :comcast_leads, only: [:new, :create]
   end
 
   resources :departments, only: [:index, :show] do
