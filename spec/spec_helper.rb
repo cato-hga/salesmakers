@@ -20,7 +20,7 @@ CodeClimate::TestReporter.start
 require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'support/deferred_garbage_collection'
-#require 'factory_girl_rails' #Not needed unless we're linting!
+require 'factory_girl_rails'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
