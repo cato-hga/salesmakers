@@ -16,7 +16,7 @@
 /tmp
 
 #Custom ignores
-
+/bin/*
 /config/database.yml
 /.idea/*.ids
 /.idea/workspace.xml
