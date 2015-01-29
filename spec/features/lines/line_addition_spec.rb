@@ -1,33 +1,34 @@
 require 'rails_helper'
 
 describe 'Line Addition' do
-  let!(:it_tech) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
-  let(:permission_index) { create :permission, key: 'line_index' }
-  let(:permission_new) { create :permission, key: 'line_new' }
-  let(:permission_update) { create :permission, key: 'line_update' }
-  let(:permission_edit) { create :permission, key: 'line_edit' }
-  let(:permission_destroy) { create :permission, key: 'line_destroy' }
-  let(:permission_create) { create :permission, key: 'line_create' }
-  let(:permission_show) { create :permission, key: 'line_show' }
+  let(:it_tech) { create :it_tech_person, position: position }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'line_index', permission_group: permission_group, description: description }
+  let(:permission_new) { Permission.new key: 'line_new', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'line_update', permission_group: permission_group, description: description }
+  let(:permission_edit) { Permission.new key: 'line_edit', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'line_destroy', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'line_create', permission_group: permission_group, description: description }
+  let(:permission_show) { Permission.new key: 'line_show', permission_group: permission_group, description: description }
   before(:each) do
-    it_tech.position.permissions << permission_index
-    it_tech.position.permissions << permission_new
-    it_tech.position.permissions << permission_create
     CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
 
   context 'for single lines' do
     context 'success' do
+      let(:position) { create :it_tech_position, permissions: [permission_index, permission_create] }
       let!(:service_provider) { create :technology_service_provider }
       let!(:creator) { Person.first }
       let(:contract_end_date) { Date.today + 1.year }
       let!(:line_state) { create :line_state, name: 'Active' }
-      subject {
+      before(:example) do
         visit new_line_path
         fill_in :line_contract_end_date, with: contract_end_date.strftime('%m/%d/%Y')
         select service_provider.name, from: 'line_technology_service_provider_id'
         fill_in :line_identifier, with: '5555555555'
+      end
+      subject {
         click_on 'Receive'
       }
       it 'creates a line' do
@@ -60,6 +61,7 @@ describe 'Line Addition' do
 
   context 'for multiple lines' do
     describe 'row addition', js: true do
+      let(:position) { create :it_tech_position, permissions: [permission_create] }
       before {
         visit new_line_path
         click_on 'Add'
@@ -79,7 +81,7 @@ describe 'Line Addition' do
       end
     end
 
-    describe 'row deletion', js: true do
+    describe 'row deletion' do
       it 'deletes the row'
     end
   end

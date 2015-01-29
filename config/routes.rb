@@ -77,9 +77,6 @@ Rails.application.routes.draw do
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
 
-  match '/feedback', to: 'feedbacks#new', via: 'get'
-  resources :feedbacks, only: [:new, :create]
-
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
 
   resources :lines, only: [:index, :show, :new, :create, :update] do
@@ -149,7 +146,8 @@ end
 # resources :home, only: [:index]
 
 # get 'home/dashboard'
-#
+#  match '/feedback', to: 'feedbacks#new', via: 'get'
+# resources :feedbacks, only: [:new, :create
 # get 'like/:wall_post_id', to: 'likes#create', as: 'create_like'
 # get 'unlike/:wall_post_id', to: 'likes#destroy', as: 'destroy_like'
 

@@ -37,8 +37,6 @@ gem 'dragonfly', '1.0.7' # Image and file storage
 gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a flat ruby file.
-gem 'mail_form', '1.5.0' # Gem for contact/feedback form. Using based on tutorial: http://rubyonrailshelp.wordpress.com/2014/01/08/rails-4-simple-form-and-mail-form-to-make-contact-form/
-gem 'simple_form', '3.1.0' # Was 3.0.2 01/21/2015 - For contact/feedback form
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'spring-commands-rspec', '1.0.4' # Was 1.0.2 01/21/2015 - Spring RSpec additions

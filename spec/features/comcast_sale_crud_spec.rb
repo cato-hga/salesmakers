@@ -21,6 +21,7 @@ describe 'Comcast sales CRUD actions' do
 
   context 'for creating' do
     let(:comcast_customer) { create :comcast_customer }
+    let!(:comcast_former_provider) { create :comcast_former_provider }
 
     before(:each) do
       person.position.permissions << permission_create
@@ -31,10 +32,11 @@ describe 'Comcast sales CRUD actions' do
       subject {
         fill_in 'Sale date', with: sale_date
         fill_in 'Order number', with: comcast_sale.order_number
+        select comcast_former_provider.name, from: "Previous Provider"
         check 'Television'
         fill_in 'Install date', with: install_date
         select comcast_install_time_slot.name, from: 'Install time slot'
-        click_on 'Save'
+        click_on 'Complete Sale'
       }
 
       it 'has the correct page title' do
@@ -54,6 +56,13 @@ describe 'Comcast sales CRUD actions' do
         expect(page).to have_selector('h1', 'New Comcast Customer')
       end
     end
-  end
 
+    describe 'time slots' do
+      let!(:inactive_comcast_install_time_slot) { create :comcast_install_time_slot, name: "Inactive", active: false }
+      it 'should only show active time slots' do
+        expect(page).to have_content(comcast_install_time_slot.name)
+        expect(page).not_to have_content(inactive_comcast_install_time_slot.name)
+      end
+    end
+  end
 end

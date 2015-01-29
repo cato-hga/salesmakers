@@ -10,6 +10,8 @@
       = f.text_field :sale_date, value: sale_date, placeholder: 'MM/DD/YYYY'
       = f.label :order_number
       = f.text_field :order_number
+      = f.label :comcast_former_provider, 'Previous Provider'
+      = f.select :comcast_former_provider, options_from_collection_for_select(@former_providers, 'id', 'name')
       %fieldset
         %legend Services
         .row.full-width
@@ -37,5 +39,5 @@
           = a.select :comcast_install_time_slot_id, slots
         %p
           = f.check_box :customer_acknowledged
-          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s).'
-      = f.submit 'Save', class: [:button]
+          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+      = f.submit 'Complete Sale', class: [:button]

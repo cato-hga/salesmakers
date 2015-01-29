@@ -7,18 +7,18 @@ describe ProjectPolicy do
 
   let(:tampa) { create :area, project: vonage_retail_project }
 
-  let(:sales_specialist) { create :position }
+  let(:sales_specialist) { build_stubbed :position }
   let(:software_developer) {
-    create :position,
+    build_stubbed :position,
             name: 'Software Development',
             hq: true }
   let!(:tampa_person) {
-    person = create :person, position: sales_specialist
+    person = build_stubbed :person, position: sales_specialist
     person_area = create :person_area, area: tampa, person: person
     person
   }
 
-  let(:hq_employee) { create :person, position: software_developer }
+  let(:hq_employee) { build_stubbed :person, position: software_developer }
 
   context 'as a sales rep' do
     it 'should not show projects other than an employees own' do

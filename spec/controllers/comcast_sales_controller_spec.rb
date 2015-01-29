@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe ComcastSalesController do
   let(:comcast_customer) { create :comcast_customer }
+  let(:former_provider) { create :comcast_former_provider }
 
   describe 'GET new' do
     before do
@@ -29,7 +30,8 @@ describe ComcastSalesController do
                sale_date: comcast_sale.sale_date.strftime('%m/%d/%Y'),
                order_number: comcast_sale.order_number,
                tv: comcast_sale.tv,
-               comcast_install_appointment_attributes: comcast_sale.comcast_install_appointment.attributes
+               comcast_install_appointment_attributes: comcast_sale.comcast_install_appointment.attributes,
+               comcast_former_provider_id: former_provider.id
            }
     end
 

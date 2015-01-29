@@ -15,6 +15,8 @@ require "#{seeds}/areas_groupme_groups"
 
 require "#{seeds}/locations"
 
+require "#{seeds}/comcast_former_providers"
+
 require "#{seeds}/person"
 require "#{seeds}/employee_ids"
 require "#{seeds}/person_addresses"
