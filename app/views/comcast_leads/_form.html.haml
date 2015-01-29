@@ -1,0 +1,29 @@
+.widget
+  .inner
+    = form_for [@comcast_customer, @comcast_lead] do |f|
+      - if @comcast_lead.errors.any?
+        - @comcast_lead.errors.full_messages.each do |msg|
+          .alert.alert-box= msg
+      - follow_up_by = @comcast_lead.follow_up_by ? @comcast_lead.follow_up_by.strftime('%m/%d/%Y') : ''
+      = f.label :follow_up_by
+      = f.text_field :follow_up_by, value: follow_up_by, placeholder: 'MM/DD/YYYY'
+      %fieldset
+        %legend Interest in Services
+        .row.full-width
+          .medium-3.columns
+            = f.check_box :tv
+            = f.label :tv, 'Television'
+          .medium-3.columns
+            = f.check_box :internet
+            = f.label :internet
+          .medium-3.columns
+            = f.check_box :phone
+            = f.label :phone
+          .medium-3.columns
+            = f.check_box :security
+            = f.label :security
+      = f.check_box :ok_to_call_and_text
+      = f.label :ok_to_call_and_text, 'Customer agrees to be contacted by phone or text message'
+      = f.label :comments
+      = f.text_area :comments, rows: 5
+      = f.submit 'Save as Lead', class: [:button]

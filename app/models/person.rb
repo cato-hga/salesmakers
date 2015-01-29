@@ -56,7 +56,7 @@ class Person < ActiveRecord::Base
     people = Array.new
     position = person.position
 
-    return team_members unless position
+    return person.team_members unless position
 
     if position.all_field_visibility?
       people = people.concat Person.all_field_members
