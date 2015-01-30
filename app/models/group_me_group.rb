@@ -63,7 +63,7 @@ class GroupMeGroup < ActiveRecord::Base
     groupme = GroupMe.new_global
     bot_num = groupme.add_bot('SalesCenter',
                               group_me_group.group_num,
-                              'http://salesmakersinc.com/groupme')
+                              'http://salesmakersinc.com/groupme/index.php')
     group_me_group.update bot_num: bot_num if bot_num
   end
 
