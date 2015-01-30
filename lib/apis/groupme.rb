@@ -47,6 +47,18 @@ class GroupMe
     response['response']
   end
 
+  def add_to_group_by_user_id(group_id, nickname, user_id)
+    add_user = {
+        members: [
+            {
+                nickname: nickname,
+                user_id: user_id
+            }
+        ]
+    }.to_json
+    doPost "/groups/#{group_id}/members/add", add_user
+  end
+
   def get_messages(group_id, max = 5, group_name = nil, minimum_likes = 0)
     before = nil
     messages = Array.new
