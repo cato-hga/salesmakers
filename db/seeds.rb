@@ -11,7 +11,7 @@ User.find_by_email('retailingw@retaildoneright.com').make_current
 require "#{seeds}/clients"
 require "#{seeds}/projects"
 require "#{seeds}/connect_salesregion_ids"
-require "#{seeds}/areas_groupme_groups"
+#require "#{seeds}/areas_groupme_groups"
 
 require "#{seeds}/locations"
 

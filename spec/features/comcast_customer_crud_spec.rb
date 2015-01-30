@@ -76,7 +76,7 @@ describe 'Comcast Customer CRUD actions' do
     end
   end
 
-  context 'for reading' do
+  context 'for reading', pending: 'views need to be created' do
     let(:comcast_lead) { create :comcast_lead }
     let(:comcast_sale) { create :comcast_sale }
 
