@@ -21,6 +21,7 @@ class GroupMeGroup < ActiveRecord::Base
     else
       group_me_group = GroupMeGroup.create_json group_json
     end
+    GroupMeGroup.add_bot group_me_group
     return unless group_me_group and group_json['members']
     group_users = Array.new
     for member in group_json['members'] do
@@ -55,6 +56,15 @@ class GroupMeGroup < ActiveRecord::Base
     GroupMeGroup.create name: group_json['name'],
                         avatar_url: group_json['avatar_url'],
                         group_num: group_me_group_num
+  end
+
+  def self.add_bot(group_me_group)
+    return if group_me_group.bot_num
+    groupme = GroupMe.new_global
+    bot_num = groupme.add_bot('SalesCenter',
+                              group_me_group.group_num,
+                              'http://salesmakersinc.com/groupme')
+    group_me_group.update bot_num: bot_num if bot_num
   end
 
   def self.return_from_json(group_json, area = nil)

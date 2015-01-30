@@ -129,7 +129,7 @@ class GroupMe
     response['response']
   end
 
-  def add_bot(name, group_id, callback_url = nil, avatar_url = nil)
+  def add_bot(name, group_id, callback_url = nil, avatar_url =  'https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e')
     new_bot = {
         bot: {
             name: name,
@@ -138,7 +138,12 @@ class GroupMe
             avatar_url: avatar_url
         }
     }.to_json
-    doPost '/bots', new_bot
+    response = doPost '/bots', new_bot
+    puts response.inspect
+    return nil unless response and
+        response['response'] and
+        response['response']['bot']
+    response['response']['bot']['bot_id']
   end
 
   def doGet(path, query = nil)
