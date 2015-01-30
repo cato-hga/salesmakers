@@ -4,13 +4,26 @@ describe ComcastCustomersController do
   let(:person) { create :comcast_employee, position: position }
   let(:position) { create :comcast_sales_position }
   let!(:project) { create :project, name: 'Comcast Retail' }
-  before(:each) { CASClient::Frameworks::Rails::Filter.fake(person.email) }
+  before do
+    CASClient::Frameworks::Rails::Filter.fake(person.email)
+    allow(controller).to receive(:policy).and_return double(new?: true,
+                                                            index?: true)
+  end
+
+  describe 'GET index' do
+    before { get :index }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:index)
+    end
+  end
 
   describe 'GET new' do
-    before(:each) do
-      allow(controller).to receive(:policy).and_return double(new?: true)
-      get :new
-    end
+    before { get :new }
 
     it 'returns a success status' do
       expect(response).to be_success

@@ -76,4 +76,32 @@ describe 'Comcast Customer CRUD actions' do
     end
   end
 
+  context 'for reading' do
+    let(:comcast_lead) { create :comcast_lead }
+    let(:comcast_sale) { create :comcast_sale }
+
+    context '#index' do
+      it 'displays leads' do
+        visit comcast_customers_path
+        expect(page).to have_content comcast_lead.comcast_customer.name
+      end
+
+      it 'displays overdue leads separately' do
+        comcast_lead.update follow_up_by: Date.today - 1.day
+        visit comcast_customers_path
+        within '#overdue_leads' do
+          expect(page).to have_content(comcast_lead.comcast_customer.name)
+        end
+      end
+
+      it 'displays upcoming leads separately' do
+        comcast_lead.update follow_up_by: Date.today + 1.day
+        visit comcast_customers_path
+        within '#upcoming_leads' do
+          expect(page).to have_content(comcast_lead.comcast_customer.name)
+        end
+      end
+    end
+  end
+
 end

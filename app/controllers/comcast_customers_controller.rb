@@ -3,6 +3,9 @@ class ComcastCustomersController < ApplicationController
   before_action :set_locations, only: [:new, :create]
   after_action :verify_authorized
 
+  def index
+    @comcast_leads = ComcastLead.where(person: @current_person)
+  end
 
   def new
     authorize ComcastCustomer.new
