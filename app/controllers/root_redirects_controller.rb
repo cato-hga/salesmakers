@@ -8,6 +8,8 @@ class RootRedirectsController < ApplicationController
     if department.name == 'Comcast Retail Sales'
       redirect_to new_comcast_customer_path and return
     end
-
+    if department.name == 'Executives'
+      redirect_to people_path and return
+    end
   end
 end
