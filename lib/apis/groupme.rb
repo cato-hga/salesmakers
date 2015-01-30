@@ -129,6 +129,13 @@ class GroupMe
     response['response']
   end
 
+  def destroy_bot(bot_id)
+    payload = {
+        bot_id: bot_id
+    }.to_json
+    doPost '/bots/destroy', payload
+  end
+
   def add_bot(name, group_id, callback_url = nil, avatar_url =  'https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e')
     new_bot = {
         bot: {
