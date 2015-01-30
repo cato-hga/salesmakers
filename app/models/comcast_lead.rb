@@ -5,6 +5,24 @@ class ComcastLead < ActiveRecord::Base
 
   belongs_to :comcast_customer
 
+  default_scope {
+    joins(:comcast_customer).order('comcast_customers.first_name, comcast_customers.last_name')
+  }
+
+  scope :overdue, -> {
+    where('follow_up_by < ?', Date.today)
+  }
+
+  scope :upcoming, -> {
+    where('follow_up_by >= ? AND follow_up_by <= ?',
+          Date.today,
+          Date.today + 1.week)
+  }
+
+  scope :not_upcoming_or_overdue, -> {
+    where('follow_up_by > ? OR follow_up_by IS NULL', Date.today + 1.week)
+  }
+
   private
 
   def one_service_selected
