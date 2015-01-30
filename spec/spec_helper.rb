@@ -24,7 +24,7 @@ require 'factory_girl_rails'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
-  config.profile_examples = 10
+  # config.profile_examples = 10
 
   config.include FactoryGirl::Syntax::Methods
 

@@ -1,2 +1,6 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+$(function() {
+	$('form#new_comcast_customer #submit_save_as_lead').click(function() {
+		$('form#new_comcast_customer #save_as_lead').val('true');
+		$('form#new_comcast_customer').submit();
+	});
+});

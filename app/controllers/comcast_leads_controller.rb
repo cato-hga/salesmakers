@@ -8,7 +8,7 @@ class ComcastLeadsController < ApplicationController
   def create
     @comcast_lead = ComcastLead.new comcast_lead_params
     @comcast_lead.comcast_customer = @comcast_customer
-    @comcast_lead.follow_up_by = Chronic.parse params[:follow_up_by]
+    @comcast_lead.follow_up_by = Chronic.parse params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
     if @comcast_lead.save
       @current_person.log? 'create',
                          @comcast_lead,

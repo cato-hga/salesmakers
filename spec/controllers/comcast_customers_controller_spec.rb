@@ -28,42 +28,57 @@ describe ComcastCustomersController do
     end
 
     context 'success' do
-      subject do
-        post :create,
-             comcast_customer: {
-                 location_id: new_customer.location_id,
-                 first_name: new_customer.first_name,
-                 last_name: new_customer.last_name,
-                 mobile_phone: new_customer.mobile_phone,
-                 person_id: person.id
-             }
+      let(:attrs) {
+        {
+            location_id: new_customer.location_id,
+            first_name: new_customer.first_name,
+            last_name: new_customer.last_name,
+            mobile_phone: new_customer.mobile_phone,
+            person_id: person.id,
+        }
+      }
+
+      context 'saving as lead or entering sale' do
+        subject { post :create, comcast_customer: attrs, save_as_lead: 'false' }
+
+        it 'creates a comcast customer' do
+          expect { subject }.to change(ComcastCustomer, :count).by(1)
+        end
+
+        it 'creates a log entry' do
+          expect { subject }.to change(LogEntry, :count).by(1)
+        end
       end
 
-      it 'creates a comcast customer' do
-        expect { subject }.to change(ComcastCustomer, :count).by(1)
+      context 'when "Enter Sale" is clicked' do
+        it 'redirects to comcast_sale#new' do
+          post :create, comcast_customer: attrs, save_as_lead: 'false'
+          comcast_customer = ComcastCustomer.first
+          expect(response).to redirect_to(new_comcast_customer_comcast_sale_path(comcast_customer))
+        end
       end
 
-      it 'creates a log entry' do
-        expect { subject }.to change(LogEntry, :count).by(1)
+      context 'when "Save as Lead" is clicked' do
+        it 'redirects to comcast_lead#new' do
+          post :create, comcast_customer: attrs, save_as_lead: 'true'
+          comcast_customer = ComcastCustomer.first
+          expect(response).to redirect_to(new_comcast_customer_comcast_lead_path(comcast_customer))
+        end
       end
 
-      it 'redirects to comcast_sale#new', pending: 'Comcast Sales not created' do
-        expect(subject).to redirect_to(new_comcast_sales_path)
-      end
-    end
-
-    context 'failure' do
-      subject do
-        post :create,
-             comcast_customer: {
-                 first_name: '',
-                 last_name: new_customer.last_name,
-                 mobile_phone: new_customer.mobile_phone,
-                 person_id: person.id
-             }
-      end
-      it 'should render the new template' do
-        expect(subject).to render_template(:new)
+      context 'failure' do
+        subject do
+          post :create,
+               comcast_customer: {
+                   first_name: '',
+                   last_name: new_customer.last_name,
+                   mobile_phone: new_customer.mobile_phone,
+                   person_id: person.id
+               }
+        end
+        it 'should render the new template' do
+          expect(subject).to render_template(:new)
+        end
       end
     end
   end

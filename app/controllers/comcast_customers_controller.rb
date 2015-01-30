@@ -14,7 +14,10 @@ class ComcastCustomersController < ApplicationController
     @comcast_customer.person = @current_person
     if @comcast_customer.save
       @current_person.log? 'create', @comcast_customer, @current_person
-      redirect_to new_comcast_customer_comcast_sale_path(@comcast_customer)
+      path = params.permit(:save_as_lead)[:save_as_lead] == 'true' ?
+          new_comcast_customer_comcast_lead_path(@comcast_customer) :
+          new_comcast_customer_comcast_sale_path(@comcast_customer)
+      redirect_to path
     else
       render :new
     end
