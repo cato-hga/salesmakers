@@ -17,12 +17,9 @@ class GroupMeGroup < ActiveRecord::Base
     group_me_group_num = group_json['id']
     group_me_group = GroupMeGroup.find_by group_num: group_json['id']
     if group_me_group
-      group_me_group.update name: group_json['name'],
-                            avatar_url: (group_json['avatar_url']) ? group_json['avatar_url'] : nil
+      GroupMeGroup.update_json group_me_group, group_json
     else
-      group_me_group = GroupMeGroup.create name: group_json['name'],
-                                           avatar_url: group_json['avatar_url'],
-                                           group_num: group_me_group_num
+      group_me_group = GroupMeGroup.create_json group_json
     end
     return unless group_me_group and group_json['members']
     group_users = Array.new
@@ -34,6 +31,30 @@ class GroupMeGroup < ActiveRecord::Base
     end
     group_me_group.group_me_users << group_users
     GroupMeSubscription.new group_me_group_num
+  end
+
+  def self.update_json(group_me_group, group_json)
+    group_me_group.update name: group_json['name'],
+                          avatar_url: (group_json['avatar_url']) ? group_json['avatar_url'] : nil
+    if group_me_group.area
+      correct_name = GroupMeGroup.generate_group_name(group_me_group.area)
+      if correct_name != group_me_group.name
+        groupme = GroupMe.new_global
+        groupme.rename_group group_me_group.group_num, correct_name
+      end
+    end
+  end
+
+  def self.generate_group_name(area)
+    name_sub = area.name.gsub(/Sprint /, '')
+    "[#{area.project.name}] #{name_sub}"
+  end
+
+  def self.create_json(group_json)
+    group_me_group_num = group_json['id']
+    GroupMeGroup.create name: group_json['name'],
+                        avatar_url: group_json['avatar_url'],
+                        group_num: group_me_group_num
   end
 
   def self.return_from_json(group_json, area = nil)

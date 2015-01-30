@@ -26,6 +26,21 @@ class GroupMe
     GroupMeGroup.return_from_json response['response'], area
   end
 
+  def rename_group(group_id, new_name)
+    rename = {
+        name: new_name
+    }.to_json
+    response = doPost "/groups/#{group_id}/update", rename
+
+    if response and
+        response['response'] and
+        response['response']['name'] == new_name
+      return true
+    else
+      return false
+    end
+  end
+
   def get_group(group_id)
     response = doGet '/groups/' + group_id
     return nil unless response and response['response']

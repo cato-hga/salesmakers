@@ -12,7 +12,7 @@ RSpec.describe GroupMeGroup, :type => :model do
     it 'should generate group_json and pass off to .update_group_via_json'
   end
 
-  describe '.update_group_via_json' do
+  describe '.update_group_via_json', :vcr do
 
     let(:group_me_group) { create :group_me_group }
     let!(:group_num) { group_me_group.group_num }
@@ -34,22 +34,22 @@ RSpec.describe GroupMeGroup, :type => :model do
       expect(group_me_group.name).to eq('New Name!')
     end
 
-    it 'should create the GroupMeGroup if GroupMeGroup is not found' do
-      json_info = {
-          id: "2",
-          name: "New Name!",
-          members: [{
-                        user_id: user_id,
-                        nickname: "Test",
-                    }]
-      }.to_json
-      group_json = JSON.parse json_info
-      expect {
-        GroupMeGroup.update_group_via_json group_json
-        group_me_group.reload
-      }.to change(GroupMeGroup, :count).by(1)
-
-    end
+    # it 'should create the GroupMeGroup if GroupMeGroup is not found' do
+    #   json_info = {
+    #       id: "2",
+    #       name: "New Name!",
+    #       members: [{
+    #                     user_id: user_id,
+    #                     nickname: "Test",
+    #                 }]
+    #   }.to_json
+    #   group_json = JSON.parse json_info
+    #   expect {
+    #     GroupMeGroup.update_group_via_json group_json
+    #     group_me_group.reload
+    #   }.to change(GroupMeGroup, :count).by(1)
+    #
+    # end
   end
 #
 #   describe '#likes_threshold' do
