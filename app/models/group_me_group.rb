@@ -36,6 +36,14 @@ class GroupMeGroup < ActiveRecord::Base
     GroupMeSubscription.new group_me_group_num
   end
 
+  def self.return_from_json(group_json, area = nil)
+    return nil unless group_json
+    GroupMeGroup.find_or_create_by group_num: group_json['id'],
+                                   area: area,
+                                   name: group_json['name'],
+                                   avatar_url: group_json['image_url']
+  end
+
   # def likes_threshold
   #   member_count = self.group_me_users.count
   #   if member_count < 10

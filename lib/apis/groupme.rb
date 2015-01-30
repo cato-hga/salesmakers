@@ -15,6 +15,17 @@ class GroupMe
     doGet '/groups', { per_page: 100 }
   end
 
+  def create_group(name, area = nil, image_url = 'https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e')
+    new_group = {
+        name: name,
+        description: 'SalesMakers, Inc.',
+        image_url: image_url
+    }.to_json
+    response = doPost '/groups', new_group
+    return nil unless response and response['response']
+    GroupMeGroup.return_from_json response['response'], area
+  end
+
   def get_group(group_id)
     response = doGet '/groups/' + group_id
     return nil unless response and response['response']

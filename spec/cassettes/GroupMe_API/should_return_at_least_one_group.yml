@@ -45,4 +45,51 @@ http_interactions:
         {"response":{"id":"8936279","group_id":"8936279","name":"RBD Test Playground!","phone_number":"+1 7605017632","type":"private","description":"","image_url":null,"creator_user_id":"12486363","created_at":1404310912,"updated_at":1414696925,"office_mode":false,"share_url":null,"members":[{"user_id":"12486289","nickname":"Stephen Miles","image_url":"http://i.groupme.com/3315eb50d9020130bffb1634aa036823","id":"55984244","muted":true,"autokicked":false},{"user_id":"13909278","nickname":"Anthony Atkinson","image_url":"http://i.groupme.com/1000x1000.png.cffa980726214aa4b24304dd26d0e750","id":"49740412","muted":false,"autokicked":false},{"user_id":"12486363","nickname":"RBD Information Technology","image_url":"http://i.groupme.com/140x132.png.fdacc4f2dd3b4f8baa23b54f1fc9eb50","id":"49737536","muted":false,"autokicked":false}],"messages":{"count":2494,"last_message_id":"141469692574013868","last_message_created_at":1414696925,"preview":{"nickname":"RBD","text":"http://satisfaction.rbdconnect.com","image_url":"https://i.groupme.com/140x132.png.2fe5e450e4220131a42522000b2204cd","attachments":[]}},"max_members":50},"meta":{"code":200}}
     http_version: 
   recorded_at: Fri, 31 Oct 2014 15:31:05 GMT
+- request:
+    method: get
+    uri: https://api.groupme.com/v3/groups/8936279?token=1956b1d08a050132df253a66af516754
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Allow-Headers:
+      - Accept, Content-Type, X-Requested-With, X-Access-Token, User-Agent, Pragma,
+        Referrer, Cache-Control, Origin
+      Access-Control-Allow-Methods:
+      - POST, GET, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - must-revalidate, private, max-age=0
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Fri, 30 Jan 2015 18:31:42 GMT
+      Server:
+      - nginx/1.6.2
+      X-Gm-Service:
+      - conversations
+      Content-Length:
+      - '1355'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"id":"8936279","group_id":"8936279","name":"RBD Test Playground!","phone_number":"+1 6153788526","type":"private","description":"","image_url":null,"creator_user_id":"12486363","created_at":1404310912,"updated_at":1422053014,"office_mode":false,"share_url":null,"members":[{"user_id":"12486363","nickname":"RBD Information Technology","image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","id":"49737536","muted":false,"autokicked":false},{"user_id":"13909278","nickname":"Anthony Atkinson","image_url":"http://i.groupme.com/1000x1000.png.4f4096fba0674937aa6d0b8c83c5cad1","id":"49740412","muted":true,"autokicked":false},{"user_id":"12486289","nickname":"Stephen Miles","image_url":"http://i.groupme.com/3315eb50d9020130bffb1634aa036823","id":"55984244","muted":true,"autokicked":false},{"user_id":"11641940","nickname":"Scott Riker","image_url":"http://i.groupme.com/236x180.jpeg.7d6547c7f2b64b6eaeb48eaecadaa209","id":"69831877","muted":true,"autokicked":false}],"messages":{"count":3434,"last_message_id":"142134144699099609","last_message_created_at":1421341446,"preview":{"nickname":"Intel","text":"Schedule your new SalesMaker for training at http://goo.gl/zH8cOi !","image_url":"https://i.groupme.com/400x359.jpeg.53529264f1944fbfbc68b5f5a4f048cc","attachments":[]}},"max_members":50},"meta":{"code":200}}
+    http_version: 
+  recorded_at: Fri, 30 Jan 2015 18:31:39 GMT
 recorded_with: VCR 2.9.3

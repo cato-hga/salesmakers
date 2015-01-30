@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groupme.com/v3/groups?token=1956b1d08a050132df253a66af516754
+    body:
+      encoding: UTF-8
+      string: '{"name":"TEST","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 30 Jan 2015 18:42:38 GMT
+      Etag:
+      - '"156ee5c648e17f551e5754eb6e9359dd"'
+      Server:
+      - nginx/1.6.2
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Rack-Cache:
+      - invalidate, pass
+      X-Request-Id:
+      - 0ea873becbc5e67873d44f62730a4386
+      X-Runtime:
+      - '0.107302'
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Content-Length:
+      - '739'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"code":201},"response":{"id":"12117299","group_id":"12117299","name":"TEST","phone_number":"+1
+        8283885002","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1422643358,"updated_at":1422643358,"office_mode":false,"share_url":null,"members":[{"id":"73032210","user_id":"12486363","nickname":"SalesMakers
+        Operations","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":50,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
+    http_version: 
+  recorded_at: Fri, 30 Jan 2015 18:42:36 GMT
+recorded_with: VCR 2.9.3

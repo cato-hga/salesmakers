@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'apis/groupme'
 
 describe 'GroupMe API' do
-  let(:groupme) { GroupMe.new('7a853610f0ca01310e5a065d7b71239d') }
+  let(:groupme) { GroupMe.new_global }
 
   it 'should get a list of groups', :vcr do
     groups = groupme.get_groups
@@ -11,7 +11,13 @@ describe 'GroupMe API' do
 
   it 'should return at least one group', :vcr do
     group = groupme.get_group '8936279'
-    expect(group).to_not be_nil
+    expect(group).not_to be_nil
+  end
+
+  it 'should create a group', :vcr do
+    expect {
+      groupme.create_group 'TEST'
+    }.to change(GroupMeGroup, :count).by(1)
   end
 
   describe '#get_messages' do
@@ -26,8 +32,8 @@ describe 'GroupMe API' do
     it 'should return the max messages, if max is specified', :vcr do
       groups = groupme.get_groups
       group_id = groups['response'][0]['group_id']
-      messages = groupme.get_messages group_id, max = 172
-      expect(messages.count).to eq(172)
+      messages = groupme.get_messages group_id, max = 17
+      expect(messages.count).to eq(17)
     end
   end
 
