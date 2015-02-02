@@ -7,7 +7,8 @@ describe ComcastCustomersController do
   before do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
     allow(controller).to receive(:policy).and_return double(new?: true,
-                                                            index?: true)
+                                                            index?: true,
+                                                            show?: true)
   end
 
   describe 'GET index' do
@@ -19,6 +20,20 @@ describe ComcastCustomersController do
 
     it 'renders the index template' do
       expect(response).to render_template(:index)
+    end
+  end
+
+  describe 'GET show' do
+    let!(:comcast_customer) { create :comcast_customer }
+
+    before { get :show, id: comcast_customer.id }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the show template' do
+      expect(response).to render_template(:show)
     end
   end
 

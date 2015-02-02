@@ -5,18 +5,26 @@ class ComcastLead < ActiveRecord::Base
 
   belongs_to :comcast_customer
 
+  delegate :name, to: :comcast_customer
+  delegate :mobile_phone, to: :comcast_customer
+  delegate :other_phone, to: :comcast_customer
+
   default_scope {
     joins(:comcast_customer).order('comcast_customers.first_name, comcast_customers.last_name')
   }
 
+  scope :person, ->(person_id) {
+    where('comcast_customers.person_id = ?', person_id)
+  }
+
   scope :overdue, -> {
-    where('follow_up_by < ?', Date.today)
+    where('follow_up_by < ?', Date.today).order(:follow_up_by)
   }
 
   scope :upcoming, -> {
     where('follow_up_by >= ? AND follow_up_by <= ?',
           Date.today,
-          Date.today + 1.week)
+          Date.today + 1.week).order(:follow_up_by)
   }
 
   scope :not_upcoming_or_overdue, -> {
@@ -39,4 +47,5 @@ class ComcastLead < ActiveRecord::Base
       errors.add(:follow_up_by, 'must be in the future')
     end
   end
+
 end

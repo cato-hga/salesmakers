@@ -39,6 +39,11 @@ describe 'Navigation Authorization' do
           expect(page).not_to have_content('People')
         end
       end
+      it 'contains a link to existing customers' do
+        within('.top-bar') do
+          expect(page).to have_content('My Customers')
+        end
+      end
     end
 
     describe 'for administrators' do

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comcast_customers, only: [:new, :create, :index] do
+  resources :comcast_customers, except: [:edit, :update, :destroy] do
     resources :comcast_sales, only: [:new, :create]
     resources :comcast_leads, only: [:new, :create]
   end

@@ -1,6 +1,20 @@
-%h3 My Leads
+- header = header_row ['F/U By', 'Name', 'Saved', 'Phone', 'Services']
 
-- overdue = @comcast_leads.overdue
-- upcoming = @comcast_leads.upcoming
-- not_upcoming_or_overdue = @comcast_leads.not_upcoming_or_overdue
-
+- rows = Array.new
+- for lead in leads do
+  - follow_up_by = short_date(lead.follow_up_by)
+  - name = comcast_customer_link lead.comcast_customer
+  - saved = friendly_datetime(lead.created_at)
+  - mobile_phone = phone_link(lead.mobile_phone)
+  - other_phone = phone_link(lead.other_phone)
+  - phone = ''.html_safe
+  - phone += 'm '.html_safe + mobile_phone if mobile_phone
+  - phone += "<br>".html_safe if mobile_phone and other_phone
+  - phone += 'o '.html_safe + other_phone if other_phone
+  - services = ''.html_safe
+  - services += icon('monitor') + ' ' if lead.tv?
+  - services += icon('web') + ' ' if lead.internet?
+  - services += icon('telephone') + ' ' if lead.phone?
+  - services += icon('lock') + ' ' if lead.security?
+  - rows << table_row([follow_up_by, name, saved, phone, services])
+= table(header, rows)

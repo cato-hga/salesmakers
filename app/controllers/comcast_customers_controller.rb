@@ -1,10 +1,17 @@
 class ComcastCustomersController < ApplicationController
-  before_action :do_authorization
+  before_action :do_authorization, except: [:show]
   before_action :set_locations, only: [:new, :create]
   after_action :verify_authorized
 
   def index
-    @comcast_leads = ComcastLead.where(person: @current_person)
+    @comcast_leads = ComcastLead.person(@current_person.id)
+  end
+
+  def show
+    @comcast_customer = ComcastCustomer.find params[:id]
+    @comcast_sale = ComcastSale.new
+    @former_providers = ComcastFormerProvider.all
+    authorize @comcast_customer
   end
 
   def new

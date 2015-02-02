@@ -1,0 +1,71 @@
+- title @comcast_customer.name
+
+.widgets
+  .widget#comcast_customer
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Mobile phone:
+        = phone_link @comcast_customer.mobile_phone
+      %p
+        %strong Other phone:
+        = phone_link @comcast_customer.other_phone
+      %p
+        %strong Entered by:
+        = person_link @comcast_customer.person
+      %p
+        %strong Entered:
+        = friendly_datetime(@comcast_customer.created_at)
+      - unless @comcast_customer.comments.blank?
+        %p
+          %strong Comments:
+          %br/
+          %span.comment= @comcast_customer.comments
+  - lead = @comcast_customer.comcast_lead
+  - if lead
+    .widget#comcast_lead
+      .inner
+        %h3 Lead Details
+        %p
+          %strong Follow up by:
+          = short_date lead.follow_up_by
+        %p
+          %strong Interested in:
+          - services = Array.new
+          - services << 'Television' if lead.tv?
+          - services << 'Internet' if lead.internet?
+          - services << 'Phone' if lead.phone?
+          - services << 'Security' if lead.security?
+          = services.join ', '
+        - unless lead.comments.blank?
+          %p
+            %strong Comments:
+            %br/
+            %span.comment= lead.comments
+  - sale = @comcast_customer.comcast_sale
+  - if sale
+    .widget#comcast_sale
+      .inner
+        %h3 Sale Details
+        %p
+          %strong Sale date:
+          = short_date sale.sale_date
+        %p
+          %strong Entered by:
+          = person_link sale.person
+        %p
+          %strong Entered:
+          = friendly_datetime sale.created_at
+        %p
+          %strong Order number:
+          = sale.order_number
+        %p
+          %strong Services:
+          - services = Array.new
+          - services << 'Television' if lead.tv?
+          - services << 'Internet' if lead.internet?
+          - services << 'Phone' if lead.phone?
+          - services << 'Security' if lead.security?
+          = services.join ', '
+  - else
+    = render 'comcast_sales/form'

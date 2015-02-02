@@ -1,7 +1,7 @@
 class ComcastCustomerPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
-      scope
+      scope.all
     end
   end
 

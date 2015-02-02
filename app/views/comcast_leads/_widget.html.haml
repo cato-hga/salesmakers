@@ -1,0 +1,17 @@
+%h3 My Leads
+
+- overdue = @comcast_leads.overdue
+- upcoming = @comcast_leads.upcoming
+- not_upcoming_or_overdue = @comcast_leads.not_upcoming_or_overdue
+
+- if overdue.count > 0
+  #overdue_leads
+    %h4 Overdue
+    = render partial: 'comcast_leads/table', locals: { leads: overdue }
+- if upcoming.count > 0
+  #upcoming_leads
+    %h4 Upcoming
+    = render partial: 'comcast_leads/table', locals: { leads: upcoming }
+- if not_upcoming_or_overdue.count > 0
+  %h4 All Leads
+  = render partial: 'comcast_leads/table', locals: { leads: not_upcoming_or_overdue }
