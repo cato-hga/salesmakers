@@ -37,6 +37,11 @@ describe ComcastLead do
     expect(subject).to be_valid
   end
 
+  it 'requires that the ok_to_call_and_text be true' do
+    subject.ok_to_call_and_text = false
+    expect(subject).not_to be_valid
+  end
+
   describe 'scopes' do
     let!(:overdue_lead) {
       lead = build :comcast_lead, follow_up_by: Date.today - 1.day

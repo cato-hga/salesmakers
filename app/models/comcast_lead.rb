@@ -2,6 +2,7 @@ class ComcastLead < ActiveRecord::Base
   validates :comcast_customer, presence: true
   validate :one_service_selected
   validate :no_past_follow_up_by_date
+  validate :must_be_ok_to_call_and_text
 
   belongs_to :comcast_customer
 
@@ -48,6 +49,12 @@ class ComcastLead < ActiveRecord::Base
     return unless self.follow_up_by
     if self.follow_up_by.to_date <= Date.today
       errors.add(:follow_up_by, 'must be in the future')
+    end
+  end
+
+  def must_be_ok_to_call_and_text
+    unless self.ok_to_call_and_text?
+      errors.add(:ok_to_call_and_text, 'must be checked to save as a lead')
     end
   end
 
