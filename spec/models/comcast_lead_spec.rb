@@ -44,11 +44,11 @@ describe ComcastLead do
 
   describe 'scopes' do
     let!(:overdue_lead) {
-      lead = build :comcast_lead, follow_up_by: Date.today - 1.day
+      lead = build :comcast_lead, follow_up_by: Date.yesterday
       lead.save validate: false
       lead
     }
-    let!(:upcoming_lead) { create :comcast_lead, follow_up_by: Date.today + 1.day }
+    let!(:upcoming_lead) { create :comcast_lead, follow_up_by: Date.tomorrow }
     let!(:today_lead) {
       lead = build :comcast_lead, follow_up_by: Date.today
       lead.save validate: false

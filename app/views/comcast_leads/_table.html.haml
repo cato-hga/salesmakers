@@ -12,9 +12,9 @@
   - phone += "<br>".html_safe if mobile_phone and other_phone
   - phone += 'o '.html_safe + other_phone if other_phone
   - services = ''.html_safe
-  - services += icon('monitor') + ' ' if lead.tv?
-  - services += icon('web') + ' ' if lead.internet?
-  - services += icon('telephone') + ' ' if lead.phone?
-  - services += icon('lock') + ' ' if lead.security?
+  - services += icon('monitor', false, :service_icon) + ' ' if lead.tv?
+  - services += icon('web', false, :service_icon) + ' ' if lead.internet?
+  - services += icon('telephone', false, :service_icon) + ' ' if lead.phone?
+  - services += icon('lock', false, :service_icon) + ' ' if lead.security?
   - rows << table_row([follow_up_by, name, saved, phone, services])
 = table(header, rows)

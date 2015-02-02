@@ -24,7 +24,8 @@ describe ComcastLeadsController do
       post :create,
            comcast_customer_id: comcast_customer.id,
            comcast_lead: {
-               tv: true
+               tv: true,
+               ok_to_call_and_text: true
            }
     end
 

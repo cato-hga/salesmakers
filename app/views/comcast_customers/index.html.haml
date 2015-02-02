@@ -1,7 +1,8 @@
 - title 'Customers'
 
-.row.full-width
-  .medium-6.columns
-    .widget
-      .inner
-        = render 'comcast_leads/widget'
+.widget#leads
+  .inner
+    = render 'comcast_leads/widget'
+.widget#installations
+  .inner
+    = render 'comcast_sales/installations_widget'

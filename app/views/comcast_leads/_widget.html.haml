@@ -13,7 +13,9 @@
     = render partial: 'comcast_leads/table', locals: { leads: overdue }
 - if upcoming.count > 0
   #upcoming_leads
-    %h4 Upcoming
+    %h4
+      Upcoming
+      %span.small.comment 1 week
     = render partial: 'comcast_leads/table', locals: { leads: upcoming }
 - if not_upcoming_or_overdue.count > 0
   %h4 All Leads

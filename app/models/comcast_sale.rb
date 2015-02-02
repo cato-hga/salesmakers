@@ -12,6 +12,28 @@ class ComcastSale < ActiveRecord::Base
   accepts_nested_attributes_for :comcast_install_appointment
   has_one :comcast_former_provider
 
+  scope :person, ->(person_id) {
+    where(person_id: person_id)
+  }
+
+  scope :recent_installations, -> {
+    joins(:comcast_install_appointment).
+        where('comcast_install_appointments.install_date > ?',
+              Date.today - 1.week).
+        where('comcast_install_appointments.install_date < ?',
+              Date.today).
+        order('comcast_install_appointments.install_date')
+  }
+
+  scope :upcoming_installations, -> {
+    joins(:comcast_install_appointment).
+        where('comcast_install_appointments.install_date < ?',
+              Date.today + 1.week).
+        where('comcast_install_appointments.install_date >= ?',
+              Date.today).
+        order('comcast_install_appointments.install_date')
+  }
+
   private
 
   def one_service_selected

@@ -4,6 +4,7 @@ describe ComcastCustomersController do
   let(:person) { create :comcast_employee, position: position }
   let(:position) { create :comcast_sales_position }
   let!(:project) { create :project, name: 'Comcast Retail' }
+
   before do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
     allow(controller).to receive(:policy).and_return double(new?: true,
@@ -29,6 +30,20 @@ describe ComcastCustomersController do
     before { get :show, id: comcast_customer.id }
 
     it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'returns a success status with a sale' do
+      create :comcast_sale,
+             comcast_customer: comcast_customer,
+             person: person
+      get :show, id: comcast_customer.id
+      expect(response).to be_success
+    end
+
+    it 'returns a success status with a lead' do
+      create :comcast_lead, comcast_customer: comcast_customer
+      get :show, id: comcast_customer.id
       expect(response).to be_success
     end
 

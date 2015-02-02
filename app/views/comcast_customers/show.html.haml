@@ -67,10 +67,16 @@
         %p
           %strong Services:
           - services = Array.new
-          - services << 'Television' if lead.tv?
-          - services << 'Internet' if lead.internet?
-          - services << 'Phone' if lead.phone?
-          - services << 'Security' if lead.security?
+          - services << 'Television' if sale.tv?
+          - services << 'Internet' if sale.internet?
+          - services << 'Phone' if sale.phone?
+          - services << 'Security' if sale.security?
           = services.join ', '
+        %p
+          %strong Installation:
+          - installation = short_date(sale.comcast_install_appointment.install_date)
+          - installation += ' (' + sale.comcast_install_appointment. |
+            comcast_install_time_slot.name + ')' |
+          = installation
   - else
     = render 'comcast_sales/form'

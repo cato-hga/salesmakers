@@ -85,9 +85,11 @@ describe 'Comcast Customer CRUD actions' do
     }
     let!(:comcast_sale) {
       create :comcast_sale,
+             person: comcast_customer.person,
              comcast_customer: comcast_customer,
              created_at: now
     }
+    let(:appointment) { comcast_sale.comcast_install_appointment }
 
     before {
       person.position.permissions << permission_index
@@ -96,7 +98,9 @@ describe 'Comcast Customer CRUD actions' do
     context '#index' do
       it 'displays leads' do
         visit comcast_customers_path
-        expect(page).to have_selector('a', text: comcast_lead.comcast_customer.name)
+        within '#leads' do
+          expect(page).to have_selector('a', text: comcast_lead.comcast_customer.name)
+        end
       end
 
       it 'displays overdue leads separately' do
@@ -119,7 +123,26 @@ describe 'Comcast Customer CRUD actions' do
       it 'does not display inactive leads' do
         comcast_lead.update active: false
         visit comcast_customers_path
-        expect(page).not_to have_selector('a', text: comcast_customer.name)
+        within '#leads' do
+          expect(page).not_to have_selector('a', text: comcast_customer.name)
+        end
+      end
+
+      it 'displays recent installations' do
+        appointment.install_date = Date.yesterday
+        appointment.save validate: false
+        visit comcast_customers_path
+        within '#recent_installations' do
+          expect(page).to have_content(comcast_customer.name)
+        end
+      end
+
+      it 'displays upcoming installations' do
+        appointment.update install_date: Date.tomorrow
+        visit comcast_customers_path
+        within '#upcoming_installations' do
+          expect(page).to have_content(comcast_customer.name)
+        end
       end
     end
 
@@ -218,6 +241,18 @@ describe 'Comcast Customer CRUD actions' do
         it 'displays when the sale was entered' do
           within '#comcast_sale' do
             expect(page).to have_content(now.strftime('%l:%M%P %Z'))
+          end
+        end
+
+        it 'displays the installation date' do
+          within '#comcast_sale' do
+            expect(page).to have_content(appointment.install_date.strftime('%m/%d/%Y'))
+          end
+        end
+
+        it 'displays the installation time slot' do
+          within '#comcast_sale' do
+            expect(page).to have_content(appointment.comcast_install_time_slot.name)
           end
         end
       end

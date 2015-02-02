@@ -3,7 +3,10 @@ require 'rails_helper'
 describe 'Comcast lead CRUD actions' do
   let(:position) { create :comcast_sales_position }
   let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
-  let!(:comcast_lead) { build :comcast_lead, comcast_customer: comcast_customer }
+  let!(:comcast_lead) {
+    build :comcast_lead,
+          comcast_customer: comcast_customer
+  }
   let!(:comcast_employee) { create :comcast_employee, position: position }
 
   let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
@@ -21,6 +24,7 @@ describe 'Comcast lead CRUD actions' do
     subject do
       visit new_comcast_customer_comcast_lead_path(comcast_customer)
       check 'Television'
+      check 'Customer agrees to be contacted by phone or text message'
       click_on 'Save as Lead'
     end
 

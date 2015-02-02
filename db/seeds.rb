@@ -13,8 +13,6 @@ require "#{seeds}/projects"
 require "#{seeds}/connect_salesregion_ids"
 #require "#{seeds}/areas_groupme_groups"
 
-require "#{seeds}/locations"
-
 require "#{seeds}/comcast_former_providers"
 
 require "#{seeds}/person"

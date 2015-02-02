@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  include SentientController
+  #include SentientController
   include Pundit
 
   before_action CASClient::Frameworks::Rails::Filter

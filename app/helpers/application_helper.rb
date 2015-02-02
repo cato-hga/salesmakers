@@ -141,8 +141,14 @@ module ApplicationHelper
     date.strftime '%A, %B %-d, %Y'
   end
 
-  def icon(name, first_post = false)
-    content_tag(:i, ''.html_safe, class: 'fi-' + name, id: (first_post ? 'first_post_icon_' + name : nil)).html_safe
+  def icon(name, first_post = false, classes = nil)
+    icon_classes = ['fi-' + name]
+    icon_classes = [icon_classes, classes].flatten if classes
+    content_tag(:i,
+                ''.html_safe,
+                class: icon_classes,
+                id: (first_post ? 'first_post_icon_' + name : nil)).
+        html_safe
   end
 
   def person_link(person, classes = nil)

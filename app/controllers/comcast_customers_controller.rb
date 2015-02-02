@@ -5,6 +5,7 @@ class ComcastCustomersController < ApplicationController
 
   def index
     @comcast_leads = ComcastLead.person(@current_person.id)
+    @comcast_installations = ComcastSale.person(@current_person.id)
   end
 
   def show

@@ -10,6 +10,7 @@
       %label Menu
     -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new).create?
       %li= link_to 'New Customer', new_comcast_customer_path
+      %li= link_to 'My Customers', comcast_customers_path
     -else
       %li
         = link_to 'Home', root_path
