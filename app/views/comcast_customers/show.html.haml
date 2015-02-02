@@ -42,6 +42,11 @@
             %strong Comments:
             %br/
             %span.comment= lead.comments
+        = link_to 'Dismiss Lead', |
+          comcast_customer_comcast_lead_path(@comcast_customer, lead), |
+          data: { confirm: 'This action cannot be undone. Are you sure?' }, |
+          method: :delete, |
+          class: [:button, :alert] |
   - sale = @comcast_customer.comcast_sale
   - if sale
     .widget#comcast_sale

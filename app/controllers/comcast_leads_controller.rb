@@ -23,6 +23,16 @@ class ComcastLeadsController < ApplicationController
     end
   end
 
+  def destroy
+    @comcast_lead = ComcastLead.find params[:id]
+    if @comcast_lead.update active: false
+      flash[:notice] = 'Lead succesfully dismissed.'
+    else
+      flash[:error] = 'Could not dismiss lead.'
+    end
+    redirect_to comcast_customers_path
+  end
+
   private
 
   def set_comcast_customer
