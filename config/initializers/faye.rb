@@ -34,8 +34,8 @@ Thread.new do
   }
 end
 
-if defined?(::Puma) && File.basename($0) == 'puma'
-  puts 'Updating groups...'
-  GroupMeGroup.update_groups
-  puts 'Group updates complete.'
-end
+# if defined?(::Puma) && File.basename($0) == 'puma'
+#   puts 'Updating groups...'
+#   GroupMeGroup.update_groups
+#   puts 'Group updates complete.'
+# end
