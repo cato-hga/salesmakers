@@ -115,6 +115,12 @@ describe 'Comcast Customer CRUD actions' do
           expect(page).to have_selector('a', text: comcast_lead.comcast_customer.name)
         end
       end
+
+      it 'does not display inactive leads' do
+        comcast_lead.update active: false
+        visit comcast_customers_path
+        expect(page).not_to have_selector('a', text: comcast_customer.name)
+      end
     end
 
     context '#show' do

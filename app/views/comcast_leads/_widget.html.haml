@@ -1,9 +1,12 @@
 %h3 My Leads
 
+
 - overdue = @comcast_leads.overdue
 - upcoming = @comcast_leads.upcoming
 - not_upcoming_or_overdue = @comcast_leads.not_upcoming_or_overdue
 
+- if @comcast_leads.count == 0
+  .comment None.
 - if overdue.count > 0
   #overdue_leads
     %h4 Overdue

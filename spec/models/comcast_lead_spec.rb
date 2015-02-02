@@ -78,6 +78,11 @@ describe ComcastLead do
       expect(later_leads).not_to include(upcoming_lead)
       expect(later_leads).not_to include(today_lead)
     end
+
+    it 'does not include inactive leads in the default scope' do
+      no_date_lead.update active: false
+      expect(ComcastLead.all).not_to include no_date_lead
+    end
   end
 
 end

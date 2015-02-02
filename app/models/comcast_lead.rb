@@ -10,7 +10,10 @@ class ComcastLead < ActiveRecord::Base
   delegate :other_phone, to: :comcast_customer
 
   default_scope {
-    joins(:comcast_customer).order('comcast_customers.first_name, comcast_customers.last_name')
+    joins(:comcast_customer).
+        where(active: true).
+        order('comcast_customers.first_name, comcast_customers.last_name')
+
   }
 
   scope :person, ->(person_id) {
