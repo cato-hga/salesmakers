@@ -1,10 +1,11 @@
-////= require masonry.min
+//= require masonry.min
+
 ////= require readmore
 //
-//$(function () {
-//    $(document).foundation();
+$(function () {
+    $(document).foundation();
 //
-//    window.$container = $('.widgets');
+    window.$container = $('.widgets');
 //
 //    $('.widget .post_content').readmore({
 //        maxHeight: 500,
@@ -17,14 +18,14 @@
 //        }
 //    });
 //
-//	$container.masonry({
-//		columnWidth: ".widget",
-//		itemSelector: ".widget"
-//	});
+	$container.masonry({
+		columnWidth: ".widget",
+		itemSelector: ".widget"
+	});
 //
-//	imagesLoaded($container, function() {
-//		relayout();
-//	});
+	imagesLoaded($container, function() {
+		relayout();
+	});
 //
 //	$('body').on('submit', 'form[data-remote=true]', function() {
 //		submitToLoading($(this));
@@ -122,12 +123,12 @@
 //		window.new_post_notification.dismiss();
 //	});
 //
-//});
+});
 //
-//function relayout() {
-//	$container.masonry('reloadItems').masonry('layout');
-//}
-//
+function relayout() {
+	$container.masonry('reloadItems').masonry('layout');
+}
+
 //function hideCommentForm(form) {
 //	form.hide();
 //	form.find('form')[0].reset();

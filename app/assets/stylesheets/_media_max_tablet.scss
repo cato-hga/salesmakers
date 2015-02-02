@@ -30,4 +30,18 @@
 		white-space: nowrap;
 		font-weight: bold;
 	}
+
+	.widgets .widget,
+	.top_widgets .widget {
+		width: 96%;
+		margin: 1% 1%;
+	}
+
+	.top_widgets .widget {
+		float: left;
+		&.grid-4 {
+			width: 96%;
+			margin: 0 1%;
+		}
+	}
 }
