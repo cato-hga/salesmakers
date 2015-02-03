@@ -33,6 +33,17 @@ describe ComcastSale do
     expect(subject).not_to be_valid
   end
 
+  it 'requires a 13 digit order number with only digits' do
+    subject.order_number = '12345678901234'
+    expect(subject).not_to be_valid
+    subject.order_number = '123456789012A'
+    expect(subject).not_to be_valid
+    subject.order_number = '1234567890123A'
+    expect(subject).not_to be_valid
+    subject.order_number = '1234567890123'
+    expect(subject).to be_valid
+  end
+
   describe 'scopes' do
     let!(:recent_installation) do
       sale = build :comcast_sale

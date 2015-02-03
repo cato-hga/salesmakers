@@ -3,6 +3,7 @@ class ComcastSale < ActiveRecord::Base
   validates :person_id, presence: true
   validates :comcast_customer_id, presence: true
   validates :comcast_install_appointment, presence: true
+  validates :order_number, length: {is: 13}, numericality: {only_integer: true}
   validate :one_service_selected
   validate :no_future_sales
 
