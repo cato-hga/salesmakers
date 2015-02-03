@@ -37,13 +37,13 @@ class GroupMeGroup < ActiveRecord::Base
   def self.update_json(group_me_group, group_json)
     group_me_group.update name: group_json['name'],
                           avatar_url: (group_json['avatar_url']) ? group_json['avatar_url'] : nil
-    if group_me_group.area
-      correct_name = GroupMeGroup.generate_group_name(group_me_group.area)
-      if correct_name != group_me_group.name
-        groupme = GroupMe.new_global
-        groupme.rename_group group_me_group.group_num, correct_name
-      end
-    end
+    # if group_me_group.area
+    #   correct_name = GroupMeGroup.generate_group_name(group_me_group.area)
+    #   if correct_name != group_me_group.name
+    #     groupme = GroupMe.new_global
+    #     groupme.rename_group group_me_group.group_num, correct_name
+    #   end
+    # end
   end
 
   def self.generate_group_name(area)
