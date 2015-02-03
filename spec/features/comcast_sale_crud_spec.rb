@@ -12,8 +12,8 @@ describe 'Comcast sales CRUD actions' do
   let(:permission_update) { Permission.new key: 'comcast_sale_update', permission_group: permission_group, description: description }
   let(:permission_destroy) { Permission.new key: 'comcast_sale_destroy', permission_group: permission_group, description: description }
   let(:permission_create) { Permission.new key: 'comcast_sale_create', permission_group: permission_group, description: description }
-  let(:sale_date) { comcast_sale.sale_date.strftime('%m/%d/%Y') }
-  let(:install_date) { (comcast_sale.sale_date + 7.days).strftime('%m/%d/%Y') }
+  let(:order_date) { comcast_sale.order_date.strftime('%m/%d/%Y') }
+  let(:install_date) { (comcast_sale.order_date + 7.days).strftime('%m/%d/%Y') }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -30,7 +30,7 @@ describe 'Comcast sales CRUD actions' do
 
     context 'success' do
       subject {
-        fill_in 'Sale date', with: sale_date
+        fill_in 'Order date', with: order_date
         fill_in 'Order number', with: comcast_sale.order_number
         select comcast_former_provider.name, from: "Previous Provider"
         check 'Television'
