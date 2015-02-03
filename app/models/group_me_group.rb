@@ -110,7 +110,7 @@ class GroupMeGroup < ActiveRecord::Base
         next unless bot['group_id'] and bot['name']
         bot_group_id = bot['group_id']
         bot_name = bot['name']
-        found_bot = true if bot_group_id == group_id and bot_name == 'OneConnect'
+        found_bot = true if bot_group_id == group_id and bot_name == 'SalesCenter 2.0'
       end
       unless found_bot
         groupme.add_bot 'SalesCenter 2.0',
