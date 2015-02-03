@@ -98,6 +98,7 @@ class GroupMeGroup < ActiveRecord::Base
   end
 
   def self.update_bots
+    return unless Rails.env.production?
     groupme = GroupMe.new_global
     bots = groupme.get_bots
     return unless bots and bots.count > 0
