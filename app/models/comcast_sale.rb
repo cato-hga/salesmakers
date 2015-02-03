@@ -6,6 +6,7 @@ class ComcastSale < ActiveRecord::Base
   validates :order_number, length: {is: 13}, numericality: {only_integer: true}
   validate :one_service_selected
   validate :no_future_sales
+  validate :within_24_hours
 
   belongs_to :comcast_customer
   belongs_to :person
@@ -36,6 +37,13 @@ class ComcastSale < ActiveRecord::Base
   }
 
   private
+
+  def within_24_hours
+    return unless self.order_date
+    if self.order_date.to_date < Date.today - 1.day
+      errors.add(:order_date, 'cannot be more than 24 hours in the past')
+    end
+  end
 
   def one_service_selected
     unless self.tv? or self.internet? or self.phone? or self.security?

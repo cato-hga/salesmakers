@@ -44,6 +44,15 @@ describe ComcastSale do
     expect(subject).to be_valid
   end
 
+  it 'does not allow sales to be entered after more than 24 hours' do
+    subject.order_date = Date.today
+    expect(subject).to be_valid
+    subject.order_date = Date.today - 1.day
+    expect(subject).to be_valid
+    subject.order_date = Date.today - 2.days
+    expect(subject).not_to be_valid
+  end
+
   describe 'scopes' do
     let!(:recent_installation) do
       sale = build :comcast_sale

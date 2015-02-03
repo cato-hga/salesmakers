@@ -57,6 +57,29 @@ describe 'Comcast sales CRUD actions' do
       end
     end
 
+    context 'failures' do
+      context 'date entry' do
+        let(:incorrect_order_date) { (comcast_sale.order_date - 25.hours).strftime('%m/%d/%Y') }
+        before {
+          fill_in 'Order date', with: incorrect_order_date
+          fill_in 'Order number', with: comcast_sale.order_number
+          select comcast_former_provider.name, from: "Previous Provider"
+          check 'Television'
+          fill_in 'Install date', with: install_date
+          select comcast_install_time_slot.name, from: 'Install time slot'
+          click_on 'Complete Sale'
+        }
+
+        it 'does not allow the sale to be entered' do
+          expect(page).to have_content('cannot be more than 24 hours in the past')
+        end
+
+        it 'renders the new template' do
+          expect(page).to have_content('New Comcast Sale')
+        end
+      end
+    end
+
     describe 'time slots' do
       let!(:inactive_comcast_install_time_slot) { create :comcast_install_time_slot, name: "Inactive", active: false }
       it 'should only show active time slots' do
