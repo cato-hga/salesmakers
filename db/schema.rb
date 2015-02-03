@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202214901) do
+ActiveRecord::Schema.define(version: 20150203180416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20150202214901) do
   end
 
   create_table "comcast_sales", force: :cascade do |t|
-    t.datetime "sale_date",                                  null: false
+    t.datetime "order_date", null: false
     t.integer  "person_id",                                  null: false
     t.integer  "comcast_customer_id",                        null: false
     t.string   "order_number",                               null: false
@@ -629,16 +629,6 @@ ActiveRecord::Schema.define(version: 20150202214901) do
   end
 
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
-
-  create_table "shifts", force: :cascade do |t|
-    t.integer  "person_id",                 null: false
-    t.integer  "location_id"
-    t.date     "date",                      null: false
-    t.decimal  "hours",                     null: false
-    t.decimal  "break_hours", default: 0.0, null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
 
   create_table "sms_messages", force: :cascade do |t|
     t.string   "from_num",                limit: 255,                 null: false

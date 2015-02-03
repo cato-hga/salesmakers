@@ -29,7 +29,7 @@ describe ComcastSale do
   end
 
   it 'does not allow a sale to be future-dated' do
-    subject.sale_date = Date.today + 1.day
+    subject.order_date = Date.today + 1.day
     expect(subject).not_to be_valid
   end
 

@@ -1,5 +1,5 @@
 class ComcastSale < ActiveRecord::Base
-  validates :sale_date, presence: true
+  validates :order_date, presence: true
   validates :person_id, presence: true
   validates :comcast_customer_id, presence: true
   validates :comcast_install_appointment, presence: true
@@ -46,9 +46,9 @@ class ComcastSale < ActiveRecord::Base
   end
 
   def no_future_sales
-    return unless self.sale_date
-    if self.sale_date.to_date > Date.today
-      errors.add(:sale_date, 'cannot be in the future')
+    return unless self.order_date
+    if self.order_date.to_date > Date.today
+      errors.add(:order_date, 'cannot be in the future')
     end
   end
 

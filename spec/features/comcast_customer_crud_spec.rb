@@ -216,7 +216,7 @@ describe 'Comcast Customer CRUD actions' do
       context 'with a sale' do
         it 'displays the sale date' do
           within '#comcast_sale' do
-            expect(page).to have_content(comcast_sale.sale_date.strftime('%m/%d/%Y'))
+            expect(page).to have_content(comcast_sale.order_date.strftime('%m/%d/%Y'))
           end
         end
 

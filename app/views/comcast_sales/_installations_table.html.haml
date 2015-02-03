@@ -4,7 +4,7 @@
 - for sale in sales do
   - inst_date = short_date(sale.comcast_install_appointment.install_date)
   - inst_time = sale.comcast_install_appointment.comcast_install_time_slot.name
-  - sold = short_date(sale.sale_date)
+  - sold = short_date(sale.order_date)
   - customer = comcast_customer_link sale.comcast_customer
   - mobile_phone = phone_link(sale.comcast_customer.mobile_phone)
   - other_phone = phone_link(sale.comcast_customer.other_phone)
