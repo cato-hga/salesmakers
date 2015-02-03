@@ -28,6 +28,7 @@
 //= require websocket_rails/main
 //= require classie
 //= require notificationFx
+//= require browser_timezone_rails/application
 
 // require turbolinks
 // require jquery-ui-datepicker
