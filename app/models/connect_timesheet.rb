@@ -10,6 +10,11 @@ class ConnectTimesheet < RealConnectModel
            primary_key: 'ad_user_id',
            foreign_key: 'ad_user_id'
 
+  scope :updated_within_last, ->(duration) {
+    return none unless duration
+    where('updated >= ?', Time.now - duration)
+  }
+
   def self.this_week
     beginning_date_time = Date.today.beginning_of_week.to_datetime
     self.where('shift_date >= ?', beginning_date_time)

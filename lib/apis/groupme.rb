@@ -161,6 +161,7 @@ class GroupMe
 
   def back_up_images(group_id, group_name)
     messages = get_messages_before group_id, group_name
+    return if messages.nil?
     until messages.count == 0
       urls = Array.new
       for message in messages do
@@ -169,11 +170,12 @@ class GroupMe
       end
       urls.uniq!
       for url in urls do
-        next if url.include?("text.rbdconnect.com")
+        next if url.include?("text.rbdconnect.com") or url.include?("salesmakersinc.com")
         puts "Downloading #{url}"
         download_and_save_image(group_name_to_directory_name(group_name), url)
       end
       messages = get_messages_before group_id, group_name, messages.last.message_id
+      return if messages.nil?
     end
   end
 
@@ -187,15 +189,21 @@ class GroupMe
   end
 
   def download_and_save_image(directory, url)
-    dir_string = "/tmp/GroupMe Image Backup/#{directory}"
-    FileUtils.mkdir_p(dir_string)
-    filename = File.basename(URI.parse(url).path)
-    parts = filename.split '.'
-    parts.insert(parts.length - 2)
-    filename = parts.insert(parts.length - 2, parts.delete_at(parts.length - 1)).
-        join('.')
-    open("#{dir_string}/#{filename}", 'wb') do |file|
-      file << open(url)
+    begin
+      dir_string = "/tmp/GroupMe Image Backup/#{directory}"
+      FileUtils.mkdir_p(dir_string)
+      filename = File.basename(URI.parse(url).path)
+      parts = filename.split '.'
+      parts.insert(parts.length - 2)
+      filename = parts.insert(parts.length - 2, parts.delete_at(parts.length - 1)).
+      join('.')
+      open("#{dir_string}/#{filename}", 'wb') do |file|
+        open(url) do |uri|
+          file.write uri.read
+        end
+      end
+    rescue
+      return
     end
   end
 
