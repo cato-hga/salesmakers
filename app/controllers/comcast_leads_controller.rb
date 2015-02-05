@@ -17,7 +17,7 @@ class ComcastLeadsController < ApplicationController
                          nil,
                          comcast_lead_params[:comments]
       flash[:notice] = 'Lead saved successfully.'
-      redirect_to new_comcast_customer_path
+      redirect_to comcast_customers_path
     else
       render :new
     end
