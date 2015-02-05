@@ -7,4 +7,9 @@ class ConnectUpdater
     Location.update_from_connect minutes
   end
 
+  def self.update_shifts(duration)
+    LegacyMinuteWorxTimesheetImporting.new(duration).import
+    LegacyBlueforceTimesheetImporting.new(duration).import
+  end
+
 end
