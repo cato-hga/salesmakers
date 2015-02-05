@@ -24,7 +24,7 @@ class API::V1::PeopleController < API::BaseController
       return
     end
     last_contact = connect_user.lastcontact
-    separated = last_contact ? last_contact : Time.now
+    separated = last_contact ? last_contact.remove_eastern_offset : Time.now
     updater.log? :separate,
                  get_person,
                  nil,

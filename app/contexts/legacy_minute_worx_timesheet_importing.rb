@@ -22,6 +22,7 @@ class LegacyMinuteWorxTimesheetImporting
 
   module ShiftTranslator
     def translate_all(connect_timesheets)
+      @unmatched_timesheets = []
       shifts = Array.new
       connect_timesheets.each do |timesheet|
         shift = translate(timesheet)
@@ -31,11 +32,13 @@ class LegacyMinuteWorxTimesheetImporting
     end
 
     def translate(timesheet)
-      Shift.new person: get_person(timesheet.ad_user_id),
+      shift = Shift.new person: get_person(timesheet.ad_user_id),
                 location: get_location(timesheet.c_bpartner_location_id),
-                date: timesheet.shift_date,
+                date: timesheet.shift_date.to_date,
                 hours: timesheet.hours + timesheet.overtime,
                 break_hours: timesheet.time_docked
+      add_to_unmatched(timesheet, shift) unless shift.valid?
+      shift
     end
 
     def get_person(ad_user_id)
@@ -46,6 +49,19 @@ class LegacyMinuteWorxTimesheetImporting
       c_bpl = ConnectBusinessPartnerLocation.find_by c_bpartner_location_id: c_bpartner_location_id
       return nil unless c_bpl
       Location.return_from_connect_business_partner_location c_bpl
+    end
+
+    def unmatched_timesheets
+      @unmatched_timesheets
+    end
+
+    private
+
+    def add_to_unmatched(timesheet, shift)
+      @unmatched_timesheets << {
+          timesheet: timesheet,
+          reason: shift.errors.full_messages.join(', ')
+      }
     end
   end
 
@@ -70,5 +86,4 @@ class LegacyMinuteWorxTimesheetImporting
   def timesheets_for_last(duration)
     ConnectTimesheet.updated_within_last duration
   end
-
 end

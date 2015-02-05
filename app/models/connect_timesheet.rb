@@ -12,8 +12,12 @@ class ConnectTimesheet < RealConnectModel
 
   scope :updated_within_last, ->(duration) {
     return none unless duration
-    where('updated >= ?', Time.now - duration)
+    where('updated >= ?', (Time.zone.now - duration).apply_eastern_offset)
   }
+
+  def shift_date
+    self[:shift_date].to_time.remove_eastern_offset
+  end
 
   def self.this_week
     beginning_date_time = Date.today.beginning_of_week.to_datetime

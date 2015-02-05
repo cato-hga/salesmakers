@@ -79,7 +79,7 @@ class Location < ActiveRecord::Base
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
     num_minutes = minutes + offset
-    c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', Time.now - num_minutes.minutes)
+    c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', (Time.now - num_minutes.minutes).apply_eastern_offset)
     for c_bpl in c_bpls do
       location = Location.return_from_connect_business_partner_location(c_bpl)
       next unless location

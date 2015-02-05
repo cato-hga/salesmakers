@@ -44,3 +44,15 @@ module Reconnect
     config.active_record.raise_in_transactional_callbacks = true
   end
 end
+
+class Time
+  def remove_eastern_offset
+    self -
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
+  end
+
+  def apply_eastern_offset
+    self +
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
+  end
+end

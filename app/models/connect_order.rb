@@ -16,26 +16,32 @@ class ConnectOrder < RealConnectModel
              primary_key: 'c_bpartner_location_id'
 
   scope :today, -> {
-    beginning_date_time = Date.today.beginning_of_day + 3.hours + Time.zone_offset('EST')
-    end_date_time = Date.today.end_of_day + 3.hours + Time.zone_offset('EST')
+    beginning_date_time = Date.today.beginning_of_day.apply_eastern_offset + 3.hours
+    puts beginning_date_time
+    end_date_time = Date.today.end_of_day.apply_eastern_offset + 3.hours
+    puts end_date_time
     where('dateordered >= ?', beginning_date_time).where('dateordered < ?', end_date_time)
   }
 
   scope :this_month, -> {
-    beginning_date_time = Date.today.beginning_of_month.to_datetime + 3.hours + Time.zone_offset('EST')
-    end_date_time = Date.today.end_of_week.to_datetime + 3.hours + Time.zone_offset('EST')
+    beginning_date_time = Date.today.beginning_of_month.to_time.apply_eastern_offset + 3.hours
+    end_date_time = Date.today.end_of_week.to_time.apply_eastern_offset + 3.hours
     self.where('dateordered >= ?', beginning_date_time).where('dateordered < ?', end_date_time)
   }
 
   scope :this_week, -> {
-    beginning_date_time = Date.today.beginning_of_week.to_datetime + 3.hours + Time.zone_offset('EST')
-    end_date_time = Date.today.end_of_week.to_datetime + 3.hours + Time.zone_offset('EST')
+    beginning_date_time = Date.today.beginning_of_week.to_time.apply_eastern_offset + 3.hours
+    end_date_time = Date.today.end_of_week.to_time.apply_eastern_offset + 3.hours
     self.where('dateordered >= ?', beginning_date_time).where('dateordered < ?', end_date_time)
   }
 
   scope :sales, -> {
     where "documentno LIKE '%+'"
   }
+
+  def dateordered
+    self[:dateordered].remove_eastern_offset
+  end
 
   def location
     if self.connect_business_partner_location and

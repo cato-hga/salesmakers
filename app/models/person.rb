@@ -398,7 +398,7 @@ class Person < ActiveRecord::Base
 
   #:nocov:
   def self.update_from_connect(minutes)
-    connect_users = ConnectUser.where('updated >= ?', Time.now - minutes.minutes + (Time.zone_offset(Time.zone.now.strftime('%Z')) / 60 / 60))
+    connect_users = ConnectUser.where('updated >= ?', (Time.now - minutes.minutes).apply_eastern_offset)
     for connect_user in connect_users do
       PersonUpdater.new(connect_user).update
     end

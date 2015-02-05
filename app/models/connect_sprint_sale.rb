@@ -17,6 +17,10 @@ class ConnectSprintSale < RealConnectModel
     where('date_sold = ?', Date.today)
   }
 
+  def date_sold
+    self[:date_sold].remove_eastern_offset
+  end
+
   def location
     if self.connect_business_partner_location
       self.connect_business_partner_location

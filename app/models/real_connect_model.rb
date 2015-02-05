@@ -5,8 +5,38 @@ class RealConnectModel < ActiveRecord::Base
   before_create :set_create_audit, :set_update_audit, :set_active
   before_update :set_update_audit
 
+  def self.time_zone_aware_attributes
+    false
+  end
+
+  def self.apply_eastern_offset(time)
+    time.to_time +
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
+  end
+
+  def apply_eastern_offset(time)
+    RealConnectModel.apply_eastern_offset(time)
+  end
+
+  def self.remove_eastern_offset(time)
+    time.to_time -
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
+  end
+
+  def remove_eastern_offset(time)
+    RealConnectModel.remove_eastern_offset(time)
+  end
+
   def self.active
     self.where(isactive: 'Y')
+  end
+
+  def created
+    self[:created].remove_eastern_offset
+  end
+
+  def updated
+    self[:updated].remove_eastern_offset
   end
 
   # Not currently being used
