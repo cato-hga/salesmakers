@@ -26,3 +26,5 @@ require "#{seeds}/lines"
 require "#{seeds}/models_and_manufacturers"
 require "#{seeds}/device_states"
 require "#{seeds}/devices"
+
+require "#{seeds}/shifts"

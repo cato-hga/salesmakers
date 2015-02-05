@@ -124,7 +124,7 @@ class Gateway
     return nil unless person
     messages = SMSMessage.where(
         'created_at > ? AND to_person_id = ?',
-        Time.now - 1.day,
+        Time.zone.now - 1.day,
         person.id
     ).order(created_at: :desc).limit(1)
     messages.count > 0 ? messages.first : nil

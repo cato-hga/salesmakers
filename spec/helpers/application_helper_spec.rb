@@ -333,7 +333,7 @@ describe ApplicationHelper do
   # end
 
   describe 'date and time display' do
-    let(:original_time) { Time.new(2015, 06, 01, 12, 0, 0) }
+    let(:original_time) { Time.new(2015, 05, 31, 12, 0, 0) }
     it 'is correct on the same day' do
       datetime = original_time - 3.hours
       allow(Time).to receive(:now).and_return(original_time)

@@ -358,9 +358,9 @@ module ApplicationHelper
   end
 
   def friendly_datetime(datetime)
-    if datetime.strftime('%m/%d/%Y') == Time.now.strftime('%m/%d/%Y')
+    if datetime.strftime('%m/%d/%Y') == Time.zone.now.strftime('%m/%d/%Y')
       datetime.strftime('%l:%M%P %Z')
-    elsif datetime.year == Time.now.year
+    elsif datetime.year == Time.zone.now.year
       datetime.strftime('%m/%d %l:%M%P %Z')
     else
       datetime.strftime('%m/%d/%Y %l:%M%P %Z')
@@ -413,15 +413,15 @@ module ApplicationHelper
   #:nocov:
   # IT'S JUST MATH, people
   def week_run_rate_multiplier
-    (7 * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_week)
+    (7 * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_week)
   end
 
   def month_run_rate_multiplier
-    (((Date.today.beginning_of_month + 1.month) - Date.today.beginning_of_month) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_month)
+    (((Date.today.beginning_of_month + 1.month) - Date.today.beginning_of_month) * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_month)
   end
 
   def year_run_rate_multiplier
-    (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.now - Time.now.beginning_of_year)
+    (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_year)
   end
 
   #:nocov:

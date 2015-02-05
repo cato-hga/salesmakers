@@ -162,6 +162,12 @@ describe 'Comcast Customer CRUD actions' do
             expect(page).to have_content(comcast_lead.comments)
           end
         end
+
+        it 'shows install fields' do
+          comcast_sale.destroy
+          visit comcast_customer_path(comcast_customer)
+          expect(page).to have_content('Install date')
+        end
       end
 
       context 'with a sale' do

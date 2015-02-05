@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def date_time_string
-    Time.now.strftime('%Y-%m-%d_%H-%M')
+    Time.zone.now.strftime('%Y-%m-%d_%H-%M')
   end
 
   private

@@ -39,8 +39,21 @@ module Reconnect
     # config.i18n.default_locale = :de
 
     config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('app/contexts')
 
     # Rails 5.0-ready for avoiding deprecation warnings
     config.active_record.raise_in_transactional_callbacks = true
+  end
+end
+
+class Time
+  def remove_eastern_offset
+    self -
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
+  end
+
+  def apply_eastern_offset
+    self +
+        ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
   end
 end

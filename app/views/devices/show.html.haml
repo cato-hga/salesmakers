@@ -80,7 +80,7 @@
       .history
         - if @log_entries and @log_entries.count > 0
           %h2 History
-          - future = Time.now
+          - future = Time.zone.now
           - for entry in @log_entries
             .how_long
               = distance_of_time_in_words(entry.created_at, future, include_seconds: false)

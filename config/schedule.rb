@@ -39,6 +39,14 @@ every 30.minutes do
   runner 'ConnectUpdater.update(30)'
 end
 
+every 3.hours do
+  runner 'ConnectUpdater.update_shifts(1.week)'
+end
+
+every 1.day, at: '8:00 am' do
+  runner 'ConnectUpdater.update_shifts(17.days)'
+end
+
 every 1.day, at: '5:00 pm' do
   runner 'GroupMeGroup.notify_of_assets(240)'
 end

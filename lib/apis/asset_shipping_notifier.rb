@@ -51,7 +51,7 @@ class AssetShippingNotifier
 
   def recent_movements(hours)
     ConnectAssetMovement.where 'created >= ? AND tracking IS NOT NULL',
-                               Time.now - hours.hours
+                               Time.now.apply_eastern_offset - hours.hours
   end
 
   def asset_type(movement)

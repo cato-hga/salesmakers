@@ -60,7 +60,7 @@ describe 'Device Deployments NON-CRUD actions' do
     end
     it 'should set the end date for a deployment' do
       within('.deployments') do
-        expect(page).to have_content(DateTime.now.strftime('%m/%d/%Y'))
+        expect(page).to have_content(Time.zone.now.strftime('%m/%d/%Y'))
       end
     end
 

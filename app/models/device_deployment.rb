@@ -9,7 +9,7 @@ class DeviceDeployment < ActiveRecord::Base
 
   default_scope { order('started DESC') }
 
-  def recoup(notes, ended = DateTime.now)
+  def recoup(notes, ended = Time.zone.now)
     deployed = DeviceState.find_by name: 'Deployed'
     @device = self.device
     @person = @device.person

@@ -10,4 +10,8 @@ class ConnectBusinessPartnerSalaryCategory < ConnectModel
              foreign_key: 'c_salary_category_id'
 
   default_scope { order :datefrom }
+
+  def datefrom
+    self[:datefrom].remove_eastern_offset
+  end
 end

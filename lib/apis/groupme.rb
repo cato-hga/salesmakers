@@ -1,3 +1,7 @@
+require 'uri'
+require 'open-uri'
+require 'fileutils'
+
 class GroupMe
   include HTTParty
   base_uri 'https://api.groupme.com/v3'
@@ -59,6 +63,31 @@ class GroupMe
     doPost "/groups/#{group_id}/members/add", add_user
   end
 
+  def get_messages_before(group_id, group_name, before_id = nil)
+    messages = Array.new
+    query = { limit: 20 }
+    query[:before_id] = before_id if before_id
+    response = doGet "/groups/#{group_id}/messages", query
+    return nil unless response.success?
+    return nil unless response['response'] and response['response']['messages']
+    all_messages = response['response']['messages']
+    for message in all_messages do
+      next if message['system'] == true
+      likes = 0
+      likes = message['favorited_by'].count if message['favorited_by']
+      group_me_message = GroupMeApiMessage.new group_name,
+                                               message['name'],
+                                               message['attachments'],
+                                               message['text'],
+                                               message['created_at'],
+                                               likes,
+                                               message['avatar_url'],
+                                               message['id']
+      messages << group_me_message
+    end
+    messages
+  end
+
   def get_messages(group_id, max = 5, group_name = nil, minimum_likes = 0)
     before = nil
     messages = Array.new
@@ -92,7 +121,8 @@ class GroupMe
                                                  message['attachments'],
                                                  message['text'],
                                                  message['created_at'],
-                                                 likes, message['avatar_url']
+                                                 likes,
+                                                 message['avatar_url']
         messages << group_me_message
         before = message['id']
       end
@@ -127,6 +157,54 @@ class GroupMe
       return urls[0..(max - 1)] if urls.count >= max
     end
     urls
+  end
+
+  def back_up_images(group_id, group_name)
+    messages = get_messages_before group_id, group_name
+    return if messages.nil?
+    until messages.count == 0
+      urls = Array.new
+      for message in messages do
+        url = message.image_url
+        urls << url if url
+      end
+      urls.uniq!
+      for url in urls do
+        next if url.include?("text.rbdconnect.com") or url.include?("salesmakersinc.com")
+        puts "Downloading #{url}"
+        download_and_save_image(group_name_to_directory_name(group_name), url)
+      end
+      messages = get_messages_before group_id, group_name, messages.last.message_id
+      return if messages.nil?
+    end
+  end
+
+  def group_name_to_directory_name(group_name)
+    encoding_options = {
+        :invalid           => :replace,  # Replace invalid byte sequences
+        :undef             => :replace,  # Replace anything not defined in ASCII
+        :replace           => ''         # Use a blank for those replacements
+    }
+    group_name.encode(Encoding.find('ASCII'), encoding_options)
+  end
+
+  def download_and_save_image(directory, url)
+    begin
+      dir_string = "/tmp/GroupMe Image Backup/#{directory}"
+      FileUtils.mkdir_p(dir_string)
+      filename = File.basename(URI.parse(url).path)
+      parts = filename.split '.'
+      parts.insert(parts.length - 2)
+      filename = parts.insert(parts.length - 2, parts.delete_at(parts.length - 1)).
+      join('.')
+      open("#{dir_string}/#{filename}", 'wb') do |file|
+        open(url) do |uri|
+          file.write uri.read
+        end
+      end
+    rescue
+      return
+    end
   end
 
   def get_me
@@ -236,7 +314,7 @@ class GroupMeApiMessage
   #TODO: Review whether or not these need to be attr_accessor or reader/writer. I have set it to accessor during refactoring just to be safe
   attr_accessor :group_name, :author, :attachments, :avatar, :likes
 
-  def initialize(group_name, author, attachments, text, created_at, likes, avatar)
+  def initialize(group_name, author, attachments, text, created_at, likes, avatar, message_id = nil)
     @group_name = group_name
     @author = author
     @attachments = attachments
@@ -244,15 +322,32 @@ class GroupMeApiMessage
     @created_at = created_at
     @likes = likes
     @avatar = avatar
-    @powerups = GroupMePowerUps
+    @message_id = message_id
+    # @powerups = GroupMePowerUps
   end
 
   def has_image?
-    attachments and attachments.count > 0 and attachments[0]['type'] == 'image'
+    has_image = false
+    for attachment in @attachments do
+      has_image = true if attachment['type'] == 'image'
+    end
+    has_image
+  end
+
+  def image_url
+    return nil unless has_image?
+    for attachment in @attachments do
+      return attachment['url'] if attachment['type'] == 'image'
+    end
   end
 
   def text
-    GroupMeEmojiFilter.filter @text, attachments
+    # GroupMeEmojiFilter.filter @text, attachments
+    @text
+  end
+
+  def message_id
+    @message_id
   end
 
   def created_at
