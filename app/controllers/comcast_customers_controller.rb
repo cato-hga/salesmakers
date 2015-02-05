@@ -10,7 +10,9 @@ class ComcastCustomersController < ApplicationController
 
   def show
     @comcast_customer = ComcastCustomer.find params[:id]
+    @time_slots = ComcastInstallTimeSlot.where(active: true)
     @comcast_sale = ComcastSale.new
+    @comcast_sale.comcast_install_appointment = ComcastInstallAppointment.new
     @former_providers = ComcastFormerProvider.all
     authorize @comcast_customer
   end
