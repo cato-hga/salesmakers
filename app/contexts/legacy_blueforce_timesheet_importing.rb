@@ -6,14 +6,15 @@
 # 3. System sends batch to shift translator for translation
 # 4. System sends translated shifts to shift writer for storage
 require 'timesheet_importer'
-require 'shift_writer'
 require 'timesheet_to_shift_translator'
+require 'shift_writer'
 
-class LegacyMinuteWorxTimesheetImporting < TimesheetImporter
+class LegacyBlueforceTimesheetImporting < TimesheetImporter
 
   private
 
   def timesheets_for_last(duration)
-    ConnectTimesheet.updated_within_last duration
+    ConnectBlueforceTimesheet.shifts_within_last duration
   end
+
 end
