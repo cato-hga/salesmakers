@@ -21,7 +21,7 @@ class ComcastSalesController < ApplicationController
     if @comcast_sale.save
       log 'create'
       flash[:notice] = 'Sale saved successfully.'
-      redirect_to new_comcast_customer_path and return
+      redirect_to comcast_customers_path and return
     else
       render :new and return
     end

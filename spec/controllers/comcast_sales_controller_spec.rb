@@ -43,9 +43,9 @@ describe ComcastSalesController do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
 
-    it 'redirects to ComcastCustomers#new' do
+    it 'redirects to ComcastCustomers#index' do
       subject
-      expect(response).to redirect_to(new_comcast_customer_path)
+      expect(response).to redirect_to(comcast_customers_path)
     end
   end
 end
