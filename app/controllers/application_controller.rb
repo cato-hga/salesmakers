@@ -23,11 +23,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def additional_exception_data
-    def log_additional_data
-      request.env["exception_notifier.exception_data"] = {
-          current_person: @current_person
-      }
-    end
+    request.env["exception_notifier.exception_data"] = {
+        current_person: @current_person
+    }
   end
 
   def setup_new_publishables
