@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe ComcastSale do
+  let!(:other_sale) { create :comcast_sale, order_number: '1234567891000' }
   subject { build :comcast_sale }
 
   it 'is valid with correct attributes' do
@@ -43,6 +44,13 @@ describe ComcastSale do
     subject.order_number = '1234567890123'
     expect(subject).to be_valid
   end
+
+  it 'has a unique order number' do
+    subject.order_number = '1234567891000'
+    expect(other_sale).to be_valid
+    expect(subject).not_to be_valid
+  end
+
 
   it 'does not allow sales to be entered after more than 24 hours' do
     subject.order_date = Date.today
