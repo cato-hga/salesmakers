@@ -1,5 +1,5 @@
 puts "Destroying old data..."
-Theme.destroy_all
+#Theme.destroy_all
 Department.destroy_all
 Position.destroy_all
 Profile.destroy_all
