@@ -2,7 +2,7 @@ puts "Destroying old data..."
 #Theme.destroy_all
 Department.destroy_all
 Position.destroy_all
-Profile.destroy_all
+#Profile.destroy_all
 Person.destroy_all
 Client.destroy_all
 Project.destroy_all
