@@ -243,6 +243,19 @@ class GroupMe
     response['response']['bot']['bot_id']
   end
 
+  def post_messages_with_bot(messages, bot_id)
+    return unless messages and messages.count > 0 and bot_id
+    for message in messages do
+      payload = {
+          'bot_id' => bot_id,
+          'text' => message
+      }.to_json
+      puts payload
+      response = self.class.post '/bots/post', { body: payload }
+    end
+    response
+  end
+
   def doGet(path, query = nil)
     query_hash = { token: @access_token }
     query_hash = query_hash.merge query if query
