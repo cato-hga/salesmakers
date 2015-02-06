@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
+                :additional_exception_data,
                 :set_staging,
                 :check_active,
                 :get_projects,
@@ -20,6 +21,12 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
 
   protected
+
+  def additional_exception_data
+    request.env["exception_notifier.exception_data"] = {
+        current_person: @current_person
+    }
+  end
 
   def setup_new_publishables
     @text_post = TextPost.new
