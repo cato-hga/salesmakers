@@ -64,7 +64,7 @@ class AreaType < ActiveRecord::Base
   end
 
   def self.determine_from_connect(connect_user, projects_hash, is_event)
-    return nil unless connect_user and connect_user.region
+    return nil unless connect_user and connect_user.region and projects_hash
     fast_type = connect_user.region.fast_type
     if is_event
       return AreaType.vonage_events_array[fast_type]
