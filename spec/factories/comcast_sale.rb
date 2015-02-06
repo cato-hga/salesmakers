@@ -4,7 +4,7 @@ FactoryGirl.define do
     order_date Date.today
     person
     comcast_customer
-    order_number '1234567890123'
+    sequence(:order_number, (10..99).cycle) { |n| "12345678910#{n}" }
     tv true
 
     after(:build) do |comcast_sale|
