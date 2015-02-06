@@ -2,55 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.groupme.com/v3/groups/1/update?token=1956b1d08a050132df253a66af516754
-    body:
-      encoding: UTF-8
-      string: '{"name":"[Test Project] A Test Area"}'
-    headers:
-      Content-Type:
-      - application/json
-      Accept:
-      - application/json
-  response:
-    status:
-      code: 404
-      message: Not Found
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Date:
-      - Fri, 30 Jan 2015 19:12:44 GMT
-      Server:
-      - nginx/1.6.2
-      Status:
-      - 404 Not Found
-      Strict-Transport-Security:
-      - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
-      X-Request-Id:
-      - 8f9a6767e28ae1c8da340cac3556743b
-      X-Runtime:
-      - '0.007008'
-      X-Ua-Compatible:
-      - IE=Edge,chrome=1
-      Content-Length:
-      - '84'
-      Connection:
-      - keep-alive
-    body:
-      encoding: UTF-8
-      string: '{"meta":{"code":404,"errors":["The requested path does not exist"]},"response":null}'
-    http_version: 
-  recorded_at: Fri, 30 Jan 2015 19:12:41 GMT
-- request:
-    method: post
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot":{"name":"SalesCenter","group_id":1,"callback_url":"http","avatar_url":null}}'
+      string: '{"bot":{"name":"SalesCenter","group_id":1,"callback_url":"http://salesmakersinc.com/groupme/index.php","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}}'
     headers:
       Content-Type:
       - application/json
@@ -66,7 +21,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 30 Jan 2015 20:09:37 GMT
+      - Fri, 06 Feb 2015 21:06:35 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -76,9 +31,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 888c607ce58d4de2cf0566b896b9a114
+      - a8a0196b35931dd2371cac4b45d79fe1
       X-Runtime:
-      - '0.013664'
+      - '0.010743'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -89,5 +44,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 30 Jan 2015 20:09:35 GMT
+  recorded_at: Fri, 06 Feb 2015 21:06:35 GMT
 recorded_with: VCR 2.9.3
