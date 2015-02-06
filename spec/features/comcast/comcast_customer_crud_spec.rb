@@ -27,55 +27,6 @@ describe 'Comcast Customer CRUD actions' do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
-  context 'for creating' do
-    before(:each) do
-      person.position.permissions << permission_create
-      visit new_comcast_customer_path
-    end
-
-    context 'success' do
-      subject {
-        select location.name, from: 'Location'
-        fill_in 'First name', with: comcast_customer.first_name
-        fill_in 'Last name', with: comcast_customer.last_name
-        fill_in 'Mobile phone', with: comcast_customer.mobile_phone
-        click_on 'Enter Sale'
-      }
-
-      it 'has the correct page title' do
-        expect(page).to have_selector('h1', text: 'New Comcast Customer')
-      end
-
-      it 'creates a new comcast customer' do
-        subject
-        expect(page).to have_content(comcast_customer.first_name)
-        expect(page).to have_content(comcast_customer.last_name)
-      end
-
-      it 'creates a log entry' do
-        expect { subject }.to change(LogEntry, :count).by(1)
-      end
-    end
-
-    context 'failure' do
-      subject {
-        fill_in 'First name', with: ''
-        fill_in 'Last name', with: comcast_customer.last_name
-        fill_in 'Mobile phone', with: comcast_customer.mobile_phone
-        click_on 'Enter Sale'
-      }
-
-      it 'renders the new template' do
-        expect(page).to have_selector('h1', text: 'New Comcast Customer')
-      end
-
-      it 'renders error messages' do
-        subject
-        expect(page).to have_selector('.alert')
-      end
-    end
-  end
-
   context 'for reading' do
     let(:now) { Time.now }
     let!(:comcast_lead) {
@@ -175,11 +126,11 @@ describe 'Comcast Customer CRUD actions' do
         end
       end
 
-      it 'shows the date and time the customer was entered', pending: 'UTC on server?' do
-        within '#comcast_customer' do
-          expect(page).to have_content(now.strftime('%l:%M%P %Z'))
-        end
-      end
+      it 'shows the date and time the customer was entered', pending: 'UTC on server?' #do
+      #within '#comcast_customer' do
+      #expect(page).to have_content(now.strftime('%l:%M%P %Z'))
+      #end
+      #end
 
       it 'shows comments that were entered when the customer was saved' do
         comcast_customer.update comments: 'Here are customer comments'
@@ -222,7 +173,7 @@ describe 'Comcast Customer CRUD actions' do
       context 'with a sale' do
         it 'displays the sale date' do
           within '#comcast_sale' do
-            expect(page).to have_content(comcast_sale.sale_date.strftime('%m/%d/%Y'))
+            expect(page).to have_content(comcast_sale.order_date.strftime('%m/%d/%Y'))
           end
         end
 
@@ -244,11 +195,11 @@ describe 'Comcast Customer CRUD actions' do
           end
         end
 
-        it 'displays when the sale was entered', pending: 'UTC on server?' do
-          within '#comcast_sale' do
-            expect(page).to have_content(now.strftime('%l:%M%P %Z'))
-          end
-        end
+        it 'displays when the sale was entered', pending: 'UTC on server?' #do
+        #within '#comcast_sale' do
+        #expect(page).to have_content(now.strftime('%l:%M%P %Z'))
+        #end
+        #end
 
         it 'displays the installation date' do
           within '#comcast_sale' do

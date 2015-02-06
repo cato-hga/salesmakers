@@ -31,6 +31,7 @@ class ComcastCustomersController < ApplicationController
           new_comcast_customer_comcast_lead_path(@comcast_customer) :
           new_comcast_customer_comcast_sale_path(@comcast_customer)
       redirect_to path
+      flash[:notice] = 'Customer saved'
     else
       render :new
     end

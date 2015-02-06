@@ -12,8 +12,8 @@ describe 'Comcast sales CRUD actions' do
   let(:permission_update) { Permission.new key: 'comcast_sale_update', permission_group: permission_group, description: description }
   let(:permission_destroy) { Permission.new key: 'comcast_sale_destroy', permission_group: permission_group, description: description }
   let(:permission_create) { Permission.new key: 'comcast_sale_create', permission_group: permission_group, description: description }
-  let(:sale_date) { comcast_sale.sale_date.strftime('%m/%d/%Y') }
-  let(:install_date) { (comcast_sale.sale_date + 7.days).strftime('%m/%d/%Y') }
+  let(:order_date) { comcast_sale.order_date.strftime('%m/%d/%Y') }
+  let(:install_date) { (comcast_sale.order_date + 7.days).strftime('%m/%d/%Y') }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -30,7 +30,7 @@ describe 'Comcast sales CRUD actions' do
 
     context 'success' do
       subject {
-        fill_in 'Sale date', with: sale_date
+        fill_in 'Order date', with: order_date
         fill_in 'Order number', with: comcast_sale.order_number
         select comcast_former_provider.name, from: "Previous Provider"
         check 'Television'
@@ -57,12 +57,29 @@ describe 'Comcast sales CRUD actions' do
       end
     end
 
-    describe 'time slots' do
-      let!(:inactive_comcast_install_time_slot) { create :comcast_install_time_slot, name: "Inactive", active: false }
-      it 'should only show active time slots' do
-        expect(page).to have_content(comcast_install_time_slot.name)
-        expect(page).not_to have_content(inactive_comcast_install_time_slot.name)
+    context 'failures' do
+      context 'date entry' do
+        let(:incorrect_order_date) { (comcast_sale.order_date - 25.hours).strftime('%m/%d/%Y') }
+        before {
+          fill_in 'Order date', with: incorrect_order_date
+          fill_in 'Order number', with: comcast_sale.order_number
+          select comcast_former_provider.name, from: "Previous Provider"
+          check 'Television'
+          fill_in 'Install date', with: install_date
+          select comcast_install_time_slot.name, from: 'Install time slot'
+          click_on 'Complete Sale'
+        }
+
+        it 'does not allow the sale to be entered' do
+          expect(page).to have_content('cannot be more than 24 hours in the past')
+        end
+
+        it 'renders the new template' do
+          expect(page).to have_content('New Comcast Sale')
+        end
       end
     end
+
+
   end
 end

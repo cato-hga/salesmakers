@@ -20,28 +20,6 @@ describe 'Comcast lead CRUD actions' do
     CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
   end
 
-  context 'for creation' do
-    subject do
-      visit new_comcast_customer_comcast_lead_path(comcast_customer)
-      check 'Television'
-      check 'Customer agrees to be contacted by phone or text message'
-      click_on 'Save as Lead'
-    end
-
-    it 'has the correct title' do
-      visit new_comcast_customer_comcast_lead_path(comcast_customer)
-      expect(page).to have_selector('h1', text: 'New Lead: ' + comcast_customer.name)
-    end
-
-    it 'creates a ComcastLead' do
-      expect { subject }.to change(ComcastLead, :count).by(1)
-    end
-
-    it 'creates a LogEntry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
-    end
-  end
-
   context 'for destruction', js: true do
     before do
       comcast_employee.position.permissions << permission_destroy

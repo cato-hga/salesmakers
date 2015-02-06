@@ -48,6 +48,7 @@ gem 'render_csv', '2.0.0' # CSV file rendering
 gem 'twilio-ruby', '3.14.4' # Was 3.14.2 01/21/2015 - Twilio SMS and Voice library
 gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
+gem 'browser-timezone-rails', '0.0.8' #using the timezone of a user
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development

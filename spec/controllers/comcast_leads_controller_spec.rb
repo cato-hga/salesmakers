@@ -29,8 +29,8 @@ describe ComcastLeadsController do
            }
     end
 
-    it 'should redirect to ComcastCustomers#new' do
-      expect(response).to redirect_to(new_comcast_customer_path)
+    it 'should redirect to ComcastCustomers#index' do
+      expect(response).to redirect_to(comcast_customers_path)
     end
   end
 

@@ -1,10 +1,12 @@
 class ComcastSale < ActiveRecord::Base
-  validates :sale_date, presence: true
+  validates :order_date, presence: true
   validates :person_id, presence: true
   validates :comcast_customer_id, presence: true
   validates :comcast_install_appointment, presence: true
+  validates :order_number, length: {is: 13}, numericality: {only_integer: true}
   validate :one_service_selected
   validate :no_future_sales
+  validate :within_24_hours
 
   belongs_to :comcast_customer
   belongs_to :person
@@ -36,6 +38,13 @@ class ComcastSale < ActiveRecord::Base
 
   private
 
+  def within_24_hours
+    return unless self.order_date
+    if self.order_date.to_date < Date.today - 1.day
+      errors.add(:order_date, 'cannot be more than 24 hours in the past')
+    end
+  end
+
   def one_service_selected
     unless self.tv? or self.internet? or self.phone? or self.security?
       [:tv, :internet, :phone, :security].each do |product|
@@ -45,9 +54,9 @@ class ComcastSale < ActiveRecord::Base
   end
 
   def no_future_sales
-    return unless self.sale_date
-    if self.sale_date.to_date > Date.today
-      errors.add(:sale_date, 'cannot be in the future')
+    return unless self.order_date
+    if self.order_date.to_date > Date.today
+      errors.add(:order_date, 'cannot be in the future')
     end
   end
 
