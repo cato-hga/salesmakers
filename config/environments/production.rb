@@ -85,7 +85,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'newcenter.salesmakersinc.com' }
   config.middleware.use ExceptionNotification::Rack,
       email: {
-          email_prefix: '[RBDC2] ',
+          email_prefix: '[SC2.0] ',
           sender_address: 'development@retaildoneright.com',
           exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com},
           sections: %w{request person session environment backtrace}
