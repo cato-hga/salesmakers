@@ -147,6 +147,7 @@ class Device < ActiveRecord::Base
       return device if device_state_emails.include? email
       # Get or create the User that we're deploying to
       to_person = Person.return_from_connect_user movement.moved_from_user
+      return unless to_person
       # Remove all states from the Device
       device.device_states.destroy_all
       # Add the "Deployed" state to the Device
