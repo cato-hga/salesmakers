@@ -6,14 +6,16 @@
   - if area.has_children?
     - icon = icon('plus').html_safe + ' '
     %a{ class: area.has_children? ? 'nested_areas_icon' : '' }= icon
-    = link_to area.name, [area.project.client, area.project, area]
+    -#= link_to area.name, [area.project.client, area.project, area]
+    = area.name
     = managers
   - else
     - area_non_managers = area.non_managers(true)
     - if area_non_managers.count > 1
       - icon = icon('plus').html_safe + ' '
       %a{ class: (icon.length > 0) ? 'nested_areas_icon' : '' }= icon
-      = link_to area.name, [area.project.client, area.project, area]
+      -#= link_to area.name, [area.project.client, area.project, area]
+      = area.name
       = managers
       %ul
         - for employee in area_non_managers

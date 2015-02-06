@@ -89,6 +89,7 @@ Rails.application.configure do
       email: {
           email_prefix: '[RBDC2] ',
           sender_address: 'development@retaildoneright.com',
-          exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com}
+          exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com},
+          sections: %w{request person session environment backtrace}
       }
 end
