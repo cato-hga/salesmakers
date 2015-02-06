@@ -90,7 +90,7 @@ describe ComcastSale do
 
     it 'pulls orders for a date range' do
       yesterday_sales = ComcastSale.sold_between_dates(Date.yesterday, Date.today)
-      expect(ComcastSale.count).to eq(2)
+      expect(ComcastSale.count).to eq(3)
       expect(yesterday_sales.count).to eq(1)
     end
   end
