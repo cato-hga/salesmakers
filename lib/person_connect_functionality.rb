@@ -119,7 +119,6 @@ module PersonConnectFunctionality
     self.update(active: false, updated_at: connect_user.updated)
     updated_to_inactive = self.active? ? false : true
     return updated_to_inactive if self.employments.count < 1
-    return if self.employments.count < 1
     employment = self.employments.first
     employment.end_from_connect
     updated_to_inactive
