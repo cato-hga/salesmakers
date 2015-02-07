@@ -5,7 +5,7 @@ require File.expand_path('../application', __FILE__)
 Rails.application.initialize!
 
 cas_options = {
-    cas_base_url:  "https://auth.rbdconnect.com/cas/"
+    cas_base_url:  "http://auth.rbdconnect.com/cas/"
 }
 
 if Rails.env.production? or Rails.env == 'staging'
