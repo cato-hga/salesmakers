@@ -5,6 +5,8 @@ class PersonArea < ActiveRecord::Base
   belongs_to :person
   belongs_to :area
 
+  delegate :client, to: :area
+
   def self.return_from_name_and_type(person, area_name, area_type, leader = false)
     return nil unless area_type
     areas = Area.where(name: area_name, area_type: area_type)
