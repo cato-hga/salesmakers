@@ -12,7 +12,7 @@ class ComcastGroupMeBotCallback
   end
 
   def process
-    return unless @callback
+    return unless @callback and @callback.group_id
     group_me_bot = ComcastGroupMeBot.find_by group_num: @callback.group_id
     return unless group_me_bot
     bot_id = group_me_bot.bot_num
