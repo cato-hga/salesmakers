@@ -155,4 +155,5 @@ class ChangePersonIndexPermissions < ActiveRecord::Migration
         pos_uf
     ]
   end
+
 end

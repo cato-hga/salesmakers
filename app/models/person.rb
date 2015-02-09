@@ -1,6 +1,7 @@
 require 'validators/phone_number_validator'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
+  extend PersonConnectFunctionality
 
   nilify_blanks
 
@@ -96,8 +97,8 @@ class Person < ActiveRecord::Base
   end
 
   def department_members
-    return Person.none unless self.position and self.position.department
-    self.position.department.people
+    return Person.none unless self.department
+    self.department.people
   end
 
   def self.all_field_members
@@ -108,40 +109,6 @@ class Person < ActiveRecord::Base
   def self.all_hq_members
     positions = Position.where(hq: true)
     Person.where(position: positions)
-  end
-
-  def self.return_from_connect_user(connect_user)
-    person = Person.find_by connect_user_id: connect_user.id
-    return person if person
-    position = Position.return_from_connect_user connect_user
-    person = Person.find_by_email connect_user.email
-    creator = connect_user.createdby ? Person.find_by_connect_user_id(connect_user.createdby) : nil
-    supervisor = connect_user.supervisor_id ? Person.find_by_connect_user_id(connect_user.supervisor_id) : nil
-    return person if person
-    Person.new_from_connect_user connect_user, position, supervisor, creator
-  end
-
-  def self.new_from_connect_user(connect_user, position, supervisor, creator)
-    person = Person.new first_name: connect_user.firstname,
-                        last_name: connect_user.lastname,
-                        display_name: connect_user.name,
-                        email: connect_user.username,
-                        personal_email: connect_user.description,
-                        connect_user_id: connect_user.id,
-                        active: (connect_user.isactive == 'Y' ? true : false),
-                        mobile_phone: connect_user.phone,
-                        position: position,
-                        supervisor: supervisor
-    return nil unless person and person.save
-    Person.log_onboard_from_connect person, creator
-    person.add_area_from_connect
-    person
-  end
-
-  def self.log_onboard_from_connect(person, creator)
-    connect_user = person.connect_user
-    LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
-    LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
   end
 
   def department
@@ -189,38 +156,6 @@ class Person < ActiveRecord::Base
   #   end
   # end
 
-  #:nocov:
-  def import_employment_from_connect
-    return unless self.connect_user_id
-    connect_user = self.connect_user
-    bpartner = connect_user.connect_business_partner
-    return unless bpartner
-    salary_categories = bpartner.connect_business_partner_salary_categories
-    return unless salary_categories
-    employment_started = salary_categories.first
-    return unless employment_started
-    employment = Employment.new person: self,
-                                start: employment_started.datefrom,
-                                created_at: connect_user.created,
-                                updated_at: employment_started.updated
-    unless self.active?
-      terminations = connect_user.connect_terminations
-      ended = connect_user.updated.to_date
-      terminated = ended
-      ended = connect_user.lastcontact.to_date if connect_user.lastcontact
-      reason = 'Not Recorded'
-      if terminations and terminations.count > 0
-        ended = terminations.first.last_day_worked
-        terminated = terminations.first.created
-        reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
-      end
-      employment.end = ended
-      employment.updated_at = terminated
-      employment.end_reason = reason
-    end
-    employment.save
-  end
-
   def show_details?(people)
     people and people.include?(self)
   end
@@ -257,6 +192,168 @@ class Person < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def separate
+    self.update(active: false, updated_at: separated_at)
+  end
+
+  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
+    return false unless self and self.id
+    entry = LogEntry.new person: self,
+                         action: action,
+                         trackable: trackable,
+                         referenceable: referenceable,
+                         comment: comment
+    entry.created_at = created_at if created_at
+    entry.updated_at = updated_at if updated_at
+    entry.save ? true : false
+  end
+
+  # def create_wall
+  #   return if self.wall
+  #   Wall.create wallable: self
+  # end
+
+  # def profile_avatar
+  #   return unless profile
+  #   profile.avatar
+  # end
+  #
+  # def profile_avatar_url
+  #   return unless profile_avatar
+  #   profile_avatar.url
+  # end
+  #
+  # def group_me_avatar_url
+  #   return unless group_me_user
+  #   group_me_user.avatar_url
+  # end
+  #
+  # def default_wall
+  #   if self.position.hq?
+  #     Wall.find_by wallable: self.position.department
+  #   elsif person_areas.count > 0
+  #     Wall.find_by wallable: self.person_areas.first.area
+  #   else
+  #     Wall.find_by wallable: self
+  #   end
+  # end
+
+  def related_log_entries
+    LogEntry.for_person(self)
+  end
+
+  def sales_today
+    return 0 unless self.connect_user_id
+    if Client.vonage?(self)
+      ConnectOrder.sales.today.where(salesrep_id: self.connect_user_id).count
+    elsif Client.sprint?(self)
+      ConnectSprintSale.today.where(ad_user_id: self.connect_user_id).count
+    end
+  end
+
+  def sms_messages
+    to_messages = self.to_sms_messages
+    from_messages = self.from_sms_messages
+    to_ids = to_messages.map(&:id).join(',')
+    from_ids = from_messages.map(&:id).join(',')
+    ids = [to_ids, from_ids].join(',')
+              .reverse.chomp(',').reverse.chomp(',')
+    ids = ids.length > 0 ? ids : nil
+    ids ? SMSMessage.where("id IN (#{ids})") : SMSMessage.none
+  end
+
+  def locations
+    all_locations = Array.new
+    for person_area in self.person_areas do
+      all_locations << person_area.area.all_locations
+    end
+    all_locations.flatten.uniq
+  end
+
+  def hq?
+    self.position and self.position.hq?
+  end
+
+  def physical_address
+    PersonAddress.get_physical(self)
+  end
+
+  def mailing_address
+    address = PersonAddress.find_by person: self, physical: false
+  end
+
+  def clients
+    self.person_areas.each.map(&:client)
+  end
+
+
+  # ----- MOVING BACK TO PERSON ----------
+
+  def self.return_from_connect_user(connect_user)
+    person = Person.find_by connect_user_id: connect_user.id
+    return person if person
+    position = Position.return_from_connect_user connect_user
+    person = Person.find_by_email connect_user.email
+    creator = connect_user.createdby ? Person.find_by_connect_user_id(connect_user.createdby) : nil
+    supervisor = connect_user.supervisor_id ? Person.find_by_connect_user_id(connect_user.supervisor_id) : nil
+    return person if person
+    Person.new_from_connect_user connect_user, position, supervisor, creator
+  end
+
+  def self.new_from_connect_user(connect_user, position, supervisor, creator)
+    person = Person.new first_name: connect_user.firstname,
+                        last_name: connect_user.lastname,
+                        display_name: connect_user.name,
+                        email: connect_user.username,
+                        personal_email: connect_user.description,
+                        connect_user_id: connect_user.id,
+                        active: (connect_user.isactive == 'Y' ? true : false),
+                        mobile_phone: connect_user.phone,
+                        position: position,
+                        supervisor: supervisor
+    return nil unless person and person.save
+    Person.log_onboard_from_connect person, creator
+    person.add_area_from_connect
+    person
+  end
+
+  def self.log_onboard_from_connect(person, creator)
+    connect_user = person.connect_user
+    LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
+    LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
+  end
+
+  def import_employment_from_connect
+    return unless self.connect_user_id
+    connect_user = self.connect_user
+    bpartner = connect_user.connect_business_partner
+    return unless bpartner
+    salary_categories = bpartner.connect_business_partner_salary_categories
+    return unless salary_categories
+    employment_started = salary_categories.first
+    return unless employment_started
+    employment = Employment.new person: self,
+                                start: employment_started.datefrom,
+                                created_at: connect_user.created,
+                                updated_at: employment_started.updated
+    unless self.active?
+      terminations = connect_user.connect_terminations
+      ended = connect_user.updated.to_date
+      terminated = ended
+      ended = connect_user.lastcontact.to_date if connect_user.lastcontact
+      reason = 'Not Recorded'
+      if terminations and terminations.count > 0
+        ended = terminations.first.last_day_worked
+        terminated = terminations.first.created
+        reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
+      end
+      employment.end = ended
+      employment.updated_at = terminated
+      employment.end_reason = reason
+    end
+    employment.save
   end
 
   def return_person_area_from_connect
@@ -309,31 +406,22 @@ class Person < ActiveRecord::Base
   end
 
   def separate_from_connect
-    connect_user = get_connect_user
-    return unless connect_user
+    connect_user = get_connect_user || return
+    self.update_subordinates
+    self.update(active: false, updated_at: connect_user.updated)
+    updated_to_inactive = self.active? ? false : true
+    return updated_to_inactive if self.employments.count < 1
+    employment = self.employments.first
+    employment.end_from_connect
+    updated_to_inactive
+  end
+
+  def update_subordinates
     for subordinate in self.employees do
       subordinate_connect_user = subordinate.connect_user
       next unless subordinate_connect_user
       PersonUpdater.new(subordinate_connect_user).update
     end
-    separator = connect_user.updater
-    self.update(active: false, updated_at: connect_user.updated)
-    updated_to_inactive = self.active? ? false : true
-    return updated_to_inactive if self.employments.count < 1
-    return if self.employments.count < 1
-    employment = self.employments.first
-    terminations = connect_user.connect_terminations
-    ended = connect_user.updated.to_date
-    ended = connect_user.lastcontact.to_date if connect_user.lastcontact
-    reason = 'Not Recorded'
-    if terminations and terminations.count > 0
-      ended = terminations.first.last_day_worked
-      reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
-    end
-    employment.end = ended
-    employment.end_reason = reason
-    employment.save
-    updated_to_inactive
   end
 
   def update_address_from_connect
@@ -373,30 +461,6 @@ class Person < ActiveRecord::Base
     ConnectUser.find_by username: self.email
   end
 
-  #:nocov:
-
-  def separate
-    self.update(active: false, updated_at: separated_at)
-  end
-
-  def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
-    return false unless self and self.id
-    entry = LogEntry.new person: self,
-                         action: action,
-                         trackable: trackable,
-                         referenceable: referenceable,
-                         comment: comment
-    entry.created_at = created_at if created_at
-    entry.updated_at = updated_at if updated_at
-    entry.save ? true : false
-  end
-
-  # def create_wall
-  #   return if self.wall
-  #   Wall.create wallable: self
-  # end
-
-  #:nocov:
   def self.update_from_connect(minutes)
     connect_users = ConnectUser.where('updated >= ?', (Time.now - minutes.minutes).apply_eastern_offset)
     for connect_user in connect_users do
@@ -404,89 +468,7 @@ class Person < ActiveRecord::Base
     end
   end
 
-  #:nocov:
-
-  # def profile_avatar
-  #   return unless profile
-  #   profile.avatar
-  # end
-  #
-  # def profile_avatar_url
-  #   return unless profile_avatar
-  #   profile_avatar.url
-  # end
-  #
-  # def group_me_avatar_url
-  #   return unless group_me_user
-  #   group_me_user.avatar_url
-  # end
-  #
-  # def default_wall
-  #   if self.position.hq?
-  #     Wall.find_by wallable: self.position.department
-  #   elsif person_areas.count > 0
-  #     Wall.find_by wallable: self.person_areas.first.area
-  #   else
-  #     Wall.find_by wallable: self
-  #   end
-  # end
-
-  def related_log_entries
-    LogEntry.for_person(self)
-  end
-
-  def sales_today
-    return 0 unless self.connect_user_id
-    if self.person_areas.count > 0 and
-        (self.person_areas.first.area.project.name == 'Vonage Retail' or
-            self.person_areas.first.area.project.name == 'Vonage Events')
-      ConnectOrder.sales.today.where(salesrep_id: self.connect_user_id).count
-    elsif self.person_areas.count > 0 and
-        self.person_areas.first.area.project.name == 'Sprint Retail'
-      ConnectSprintSale.today.where(ad_user_id: self.connect_user_id).count
-    end
-  end
-
-  def sms_messages
-    to_messages = self.to_sms_messages
-    from_messages = self.from_sms_messages
-    to_ids = to_messages.map(&:id).join(',')
-    from_ids = from_messages.map(&:id).join(',')
-    if to_ids.length > 0 and from_ids.length > 0
-      ids = "#{to_ids},#{from_ids}"
-    elsif to_ids.length > 0
-      ids = to_ids
-    elsif from_ids.length > 0
-      ids = from_ids
-    else
-      ids = nil
-    end
-    if ids
-      SMSMessage.where("id IN (#{ids})")
-    else
-      SMSMessage.none
-    end
-  end
-
-  def locations
-    all_locations = Array.new
-    for person_area in self.person_areas do
-      all_locations << person_area.area.all_locations
-    end
-    all_locations.flatten.uniq
-  end
-
-  def hq?
-    self.position and self.position.hq?
-  end
-
-  def physical_address
-    PersonAddress.get_physical(self)
-  end
-
-  def mailing_address
-    address = PersonAddress.find_by person: self, physical: false
-  end
+  #---------------------
 
   private
 

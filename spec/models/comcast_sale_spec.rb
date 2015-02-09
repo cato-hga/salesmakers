@@ -65,25 +65,33 @@ describe ComcastSale do
     let!(:recent_installation) do
       sale = build :comcast_sale
       sale.comcast_install_appointment.install_date = Date.yesterday
+      sale.order_date = Date.yesterday
       sale.save validate: false
       sale
     end
     let!(:upcoming_installation) do
       sale = create :comcast_sale
       sale.comcast_install_appointment.update install_date: Date.tomorrow
+      sale.update order_date: Date.tomorrow
       sale
     end
 
-    it 'scopes recent installation sales' do
+    it 'scopes recent installation orders' do
       recent_installations = ComcastSale.recent_installations
       expect(recent_installations).to include(recent_installation)
       expect(recent_installations).not_to include(upcoming_installation)
     end
 
-    it 'scopes upcoming installation sales' do
+    it 'scopes upcoming installation orders' do
       upcoming_installations = ComcastSale.upcoming_installations
       expect(upcoming_installations).to include(upcoming_installation)
       expect(upcoming_installations).not_to include(recent_installation)
+    end
+
+    it 'pulls orders for a date range' do
+      yesterday_sales = ComcastSale.sold_between_dates(Date.yesterday, Date.today)
+      expect(ComcastSale.count).to eq(3)
+      expect(yesterday_sales.count).to eq(1)
     end
   end
 end

@@ -36,6 +36,11 @@ class ComcastSale < ActiveRecord::Base
         order('comcast_install_appointments.install_date')
   }
 
+  scope :sold_between_dates, ->(start_date, end_date) {
+    return none unless start_date and end_date
+    where('order_date >= ? AND order_date < ?', start_date, end_date)
+  }
+
   private
 
   def within_24_hours

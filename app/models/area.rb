@@ -16,6 +16,7 @@ class Area < ActiveRecord::Base
   has_one :group_me_group
   has_ancestry
 
+  delegate :client, to: :project
 
   scope :visible, ->(person = nil) {
     return Area.none unless person
