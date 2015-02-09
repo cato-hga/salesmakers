@@ -19,10 +19,15 @@ class Line < ActiveRecord::Base
     self.line_states.include? active_state
   end
 
+  def identifier=(identifier)
+    self[:identifier] = identifier
+    strip_non_alphanumeric
+  end
+
   private
 
   def strip_non_alphanumeric
     return if not self.identifier
-    self.identifier = self.identifier.gsub(/[^0-9A-Za-z]/, '')
+    self[:identifier] = self.identifier.gsub(/[^0-9A-Za-z]/, '')
   end
 end
