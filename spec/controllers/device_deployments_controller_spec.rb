@@ -99,6 +99,7 @@ describe DeviceDeploymentsController do
     end
   end
 
+
   describe 'recouping' do
     let(:deployed_device) { create :device, line: line }
     let(:recouped_person) { create :person, personal_email: 'test@test.com' }
@@ -130,6 +131,7 @@ describe DeviceDeploymentsController do
           deployed_device.save
         end
 
+
         subject do
           post :recoup, device_id: deployed_device.id, notes: notes
         end
@@ -157,9 +159,9 @@ describe DeviceDeploymentsController do
           expect(LogEntry.first.comment).to eq(notes)
         end
 
-        # it 'sends an email to payroll' do
-        #   expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
-        # end
+        it 'sends an email to payroll' do
+          expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
       end
     end
   end

@@ -1,4 +1,6 @@
 class DeviceRecoupMailer < ApplicationMailer
+  default from: 'assetreturns@salesmakersinc.com'
+
   def recoup_mailer(device, person, notes)
     @device = device
     @notes = notes
@@ -26,7 +28,7 @@ class DeviceRecoupMailer < ApplicationMailer
     end
 
     mail(to: ['assets@retaildoneright.com', email],
-         subject: "[NEW RBDC - Ignore] Asset Returned"
+         subject: "[SalesMakers] Asset Returned"
     )
   end
 end

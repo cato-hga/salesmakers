@@ -25,7 +25,7 @@ describe DeviceRecoupMailer do
     end
 
     it 'sends an email with the correct "from" email' do
-      expect(mail.from).to include('development@retaildoneright.com')
+      expect(mail.from).to include('assetreturns@salesmakersinc.com')
     end
 
     it 'sends an email with the correct device info' do
