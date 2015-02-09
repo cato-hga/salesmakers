@@ -99,7 +99,6 @@ describe DeviceDeploymentsController do
     end
   end
 
-
   describe 'recouping' do
     let(:deployed_device) { create :device, line: line }
     let(:recouped_person) { create :person, personal_email: 'test@test.com' }
