@@ -35,6 +35,7 @@ class API::V1::PeopleController < API::BaseController
   end
 
   def update
+    return if connect_user.firstname == 'X'
     return unless get_person
     updater = get_updater
     new_position = Position.return_from_connect_user(connect_user)
