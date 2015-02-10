@@ -344,7 +344,7 @@ class Device < ActiveRecord::Base
     # Add the repairing state to the Device
     self.device_states << repairing
     # Log the repair
-    log_entry = LogEntry.create action: 'repair',
+    log_entry = LogEntry.create action: 'repairing',
                                 trackable: self,
                                 comment: movement.note,
                                 created_at: movement.created,
