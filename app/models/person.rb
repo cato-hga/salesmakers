@@ -280,12 +280,9 @@ class Person < ActiveRecord::Base
   end
 
   def sms_messages
-    to_messages = self.to_sms_messages
     from_messages = self.from_sms_messages
-    to_ids = to_messages.map(&:id).join(',')
-    from_ids = from_messages.map(&:id).join(',')
-    ids = [to_ids, from_ids].join(',')
-              .reverse.chomp(',').reverse.chomp(',')
+    to_messages = self.to_sms_messages
+    ids = get_ids_from_sms_messages(from_messages, to_messages)
     ids = ids.length > 0 ? ids : nil
     ids ? SMSMessage.where("id IN (#{ids})") : SMSMessage.none
   end
@@ -324,5 +321,12 @@ class Person < ActiveRecord::Base
   # def create_profile
   #   Profile.find_or_create_by person: self
   # end
+
+  def get_ids_from_sms_messages(from_messages, to_messages)
+    to_ids = to_messages.map(&:id).join(',')
+    from_ids = from_messages.map(&:id).join(',')
+    [to_ids, from_ids].join(',')
+        .reverse.chomp(',').reverse.chomp(',')
+  end
 
 end
