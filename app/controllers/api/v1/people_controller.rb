@@ -31,6 +31,7 @@ class API::V1::PeopleController < API::BaseController
                  separated,
                  separated
     AssetsMailer.separated_mailer(get_person).deliver_now
+    AssetsMailer.asset_return_mailer(get_person).deliver_now
     get_person.reload
     respond_with get_person
   end

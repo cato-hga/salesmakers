@@ -59,8 +59,8 @@ describe API::V1::PeopleController, type: :controller do
       }.to change(LogEntry, :count).by(1)
     end
 
-    it 'sends an email if the employee has assets' do
-      expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    it 'sends emails if the employee has assets' do
+      expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(2)
     end
   end
 end
