@@ -136,4 +136,49 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(first_deployment.comment)
     end
   end
+
+  describe 'asset return mailer' do
+    let(:device) { create :device, line: line }
+    let(:second_device) { create :device, serial: '12357799', identifier: '12357799' }
+    let(:line) { create :line }
+    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device, second_device] }
+    let(:mail) { AssetsMailer.asset_return_mailer(person) }
+
+    it 'sends an email with correct subject' do
+      expect(mail.subject).to include('Asset Return Instructions')
+    end
+
+    it 'sends an email to Assets and IT' do
+      expect(mail.to).to include('assets@retaildoneright.com')
+      expect(mail.to).to include(person.personal_email)
+    end
+
+    it 'sends an email with the correct "from" email' do
+      expect(mail.from).to include('assetreturns@salesmakersinc.com')
+    end
+
+    it 'sends an email with the correct device info' do
+      expect(mail.body.encoded).to include(device.serial)
+      expect(mail.body.encoded).to include(line.identifier)
+      expect(mail.body.encoded).to include(second_device.serial)
+    end
+
+    it 'handles no line being attached to a device' do
+      device.line = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+
+    it 'sends an email with the correct person info' do
+      expect(mail.body.encoded).to include(person.display_name)
+    end
+
+    it 'handles not having a phone number for a person' do
+      person.mobile_phone = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+
+    it 'handles multiple assets for a user' do
+      expect(mail.body.encoded).to include(second_device.serial)
+    end
+  end
 end

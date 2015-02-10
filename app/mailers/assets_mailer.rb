@@ -28,6 +28,7 @@ class AssetsMailer < ApplicationMailer
     end
 
     mail(to: ['assets@retaildoneright.com', email],
+         cc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Asset Returned"
     )
   end
@@ -46,7 +47,23 @@ class AssetsMailer < ApplicationMailer
       @personal_email = 'N/A'
     end
     mail(to: ['assets@retaildoneright.com', 'it@retaildoneright.com'],
+         cc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Separated Employee with Asset(s)"
     )
   end
+
+  def asset_return_mailer(person)
+    @devices = person.devices
+    @person_name = person.display_name
+    if person.personal_email
+      email = person.personal_email
+    else
+      email = ''
+    end
+    mail(to: ['assets@retaildoneright.com', email],
+         cc: 'smiles@retaildoneright.com',
+         subject: "[SalesMakers] Asset Return Instructions"
+    )
+  end
+
 end
