@@ -111,8 +111,12 @@ describe 'Followups' do
         expect(page).to have_content(Date.yesterday.strftime('%m/%d/%Y'))
         expect(page).to have_content(Date.tomorrow.strftime('%m/%d/%Y'))
       end
-      it 'do not show for one week in the past'
-      it 'do not show for one week in the future'
+      it 'do not show for one week in the past' do
+        expect(page).not_to have_content (Date.today - 8.days).strftime('%m/%d/%Y')
+      end
+      it 'do not show for one week in the future' do
+        expect(page).not_to have_content (Date.today + 8.days).strftime('%m/%d/%Y')
+      end
     end
   end
 end

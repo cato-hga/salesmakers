@@ -51,6 +51,10 @@ describe ComcastLeadsController do
       subject
       expect(response).to redirect_to(comcast_customers_path)
     end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
   end
 
 end

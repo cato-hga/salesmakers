@@ -34,6 +34,7 @@ describe 'Comcast lead CRUD actions' do
         click_on 'Dismiss Lead'
       end
       expect(page).to have_content('dismissed')
+      expect(page).to have_content('My Leads')
     end
 
   end

@@ -27,6 +27,11 @@ class ComcastLeadsController < ApplicationController
     @comcast_lead = ComcastLead.find params[:id]
     if @comcast_lead.update active: false
       flash[:notice] = 'Lead succesfully dismissed.'
+      @current_person.log? 'destroy',
+                           @comcast_lead,
+                           @current_person,
+                           nil,
+                           nil
     else
       flash[:error] = 'Could not dismiss lead.'
     end
