@@ -84,4 +84,28 @@ describe LegacyVonageSaleImporting do
     end
   end
 
+  describe 'when there are unmatched sales' do
+    let!(:importer) { LegacyVonageSaleImporting.new 1.day }
+    let(:position) { create :position, name: 'Senior Developer' }
+    let!(:developer) { create :person, position: position }
+    let(:unmatched_sales) {
+      [{
+          order: build_stubbed(:connect_order,
+                               c_order_id: 'FF80808233E664900133E664E6350002'),
+          reason: 'Confirmation number must be 10 digits in length'
+      }]
+    }
+
+    before do
+      allow(translator).to receive(:unmatched_sales).
+                             and_return(unmatched_sales)
+    end
+
+    it 'generates an email' do
+
+      expect {
+        translator.translate_all([connect_order])
+      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    end
+  end
 end

@@ -6,6 +6,7 @@ module VonageLegacySaleTranslator
       sale = translate(order)
       sales << sale if sale.valid?
     end
+    send_unmatched
     sales.uniq
   end
 
@@ -83,5 +84,10 @@ module VonageLegacySaleTranslator
         order: order,
         reason: sale.errors.full_messages.join(', ')
     }
+  end
+
+  def send_unmatched
+    unmatched = self.unmatched_sales || return
+    UnmatchedVonageSalesMailer.unmatched_sales(unmatched).deliver_later
   end
 end
