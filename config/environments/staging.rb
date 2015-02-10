@@ -86,7 +86,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {host: 'staging.rbdconnect.com'}
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                            email_prefix: '[SC2.0] ',
+                            email_prefix: '[SC2.0 - TESTING] ',
                             sender_address: 'development@retaildoneright.com',
                             exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com},
                             sections: %w{request person session environment backtrace}
