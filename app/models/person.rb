@@ -1,56 +1,84 @@
 require 'validators/phone_number_validator'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
-  extend PersonConnectFunctionality
+  extend NonAlphaNumericRansacker
+  include PersonConnectFunctionality
+
+  before_validation :generate_display_name
 
   nilify_blanks
 
-  before_validation :generate_display_name
-  #after_save :create_profile
-  #after_save :create_wall
+  def self.setup_validations
+    validates :first_name, length: { minimum: 2 }
+    validates :last_name, length: { minimum: 2 }
+    validates :display_name, length: { minimum: 5 }
+    validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
+    validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
+    validates :connect_user_id, uniqueness: true, allow_nil: true
+    validates_with PhoneNumberValidator
+  end
 
-  validates :first_name, length: { minimum: 2 }
-  validates :last_name, length: { minimum: 2 }
-  validates :display_name, length: { minimum: 5 }
-  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
-  validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
-  validates :connect_user_id, uniqueness: true, allow_nil: true
-  validates_with PhoneNumberValidator
+  def self.setup_associations
+    setup_belongs_to
+    setup_has_one
+    setup_has_many
+    setup_has_many_through
+    setup_has_and_belongs_to_many
+    setup_complex_associations
+  end
 
-  belongs_to :position
-  belongs_to :connect_user
-  has_many :person_areas
-  has_many :areas, through: :person_areas
-  belongs_to :supervisor, class_name: 'Person'
-  has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
-  has_many :device_deployments
-  has_many :devices
-  has_one :profile
-  has_many :permissions, through: :position
-  has_one :wall, as: :wallable
-  has_one :group_me_user
-  has_many :uploaded_images
-  has_many :uploaded_videos
-  has_many :blog_posts
-  has_many :wall_posts
-  has_many :questions
-  has_many :answers
-  has_many :answer_upvotes
-  has_many :group_me_likes, through: :group_me_user
-  has_many :group_me_posts
-  has_many :employments
-  has_many :day_sales_counts, as: :saleable
-  has_many :sales_performance_ranks, as: :rankable
-  has_many :person_addresses
-  has_and_belongs_to_many :poll_question_choices
+  def self.setup_belongs_to
+    belongs_to_associations = [
+        :position, :connect_user
+    ]
 
-  has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
-  has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
-  has_many :communication_log_entries
+    belongs_to :supervisor, class_name: 'Person'
+    for belongs_to_association in belongs_to_associations do
+      belongs_to belongs_to_association
+    end
+  end
 
-  ransacker :mobile_phone_number, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
-                                  parent.table[:mobile_phone]
-                                end
+  def self.setup_has_one
+    has_one :profile
+    has_one :wall, as: :wallable
+    has_one :group_me_user
+  end
+
+  def self.setup_has_many
+    has_many_associations = [
+        :person_areas, :device_deployments, :devices, :uploaded_images,
+        :uploaded_videos, :blog_posts, :wall_posts, :questions, :answers,
+        :answer_upvotes, :communication_log_entries, :group_me_posts,
+        :employments, :person_addresses
+    ]
+
+    for has_many_association in has_many_associations do
+      has_many has_many_association
+    end
+  end
+
+  def self.setup_has_many_through
+    has_many :permissions, through: :position
+    has_many :areas, through: :person_areas
+    has_many :group_me_likes, through: :group_me_user
+  end
+
+  def self.setup_has_and_belongs_to_many
+    has_and_belongs_to_many :poll_question_choices
+  end
+
+  def self.setup_complex_associations
+    has_many :day_sales_counts, as: :saleable
+    has_many :sales_performance_ranks, as: :rankable
+    has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
+    has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
+    has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
+  end
+
+  setup_validations
+  setup_associations
+
+  stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
   scope :visible, ->(person = nil) {
     return Person.none unless person
@@ -122,9 +150,7 @@ class Person < ActiveRecord::Base
 
   def termination_date_invalid?
     begin
-      self.employments and
-          self.employments.count and
-          self.employments.count > 0 and
+      not self.employments.empty? and
           self.employments.first.end and
           self.employments.first.end.strftime('%Y').to_i < 2008
     rescue
@@ -287,188 +313,6 @@ class Person < ActiveRecord::Base
   def clients
     self.person_areas.each.map(&:client)
   end
-
-
-  # ----- MOVING BACK TO PERSON ----------
-
-  def self.return_from_connect_user(connect_user)
-    person = Person.find_by connect_user_id: connect_user.id
-    return person if person
-    position = Position.return_from_connect_user connect_user
-    person = Person.find_by_email connect_user.email
-    creator = connect_user.createdby ? Person.find_by_connect_user_id(connect_user.createdby) : nil
-    supervisor = connect_user.supervisor_id ? Person.find_by_connect_user_id(connect_user.supervisor_id) : nil
-    return person if person
-    Person.new_from_connect_user connect_user, position, supervisor, creator
-  end
-
-  def self.new_from_connect_user(connect_user, position, supervisor, creator)
-    person = Person.new first_name: connect_user.firstname,
-                        last_name: connect_user.lastname,
-                        display_name: connect_user.name,
-                        email: connect_user.username,
-                        personal_email: connect_user.description,
-                        connect_user_id: connect_user.id,
-                        active: (connect_user.isactive == 'Y' ? true : false),
-                        mobile_phone: connect_user.phone,
-                        position: position,
-                        supervisor: supervisor
-    return nil unless person and person.save
-    Person.log_onboard_from_connect person, creator
-    person.add_area_from_connect
-    person
-  end
-
-  def self.log_onboard_from_connect(person, creator)
-    connect_user = person.connect_user
-    LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
-    LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
-  end
-
-  def import_employment_from_connect
-    return unless self.connect_user_id
-    connect_user = self.connect_user
-    bpartner = connect_user.connect_business_partner
-    return unless bpartner
-    salary_categories = bpartner.connect_business_partner_salary_categories
-    return unless salary_categories
-    employment_started = salary_categories.first
-    return unless employment_started
-    employment = Employment.new person: self,
-                                start: employment_started.datefrom,
-                                created_at: connect_user.created,
-                                updated_at: employment_started.updated
-    unless self.active?
-      terminations = connect_user.connect_terminations
-      ended = connect_user.updated.to_date
-      terminated = ended
-      ended = connect_user.lastcontact.to_date if connect_user.lastcontact
-      reason = 'Not Recorded'
-      if terminations and terminations.count > 0
-        ended = terminations.first.last_day_worked
-        terminated = terminations.first.created
-        reason = terminations.first.connect_termination_reason.reason if terminations.first.connect_termination_reason
-      end
-      employment.end = ended
-      employment.updated_at = terminated
-      employment.end_reason = reason
-    end
-    employment.save
-  end
-
-  def return_person_area_from_connect
-    return nil unless self.connect_user_id
-    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
-    return nil unless connect_user
-    area_name = Position.clean_area_name connect_user.region
-    area_type = AreaType.determine_from_connect(connect_user, self.get_projects_hash, self.is_event?)
-    PersonArea.return_from_name_and_type self, area_name, area_type, connect_user.leader?
-  end
-
-  def get_projects_hash
-    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
-    return nil unless connect_user
-    connect_user_project = connect_user.project
-    return nil unless connect_user_project
-    project_name = connect_user_project.name
-    return {
-        vonage: (project_name == 'Vonage'),
-        sprint: (project_name == 'Sprint'),
-        comcast: (project_name == 'Comcast')
-    }
-  end
-
-  def is_event?
-    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
-    return nil unless connect_user
-    connect_user_region = connect_user.region
-    return false unless connect_user_region
-    connect_user_region.name.include? 'Event'
-  end
-
-  def add_area_from_connect
-    PersonArea.where(person: self).destroy_all
-    connect_user = ConnectUser.find_by ad_user_id: self.connect_user_id
-    creator = Person.find_by_connect_user_id connect_user.createdby
-    person_area = self.return_person_area_from_connect
-    return unless person_area
-    if person_area.save
-      area = person_area.area
-      leader = person_area.manages?
-      return unless creator
-      created_at = leader ? area.updated_at : connect_user.created
-      if leader
-        LogEntry.assign_as_manager_from_connect self, creator, person_area.area, created_at, created_at
-      else
-        LogEntry.assign_as_employee_from_connect self, creator, person_area.area, created_at, created_at
-      end
-    end
-  end
-
-  def separate_from_connect
-    connect_user = get_connect_user || return
-    self.update_subordinates
-    self.update(active: false, updated_at: connect_user.updated)
-    updated_to_inactive = self.active? ? false : true
-    return updated_to_inactive if self.employments.count < 1
-    employment = self.employments.first
-    employment.end_from_connect
-    updated_to_inactive
-  end
-
-  def update_subordinates
-    for subordinate in self.employees do
-      subordinate_connect_user = subordinate.connect_user
-      next unless subordinate_connect_user
-      PersonUpdater.new(subordinate_connect_user).update
-    end
-  end
-
-  def update_address_from_connect
-    return unless has_address?
-    connect_address = self.connect_user.
-        connect_business_partner.
-        connect_business_partner_locations.
-        first.
-        connect_location
-    connect_state = connect_address.connect_state
-    return unless connect_address and connect_state
-    new_address = PersonAddress.new person: self,
-                                    line_1: connect_address.address1,
-                                    line_2: connect_address.address2,
-                                    city: connect_address.city,
-                                    state: connect_state.name,
-                                    zip: connect_address.postal
-    return unless new_address.valid?
-    self.person_addresses.where(physical: true).destroy_all
-    new_address.save
-  end
-
-  def has_address?
-    return false unless self.connect_user
-    bp = self.connect_user.connect_business_partner
-    return false unless bp
-    locations = bp.connect_business_partner_locations
-    return false unless locations.count > 0
-    connect_address = locations.first.connect_location
-    return false unless connect_address
-    state = connect_address.connect_state
-    return false unless state
-    true
-  end
-
-  def get_connect_user
-    ConnectUser.find_by username: self.email
-  end
-
-  def self.update_from_connect(minutes)
-    connect_users = ConnectUser.where('updated >= ?', (Time.now - minutes.minutes).apply_eastern_offset)
-    for connect_user in connect_users do
-      PersonUpdater.new(connect_user).update
-    end
-  end
-
-  #---------------------
 
   private
 

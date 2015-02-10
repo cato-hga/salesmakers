@@ -1,4 +1,6 @@
 class Line < ActiveRecord::Base
+  extend NonAlphaNumericRansacker
+
   before_save :strip_non_alphanumeric
 
   validates :identifier, presence: true, length: {is: 10}, uniqueness: {case_sensitive: false}
@@ -10,9 +12,7 @@ class Line < ActiveRecord::Base
 
   has_one :device
 
-  ransacker :unstripped_identifier, formatter: proc { |v| v.strip.gsub /[^0-9]/, '' } do |parent|
-    parent.table[:identifier]
-  end
+  stripping_ransacker(:unstripped_identifier, :identifier)
 
   def active?
     active_state = LineState.find_or_initialize_by name: 'Active'
