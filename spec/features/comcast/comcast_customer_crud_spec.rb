@@ -28,7 +28,7 @@ describe 'Comcast Customer CRUD actions' do
   end
 
   context 'for reading' do
-    let(:now) { Time.now }
+    let(:now) { Time.zone.now }
     let!(:comcast_lead) {
       create :comcast_lead,
              comcast_customer: comcast_customer,
