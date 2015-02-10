@@ -1,4 +1,14 @@
 module VonageLegacySaleTranslator
+  def translate_all(orders)
+    @unmatched_sales = []
+    sales = Array.new
+    orders.each do |order|
+      sale = translate(order)
+      sales << sale if sale.valid?
+    end
+    sales.uniq
+  end
+
   def translate(order)
     @order = order
     sale = VonageSale.new sale_date: get_sale_date,
@@ -7,10 +17,12 @@ module VonageLegacySaleTranslator
                           location: get_location,
                           customer_first_name: get_customer_first_name,
                           customer_last_name: get_customer_last_name,
-                          mac_id: get_mac_id,
+                          mac: get_mac,
                           vonage_product: get_vonage_product,
                           created_at: order.created.apply_eastern_offset,
                           updated_at: order.updated.apply_eastern_offset
+    add_to_unmatched(order, sale) unless sale.valid?
+    sale
   end
 
   def get_sale_date
@@ -46,7 +58,7 @@ module VonageLegacySaleTranslator
     @customer.name.split[-1]
   end
 
-  def get_mac_id
+  def get_mac
     return unless @order.documentno and @order.documentno.length == 16
     mac = @order.documentno.upcase[3..15]
     return unless mac[-1] == '+'
@@ -58,5 +70,18 @@ module VonageLegacySaleTranslator
     return unless order_lines.first and order_lines.first.connect_product
     product_name = order_lines.first.connect_product.name
     VonageProduct.find_by name: product_name
+  end
+
+  def unmatched_sales
+    @unmatched_sales
+  end
+
+  private
+
+  def add_to_unmatched(order, sale)
+    @unmatched_sales << {
+        order: order,
+        reason: sale.errors.full_messages.join(', ')
+    }
   end
 end

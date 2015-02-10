@@ -37,8 +37,8 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a MAC ID' do
-    subject.mac_id = nil
+  it 'requires a MAC' do
+    subject.mac = nil
     expect(subject).not_to be_valid
   end
 

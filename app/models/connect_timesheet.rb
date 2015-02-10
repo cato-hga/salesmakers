@@ -1,5 +1,7 @@
 # Openbravo shifts
 class ConnectTimesheet < RealConnectModel
+  include ConnectScopes
+
   # Openbravo table name
   self.table_name = 'rc_timesheet'
   # Openbravo table primary key column
@@ -9,11 +11,6 @@ class ConnectTimesheet < RealConnectModel
   belongs_to :connect_user,
            primary_key: 'ad_user_id',
            foreign_key: 'ad_user_id'
-
-  scope :updated_within_last, ->(duration) {
-    return none unless duration
-    where('updated >= ?', (Time.zone.now - duration).apply_eastern_offset)
-  }
 
   def shift_date
     self[:shift_date].to_time.remove_eastern_offset

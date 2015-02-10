@@ -32,6 +32,9 @@ describe LegacyVonageSaleImporting do
   let(:translator) {
     ConnectOrder.new.extend(VonageLegacySaleTranslator)
   }
+  let(:writer) {
+    ConnectOrder.new.extend(VonageSaleWriter)
+  }
 
   before do
     allow(connect_business_partner).to receive(:get_channel).
@@ -66,6 +69,18 @@ describe LegacyVonageSaleImporting do
     it 'returns a valid VonageSale' do
       vonage_sale = translator.translate connect_order
       expect(vonage_sale).to be_valid
+    end
+  end
+
+  describe 'when writing sales to the database' do
+    subject { writer.create_and_update_all([translator.translate(connect_order)]) }
+    it 'increases the VonageSale count' do
+      expect { subject }.to change(VonageSale, :count).by(1)
+    end
+
+    it 'does not duplicate existing sales' do
+      subject
+      expect { subject }.not_to change(VonageSale, :count)
     end
   end
 

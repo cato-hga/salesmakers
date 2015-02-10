@@ -1,5 +1,7 @@
 # Openbravo orders
 class ConnectOrder < RealConnectModel
+  include ConnectScopes
+
   # Openbravo table name
   self.table_name = 'c_order'
   # Openbravo table primary key column

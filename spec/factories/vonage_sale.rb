@@ -7,7 +7,7 @@ FactoryGirl.define do
     location
     customer_first_name 'Johnny'
     customer_last_name 'Walker'
-    mac_id '906EBB123456'
+    mac '906EBB123456'
     vonage_product
   end
 
