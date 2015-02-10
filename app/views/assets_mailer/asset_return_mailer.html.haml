@@ -8,12 +8,14 @@
 %strong Instructions:
 %br
 %ol
-  %li= link_to 'assetreturns.salesmakersinc.com', 'assetreturns.salesmakersinc.com'
+  %li
+    Visit
+    %a{href:'assetreturns.salesmakersinc.com'} assetreturns.salesmakersinc.com
+
   %li Fill in all required information and any applicable optional information
   %li
     Please make sure you box up your asset(s) properly and protect them for shipment. For more information on properly packaging your item, see
-    %a{href: 'http://www.fedex.com/us/service-guide/our-services/package-shipment/'}
-    this resource
+    %a{href: 'http://www.fedex.com/us/service-guide/our-services/package-shipment/'} this resource
   %li Include any accessories (charger, SD Card, etc.) in the same box.
 
 %p If you have any questions, please don't hesitate to email us.
@@ -25,15 +27,15 @@
 SalesMakers, Inc
 %br
 %a{ href: 'mailto: assets@retaildoneright.com' } assets@retaildoneright.com
-
+%br
 %strong
   %em
-    This is an automated message. Do no reply directly to this email, as it will not be seen. Direct all communication through
+    This is an automated message. Do not reply directly to this email, as it will not be seen. Direct all communication through
     %a{href: "mailto:assets@retaildoneright.com"} assets@retaildoneright.com
 
 %h2 Assets on Record
 %h3 Information
-%table{ style: 'with: 100%;' }
+%table{ style: 'width: 100%;' }
   %tr
     %td
       %strong
@@ -44,8 +46,8 @@ SalesMakers, Inc
     %td
       %strong
         %u PTN
-- for device in @devices do
-  %tr
-    %td= device.device_model_name
-    %td= device.serial
-    %td= device.line.present? ? device.line.identifier : 'N/A'
+  - for device in @devices do
+    %tr
+      %td= device.device_model_name
+      %td= device.serial
+      %td= device.line.present? ? device.line.identifier : 'N/A'

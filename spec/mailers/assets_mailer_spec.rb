@@ -153,6 +153,7 @@ describe AssetsMailer do
       expect(mail.to).to include(person.personal_email)
     end
 
+
     it 'sends an email with the correct "from" email' do
       expect(mail.from).to include('assetreturns@salesmakersinc.com')
     end

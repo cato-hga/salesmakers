@@ -194,8 +194,11 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def separate
-    self.update(active: false, updated_at: separated_at)
+  def separate(separated_at = Time.now)
+    if self.update(active: false, updated_at: separated_at)
+      AssetsMailer.separated_mailer(self).deliver_now
+      AssetsMailer.asset_return_mailer(self).deliver_now
+    end
   end
 
   def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
@@ -408,7 +411,7 @@ class Person < ActiveRecord::Base
   def separate_from_connect
     connect_user = get_connect_user || return
     self.update_subordinates
-    self.update(active: false, updated_at: connect_user.updated)
+    self.separate(connect_user.updated)
     updated_to_inactive = self.active? ? false : true
     return updated_to_inactive if self.employments.count < 1
     employment = self.employments.first
