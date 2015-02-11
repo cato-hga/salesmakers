@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'comcast_eod/new'
+
+  get 'comcast_eod/create'
+
   root 'root_redirects#incoming_redirect'
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
