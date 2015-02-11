@@ -28,7 +28,6 @@ class AssetsMailer < ApplicationMailer
     end
 
     mail(to: ['assets@retaildoneright.com', email],
-         bcc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Asset Returned"
     )
   end
@@ -47,7 +46,6 @@ class AssetsMailer < ApplicationMailer
       @personal_email = 'N/A'
     end
     mail(to: ['assets@retaildoneright.com', 'it@retaildoneright.com'],
-         bcc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Separated Employee with Asset(s)"
     )
   end
@@ -66,7 +64,6 @@ class AssetsMailer < ApplicationMailer
       @personal_email = 'N/A'
     end
     mail(to: ['assets@retaildoneright.com', 'it@retaildoneright.com'],
-         bcc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Separated Employee without Assets"
     )
   end
@@ -80,7 +77,6 @@ class AssetsMailer < ApplicationMailer
       email = ''
     end
     mail(to: ['assets@retaildoneright.com', email],
-         bcc: 'smiles@retaildoneright.com',
          subject: "[SalesMakers] Asset Return Instructions"
     )
   end
