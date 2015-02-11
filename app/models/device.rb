@@ -32,6 +32,11 @@ class Device < ActiveRecord::Base
     self.device_states.include? lost_stolen
   end
 
+  def written_off?
+    written_off = DeviceState.find_or_initialize_by name: 'Written Off'
+    self.device_states.include? written_off
+  end
+
   def add_state(state)
     self.device_states << state
     self.device_states.include? state

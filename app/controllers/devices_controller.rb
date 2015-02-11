@@ -144,13 +144,14 @@ class DevicesController < ApplicationController
   def found
     @device = Device.find params[:id]
     lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
-    if @device.device_states.delete lost_stolen_state
+    written_off_state = DeviceState.find_by name: 'Written Off'
+    if @device.device_states.delete lost_stolen_state, written_off_state
       @current_person.log? 'found',
                            @device
-      flash[:notice] = 'Device no longer reported lost or stolen'
+      flash[:notice] = 'Device no longer reported lost or stolen and/or written off'
       redirect_to device_path(@device)
     else
-      flash[:error] = 'Could not remove the lost or stolen state from the device'
+      flash[:error] = 'Could not remove the lost or stolen, or written off states from the device'
       redirect_to device_path(@device)
     end
   end

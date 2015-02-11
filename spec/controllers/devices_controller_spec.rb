@@ -297,28 +297,48 @@ describe DevicesController do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
     end
+  end
 
-    describe 'PATCH found' do
-      before(:each) do
-        device.device_states << lost_stolen
-        allow(controller).to receive(:policy).and_return double(found?: true)
-      end
-
-      subject {
-        patch :found,
-              id: device.id
-        device.reload
-      }
-
-      it 'removes the Lost or Stolen device state' do
-        expect { subject }.to change(device.device_states, :count).by(-1)
-      end
-
-      it 'creates a log entry' do
-        expect { subject }.to change(LogEntry, :count).by(1)
-      end
+  describe 'PATCH found' do
+    let(:device) { create :device }
+    let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+    let!(:written_off) { create :device_state, name: 'Written Off', locked: true }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+    end
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(found?: true)
     end
 
+    subject {
+      patch :found,
+            id: device.id
+      device.reload
+    }
+
+    it 'removes the Lost or Stolen device' do
+      device.device_states = [lost_stolen]
+      subject
+      expect(device.device_states).not_to include(lost_stolen)
+    end
+
+    it 'removes the Written off device state' do
+      device.device_states = [written_off]
+      subject
+      expect(device.device_states).not_to include(written_off)
+    end
+
+    it 'removes multiple states, if found' do
+      device.device_states = [written_off, lost_stolen]
+      subject
+      expect(device.device_states).to eq([])
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
   end
 
   describe 'GET csv' do
