@@ -196,8 +196,12 @@ class Person < ActiveRecord::Base
 
   def separate(separated_at = Time.now)
     if self.update(active: false, updated_at: separated_at)
-      AssetsMailer.separated_mailer(self).deliver_now
-      AssetsMailer.asset_return_mailer(self).deliver_now
+      if self.devices.any?
+        AssetsMailer.separated_with_assets_mailer(self).deliver_now
+        AssetsMailer.asset_return_mailer(self).deliver_now
+      else
+        AssetsMailer.separated_without_assets_mailer(self).deliver_now
+      end
     end
   end
 
