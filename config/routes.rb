@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   resources :comcast_customers, except: [:edit, :update, :destroy] do
     resources :comcast_sales, only: [:new, :create]
-    resources :comcast_leads, only: [:new, :create, :destroy]
+    resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy]
   end
 
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
@@ -55,6 +55,9 @@ Rails.application.routes.draw do
       patch 'repairing',
             action: :repairing,
             as: 'repairing'
+      patch 'repaired',
+            action: :repaired,
+            as: 'repaired'
     end
     collection do
       get :csv, to: 'devices#csv', as: :csv, defaults: { format: :csv }

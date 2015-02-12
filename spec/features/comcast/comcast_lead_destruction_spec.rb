@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe 'Comcast lead CRUD actions' do
+describe 'Comcast lead destruction' do
   let(:position) { create :comcast_sales_position }
   let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
   let!(:comcast_lead) {
-    build :comcast_lead,
+    create :comcast_lead,
           comcast_customer: comcast_customer
   }
   let!(:comcast_employee) { create :comcast_employee, position: position }
@@ -20,12 +20,8 @@ describe 'Comcast lead CRUD actions' do
     CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
   end
 
-  context 'for destruction', js: true do
-    before do
-      comcast_employee.position.permissions << permission_destroy
-      comcast_employee.position.permissions << permission_customer_index
-      comcast_lead.save
-    end
+  context 'success', js: true do
+    let(:position) { create :comcast_sales_position, permissions: [permission_destroy, permission_customer_index] }
 
     it 'deactivates a lead' do
       visit comcast_customer_path(comcast_customer)

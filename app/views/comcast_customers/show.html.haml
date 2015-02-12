@@ -22,10 +22,14 @@
           %br/
           %span.comment= @comcast_customer.comments
   - lead = @comcast_customer.comcast_lead
+  - sale = @comcast_customer.comcast_sale
   - if lead
     .widget#comcast_lead
       .inner
-        %h3 Lead Details
+        %h3
+          Lead Details
+          - unless sale
+            = link_to icon('page-edit') + ' Edit Lead', edit_comcast_customer_comcast_lead_path(@comcast_customer.id, lead.id), class: [:button, :rounded, :inline_button]
         %p
           %strong Follow up by:
           = short_date lead.follow_up_by
@@ -47,7 +51,6 @@
           data: { confirm: 'This action cannot be undone. Are you sure?' }, |
           method: :delete, |
           class: [:button, :alert] |
-  - sale = @comcast_customer.comcast_sale
   - if sale
     .widget#comcast_sale
       .inner

@@ -35,6 +35,10 @@ class ComcastLead < ActiveRecord::Base
     where('follow_up_by > ? OR follow_up_by IS NULL', Date.today + 1.week)
   }
 
+  def self.policy_class
+    ComcastCustomerPolicy
+  end
+
   private
 
   def one_service_selected
