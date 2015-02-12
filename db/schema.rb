@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210124931) do
+ActiveRecord::Schema.define(version: 20150210154728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -705,6 +705,16 @@ ActiveRecord::Schema.define(version: 20150210124931) do
   end
 
   add_index "uploaded_videos", ["person_id"], name: "index_uploaded_videos_on_person_id", using: :btree
+
+  create_table "vonage_account_status_changes", force: :cascade do |t|
+    t.string   "mac",                null: false
+    t.date     "account_start_date", null: false
+    t.date     "account_end_date"
+    t.integer  "status",             null: false
+    t.string   "termination_reason"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
 
   create_table "vonage_products", force: :cascade do |t|
     t.string   "name",                                  null: false

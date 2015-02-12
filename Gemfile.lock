@@ -13,6 +13,14 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: https://github.com/roo-rb/roo.git
+  revision: 707ed1524dd4506e553c6528a674add910598395
+  specs:
+    roo (2.0.0)
+      nokogiri
+      rubyzip (>= 1.0.0)
+
+GIT
   remote: https://github.com/stefankroes/ancestry.git
   revision: 2d80781c4f8f95183e446198d0128314bff0ca88
   specs:
@@ -212,6 +220,11 @@ GEM
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
+    griddler (1.1.0)
+      htmlentities
+      rails (>= 3.2.0)
+    griddler-postmark (1.0.0)
+      griddler
     groupdate (2.4.0)
       activesupport (>= 3)
     guard (2.11.1)
@@ -245,6 +258,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    htmlentities (4.3.3)
     http_parser.rb (0.6.0)
     httparty (0.13.3)
       json (~> 1.8)
@@ -433,9 +447,11 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    ruby-ole (1.2.11.8)
     ruby-progressbar (1.7.1)
     ruby_parser (3.6.4)
       sexp_processor (~> 4.1)
+    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.4.10)
     sass-rails (5.0.1)
@@ -457,6 +473,8 @@ GEM
       simplecov-html (~> 0.8.0)
     simplecov-html (0.8.0)
     slop (3.6.0)
+    spreadsheet (1.0.1)
+      ruby-ole (>= 1.0)
     spring (1.2.0)
     spring-commands-rspec (1.0.4)
       spring (>= 0.9.1)
@@ -565,6 +583,8 @@ DEPENDENCIES
   foundation-icons-sass-rails (= 3.0.0)
   geocoder (= 1.2.6)
   gmaps4rails (= 2.1.2)
+  griddler (= 1.1.0)
+  griddler-postmark (= 1.0.0)
   groupdate (= 2.4.0)
   guard-rspec (= 4.5.0)
   haml-rails (= 0.7.0)
@@ -589,11 +609,13 @@ DEPENDENCIES
   remotipart (= 1.2.1)
   render_csv (= 2.0.0)
   responders (= 2.0.2)
+  roo!
   rspec-rails (= 3.1.0)
   rubycas-client!
   sass-rails (= 5.0.1)
   sdoc (= 0.4.1)
   shoulda-matchers (= 2.7.0)
+  spreadsheet (= 1.0.1)
   spring (= 1.2.0)
   spring-commands-rspec (= 1.0.4)
   swiper-rails (= 1.0.2)

@@ -49,6 +49,10 @@ gem 'twilio-ruby', '3.14.4' # Was 3.14.2 01/21/2015 - Twilio SMS and Voice libra
 gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
 gem 'browser-timezone-rails', '0.0.8' #using the timezone of a user
+gem 'roo', git: 'https://github.com/roo-rb/roo.git' # Working with spreadsheets
+gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
+gem 'griddler', '1.1.0' # Incoming email parsing
+gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
