@@ -67,7 +67,7 @@ module PersonConnectFunctionality
     return nil unless connect_user
     connect_user_region = connect_user.region
     return false unless connect_user_region
-    connect_user_region.name.include? 'Event'
+    connect_user_region.name.include? 'Event' or connect_user_region.name.include? 'Owned'
   end
 
   def add_area_from_connect
