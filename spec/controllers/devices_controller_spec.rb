@@ -438,4 +438,39 @@ describe DevicesController do
     end
 
   end
+
+  describe 'PATCH repaired' do
+    let!(:device) { create :device, device_states: [repair] }
+    let(:repair) { create :device_state, name: 'Repairing', locked: true }
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(repaired?: true)
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+    end
+    subject {
+      patch :repaired,
+            id: device.id
+    }
+
+    it 'removes the Repair state from devices that do have it' do
+      expect {
+        subject
+        device.reload
+      }.to change(device.device_states, :count).by(-1)
+      expect(device.device_states).not_to include(repair)
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+        device.reload
+      }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'redirects to the device page' do
+      subject
+      expect(response).to redirect_to(device)
+    end
+  end
 end

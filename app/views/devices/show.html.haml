@@ -17,6 +17,8 @@
     = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen and remove the written off status. Are you sure?' }, method: :patch
   - if not @device.repairing?
     = link_to 'Repair', repairing_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will mark this device as being repaired. Are you sure?' }, method: :patch
+  - if @device.repairing?
+    = link_to 'Repaired', repaired_device_path(@device), class: [:button, :inline_button], method: :patch
 - unless @device.identifier == @device.serial
   %h3
     Secondary ID:

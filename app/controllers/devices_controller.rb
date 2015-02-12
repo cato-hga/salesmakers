@@ -174,6 +174,20 @@ class DevicesController < ApplicationController
     end
   end
 
+  def repaired
+    @device = Device.find params[:id]
+    repairing_state = DeviceState.find_by name: 'Repairing'
+    if @device.device_states.delete repairing_state
+      @current_person.log? 'repaired',
+                           @device
+      flash[:notice] = 'Device reported as repaired'
+      redirect_to device_path(@device)
+    else
+      flash[:error] = 'Could not set device as repaired'
+      redirect_to device_path(@device)
+    end
+  end
+
   def remove_state
     if @device and @device_state
       deleted = @device.device_states.delete @device_state
