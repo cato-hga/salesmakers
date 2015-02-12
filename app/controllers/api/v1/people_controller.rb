@@ -35,8 +35,8 @@ class API::V1::PeopleController < API::BaseController
   end
 
   def update
-    return if connect_user.firstname == 'X'
-    return unless get_person
+    respond with nil and return if connect_user.firstname == 'X'
+    respond with nil and return unless get_person
     updater = get_updater
     new_position = Position.return_from_connect_user(connect_user)
     if new_position and get_person.position != new_position
@@ -50,14 +50,14 @@ class API::V1::PeopleController < API::BaseController
       end
     end
     new_person_area = get_person.return_person_area_from_connect
-    return unless new_person_area
+    respond_with get_person and return unless new_person_area
     new_area = new_person_area.area
     new_leader = new_person_area.manages?
     old_person_areas = get_person.person_areas
     old_person_area = old_person_areas.count > 0 ? old_person_areas.first : nil
     old_area = old_person_area ? old_person_area.area : nil
     old_leader = old_person_area ? old_person_area.manages? : false
-    return unless new_area
+    respond_with get_person and return unless new_area
     if new_area != old_area or new_leader != old_leader
       PersonArea.where(person: get_person).destroy_all
       if new_person_area.save
