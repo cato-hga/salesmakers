@@ -12,13 +12,14 @@ describe 'Comcast lead destruction' do
   let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
   let(:description) { 'TestDescription' }
   let(:permission_customer_index) { Permission.create key: 'comcast_customer_index', permission_group: permission_group, description: description }
-  let(:permission_update) { Permission.create key: 'comcast_lead_update', permission_group: permission_group, description: description }
-  let(:permission_destroy) { Permission.create key: 'comcast_lead_destroy', permission_group: permission_group, description: description }
-  let(:permission_create) { Permission.create key: 'comcast_lead_create', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.create key: 'comcast_customer_update', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.create key: 'comcast_customer_destroy', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.create key: 'comcast_customer_create', permission_group: permission_group, description: description }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
   end
+
 
   context 'success', js: true do
     let(:position) { create :comcast_sales_position, permissions: [permission_destroy, permission_customer_index] }
