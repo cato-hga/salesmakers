@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210154728) do
+ActiveRecord::Schema.define(version: 20150213130324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -716,12 +716,32 @@ ActiveRecord::Schema.define(version: 20150210154728) do
     t.datetime "updated_at",         null: false
   end
 
+  create_table "vonage_paychecks", force: :cascade do |t|
+    t.string   "name",             null: false
+    t.date     "wages_start",      null: false
+    t.date     "wages_end",        null: false
+    t.date     "commission_start", null: false
+    t.date     "commission_end",   null: false
+    t.datetime "cutoff",           null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "vonage_products", force: :cascade do |t|
     t.string   "name",                                  null: false
     t.decimal  "price_range_minimum", default: 0.0,     null: false
     t.decimal  "price_range_maximum", default: 9999.99, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+  end
+
+  create_table "vonage_rep_sale_payout_brackets", force: :cascade do |t|
+    t.decimal  "per_sale",      null: false
+    t.integer  "area_id",       null: false
+    t.integer  "sales_minimum", null: false
+    t.integer  "sales_maximum", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "vonage_sales", force: :cascade do |t|

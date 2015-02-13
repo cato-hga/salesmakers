@@ -53,5 +53,4 @@ describe SimpleSpreadsheet do
       expect(spreadsheet.hashes.count).to eq(20)
     end
   end
-
 end
