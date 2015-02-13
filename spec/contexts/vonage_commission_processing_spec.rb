@@ -66,48 +66,63 @@ describe VonageCommissionProcessing do
       processor.process
     end
 
+    it 'determines weeks in the paycheck' do
+      expect(processor).to receive(:determine_weeks)
+      processor.process
+    end
+
+    it 'splits sales into weeks' do
+      expect(processor).to receive(:split_sales_into_weeks)
+      processor.process
+    end
+
+    it 'generates payouts for weeks' do
+      expect(processor).to receive(:generate_payouts_for_weeks)
+      processor.process
+    end
+
     it 'sets an array of People that had VonageSales for the period' do
-      expect(processor).to receive(:set_people_with_sales)
+      expect(processor).to receive(:set_people_with_sales).exactly(2).times
       processor.process
     end
 
     it 'sets an hash with the count of sales for each person' do
-      expect(processor).to receive(:set_sale_count_for_each_person)
+      expect(processor).to receive(:set_sale_count_for_each_person).exactly(2).times
       processor.process
     end
 
     it 'sets the area with brackets closest up the tree for each person' do
-      expect(processor).to receive(:set_bracket_area_for_each_person)
+      expect(processor).to receive(:set_bracket_area_for_each_person).exactly(2).times
       processor.process
     end
 
     it 'determines the bracket area for a person' do
-      expect(processor).to receive(:get_bracket_area).and_return(area)
+      expect(processor).to receive(:get_bracket_area).and_return(area).at_least(:once)
       processor.process
     end
 
     it 'sets the bracket for each person' do
-      expect(processor).to receive(:set_bracket_for_each_person)
+      expect(processor).to receive(:set_bracket_for_each_person).exactly(2).times
       processor.process
     end
 
     it 'determines the bracket for each sale count' do
-      expect(processor).to receive(:get_bracket).and_return(vonage_rep_sale_payout_bracket)
+      expect(processor).to receive(:get_bracket).and_return(vonage_rep_sale_payout_bracket).at_least(:once)
       processor.process
     end
 
     it 'makes the payouts from the person counts with brackets' do
-      expect(processor).to receive(:make_payouts_from_counts)
+      expect(processor).to receive(:make_payouts_from_counts).exactly(2).times
       processor.process
     end
 
     it 'makes payouts for a person from the count' do
-      expect(processor).to receive(:make_payouts_from_count)
+      expect(processor).to receive(:make_payouts_from_count).at_least(:once)
       processor.process
     end
 
     it 'makes an individual payout from a person, sale, and payout' do
-      expect(processor).to receive(:make_payout)
+      expect(processor).to receive(:make_payout).at_least(:once)
       processor.process
     end
   end

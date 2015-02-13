@@ -11,13 +11,26 @@ class VonageCommissionProcessing
   private
 
   def generate_payouts
-    @sales = VonageSale.for_paycheck(@paycheck)
-    set_people_with_sales
-    set_sale_count_for_each_person
-    set_bracket_area_for_each_person
-    set_bracket_for_each_person
-    make_payouts_from_counts
+    @all_payouts = []
+    @all_sales = VonageSale.for_paycheck(@paycheck)
+    determine_weeks
+    split_sales_into_weeks
+    generate_payouts_for_weeks
     self
+  end
+
+  def generate_payouts_for_weeks
+    return unless @week_sales
+    for week_sales in @week_sales do
+      @sales = week_sales
+      set_people_with_sales
+      set_sale_count_for_each_person
+      set_bracket_area_for_each_person
+      set_bracket_for_each_person
+      make_payouts_from_counts
+      next unless @payouts
+      @all_payouts = @all_payouts.concat @payouts
+    end
   end
 
   def clear_existing_payouts
@@ -26,9 +39,32 @@ class VonageCommissionProcessing
   end
 
   def save_payouts
-    return unless @payouts
-    @payouts.compact!
-    @payouts.each { |payout| payout.save }
+    return unless @all_payouts
+    @all_payouts.compact!
+    @all_payouts.each { |payout| payout.save }
+    self
+  end
+
+  def determine_weeks
+    start_date = @paycheck.commission_start
+    end_date = @paycheck.commission_end
+    @weeks = []
+    current_start = start_date
+    while current_start < end_date
+      @weeks << [current_start, current_start + 6.days]
+      current_start += 1.week
+    end
+    self
+  end
+
+  def split_sales_into_weeks
+    return unless @weeks
+    @week_sales = []
+    for week in @weeks do
+      @week_sales << @all_sales.where('sale_date >= ? AND sale_date <= ?',
+                                week[0], week[1])
+
+    end
     self
   end
 
