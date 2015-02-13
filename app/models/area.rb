@@ -13,6 +13,7 @@ class Area < ActiveRecord::Base
   has_many :sales_performance_ranks, as: :rankable
   has_many :location_areas
   has_many :locations, through: :location_areas
+  has_many :vonage_rep_sale_payout_brackets
   has_one :group_me_group
   has_ancestry
 

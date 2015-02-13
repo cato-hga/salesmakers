@@ -13,4 +13,13 @@ class VonageSale < ActiveRecord::Base
   belongs_to :vonage_product
 
   has_many :vonage_sale_payouts
+
+  scope :for_paycheck, ->(paycheck) {
+    if paycheck
+      where('sale_date >= ? AND sale_date <= ?',
+            paycheck.commission_start, paycheck.commission_end)
+    else
+      none
+    end
+  }
 end

@@ -1,7 +1,22 @@
 require 'rails_helper'
 
 describe VonageSale do
-  subject { build :vonage_sale }
+  let(:paycheck) {
+    create :vonage_paycheck,
+           commission_start: Date.yesterday,
+           commission_end: Date.tomorrow,
+           cutoff: DateTime.now + 2.days
+  }
+  let(:old_paycheck) {
+    create :vonage_paycheck,
+           name: 'Old Paycheck',
+           wages_start: paycheck.wages_start - 4.weeks,
+           wages_end: paycheck.wages_end - 4.weeks,
+           commission_start: paycheck.commission_start - 4.weeks,
+           commission_end: paycheck.commission_end - 4.weeks,
+           cutoff: DateTime.now + 3.days - 4.weeks
+  }
+  subject { build :vonage_sale, sale_date: Date.today }
 
   it 'is valid with correct attributes' do
     expect(subject).to be_valid
@@ -47,4 +62,9 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
+  it 'gets sales for a paycheck' do
+    subject.save
+    expect(described_class.for_paycheck(paycheck).count).to eq(1)
+    expect(described_class.for_paycheck(old_paycheck).count).to eq(0)
+  end
 end
