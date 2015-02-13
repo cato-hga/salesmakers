@@ -92,7 +92,7 @@ module PersonConnectFunctionality
   def separate_from_connect
     connect_user = get_connect_user || return
     self.update_subordinates
-    self.update(active: false, updated_at: connect_user.updated)
+    self.separate(connect_user.updated)
     updated_to_inactive = self.active? ? false : true
     return updated_to_inactive if self.employments.count < 1
     employment = self.employments.first

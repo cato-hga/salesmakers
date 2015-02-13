@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "area_types", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.integer  "project_id",             null: false
+    t.string   "name",       null: false
+    t.integer  "project_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -47,13 +47,13 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "area_types", ["project_id"], name: "index_area_types_on_project_id", using: :btree
 
   create_table "areas", force: :cascade do |t|
-    t.string   "name",                   limit: 255, null: false
-    t.integer  "area_type_id",                       null: false
-    t.string   "ancestry",               limit: 255
+    t.string   "name",                   null: false
+    t.integer  "area_type_id",           null: false
+    t.string   "ancestry"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "project_id",                         null: false
-    t.string   "connect_salesregion_id", limit: 255
+    t.integer  "project_id",             null: false
+    t.string   "connect_salesregion_id"
   end
 
   add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree
@@ -61,11 +61,11 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "areas", ["project_id"], name: "index_areas_on_project_id", using: :btree
 
   create_table "blog_posts", force: :cascade do |t|
-    t.integer  "person_id",                          null: false
-    t.text     "excerpt",                            null: false
-    t.text     "content",                            null: false
-    t.string   "title",      limit: 255,             null: false
-    t.integer  "score",                  default: 0, null: false
+    t.integer  "person_id",              null: false
+    t.text     "excerpt",                null: false
+    t.text     "content",                null: false
+    t.string   "title",                  null: false
+    t.integer  "score",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   end
 
   create_table "clients", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,19 +94,6 @@ ActiveRecord::Schema.define(version: 20150213201639) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "location_id",  null: false
-  end
-
-  create_table "comcast_eods", force: :cascade do |t|
-    t.datetime "eod_date", null: false
-    t.integer "location_id", null: false
-    t.boolean "sales_pro_visit", default: false, null: false
-    t.text "sales_pro_visit_takeaway"
-    t.boolean "comcast_visit", default: false, null: false
-    t.text "comcast_visit_takeaway"
-    t.boolean "cloud_training", default: false, null: false
-    t.text "cloud_training_takeaway"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "comcast_former_providers", force: :cascade do |t|
@@ -169,18 +156,18 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   end
 
   create_table "communication_log_entries", force: :cascade do |t|
-    t.integer  "loggable_id",               null: false
-    t.string   "loggable_type", limit: 255, null: false
+    t.integer  "loggable_id",   null: false
+    t.string   "loggable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "person_id",                 null: false
+    t.integer  "person_id",     null: false
   end
 
   create_table "day_sales_counts", force: :cascade do |t|
-    t.date     "day",                                   null: false
-    t.integer  "saleable_id",                           null: false
-    t.string   "saleable_type", limit: 255,             null: false
-    t.integer  "sales",                     default: 0, null: false
+    t.date     "day",                       null: false
+    t.integer  "saleable_id",               null: false
+    t.string   "saleable_type",             null: false
+    t.integer  "sales",         default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -188,18 +175,18 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "day_sales_counts", ["saleable_id", "saleable_type"], name: "index_day_sales_counts_on_saleable_id_and_saleable_type", using: :btree
 
   create_table "departments", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.boolean  "corporate",              null: false
+    t.string   "name",       null: false
+    t.boolean  "corporate",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "device_deployments", force: :cascade do |t|
-    t.integer  "device_id",                   null: false
-    t.integer  "person_id",                   null: false
-    t.date     "started",                     null: false
+    t.integer  "device_id",       null: false
+    t.integer  "person_id",       null: false
+    t.date     "started",         null: false
     t.date     "ended"
-    t.string   "tracking_number", limit: 255
+    t.string   "tracking_number"
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -209,14 +196,14 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "device_deployments", ["person_id"], name: "index_device_deployments_on_person_id", using: :btree
 
   create_table "device_manufacturers", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "device_models", force: :cascade do |t|
-    t.string   "name",                   limit: 255, null: false
-    t.integer  "device_manufacturer_id",             null: false
+    t.string   "name",                   null: false
+    t.integer  "device_manufacturer_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -224,10 +211,10 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "device_models", ["device_manufacturer_id"], name: "index_device_models_on_device_manufacturer_id", using: :btree
 
   create_table "device_states", force: :cascade do |t|
-    t.string   "name",       limit: 255,                 null: false
+    t.string   "name",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "locked",                 default: false
+    t.boolean  "locked",     default: false
   end
 
   create_table "device_states_devices", id: false, force: :cascade do |t|
@@ -239,9 +226,9 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "device_states_devices", ["device_state_id"], name: "index_device_states_devices_on_device_state_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
-    t.string   "identifier",      limit: 255, null: false
-    t.string   "serial",          limit: 255, null: false
-    t.integer  "device_model_id",             null: false
+    t.string   "identifier",      null: false
+    t.string   "serial",          null: false
+    t.integer  "device_model_id", null: false
     t.integer  "line_id"
     t.integer  "person_id"
     t.datetime "created_at"
@@ -253,20 +240,20 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
   create_table "email_messages", force: :cascade do |t|
-    t.string   "from_email",   limit: 255, null: false
-    t.string   "to_email",     limit: 255, null: false
+    t.string   "from_email",   null: false
+    t.string   "to_email",     null: false
     t.integer  "to_person_id"
-    t.text     "content",                  null: false
+    t.text     "content",      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "subject",      limit: 255, null: false
+    t.string   "subject",      null: false
   end
 
   create_table "employments", force: :cascade do |t|
     t.integer  "person_id"
     t.date     "start"
     t.date     "end"
-    t.string   "end_reason", limit: 255
+    t.string   "end_reason"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -274,10 +261,10 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "employments", ["person_id"], name: "index_employments_on_person_id", using: :btree
 
   create_table "group_me_groups", force: :cascade do |t|
-    t.integer  "group_num",              null: false
+    t.integer  "group_num",  null: false
     t.integer  "area_id"
-    t.string   "name",       limit: 255, null: false
-    t.string   "avatar_url", limit: 255
+    t.string   "name",       null: false
+    t.string   "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "bot_num"
@@ -306,14 +293,14 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "group_me_likes", ["group_me_user_id"], name: "index_group_me_likes_on_group_me_user_id", using: :btree
 
   create_table "group_me_posts", force: :cascade do |t|
-    t.integer  "group_me_group_id",                         null: false
-    t.datetime "posted_at",                                 null: false
-    t.text     "json",                                      null: false
+    t.integer  "group_me_group_id",             null: false
+    t.datetime "posted_at",                     null: false
+    t.text     "json",                          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "group_me_user_id",                          null: false
-    t.string   "message_num",       limit: 255,             null: false
-    t.integer  "like_count",                    default: 0, null: false
+    t.integer  "group_me_user_id",              null: false
+    t.string   "message_num",                   null: false
+    t.integer  "like_count",        default: 0, null: false
     t.integer  "person_id"
   end
 
@@ -322,10 +309,10 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "group_me_posts", ["person_id"], name: "index_group_me_posts_on_person_id", using: :btree
 
   create_table "group_me_users", force: :cascade do |t|
-    t.string   "group_me_user_num", limit: 255, null: false
+    t.string   "group_me_user_num", null: false
     t.integer  "person_id"
-    t.string   "name",              limit: 255, null: false
-    t.string   "avatar_url",        limit: 255
+    t.string   "name",              null: false
+    t.string   "avatar_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -343,10 +330,10 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "likes", ["wall_post_id"], name: "index_likes_on_wall_post_id", using: :btree
 
   create_table "line_states", force: :cascade do |t|
-    t.string   "name",       limit: 255,                 null: false
+    t.string   "name",                       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "locked",                 default: false
+    t.boolean  "locked",     default: false
   end
 
   create_table "line_states_lines", id: false, force: :cascade do |t|
@@ -358,9 +345,9 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "line_states_lines", ["line_state_id"], name: "index_line_states_lines_on_line_state_id", using: :btree
 
   create_table "lines", force: :cascade do |t|
-    t.string   "identifier",                     limit: 255, null: false
-    t.date     "contract_end_date",                          null: false
-    t.integer  "technology_service_provider_id",             null: false
+    t.string   "identifier",                     null: false
+    t.date     "contract_end_date",              null: false
+    t.integer  "technology_service_provider_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -368,16 +355,16 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "lines", ["technology_service_provider_id"], name: "index_lines_on_technology_service_provider_id", using: :btree
 
   create_table "link_posts", force: :cascade do |t|
-    t.string   "image_uid",     limit: 255,             null: false
-    t.string   "thumbnail_uid", limit: 255,             null: false
-    t.string   "preview_uid",   limit: 255,             null: false
-    t.string   "large_uid",     limit: 255,             null: false
-    t.integer  "person_id",                             null: false
-    t.string   "title",         limit: 255
-    t.integer  "score",                     default: 0, null: false
+    t.string   "image_uid",                 null: false
+    t.string   "thumbnail_uid",             null: false
+    t.string   "preview_uid",               null: false
+    t.string   "large_uid",                 null: false
+    t.integer  "person_id",                 null: false
+    t.string   "title"
+    t.integer  "score",         default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "url",           limit: 255,             null: false
+    t.string   "url",                       null: false
   end
 
   add_index "link_posts", ["person_id"], name: "index_link_posts_on_person_id", using: :btree
@@ -403,24 +390,24 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   end
 
   create_table "log_entries", force: :cascade do |t|
-    t.integer  "person_id",                      null: false
-    t.string   "action",             limit: 255, null: false
+    t.integer  "person_id",          null: false
+    t.string   "action",             null: false
     t.text     "comment"
-    t.integer  "trackable_id",                   null: false
-    t.string   "trackable_type",     limit: 255, null: false
+    t.integer  "trackable_id",       null: false
+    t.string   "trackable_type",     null: false
     t.integer  "referenceable_id"
-    t.string   "referenceable_type", limit: 255
+    t.string   "referenceable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "log_entries", ["person_id"], name: "index_log_entries_on_person_id", using: :btree
-  add_index "log_entries", ["referenceable_id", "referenceable_type"], name: "index_log_entries_on_referenceable_id_and_referenceable_type", using: :btree
-  add_index "log_entries", ["trackable_id", "trackable_type"], name: "index_log_entries_on_trackable_id_and_trackable_type", using: :btree
+  add_index "log_entries", ["referenceable_type", "referenceable_id"], name: "index_log_entries_on_referenceable_type_and_referenceable_id", using: :btree
+  add_index "log_entries", ["trackable_type", "trackable_id"], name: "index_log_entries_on_trackable_type_and_trackable_id", using: :btree
 
   create_table "media", force: :cascade do |t|
-    t.integer  "mediable_id",               null: false
-    t.string   "mediable_type", limit: 255, null: false
+    t.integer  "mediable_id",   null: false
+    t.string   "mediable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -428,24 +415,24 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "media", ["mediable_id", "mediable_type"], name: "index_media_on_mediable_id_and_mediable_type", using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.string   "first_name",            limit: 255,                null: false
-    t.string   "last_name",             limit: 255,                null: false
-    t.string   "display_name",          limit: 255,                null: false
-    t.string   "email",                 limit: 255,                null: false
-    t.string   "personal_email",        limit: 255
+    t.string   "first_name",                           null: false
+    t.string   "last_name",                            null: false
+    t.string   "display_name",                         null: false
+    t.string   "email",                                null: false
+    t.string   "personal_email"
     t.integer  "position_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",                            default: true, null: false
-    t.string   "connect_user_id",       limit: 255
+    t.boolean  "active",                default: true, null: false
+    t.string   "connect_user_id"
     t.integer  "supervisor_id"
-    t.string   "office_phone",          limit: 255
-    t.string   "mobile_phone",          limit: 255
-    t.string   "home_phone",            limit: 255
+    t.string   "office_phone"
+    t.string   "mobile_phone"
+    t.string   "home_phone"
     t.integer  "eid"
-    t.string   "groupme_access_token",  limit: 255
+    t.string   "groupme_access_token"
     t.datetime "groupme_token_updated"
-    t.string   "group_me_user_id",      limit: 255
+    t.string   "group_me_user_id"
     t.datetime "last_seen"
   end
 
@@ -465,15 +452,15 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "ppqc_choice_person", using: :btree
 
   create_table "permission_groups", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string   "key",                 limit: 255, null: false
-    t.string   "description",         limit: 255, null: false
-    t.integer  "permission_group_id",             null: false
+    t.string   "key",                 null: false
+    t.string   "description",         null: false
+    t.integer  "permission_group_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -491,13 +478,13 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "permissions_positions", ["position_id"], name: "index_permissions_positions_on_position_id", using: :btree
 
   create_table "person_addresses", force: :cascade do |t|
-    t.integer  "person_id",                             null: false
-    t.string   "line_1",     limit: 255,                null: false
-    t.string   "line_2",     limit: 255
-    t.string   "city",       limit: 255,                null: false
-    t.string   "state",      limit: 255,                null: false
-    t.string   "zip",        limit: 255,                null: false
-    t.boolean  "physical",               default: true, null: false
+    t.integer  "person_id",                 null: false
+    t.string   "line_1",                    null: false
+    t.string   "line_2"
+    t.string   "city",                      null: false
+    t.string   "state",                     null: false
+    t.string   "zip",                       null: false
+    t.boolean  "physical",   default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "latitude"
@@ -517,8 +504,8 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
 
   create_table "poll_question_choices", force: :cascade do |t|
-    t.integer  "poll_question_id",             null: false
-    t.string   "name",             limit: 255, null: false
+    t.integer  "poll_question_id", null: false
+    t.string   "name",             null: false
     t.text     "help_text"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -527,37 +514,37 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "poll_question_choices", ["poll_question_id"], name: "index_poll_question_choices_on_poll_question_id", using: :btree
 
   create_table "poll_questions", force: :cascade do |t|
-    t.string   "question",   limit: 255,                null: false
+    t.string   "question",                  null: false
     t.text     "help_text"
-    t.datetime "start_time",                            null: false
+    t.datetime "start_time",                null: false
     t.datetime "end_time"
-    t.boolean  "active",                 default: true, null: false
+    t.boolean  "active",     default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "positions", force: :cascade do |t|
-    t.string   "name",                     limit: 255, null: false
-    t.boolean  "leadership",                           null: false
-    t.boolean  "all_field_visibility",                 null: false
-    t.boolean  "all_corporate_visibility",             null: false
-    t.integer  "department_id",                        null: false
+    t.string   "name",                     null: false
+    t.boolean  "leadership",               null: false
+    t.boolean  "all_field_visibility",     null: false
+    t.boolean  "all_corporate_visibility", null: false
+    t.integer  "department_id",            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "field"
     t.boolean  "hq"
-    t.string   "twilio_number",            limit: 255
+    t.string   "twilio_number"
   end
 
   add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
 
   create_table "profile_educations", force: :cascade do |t|
-    t.integer  "profile_id",                       null: false
-    t.string   "school",               limit: 255, null: false
-    t.integer  "start_year",                       null: false
-    t.integer  "end_year",                         null: false
-    t.string   "degree",               limit: 255, null: false
-    t.string   "field_of_study",       limit: 255, null: false
+    t.integer  "profile_id",           null: false
+    t.string   "school",               null: false
+    t.integer  "start_year",           null: false
+    t.integer  "end_year",             null: false
+    t.string   "degree",               null: false
+    t.string   "field_of_study",       null: false
     t.text     "activities_societies"
     t.text     "description"
     t.datetime "created_at"
@@ -567,11 +554,11 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "profile_educations", ["profile_id"], name: "index_profile_educations_on_profile_id", using: :btree
 
   create_table "profile_experiences", force: :cascade do |t|
-    t.integer  "profile_id",                     null: false
-    t.string   "company_name",       limit: 255, null: false
-    t.string   "title",              limit: 255, null: false
-    t.string   "location",           limit: 255, null: false
-    t.date     "started",                        null: false
+    t.integer  "profile_id",         null: false
+    t.string   "company_name",       null: false
+    t.string   "title",              null: false
+    t.string   "location",           null: false
+    t.date     "started",            null: false
     t.date     "ended"
     t.text     "description"
     t.datetime "created_at"
@@ -582,8 +569,8 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "profile_experiences", ["profile_id"], name: "index_profile_experiences_on_profile_id", using: :btree
 
   create_table "profile_skills", force: :cascade do |t|
-    t.integer  "profile_id",             null: false
-    t.string   "skill",      limit: 255
+    t.integer  "profile_id", null: false
+    t.string   "skill"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -591,23 +578,23 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "profile_skills", ["profile_id"], name: "index_profile_skills_on_profile_id", using: :btree
 
   create_table "profiles", force: :cascade do |t|
-    t.integer  "person_id",              null: false
-    t.string   "theme_name", limit: 255
+    t.integer  "person_id",  null: false
+    t.string   "theme_name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "interests"
     t.text     "bio"
-    t.string   "avatar_uid", limit: 255
-    t.string   "image_uid",  limit: 255
-    t.string   "nickname",   limit: 255
+    t.string   "avatar_uid"
+    t.string   "image_uid"
+    t.string   "nickname"
     t.datetime "last_seen"
   end
 
   add_index "profiles", ["person_id"], name: "index_profiles_on_person_id", using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.integer  "client_id",              null: false
+    t.string   "name",       null: false
+    t.integer  "client_id",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -615,8 +602,8 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
 
   create_table "publications", force: :cascade do |t|
-    t.integer  "publishable_id",               null: false
-    t.string   "publishable_type", limit: 255, null: false
+    t.integer  "publishable_id",   null: false
+    t.string   "publishable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -624,10 +611,10 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "publications", ["publishable_id", "publishable_type"], name: "index_publications_on_publishable_id_and_publishable_type", using: :btree
 
   create_table "questions", force: :cascade do |t|
-    t.integer  "person_id",              null: false
+    t.integer  "person_id",  null: false
     t.integer  "answer_id"
-    t.string   "title",      limit: 255, null: false
-    t.text     "content",                null: false
+    t.string   "title",      null: false
+    t.text     "content",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -636,9 +623,9 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "questions", ["person_id"], name: "index_questions_on_person_id", using: :btree
 
   create_table "sales_performance_ranks", force: :cascade do |t|
-    t.date     "day",                       null: false
-    t.integer  "rankable_id",               null: false
-    t.string   "rankable_type", limit: 255, null: false
+    t.date     "day",           null: false
+    t.integer  "rankable_id",   null: false
+    t.string   "rankable_type", null: false
     t.integer  "day_rank"
     t.integer  "week_rank"
     t.integer  "month_rank"
@@ -660,21 +647,21 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   end
 
   create_table "sms_messages", force: :cascade do |t|
-    t.string   "from_num",                limit: 255,                 null: false
-    t.string   "to_num",                  limit: 255,                 null: false
+    t.string   "from_num",                                null: false
+    t.string   "to_num",                                  null: false
     t.integer  "from_person_id"
     t.integer  "to_person_id"
-    t.boolean  "inbound",                             default: false
+    t.boolean  "inbound",                 default: false
     t.integer  "reply_to_sms_message_id"
-    t.boolean  "replied_to",                          default: false
-    t.text     "message",                                             null: false
+    t.boolean  "replied_to",              default: false
+    t.text     "message",                                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "sid",                     limit: 255,                 null: false
+    t.string   "sid",                                     null: false
   end
 
   create_table "technology_service_providers", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -689,32 +676,32 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "text_posts", ["person_id"], name: "index_text_posts_on_person_id", using: :btree
 
   create_table "themes", force: :cascade do |t|
-    t.string   "name",         limit: 255, null: false
-    t.string   "display_name", limit: 255, null: false
+    t.string   "name",         null: false
+    t.string   "display_name", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "uploaded_images", force: :cascade do |t|
-    t.string   "image_uid",     limit: 255,             null: false
-    t.string   "thumbnail_uid", limit: 255,             null: false
-    t.string   "preview_uid",   limit: 255,             null: false
-    t.string   "large_uid",     limit: 255,             null: false
-    t.integer  "person_id",                             null: false
-    t.string   "caption",       limit: 255
+    t.string   "image_uid",                 null: false
+    t.string   "thumbnail_uid",             null: false
+    t.string   "preview_uid",               null: false
+    t.string   "large_uid",                 null: false
+    t.integer  "person_id",                 null: false
+    t.string   "caption"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "score",                     default: 0, null: false
+    t.integer  "score",         default: 0, null: false
   end
 
   add_index "uploaded_images", ["person_id"], name: "index_uploaded_images_on_person_id", using: :btree
 
   create_table "uploaded_videos", force: :cascade do |t|
-    t.string   "url",        limit: 255,             null: false
+    t.string   "url",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "person_id",                          null: false
-    t.integer  "score",                  default: 0, null: false
+    t.integer  "person_id",              null: false
+    t.integer  "score",      default: 0, null: false
   end
 
   add_index "uploaded_videos", ["person_id"], name: "index_uploaded_videos_on_person_id", using: :btree
@@ -814,8 +801,8 @@ ActiveRecord::Schema.define(version: 20150213201639) do
   add_index "wall_posts", ["wall_id"], name: "index_wall_posts_on_wall_id", using: :btree
 
   create_table "walls", force: :cascade do |t|
-    t.integer  "wallable_id",               null: false
-    t.string   "wallable_type", limit: 255, null: false
+    t.integer  "wallable_id",   null: false
+    t.string   "wallable_type", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
