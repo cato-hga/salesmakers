@@ -128,21 +128,8 @@ RSpec.describe Person, :type => :model do
       expect(Person.all_hq_members).to_not be_nil #TODO: Is this actually correct?
                                                   #I feel like i'm reading the reason for the method wrong
     end
-
-    #TODO: Test all_field_members
   end
 
-  #TODO: Test Returning from RBDC user
-  # describe 'from RBDConnect' do
-  #   let(:connect_user) { create :connect_user }
-  #
-  #   subject { connect_user }
-  #
-  #   it 'should return a person from connect user' do
-  #     @connect_user = Person.return_from_connect_user(connect_user)
-  #     expect(@connect_user.first_name).to eq('Steve')
-  #   end
-  # end
 
   describe '#name' do
     it 'should return the display name as name' do
@@ -160,41 +147,6 @@ RSpec.describe Person, :type => :model do
       expect(person.terminated?).to be_truthy
     end
   end
-
-  # describe '#social_name' do
-  #   let(:profile) { create :profile, person: person }
-  #   it 'should return the nickname if present' do
-  #     profile.nickname = 'My Nickname!'
-  #     expect(person.social_name).to eq(profile.nickname)
-  #   end
-  #   it 'should return the display_name if nickname is not present' do
-  #     expect(person.social_name).to eq(person.display_name)
-  #   end
-  # end
-
-  # describe '#profile_avatar' do
-  #   let!(:profile) { create :profile, person: person, avatar: avatar }
-  #   let(:avatar) { 'files/image.jpg' }
-  #   it 'should return the persons profile avatar' do
-  #     expect(person.profile_avatar).not_to be_nil
-  #   end
-  # end
-
-  # describe '#profile_avatar_url' do
-  #   let!(:profile) { create :profile, person: person, avatar: avatar }
-  #   let(:avatar) { 'files/image.jpg' }
-  #   it 'should return the profile_avatar url' do
-  #     expect(person.profile_avatar_url).not_to be_nil
-  #   end
-  # end
-
-  # describe '#group_me_avatar_url' do
-  #   let(:avatar) { 'files/image.jpg' }
-  #   let!(:group_me_user) { create :group_me_user, person: person, avatar_url: avatar }
-  #   it 'should return the group me avatar url for a person' do
-  #     expect(person.group_me_avatar_url).not_to be_nil
-  #   end
-  # end
 
   describe '#locations' do
     let(:person_one) { create :person }

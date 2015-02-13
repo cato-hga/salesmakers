@@ -1,3 +1,5 @@
+.top-pagination
+  = paginate log_entries, param_name: 'log_entries_page'
 - header = header_row(['Date/Time', 'By', 'Type', 'Entry'])
 - rows = Array.new
 - log_entries.each do |log_entry|
