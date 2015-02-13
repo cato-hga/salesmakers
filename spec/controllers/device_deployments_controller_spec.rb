@@ -100,11 +100,15 @@ describe DeviceDeploymentsController do
   end
 
   describe 'recouping' do
-    let(:deployed_device) { create :device, line: line }
-    let(:recouped_person) { create :person, personal_email: 'test@test.com' }
+    let(:deployed_device) { create :device, serial: '123458',
+                                   identifier: '123458',
+                                   line: line,
+                                   device_deployments: [device_deployment],
+                                   device_states: [deployed] }
+    let!(:recouped_person) { create :person, personal_email: 'test@test.com', devices: [deployed_device] }
     let(:line) { create :line }
     let(:deployed) { create :device_state, name: 'Deployed' }
-    let(:device_deployment) { create :device_deployment, device: deployed_device, person: person }
+    let(:device_deployment) { create :device_deployment, person: person }
     let(:notes) { 'Good condition - $0' }
 
     describe 'GET recoup_notes' do
@@ -123,14 +127,6 @@ describe DeviceDeploymentsController do
 
     describe 'POST recoup' do
       context 'success' do
-        before(:each) do
-          deployed_device.device_states << deployed
-          deployed_device.device_deployments << device_deployment
-          deployed_device.person = recouped_person
-          deployed_device.save
-        end
-
-
         subject do
           post :recoup, device_id: deployed_device.id, notes: notes
         end
@@ -158,8 +154,24 @@ describe DeviceDeploymentsController do
           expect(LogEntry.first.comment).to eq(notes)
         end
 
+        it 'should save the notes as comments' do
+          subject
+          device_deployment.reload
+          expect(device_deployment.comment).to eq(notes)
+        end
+
         it 'sends an email to payroll' do
           expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+      end
+
+      context 'success without notes' do
+        subject do
+          post :recoup, device_id: deployed_device.id
+        end
+        it 'handles no comment' do
+          subject
+          expect(device_deployment.comment).to eq(nil)
         end
       end
     end

@@ -44,6 +44,12 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('My Customers')
         end
       end
+
+      it 'does not contain a link to Sales and Leads' do
+        within('.top-bar') do
+          expect(page).not_to have_content('Sales and Leads')
+        end
+      end
     end
 
     describe 'for administrators' do

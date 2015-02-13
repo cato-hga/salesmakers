@@ -14,19 +14,6 @@
         %li= area_link(parent_area)
 
 .widgets.people_about
-  -#.widget.person_widget.centered_text
-  -#  .inner
-  -#    - position = @person.position
-  -#    - department = position.department if position
-  -#    %strong= @person.display_name
-  -#    -#%br
-  -#    -#= image_tag avatar_url(@person), class: 'avatar'
-  -#    %br
-  -#    %em= position.name if position
-  -#    %br
-  -#
-  -#    - department = @person
-  -#    %em= department.name
   .widget.person_widget
     .inner
       %h3 Basic Information
@@ -85,25 +72,6 @@
         %p
           %strong Home Phone:
           = phone_link @person.home_phone, nil
-  -#.widget.person_widget
-  -#  .inner
-  -#    %h3
-  -#      - if @person == @current_person
-  -#        About Me
-  -#      - else
-  -#        About
-  -#        = @person.social_name
-  -#    - profile = @person.profile
-  -#    - if profile.bio
-  -#      %p= profile.bio.gsub(/\n/, '<br/>').html_safe
-  -#    - else
-  -#      %p
-  -#        %em
-  -#          - if @person == @current_person
-  -#            You have not written anything about yourself yet.
-  -#          - else
-  -#            = @person.social_name
-  -#            has not written anything about themself yet.
   - physical_address = @person.physical_address
   - if physical_address and show_details
     .widget
@@ -126,22 +94,17 @@
           "lat": #{physical_address.latitude},
           "lng": #{physical_address.longitude}
         });
-        // handler.bounds.extendWith(markers);
-        // handler.fitMapToBounds();
         handler.map.centerOn(marker);
         handler.getMap().setZoom(10);
       });
-  -#- if @profile_educations.count > 0
-  -#  .widget.person_widget
-  -#    .inner
-  -#      %h3 Education
-  -#      = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
-  -#- if @profile_experiences.count > 0
-  -#  .widget.person_widget
-  -#    .inner
-  -#      %h3 Experience
-  -#      = render partial: 'profile_experiences/listing', locals: { profile_experiences: @profile_experiences, current_person: @current_person }
 - if show_details
+  .widget#leads
+    .inner
+      - @person_show = true
+      = render 'comcast_leads/widget'
+  .widget#installations
+    .inner
+      = render 'comcast_sales/installations_widget'
   .widget
     .inner
       %h3 Current Devices
@@ -149,7 +112,7 @@
   .widget
     .inner
       %h3 Log Entries
-      = render partial: 'shared/log_entries', locals: { log_entries: @person.related_log_entries }
+      = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
   .widget
     .inner
       %h3 Communication Log

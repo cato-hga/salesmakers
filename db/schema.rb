@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210214840) do
+ActiveRecord::Schema.define(version: 20150210200751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -693,6 +693,10 @@ ActiveRecord::Schema.define(version: 20150210214840) do
     t.string "display_name", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_not_deployed", id: false, force: :cascade do |t|
+    t.string "serial", limit: 255
   end
 
   create_table "uploaded_images", force: :cascade do |t|

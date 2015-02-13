@@ -1,5 +1,6 @@
 class ComcastLeadsController < ApplicationController
-  before_action :set_comcast_customer, only: [:new, :create]
+  before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
+  before_action :do_authorization
 
   def new
     @comcast_lead = ComcastLead.new
@@ -11,16 +12,40 @@ class ComcastLeadsController < ApplicationController
     @comcast_lead.follow_up_by = Chronic.parse params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
     if @comcast_lead.save
       @current_person.log? 'create',
-                         @comcast_lead,
-                         @current_person,
-                         nil,
-                         nil,
-                         comcast_lead_params[:comments]
+                           @comcast_lead,
+                           @current_person,
+                           nil,
+                           nil,
+                           comcast_lead_params[:comments]
       flash[:notice] = 'Lead saved successfully.'
       redirect_to comcast_customers_path
     else
       render :new
     end
+  end
+
+  def edit
+    @comcast_lead = ComcastLead.find params[:id]
+  end
+
+  def update
+    @comcast_lead = ComcastLead.find params[:id]
+    @comcast_lead.update update_params
+    @comcast_lead.follow_up_by = Chronic.parse params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
+    if @comcast_lead.save
+      @current_person.log? 'update',
+                           @comcast_lead,
+                           @current_person,
+                           nil,
+                           nil,
+                           update_params[:comments]
+      flash[:notice] = 'Lead updated successfully'
+      redirect_to comcast_customers_path
+    else
+      flash[:error] = 'Lead could not be updated'
+      render :edit
+    end
+
   end
 
   def destroy
@@ -51,5 +76,18 @@ class ComcastLeadsController < ApplicationController
                                          :security,
                                          :ok_to_call_and_text,
                                          :comments
+  end
+
+  def update_params
+    params.require(:comcast_lead).permit :tv,
+                                         :internet,
+                                         :phone,
+                                         :security,
+                                         :ok_to_call_and_text,
+                                         :comments
+  end
+
+  def do_authorization
+    authorize ComcastCustomer.new
   end
 end

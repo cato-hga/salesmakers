@@ -19,6 +19,22 @@ require 'support/policies'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+#Stubs out geocoder
+Geocoder.configure(lookup: :test)
+Geocoder::Lookup::Test.set_default_stub(
+    [
+        {
+            'latitude' => 40.7143528,
+            'longitude' => -74.0059731,
+            'address' => 'New York, NY, USA',
+            'state' => 'New York',
+            'state_code' => 'NY',
+            'country' => 'United States',
+            'country_code' => 'US'
+        }
+    ]
+)
+
 RSpec.configure do |config|
 
   Capybara.javascript_driver = :webkit

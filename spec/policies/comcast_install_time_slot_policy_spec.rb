@@ -11,20 +11,26 @@ describe ComcastInstallTimeSlotPolicy do
   let(:unpermitted_person) { build_stubbed :person }
 
   context 'for those with permission' do
-    before(:each) do
-      permitted_person.position.permissions << permission_index
-      permitted_person.position.permissions << permission_create
-      permitted_person.position.permissions << permission_update
-      permitted_person.position.permissions << permission_destroy
-    end
     let(:policy) { ComcastInstallTimeSlotPolicy.new permitted_person, ComcastInstallTimeSlot.new }
 
-    specify { expect(policy.index?).to be_truthy }
-    specify { expect(policy.new?).to be_truthy }
-    specify { expect(policy.create?).to be_truthy }
-    specify { expect(policy.edit?).to be_truthy }
-    specify { expect(policy.update?).to be_truthy }
-    specify { expect(policy.destroy?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_index
+      expect(policy.index?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_create
+      expect(policy.new?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_create
+      expect(policy.create?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.edit?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.update?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_destroy
+      expect(policy.destroy?).to be_truthy }
   end
 
   context 'for those without permission' do

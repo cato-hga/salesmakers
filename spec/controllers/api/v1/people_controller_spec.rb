@@ -62,6 +62,11 @@ describe API::V1::PeopleController, type: :controller do
     it 'sends emails if the employee has assets' do
       expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(2)
     end
+
+    it 'sends emails if the employee does not have assets' do
+      separated_user.devices = []
+      expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+    end
   end
 end
 

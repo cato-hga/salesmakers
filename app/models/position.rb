@@ -157,7 +157,6 @@ class Position < ActiveRecord::Base
       return pos_uf
     elsif (connect_user_project == 'Corporate' or not connect_user_project) and connect_user.username.include? '@retaildoneright.com'
       return pos_uc
-      # TODO: Go back and change LIT's to non-HQ
     end
 
     if connect_user_region.name.include? 'Retail' or

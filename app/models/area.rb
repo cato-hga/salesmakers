@@ -1,5 +1,4 @@
 class Area < ActiveRecord::Base
-  #after_save :create_wall
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
@@ -36,27 +35,6 @@ class Area < ActiveRecord::Base
 
     Area.where("id IN (#{areas.map(&:id).join(',')})")
   }
-
-  # Not currently being used
-  # scope :member_of, ->(person = nil) {
-  #   return Area.none unless person
-  #   areas = Array.new
-  #   if person.position and person.position.hq?
-  #     for area in Area.all do
-  #       areas << area.root unless areas.include? area.root
-  #     end
-  #     return Area.where("id IN (#{areas.map(&:id).join(',')})")
-  #   end
-  #   person_areas = person.person_areas
-  #
-  #   for person_area in person_areas do
-  #     areas << person_area.area
-  #   end
-  #
-  #   return Area.none if areas.count < 1
-  #
-  #   Area.where("id IN (#{areas.map(&:id).join(',')})")
-  # }
 
   scope :project_roots, ->(project = nil) {
     return Area.none unless project
@@ -101,11 +79,4 @@ class Area < ActiveRecord::Base
     return Location.none unless subtree_person_areas.count > 0
     Location.where("id IN (#{subtree_person_areas.map(&:location_id).join(',')})")
   end
-
-  private
-
-  # def create_wall
-  #   return if self.wall
-  #   Wall.create wallable: self
-  # end
 end

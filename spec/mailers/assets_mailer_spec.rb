@@ -52,7 +52,7 @@ describe AssetsMailer do
     end
   end
 
-  describe 'separated_mailer' do
+  describe 'separated_with_assets_mailer' do
     let(:device) { create :device, line: line }
     let(:second_device) { create :device, serial: '12357799', identifier: '12357799' }
     let(:line) { create :line }
@@ -84,7 +84,7 @@ describe AssetsMailer do
                                             started: Date.today - 1.month,
                                             tracking_number: '528741963'
     }
-    let(:mail) { AssetsMailer.separated_mailer(second_person) }
+    let(:mail) { AssetsMailer.separated_with_assets_mailer(second_person) }
 
     it 'sends an email with correct subject' do
       expect(mail.subject).to include('Separated Employee with Asset(s)')
@@ -134,6 +134,40 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(first_deployment.tracking_number)
       expect(mail.body.encoded).to include(second_deployment.tracking_number)
       expect(mail.body.encoded).to include(first_deployment.comment)
+    end
+  end
+
+  describe 'separated_without_assets_mailer' do
+    let!(:person) { create :person, personal_email: 'test@test.com' }
+    let(:mail) { AssetsMailer.separated_without_assets_mailer(person) }
+
+    it 'sends an email with correct subject' do
+      expect(mail.subject).to include('Separated Employee without Asset')
+    end
+
+    it 'sends an email to Assets and IT' do
+      expect(mail.to).to include('assets@retaildoneright.com')
+      expect(mail.to).to include('it@retaildoneright.com')
+    end
+
+    it 'sends an email with the correct "from" email' do
+      expect(mail.from).to include('assetreturns@salesmakersinc.com')
+    end
+
+
+    it 'sends an email with the correct info' do
+      expect(mail.body.encoded).to include('has just been separated from the company and does not have any assets in their possession.')
+    end
+
+    it 'sends an email with the correct person info' do
+      expect(mail.body.encoded).to include(person.display_name)
+      expect(mail.body.encoded).to include(person.mobile_phone)
+      expect(mail.body.encoded).to include(person.personal_email)
+    end
+
+    it 'handles not having a phone number for a person' do
+      person.mobile_phone = nil
+      expect(mail.body.encoded).to include('N/A')
     end
   end
 
