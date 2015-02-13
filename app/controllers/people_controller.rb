@@ -41,15 +41,13 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
-    #set_show_wall
-    #@profile = @person.profile
-    #@profile_experiences = @profile.profile_experiences
-    #@profile_educations = @profile.profile_educations
+    @log_entries = @person.related_log_entries.page(params[:log_entries_page]).per(10)
+    @comcast_leads = ComcastLead.person(@person.id)
+    @comcast_installations = ComcastSale.person(@person.id)
   end
 
   def sales
     @person = policy_scope(Person).find params[:id]
-    #set_show_wall
     unless @person
       flash[:error] = 'You do not have permission to view sales for that person.'
       redirect_to :back
@@ -70,23 +68,7 @@ class PeopleController < ProtectedController
   end
 
   def update
-    # Being used only for social as of right now
-    # @person = policy_scope(Person).find params[:id]
-    # @profile = @person.profile
-    # if @person == @current_person
-    #   authorize @person, :update_own_basic?
-    # else
-    #   authorize @person
-    # end
-    # if image_params
-    #   @person.profile.update image_params
-    # end
-    # if @person.update person_params
-    #   flash[:notice] = 'Profile saved.'
-    #   redirect_to edit_profile_path(@person.profile)
-    # else
-    #   render 'profiles/edit'
-    # end
+
   end
 
   def search
@@ -114,21 +96,4 @@ class PeopleController < ProtectedController
     return results.where(active: true) unless @current_person.hq?
     results
   end
-
-  # def show_wall?(person)
-  #   if person == @current_person.supervisor or not policy_scope(Person).include?(person)
-  #     false
-  #   else
-  #     true
-  #   end
-  # end
-
-  # def set_show_wall
-  #   if show_wall? @person
-  #     @show_wall = true
-  #   else
-  #     false
-  #   end
-  # end
-
 end

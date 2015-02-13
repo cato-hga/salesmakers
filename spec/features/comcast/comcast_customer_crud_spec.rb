@@ -28,7 +28,7 @@ describe 'Comcast Customer CRUD actions' do
   end
 
   context 'for reading' do
-    let(:now) { Time.now }
+    let(:now) { Time.zone.now }
     let!(:comcast_lead) {
       create :comcast_lead,
              comcast_customer: comcast_customer,
@@ -126,11 +126,11 @@ describe 'Comcast Customer CRUD actions' do
         end
       end
 
-      it 'shows the date and time the customer was entered', pending: 'UTC on server?' #do
-      #within '#comcast_customer' do
-      #expect(page).to have_content(now.strftime('%l:%M%P %Z'))
-      #end
-      #end
+      it 'shows the date and time the customer was entered' do
+        within '#comcast_customer' do
+          expect(page).to have_content(now.strftime('%l:%M%P %Z'))
+        end
+      end
 
       it 'shows comments that were entered when the customer was saved' do
         comcast_customer.update comments: 'Here are customer comments'
@@ -195,11 +195,11 @@ describe 'Comcast Customer CRUD actions' do
           end
         end
 
-        it 'displays when the sale was entered', pending: 'UTC on server?' #do
-        #within '#comcast_sale' do
-        #expect(page).to have_content(now.strftime('%l:%M%P %Z'))
-        #end
-        #end
+        it 'displays when the sale was entered' do
+          within '#comcast_sale' do
+            expect(page).to have_content(now.strftime('%l:%M%P %Z'))
+          end
+        end
 
         it 'displays the installation date' do
           within '#comcast_sale' do

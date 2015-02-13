@@ -13,38 +13,36 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 200
-      message: OK
+      code: 404
+      message: Not Found
     headers:
       Cache-Control:
-      - max-age=0, private, must-revalidate
+      - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 30 Jan 2015 19:02:13 GMT
+      - Fri, 06 Feb 2015 21:01:33 GMT
       Server:
       - nginx/1.6.2
       Status:
-      - 200 OK
+      - 404 Not Found
       Strict-Transport-Security:
       - max-age=31536000
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 09b3bbd7652579f737c42d66658e4d53
+      - 0bf8a3934d7498e3f9f10819e7744c58
       X-Runtime:
-      - '0.021553'
+      - '0.011335'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
-      - '732'
+      - '84'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"code":200},"response":{"id":"12117299","group_id":"12117299","name":"NEW
-        NAME","phone_number":null,"type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1422643358,"updated_at":1422644533,"office_mode":false,"share_url":null,"members":[{"id":"73032210","user_id":"12486363","nickname":"SalesMakers
-        Operations","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":50,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
+      string: '{"meta":{"code":404,"errors":["The requested path does not exist"]},"response":null}'
     http_version: 
-  recorded_at: Fri, 30 Jan 2015 19:02:10 GMT
+  recorded_at: Fri, 06 Feb 2015 21:01:33 GMT
 recorded_with: VCR 2.9.3

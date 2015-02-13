@@ -17,6 +17,7 @@ describe DevicePolicy do
   let(:permission_lost_stolen) { Permission.new key: 'device_lost_stolen', permission_group: permission_group, description: description }
   let(:permission_found) { Permission.new key: 'device_found', permission_group: permission_group, description: description }
   let(:permission_repairing) { Permission.new key: 'device_repairing', permission_group: permission_group, description: description }
+  let(:permission_repaired) { Permission.new key: 'device_repaired', permission_group: permission_group, description: description }
   let(:unpermitted_person) { build_stubbed :person }
 
 
@@ -71,6 +72,9 @@ describe DevicePolicy do
     specify {
       permitted_person.position.permissions << permission_update
       expect(policy.repairing?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.repaired?).to be_truthy }
   end
 
   context 'for those without permission' do
@@ -89,5 +93,6 @@ describe DevicePolicy do
     specify { expect(policy.add_state?).to be_falsey }
     specify { expect(policy.remove_state?).to be_falsey }
     specify { expect(policy.repairing?).to be_falsey }
+    specify { expect(policy.repaired?).to be_falsey }
   end
 end

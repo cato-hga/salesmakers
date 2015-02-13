@@ -11,5 +11,11 @@ class RootRedirectsController < ApplicationController
     if department.name == 'Executives'
       redirect_to people_path and return
     end
+    if department.name == 'Human Resources'
+      redirect_to devices_path and return
+    end
+    if department.name == 'Payroll'
+      redirect_to devices_path and return
+    end
   end
 end

@@ -54,6 +54,38 @@ describe RootRedirectsController do
       end
     end
 
+    describe 'Human Resources' do
+      let!(:human_resources_employee) { create :person, position: human_resources_position, email: 'human_resourcesemployee@salesmakersinc.com' }
+      let(:human_resources_position) { create :position, name: 'Human Resources Position', department: human_resources_department }
+      let(:human_resources_department) { create :department, name: 'Human Resources' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(human_resources_employee.email)
+        get :incoming_redirect
+      end
+      it 'returns a redirect' do
+        expect(response).to be_redirect
+      end
+      it 'routes to the Devices root' do
+        expect(response).to redirect_to(devices_path)
+      end
+    end
+
+    describe 'Payroll' do
+      let!(:payroll_employee) { create :person, position: payroll_position, email: 'payrollemployee@salesmakersinc.com' }
+      let(:payroll_position) { create :position, name: 'Payroll Position', department: payroll_department }
+      let(:payroll_department) { create :department, name: 'Payroll' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(payroll_employee.email)
+        get :incoming_redirect
+      end
+      it 'returns a redirect' do
+        expect(response).to be_redirect
+      end
+      it 'routes to the Devices root' do
+        expect(response).to redirect_to(devices_path)
+      end
+    end
+
     describe 'not yet implemented department' do
       let(:person) { create :person, position: unknown_position }
       let(:unknown_position) { create :position, department: unknown_department, name: 'Unknown' }

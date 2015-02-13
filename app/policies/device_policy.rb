@@ -32,4 +32,8 @@ class DevicePolicy < ApplicationPolicy
   def repairing?
     update?
   end
+
+  def repaired?
+    update?
+  end
 end

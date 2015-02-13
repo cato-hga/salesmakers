@@ -5,6 +5,8 @@
   .time_ago
     = time_ago_in_words(log_entry.created_at) + ' ago'
 .entry_pertains_to= device_link(trackable.device)
+by
+= person_link log_entry.person
 - if comment.present? and not comment.blank?
   with comment
   %span.comment

@@ -29,6 +29,11 @@ class Device < ActiveRecord::Base
     self.device_states.include? lost_stolen
   end
 
+  def written_off?
+    written_off = DeviceState.find_or_initialize_by name: 'Written Off'
+    self.device_states.include? written_off
+  end
+
   def add_state(state)
     self.device_states << state
     self.device_states.include? state
@@ -341,7 +346,7 @@ class Device < ActiveRecord::Base
     # Add the repairing state to the Device
     self.device_states << repairing
     # Log the repair
-    log_entry = LogEntry.create action: 'repair',
+    log_entry = LogEntry.create action: 'repairing',
                                 trackable: self,
                                 comment: movement.note,
                                 created_at: movement.created,

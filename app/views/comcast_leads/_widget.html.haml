@@ -1,6 +1,7 @@
-%h3 My Leads
-
-
+- if @person_show
+  %h3= @person.display_name + "'s Leads"
+- else
+  %h3 My Leads
 - overdue = @comcast_leads.overdue
 - upcoming = @comcast_leads.upcoming
 - not_upcoming_or_overdue = @comcast_leads.not_upcoming_or_overdue

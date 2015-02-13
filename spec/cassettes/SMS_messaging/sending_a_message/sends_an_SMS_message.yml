@@ -5,14 +5,14 @@ http_interactions:
     uri: https://AC96a051482517673481ee177d64d52bcf:806dd03205d48972b9837da98ccf0348@api.twilio.com/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages.json
     body:
       encoding: US-ASCII
-      string: To=%2B18635214572&From=%2B17272286225&Body=This+is+an+example+message.
+      string: To=%2B18137164150&From=%2B17272286225&Body=This+is+an+example+message.
     headers:
       Accept:
       - application/json
       Accept-Charset:
       - utf-8
       User-Agent:
-      - twilio-ruby/3.14.2 (ruby/x86_64-linux 2.1.2-p95)
+      - twilio-ruby/3.14.4 (ruby/x86_64-linux 2.1.2-p95)
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 09 Jan 2015 19:41:23 GMT
+      - Fri, 06 Feb 2015 21:18:48 GMT
       X-Powered-By:
       - AT-5000
       X-Shenanigans:
@@ -36,14 +36,14 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"sid": "SM1f8f2ec92b2140d6b50f5b0bf66404cb", "date_created": "Fri,
-        09 Jan 2015 19:41:23 +0000", "date_updated": "Fri, 09 Jan 2015 19:41:23 +0000",
+      string: '{"sid": "SM2f648d9e2b5b4c4285810ed4862911dd", "date_created": "Fri,
+        06 Feb 2015 21:18:48 +0000", "date_updated": "Fri, 06 Feb 2015 21:18:48 +0000",
         "date_sent": null, "account_sid": "AC96a051482517673481ee177d64d52bcf", "to":
-        "+18635214572", "from": "+17272286225", "body": "This is an example message.",
+        "+18137164150", "from": "+17272286225", "body": "This is an example message.",
         "status": "queued", "num_segments": "1", "num_media": "0", "direction": "outbound-api",
         "api_version": "2010-04-01", "price": null, "price_unit": "USD", "error_code":
-        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM1f8f2ec92b2140d6b50f5b0bf66404cb.json",
-        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM1f8f2ec92b2140d6b50f5b0bf66404cb/Media.json"}}'
+        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM2f648d9e2b5b4c4285810ed4862911dd.json",
+        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM2f648d9e2b5b4c4285810ed4862911dd/Media.json"}}'
     http_version: 
-  recorded_at: Fri, 09 Jan 2015 19:41:23 GMT
+  recorded_at: Fri, 06 Feb 2015 21:18:48 GMT
 recorded_with: VCR 2.9.3

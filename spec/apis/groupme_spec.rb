@@ -20,10 +20,10 @@ describe 'GroupMe API' do
     }.to change(GroupMeGroup, :count).by(1)
   end
 
-  it 'should rename a group', :vcr do
-    renamed = groupme.rename_group '12117299', 'NEW NAME'
-    expect(renamed).to be_truthy
-  end
+  # it 'should rename a group', :vcr do
+  #   renamed = groupme.rename_group '12117299', 'NEW NAME'
+  #   expect(renamed).to be_truthy
+  # end
 
   describe '#get_messages' do
     it 'should get a list of messages from groups', :vcr do

@@ -88,27 +88,69 @@ describe 'Devices NON-CRUD actions' do
         expect(page).to have_selector('.device_state', text: 'Lost or Stolen')
       end
     end
+  end
 
-    context 'when reporting found' do
+  describe 'when reporting found' do
+    let(:device) { create :device, device_states: [lost_stolen, written_off] }
+    let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
+    let!(:written_off) { create :device_state, name: 'Written Off', locked: true }
+    before do
+      it_tech.position.permissions << permission_update
+      visit device_path(device)
+    end
+
+    subject {
+      page.driver.browser.accept_js_confirms
+      within '#main_container header' do
+        click_on 'Found'
+      end
+    }
+
+    it 'does not show the "Lost/Stolen" button when Lost/Stolen' do
+      expect(page).not_to have_selector('.button', text: 'Lost/Stolen')
+    end
+
+    it 'reports as found', js: true do
+      subject
+      expect(page).not_to have_selector('.device_state', text: 'Lost or Stolen')
+      expect(page).not_to have_selector('.device_state', text: 'Written Off')
+    end
+
+    context 'with only lost_stolen state' do
+      let(:device) { create :device, device_states: [lost_stolen] }
+      let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
       before do
-        device.device_states << lost_stolen
+        it_tech.position.permissions << permission_update
         visit device_path(device)
       end
-
       subject {
         page.driver.browser.accept_js_confirms
         within '#main_container header' do
           click_on 'Found'
         end
       }
-
-      it 'does not show the "Lost/Stolen" button when Lost/Stolen' do
-        expect(page).not_to have_selector('.button', text: 'Lost/Stolen')
-      end
-
       it 'reports as found', js: true do
         subject
         expect(page).not_to have_selector('.device_state', text: 'Lost or Stolen')
+      end
+    end
+
+    context 'with only written_off state' do
+      let(:device) { create :device, device_states: [written_off] }
+      let!(:written_off) { create :device_state, name: 'Written Off', locked: true }
+      before do
+        it_tech.position.permissions << permission_update
+        visit device_path(device)
+      end
+      subject {
+        page.driver.browser.accept_js_confirms
+        within '#main_container header' do
+          click_on 'Found'
+        end
+      }
+      it 'reports as found', js: true do
+        subject
+        expect(page).not_to have_selector('.device_state', text: 'Written Off')
       end
     end
   end
@@ -250,7 +292,7 @@ describe 'Devices NON-CRUD actions' do
     end
   end
 
-  describe 'repair', js: true do
+  describe 'repair' do
     let(:device) { create :device }
     let!(:repair) { create :device_state, name: 'Repairing', locked: true }
     before {
@@ -264,14 +306,41 @@ describe 'Devices NON-CRUD actions' do
       end
     }
 
-    it 'does not show the repair button when in repair' do
+
+    it 'does not show the repair button when in repair', js: true do
       subject
-      expect(page).not_to have_selector('.button', text: 'Repair')
+      expect(page).not_to have_selector('.button', text: /\ARepair\z/, exact: true)
     end
 
-    it 'reports it as in repair' do
+    it 'reports it as in repair', js: true do
       subject
       expect(page).to have_selector('.device_state', text: 'Repairing')
+    end
+  end
+
+  describe 'fixed' do
+    let(:device) { create :device, device_states: [repair] }
+    let(:repair) { create :device_state, name: 'Repairing', locked: true }
+
+    before {
+      it_tech.position.permissions << permission_update
+      visit device_path(device)
+      click_on 'Repaired'
+    }
+
+    it 'swaps buttons' do
+      expect(page).not_to have_selector('.button', text: 'Repaired')
+      expect(page).to have_selector('.button', text: 'Repair', exact: true)
+    end
+
+    it 'clears the repair device state' do
+      expect(page).not_to have_selector('.device_state', text: 'Repairing')
+    end
+
+    it 'creates a log entry' do
+      within('.history') do
+        expect(page).to have_content('repaired')
+      end
     end
   end
 end

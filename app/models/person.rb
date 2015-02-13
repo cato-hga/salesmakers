@@ -175,14 +175,6 @@ class Person < ActiveRecord::Base
     self.office_phone and self.office_phone != '8005551212'
   end
 
-  # def social_name
-  #   if self.profile.nickname? and not self.profile.nickname.blank?
-  #     self.profile.nickname
-  #   else
-  #     self.display_name
-  #   end
-  # end
-
   def show_details?(people)
     people and people.include?(self)
   end
@@ -221,8 +213,15 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def separate
-    self.update(active: false, updated_at: separated_at)
+  def separate(separated_at = Time.now)
+    if self.update(active: false, updated_at: separated_at)
+      if self.devices.any?
+        AssetsMailer.separated_with_assets_mailer(self).deliver_now
+        AssetsMailer.asset_return_mailer(self).deliver_now
+      else
+        AssetsMailer.separated_without_assets_mailer(self).deliver_now
+      end
+    end
   end
 
   def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
@@ -236,36 +235,6 @@ class Person < ActiveRecord::Base
     entry.updated_at = updated_at if updated_at
     entry.save ? true : false
   end
-
-  # def create_wall
-  #   return if self.wall
-  #   Wall.create wallable: self
-  # end
-
-  # def profile_avatar
-  #   return unless profile
-  #   profile.avatar
-  # end
-  #
-  # def profile_avatar_url
-  #   return unless profile_avatar
-  #   profile_avatar.url
-  # end
-  #
-  # def group_me_avatar_url
-  #   return unless group_me_user
-  #   group_me_user.avatar_url
-  # end
-  #
-  # def default_wall
-  #   if self.position.hq?
-  #     Wall.find_by wallable: self.position.department
-  #   elsif person_areas.count > 0
-  #     Wall.find_by wallable: self.person_areas.first.area
-  #   else
-  #     Wall.find_by wallable: self
-  #   end
-  # end
 
   def related_log_entries
     LogEntry.for_person(self)
