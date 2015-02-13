@@ -14,6 +14,8 @@ class VonagePaycheck < ActiveRecord::Base
   validate :commission_start_unique_range
   validate :commission_end_unique_range
 
+  has_many :vonage_sale_payouts
+
   private
 
   def wages_end_after_start

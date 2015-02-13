@@ -28,7 +28,7 @@ describe VonageRepSalePayoutBracket do
   end
 
   describe 'uniqueness validations' do
-    let(:duplicate) { build :vonage_rep_sale_payout_bracket }
+    let(:duplicate) { build :vonage_rep_sale_payout_bracket, area: subject.area }
 
     before { subject.save }
 
