@@ -78,5 +78,24 @@ describe VonageAccountStatusChangesImporter do
         importer
       }.to change(VonageAccountStatusChange, :count).by(20)
     end
+
+    describe 'refund generation' do
+      let!(:vonage_sale) {
+        create :vonage_sale,
+               mac: '0071CC1D416D'
+        create :vonage_sale,
+               mac: '0071CC44604D'
+        new_sale = build :vonage_sale,
+               mac: '0071CC43FF93',
+               sale_date: Date.today - 31.days
+        new_sale.save validate: false
+      }
+
+      it 'stores the refund' do
+        importer.begin_processing
+        expect(VonageRefund.count).to eq(2)
+      end
+    end
+
   end
 end

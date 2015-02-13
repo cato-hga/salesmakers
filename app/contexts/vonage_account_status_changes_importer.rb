@@ -73,7 +73,7 @@ class VonageAccountStatusChangesImporter
   end
 
   def never_been_sold_termination(vonage_account_status_change)
-    return vonage_account_status_change if vonage_account_status_change.status
+    return vonage_account_status_change if vonage_account_status_change.status.present?
     vonage_account_status_change.status = :terminated
     vonage_account_status_change.account_start_date = Date.today
     vonage_account_status_change.account_end_date = Date.today
@@ -83,6 +83,51 @@ class VonageAccountStatusChangesImporter
 
   def store(vonage_account_status_change)
     return if vonage_account_status_change.matches_latest?
-    vonage_account_status_change.save
+    if vonage_account_status_change.save
+      generate_refund(vonage_account_status_change)
+      true
+    else
+      puts vonage_account_status_change.errors.full_messages.join(', ')
+      false
+    end
+  end
+
+  def generate_refund(vonage_account_status_change)
+    return unless refundable_termination?(vonage_account_status_change) or
+    refundable_grace_or_suspend?(vonage_account_status_change)
+    sale = find_sale(vonage_account_status_change.mac)
+    return unless sale
+    store_refund(vonage_account_status_change, sale)
+  end
+
+  def find_sale(mac)
+    sales = VonageSale.where("mac ILIKE ?", mac).order(sale_date: :desc)
+    return if sales.empty?
+    sales.first
+  end
+
+  def refundable_termination?(vonage_account_status_change)
+    return false unless vonage_account_status_change.account_end_date and
+        vonage_account_status_change.account_start_date
+
+    (vonage_account_status_change.terminated? or not
+        vonage_account_status_change.status.present?) and
+        vonage_account_status_change.account_end_date.mjd -
+            vonage_account_status_change.account_start_date.mjd < 32
+  end
+
+  def refundable_grace_or_suspend?(vonage_account_status_change)
+    sale = find_sale(vonage_account_status_change.mac)
+    return false unless sale
+    (vonage_account_status_change.grace? or
+        vonage_account_status_change.suspended?) and
+        Date.today.mjd - sale.sale_date.mjd < 36
+  end
+
+  def store_refund(vonage_account_status_change, sale)
+    VonageRefund.create vonage_account_status_change: vonage_account_status_change,
+                        person: sale.person,
+                        refund_date: Date.today,
+                        vonage_sale: sale
   end
 end
