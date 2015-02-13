@@ -48,7 +48,7 @@ every 1.day, at: '8:00 am' do
 end
 
 every 5.minutes do
-  LegacyVonageSaleImporting.new(5.minutes).import
+  runner 'LegacyVonageSaleImporting.new(5.minutes).import'
 end
 
 every 1.day, at: '5:00 pm' do
