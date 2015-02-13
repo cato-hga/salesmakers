@@ -7,4 +7,7 @@ class ComcastEod < ActiveRecord::Base
 
   belongs_to :location
 
+  def self.policy_class
+    ComcastCustomerPolicy
+  end
 end

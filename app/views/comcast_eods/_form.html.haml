@@ -1,0 +1,35 @@
+.widget
+  .inner
+    = form_for @comcast_eod do |f|
+      - eod_date = DateTime.now
+      - if @comcast_locations
+        - options = options_from_collection_for_select(@comcast_locations, 'id', 'name')
+      - else
+        - options = ''
+      = f.label :location_id
+      = f.select :location_id, options
+      %fieldset
+        %legend Did you have a visit from a Sales Pro today?
+        = f.radio_button :sales_pro_visit, true
+        = f.label :sales_pro_visit_true, 'Yes'
+        = f.radio_button :sales_pro_visit, false
+        = f.label :sales_pro_visit_false, 'No'
+        = f.label :sales_pro_visit_takeaway,'What was your takaway from the visit?'
+        = f.text_area :sales_pro_visit_takeaway
+      %fieldset
+        %legend Did you have a visit from a Comcast Executive today?
+        = f.radio_button :comcast_visit, true
+        = f.label :comcast_visit_true, 'Yes'
+        = f.radio_button :comcast_visit, false
+        = f.label :comcast_visit_false, 'No'
+        = f.label :comcast_visit_takeaway,'What was your takaway from the visit?'
+        = f.text_area :comcast_visit_takeaway
+      %fieldset
+        %legend Did you have Cloud Training today?
+        = f.radio_button :cloud_training, true
+        = f.label :cloud_training_true, 'Yes'
+        = f.radio_button :cloud_training, false
+        = f.label :cloud_training_false, 'No'
+        = f.label :cloud_training_takeaway,'What was your takaway from the training?'
+        = f.text_area :cloud_training_takeaway
+      = f.submit 'Complete End Of Day', class: :button

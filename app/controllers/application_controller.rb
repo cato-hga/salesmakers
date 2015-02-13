@@ -48,17 +48,21 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def set_comcast_locations
+    comcast = Project.find_by name: 'Comcast Retail'
+    return Location.none unless comcast
+    @comcast_locations = comcast.locations_for_person @current_person
+  end
+
   def current_person_has_position?
     @current_person and @current_person.position
   end
 
   def setup_accessibles
     if @current_person
-      #@visible_walls = Wall.visible(@current_person).includes(:wallable)
       @visible_people = Person.visible(@current_person)
       @visible_projects = Project.visible(@current_person)
     else
-      #@visible_walls = Wall.none
       @visible_people = Person.none
       @visible_projects = Project.none
     end
@@ -71,19 +75,7 @@ class ApplicationController < ActionController::Base
     @seen_before = @current_person.last_seen.present?
     @current_person.update last_seen: Time.now
     Person.record_timestamps = true
-    #WallPost.just_logged_in_post @current_person unless @seen_before
-    #WallPost.send_welcome_post @current_person unless @seen_before
   end
-
-  # def set_last_seen_profile
-  #   @seen_before_profile = false
-  #   return unless @current_person
-  #   Profile.record_timestamps = false
-  #   current_profile = @current_person.profile
-  #   @seen_before_profile = current_profile.last_seen.present?
-  #   current_profile.update last_seen: Time.now
-  #   Profile.record_timestamps = true
-  # end
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
@@ -108,30 +100,11 @@ class ApplicationController < ActionController::Base
     @projects = Project.all
   end
 
-  # def current_theme
-  #   if @current_person and @current_person.profile and @current_person.profile.theme_name
-  #     return @current_person.profile.theme_name
-  #   end
-  #   nil
-  # end
-
-  # def filter_groupme_access_token
-  #   return unless @current_person and @current_person.groupme_access_token
-  #   if @current_person.groupme_token_updated < Time.now - 60.days
-  #     @current_person.update groupme_access_token: nil
-  #   end
-  # end
 
   helper_method :current_user
   helper_method :current_theme
 
   def permission_denied
-    # flash[:error] = 'You are not authorized to perform that action'
-    # unless request.env['HTTP_REFERER']
-    #   redirect_to '/'
-    # else
-    #   redirect_to :back
-    # end
     render file: File.join(Rails.root, 'public/403.html'), status: 403, layout: false
   end
 end

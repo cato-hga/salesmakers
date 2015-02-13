@@ -44,10 +44,9 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('My Customers')
         end
       end
-
-      it 'does not contain a link to Sales and Leads' do
+      it 'contains a link to the EOD page', pending: 'pending' do
         within('.top-bar') do
-          expect(page).not_to have_content('Sales and Leads')
+          expect(page).to have_content('End Of Day')
         end
       end
     end
@@ -116,6 +115,16 @@ describe 'Navigation Authorization' do
       it 'does not contain links to the Admin section' do
         within('.left-off-canvas-menu') do
           expect(page).not_to have_content('Administration')
+        end
+      end
+      it 'contains a link to existing customers' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_content('My Customers')
+        end
+      end
+      it 'contains a link to the EOD page', pending: 'pending' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_content('End Of Day')
         end
       end
     end

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy]
   end
 
+  resources :comcast_eods, only: [:new, :create]
+
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
 
   resources :departments, only: [:index, :show] do
