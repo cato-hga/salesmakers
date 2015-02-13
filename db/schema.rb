@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150213155845) do
+ActiveRecord::Schema.define(version: 20150213201639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -733,6 +733,15 @@ ActiveRecord::Schema.define(version: 20150213155845) do
     t.decimal  "price_range_maximum", default: 9999.99, null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+  end
+
+  create_table "vonage_refunds", force: :cascade do |t|
+    t.integer  "vonage_sale_id",                  null: false
+    t.integer  "vonage_account_status_change_id", null: false
+    t.date     "refund_date",                     null: false
+    t.integer  "person_id",                       null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "vonage_rep_sale_payout_brackets", force: :cascade do |t|

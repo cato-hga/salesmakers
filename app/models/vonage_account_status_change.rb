@@ -6,6 +6,7 @@ class VonageAccountStatusChange < ActiveRecord::Base
   validates :status, presence: true
   validate :account_start_date_in_past
   validate :termination_fields
+  has_many :vonage_refunds
 
   def matches_latest?
     return false unless self.mac

@@ -49,7 +49,8 @@ class Person < ActiveRecord::Base
         :person_areas, :device_deployments, :devices, :uploaded_images,
         :uploaded_videos, :blog_posts, :wall_posts, :questions, :answers,
         :answer_upvotes, :communication_log_entries, :group_me_posts,
-        :employments, :person_addresses, :vonage_sale_payouts
+        :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
+        :vonage_refunds
     ]
 
     for has_many_association in has_many_associations do

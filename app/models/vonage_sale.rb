@@ -13,6 +13,7 @@ class VonageSale < ActiveRecord::Base
   belongs_to :vonage_product
 
   has_many :vonage_sale_payouts
+  has_one :vonage_refund
 
   scope :for_paycheck, ->(paycheck) {
     if paycheck
