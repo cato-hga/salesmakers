@@ -50,6 +50,7 @@ class VonagePaycheck < ActiveRecord::Base
     return unless wages_start
     existing_range = VonagePaycheck.where('wages_start <= ? AND wages_end >= ?',
                                           wages_start, wages_start)
+    existing_range = existing_range.where('id != ?', self.id) if self.id
     return if existing_range.empty?
     errors.add(:wages_start, "cannot be within another paycheck's wages range")
   end
@@ -58,6 +59,7 @@ class VonagePaycheck < ActiveRecord::Base
     return unless wages_end
     existing_range = VonagePaycheck.where('wages_start <= ? AND wages_end >= ?',
                                           wages_end, wages_end)
+    existing_range = existing_range.where('id != ?', self.id) if self.id
     return if existing_range.empty?
     errors.add(:wages_end, "cannot be within another paycheck's wages range")
   end
@@ -66,15 +68,17 @@ class VonagePaycheck < ActiveRecord::Base
     return unless commission_start
     existing_range = VonagePaycheck.where('commission_start <= ? AND commission_end >= ?',
                                           commission_start, commission_start)
+    existing_range = existing_range.where('id != ?', self.id) if self.id
     return if existing_range.empty?
-    errors.add(:commission_start, "cannot be within another paycheck's wages range")
+    errors.add(:commission_start, "cannot be within another paycheck's commission range")
   end
 
   def commission_end_unique_range
     return unless commission_end
     existing_range = VonagePaycheck.where('commission_start <= ? AND commission_end >= ?',
                                           commission_end, commission_end)
+    existing_range = existing_range.where('id != ?', self.id) if self.id
     return if existing_range.empty?
-    errors.add(:commission_end, "cannot be within another paycheck's wages range")
+    errors.add(:commission_end, "cannot be within another paycheck's commission range")
   end
 end
