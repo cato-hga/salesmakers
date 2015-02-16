@@ -29,7 +29,7 @@ class ComcastGroupMeBotCallback
     self.keywords = Array.new
     self.query_string = Array.new
     for word in @callback.text.split do
-      word.strip!
+      word.strip!; word.gsub!(/[^A-Za-z0-9 ]/, '')
       if keyword_list.include?(word)
         self.keywords << word
       else
