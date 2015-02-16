@@ -45,9 +45,6 @@ class PersonAddress < ActiveRecord::Base
   end
 
   def self.update_from_connect(minutes)
-    offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
-    offset = offset * -1
-    minutes = minutes + offset
     establish_connection(:rbd_connect_production)
     puts connection.current_database
     results = connection.select_all "select
@@ -64,7 +61,8 @@ class PersonAddress < ActiveRecord::Base
 
       where
         a.c_location_id is not null
-        AND a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'"
+        AND (a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'
+          OR or l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
 
     puts results.count.to_s + ' Results'
 
