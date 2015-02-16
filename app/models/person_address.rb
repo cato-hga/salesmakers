@@ -62,7 +62,7 @@ class PersonAddress < ActiveRecord::Base
       where
         a.c_location_id is not null
         AND (a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'
-          OR or l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
+          OR l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
 
     puts results.count.to_s + ' Results'
 
