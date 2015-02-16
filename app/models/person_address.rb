@@ -11,7 +11,7 @@ class PersonAddress < ActiveRecord::Base
                   "VI", "VT", "WA", "WI", "WV", "WY" ]
 
   validates :person, presence: true
-  validates :line_1, format: { with: /\A\d\d+[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }
+  validates :line_1, format: { with: /\A\d+[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }
   validates :city, length: { minimum: 2 }
   validates :state, length: { is: 2 }, inclusion: { in: states }
   validates :zip, format: { with: /\A\d{5}\z/, message: 'must be 5 digits' }
