@@ -35,6 +35,16 @@ class ComcastLead < ActiveRecord::Base
     where('follow_up_by > ? OR follow_up_by IS NULL', Date.today + 1.week)
   }
 
+  scope :dismissible, ->(person = nil) {
+    return Person.none unless person
+    people = Array.new
+    people = people.concat person.managed_team_members
+    people << person
+    return Person.none if people.count < 1
+
+    ComcastLead.where("\"comcast_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
+  }
+
   def self.policy_class
     ComcastCustomerPolicy
   end

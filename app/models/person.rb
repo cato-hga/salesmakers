@@ -113,6 +113,19 @@ class Person < ActiveRecord::Base
     NameCase(self[:display_name])
   end
 
+  def managed_team_members
+    people = Array.new
+    for person_area in self.person_areas do
+      next unless person_area.area
+      next unless person_area.manages
+      areas = person_area.area.subtree
+      for area in areas do
+        people = people.concat area.people.to_a
+      end
+    end
+    people.flatten
+  end
+
   def team_members
     people = Array.new
     for person_area in self.person_areas do

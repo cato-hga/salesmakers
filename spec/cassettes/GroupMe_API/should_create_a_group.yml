@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.groupme.com/v3/groups?token=1956b1d08a050132df253a66af516754
+    body:
+      encoding: UTF-8
+      string: '{"name":"TEST","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}'
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 16 Feb 2015 15:19:26 GMT
+      Etag:
+      - '"04c20360a60e9b9c250fd6f3fd3d0428"'
+      Server:
+      - nginx/1.6.2
+      Status:
+      - 201 Created
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Rack-Cache:
+      - invalidate, pass
+      X-Request-Id:
+      - d9d00951b3a78ecbd22d736f4b55400f
+      X-Runtime:
+      - '0.071041'
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Content-Length:
+      - '731'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"code":201},"response":{"id":"12411658","group_id":"12411658","name":"TEST","phone_number":"+1
+        7405380375","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1424099966,"updated_at":1424099966,"office_mode":false,"share_url":null,"members":[{"id":"75349770","user_id":"12486363","nickname":"SalesMakers
+        IT","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":50,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
+    http_version: 
+  recorded_at: Mon, 16 Feb 2015 15:19:26 GMT
+recorded_with: VCR 2.9.3
