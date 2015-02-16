@@ -43,6 +43,7 @@ class PeopleController < ProtectedController
   def show
     @person = Person.find params[:id]
     @log_entries = @person.related_log_entries.page(params[:log_entries_page]).per(10)
+    @communication_log_entries = @person.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
   end
