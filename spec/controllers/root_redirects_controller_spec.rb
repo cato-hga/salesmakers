@@ -86,6 +86,35 @@ describe RootRedirectsController do
       end
     end
 
+    describe 'Vonage Sales' do
+      let!(:vonage_employee) { create :person, position: vonage_position, email: 'vonagerep@vg.salesmakersinc.com' }
+      let(:vonage_position) { create :position, name: 'Vonage Position', department: vonage_retail_department }
+      let(:vonage_retail_department) { create :department, name: 'Vonage Retail Sales' }
+      let(:vonage_events_department) { create :department, name: 'Vonage Retail Sales' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+
+      end
+      it 'returns a redirect for retail employees' do
+        get :incoming_redirect
+        expect(response).to be_redirect
+      end
+      it 'routes to commissions for retail employees' do
+        get :incoming_redirect
+        expect(response).to redirect_to(commission_person_path(vonage_employee))
+      end
+      it 'returns a redirect for event employees' do
+        vonage_position.update department: vonage_events_department
+        get :incoming_redirect
+        expect(response).to be_redirect
+      end
+      it 'routes to commissions for event employees' do
+        vonage_position.update department: vonage_events_department
+        get :incoming_redirect
+        expect(response).to redirect_to(commission_person_path(vonage_employee))
+      end
+    end
+
     describe 'not yet implemented department' do
       let(:person) { create :person, position: unknown_position }
       let(:unknown_position) { create :position, department: unknown_department, name: 'Unknown' }

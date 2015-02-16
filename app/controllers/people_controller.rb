@@ -1,8 +1,9 @@
 require 'apis/gateway'
 
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show, :sales]
+  after_action :verify_authorized, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show, :sales, :commission]
   after_action :verify_policy_scoped, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show]
+  before_action :find_person, only: [:sales, :commission]
   require 'apis/mojo'
 
   def index
@@ -47,11 +48,7 @@ class PeopleController < ProtectedController
   end
 
   def sales
-    @person = policy_scope(Person).find params[:id]
-    unless @person
-      flash[:error] = 'You do not have permission to view sales for that person.'
-      redirect_to :back
-    end
+
   end
 
   def new_sms_message
@@ -76,11 +73,38 @@ class PeopleController < ProtectedController
     render :index
   end
 
+  def commission
+    set_paycheck
+    @payouts = VonageSalePayout.where(vonage_paycheck: @paycheck).
+        where(person: @person)
+    @refunds = VonageRefund.where('refund_date >= ? AND refund_date <= ? AND person_id = ?',
+                                  @paycheck.commission_start,
+                                  @paycheck.commission_end,
+                                  @person.id)
+  end
+
   private
 
   def person_params
     if @person == @current_person
       params.require(:person).permit :personal_email, :mobile_phone, :home_phone, :office_phone
+    end
+  end
+
+  def find_person
+    @person = policy_scope(Person).find params[:id]
+    unless @person
+      flash[:error] = "You do not have permission to view this person's details."
+      redirect_to :back
+    end
+  end
+
+  def set_paycheck
+    if params[:paycheck_id]
+      @paycheck = VonagePaycheck.find params[:paycheck_id]
+    else
+      @paycheck = VonagePaycheck.where('cutoff > ?', DateTime.now - 5.days).
+          order(:cutoff).first
     end
   end
 

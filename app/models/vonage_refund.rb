@@ -7,4 +7,10 @@ class VonageRefund < ActiveRecord::Base
   belongs_to :vonage_sale
   belongs_to :vonage_account_status_change
   belongs_to :person
+
+  def payout
+    payouts = VonageSalePayout.where(vonage_sale: self.vonage_sale,
+                                     person: self.person)
+    payouts.empty? ? nil : payouts.first
+  end
 end

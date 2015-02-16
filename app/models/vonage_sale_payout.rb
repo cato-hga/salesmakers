@@ -7,4 +7,10 @@ class VonageSalePayout < ActiveRecord::Base
   belongs_to :vonage_sale
   belongs_to :person
   belongs_to :vonage_paycheck
+
+  default_scope {
+    joins(:vonage_sale).
+        order("vonage_sales.sale_date").
+        includes(:vonage_sale)
+  }
 end
