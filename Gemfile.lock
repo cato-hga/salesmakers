@@ -220,6 +220,9 @@ GEM
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
+    goldiloader (0.0.8)
+      activerecord (>= 3.2, < 4.3)
+      activesupport (>= 3.2, < 4.3)
     griddler (1.1.0)
       htmlentities
       rails (>= 3.2.0)
@@ -583,6 +586,7 @@ DEPENDENCIES
   foundation-icons-sass-rails (= 3.0.0)
   geocoder (= 1.2.6)
   gmaps4rails (= 2.1.2)
+  goldiloader (= 0.0.8)
   griddler (= 1.1.0)
   griddler-postmark (= 1.0.0)
   groupdate (= 2.4.0)

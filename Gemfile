@@ -53,6 +53,7 @@ gem 'roo', git: 'https://github.com/roo-rb/roo.git' # Working with spreadsheets
 gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
 gem 'griddler', '1.1.0' # Incoming email parsing
 gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
+gem 'goldiloader', '0.0.8' # Automatic eager loading
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
