@@ -125,9 +125,11 @@ class VonageAccountStatusChangesImporter
   end
 
   def store_refund(vonage_account_status_change, sale)
+    refund_date = vonage_account_status_change.account_end_date
+    refund_date = refund_date ? refund_date + 1.week : Date.yesterday
     VonageRefund.create vonage_account_status_change: vonage_account_status_change,
                         person: sale.person,
-                        refund_date: Date.today,
+                        refund_date: refund_date,
                         vonage_sale: sale
   end
 end
