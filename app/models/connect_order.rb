@@ -43,7 +43,7 @@ class ConnectOrder < RealConnectModel
   }
 
   scope :sales, -> {
-    where "documentno LIKE '%+'"
+    where "documentno LIKE '%+' AND documentno NOT LIKE '%X%'"
   }
 
   def dateordered
