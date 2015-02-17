@@ -216,4 +216,5 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(second_device.serial)
     end
   end
+
 end

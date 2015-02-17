@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe TwilioController do
+  include ActiveJob::TestHelper
+
   let(:from) { '+17274872633' }
 
   describe 'POST incoming_voice' do
@@ -22,6 +24,7 @@ describe TwilioController do
              to_person_id: to_person.id,
              from_person_id: from_person.id
     }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
     before(:example) do
       ActionMailer::Base.deliveries.clear
@@ -59,6 +62,9 @@ describe TwilioController do
 
     it 'sends an email to a person being replied to' do
       subject
+      perform_enqueued_jobs do
+        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+      end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('SMS Reply from ' + to_person.display_name)
@@ -72,6 +78,9 @@ describe TwilioController do
            To: '+12345678901',
            Body: 'This is a message that starts a new thread.',
            MessageSid: 'SM09876543210987654321'
+      perform_enqueued_jobs do
+        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+      end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('New SMS Thread Started by ' + from_person.display_name)
@@ -85,6 +94,9 @@ describe TwilioController do
            To: '+12345678901',
            Body: 'This is a message from an unrecognized number.',
            MessageSid: 'SM09876543210987654321'
+      perform_enqueued_jobs do
+        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+      end
       expect(ActionMailer::Base.deliveries.size).to eq(1)
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('New SMS Thread Started by (991) 448-8899')
@@ -92,5 +104,4 @@ describe TwilioController do
       expect(email.body.to_s).to match(/This is a message from an unrecognized number/)
     end
   end
-
 end

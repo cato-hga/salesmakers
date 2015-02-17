@@ -84,9 +84,9 @@ class Gateway
       end
       if reply_to_message
         reply_to_message.update replied_to: true
-        NotificationMailer.sms_reply(incoming_message).deliver_now
+        NotificationMailer.sms_reply(incoming_message).deliver_later
       else
-        NotificationMailer.new_sms_thread(incoming_message).deliver_now
+        NotificationMailer.new_sms_thread(incoming_message).deliver_later
       end
     end
   end
