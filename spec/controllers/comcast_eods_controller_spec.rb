@@ -65,11 +65,28 @@ describe ComcastEodsController do
         expect(eod.cloud_training).to eq(true)
         expect(eod.cloud_training_takeaway).to eq('Cloud Training Takeaway')
       end
+
+      it 'creates a log entry' do
+        expect(LogEntry.count).to eq(1)
+      end
     end
 
     context 'failure' do
-
-      it 'redirects to ComcastEOD#new'
+      before do
+        post :create,
+             comcast_eod: {
+                 eod_date: eod_date,
+                 sales_pro_visit: true,
+                 sales_pro_visit_takeaway: 'Sales Pro Takeaway',
+                 comcast_visit: true,
+                 comcast_visit_takeaway: 'Comcast Visit Takeaway',
+                 cloud_training: true,
+                 cloud_training_takeaway: 'Cloud Training Takeaway',
+             }
+      end
+      it 'redirects to ComcastEOD#new' do
+        expect(response).to render_template(:new)
+      end
     end
   end
 end

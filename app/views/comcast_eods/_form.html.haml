@@ -1,3 +1,6 @@
+- if @comcast_eod.errors.any?
+  - @comcast_eod.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
 .widget
   .inner
     = form_for @comcast_eod do |f|
@@ -8,7 +11,7 @@
         - options = ''
       = f.hidden_field :eod_date, value: eod_date_value
       = f.label :location_id
-      = f.select :location_id, options
+      = f.select :location_id, options, prompt: 'Select a location'
       %fieldset
         %legend Did you have a visit from a Sales Pro today?
         = f.radio_button :sales_pro_visit, true

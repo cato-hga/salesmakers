@@ -9,7 +9,13 @@ class ComcastEodsController < ApplicationController
   def create
     @comcast_eod = ComcastEod.new comcast_eod_params
     if @comcast_eod.save
+      flash[:notice] = 'End of Day report saved successfully'
+      @current_person.log? 'create',
+                           @comcast_eod
       redirect_to comcast_customers_path
+    else
+      flash[:error] = 'End of day report was NOT saved'
+      render :new
     end
   end
 
