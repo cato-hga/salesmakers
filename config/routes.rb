@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root 'root_redirects#incoming_redirect'
   mount_griddler
+  mount PgHero::Engine, at: "database"
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
     collection do
