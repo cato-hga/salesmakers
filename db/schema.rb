@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150213201639) do
+ActiveRecord::Schema.define(version: 20150217135845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "answer_upvotes", force: :cascade do |t|
     t.integer  "answer_id",  null: false
@@ -680,6 +681,16 @@ ActiveRecord::Schema.define(version: 20150213201639) do
     t.string   "display_name", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_not_deployed", id: false, force: :cascade do |t|
+    t.string "serial", limit: 255
+  end
+
+  create_table "tmp_payouts", id: false, force: :cascade do |t|
+    t.string  "mac",      limit: 255
+    t.decimal "payout"
+    t.string  "username", limit: 255
   end
 
   create_table "uploaded_images", force: :cascade do |t|
