@@ -10,6 +10,7 @@ class API::V1::PeopleController < API::BaseController
                     nil,
                     connect_user.created,
                     connect_user.created
+      PersonUpdaterJob.perform_later connect_user.id
       get_person.reload
       respond_with get_person
     else
@@ -30,6 +31,7 @@ class API::V1::PeopleController < API::BaseController
                  nil,
                  separated,
                  separated
+    PersonUpdaterJob.perform_later connect_user.id
     get_person.reload
     respond_with get_person
   end
