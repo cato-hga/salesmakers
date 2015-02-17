@@ -15,6 +15,7 @@ class VonagePaycheck < ActiveRecord::Base
   validate :commission_end_unique_range
 
   has_many :vonage_sale_payouts
+  has_many :vonage_paycheck_negative_balances
 
   private
 

@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217135845) do
+ActiveRecord::Schema.define(version: 20150217174922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  #enable_extension "pg_stat_statements"
 
   create_table "answer_upvotes", force: :cascade do |t|
     t.integer  "answer_id",  null: false
@@ -723,6 +722,14 @@ ActiveRecord::Schema.define(version: 20150217135845) do
     t.date     "account_end_date"
     t.integer  "status",             null: false
     t.string   "termination_reason"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "vonage_paycheck_negative_balances", force: :cascade do |t|
+    t.integer  "person_id",          null: false
+    t.decimal  "balance",            null: false
+    t.integer  "vonage_paycheck_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
