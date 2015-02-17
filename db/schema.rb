@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20150217135845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
+  #enable_extension "pg_stat_statements"
 
   create_table "answer_upvotes", force: :cascade do |t|
     t.integer  "answer_id",  null: false
