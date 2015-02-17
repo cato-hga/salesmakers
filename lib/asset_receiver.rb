@@ -39,15 +39,17 @@ class AssetReceiver
 
   def receive
     validate!
-    line = Line.create identifier: self.line_identifier,
-                       contract_end_date: self.contract_end_date,
-                       technology_service_provider: self.service_provider
     device = Device.create device_model: self.device_model,
                            serial: self.serial,
-                           identifier: self.device_identifier,
-                           line: line
+                           identifier: self.device_identifier
     self.creator.log? 'create', device
-    self.creator.log? 'create', line
+    if create_line?
+      line = Line.create identifier: self.line_identifier,
+                         contract_end_date: self.contract_end_date,
+                         technology_service_provider: self.service_provider
+      self.creator.log? 'create', line
+      device.update line: line
+    end
   end
 
   def validate_creator

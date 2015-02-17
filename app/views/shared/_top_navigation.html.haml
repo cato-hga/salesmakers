@@ -43,7 +43,7 @@
           -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new).create?
             %li= link_to 'New Customer', new_comcast_customer_path
             %li= link_to 'My Customers', comcast_customers_path
-            %li= link_to 'End Of Day', new_comcast_eod_path
+      -#%li= link_to 'End Of Day', new_comcast_eod_path
       .right
         %ul.left
           %li.has-dropdown#joyride-profile

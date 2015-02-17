@@ -44,7 +44,7 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('My Customers')
         end
       end
-      it 'contains a link to the EOD page' do
+      it 'contains a link to the EOD page', pending: 'approval' do
         within('.top-bar') do
           expect(page).to have_content('End Of Day')
         end
@@ -122,7 +122,7 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('My Customers')
         end
       end
-      it 'contains a link to the EOD page' do
+      it 'contains a link to the EOD page', pending: 'approval' do
         within('.left-off-canvas-menu') do
           expect(page).to have_content('End Of Day')
         end
