@@ -5,81 +5,44 @@ class VonagePaycheck < ActiveRecord::Base
   validates :commission_start, presence: true, uniqueness: true
   validates :commission_end, presence: true, uniqueness: true
   validates :cutoff, presence: true
-  validate :wages_end_after_start
-  validate :commission_end_after_start
-  validate :cutoff_after_wages_end
-  validate :cutoff_after_commission_end
-  validate :wages_start_unique_range
-  validate :wages_end_unique_range
-  validate :commission_start_unique_range
-  validate :commission_end_unique_range
+  validate :one_date_after_the_other
+  validate :unique_ranges
 
   has_many :vonage_sale_payouts
   has_many :vonage_paycheck_negative_balances
 
   private
 
-  def wages_end_after_start
-    return unless wages_end and wages_start
-    if wages_end < wages_start
-      errors.add(:wages_end, 'must be after the wages start date')
+  def one_after_the_other(one, other)
+    return unless self[one] and self[other]
+    other_attribute_name = self.class.human_attribute_name(other)
+    if self[one] < self[other]
+      errors.add(one, "must be after #{other_attribute_name}")
     end
   end
 
-  def commission_end_after_start
-    return unless commission_end and commission_start
-    if commission_end < commission_start
-      errors.add(:commission_end, 'must be after the commission start date')
-    end
+  def one_date_after_the_other
+    one_after_the_other(:wages_end, :wages_start)
+    one_after_the_other(:commission_end, :commission_start)
+    one_after_the_other(:cutoff, :wages_end)
+    one_after_the_other(:cutoff, :commission_end)
   end
 
-  def cutoff_after_wages_end
-    return unless cutoff and wages_end
-    if cutoff < wages_end
-      errors.add(:cutoff, 'must be after the wages end date')
-    end
-  end
-
-  def cutoff_after_commission_end
-    return unless cutoff and commission_end
-    if cutoff < commission_end
-      errors.add(:cutoff, 'must be after the commission end date')
-    end
-  end
-
-  def wages_start_unique_range
-    return unless wages_start
-    existing_range = VonagePaycheck.where('wages_start <= ? AND wages_end >= ?',
-                                          wages_start, wages_start)
+  def attr_outside_another_range(attr, start_attr, end_attr)
+    return unless self[attr]
+    end_attr_readable = self.class.human_attribute_name(end_attr).split
+    end_attr_readable = end_attr_readable.first(end_attr_readable.size - 1).join(' ')
+    existing_range = VonagePaycheck.where("#{start_attr.to_s} <= ? AND #{end_attr.to_s} >= ?",
+                                          self[attr], self[attr])
     existing_range = existing_range.where('id != ?', self.id) if self.id
     return if existing_range.empty?
-    errors.add(:wages_start, "cannot be within another paycheck's wages range")
+    errors.add(start_attr, "cannot be within another paycheck's #{end_attr_readable} range")
   end
 
-  def wages_end_unique_range
-    return unless wages_end
-    existing_range = VonagePaycheck.where('wages_start <= ? AND wages_end >= ?',
-                                          wages_end, wages_end)
-    existing_range = existing_range.where('id != ?', self.id) if self.id
-    return if existing_range.empty?
-    errors.add(:wages_end, "cannot be within another paycheck's wages range")
-  end
-
-  def commission_start_unique_range
-    return unless commission_start
-    existing_range = VonagePaycheck.where('commission_start <= ? AND commission_end >= ?',
-                                          commission_start, commission_start)
-    existing_range = existing_range.where('id != ?', self.id) if self.id
-    return if existing_range.empty?
-    errors.add(:commission_start, "cannot be within another paycheck's commission range")
-  end
-
-  def commission_end_unique_range
-    return unless commission_end
-    existing_range = VonagePaycheck.where('commission_start <= ? AND commission_end >= ?',
-                                          commission_end, commission_end)
-    existing_range = existing_range.where('id != ?', self.id) if self.id
-    return if existing_range.empty?
-    errors.add(:commission_end, "cannot be within another paycheck's commission range")
+  def unique_ranges
+    attr_outside_another_range(:wages_start, :wages_start, :wages_end)
+    attr_outside_another_range(:wages_end, :wages_start, :wages_end)
+    attr_outside_another_range(:commission_start, :commission_start, :commission_end)
+    attr_outside_another_range(:commission_end, :commission_start, :commission_end)
   end
 end
