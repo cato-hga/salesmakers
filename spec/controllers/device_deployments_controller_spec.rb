@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe DeviceDeploymentsController do
+  include ActiveJob::TestHelper
+
   let(:device) { create :device }
   let!(:person) { create :it_tech_person, position: position }
   let(:position) { create :it_tech_position }
@@ -161,7 +163,12 @@ describe DeviceDeploymentsController do
         end
 
         it 'sends an email to payroll' do
-          expect { subject }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect {
+            subject
+            perform_enqueued_jobs do
+              ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+            end
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
         end
       end
 

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe LegacyVonageSaleImporting do
+  include ActiveJob::TestHelper
+
   let(:duration) { 5.minutes }
   let!(:person) { create :person, connect_user_id: connect_user.id }
   let(:connect_user) { build_stubbed :connect_user }
@@ -88,10 +90,18 @@ describe LegacyVonageSaleImporting do
     let!(:importer) { LegacyVonageSaleImporting.new 1.day }
     let(:position) { create :position, name: 'Senior Developer' }
     let!(:developer) { create :person, position: position }
+    let!(:connect_order) {
+      build_stubbed :connect_order,
+                    connect_user: connect_user,
+                    c_order_id: 'FF80808233E664900133E664E6350002'
+    }
+    let(:connect_user) {
+      build_stubbed :connect_user,
+                    ad_user_id: '1234567890'
+    }
     let(:unmatched_sales) {
       [{
-          order: build_stubbed(:connect_order,
-                               c_order_id: 'FF80808233E664900133E664E6350002'),
+          order: connect_order,
           reason: 'Confirmation number must be 10 digits in length'
       }]
     }
@@ -102,9 +112,11 @@ describe LegacyVonageSaleImporting do
     end
 
     it 'generates an email' do
-
       expect {
         translator.translate_all([connect_order])
+        perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
