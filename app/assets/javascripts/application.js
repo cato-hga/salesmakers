@@ -179,7 +179,7 @@ function collapseWidget(element){
 	element.find('.inner').html(element.find('.collapsed').show());
 	var afterWidget = $(row.find('.widget[data-widget-index="' + (widget_index-1) + '"]'));
 	element.insertAfter(afterWidget);
-	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets()} );
+	row.find('.widget').switchClass('large-12 large-6', 'large-4', 400, 'swing', function(){resizeWidgets();} );
 }
 
 function mapStyle() {

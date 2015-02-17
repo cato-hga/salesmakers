@@ -1,4 +1,5 @@
 //= require masonry.min
+//= require imagesloaded.min
 
 ////= require readmore
 //
@@ -6,6 +7,7 @@ $(function () {
     $(document).foundation();
 //
     window.$container = $('.widgets');
+	var $container = window.$container;
 //
 //    $('.widget .post_content').readmore({
 //        maxHeight: 500,

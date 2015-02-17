@@ -90,13 +90,13 @@ $(function () {
 
     $('body').on('keypress', '.line_id_field', function (e) {
         if ($('#device_identifier_header').length) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 $(this).parents('.row').find('.device_identifier_field').focus().select();
                 e.preventDefault();
                 return false;
             }
 
-        } else if (e.keyCode == 13) {
+        } else if (e.keyCode === 13) {
             addRow($(this).parents('.row').find('.add_row'));
             e.preventDefault();
             return false;
@@ -104,7 +104,7 @@ $(function () {
     });
 
     $('body').on('keypress', '.device_identifier_field', function (e) {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             addRow($(this).parents('.row').find('.add_row'));
             e.preventDefault();
             return false;
