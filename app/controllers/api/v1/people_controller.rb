@@ -74,9 +74,8 @@ class API::V1::PeopleController < API::BaseController
     # end
     connect_user = get_person.connect_user
     respond_with(get_person) and return unless connect_user
-    PersonUpdater.new(connect_user).update
-    get_person.reload
-    respond_with get_person
+    PersonUpdaterJob.perform_later connect_user.id
+    respond_with Person.return_from_connect_user(connect_user)
   end
 
   private

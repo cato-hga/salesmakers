@@ -54,6 +54,8 @@ gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
 gem 'griddler', '1.1.0' # Incoming email parsing
 gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
 gem 'goldiloader', '0.0.8' # Automatic eager loading
+gem 'sidekiq', '3.3.2' # Background job queuing system
+gem 'sinatra', '1.4.5', require: false
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
@@ -68,6 +70,7 @@ group :development do
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq' # Sidekiq integrations for Capistrano
 end
 
 

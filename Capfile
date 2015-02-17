@@ -11,6 +11,8 @@ require 'capistrano/puma'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
 
+require 'capistrano/sidekiq'
+
 
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.2p95'

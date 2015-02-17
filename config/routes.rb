@@ -1,7 +1,15 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   root 'root_redirects#incoming_redirect'
+
   mount_griddler
+
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
+  end if Rails.env.production?
+  mount Sidekiq::Web, at: '/sidekiq'
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
     collection do

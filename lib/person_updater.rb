@@ -90,11 +90,11 @@ class PersonUpdater
 
   def update_employees
     for employee in @person.employees do
-      PersonUpdater.new employee.connect_user
+      PersonUpdater.new(employee.connect_user).update
     end
     for connect_user in @connect_user.employees do
       employee = Person.return_from_connect_user connect_user
-      PersonUpdater.new connect_user if employee
+      PersonUpdater.new(connect_user).update if employee
     end
   end
 end
