@@ -96,6 +96,19 @@ ActiveRecord::Schema.define(version: 20150217135845) do
     t.integer  "location_id",  null: false
   end
 
+  create_table "comcast_eods", force: :cascade do |t|
+    t.datetime "eod_date", null: false
+    t.integer "location_id", null: false
+    t.boolean "sales_pro_visit", default: false, null: false
+    t.text "sales_pro_visit_takeaway"
+    t.boolean "comcast_visit", default: false, null: false
+    t.text "comcast_visit_takeaway"
+    t.boolean "cloud_training", default: false, null: false
+    t.text "cloud_training_takeaway"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comcast_former_providers", force: :cascade do |t|
     t.string   "name",            null: false
     t.integer  "comcast_sale_id"
@@ -684,6 +697,12 @@ ActiveRecord::Schema.define(version: 20150217135845) do
 
   create_table "tmp_not_deployed", id: false, force: :cascade do |t|
     t.string "serial", limit: 255
+  end
+
+  create_table "tmp_payouts", id: false, force: :cascade do |t|
+    t.string "mac", limit: 255
+    t.decimal "payout"
+    t.string "username", limit: 255
   end
 
   create_table "uploaded_images", force: :cascade do |t|
