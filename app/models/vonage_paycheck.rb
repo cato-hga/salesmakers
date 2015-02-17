@@ -11,6 +11,18 @@ class VonagePaycheck < ActiveRecord::Base
   has_many :vonage_sale_payouts
   has_many :vonage_paycheck_negative_balances
 
+  def net_payout(person)
+    payouts = VonageSalePayout.where(vonage_paycheck: self, person: person)
+    refunds = VonageRefund.where('refund_date >= ? AND refund_date <= ? AND person_id = ?',
+                                 self.commission_start,
+                                 self.commission_end,
+                                 person.id)
+    amt = 0.00
+    payouts.each { |payout| amt += payout.payout }
+    refunds.each { |refund| amt -= refund.payout.payout }
+    amt
+  end
+
   private
 
   def one_after_the_other(one, other)

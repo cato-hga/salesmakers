@@ -109,4 +109,27 @@ describe VonagePaycheck do
       expect(another).not_to be_valid
     end
   end
+
+  describe 'scopes' do
+    let!(:vonage_sale_payout) {
+      subject.save
+      create :vonage_sale_payout,
+             vonage_paycheck: subject,
+             person: person
+    }
+    let!(:vonage_refund) {
+      create :vonage_refund,
+             refund_date: subject.commission_end - 2.days,
+             vonage_sale: vonage_sale_payout.vonage_sale,
+             person: person
+    }
+    let(:person) {
+      create :person
+    }
+
+    it 'returns the correct net payout amount' do
+      expect(subject.net_payout(person)).to eq(0.00)
+    end
+  end
+
 end
