@@ -79,7 +79,7 @@ describe TwilioController do
       expect(email.body.to_s).to match(/This is a message that starts a new thread/)
     end
 
-    it 'sends an email when the phone number is not recognized' do
+    it 'sends an email when the phone number is not recognized' do\
       post :incoming_sms,
            From: '+19914488899',
            To: '+12345678901',
