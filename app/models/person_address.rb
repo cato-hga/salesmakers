@@ -11,7 +11,7 @@ class PersonAddress < ActiveRecord::Base
                   "VI", "VT", "WA", "WI", "WV", "WY" ]
 
   validates :person, presence: true
-  validates :line_1, format: { with: /\A\d\d+[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }
+  validates :line_1, format: { with: /\A\d+(\-)?[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }
   validates :city, length: { minimum: 2 }
   validates :state, length: { is: 2 }, inclusion: { in: states }
   validates :zip, format: { with: /\A\d{5}\z/, message: 'must be 5 digits' }
@@ -49,7 +49,6 @@ class PersonAddress < ActiveRecord::Base
     offset = offset * -1
     minutes = minutes + offset
     establish_connection(:rbd_connect_production)
-    puts connection.current_database
     results = connection.select_all "select
 
       u.ad_user_id
@@ -64,7 +63,8 @@ class PersonAddress < ActiveRecord::Base
 
       where
         a.c_location_id is not null
-        AND a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'"
+        AND (a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'
+          OR l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
 
     puts results.count.to_s + ' Results'
 

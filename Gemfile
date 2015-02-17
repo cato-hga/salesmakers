@@ -18,7 +18,7 @@ gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git' # CAS c
 #gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git' # Allow current_user to work in models
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git' # Tree-based hierarchies for models
 gem 'ransack', '1.6.2' # Was 1.2.3 01/21/2015 - ActiveRecord search
-gem 'kaminari', '0.16.2' # Was 0.16.1 01/21/2015 - Pagination
+gem 'kaminari', git: 'https://github.com/amatsuda/kaminari.git' # Was 0.16.2 02/16/2015 - Pagination
 gem 'httparty', '0.13.3' # Was 0.13.1 01/21/2015 - HTTP REST API client
 gem 'namecase', '1.1.0' # Easily turn names into proper cases
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
@@ -49,6 +49,14 @@ gem 'twilio-ruby', '3.14.4' # Was 3.14.2 01/21/2015 - Twilio SMS and Voice libra
 gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
 gem 'browser-timezone-rails', '0.0.8' #using the timezone of a user
+gem 'roo', git: 'https://github.com/roo-rb/roo.git' # Working with spreadsheets
+gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
+gem 'griddler', '1.1.0' # Incoming email parsing
+gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
+gem 'goldiloader', '0.0.8' # Automatic eager loading
+gem 'sidekiq', '3.3.2' # Background job queuing system
+gem 'sinatra', '1.4.5', require: false
+gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq' # Sidekiq integrations for Capistrano
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development

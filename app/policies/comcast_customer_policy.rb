@@ -5,4 +5,12 @@ class ComcastCustomerPolicy < ApplicationPolicy
     end
   end
 
+  def update?
+    ComcastCustomer.manageable(@user).include?(@record)
+  end
+
+  def destroy?
+    update?
+  end
+
 end

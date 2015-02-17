@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.groupme.com/v3/groups/8936279/messages?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"message":{"source_guid":"8c580bb3-ff2d-48d0-94a9-253af6c59822","text":"GroupMe
+      string: '{"message":{"source_guid":"2f72eccd-6936-4102-a65b-2d45b43b5280","text":"GroupMe
         API \"send_message\" test"}}'
     headers:
       Content-Type:
@@ -30,7 +30,7 @@ http_interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 06 Feb 2015 21:02:05 GMT
+      - Mon, 16 Feb 2015 15:19:50 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -45,9 +45,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"code":201},"response":{"message":{"id":"142325652511398899","source_guid":"8c580bb3-ff2d-48d0-94a9-253af6c59822","created_at":1423256525,"user_id":"12486363","group_id":"8936279","name":"RBD
+      string: '{"meta":{"code":201},"response":{"message":{"id":"142409999090508899","source_guid":"2f72eccd-6936-4102-a65b-2d45b43b5280","created_at":1424099990,"user_id":"12486363","group_id":"8936279","name":"RBD
         Information Technology","avatar_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","text":"GroupMe
         API \"send_message\" test","system":false,"attachments":[],"favorited_by":[],"sender_type":"user","sender_id":"12486363"}}}'
     http_version: 
-  recorded_at: Fri, 06 Feb 2015 21:02:05 GMT
+  recorded_at: Mon, 16 Feb 2015 15:19:50 GMT
 recorded_with: VCR 2.9.3

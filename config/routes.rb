@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   get 'comcast_eod/new'
@@ -5,6 +7,13 @@ Rails.application.routes.draw do
   get 'comcast_eod/create'
 
   root 'root_redirects#incoming_redirect'
+
+  mount_griddler
+
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
+  end if Rails.env.production?
+  mount Sidekiq::Web, at: '/sidekiq'
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
     collection do
@@ -114,6 +123,7 @@ Rails.application.routes.draw do
 
   resources :people, only: [:index, :show, :update] do
     member do
+      get :commission, as: :commission
       get :sales, as: :sales
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message

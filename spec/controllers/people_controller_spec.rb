@@ -145,4 +145,40 @@ describe PeopleController do
       }.to change(SMSMessage, :count).by(1)
     end
   end
+
+  describe 'GET commission' do
+    let(:area) { create :area }
+    let!(:paycheck) {
+      create :vonage_paycheck,
+             name: '2015-01-01 through 2015-01-15',
+             wages_start: Date.new(2015, 1, 1),
+             wages_end: Date.new(2015, 1, 15),
+             commission_start: Date.new(2015, 1, 2),
+             commission_end: Date.new(2015, 1, 14),
+             cutoff: Time.now - 23.hours
+    }
+    let(:department) { create :department, name: 'Vonage Retail Sales' }
+    let(:position) {
+      create :position,
+             name: 'Vonage Retail Sales Specialist',
+             department: department
+    }
+    let!(:person) { create :person, position: position }
+    let!(:person_area) { create :person_area, person: person, area: area }
+
+    before do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+      get :commission,
+          id: person.id
+    end
+
+    it 'should return a success status' do
+      expect(response).to be_success
+    end
+
+    it 'should render the commission template' do
+      expect(response).to render_template(:commission)
+    end
+  end
+
 end

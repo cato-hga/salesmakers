@@ -21,11 +21,10 @@ describe 'Comcast lead editing' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
         visit comcast_customer_path(comcast_customer)
-        click_on 'Edit Lead'
       end
 
-      it 'shows the You are not authorized page' do
-        expect(page).to have_content('Your access does not allow you to view this page')
+      it 'does not show the edit lead button' do
+        expect(page).not_to have_content('Edit Lead')
       end
 
     end
@@ -41,28 +40,29 @@ describe 'Comcast lead editing' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
         visit comcast_customer_path(comcast_customer)
-        click_on 'Edit Lead'
       end
-      it 'shows the You are not authorized page' do
-        expect(page).to have_content('Your access does not allow you to view this page')
+      it 'does not show the edit lead button' do
+        expect(page).not_to have_content('Edit Lead')
       end
     end
   end
 
   describe 'for authorized employees' do
-    let(:position) { create :comcast_sales_position, permissions: [permission_update, permission_customer_index] }
+    let(:position) { create :comcast_sales_position, permissions: [permission_customer_index] }
     let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
     let!(:comcast_lead) {
       create :comcast_lead,
              follow_up_by: Date.tomorrow,
              comcast_customer: comcast_customer
     }
-    let!(:comcast_employee) { create :comcast_employee, position: position }
+
+    let(:comcast_employee) { create :comcast_employee, position: position }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
       visit comcast_customer_path(comcast_customer)
       click_on 'Edit Lead'
     end
+
 
     describe 'form' do
       it 'shows the edit form and all fields' do

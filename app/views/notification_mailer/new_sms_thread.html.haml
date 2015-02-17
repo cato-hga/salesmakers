@@ -11,4 +11,4 @@
   = link_to 'Click here to reply.', new_sms_message_person_url(from)
 - if @last_24_hours
   %h3 Last 24 Hours of Communication
-  = render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours }
+  = render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours, skip_pagination: true }

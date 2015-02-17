@@ -1,5 +1,7 @@
 # Openbravo orders
 class ConnectOrder < RealConnectModel
+  include ConnectScopes
+
   # Openbravo table name
   self.table_name = 'c_order'
   # Openbravo table primary key column
@@ -14,6 +16,11 @@ class ConnectOrder < RealConnectModel
   belongs_to :connect_business_partner_location,
              foreign_key: 'c_bpartner_location_id',
              primary_key: 'c_bpartner_location_id'
+  has_many :connect_order_lines,
+           foreign_key: 'c_order_id'
+  belongs_to :connect_business_partner,
+             primary_key: 'c_bpartner_id',
+             foreign_key: 'c_bpartner_id'
 
   scope :today, -> {
     beginning_date_time = Date.today.beginning_of_day.apply_eastern_offset + 3.hours
@@ -36,7 +43,7 @@ class ConnectOrder < RealConnectModel
   }
 
   scope :sales, -> {
-    where "documentno LIKE '%+'"
+    where "documentno LIKE '%+' AND documentno NOT LIKE '%X%'"
   }
 
   def dateordered

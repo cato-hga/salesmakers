@@ -1,6 +1,6 @@
 class ComcastLeadsController < ApplicationController
   before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
-  before_action :do_authorization
+  before_action :do_authorization, only: [:new, :create]
 
   def new
     @comcast_lead = ComcastLead.new
@@ -26,6 +26,7 @@ class ComcastLeadsController < ApplicationController
 
   def edit
     @comcast_lead = ComcastLead.find params[:id]
+    authorize @comcast_lead.comcast_customer
   end
 
   def update
@@ -58,7 +59,8 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      flash[:error] = 'Could not dismiss lead.'
+      #flash[:error] = 'Could not dismiss lead.'
+      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', ')
     end
     redirect_to comcast_customers_path
   end

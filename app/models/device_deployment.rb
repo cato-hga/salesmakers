@@ -18,7 +18,7 @@ class DeviceDeployment < ActiveRecord::Base
     ended = ended
     self.update ended: ended,
                 comment: @notes
-    AssetsMailer.recoup_mailer(@device, @person, @notes).deliver_now
+    AssetsMailer.recoup_mailer(@device, @person, @notes).deliver_later
     @device.update person_id: nil
   end
 end

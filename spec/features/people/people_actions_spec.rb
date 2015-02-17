@@ -31,14 +31,15 @@ describe 'actions involving People' do
 
   context 'comcast employees' do
     context 'as an authorized manager or employee' do
+      let(:department) { create :department, name: 'Comcast Retail Sales' }
       let!(:comcast_manager) { create :comcast_manager, position: position }
-      let(:position) { create :comcast_sales_manager_position }
+      let(:position) { create :comcast_sales_manager_position, department: department }
       let(:comcast_lead_customer) { create :comcast_customer, person: person }
       let(:comcast_sale_customer) { create :comcast_customer, person: person }
       let!(:comcast_sale) { create :comcast_sale, comcast_customer: comcast_lead_customer }
       let!(:comcast_lead) { create :comcast_lead, comcast_customer: comcast_sale_customer }
       let(:person) { create :comcast_employee, position: sales_specialist }
-      let(:sales_specialist) { create :comcast_sales_position }
+      let(:sales_specialist) { create :comcast_sales_position, department: department }
       it 'shows current leads and sales' do
         allow(Person).to receive(:visible).and_return(Array[person])
         CASClient::Frameworks::Rails::Filter.fake(comcast_manager.email)

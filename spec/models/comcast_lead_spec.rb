@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe ComcastLead do
+  let(:entered_lead) {
+    lead = build :comcast_lead, follow_up_by: Date.yesterday
+    lead.save validate: false
+    lead
+  }
   subject { build :comcast_lead }
 
   it 'is valid with correct attributes' do
@@ -35,6 +40,12 @@ describe ComcastLead do
     expect(subject).not_to be_valid
     subject.follow_up_by = Date.tomorrow
     expect(subject).to be_valid
+  end
+
+
+  it 'does not require the follow up date to be in the future when dismissing' do
+    entered_lead.update active: false
+    expect(entered_lead).to be_valid
   end
 
   it 'requires that the ok_to_call_and_text be true' do
@@ -88,6 +99,6 @@ describe ComcastLead do
       no_date_lead.update active: false
       expect(ComcastLead.all).not_to include no_date_lead
     end
-  end
 
+  end
 end

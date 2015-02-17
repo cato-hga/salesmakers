@@ -1,4 +1,6 @@
 class Device < ActiveRecord::Base
+  extend NonAlphaNumericRansacker
+
   before_save :set_identifier_when_blank
   before_save :strip_identifying_fields
 
@@ -14,13 +16,8 @@ class Device < ActiveRecord::Base
   has_many :device_deployments
   has_one :device_manufacturer, through: :device_model
 
-  ransacker :unstripped_identifier, formatter: proc { |v| v.strip.gsub /[^A-Za-z0-9]/, '' } do |parent|
-    parent.table[:identifier]
-  end
-
-  ransacker :unstripped_serial, formatter: proc { |v| v.strip.gsub /[^A-Za-z0-9]/, '' } do |parent|
-    parent.table[:serial]
-  end
+  stripping_ransacker(:unstripped_identifier, :identifier, true)
+  stripping_ransacker(:unstripped_serial, :serial, true)
 
   def repairing?
     repairing = DeviceState.find_or_initialize_by name: 'Repairing'

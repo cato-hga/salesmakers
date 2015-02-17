@@ -47,6 +47,10 @@ every 1.day, at: '8:00 am' do
   runner 'ConnectUpdater.update_shifts(17.days)'
 end
 
+every 5.minutes do
+  runner 'LegacyVonageSaleImporting.new(5.minutes).import'
+end
+
 every 1.day, at: '5:00 pm' do
   runner 'GroupMeGroup.notify_of_assets(240)'
 end

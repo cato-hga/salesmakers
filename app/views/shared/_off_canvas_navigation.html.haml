@@ -14,6 +14,13 @@
     -else
       %li
         = link_to 'Home', root_path
+  %ul.off-canvas-list
+    %li
+      %label People
+    %li
+      = link_to 'Search', people_path
+    %li
+      = link_to 'Org Chart', org_chart_people_path
   -# YES. THIS IS DIRTY. But, only IT people need access anyways
   -if DevicePolicy.new(current_person, Device.new).index?
     %ul.off-canvas-list
@@ -27,13 +34,6 @@
             = link_to 'Area Types', client_project_area_types_path(project.client, project)
         %li
           = link_to 'Areas', client_project_areas_path(project.client, project)
-    %ul.off-canvas-list
-      %li
-        %label People
-      %li
-        = link_to 'Search', people_path
-      %li
-        = link_to 'Org Chart', org_chart_people_path
       - admin_links = Array.new
       - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
       - admin_links << link_to(icon('telephone') + ' Lines', lines_path)

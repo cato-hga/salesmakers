@@ -28,8 +28,8 @@ class PersonUpdater
         LogEntry.position_set_from_connect @person,
                                            @updater,
                                            new_position,
-                                           @connect_user.updated,
-                                           @connect_user.updated
+                                           @connect_user.updated.apply_eastern_offset,
+                                           @connect_user.updated.apply_eastern_offset
       end
     end
   end
@@ -51,14 +51,14 @@ class PersonUpdater
           LogEntry.assign_as_manager_from_connect @person,
                                                   @updater,
                                                   new_area,
-                                                  @connect_user.updated,
-                                                  @connect_user.updated
+                                                  @connect_user.updated.apply_eastern_offset,
+                                                  @connect_user.updated.apply_eastern_offset
         else
           LogEntry.assign_as_employee_from_connect @person,
                                                    @updater,
                                                    new_area,
-                                                   @connect_user.updated,
-                                                   @connect_user.updated
+                                                   @connect_user.updated.apply_eastern_offset,
+                                                   @connect_user.updated.apply_eastern_offset
         end
       end
     else
@@ -90,11 +90,11 @@ class PersonUpdater
 
   def update_employees
     for employee in @person.employees do
-      PersonUpdater.new employee.connect_user
+      PersonUpdater.new(employee.connect_user).update
     end
     for connect_user in @connect_user.employees do
       employee = Person.return_from_connect_user connect_user
-      PersonUpdater.new connect_user if employee
+      PersonUpdater.new(connect_user).update if employee
     end
   end
 end

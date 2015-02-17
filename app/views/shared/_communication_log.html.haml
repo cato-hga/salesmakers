@@ -1,4 +1,6 @@
 #communication_log
+  - unless defined?(skip_pagination)
+    = paginate @communication_log_entries, param_name: 'communication_log_entries_page'
   - header = header_row ['Date/Time','Type','From','To','Message']
   - rows = Array.new
   - for entry in communication_log_entries do
@@ -7,7 +9,7 @@
       - in_out = icon('arrow-left')
     - else
       - in_out = icon('arrow-right')
-    - type = in_out + ' SMS'
+    - type = in_out + (entry.loggable_type == 'SMSMessage' ? ' SMS' : ' Email')
     - from = communication_log_from(entry)
     - to = communication_log_to(entry)
     - display = communication_log_display(entry)

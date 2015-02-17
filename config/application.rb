@@ -43,6 +43,8 @@ module Reconnect
 
     # Rails 5.0-ready for avoiding deprecation warnings
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
 
