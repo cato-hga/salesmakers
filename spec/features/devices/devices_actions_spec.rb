@@ -106,12 +106,10 @@ describe 'Devices NON-CRUD actions' do
         it 'does not show the recoup button when lost or stolen', js: true do
           device.device_deployments << deployment
           visit device_path(device)
-
           page.driver.browser.accept_js_confirms
           within '#main_container header' do
             click_on 'Lost/Stolen'
           end
-          save_and_open_page
           expect(page).not_to have_selector('.button', text: 'Recoup')
         end
       end
