@@ -48,7 +48,7 @@ namespace :staging do
       invoke 'puma:stop'
     end
     on roles(:app), in: :sequence do
-      execute 'service postgresql restart'
+      execute 'sudo service postgresql restart'
       execute 'pg_dump -Fc -h 10.209.169.144 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
       execute 'dropdb -U oneconnect oneconnect_production'
       execute 'createdb -U oneconnect -O oneconnect oneconnect_production'
