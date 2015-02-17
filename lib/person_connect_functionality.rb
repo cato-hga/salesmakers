@@ -82,9 +82,9 @@ module PersonConnectFunctionality
       return unless creator
       created_at = leader ? area.updated_at : connect_user.created
       if leader
-        LogEntry.assign_as_manager_from_connect self, creator, person_area.area, created_at, created_at
+        LogEntry.assign_as_manager_from_connect self, creator, person_area.area, created_at.apply_eastern_offset, created_at.apply_eastern_offset
       else
-        LogEntry.assign_as_employee_from_connect self, creator, person_area.area, created_at, created_at
+        LogEntry.assign_as_employee_from_connect self, creator, person_area.area, created_at.apply_eastern_offset, created_at.apply_eastern_offset
       end
     end
   end
@@ -176,8 +176,8 @@ module PersonConnectFunctionality
 
     def log_onboard_from_connect(person, creator)
       connect_user = person.connect_user
-      LogEntry.person_onboarded_from_connect person, creator, connect_user.created, connect_user.updated
-      LogEntry.position_set_from_connect person, creator, person.position, connect_user.created, connect_user.updated if person.position
+      LogEntry.person_onboarded_from_connect person, creator, connect_user.created.apply_eastern_offset, connect_user.updated.apply_eastern_offset
+      LogEntry.position_set_from_connect person, creator, person.position, connect_user.created.apply_eastern_offset, connect_user.updated.apply_eastern_offset if person.position
     end
 
     def update_from_connect(minutes)

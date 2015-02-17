@@ -3,7 +3,7 @@
 - header = header_row(['Date/Time', 'By', 'Type', 'Entry'])
 - rows = Array.new
 - log_entries.each do |log_entry|
-  - created_at = log_entry.created_at
+  - created_at = log_entry.created_at.localtime
   - trackable = log_entry.trackable
   - trackable_class = trackable.class
   - trackable_class_name = trackable_class.model_name

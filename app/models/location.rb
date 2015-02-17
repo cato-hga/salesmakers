@@ -94,8 +94,8 @@ class Location < ActiveRecord::Base
             updater.log? 'unassign',
                          location,
                          area,
-                         c_bpl.updated,
-                         c_bpl.updated
+                         c_bpl.updated.apply_eastern_offset,
+                         c_bpl.updated.apply_eastern_offset
           end
         end
       end
