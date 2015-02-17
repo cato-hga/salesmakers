@@ -296,6 +296,28 @@ describe DevicesController do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
+
+      it 'DOES NOT email payroll if not deployed' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(0)
+      end
+
+      context 'if deployed' do
+        let!(:deployed_person) { create :person }
+        it 'emails Payroll Assets' do
+          device.update person: deployed_person
+          expect {
+            subject
+            perform_enqueued_jobs do
+              ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+            end
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+      end
     end
   end
 
@@ -338,6 +360,28 @@ describe DevicesController do
 
     it 'creates a log entry' do
       expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'DOES NOT email payroll if not deployed' do
+      expect {
+        subject
+        perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
+      }.to change(ActionMailer::Base.deliveries, :count).by(0)
+    end
+
+    context 'if deployed' do
+      let!(:deployed_person) { create :person }
+      it 'emails Payroll Assets' do
+        device.update person: deployed_person
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
     end
   end
 
