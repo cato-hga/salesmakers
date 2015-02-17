@@ -54,6 +54,7 @@ gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
 gem 'griddler', '1.1.0' # Incoming email parsing
 gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
 gem 'goldiloader', '0.0.8' # Automatic eager loading
+gem 'pghero', '0.1.9' # Postgres database insights
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
@@ -94,7 +95,6 @@ end
 group :development, :production, :staging do
   gem 'swiper-rails', '1.0.2' # Content slider
   gem 'active_shipping', '1.0.0pre1' # Was 0.12.4 01/21/2015 - Shipping integration for many carriers
-  gem 'pghero', '0.1.9' # Postgres database insights
 end
 
 
