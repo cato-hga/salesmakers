@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20150217135845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  #enable_extension "pg_stat_statements"
 
   create_table "answer_upvotes", force: :cascade do |t|
     t.integer  "answer_id",  null: false
@@ -95,19 +94,6 @@ ActiveRecord::Schema.define(version: 20150217135845) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
     t.integer  "location_id",  null: false
-  end
-
-  create_table "comcast_eods", force: :cascade do |t|
-    t.datetime "eod_date",                                 null: false
-    t.integer  "location_id",                              null: false
-    t.boolean  "sales_pro_visit",          default: false, null: false
-    t.text     "sales_pro_visit_takeaway"
-    t.boolean  "comcast_visit",            default: false, null: false
-    t.text     "comcast_visit_takeaway"
-    t.boolean  "cloud_training",           default: false, null: false
-    t.text     "cloud_training_takeaway"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
   end
 
   create_table "comcast_former_providers", force: :cascade do |t|
@@ -694,6 +680,10 @@ ActiveRecord::Schema.define(version: 20150217135845) do
     t.string   "display_name", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_not_deployed", id: false, force: :cascade do |t|
+    t.string "serial", limit: 255
   end
 
   create_table "uploaded_images", force: :cascade do |t|

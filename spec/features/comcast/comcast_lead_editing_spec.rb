@@ -21,11 +21,10 @@ describe 'Comcast lead editing' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
         visit comcast_customer_path(comcast_customer)
-        click_on 'Edit Lead'
       end
 
-      it 'shows the You are not authorized page' do
-        expect(page).to have_content('Your access does not allow you to view this page')
+      it 'does not show the edit lead button' do
+        expect(page).not_to have_content('Edit Lead')
       end
 
     end
@@ -41,10 +40,9 @@ describe 'Comcast lead editing' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
         visit comcast_customer_path(comcast_customer)
-        click_on 'Edit Lead'
       end
-      it 'shows the You are not authorized page' do
-        expect(page).to have_content('Your access does not allow you to view this page')
+      it 'does not show the edit lead button' do
+        expect(page).not_to have_content('Edit Lead')
       end
     end
   end

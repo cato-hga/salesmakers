@@ -51,7 +51,7 @@ class ComcastLead < ActiveRecord::Base
 
   def no_past_follow_up_by_date
     return unless self.follow_up_by
-    if self.follow_up_by.to_date <= Date.today
+    if self.follow_up_by.to_date <= Date.today and not self.persisted?
       errors.add(:follow_up_by, 'must be in the future')
     end
   end
