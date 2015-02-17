@@ -22,7 +22,7 @@ describe 'Comcast lead destruction' do
 
 
   context 'success', js: true do
-    let(:position) { create :comcast_sales_position, permissions: [permission_destroy, permission_customer_index] }
+    let(:position) { create :comcast_sales_position, permissions: [permission_customer_index] }
 
     it 'deactivates a lead' do
       visit comcast_customer_path(comcast_customer)

@@ -89,52 +89,5 @@ describe ComcastLead do
       expect(ComcastLead.all).not_to include no_date_lead
     end
 
-    context 'dismissible' do
-      let(:comcast_manager) { create :comcast_manager }
-      let(:comcast_employee) { create :comcast_employee }
-      let(:other_comcast_employee) { create :comcast_employee, email: 'test2@cc.salesmakersinc.com' }
-
-      let!(:comcast_area) { create :area, person_areas: [manager_person_area,
-                                                         employee_person_area,
-                                                         other_employee_person_area] }
-      let(:manager_person_area) { create :person_area, person: comcast_manager, manages: true }
-      let(:employee_person_area) { create :person_area, person: comcast_employee, manages: false }
-      let(:other_employee_person_area) { create :person_area, person: other_comcast_employee, manages: false }
-
-      let(:comcast_employee_customer) { create :comcast_customer, person: comcast_employee }
-      let(:comcast_manager_customer) { create :comcast_customer, person: comcast_manager }
-      let(:other_comcast_employee_customer) { create :comcast_customer, person: other_comcast_employee }
-
-      let!(:employee_comcast_lead) { create :comcast_lead, comcast_customer: comcast_employee_customer }
-      let!(:other_employee_comcast_lead) { create :comcast_lead, comcast_customer: other_comcast_employee_customer }
-      let!(:manager_comcast_lead) { create :comcast_lead, comcast_customer: comcast_manager_customer }
-
-      it 'allows managers to dismiss their employees leads' do
-        dismissible = ComcastLead.dismissible(comcast_manager)
-        expect(dismissible).to include(employee_comcast_lead)
-        expect(dismissible).to include(other_employee_comcast_lead)
-      end
-
-      it 'does not allow an employee to dismiss another employees lead' do
-        dismissible = ComcastLead.dismissible(comcast_employee)
-        expect(dismissible).not_to include(other_employee_comcast_lead)
-      end
-      it 'does not allow an employee to dismiss their managers leads' do
-        dismissible = ComcastLead.dismissible(comcast_employee)
-        expect(dismissible).not_to include(manager_comcast_lead)
-        dismissible = ComcastLead.dismissible(other_comcast_employee)
-        expect(dismissible).not_to include(manager_comcast_lead)
-      end
-
-      it 'allows an employee to dismiss their own lead' do
-        dismissible = ComcastLead.dismissible(comcast_employee)
-        expect(dismissible).to include(employee_comcast_lead)
-        dismissible = ComcastLead.dismissible(other_comcast_employee)
-        expect(dismissible).to include(other_employee_comcast_lead)
-        dismissible = ComcastLead.dismissible(comcast_manager)
-        expect(dismissible).to include(manager_comcast_lead)
-      end
-    end
-  end
-
+end
 end

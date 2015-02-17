@@ -23,12 +23,13 @@
           %span.comment= @comcast_customer.comments
   - lead = @comcast_customer.comcast_lead
   - sale = @comcast_customer.comcast_sale
+  - manage = ComcastCustomer.manageable(@current_person).include?(@comcast_customer)
   - if lead
     .widget#comcast_lead
       .inner
         %h3
           Lead Details
-          - unless sale
+          - if not sale and manage
             = link_to icon('page-edit') + ' Edit Lead', edit_comcast_customer_comcast_lead_path(@comcast_customer.id, lead.id), class: [:button, :rounded, :inline_button]
         %p
           %strong Follow up by:
@@ -46,11 +47,12 @@
             %strong Comments:
             %br/
             %span.comment= lead.comments
-        = link_to 'Dismiss Lead', |
-          comcast_customer_comcast_lead_path(@comcast_customer, lead), |
-          data: { confirm: 'This action cannot be undone. Are you sure?' }, |
-          method: :delete, |
-          class: [:button, :alert] |
+        - if manage
+          = link_to 'Dismiss Lead', |
+            comcast_customer_comcast_lead_path(@comcast_customer, lead), |
+            data: { confirm: 'This action cannot be undone. Are you sure?' }, |
+            method: :delete, |
+            class: [:button, :alert] |
   - if sale
     .widget#comcast_sale
       .inner
