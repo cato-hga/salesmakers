@@ -95,3 +95,5 @@ Rails.application.configure do
                             sections: %w{request person session environment backtrace}
                         }
 end
+
+Rails.application.routes.default_url_options[:host] = 'staging.salesmakersinc.com'
