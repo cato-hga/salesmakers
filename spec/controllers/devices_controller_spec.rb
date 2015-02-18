@@ -282,7 +282,6 @@ describe DevicesController do
       subject {
         patch :lost_stolen,
               id: device.id
-        #device.reload
       }
 
       it 'does not add the Lost/Stolen state if already lost or stolen' do
@@ -300,13 +299,9 @@ describe DevicesController do
       end
 
       it 'DOES NOT email payroll if not deployed' do
-        subject
         expect {
           subject
-          perform_enqueued_jobs do
-            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-          end
-        }.to change(ActionMailer::Base.deliveries, :count).by(0)
+        }.to change(enqueued_jobs, :count).by(0)
       end
 
       context 'if deployed' do
@@ -369,10 +364,7 @@ describe DevicesController do
     it 'DOES NOT email payroll if not deployed' do
       expect {
         subject
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(0)
+      }.to change(enqueued_jobs, :count).by(0)
     end
 
     context 'if deployed' do
