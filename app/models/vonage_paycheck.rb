@@ -11,16 +11,41 @@ class VonagePaycheck < ActiveRecord::Base
   has_many :vonage_sale_payouts
   has_many :vonage_paycheck_negative_balances
 
+  def negative_balance_for_person(person)
+    balance = 0.00
+    balances = self.vonage_paycheck_negative_balances.where(person: person)
+    balance += balances.first.balance unless balances.empty?
+    balance
+  end
+
   def net_payout(person)
-    payouts = VonageSalePayout.where(vonage_paycheck: self, person: person)
-    refunds = VonageRefund.where('refund_date >= ? AND refund_date <= ? AND person_id = ?',
-                                 self.commission_start,
-                                 self.commission_end,
-                                 person.id)
     amt = 0.00
-    payouts.each { |payout| amt += payout.payout }
-    refunds.each { |refund| amt -= refund.payout.payout }
+    self.payouts_for_person(person).each { |payout| amt += payout.payout }
+    self.refunds_for_person(person).each { |refund| amt -= refund.payout.payout }
+    amt += self.negative_balance_for_person(person)
     amt
+  end
+
+  def payouts_for_person(person)
+    self.vonage_sale_payouts.where(person: person)
+  end
+
+  def refunds_for_person(person)
+    self.refunds.where(person: person)
+  end
+
+  def refunds
+    VonageRefund.where('refund_date >= ? AND refund_date <= ?',
+                       self.commission_start,
+                       self.commission_end)
+  end
+
+  def get_previous
+    VonagePaycheck.where('cutoff < ?', self.cutoff).order(cutoff: :desc).first
+  end
+
+  def get_next
+    VonagePaycheck.where('cutoff > ?', self.cutoff).order(:cutoff).first
   end
 
   private

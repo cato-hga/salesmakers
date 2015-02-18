@@ -57,6 +57,35 @@ describe VonagePaycheck do
     expect(subject).not_to be_valid
   end
 
+  describe 'nearby paychecks' do
+    let!(:future_paycheck) {
+      create :vonage_paycheck,
+             name: 'Future Paycheck',
+             wages_start: subject.wages_start + 4.weeks,
+             wages_end: subject.wages_end + 4.weeks,
+             commission_start: subject.commission_start + 4.weeks,
+             commission_end: subject.commission_end + 4.weeks,
+             cutoff: subject.cutoff + 4.weeks + 1.day
+    }
+    let!(:old_paycheck) {
+      create :vonage_paycheck,
+             name: 'Old Paycheck',
+             wages_start: subject.wages_start - 4.weeks,
+             wages_end: subject.wages_end - 4.weeks,
+             commission_start: subject.commission_start - 4.weeks,
+             commission_end: subject.commission_end - 4.weeks,
+             cutoff: subject.cutoff - 4.weeks + 1.day
+    }
+
+    it 'returns the previous paycheck' do
+      expect(subject.get_previous).to eq(old_paycheck)
+    end
+
+    it 'returns the next paycheck' do
+      expect(subject.get_next).to eq(future_paycheck)
+    end
+  end
+
   describe 'uniqueness validations' do
     let(:another) { build :another_vonage_paycheck }
 
@@ -123,13 +152,34 @@ describe VonagePaycheck do
              vonage_sale: vonage_sale_payout.vonage_sale,
              person: person
     }
+    let!(:vonage_paycheck_negative_balance) {
+      create :vonage_paycheck_negative_balance,
+             person: person,
+             vonage_paycheck: subject,
+             balance: -50.00
+    }
     let(:person) {
       create :person
     }
 
     it 'returns the correct net payout amount' do
-      expect(subject.net_payout(person)).to eq(0.00)
+      expect(subject.net_payout(person)).to eq(-50.00)
+    end
+
+    it 'returns refunds for a paycheck for a person' do
+      expect(subject.refunds_for_person(person).count).to eq(1)
+    end
+
+    it 'returns payouts for a paycheck for a person' do
+      expect(subject.payouts_for_person(person).count).to eq(1)
+    end
+
+    it 'returns negative paycheck balances for a person' do
+      expect(subject.negative_balance_for_person(person)).to eq(-50.00)
+    end
+
+    it 'returns all refunds for a paycheck' do
+      expect(subject.refunds.count).to eq(1)
     end
   end
-
 end
