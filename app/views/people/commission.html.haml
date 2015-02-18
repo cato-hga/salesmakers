@@ -2,6 +2,12 @@
 - end_date = short_date(@paycheck.commission_end)
 - title "#{@person.display_name}'s Commissions for #{start_date} - #{end_date}"
 
+.row.full-width
+  = form_tag commission_person_path(@person), method: :post do
+    .large-11.medium-9.small-9.columns
+      = select_tag 'paycheck_id', options_from_collection_for_select(@available_paychecks, 'id', 'name', @paycheck.id)
+    .large-1.medium-3.small-3.columns
+      = submit_tag 'View', class: [:button, 'full-width']
 .widget
   .inner
     %h3
@@ -71,4 +77,4 @@
       .large-4.columns.centered_text
         %strong.xx-large-font= number_to_currency(payouts_total + refunds_total)
         .small.comment
-          %strong (total)
+          %strong (subtotal)

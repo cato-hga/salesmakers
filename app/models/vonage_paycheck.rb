@@ -48,6 +48,17 @@ class VonagePaycheck < ActiveRecord::Base
     VonagePaycheck.where('cutoff > ?', self.cutoff).order(:cutoff).first
   end
 
+  def self.available_paychecks
+    available_paychecks = []
+    paychecks = VonagePaycheck.where('wages_start >= ?', Date.new(2015, 2, 1)).
+        order(name: :desc)
+    for paycheck in paychecks do
+      payout_count = paycheck.vonage_sale_payouts.count
+      available_paychecks << paycheck if payout_count > 0
+    end
+    available_paychecks
+  end
+
   private
 
   def one_after_the_other(one, other)
