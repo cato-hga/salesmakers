@@ -21,7 +21,7 @@ class VonagePaycheck < ActiveRecord::Base
   def net_payout(person)
     amt = 0.00
     self.payouts_for_person(person).each { |payout| amt += payout.payout }
-    self.refunds_for_person(person).each { |refund| amt -= refund.payout.payout }
+    self.refunds_for_person(person).each { |refund| amt -= refund.payout.payout if refund.payout }
     amt += self.negative_balance_for_person(person)
     amt
   end

@@ -682,6 +682,11 @@ ActiveRecord::Schema.define(version: 20150217174922) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_neg", id: false, force: :cascade do |t|
+    t.string  "email",   limit: 255
+    t.decimal "balance"
+  end
+
   create_table "tmp_not_deployed", id: false, force: :cascade do |t|
     t.string "serial", limit: 255
   end
