@@ -221,10 +221,10 @@ describe AssetsMailer do
     let(:device) { create :device, line: line }
     let(:line) { create :line }
     let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
-    let(:mail) { AssetsMailer.lost_or_stolen_mailer(person) }
+    let(:mail) { AssetsMailer.lost_or_stolen_mailer(device) }
 
     it 'sends an email with correct subject' do
-      expect(mail.subject).to include('Deployed Asset Marked as Lost/Stolen')
+      expect(mail.subject).to include('Deployed Asset Marked as Lost or Stolen')
     end
 
     it 'sends an email to Assets' do
@@ -262,10 +262,10 @@ describe AssetsMailer do
     let(:device) { create :device, line: line }
     let(:line) { create :line }
     let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
-    let(:mail) { AssetsMailer.found_mailer(person) }
+    let(:mail) { AssetsMailer.found_mailer(device) }
 
     it 'sends an email with correct subject' do
-      expect(mail.subject).to include('Deployed Asset Marked as Lost/Stolen')
+      expect(mail.subject).to include('Lost or Stolen Asset Marked as Found')
     end
 
     it 'sends an email to Assets' do

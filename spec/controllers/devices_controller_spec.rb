@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe DevicesController do
+  include ActiveJob::TestHelper
+
 
   describe 'GET index' do
     before {
@@ -280,7 +282,7 @@ describe DevicesController do
       subject {
         patch :lost_stolen,
               id: device.id
-        device.reload
+        #device.reload
       }
 
       it 'does not add the Lost/Stolen state if already lost or stolen' do
@@ -298,6 +300,7 @@ describe DevicesController do
       end
 
       it 'DOES NOT email payroll if not deployed' do
+        subject
         expect {
           subject
           perform_enqueued_jobs do
@@ -310,6 +313,7 @@ describe DevicesController do
         let!(:deployed_person) { create :person }
         it 'emails Payroll Assets' do
           device.update person: deployed_person
+          device.reload
           expect {
             subject
             perform_enqueued_jobs do
