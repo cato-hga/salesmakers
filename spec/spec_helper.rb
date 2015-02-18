@@ -21,6 +21,7 @@ require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'support/deferred_garbage_collection'
 require 'factory_girl_rails'
+require 'vcr'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
@@ -44,4 +45,13 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseRewinder.clean
   end
+end
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/cassettes'
+  c.hook_into :webmock
+  c.configure_rspec_metadata!
+  c.ignore_hosts '127.0.0.1', 'localhost', 'codeclimate.com'
+  #c.debug_logger = $stderr #Uncomment this for VCR debugging
+  c.default_cassette_options = {:record => :new_episodes}
 end

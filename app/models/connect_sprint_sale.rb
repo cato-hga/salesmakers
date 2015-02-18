@@ -17,6 +17,11 @@ class ConnectSprintSale < RealConnectModel
     where('date_sold = ?', Date.today)
   }
 
+  scope :sold_between_dates, ->(start_date, end_date) {
+    return none unless start_date and end_date
+    where('date_sold >= ? AND date_sold <= ?', start_date, end_date)
+  }
+
   def date_sold
     self[:date_sold].remove_eastern_offset
   end

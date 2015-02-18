@@ -166,7 +166,6 @@ ActiveRecord::Schema.define(version: 20150218194559) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.integer  "comcast_former_provider_id"
-    t.integer "comcast_lead_id"
   end
 
   create_table "communication_log_entries", force: :cascade do |t|
@@ -674,6 +673,14 @@ ActiveRecord::Schema.define(version: 20150218194559) do
     t.string   "sid",                                     null: false
   end
 
+  create_table "sprint_group_me_bots", force: :cascade do |t|
+    t.string   "group_num",  null: false
+    t.string   "bot_num",    null: false
+    t.integer  "area_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "technology_service_providers", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
@@ -736,6 +743,14 @@ ActiveRecord::Schema.define(version: 20150218194559) do
     t.date     "account_end_date"
     t.integer  "status",             null: false
     t.string   "termination_reason"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "vonage_paycheck_negative_balances", force: :cascade do |t|
+    t.integer  "person_id",          null: false
+    t.decimal  "balance",            null: false
+    t.integer  "vonage_paycheck_id", null: false
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end

@@ -146,7 +146,7 @@ describe PeopleController do
     end
   end
 
-  describe 'GET commission' do
+  describe 'commission' do
     let(:area) { create :area }
     let!(:paycheck) {
       create :vonage_paycheck,
@@ -157,6 +157,15 @@ describe PeopleController do
              commission_end: Date.new(2015, 1, 14),
              cutoff: Time.now - 23.hours
     }
+    let!(:future_paycheck) {
+      create :vonage_paycheck,
+             name: 'Future Paycheck',
+             wages_start: paycheck.wages_start + 3.weeks,
+             wages_end: paycheck.wages_end + 3.weeks,
+             commission_start: paycheck.commission_start + 3.weeks,
+             commission_end: paycheck.commission_end + 3.weeks,
+             cutoff: paycheck.cutoff + 3.weeks
+    }
     let(:department) { create :department, name: 'Vonage Retail Sales' }
     let(:position) {
       create :position,
@@ -166,18 +175,38 @@ describe PeopleController do
     let!(:person) { create :person, position: position }
     let!(:person_area) { create :person_area, person: person, area: area }
 
-    before do
-      CASClient::Frameworks::Rails::Filter.fake(person.email)
-      get :commission,
-          id: person.id
+    before { CASClient::Frameworks::Rails::Filter.fake(person.email) }
+
+    context 'GET commission, without specifying a paycheck' do
+      before { get :commission, id: person.id }
+
+      it 'should return a success status' do
+        expect(response).to be_success
+      end
+
+      it 'should render the commission template' do
+        expect(response).to render_template(:commission)
+      end
+
+      it 'should render the proper paycheck' do
+        expect(assigns(:paycheck)).to eq(paycheck)
+      end
     end
 
-    it 'should return a success status' do
-      expect(response).to be_success
-    end
+    context 'POST commission, specifying a paycheck' do
+      before { post :commission, id: person.id, paycheck_id: future_paycheck.id }
 
-    it 'should render the commission template' do
-      expect(response).to render_template(:commission)
+      it 'should return a success status' do
+        expect(response).to be_success
+      end
+
+      it 'should render the commission template' do
+        expect(response).to render_template(:commission)
+      end
+
+      it 'renders the proper paycheck' do
+        expect(assigns(:paycheck)).to eq(future_paycheck)
+      end
     end
   end
 

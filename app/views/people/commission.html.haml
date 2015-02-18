@@ -2,6 +2,12 @@
 - end_date = short_date(@paycheck.commission_end)
 - title "#{@person.display_name}'s Commissions for #{start_date} - #{end_date}"
 
+.row.full-width
+  = form_tag commission_person_path(@person), method: :post do
+    .large-11.medium-9.small-9.columns
+      = select_tag 'paycheck_id', options_from_collection_for_select(@available_paychecks, 'id', 'name', @paycheck.id)
+    .large-1.medium-3.small-3.columns
+      = submit_tag 'View', class: [:button, 'full-width']
 .widget
   .inner
     %h3
@@ -54,9 +60,6 @@
   .inner
     %h3 Commission Summary
     .small.comment
-      Note: negative balances carrying over from previous checks coming soon.
-      If you had a negative balance on the previous check, it will be applied
-      to this check and will not yet be reflected here.
     .row.full-width.vertical_space
       .large-3.columns.centered_text
         .sm_green.xx-large-font= number_to_currency(payouts_total)
@@ -69,6 +72,18 @@
       .large-1.columns.centered_text.xx-large-font
         \=
       .large-4.columns.centered_text
-        %strong.xx-large-font= number_to_currency(payouts_total + refunds_total)
-        .small.comment
-          %strong (total)
+        .xx-large-font= number_to_currency(payouts_total + refunds_total)
+        .small.comment (subtotal)
+    .row.full-width
+      .large-8.columns
+      .large-4.columns.centered_text
+        - balance = @paycheck.negative_balance_for_person(@person)
+        .sm_red.xx-large-font= number_to_currency(balance)
+        .small.comment (negative balance from previous check)
+    .row.full-width
+      .large-8.columns
+      .large-4.columns.centered_text
+        %div(style="border-top: 1px solid black;")
+          %strong.xx-large-font= number_to_currency(payouts_total + refunds_total + balance)
+          .small.comment
+            %strong (total)

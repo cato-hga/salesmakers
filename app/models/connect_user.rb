@@ -63,6 +63,11 @@ class ConnectUser < ConnectModel
     end
   end
 
+  def fast_type
+    connect_user_region = region || return
+    region.fast_type
+  end
+
   def project
     user_region = region
     return nil if user_region == nil

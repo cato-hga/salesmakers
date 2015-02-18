@@ -29,6 +29,12 @@ describe VonageCommissionProcessing do
     create :vonage_sale,
            sale_date: paycheck.commission_start + 1.day
   }
+  let(:old_vonage_sale) {
+    create :vonage_sale,
+           person: vonage_sale.person,
+           sale_date: old_paycheck.commission_start + 1.day,
+           mac: 'FEDCBA654321'
+  }
   let(:area) { create :area }
   let(:sub_area) { create :area, name: 'Sub-area' }
   let!(:person_area) {
@@ -42,6 +48,25 @@ describe VonageCommissionProcessing do
            sales_minimum: 0,
            sales_maximum: 2,
            per_sale: 10.00
+  }
+  let!(:previous_vonage_paycheck_negative_balance) {
+    create :vonage_paycheck_negative_balance,
+           vonage_paycheck: old_paycheck,
+           person: vonage_sale.person,
+           balance: -15.00
+  }
+  let!(:old_vonage_sale_payout) {
+    create :vonage_sale_payout,
+           vonage_paycheck: old_paycheck,
+           person: vonage_sale.person,
+           vonage_sale: old_vonage_sale,
+           payout: 10.00
+  }
+  let!(:vonage_paycheck_negative_balance) {
+    create :vonage_paycheck_negative_balance,
+           vonage_paycheck: paycheck,
+           person: vonage_sale.person,
+           balance: -10.00
   }
   let(:processor) { VonageCommissionProcessing.new }
 
@@ -149,7 +174,62 @@ describe VonageCommissionProcessing do
 
     it 'saves the payouts' do
       processor.process
-      expect(VonageSalePayout.count).to eq(1)
+      expect(VonageSalePayout.count).to eq(2)
     end
   end
+
+  describe 'carrying over of negative balances' do
+    it 'is performed as part of processing' do
+      expect(processor).to receive(:process_negative_balances)
+      processor.process
+    end
+
+    it 'gathers people with refunds, sales, and negative balances' do
+      expect(processor).to receive(:gather_person_list_for_balances)
+      processor.process
+    end
+
+    it 'gathers a list of all those with refunds' do
+      expect(processor).to receive(:gather_people_with_refunds)
+      processor.process
+    end
+
+    it 'gathers a list of all those with negative balances' do
+      expect(processor).to receive(:gather_people_with_balances)
+      processor.process
+    end
+
+    it 'gets a hash of people with their last paycheck net amount' do
+      expect(processor).to receive(:make_negative_payout_hashes)
+      processor.process
+    end
+
+    it 'applies negative payout hashes to current paycheck' do
+      expect(processor).to receive(:apply_negative_payout_hashes)
+      processor.process
+    end
+
+    it 'clears existing negative balances' do
+      expect {
+        processor.process
+      }.not_to change(VonagePaycheckNegativeBalance, :count)
+    end
+
+    it 'calls create_negative_balance' do
+      expect(processor).to receive(:create_negative_balance)
+      processor.process
+    end
+
+    it 'creates the negative balances' do
+      processor.process
+      expect(paycheck.vonage_paycheck_negative_balances.first.balance).to eq(-5.00)
+    end
+
+    it 'does not duplicate payouts on subsequent processings' do
+      processor.process
+      processor.process
+      expect(paycheck.vonage_paycheck_negative_balances.count).to eq(1)
+    end
+  end
+
 end

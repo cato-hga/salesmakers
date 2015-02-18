@@ -124,6 +124,7 @@ Rails.application.routes.draw do
   resources :people, only: [:index, :show, :update] do
     member do
       get :commission, as: :commission
+      post :commission
       get :sales, as: :sales
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
@@ -136,6 +137,8 @@ Rails.application.routes.draw do
   end
 
   get 'sessions/destroy', as: 'logout'
+
+  post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
 
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'

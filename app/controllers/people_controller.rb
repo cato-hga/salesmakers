@@ -76,6 +76,7 @@ class PeopleController < ProtectedController
 
   def commission
     set_paycheck
+    @available_paychecks = VonagePaycheck.available_paychecks
     @payouts = VonageSalePayout.where(vonage_paycheck: @paycheck).
         where(person: @person)
     @refunds = VonageRefund.where('refund_date >= ? AND refund_date <= ? AND person_id = ?',
