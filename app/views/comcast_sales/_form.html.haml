@@ -42,4 +42,6 @@
         %p
           = f.check_box :customer_acknowledged
           = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+      - if converting
+        = f.hidden_field :comcast_lead_id, value: @comcast_customer
       = f.submit 'Complete Sale', class: [:button]

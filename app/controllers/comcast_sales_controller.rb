@@ -56,6 +56,7 @@ class ComcastSalesController < ApplicationController
                                          :phone,
                                          :security,
                                          :customer_acknowledged,
+                                         :comcast_lead_id,
                                          comcast_install_appointment_attributes: [
                                              :comcast_install_time_slot_id
                                          ]

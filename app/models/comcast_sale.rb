@@ -13,6 +13,7 @@ class ComcastSale < ActiveRecord::Base
   has_one :comcast_install_appointment, inverse_of: :comcast_sale
   accepts_nested_attributes_for :comcast_install_appointment
   has_one :comcast_former_provider
+  has_one :comcast_lead
 
   scope :person, ->(person_id) {
     where(person_id: person_id)
