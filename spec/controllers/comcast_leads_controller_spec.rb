@@ -22,7 +22,7 @@ describe ComcastLeadsController do
   end
 
   describe 'POST create' do
-    before do
+    subject do
       allow(controller).to receive(:policy).and_return double(create?: true)
       post :create,
            comcast_customer_id: comcast_customer.id,
@@ -33,7 +33,15 @@ describe ComcastLeadsController do
     end
 
     it 'should redirect to ComcastCustomers#index' do
+      subject
       expect(response).to redirect_to(comcast_customers_path)
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+    it 'creates a lead' do
+      expect { subject }.to change(ComcastLead, :count).by(1)
     end
   end
 

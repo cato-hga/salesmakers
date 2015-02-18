@@ -71,22 +71,37 @@ describe 'Comcast Sale creation' do
     end
 
     context 'with an invalid date' do
-      it 'renders :new and shows a clear error message', pending: 'Cannot do anything with this because of Chronic'
+      before do
+        fill_in 'Order date', with: 'totallywrongdate'
+        fill_in 'Order number', with: '1234567891015'
+        check 'Television'
+        select previous_provider.name, from: 'Previous Provider'
+        fill_in 'Install date', with: 'reallywrongdate'
+        select comcast_install_time_slot.name, from: 'Install time slot'
+        click_on 'Complete Sale'
+      end
+      it 'renders :new and shows a clear error message' do
+        expect(page).to have_content "Order date entered could not be used - there may be a typo or invalid date. Please re-enter"
+        expect(page).to have_content "Install date entered could not be used - there may be a typo or invalid date. Please re-enter"
+      end
+
+      it 'does not have invalid dates left over' do
+        expect(page).to have_field('comcast_sale_order_date', with: '')
+        expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: '')
+      end
     end
 
     context 'with other invalid information' do
-      it 'renders :new and should retain information', pending: 'Dont know what to do' do #Error messages handled above
+      it 'renders :new and should retain information' do #Error messages handled above
         fill_in 'Order date', with: 'today'
         fill_in 'Order number', with: '1234567891015'
         select previous_provider.name, from: 'Previous Provider'
         fill_in 'Install date', with: 'tomorrow'
         select comcast_install_time_slot.name, from: 'Install time slot'
         click_on 'Complete Sale'
-        expect(page).to have_content('today')
-        check 'Customer agrees to receive text message reminders(s) and/or phone calls'
+        expect(page).to have_field('comcast_sale_order_date', with: Date.today.strftime('%m/%d/%Y'))
+        expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: Date.tomorrow.strftime('%m/%d/%Y'))
       end
-
-      it 'does not have invalid dates left over', pending: 'NOPE'
     end
 
     describe 'with valid data' do
@@ -114,6 +129,10 @@ describe 'Comcast Sale creation' do
         expect(page).to have_content sale.order_number
         expect(page).to have_content sale.comcast_customer.first_name
       end
+      it 'does not add a comcast_lead relationship' do
+        sale = ComcastSale.first
+        expect(sale.comcast_lead_id).to be_nil
+      end
     end
 
     describe 'from comcast lead page' do
@@ -129,7 +148,24 @@ describe 'Comcast Sale creation' do
         expect(page).to have_content 'Install date'
         expect(page).to have_content 'Install time slot'
       end
-      context 'submission failure' do #submission success in the main page - no need to test
+
+      context 'submission success' do #most submission success in the main page - no need to test
+        it 'does adds a comcast_lead relationship' do
+          fill_in 'Order date', with: 'today'
+          fill_in 'Order number', with: '1234567891015'
+          select previous_provider.name, from: 'Previous Provider'
+          check 'Television'
+          check 'Security'
+          fill_in 'Install date', with: 'tomorrow'
+          select comcast_install_time_slot.name, from: 'Install time slot'
+          check 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+          click_on 'Complete Sale'
+          sale = ComcastSale.first
+          expect(sale.comcast_lead_id).not_to be_nil
+        end
+      end
+
+      context 'submission failure' do
         before(:each) do
           fill_in 'Order date', with: 'today'
           fill_in 'Order number', with: '1234567891015'
@@ -144,7 +180,10 @@ describe 'Comcast Sale creation' do
         it 'renders errors' do
           expect(page).to have_content 'at least one other product must be selected'
         end
-        it 'retains information', pending: 'Dont know what to do'
+        it 'renders :new and should retain information' do #Error messages handled above
+          expect(page).to have_field('comcast_sale_order_date', with: Date.today.strftime('%m/%d/%Y'))
+          expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: Date.tomorrow.strftime('%m/%d/%Y'))
+        end
       end
     end
   end

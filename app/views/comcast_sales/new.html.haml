@@ -1,3 +1,4 @@
 - title 'New Comcast Sale for ' + @comcast_customer.name
 
-= render 'form'
+- @converting = false
+= render partial: 'form', locals: { converting: @converting }

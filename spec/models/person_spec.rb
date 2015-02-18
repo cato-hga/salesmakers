@@ -113,7 +113,7 @@ RSpec.describe Person, :type => :model do
 
   end
 
-  describe 'related members' do
+  describe '#team_members' do
     let(:person) { create :person }
     it 'should return team members' do
       expect(person.team_members).to_not be_nil
@@ -125,8 +125,30 @@ RSpec.describe Person, :type => :model do
 
     it 'should return all HQ members if person has all HQ visibility' do
       person.position.hq = true
-      expect(Person.all_hq_members).to_not be_nil #TODO: Is this actually correct?
-                                                  #I feel like i'm reading the reason for the method wrong
+      expect(Person.all_hq_members).to_not be_nil
+    end
+  end
+
+  describe '#managed_team_members' do
+    let(:manager) { create :person }
+    let(:employee) { create :person, email: 'employee@test.com' }
+    let(:non_managed_employee) { create :person, email: 'other@test.com' }
+    let(:area) { create :area }
+    let(:non_managed_area) { create :area }
+    let!(:person_area) { create :person_area, area: area, person: manager, manages: true }
+    let!(:employee_person_area) { create :person_area, area: area, person: employee }
+    let!(:non_managed_employee_person_area) { create :person_area, area: non_managed_area, person: non_managed_employee }
+    it 'returns self if manager' do
+      expect(manager.managed_team_members).to include(manager)
+    end
+    it 'returns employees of a area that a manager manages' do
+      expect(manager.managed_team_members).to include(employee)
+    end
+    it 'does not return employees outside of a managers managed areas' do
+      expect(manager.managed_team_members).not_to include(non_managed_employee)
+    end
+    it 'returns nothing if an employee does not have a person area they manage' do
+      expect(employee.managed_team_members.count).to eq(0)
     end
   end
 
