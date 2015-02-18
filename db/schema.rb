@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20150218194559) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.integer  "comcast_former_provider_id"
+    t.integer "comcast_lead_id"
   end
 
   create_table "communication_log_entries", force: :cascade do |t|
