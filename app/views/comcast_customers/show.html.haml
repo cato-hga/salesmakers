@@ -84,4 +84,5 @@
             comcast_install_time_slot.name + ')' |
           = installation
   - else
-    = render 'comcast_sales/form'
+    - @converting = true
+    = render partial: 'comcast_sales/form', locals: { converting: @converting }

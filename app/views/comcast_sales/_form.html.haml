@@ -4,6 +4,8 @@
 
 .widget
   .inner
+    - if converting
+      %h3 Convert to Sale
     = form_for [@comcast_customer, @comcast_sale] do |f|
       - order_date = short_date(@comcast_sale.order_date)
       = f.label :order_date
