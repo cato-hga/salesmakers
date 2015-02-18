@@ -125,6 +125,7 @@ class DevicesController < ApplicationController
 
   def lost_stolen
     @device = Device.find params[:id]
+    assigned_person = @device.person if @device.person
     lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
     if @device.device_states.include? lost_stolen_state
       flash[:error] = 'The device was already reported lost or stolen'
@@ -135,6 +136,8 @@ class DevicesController < ApplicationController
                            @device
       flash[:notice] = 'Device successfully reported as lost or stolen'
       redirect_to device_path(@device)
+      return if assigned_person == nil
+      AssetsMailer.lost_or_stolen_mailer(@device).deliver_later
     else
       flash[:error] = 'Could not set device state to lost or stolen'
       redirect_to device_path(@device)
@@ -143,6 +146,7 @@ class DevicesController < ApplicationController
 
   def found
     @device = Device.find params[:id]
+    assigned_person = @device.person if @device.person
     lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
     written_off_state = DeviceState.find_by name: 'Written Off'
     if @device.device_states.delete lost_stolen_state, written_off_state
@@ -150,6 +154,8 @@ class DevicesController < ApplicationController
                            @device
       flash[:notice] = 'Device no longer reported lost or stolen and/or written off'
       redirect_to device_path(@device)
+      return if assigned_person == nil
+      AssetsMailer.found_mailer(@device).deliver_later
     else
       flash[:error] = 'Could not remove the lost or stolen, or written off states from the device'
       redirect_to device_path(@device)

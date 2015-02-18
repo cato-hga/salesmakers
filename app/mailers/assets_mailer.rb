@@ -81,4 +81,46 @@ class AssetsMailer < ApplicationMailer
     )
   end
 
+  def lost_or_stolen_mailer(device)
+    if device.person #Only checking here because tests are a'failing otherwise
+      person = device.person
+      @person_name = person.display_name
+      @device = device
+      if person.mobile_phone
+        @person_phone = person.mobile_phone
+      else
+        @person_phone = 'N/A'
+      end
+      if person.personal_email
+        @personal_email = person.personal_email
+      else
+        @personal_email = 'N/A'
+      end
+      mail(to: ['assets@retaildoneright.com'],
+           subject: "[SalesMakers] Deployed Asset Marked as Lost or Stolen"
+      )
+    end
+  end
+
+  def found_mailer(device)
+    if device.person #Only checking here because tests are a'failing otherwise
+      person = device.person
+      @person_name = person.display_name
+      @device = device
+      if person.mobile_phone
+        @person_phone = person.mobile_phone
+      else
+        @person_phone = 'N/A'
+      end
+      if person.personal_email
+        @personal_email = person.personal_email
+      else
+        @personal_email = 'N/A'
+      end
+      mail(to: ['assets@retaildoneright.com'],
+           subject: "[SalesMakers] Lost or Stolen Asset Marked as Found"
+      )
+    end
+  end
+
 end

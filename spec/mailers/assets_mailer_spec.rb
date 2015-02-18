@@ -217,4 +217,85 @@ describe AssetsMailer do
     end
   end
 
+  describe 'lost/stolen mailer' do
+    let(:device) { create :device, line: line }
+    let(:line) { create :line }
+    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
+    let(:mail) { AssetsMailer.lost_or_stolen_mailer(device) }
+
+    it 'sends an email with correct subject' do
+      expect(mail.subject).to include('Deployed Asset Marked as Lost or Stolen')
+    end
+
+    it 'sends an email to Assets' do
+      expect(mail.to).to include('assets@retaildoneright.com')
+    end
+
+    it 'sends an email with the correct "from" email' do
+      expect(mail.from).to include('assetreturns@salesmakersinc.com')
+    end
+
+
+    it 'sends an email with the correct device info' do
+      expect(mail.body.encoded).to include(device.serial)
+      expect(mail.body.encoded).to include(line.identifier)
+    end
+
+    it 'handles no line being attached to a device' do
+      device.line = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+
+    it 'sends an email with the correct person info' do
+      expect(mail.body.encoded).to include(person.display_name)
+      expect(mail.body.encoded).to include(person.mobile_phone)
+      expect(mail.body.encoded).to include(person.personal_email)
+    end
+
+    it 'handles not having a phone number for a person' do
+      person.mobile_phone = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+  end
+
+  describe 'found mailer' do
+    let(:device) { create :device, line: line }
+    let(:line) { create :line }
+    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
+    let(:mail) { AssetsMailer.found_mailer(device) }
+
+    it 'sends an email with correct subject' do
+      expect(mail.subject).to include('Lost or Stolen Asset Marked as Found')
+    end
+
+    it 'sends an email to Assets' do
+      expect(mail.to).to include('assets@retaildoneright.com')
+    end
+
+    it 'sends an email with the correct "from" email' do
+      expect(mail.from).to include('assetreturns@salesmakersinc.com')
+    end
+
+
+    it 'sends an email with the correct device info' do
+      expect(mail.body.encoded).to include(device.serial)
+      expect(mail.body.encoded).to include(line.identifier)
+    end
+
+    it 'handles no line being attached to a device' do
+      device.line = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+
+    it 'sends an email with the correct person info' do
+      expect(mail.body.encoded).to include(person.display_name)
+      expect(mail.body.encoded).to include(person.mobile_phone)
+      expect(mail.body.encoded).to include(person.personal_email)
+    end
+
+    it 'handles not having a phone number for a person' do
+      person.mobile_phone = nil
+      expect(mail.body.encoded).to include('N/A')
+    end
+  end
 end

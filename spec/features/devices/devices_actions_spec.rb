@@ -49,6 +49,13 @@ describe 'Devices NON-CRUD actions' do
       end
     end
 
+    it 'should no longer display the Recoup button' do
+      click_link 'Write Off'
+      within('header h1') do
+        expect(page).not_to have_link('Recoup')
+      end
+    end
+
     context 'for a deployed device' do
       let(:person) { create :person }
       let(:deployment) { create :device_deployment, device: device, person: person }
@@ -83,9 +90,28 @@ describe 'Devices NON-CRUD actions' do
         expect(page).not_to have_selector('.button', text: 'Found')
       end
 
+      it 'does not show the deploy button when lost or stolen', js: true do
+        subject
+        expect(page).not_to have_selector('.button', text: 'Deploy')
+      end
+
       it 'reports it lost or stolen', js: true do
         subject
         expect(page).to have_selector('.device_state', text: 'Lost or Stolen')
+      end
+
+      context 'for a deployed device' do
+        let(:person) { create :person }
+        let(:deployment) { create :device_deployment, device: device, person: person }
+        it 'does not show the recoup button when lost or stolen', js: true do
+          device.device_deployments << deployment
+          visit device_path(device)
+          page.driver.browser.accept_js_confirms
+          within '#main_container header' do
+            click_on 'Lost/Stolen'
+          end
+          expect(page).not_to have_selector('.button', text: 'Recoup')
+        end
       end
     end
   end
