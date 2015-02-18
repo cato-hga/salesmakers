@@ -9,7 +9,17 @@ class ComcastLeadsController < ApplicationController
   def create
     @comcast_lead = ComcastLead.new comcast_lead_params
     @comcast_lead.comcast_customer = @comcast_customer
-    @comcast_lead.follow_up_by = Chronic.parse params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
+
+    #The following section handle invalid Chronic dates, since we allow purposefully blank Follow Up Dates
+    follow_up_by = params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
+    chronic_parse_follow_up_by = Chronic.parse follow_up_by
+    if follow_up_by.present? and chronic_parse_follow_up_by == nil
+      flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
+      render :new and return
+    else
+      @comcast_lead.follow_up_by = chronic_parse_follow_up_by
+    end
+
     if @comcast_lead.save
       @current_person.log? 'create',
                            @comcast_lead,
@@ -59,7 +69,6 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      #flash[:error] = 'Could not dismiss lead.'
       flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', ')
     end
     redirect_to comcast_customers_path

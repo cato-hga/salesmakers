@@ -56,25 +56,22 @@ describe 'Comcast Lead Creation' do
         expect(page).to have_content('Ok to call and text must be checked to save as a lead')
       end
     end
-    context 'with an invalid date',
-            pending: 'We need to decide how to handle invalid dates. The result of Chronic.parse is nil....which is allowed on the ComcastLead model.' do
+    context 'with an invalid date' do
       it 'renders :new and shows a clear error message' do
         fill_in 'Follow up by', with: 'totallywrongdate'
         check 'Television'
         check 'Customer agrees to be contacted by phone or text message'
         click_on 'Save as Lead'
-        expect(page).to have_content 'Blah'
+        expect(page).to have_content 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       end
     end
     context 'with other invalid information' do
-      it 'renders :new and should retain information', pending: 'I dont know what to do' do #Error messages handled above
-        fill_in 'Follow up by', with: 'today'
+      it 'renders :new and should retain information' do #Error messages handled above
+        fill_in 'Follow up by', with: 'tomorrow'
         check 'Television'
         check 'Security'
         click_on 'Save as Lead'
-        expect(page).to have_content('today')
-        expect('Television').to be_checked
-        expect('Security').to be_checked
+        expect(page).to have_field('comcast_lead_follow_up_by', with: Date.tomorrow.strftime('%m/%d/%Y'))
       end
     end
 

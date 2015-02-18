@@ -23,6 +23,13 @@ class ComcastSalesController < ApplicationController
       flash[:notice] = 'Sale saved successfully.'
       redirect_to comcast_customers_path and return
     else
+      #Kicking back a flash message for incorrect dates
+      if sale_time == nil
+        @comcast_sale.errors.add :order_date, ' entered could not be used - there may be a typo or invalid date. Please re-enter'
+      end
+      if install_time == nil
+        @comcast_sale.errors.add :install_date, ' entered could not be used - there may be a typo or invalid date. Please re-enter'
+      end
       render :new and return
     end
   end
