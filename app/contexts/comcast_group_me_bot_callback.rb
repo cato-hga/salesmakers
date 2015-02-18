@@ -21,8 +21,13 @@ class ComcastGroupMeBotCallback
     self.determine_date_range
     sales = self.pull_sales
     results = self.query(sales)
+    if Rails.env.production? or Rails.env == 'staging'
+      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_chart(results)}"
+    else
+      chart_url = "http://localhost:3000/#{generate_chart(results)}"
+    end
     messages = self.generate_messages(results)
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id)
+    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
   end
 
   def separate_string

@@ -21,7 +21,7 @@ class SprintGroupMeBotCallback
     self.determine_date_range
     results = self.query
     if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}/#{generate_chart(results)}"
+      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_chart(results)}"
     else
       chart_url = "http://localhost:3000/#{generate_chart(results)}"
     end

@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://chart.apis.google.com/chart
+    body:
+      encoding: UTF-8
+      string: chco=6886B4,FDD84E,72AE6E,D1695E,8A6EAF,EFAA43&chf=bg,s,000000|c,s,FFFFFF&chl=&cht=p&chs=400x200&chxr=0,0
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      X-Frame-Options:
+      - ALLOWALL
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - image/png
+      X-Content-Type-Options:
+      - nosniff
+      Date:
+      - Wed, 18 Feb 2015 21:47:03 GMT
+      Server:
+      - GoogleChartAPI/1.0
+      Content-Length:
+      - '760'
+      X-Xss-Protection:
+      - 1; mode=block
+      Alternate-Protocol:
+      - 80:quic,p=0.08
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        iVBORw0KGgoAAAANSUhEUgAAAZAAAADICAIAAABJdyC1AAAABmJLR0QA/wD/
+        AP+gvaeTAAACrUlEQVR4nO3UsQ3AMAzAMLv//5y+0K0RQF6gSTsz55wBuNvu
+        Pn83AHxlWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBh
+        WECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZ
+        hgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQ
+        YVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEB
+        GYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgW
+        kGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZh
+        ARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQY
+        FpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECG
+        YQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVk
+        GBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhA
+        hmEBGYYFZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYF
+        ZBgWkGFYQIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFY
+        QIZhARmGBWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmG
+        BWQYFpBhWECGYQEZhgVkGBaQYVhAhmEBGYYFZBgWkGFYQIZhARmGBWQYFpBh
+        WECGYQEZhgVkGBaQYVhAhmEBGS89qgSQ+fVs9gAAAABJRU5ErkJggg==
+    http_version: 
+  recorded_at: Wed, 18 Feb 2015 21:47:03 GMT
+recorded_with: VCR 2.9.3

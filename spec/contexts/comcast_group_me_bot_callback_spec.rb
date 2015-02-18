@@ -42,11 +42,11 @@ describe ComcastGroupMeBotCallback do
 
     before { callback.process }
 
-    it 'returns a query string with keywords stripped' do
+    it 'returns a query string with keywords stripped', :vcr do
       expect(callback.query_string).to eq('atlanta')
     end
 
-    it 'returns keywords' do
+    it 'returns keywords', :vcr do
       expect(callback.keywords.count).to eq(3)
     end
   end
