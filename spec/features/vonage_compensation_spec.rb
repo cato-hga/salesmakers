@@ -82,6 +82,12 @@ describe 'Vonage commission compensation' do
   end
 
   describe 'refunds' do
+    let(:another_vonage_sale) {
+        create :vonage_sale,
+               mac: 'FEDCBA654321',
+               person: person,
+               sale_date: paycheck.commission_end - 1.week
+    }
     let(:change) {
       create :vonage_account_status_change,
              mac: vonage_sale.mac,
@@ -91,7 +97,7 @@ describe 'Vonage commission compensation' do
     }
     let!(:vonage_refund) {
       create :vonage_refund,
-             vonage_sale: vonage_sale,
+             vonage_sale: another_vonage_sale,
              refund_date: paycheck.commission_end - 3.days,
              vonage_account_status_change: change,
              person: person
@@ -99,8 +105,22 @@ describe 'Vonage commission compensation' do
     let!(:vonage_sale_payout) {
       create :vonage_sale_payout,
              vonage_sale: vonage_sale,
+             payout: 25.00,
              person: person,
              vonage_paycheck: paycheck
+    }
+    let!(:another_vonage_sale_payout) {
+      create :vonage_sale_payout,
+             vonage_sale: another_vonage_sale,
+             payout: 25.00,
+             person: person,
+             vonage_paycheck: paycheck
+    }
+    let!(:negative_balance) {
+      create :vonage_paycheck_negative_balance,
+             vonage_paycheck: paycheck,
+             person: person,
+             balance: -30.00
     }
 
     before { visit commission_person_path(person) }
@@ -133,8 +153,16 @@ describe 'Vonage commission compensation' do
       expect(page).to have_content(number_to_currency(-1 * vonage_sale_payout.payout))
     end
 
-    it 'shows a total amount' do
-      expect(page).to have_content('$0.00')
+    it 'shows a subtotal amount' do
+      expect(page).to have_content('$25.00')
+    end
+
+    it 'shows the negative balance amount' do
+      expect(page).to have_content('-$30.00')
+    end
+
+    it 'shows the total amount' do
+      expect(page).to have_content('-$5.00')
     end
   end
 
