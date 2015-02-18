@@ -25,3 +25,4 @@
 public/system
 coverage/*
 /open-uri*
+public/sales_charts/*.png

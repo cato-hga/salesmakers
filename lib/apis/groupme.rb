@@ -243,14 +243,23 @@ class GroupMe
     response['response']['bot']['bot_id']
   end
 
-  def post_messages_with_bot(messages, bot_id)
+  def post_messages_with_bot(messages, bot_id, image_url = nil)
     return unless messages and messages.count > 0 and bot_id
+    count = 0
     for message in messages do
+      count += 1
+      sleep(0.1)
       payload = {
           'bot_id' => bot_id,
           'text' => message
-      }.to_json
-      puts payload
+      }
+      if image_url and count == 1
+        payload['attachments'] = [{
+                                      'type' => 'image',
+                                      'url' => image_url
+                                  }]
+      end
+      payload = payload.to_json
       response = self.class.post '/bots/post', { body: payload }
     end
     response

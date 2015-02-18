@@ -132,6 +132,8 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy', as: 'logout'
 
+  post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
+
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 

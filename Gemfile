@@ -57,6 +57,7 @@ gem 'goldiloader', '0.0.8' # Automatic eager loading
 gem 'sidekiq', '3.3.2' # Background job queuing system
 gem 'sinatra', '1.4.5', require: false
 gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq' # Sidekiq integrations for Capistrano
+gem 'googlecharts', '1.6.10' # Google charts, duh.
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development

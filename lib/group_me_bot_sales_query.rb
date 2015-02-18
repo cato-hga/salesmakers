@@ -40,6 +40,24 @@ module GroupMeBotSalesQuery
     result_strings
   end
 
+  def generate_chart(results)
+    labels = []
+    data = []
+    for result in results do
+      labels << result['name']
+      data << result['count'].to_i
+    end
+    path = "public/sales_charts/#{SecureRandom.uuid}.png"
+    chart = Gchart.new type: 'pie',
+                       theme: :keynote,
+                       labels: labels,
+                       data: data,
+                       size: '400x200',
+                       filename: path
+    chart.file
+    path
+  end
+
   def start_date=(start_date)
     @start_date = start_date
   end
