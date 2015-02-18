@@ -29,6 +29,16 @@ class ComcastCustomer < ActiveRecord::Base
   has_one :comcast_lead
   has_one :comcast_sale
 
+  scope :manageable, ->(person = nil) {
+    return Person.none unless person
+    people = Array.new
+    people = people.concat person.managed_team_members
+    people << person
+    return Person.none if people.count < 1
+
+    ComcastCustomer.where("\"comcast_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
+  }
+
   def name
     [self.first_name, self.last_name].join(' ')
   end

@@ -1,6 +1,6 @@
 class ComcastCustomersController < ApplicationController
   before_action :do_authorization, except: [:show]
-  before_action :set_locations, only: [:new, :create]
+  before_action :set_comcast_locations, only: [:new, :create]
   after_action :verify_authorized
 
   def index
@@ -53,9 +53,4 @@ class ComcastCustomersController < ApplicationController
     authorize ComcastCustomer.new
   end
 
-  def set_locations
-    comcast = Project.find_by name: 'Comcast Retail'
-    return Location.none unless comcast
-    @locations = comcast.locations_for_person @current_person
-  end
 end

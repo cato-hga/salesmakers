@@ -35,16 +35,6 @@ class ComcastLead < ActiveRecord::Base
     where('follow_up_by > ? OR follow_up_by IS NULL', Date.today + 1.week)
   }
 
-  scope :dismissible, ->(person = nil) {
-    return Person.none unless person
-    people = Array.new
-    people = people.concat person.managed_team_members
-    people << person
-    return Person.none if people.count < 1
-
-    ComcastLead.where("\"comcast_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
-  }
-
   def self.policy_class
     ComcastCustomerPolicy
   end
@@ -61,7 +51,7 @@ class ComcastLead < ActiveRecord::Base
 
   def no_past_follow_up_by_date
     return unless self.follow_up_by
-    if self.follow_up_by.to_date <= Date.today
+    if self.follow_up_by.to_date <= Date.today and not self.persisted?
       errors.add(:follow_up_by, 'must be in the future')
     end
   end

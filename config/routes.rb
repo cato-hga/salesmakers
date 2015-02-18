@@ -2,6 +2,10 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  get 'comcast_eod/new'
+
+  get 'comcast_eod/create'
+
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -39,6 +43,8 @@ Rails.application.routes.draw do
     resources :comcast_sales, only: [:new, :create]
     resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy]
   end
+
+  resources :comcast_eods, only: [:new, :create]
 
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
 

@@ -16,6 +16,7 @@ class Location < ActiveRecord::Base
   belongs_to :channel
   has_many :location_areas
   has_many :comcast_customers
+  has_many :comcast_eods
 
   def name(show_channel = true)
     output = ''
