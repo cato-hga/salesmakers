@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20150219140332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "answer_upvotes", force: :cascade do |t|
     t.integer  "answer_id",  null: false
@@ -97,17 +98,17 @@ ActiveRecord::Schema.define(version: 20150219140332) do
   end
 
   create_table "comcast_eods", force: :cascade do |t|
-    t.datetime "eod_date", null: false
-    t.integer "location_id", null: false
-    t.boolean "sales_pro_visit", default: false, null: false
-    t.text "sales_pro_visit_takeaway"
-    t.boolean "comcast_visit", default: false, null: false
-    t.text "comcast_visit_takeaway"
-    t.boolean "cloud_training", default: false, null: false
-    t.text "cloud_training_takeaway"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "person_id"
+    t.datetime "eod_date",                                 null: false
+    t.integer  "location_id",                              null: false
+    t.boolean  "sales_pro_visit",          default: false, null: false
+    t.text     "sales_pro_visit_takeaway"
+    t.boolean  "comcast_visit",            default: false, null: false
+    t.text     "comcast_visit_takeaway"
+    t.boolean  "cloud_training",           default: false, null: false
+    t.text     "cloud_training_takeaway"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "person_id"
   end
 
   create_table "comcast_former_providers", force: :cascade do |t|
@@ -167,7 +168,7 @@ ActiveRecord::Schema.define(version: 20150219140332) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.integer  "comcast_former_provider_id"
-    t.integer "comcast_lead_id"
+    t.integer  "comcast_lead_id"
   end
 
   create_table "communication_log_entries", force: :cascade do |t|
@@ -710,9 +711,9 @@ ActiveRecord::Schema.define(version: 20150219140332) do
   end
 
   create_table "tmp_payouts", id: false, force: :cascade do |t|
-    t.string "mac", limit: 255
+    t.string  "mac",      limit: 255
     t.decimal "payout"
-    t.string "username", limit: 255
+    t.string  "username", limit: 255
   end
 
   create_table "uploaded_images", force: :cascade do |t|

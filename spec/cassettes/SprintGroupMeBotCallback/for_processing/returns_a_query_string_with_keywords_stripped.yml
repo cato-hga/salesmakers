@@ -1675,4 +1675,53 @@ http_interactions:
       string: " "
     http_version: 
   recorded_at: Wed, 18 Feb 2015 20:48:18 GMT
+- request:
+    method: post
+    uri: https://api.groupme.com/v3/bots/post
+    body:
+      encoding: UTF-8
+      string: '{"bot_id":"00b717f7394d1a846041f8e1a4","text":"[#33] Donta Washington:
+        7\n[#34] Deonetra Solomon: 7\n[#35] Shayna Bloodsaw: 6\n[#36] Keenan Harp:
+        3\n[#37] Rashid Labranche: 2\n[#38] Kayla Carter: 2\n\n***TOTAL: 647"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Thu, 19 Feb 2015 15:30:41 GMT
+      Server:
+      - nginx/1.6.2
+      Status:
+      - 202 Accepted
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Rack-Cache:
+      - invalidate, pass
+      X-Request-Id:
+      - bf24d05af967bf880f8f648082052af5
+      X-Runtime:
+      - '0.070221'
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Content-Length:
+      - '1'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: " "
+    http_version: 
+  recorded_at: Thu, 19 Feb 2015 15:30:39 GMT
 recorded_with: VCR 2.9.3
