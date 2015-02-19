@@ -182,7 +182,7 @@ class SprintGroupMeBotCallback
         activations_sales_clause +
         upgrades_sales_clause +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
-        "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
+        "rsprint_sales.date_sold < CAST('#{self.end_date}' AS DATE) "
   end
 
   def region_sales_where_clause(region_name)
@@ -191,7 +191,7 @@ class SprintGroupMeBotCallback
         upgrades_sales_clause +
         "region.name = '#{region_name}' AND " +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
-        "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
+        "rsprint_sales.date_sold < CAST('#{self.end_date}' AS DATE) "
   end
 
   def director_sales_where_clause(director_name)
@@ -200,7 +200,7 @@ class SprintGroupMeBotCallback
         upgrades_sales_clause +
         "c_salesregion.description ILIKE '#{director_name}' AND " +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
-        "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
+        "rsprint_sales.date_sold < CAST('#{self.end_date}' AS DATE) "
   end
 
   def activations_sales_clause
@@ -325,7 +325,7 @@ class SprintGroupMeBotCallback
   def hpa_where_clause
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
-        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
         "r.name LIKE 'Sprint %' "
   end
@@ -334,7 +334,7 @@ class SprintGroupMeBotCallback
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
         "region.name = '#{region_name}' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
-        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
         "r.name LIKE 'Sprint %' "
   end
@@ -343,7 +343,7 @@ class SprintGroupMeBotCallback
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
         "r.description ILIKE '#{director_name}' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
-        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
         "r.name LIKE 'Sprint %' "
   end
@@ -407,7 +407,7 @@ class SprintGroupMeBotCallback
         'from rsprint_sales ' +
         'where ' +
         "rsprint_sales.date_sold >= cast('#{self.start_date}' as timestamp) AND " +
-        "rsprint_sales.date_sold <= cast('#{self.end_date}' as timestamp) AND " +
+        "rsprint_sales.date_sold < cast('#{self.end_date}' as timestamp) AND " +
         "rsprint_sales.activated_in_store = 'Yes' " +
         'group by ad_user_id ' +
         'order by ad_user_id) sales ' +
