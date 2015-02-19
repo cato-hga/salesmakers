@@ -235,6 +235,10 @@ class DevicesController < ApplicationController
     @lines = @search.result.order('identifier').page(params[:page])
   end
 
+  def swap_results
+
+  end
+
   private
 
   def search_bar

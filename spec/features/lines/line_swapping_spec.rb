@@ -35,11 +35,16 @@ describe 'Swapping lines' do
         expect(page).to have_content('Swap Line') #SCOPE THIS W/ CAPYBARA
       end
     end
-  end
 
-  describe 'when only one line has a device (base behavior)' do
-    it 'prompts the user to pick between deactivated the swapped line or keeping it active'
-    it 'displays an end results page after the new line is selected'
+    describe 'when only one line has a device (base behavior)' do
+      it 'prompts the user to pick between deactivated the swapped line or keeping it active' do
+        expect(page).to have_content('Do you want to deactivate the swapped line or keep it active?')
+      end
+      it 'displays an end results page after the new line is selected' do
+        expect(page).to have_content('Swap Results')
+        expect(page).to have_content('DEACTIVATE')
+      end
+    end
   end
 
   describe 'when both lines have devices' do
