@@ -1,5 +1,6 @@
-describe GroupMeBotSalesQuery do
-  let(:query) { TestGroupMeBotCallback.new.extend(GroupMeBotSalesQuery) }
+describe GroupMeBotQuery do
+
+  let(:query) { TestGroupMeBotCallback.new.extend(GroupMeBotQuery) }
 
   describe 'time range determination' do
     it 'pulls the correct range for mtd' do
@@ -88,6 +89,6 @@ class TestGroupMeBotCallback
                 :query_string
 
   def messages(results)
-    self.generate_messages(results)
+    self.generate_sales_messages(results)
   end
 end

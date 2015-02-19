@@ -1,8 +1,9 @@
 require 'apis/groupme'
-require 'group_me_bot_sales_query'
+require 'group_me_bot_query'
 
 class SprintGroupMeBotCallback
-  include GroupMeBotSalesQuery
+
+  include GroupMeBotQuery
 
   attr_accessor :query_string,
                 :keywords
@@ -32,6 +33,8 @@ class SprintGroupMeBotCallback
     elsif self.has_keyword?('training')
       message = ['https://docs.google.com/a/retaildoneright.com/forms/d/1QP2zs_r_wO77eOYBYVinpGBvIcY0931T3SBapjZYXmE/viewform']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    elsif self.has_keyword?('hpa')
+      self.hpa_messages(bot_id)
     else
       self.sales_messages(bot_id)
     end
@@ -80,13 +83,13 @@ class SprintGroupMeBotCallback
 
   def sales_messages(bot_id)
     self.determine_date_range
-    results = self.query
+    results = self.sales_query
     if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_chart(results)}"
+      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_pie_chart(results)}"
     else
-      chart_url = "http://localhost:3000/#{generate_chart(results)}"
+      chart_url = "http://localhost:3000/#{generate_pie_chart(results)}"
     end
-    messages = self.generate_messages(results)
+    messages = self.generate_sales_messages(results)
     if messages.empty?
       messages << "No results for '#{query_string}'"
       chart_url = nil
@@ -143,23 +146,24 @@ class SprintGroupMeBotCallback
         's',
         'referral',
         'schedule',
-        'training'
+        'training',
+        'hpa'
     ]
   end
 
-  def query
+  def sales_query
     if self.has_keyword?('rep')
-      select = self.rep_query
+      select = self.rep_sales_query
     elsif self.has_keyword?('brand')
-      select = self.brand_query
+      select = self.brand_sales_query
     elsif self.has_keyword?('region')
-      select = self.region_query
+      select = self.region_sales_query
     elsif self.has_keyword?('director')
-      select = self.director_query
+      select = self.director_sales_query
     else
-      select = self.territory_query
+      select = self.territory_sales_query
     end
-    select = wrap_query(select)
+    select = wrap_sales_query(select)
     previous_database = ActiveRecord::Base.connection.current_database
     database_parts = previous_database.split('_')
     database_parts.shift if database_parts.count > 1
@@ -169,110 +173,265 @@ class SprintGroupMeBotCallback
     results
   end
 
-  def wrap_query(query)
+  def wrap_sales_query(query)
     "SELECT * FROM (" + query + ") everything ORDER BY everything.count DESC"
   end
 
-  def where_clause
+  def sales_where_clause
     "WHERE c_salesregion.name ILIKE '%#{query_string}%' AND " +
-        activations_clause +
-        upgrades_clause +
+        activations_sales_clause +
+        upgrades_sales_clause +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
         "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
   end
 
-  def region_where_clause(region_name)
+  def region_sales_where_clause(region_name)
     "WHERE c_salesregion.name ILIKE '%#{query_string}%' AND " +
-        activations_clause +
-        upgrades_clause +
+        activations_sales_clause +
+        upgrades_sales_clause +
         "region.name = '#{region_name}' AND " +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
         "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
   end
 
-  def director_where_clause(director_name)
+  def director_sales_where_clause(director_name)
     "WHERE c_salesregion.name ILIKE '%#{query_string}%' AND " +
-        activations_clause +
-        upgrades_clause +
+        activations_sales_clause +
+        upgrades_sales_clause +
         "c_salesregion.description ILIKE '#{director_name}' AND " +
         "rsprint_sales.date_sold >= CAST('#{self.start_date}' AS DATE) AND " +
         "rsprint_sales.date_sold <= CAST('#{self.end_date}' AS DATE) "
   end
 
-  def activations_clause
+  def activations_sales_clause
     return '' unless self.has_keyword?('activations')
     "rsprint_sales.activated_in_store = 'Yes' AND "
   end
 
-  def upgrades_clause
+  def upgrades_sales_clause
     return '' unless self.has_keyword?('upgrades')
     negate = self.has_keyword?('no') ? '!' : ''
     "rsprint_sales.upgrade #{negate}= 'Y' AND "
   end
 
-  def rep_query
+  def rep_sales_query
     'SELECT ad_user.name, count(rsprint_sales.rsprint_sales_id) ' +
-        self.from_and_joins +
+        self.sales_from_and_joins +
         'GROUP BY ad_user.name ORDER BY ad_user.name '
   end
 
-  def territory_query
+  def territory_sales_query
     "SELECT replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint - ', '') as name, " +
         'count(rsprint_sales.rsprint_sales_id) ' +
-        self.from_and_joins +
+        self.sales_from_and_joins +
         "GROUP BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint - ', '') ORDER BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint - ', '') "
   end
 
-  def region_query
+  def region_sales_query
     'SELECT region.name, count(rsprint_sales.rsprint_sales_id) ' +
-        self.from_and_joins +
+        self.sales_from_and_joins +
         'GROUP BY region.name ORDER BY region.name '
   end
 
-  def director_query
+  def director_sales_query
     'SELECT initcap(c_salesregion.description) AS name, count(rsprint_sales.rsprint_sales_id) ' +
-        self.from_and_joins +
+        self.sales_from_and_joins +
         'GROUP BY initcap(c_salesregion.description) ORDER BY initcap(c_salesregion.description) '
   end
 
-  def brand_query
+  def brand_sales_query
     "SELECT rsprint_sales.carrier as name, " +
         'count(rsprint_sales.rsprint_sales_id) ' +
-        self.from_and_joins +
+        self.sales_from_and_joins +
         "GROUP BY rsprint_sales.carrier ORDER BY rsprint_sales.carrier "
   end
 
-  def from_and_joins
-    from_and_joins_string = 'FROM rsprint_sales ' +
+  def sales_from_and_joins
+    sales_from_and_joins_string = 'FROM rsprint_sales ' +
         'LEFT OUTER JOIN c_bpartner_location ' +
         'ON c_bpartner_location.c_bpartner_location_id = rsprint_sales.c_bpartner_location_id ' +
         'LEFT OUTER JOIN c_salesregion ' +
         'ON c_salesregion.c_salesregion_id = c_bpartner_location.c_salesregion_id ' +
         'LEFT OUTER JOIN ad_user tl ' +
-			  'ON tl.ad_user_id = c_salesregion.salesrep_id ' +
-		    'LEFT OUTER JOIN ad_user asm ' +
-			  'ON asm.ad_user_id = tl.supervisor_id ' +
-		    'LEFT OUTER JOIN ad_user rm ' +
-			  'ON rm.ad_user_id = asm.supervisor_id ' +
-		    'LEFT OUTER JOIN c_salesregion region ' +
-			  'ON region.salesrep_id = rm.ad_user_id ' +
+        'ON tl.ad_user_id = c_salesregion.salesrep_id ' +
+        'LEFT OUTER JOIN ad_user asm ' +
+        'ON asm.ad_user_id = tl.supervisor_id ' +
+        'LEFT OUTER JOIN ad_user rm ' +
+        'ON rm.ad_user_id = asm.supervisor_id ' +
+        'LEFT OUTER JOIN c_salesregion region ' +
+        'ON region.salesrep_id = rm.ad_user_id ' +
         'LEFT OUTER JOIN ad_user ' +
         'ON ad_user.ad_user_id = rsprint_sales.ad_user_id '
     if self.has_keyword?('red')
-      from_and_joins_string += self.region_where_clause('Sprint Red Region')
+      sales_from_and_joins_string += self.region_sales_where_clause('Sprint Red Region')
     elsif self.has_keyword?('blue')
-      from_and_joins_string += self.region_where_clause('Sprint Blue Region')
+      sales_from_and_joins_string += self.region_sales_where_clause('Sprint Blue Region')
     elsif self.has_keyword?('bland')
-      from_and_joins_string += self.director_where_clause('bland')
+      sales_from_and_joins_string += self.director_sales_where_clause('bland')
     elsif self.has_keyword?('moulison')
-      from_and_joins_string += self.director_where_clause('moulison')
+      sales_from_and_joins_string += self.director_sales_where_clause('moulison')
     elsif self.has_keyword?('miller')
-      from_and_joins_string += self.director_where_clause('miller')
+      sales_from_and_joins_string += self.director_sales_where_clause('miller')
     elsif self.has_keyword?('willison')
-      from_and_joins_string += self.director_where_clause('willison')
+      sales_from_and_joins_string += self.director_sales_where_clause('willison')
     else
-      from_and_joins_string += self.where_clause
+      sales_from_and_joins_string += self.sales_where_clause
     end
-    from_and_joins_string
+    sales_from_and_joins_string
+  end
+
+  #----------HPA------------
+
+  def hpa_messages(bot_id)
+    self.determine_date_range
+    results = self.hpa_query
+    if Rails.env.production? or Rails.env == 'staging'
+      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_bar_chart(results)}"
+    else
+      chart_url = "http://localhost:3000/#{generate_bar_chart(results)}"
+    end
+    messages = self.generate_hpa_messages(results)
+    if messages.empty?
+      messages << "No results for '#{query_string}'"
+      chart_url = nil
+    end
+    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+  end
+
+  def hpa_query
+    if self.has_keyword?('rep')
+      select = self.rep_hpa_query
+    elsif self.has_keyword?('brand')
+      select = self.brand_hpa_query
+    elsif self.has_keyword?('region')
+      select = self.region_hpa_query
+    elsif self.has_keyword?('director')
+      select = self.director_hpa_query
+    else
+      select = self.territory_hpa_query
+    end
+    select = wrap_hpa_query(select)
+    previous_database = ActiveRecord::Base.connection.current_database
+    database_parts = previous_database.split('_')
+    database_parts.shift if database_parts.count > 1
+    connection = ActiveRecord::Base.establish_connection(:rbd_connect_production).connection
+    results = connection.execute(select)
+    ActiveRecord::Base.establish_connection database_parts.join('_').to_sym
+    results
+  end
+
+  def wrap_hpa_query(query)
+    "SELECT name, " +
+        "CASE WHEN everything.sales IS NULL OR everything.sales = 0 " +
+        "THEN everything.hours ELSE everything.hours / everything.sales END " +
+        "AS hpa  FROM (" + query + ") everything ORDER BY hpa ASC, name ASC "
+  end
+
+  def hpa_where_clause
+    "WHERE r.name ILIKE '%#{query_string}%' AND " +
+        "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
+        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "r.name LIKE 'Sprint %' "
+  end
+
+  def region_hpa_where_clause(region_name)
+    "WHERE r.name ILIKE '%#{query_string}%' AND " +
+        "region.name = '#{region_name}' AND " +
+        "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
+        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "r.name LIKE 'Sprint %' "
+  end
+
+  def director_hpa_where_clause(director_name)
+    "WHERE r.name ILIKE '%#{query_string}%' AND " +
+        "r.description ILIKE '#{director_name}' AND " +
+        "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
+        "t.shift_date <= CAST('#{self.end_date}' AS DATE) AND " +
+        "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "r.name LIKE 'Sprint %' "
+  end
+
+  def rep_hpa_query
+    'SELECT u.name, sum(t.hours) as hours, sales.sales ' +
+        self.hpa_from_and_joins +
+        'GROUP BY u.name, sales.sales ORDER BY u.name, sales.sales '
+  end
+
+  def territory_hpa_query
+    "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
+        "SELECT replace(replace(r.name, ' Territory', ''), 'Sprint - ', '') as name, " +
+        'sum(t.hours) as hours, sales.sales ' +
+        self.hpa_from_and_joins +
+        "GROUP BY replace(replace(r.name, ' Territory', ''), 'Sprint - ', ''), sales.sales ORDER BY replace(replace(r.name, ' Territory', ''), 'Sprint - ', ''), sales.sales ) all_of_it " +
+        "GROUP BY name ORDER BY name "
+  end
+
+  def region_hpa_query
+    "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
+        'SELECT region.name, ' +
+        'sum(t.hours) as hours, sales.sales ' +
+        self.hpa_from_and_joins +
+        'GROUP BY region.name, sales.sales ORDER BY region.name, sales.sales ) all_of_it ' +
+        "GROUP BY name ORDER BY name "
+  end
+
+  def director_hpa_query
+    "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
+        'SELECT initcap(r.description) AS name, ' +
+        'sum(t.hours) as hours, sales.sales ' +
+        self.hpa_from_and_joins +
+        'GROUP BY initcap(r.description), sales.sales ORDER BY initcap(r.description), sales.sales ) all_of_it ' +
+        "GROUP BY name ORDER BY name "
+  end
+
+  def hpa_from_and_joins
+    hpa_from_and_joins_string = 'from rsprint_timesheet t ' +
+        'left outer join ad_user u ' +
+        'on u.ad_user_id = t.ad_user_id ' +
+        'left outer join c_bpartner_location l ' +
+        'on l.c_bpartner_location_id = t.c_bpartner_location_id ' +
+        'left outer join c_salesregion r ' +
+        'on (r.c_salesregion_id = l.c_salesregion_id ' +
+        'and l.c_salesregion_id is not null) ' +
+        'or (r.salesrep_id = u.supervisor_id ' +
+        "and r.value LIKE '%-4' " +
+        'and l.c_salesregion_id is null) ' +
+        'left outer join ad_user tl ' +
+        'on tl.ad_user_id = r.salesrep_id ' +
+        'left outer join ad_user asm ' +
+        'on asm.ad_user_id = tl.supervisor_id ' +
+        'left outer join ad_user rm ' +
+        'on rm.ad_user_id = asm.supervisor_id ' +
+        'left outer join c_salesregion region ' +
+        'on region.salesrep_id = rm.ad_user_id ' +
+        'left outer join (select ' +
+        'rsprint_sales.ad_user_id as ad_user_id, ' +
+        'count(rsprint_sales_id) as sales ' +
+        'from rsprint_sales ' +
+        'where ' +
+        "rsprint_sales.date_sold >= cast('#{self.start_date}' as timestamp) AND " +
+        "rsprint_sales.date_sold <= cast('#{self.end_date}' as timestamp) AND " +
+        "rsprint_sales.activated_in_store = 'Yes' " +
+        'group by ad_user_id ' +
+        'order by ad_user_id) sales ' +
+        'on sales.ad_user_id = u.ad_user_id '
+    if self.has_keyword?('red')
+      hpa_from_and_joins_string += self.region_hpa_where_clause('Sprint Red Region')
+    elsif self.has_keyword?('blue')
+      hpa_from_and_joins_string += self.region_hpa_where_clause('Sprint Blue Region')
+    elsif self.has_keyword?('bland')
+      hpa_from_and_joins_string += self.director_hpa_where_clause('bland')
+    elsif self.has_keyword?('moulison')
+      hpa_from_and_joins_string += self.director_hpa_where_clause('moulison')
+    elsif self.has_keyword?('miller')
+      hpa_from_and_joins_string += self.director_hpa_where_clause('miller')
+    elsif self.has_keyword?('willison')
+      hpa_from_and_joins_string += self.director_hpa_where_clause('willison')
+    else
+      hpa_from_and_joins_string += self.hpa_where_clause
+    end
+    hpa_from_and_joins_string
   end
 end

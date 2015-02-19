@@ -1,4 +1,4 @@
-module GroupMeBotSalesQuery
+module GroupMeBotQuery
   def determine_date_range
     @start_date = Date.today
     @end_date = Date.tomorrow
@@ -20,7 +20,7 @@ module GroupMeBotSalesQuery
 
   protected
 
-  def generate_messages(results)
+  def generate_sales_messages(results)
     return [] unless results and results.count > 0
     char_count = 0
     result_strings = []
@@ -42,7 +42,7 @@ module GroupMeBotSalesQuery
     result_strings
   end
 
-  def generate_chart(results)
+  def generate_pie_chart(results)
     labels = []
     data = []
     for result in results do
@@ -51,6 +51,47 @@ module GroupMeBotSalesQuery
     end
     path = "sales_charts/#{SecureRandom.uuid}.png"
     chart = Gchart.new type: 'pie',
+                       theme: :keynote,
+                       labels: labels,
+                       data: data,
+                       size: '400x200',
+                       filename: "public/#{path}"
+    chart.file
+    path
+  end
+
+  def generate_hpa_messages(results)
+    return [] unless results and results.count > 0
+    char_count = 0
+    result_strings = []
+    result_string = ''
+    total = 0
+    message_count = 0
+    for result in results do
+      message_count += 1
+      single_result = "[##{message_count.to_s}] #{result['name']}: #{result['hpa'].to_f.round(2).to_s}\n"
+      total += result['hpa'].to_f.round(2)
+      if result_string.length + single_result.length > 390
+        result_strings << result_string; result_string = single_result
+      else
+        result_string += single_result
+      end
+    end
+    average = total / message_count
+    result_string += "\n***AVERAGE: #{average.round(2)}"
+    result_strings << result_string
+    result_strings
+  end
+
+  def generate_bar_chart(results)
+    labels = []
+    data = []
+    for result in results do
+      labels << result['name']
+      data << result['hpa'].to_f.round(2)
+    end
+    path = "sales_charts/#{SecureRandom.uuid}.png"
+    chart = Gchart.new type: 'bar',
                        theme: :keynote,
                        labels: labels,
                        data: data,
