@@ -94,6 +94,7 @@ class SprintGroupMeBotCallback
     else
       select = self.territory_query
     end
+    select = wrap_query(select)
     previous_database = ActiveRecord::Base.connection.current_database
     database_parts = previous_database.split('_')
     database_parts.shift if database_parts.count > 1
@@ -101,6 +102,10 @@ class SprintGroupMeBotCallback
     results = connection.execute(select)
     ActiveRecord::Base.establish_connection database_parts.join('_').to_sym
     results
+  end
+
+  def wrap_query(query)
+    "SELECT * FROM (" + query + ") everything ORDER BY everything.count DESC"
   end
 
   def where_clause

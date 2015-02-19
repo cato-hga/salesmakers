@@ -26,8 +26,10 @@ module GroupMeBotSalesQuery
     result_strings = []
     result_string = ''
     total = 0
+    message_count = 0
     for result in results do
-      single_result = "#{result['name']}: #{result['count']}\n"
+      message_count += 1
+      single_result = "[##{message_count.to_s}] #{result['name']}: #{result['count']}\n"
       total += result['count'].to_i
       if result_string.length + single_result.length > 390
         result_strings << result_string; result_string = single_result
