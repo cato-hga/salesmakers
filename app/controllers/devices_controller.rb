@@ -1,11 +1,12 @@
 class DevicesController < ApplicationController
-  before_action :search_bar
+  before_action :search_bar, except: [:swap_line]
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices'
+  layout 'devices', except: [:swap_line]
+  layout 'lines', only: [:swap_line]
 
   def index
     authorize Device.new
@@ -226,6 +227,12 @@ class DevicesController < ApplicationController
       flash[:error] = 'Could not find that device or device state'
       redirect_to device_path(@device)
     end
+  end
+
+  def swap_line
+    @device = Device.find params[:id]
+    @search = Line.search(params[:q])
+    @lines = @search.result.order('identifier').page(params[:page])
   end
 
   private

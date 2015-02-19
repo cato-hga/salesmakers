@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :devices do
     member do
       get 'write_off'
+      get 'swap_line'
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'
@@ -100,10 +101,6 @@ Rails.application.routes.draw do
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
 
   resources :lines, only: [:index, :show, :new, :create, :update] do
-    collection do
-      get 'swap', to: 'lines#swap'
-    end
-
     member do
       patch 'remove_state/:line_state_id',
             action: :remove_state,

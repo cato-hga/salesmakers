@@ -75,6 +75,9 @@ describe DevicePolicy do
     specify {
       permitted_person.position.permissions << permission_update
       expect(policy.repaired?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.swap_line?).to be_truthy }
   end
 
   context 'for those without permission' do
@@ -94,5 +97,6 @@ describe DevicePolicy do
     specify { expect(policy.remove_state?).to be_falsey }
     specify { expect(policy.repairing?).to be_falsey }
     specify { expect(policy.repaired?).to be_falsey }
+    specify { expect(policy.swap_line?).to be_falsey }
   end
 end

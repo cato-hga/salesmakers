@@ -513,4 +513,21 @@ describe DevicesController do
       expect(response).to redirect_to(device)
     end
   end
+
+  describe 'GET swap_line' do
+    let(:device) { create :device }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(swap_line?: true)
+      get :swap_line,
+          id: device.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'should render the index template' do
+      expect(response).to render_template(:swap_line)
+    end
+  end
 end

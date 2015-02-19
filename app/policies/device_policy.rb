@@ -36,4 +36,8 @@ class DevicePolicy < ApplicationPolicy
   def repaired?
     update?
   end
+
+  def swap_line?
+    update?
+  end
 end

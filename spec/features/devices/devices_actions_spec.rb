@@ -2,14 +2,16 @@ require 'rails_helper'
 
 describe 'Devices NON-CRUD actions' do
   let!(:it_tech) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
-  let(:permission_index) { create :permission, key: 'device_index' }
-  let(:permission_new) { create :permission, key: 'device_new' }
-  let(:permission_update) { create :permission, key: 'device_update' }
-  let(:permission_edit) { create :permission, key: 'device_edit' }
-  let(:permission_destroy) { create :permission, key: 'device_destroy' }
-  let(:permission_create) { create :permission, key: 'device_create' }
-  let(:permission_show) { create :permission, key: 'device_show' }
+  let(:position) { create :it_tech_position, permissions: [permission_update, permission_index] }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'device_index', permission_group: permission_group, description: description }
+  let(:permission_new) { Permission.new key: 'device_new', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'device_update', permission_group: permission_group, description: description }
+  let(:permission_edit) { Permission.new key: 'device_edit', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'device_destroy', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'device_create', permission_group: permission_group, description: description }
+  let(:permission_show) { Permission.new key: 'device_show', permission_group: permission_group, description: description }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
@@ -26,7 +28,6 @@ describe 'Devices NON-CRUD actions' do
     let!(:device_state) { create :device_state, name: 'Written Off' }
 
     before(:each) do
-      it_tech.position.permissions << permission_update
       visit device_path device
     end
 
@@ -75,7 +76,6 @@ describe 'Devices NON-CRUD actions' do
 
     context 'when reporting lost or stolen' do
       before {
-        it_tech.position.permissions << permission_update
         visit device_path(device)
       }
 
@@ -121,7 +121,6 @@ describe 'Devices NON-CRUD actions' do
     let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
     let!(:written_off) { create :device_state, name: 'Written Off', locked: true }
     before do
-      it_tech.position.permissions << permission_update
       visit device_path(device)
     end
 
@@ -146,7 +145,6 @@ describe 'Devices NON-CRUD actions' do
       let(:device) { create :device, device_states: [lost_stolen] }
       let!(:lost_stolen) { create :device_state, name: 'Lost or Stolen', locked: true }
       before do
-        it_tech.position.permissions << permission_update
         visit device_path(device)
       end
       subject {
@@ -165,7 +163,6 @@ describe 'Devices NON-CRUD actions' do
       let(:device) { create :device, device_states: [written_off] }
       let!(:written_off) { create :device_state, name: 'Written Off', locked: true }
       before do
-        it_tech.position.permissions << permission_update
         visit device_path(device)
       end
       subject {
@@ -281,7 +278,6 @@ describe 'Devices NON-CRUD actions' do
     let!(:device_deployment) { create :device_deployment, tracking_number: tracking_number }
 
     it 'searches for tracking numbers' do
-      it_tech.position.permissions << permission_index
       visit devices_path
       fill_in 'q_device_deployments_tracking_number_cont', with: tracking_number[0..7]
       click_on 'search'
@@ -293,7 +289,6 @@ describe 'Devices NON-CRUD actions' do
   describe 'edit' do
     let!(:device) { create :device }
     before {
-      it_tech.position.permissions << permission_update
       visit device_path device
       click_on 'Edit'
     }
@@ -322,7 +317,6 @@ describe 'Devices NON-CRUD actions' do
     let(:device) { create :device }
     let!(:repair) { create :device_state, name: 'Repairing', locked: true }
     before {
-      it_tech.position.permissions << permission_update
       visit device_path(device)
     }
     subject {
@@ -349,7 +343,6 @@ describe 'Devices NON-CRUD actions' do
     let(:repair) { create :device_state, name: 'Repairing', locked: true }
 
     before {
-      it_tech.position.permissions << permission_update
       visit device_path(device)
       click_on 'Repaired'
     }
