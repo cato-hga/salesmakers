@@ -42,6 +42,7 @@ describe ComcastEodsController do
              comcast_eod: {
                  eod_date: eod_date,
                  location_id: location.id,
+                 person_id: person.id,
                  sales_pro_visit: true,
                  sales_pro_visit_takeaway: 'Sales Pro Takeaway',
                  comcast_visit: true,
@@ -64,6 +65,7 @@ describe ComcastEodsController do
         expect(eod.comcast_visit_takeaway).to eq('Comcast Visit Takeaway')
         expect(eod.cloud_training).to eq(true)
         expect(eod.cloud_training_takeaway).to eq('Cloud Training Takeaway')
+        expect(eod.person).to eq(person)
       end
 
       it 'creates a log entry' do

@@ -5,11 +5,13 @@
   .inner
     = form_for @comcast_eod do |f|
       - eod_date_value = DateTime.now
+      - person_value = @current_person.id
       - if @comcast_locations
         - options = options_from_collection_for_select(@comcast_locations, 'id', 'name')
       - else
         - options = ''
       = f.hidden_field :eod_date, value: eod_date_value
+      = f.hidden_field :person_id, value: person_value
       = f.label :location_id
       = f.select :location_id, options, prompt: 'Select a location'
       %fieldset
