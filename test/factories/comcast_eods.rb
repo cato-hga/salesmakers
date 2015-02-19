@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :comcast_eod do
+    person
     eod_date DateTime.now
     location
     sales_pro_visit false

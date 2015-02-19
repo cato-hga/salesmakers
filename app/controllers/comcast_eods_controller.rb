@@ -23,6 +23,7 @@ class ComcastEodsController < ApplicationController
 
   def comcast_eod_params
     params.require(:comcast_eod).permit(:location_id,
+                                        :person_id,
                                         :eod_date,
                                         :sales_pro_visit,
                                         :sales_pro_visit_takeaway,

@@ -91,6 +91,7 @@ describe 'Comcast End of Day' do
       click_on 'Complete End Of Day'
       eod = ComcastEod.first
       expect(eod.location).to eq(location)
+      expect(eod.person).to eq(person)
       expect(eod.sales_pro_visit_takeaway).to eq('Test Sales Pro Takeaway')
       expect(eod.comcast_visit_takeaway).to eq('Test Comcast Takeaway')
       expect(eod.cloud_training_takeaway).to eq('Test Cloud Takeaway')
