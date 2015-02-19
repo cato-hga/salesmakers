@@ -21,6 +21,7 @@ describe DeviceModelsController do
 
   describe 'GET new' do
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(new?: true)
       get :new
     end
     it 'returns a success status' do

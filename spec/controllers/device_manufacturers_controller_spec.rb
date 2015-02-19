@@ -18,7 +18,7 @@ describe DeviceManufacturersController, :type => :controller do
     let!(:person) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
     before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
     end
 
     subject do

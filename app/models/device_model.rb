@@ -8,4 +8,8 @@ class DeviceModel < ActiveRecord::Base
   def device_model_name
     [device_manufacturer.name, name].join ' '
   end
+
+  def self.policy_class
+    DevicePolicy
+  end
 end
