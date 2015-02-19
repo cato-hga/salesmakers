@@ -1,7 +1,7 @@
 - content_for :action_buttons do
   = new_button new_line_path
   = link_to 'Edit States', line_states_path, class: [:button, :inline_button]
-  = link_to 'Swap Lines', swap_lines_path, class: [:button, :inline_button ]
+  -#= link_to 'Swap Lines', swap_lines_path, class: [:button, :inline_button ]
 
 %section
   - header = header_row [sort_link(@search, :technology_service_provider_name, 'Provider'),sort_link(@search, :identifier),sort_link(@search, :device_serial, 'Device'),sort_link(@search, :contract_end_date, 'Contract End Date'),'State(s)']
