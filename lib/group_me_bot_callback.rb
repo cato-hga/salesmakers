@@ -8,7 +8,7 @@ class GroupMeBotCallback
 
   def initialize(json)
     @callback_data = JSON.parse(json).inject({}){|data,(k,v)| data[k.to_sym] = v; data}
-    return unless @callback_data[:text][0] = '!'
+    return unless @callback_data[:text][0] == '!'
     set_values
   end
 
