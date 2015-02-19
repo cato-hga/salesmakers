@@ -83,24 +83,6 @@ module GroupMeBotQuery
     result_strings
   end
 
-  def generate_bar_chart(results)
-    labels = []
-    data = []
-    for result in results do
-      labels << result['name']
-      data << result['hpa'].to_f.round(2)
-    end
-    path = "sales_charts/#{SecureRandom.uuid}.png"
-    chart = Gchart.new type: 'bar',
-                       theme: :keynote,
-                       labels: labels,
-                       data: data,
-                       size: '400x200',
-                       filename: "public/#{path}"
-    chart.file
-    path
-  end
-
   def start_date=(start_date)
     @start_date = start_date
   end

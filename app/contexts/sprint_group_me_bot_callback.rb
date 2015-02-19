@@ -285,17 +285,12 @@ class SprintGroupMeBotCallback
   def hpa_messages(bot_id)
     self.determine_date_range
     results = self.hpa_query
-    if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_bar_chart(results)}"
-    else
-      chart_url = "http://localhost:3000/#{generate_bar_chart(results)}"
-    end
     messages = self.generate_hpa_messages(results)
     if messages.empty?
       messages << "No results for '#{query_string}'"
       chart_url = nil
     end
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+    GroupMe.new_global.post_messages_with_bot(messages, bot_id)
   end
 
   def hpa_query
