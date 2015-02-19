@@ -327,6 +327,7 @@ class SprintGroupMeBotCallback
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "t.site_name NOT ILIKE '%advocate%' AND " +
         "r.name LIKE 'Sprint %' "
   end
 
@@ -336,6 +337,7 @@ class SprintGroupMeBotCallback
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "t.site_name NOT ILIKE '%advocate%' AND " +
         "r.name LIKE 'Sprint %' "
   end
 
@@ -345,6 +347,7 @@ class SprintGroupMeBotCallback
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
+        "t.site_name NOT ILIKE '%advocate%' AND " +
         "r.name LIKE 'Sprint %' "
   end
 
