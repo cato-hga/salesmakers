@@ -21,10 +21,6 @@ describe 'Lines CRUD actions' do
       expect(page).to have_link('New')
     end
 
-    it 'contains a link to lines#line_swap' do
-      expect(page).to have_link('Swap Lines')
-    end
-
     it 'shows the device serial a line is attached to' do
       expect(page).to have_content device.serial
     end
