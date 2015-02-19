@@ -74,7 +74,7 @@ describe GroupMeBotSalesQuery do
       ]
     }
     let(:result_strings) {
-      ["Atlanta Territory: 12\nBoston Territory: 17\n\n***TOTAL: 29"]
+      ["[#1] Atlanta Territory: 12\n[#2] Boston Territory: 17\n\n***TOTAL: 29"]
     }
 
     it 'formats results as a string' do

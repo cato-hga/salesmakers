@@ -20,6 +20,18 @@ class SprintGroupMeBotCallback
     self.separate_string
     if self.has_keyword?('help')
       self.help_messages(bot_id)
+    elsif self.has_keyword?('s')
+      message = ['Enter sales at http://sprint.rbdconnect.com/']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    elsif self.has_keyword?('referral')
+      message = ['Refer our next superstar by visiting http://goo.gl/forms/hwljCSx9gr']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    elsif self.has_keyword?('schedule')
+      message = ['Schedule your new SalesMaker for training at http://goo.gl/zH8cOi !']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    elsif self.has_keyword?('training')
+      message = ['https://docs.google.com/a/retaildoneright.com/forms/d/1QP2zs_r_wO77eOYBYVinpGBvIcY0931T3SBapjZYXmE/viewform']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
     else
       self.sales_messages(bot_id)
     end
@@ -127,7 +139,11 @@ class SprintGroupMeBotCallback
         'upgrades',
         'activations',
         'and',
-        'with'
+        'with',
+        's',
+        'referral',
+        'schedule',
+        'training'
     ]
   end
 
