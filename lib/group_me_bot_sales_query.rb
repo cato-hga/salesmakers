@@ -47,13 +47,13 @@ module GroupMeBotSalesQuery
       labels << result['name']
       data << result['count'].to_i
     end
-    path = "public/sales_charts/#{SecureRandom.uuid}.png"
+    path = "sales_charts/#{SecureRandom.uuid}.png"
     chart = Gchart.new type: 'pie',
                        theme: :keynote,
                        labels: labels,
                        data: data,
                        size: '400x200',
-                       filename: path
+                       filename: "public/#{path}"
     chart.file
     path
   end
