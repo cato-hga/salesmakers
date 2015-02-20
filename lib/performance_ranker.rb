@@ -74,7 +74,7 @@ class PerformanceRanker
               AND day_sales_counts.day <= CAST('#{end_date.strftime('%m/%d/%Y')}' AS DATE)
 
             GROUP BY day_sales_counts.saleable_id
-            ORDER BY sum(day_sales_counts.sales) DESC, day_sales_counts.saleable_id"
+            ORDER BY sum(day_sales_counts.sales) DESC, day_sales_counts.saleable_id
         }
   end
 
