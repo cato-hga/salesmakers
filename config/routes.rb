@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   mount_griddler
 
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-    username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
-  end if Rails.env.production?
+    username == 'it@retaildoneright.com' && password == 'IT@Supp0rt'
+  end
   mount Sidekiq::Web, at: '/sidekiq'
 
   resources :root_redirects do #DIRTY DIRTY DIRTY
