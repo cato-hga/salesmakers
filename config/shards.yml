@@ -1,0 +1,38 @@
+octopus:
+  environments:
+    - development
+    - test
+    - staging
+    - production
+  development:
+    rbd_connect:
+      host: rbdconnect.com
+      adapter: postgresql
+      database: rbd_erp
+      username: reconnect
+      password: r3C0nn3ct
+      encoding: unicode
+  test:
+    rbd_connect:
+      host: rbdconnect.com
+      adapter: postgresql
+      database: rbd_erp
+      username: reconnect
+      password: r3C0nn3ct
+      encoding: unicode
+  staging:
+    rbd_connect:
+      host: 10.180.92.104
+      adapter: postgresql
+      database: rbd_erp
+      username: reconnect
+      password: r3C0nn3ct
+      encoding: unicode
+  production:
+    rbd_connect:
+      host: 10.180.92.104
+      adapter: postgresql
+      database: rbd_erp
+      username: reconnect
+      password: r3C0nn3ct
+      encoding: unicode

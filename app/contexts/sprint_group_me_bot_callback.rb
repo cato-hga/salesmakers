@@ -309,9 +309,9 @@ class SprintGroupMeBotCallback
     previous_database = ActiveRecord::Base.connection.current_database
     database_parts = previous_database.split('_')
     database_parts.shift if database_parts.count > 1
-    connection = ActiveRecord::Base.establish_connection(:rbd_connect_production).connection
-    results = connection.execute(select)
-    ActiveRecord::Base.establish_connection database_parts.join('_').to_sym
+    Octopus.using(:rbd_connect) do
+      results = Octopus::Proxy.select_connection.execute(select)
+    end
     results
   end
 
