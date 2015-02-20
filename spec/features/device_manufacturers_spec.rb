@@ -3,7 +3,11 @@ require 'rails_helper'
 describe "DeviceManufacturers", :type => :feature do
 
   let!(:person) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
+  let(:position) { create :it_tech_position, permissions: [permission_create] }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:permission_create) { Permission.new key: 'device_create',
+                                           permission_group: permission_group,
+                                           description: 'Test Description' }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end

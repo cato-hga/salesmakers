@@ -2,10 +2,7 @@
 $(function () {
     $('body').on('click', '.add_row', function () {
         $('<div class="row full-width">' +
-        '<div class="large-6 columns">' +
-        '<input type="text" name="serial[]" id="serial_" class="serial_field">' +
-        '</div>' +
-        '<div class="large-5 columns">' +
+        '<div class="large-11 columns">' +
         '<input type="text" name="line[]" id="line_" class="line_field">' +
         '</div>' +
         '<div class="large-1 columns">' +

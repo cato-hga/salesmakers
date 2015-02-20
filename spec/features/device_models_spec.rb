@@ -3,7 +3,11 @@ require 'rails_helper'
 describe 'DeviceModels spec' do
 
   let!(:person) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
+  let(:position) { create :it_tech_position, permissions: [permission_create] }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:permission_create) { Permission.new key: 'device_create',
+                                           permission_group: permission_group,
+                                           description: 'Test Description' }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
@@ -41,6 +45,18 @@ describe 'DeviceModels spec' do
     end
     it 'contains the option to enter a new device model' do
       expect(page).to have_content('Model Name')
+    end
+
+    context 'for unauthorized users' do
+      let(:unauth_person) { create :person }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
+        visit new_device_model_path
+      end
+
+      it 'shows the You are not Authorized page' do
+        expect(page).to have_content('Your access does not allow you to view this page')
+      end
     end
   end
 

@@ -1,13 +1,12 @@
 class DeviceModelsController < ApplicationController
 
   def index
-    #authorize DeviceModel.new
-    #@search = policy_scope(DeviceModel).search(params[:q])
     @search = DeviceModel.search(params[:q])
     @device_models = @search.result.order('name').page(params[:page])
   end
 
   def new
+    authorize Device.new
     models = DeviceModel.all
     manufacturers = Array.new
     for model in models do
