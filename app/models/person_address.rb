@@ -48,8 +48,8 @@ class PersonAddress < ActiveRecord::Base
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
     minutes = minutes + offset
-    establish_connection(:rbd_connect_production)
-    results = connection.select_all "select
+    connect_connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+    results = connect_connection.select_all "select
 
       u.ad_user_id
 
@@ -67,11 +67,7 @@ class PersonAddress < ActiveRecord::Base
           OR l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
 
     puts results.count.to_s + ' Results'
-
-    establish_connection(Rails.env.to_sym)
-
     return unless results and results.count > 0
-
     results.each do |row|
       cu = ConnectUser.find_by ad_user_id: row['ad_user_id']
       next unless cu
