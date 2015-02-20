@@ -28,6 +28,7 @@ set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log, "#{release_path}/log/puma.access.log"
 
 set :sidekiq_processes, 3
+set :sidekiq_config, 'config/sidekiq.yaml'
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
