@@ -533,10 +533,12 @@ describe DevicesController do
 
   describe 'GET swap_results' do
     let(:device) { create :device }
+    let(:line) { create :line }
     before(:each) do
       allow(controller).to receive(:policy).and_return double(swap_results?: true)
       get :swap_results,
-          id: device.id
+          id: device.id,
+          line_id: line.id
     end
 
     it 'returns a success status' do

@@ -56,7 +56,9 @@ Rails.application.routes.draw do
     member do
       get 'write_off'
       get 'swap_line'
-      get 'swap_results'
+      get 'swap_results/:line_id',
+          action: :swap_results,
+          as: 'swap_results'
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'

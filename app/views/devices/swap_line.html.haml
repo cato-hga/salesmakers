@@ -15,7 +15,7 @@
     - states = line_state_links line
     - active_state = LineState.find_or_initialize_by name: 'Active'
     - if line.line_states.include? active_state
-      - swap_button = link_to 'Swap Line', '#', class: [:deploy_button, :button]
+      - swap_button = link_to 'Swap Line', swap_results_device_path(@device, line), class: [:deploy_button, :button]
     - else
       - swap_button = ''
     - rows << table_row([provider,identifier,device_link,contract_end_date,states, swap_button])

@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices', except: [:swap_line]
+  layout 'devices', except: [:swap_line, :swap_results]
   layout 'lines', only: [:swap_line]
 
   def index
@@ -236,7 +236,9 @@ class DevicesController < ApplicationController
   end
 
   def swap_results
-
+    @device = Device.find params[:id]
+    @original_line = @device.line if @device.line
+    @new_line = Line.find params[:line_id]
   end
 
   private

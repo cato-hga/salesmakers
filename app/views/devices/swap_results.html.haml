@@ -1,0 +1,13 @@
+- title 'Line Swap Results for ' + @device.identifier
+.widget
+  .inner
+    %p Do you want to deactivate the device's original line or keep it active?
+    = link_to "Deactivate #{@original_line.identifier}", '#', class: [:button, :inline_button], id: 'deactivate_button', data:{:'reveal-id' => 'deactivateModal'}
+    = link_to "Keep #{@original_line.identifier} Active", '#', class: [:button, :inline_button], id: 'keep_active_button'
+
+#deactivateModal.reveal-modal{data: {reveal:''}}
+  %strong Please review the parameters below and confirm the swap.
+  - if @original_line
+    %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and marked as inactive"
+  %p=  "#{@new_line.identifier} will be moved to #{@device.identifier}"
+  = link_to 'Confirm Swap', "#", class: ['button']
