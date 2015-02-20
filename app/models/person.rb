@@ -2,7 +2,9 @@ require 'validators/phone_number_validator'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
   extend NonAlphaNumericRansacker
+  extend PersonAssociationsModelExtension
   include PersonConnectFunctionality
+  include PersonToPersonVisibilityModelExtension
 
   before_validation :generate_display_name
 
@@ -18,91 +20,10 @@ class Person < ActiveRecord::Base
     validates_with PhoneNumberValidator
   end
 
-  def self.setup_associations
-    setup_belongs_to
-    setup_has_one
-    setup_has_many
-    setup_has_many_through
-    setup_has_and_belongs_to_many
-    setup_complex_associations
-  end
-
-  def self.setup_belongs_to
-    belongs_to_associations = [
-        :position, :connect_user
-    ]
-
-    belongs_to :supervisor, class_name: 'Person'
-    for belongs_to_association in belongs_to_associations do
-      belongs_to belongs_to_association
-    end
-  end
-
-  def self.setup_has_one
-    has_one :profile
-    has_one :wall, as: :wallable
-    has_one :group_me_user
-  end
-
-  def self.setup_has_many
-    has_many_associations = [
-        :person_areas, :device_deployments, :devices, :uploaded_images,
-        :uploaded_videos, :blog_posts, :wall_posts, :questions, :answers,
-        :answer_upvotes, :communication_log_entries, :group_me_posts,
-        :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
-        :vonage_refunds, :vonage_paycheck_negative_balances
-    ]
-
-    for has_many_association in has_many_associations do
-      has_many has_many_association
-    end
-  end
-
-  def self.setup_has_many_through
-    has_many :permissions, through: :position
-    has_many :areas, through: :person_areas
-    has_many :group_me_likes, through: :group_me_user
-  end
-
-  def self.setup_has_and_belongs_to_many
-    has_and_belongs_to_many :poll_question_choices
-  end
-
-  def self.setup_complex_associations
-    has_many :day_sales_counts, as: :saleable
-    has_many :sales_performance_ranks, as: :rankable
-    has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
-    has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
-    has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
-  end
-
   setup_validations
   setup_associations
 
   stripping_ransacker(:mobile_phone_number, :mobile_phone)
-
-  scope :visible, ->(person = nil) {
-    return Person.none unless person
-    people = Array.new
-    position = person.position
-
-    return person.team_members unless position
-
-    if position.all_field_visibility?
-      people = people.concat Person.all_field_members
-    end
-    if position.all_corporate_visibility?
-      people = people.concat Person.all_hq_members
-    end
-    if position.hq?
-      people = people.concat person.department_members
-    end
-
-    people = people.concat person.team_members
-    return Person.none if people.count < 1
-
-    Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
-  }
 
   default_scope { order :display_name }
 
@@ -111,46 +32,6 @@ class Person < ActiveRecord::Base
       return ''
     end
     NameCase(self[:display_name])
-  end
-
-  def managed_team_members
-    people = Array.new
-    for person_area in self.person_areas do
-      next unless person_area.area
-      next unless person_area.manages
-      areas = person_area.area.subtree
-      for area in areas do
-        people = people.concat area.people.to_a
-      end
-    end
-    people.flatten
-  end
-
-  def team_members
-    people = Array.new
-    for person_area in self.person_areas do
-      next unless person_area.area
-      areas = person_area.area.subtree
-      for area in areas do
-        people = people.concat area.people.to_a
-      end
-    end
-    people.flatten
-  end
-
-  def department_members
-    return Person.none unless self.department
-    self.department.people
-  end
-
-  def self.all_field_members
-    positions = Position.where(field: true)
-    Person.where(position: positions)
-  end
-
-  def self.all_hq_members
-    positions = Position.where(hq: true)
-    Person.where(position: positions)
   end
 
   def department
@@ -306,10 +187,17 @@ class Person < ActiveRecord::Base
   # end
 
   def get_ids_from_sms_messages(from_messages, to_messages)
-    to_ids = to_messages.map(&:id).join(',')
-    from_ids = from_messages.map(&:id).join(',')
-    [to_ids, from_ids].join(',')
-        .reverse.chomp(',').reverse.chomp(',')
+    to_ids = join_sms_message_ids(to_messages)
+    from_ids = join_sms_message_ids(from_messages)
+    strip_trailing_comma([to_ids, from_ids].join(','))
+  end
+
+  def join_sms_message_ids(messages)
+    messages.map(&:id).join(',')
+  end
+
+  def strip_trailing_comma(string)
+    string.reverse.chomp(',').reverse.chomp(',')
   end
 
 end
