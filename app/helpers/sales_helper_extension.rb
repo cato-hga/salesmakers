@@ -15,15 +15,23 @@ module SalesHelperExtension
   #:nocov:
   # IT'S JUST MATH, people
   def week_run_rate_multiplier
-    (7 * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_week)
+    1.week.seconds / (Time.zone.now - Time.zone.now.beginning_of_week)
   end
 
   def month_run_rate_multiplier
-    (((Date.today.beginning_of_month + 1.month) - Date.today.beginning_of_month) * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_month)
+    number_of_days_in_month.days.seconds / (Time.zone.now - Time.zone.now.beginning_of_month)
   end
 
   def year_run_rate_multiplier
-    (((Date.today.beginning_of_year + 1.year) - Date.today.beginning_of_year) * 24 * 60 * 60) / (Time.zone.now - Time.zone.now.beginning_of_year)
+    number_of_days_in_year.days.seconds / (Time.zone.now - Time.zone.now.beginning_of_year)
+  end
+
+  def number_of_days_in_month
+    Date.today.beginning_of_month + 1.month - Date.today.beginning_of_month
+  end
+
+  def number_of_days_in_year
+    Date.today.beginning_of_year + 1.year - Date.today.beginning_of_year
   end
 
   def rank_label(rank)
