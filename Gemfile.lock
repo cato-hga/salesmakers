@@ -95,9 +95,6 @@ GEM
       ice_nine (~> 0.11.0)
       memoizable (~> 0.4.0)
     addressable (2.3.6)
-    ar-octopus (0.8.4)
-      activerecord (>= 3.2.0)
-      activesupport (>= 3.2.0)
     arel (6.0.0)
     arrayfields (4.9.2)
     ast (2.0.0)
@@ -589,7 +586,6 @@ PLATFORMS
 DEPENDENCIES
   active_shipping (= 1.0.0pre1)
   ancestry!
-  ar-octopus (= 0.8.4)
   attribute_normalizer (= 1.2.0)
   auto_html (= 1.6.4)
   awesome_print (= 1.6.1)
