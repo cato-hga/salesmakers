@@ -94,8 +94,8 @@
         styles: mapStyle()
       }, internal: {id: 'physical_address_map'}}, function () {
         marker = handler.addMarker({
-          "lat": #{physical_address.latitude},
-          "lng": #{physical_address.longitude}
+          "lat": #{html_escape(physical_address.latitude)},
+          "lng": #{html_escape(physical_address.longitude)}
         });
         handler.map.centerOn(marker);
         handler.getMap().setZoom(10);
