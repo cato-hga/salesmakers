@@ -51,43 +51,17 @@ class DevicesController < ApplicationController
   end
 
   def create
-    @device = Device.new
-    @contract_end_date = receive_params[:contract_end_date]
-    @device_model = DeviceModel.find receive_params[:device_model_id] unless receive_params[:device_model_id].blank?
-    @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id] unless receive_params[:technology_service_provider_id].blank?
-    @serials = receive_params[:serial]
-    @line_identifiers = receive_params[:line_identifier]
-    @device_identifiers = receive_params[:device_identifier]
-    serial_count = 0
-    @bad_receivers = Array.new
-    clean_blank_rows
+    prepare_receipt
     unless has_rows?
       flash[:error] = 'You did not enter any device information'
       render :new and return
     end
-    for serial in @serials do
-      line_identifier = @line_identifiers[serial_count]
-      @device_identifiers.present? ? device_identifier = @device_identifiers[serial_count] : nil
-      next if serial.blank? and line_identifier.blank?
-      receiver = AssetReceiver.new contract_end_date: @contract_end_date,
-                                   device_model: @device_model,
-                                   service_provider: @service_provider,
-                                   serial: serial,
-                                   line_identifier: line_identifier,
-                                   device_identifier: device_identifier,
-                                   creator: @current_person
-      unless receiver.valid?
-        @bad_receivers << receiver
-      else
-        receiver.receive
-      end
-      serial_count+= 1
-    end
-    if @bad_receivers.count > 0
-      render :new
-    else
+    attempt_receipt
+    if @bad_receivers.empty?
       flash[:notice] = 'All assets received successfully'
       redirect_to devices_path
+    else
+      render :new
     end
   end
 
@@ -125,23 +99,16 @@ class DevicesController < ApplicationController
 
   def lost_stolen
     @device = Device.find params[:id]
-    assigned_person = @device.person if @device.person
     lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
     if @device.device_states.include? lost_stolen_state
       flash[:error] = 'The device was already reported lost or stolen'
-      redirect_to device_path(@device) and return
-    end
-    if @device.add_state lost_stolen_state
-      @current_person.log? 'lost_stolen',
-                           @device
+    elsif @device.add_state lost_stolen_state
+      report_lost_stolen(@device)
       flash[:notice] = 'Device successfully reported as lost or stolen'
-      redirect_to device_path(@device)
-      return if assigned_person == nil
-      AssetsMailer.lost_or_stolen_mailer(@device).deliver_later
     else
       flash[:error] = 'Could not set device state to lost or stolen'
-      redirect_to device_path(@device)
     end
+    redirect_to device_path(@device)
   end
 
   def found
@@ -230,6 +197,26 @@ class DevicesController < ApplicationController
 
   private
 
+  def prepare_receipt
+    @bad_receivers = Array.new
+    @device = Device.new
+    set_device_variables
+    set_line_variables
+    clean_blank_rows
+  end
+
+  def set_device_variables
+    @device_model = DeviceModel.find receive_params[:device_model_id] unless receive_params[:device_model_id].blank?
+    @serials = receive_params[:serial]
+    @device_identifiers = receive_params[:device_identifier]
+  end
+
+  def set_line_variables
+    @line_identifiers = receive_params[:line_identifier]
+    @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id] unless receive_params[:technology_service_provider_id].blank?
+    @contract_end_date = receive_params[:contract_end_date]
+  end
+
   def search_bar
     @search = Device.search(params[:q])
   end
@@ -286,4 +273,35 @@ class DevicesController < ApplicationController
   def has_rows?
     @serials.count > 0 or @line_identifiers.count > 0
   end
+
+  def attempt_receipt
+    serial_count = 0
+    for serial in @serials do
+      line_identifier = @line_identifiers[serial_count]
+      @device_identifiers.present? ? device_identifier = @device_identifiers[serial_count] : nil
+      receiver = receive_device serial, device_identifier, line_identifier
+      receiver.valid? ? receiver.receive : @bad_receivers <<(receiver)
+      serial_count += 1
+    end
+  end
+
+  def receive_device(serial, device_identifier, line_identifier)
+    return if serial.blank? and line_identifier.blank?
+    AssetReceiver.new contract_end_date: @contract_end_date,
+                                 device_model: @device_model,
+                                 service_provider: @service_provider,
+                                 serial: serial,
+                                 line_identifier: line_identifier,
+                                 device_identifier: device_identifier,
+                                 creator: @current_person
+  end
+
+  def report_lost_stolen(device)
+    assigned_person = @device.person if @device.person
+    @current_person.log? 'lost_stolen',
+                         @device
+    return if assigned_person == nil
+    AssetsMailer.lost_or_stolen_mailer(@device).deliver_later
+  end
+
 end
