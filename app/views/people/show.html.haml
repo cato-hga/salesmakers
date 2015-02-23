@@ -2,7 +2,11 @@
 - page_title = page_title + contact_link(@person) if @person.mobile_phone? and @person.show_details? @visible_people and @person.position.hq?
 - title page_title
 - show_details = @person.show_details? @visible_people
-- if show_details
+- clients = @person.clients
+- vonage = false
+- for client in clients do
+  - vonage = true if client.name == 'Vonage'
+- if show_details and vonage
   = content_for :action_buttons do
     = link_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
 
