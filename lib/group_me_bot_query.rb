@@ -97,29 +97,29 @@ module GroupMeBotQuery
 
   def mtd
     if has_keyword?('mtd')
-      self.start_date = Date.today.beginning_of_month
-      self.end_date = Date.tomorrow
+      self.start_date = Time.now.apply_eastern_offset.beginning_of_month.to_date
+      self.end_date = Time.now.apply_eastern_offset.to_date + 1.day
     end
   end
 
   def yesterday
     if has_keyword?('yesterday')
-      self.start_date = Date.yesterday
-      self.end_date = Date.today
+      self.start_date = Time.now.apply_eastern_offset.to_date - 1.day
+      self.end_date = Time.now.apply_eastern_offset.to_date
     end
   end
 
   def wtd
     if has_keyword?('wtd')
-      self.start_date = Date.today.beginning_of_week
-      self.end_date = Date.tomorrow
+      self.start_date = Time.now.apply_eastern_offset.beginning_of_week.to_date
+      self.end_date = Time.now.apply_eastern_offset.to_date + 1.day
     end
   end
 
   def weekend
     if has_keyword?('weekend')
-      self.start_date = Date.today.beginning_of_week + 4.days
-      self.end_date = Date.today.beginning_of_week + 1.week
+      self.start_date = Time.now.apply_eastern_offset.beginning_of_week.to_date + 4.days
+      self.end_date = Time.now.apply_eastern_offset.beginning_of_week.to_date + 1.week
       if has_keyword?('last')
         self.start_date -= 1.week
         self.end_date -= 1.week
@@ -129,8 +129,8 @@ module GroupMeBotQuery
 
   def week
     if has_keyword?('week')
-      self.start_date = Date.today.beginning_of_week
-      self.end_date = Date.today.beginning_of_week + 1.week
+      self.start_date = Time.now.apply_eastern_offset.beginning_of_week.to_date
+      self.end_date = Time.now.apply_eastern_offset.beginning_of_week.to_date + 1.week
       if has_keyword?('last')
         self.start_date -= 1.week
         self.end_date -= 1.week
@@ -140,8 +140,8 @@ module GroupMeBotQuery
 
   def month
     if has_keyword?('month')
-      self.start_date = Date.today.beginning_of_month
-      self.end_date = Date.today.end_of_month + 1.day
+      self.start_date = Time.now.apply_eastern_offset.beginning_of_month.to_date
+      self.end_date = Time.now.apply_eastern_offset.end_of_month.to_date + 1.day
       puts self.end_date
       if has_keyword?('last')
         self.start_date -= 1.month
