@@ -26,7 +26,8 @@ class Area < ActiveRecord::Base
 
   scope :visible, ->(person = nil) {
     return Area.none unless person
-    return Area.all if person.position and person.position.hq?
+    return Area.all if person.position and
+        (person.position.hq? or person.position.all_field_visibility?)
     areas = Array.new
     person_areas = person.person_areas
     for person_area in person_areas do

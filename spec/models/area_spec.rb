@@ -95,4 +95,399 @@ RSpec.describe Area, :type => :model do
       expect(area_one.all_locations.count).to eq(2)
     end
   end
+
+  describe 'visibility scope' do
+    let(:foo_project) { create :project, name: 'Project Foo' }
+    let(:bar_project) { create :project, name: 'Project Bar' }
+    let(:foo_root) {
+      create :area,
+             name: 'Foo Root Area',
+             project: foo_project
+    }
+    let(:bar_root) {
+      create :area,
+             name: 'Bar Root Area',
+             project: bar_project
+    }
+    let(:foo_root_child) {
+      create :area,
+             name: 'Foo Root Child',
+             project: foo_project
+    }
+    let(:bar_root_child) {
+      create :area,
+             name: 'Bar Root Child',
+             project: bar_project
+    }
+    let(:foo_root_child_child) {
+      create :area,
+             name: 'Foo Root Child Child',
+             project: foo_project
+    }
+    let(:bar_root_child_child) {
+      create :area,
+             name: 'Bar Root Child Child',
+             project: bar_project
+    }
+    let(:hq_department) {
+      create :department,
+             name: 'Headquarters'
+    }
+    let(:other_hq_department) {
+      create :department,
+             name: 'Other Headquarters'
+    }
+    let(:field_department) {
+      create :department,
+             name: 'Field'
+    }
+    let(:field_position) {
+      create :position,
+             hq: false,
+             all_field_visibility: false,
+             all_corporate_visibility: false,
+             department: field_department
+    }
+    let(:hq_position) {
+      create :position,
+             hq: true,
+             field: false,
+             all_field_visibility: false,
+             all_corporate_visibility: false,
+             department: hq_department
+    }
+    let(:other_hq_position) {
+      create :position,
+             hq: true,
+             field: false,
+             all_field_visibility: false,
+             all_corporate_visibility: false,
+             department: other_hq_department
+    }
+    let(:all_field_position) {
+      create :position,
+             hq: false,
+             all_field_visibility: true,
+             all_corporate_visibility: false,
+             department: field_department
+    }
+    let(:all_corporate_position) {
+      create :position,
+             hq: false,
+             field: false,
+             all_field_visibility: false,
+             all_corporate_visibility: true,
+             department: hq_department
+    }
+    let(:everything_position) {
+      create :position,
+             hq: true,
+             field: true,
+             all_field_visibility: true,
+             all_corporate_visibility: true,
+             department: hq_department
+    }
+    let(:foo_root_manager) {
+      create :person,
+             position: field_position
+    }
+    let!(:foo_root_manager_person_area) {
+      create :person_area,
+             person: foo_root_manager,
+             area: foo_root,
+             manages: true
+    }
+    let(:bar_root_manager) {
+      create :person,
+             position: field_position
+    }
+    let!(:bar_root_manager_person_area) {
+      create :person_area,
+             person: bar_root_manager,
+             area: bar_root,
+             manages: true
+    }
+    let(:foo_root_child_manager) {
+      create :person,
+             position: field_position,
+             supervisor: foo_root_manager
+    }
+    let!(:foo_root_child_manager_person_area) {
+      create :person_area,
+             person: foo_root_child_manager,
+             area: foo_root_child,
+             manages: true
+    }
+    let(:bar_root_child_manager) {
+      create :person,
+             position: field_position,
+             supervisor: bar_root_manager
+    }
+    let!(:bar_root_child_manager_person_area) {
+      create :person_area,
+             person: bar_root_child_manager,
+             area: bar_root_child,
+             manages: true
+    }
+    let(:foo_root_child_child_manager) {
+      create :person,
+             position: field_position,
+             supervisor: foo_root_child_manager
+    }
+    let!(:foo_root_child_child_manager_person_area) {
+      create :person_area,
+             person: foo_root_child_child_manager,
+             area: foo_root_child_child,
+             manages: true
+    }
+    let(:bar_root_child_child_manager) {
+      create :person,
+             position: field_position,
+             supervisor: bar_root_child_manager
+    }
+    let!(:bar_root_child_child_manager_person_area) {
+      create :person_area,
+             person: bar_root_child_child_manager,
+             area: bar_root_child_child,
+             manages: true
+    }
+    let(:foo_rep) {
+      create :person,
+             supervisor: foo_root_child_child_manager,
+             position: field_position
+    }
+    let!(:foo_rep_person_area) {
+      create :person_area,
+             person: foo_rep,
+             area: foo_root_child_child
+    }
+    let(:bar_rep) {
+      create :person,
+             supervisor: bar_root_child_child_manager,
+             position: field_position
+    }
+    let!(:bar_rep_person_area) {
+      create :person_area,
+             person: bar_rep,
+             area: bar_root_child_child
+    }
+    let!(:hq_manager) {
+      create :person,
+             position: hq_position
+    }
+    let!(:hq_employee) {
+      create :person,
+             supervisor: hq_manager,
+             position: hq_position
+    }
+    let!(:other_hq_employee) {
+      create :person,
+             position: other_hq_position
+    }
+    let!(:all_field_employee) {
+      create :person,
+             position: all_field_position
+    }
+    let!(:all_corporate_employee) {
+      create :person,
+             position: all_corporate_position
+    }
+    let!(:everything_employee) {
+      create :person,
+             position: everything_position
+    }
+
+    before do
+      foo_root_child.update parent: foo_root
+      bar_root_child.update parent: bar_root
+      foo_root_child_child.update parent: foo_root_child
+      bar_root_child_child.update parent: bar_root_child
+    end
+
+    it 'returns no people if a person is not given as a parameter' do
+      expect(Area.visible).to be_empty
+    end
+
+    context 'as a rep' do
+      let!(:visible) { Area.visible(foo_rep) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(1)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root_child_child)
+      end
+
+      it 'excludes the areas that should not be visible' do
+        expect(visible).not_to include(foo_root)
+        expect(visible).not_to include(foo_root_child)
+        expect(visible).not_to include(bar_root)
+        expect(visible).not_to include(bar_root_child)
+        expect(visible).not_to include(bar_root_child_child)
+      end
+    end
+
+    context 'as a root-child-child manager' do
+      let!(:visible) { Area.visible(foo_root_child_child_manager) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(1)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root_child_child)
+      end
+
+      it 'excludes the areas that should not be visible' do
+        expect(visible).not_to include(foo_root)
+        expect(visible).not_to include(foo_root_child)
+        expect(visible).not_to include(bar_root)
+        expect(visible).not_to include(bar_root_child)
+        expect(visible).not_to include(bar_root_child_child)
+      end
+    end
+
+    context 'as a root-child manager' do
+      let!(:visible) { Area.visible(foo_root_child_manager) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(2)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+      end
+
+      it 'excludes the areas that should not be visible' do
+        expect(visible).not_to include(foo_root)
+        expect(visible).not_to include(bar_root)
+        expect(visible).not_to include(bar_root_child)
+        expect(visible).not_to include(bar_root_child_child)
+      end
+    end
+
+    context 'as a root manager' do
+      let!(:visible) { Area.visible(foo_root_manager) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(3)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+      end
+
+      it 'excludes the areas that should not be visible' do
+        expect(visible).not_to include(bar_root)
+        expect(visible).not_to include(bar_root_child)
+        expect(visible).not_to include(bar_root_child_child)
+      end
+    end
+
+    context 'as an HQ manager' do
+      let!(:visible) { Area.visible(hq_manager) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(6)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+        expect(visible).to include(bar_root)
+        expect(visible).to include(bar_root_child)
+        expect(visible).to include(bar_root_child_child)
+      end
+    end
+
+    context 'as an HQ employee' do
+      let!(:visible) { Area.visible(hq_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(6)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+        expect(visible).to include(bar_root)
+        expect(visible).to include(bar_root_child)
+        expect(visible).to include(bar_root_child_child)
+      end
+    end
+
+    context 'as another HQ employee' do
+      let!(:visible) { Area.visible(other_hq_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(6)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+        expect(visible).to include(bar_root)
+        expect(visible).to include(bar_root_child)
+        expect(visible).to include(bar_root_child_child)
+      end
+    end
+
+    context 'as an all-field-visible employee' do
+      let!(:visible) { Area.visible(all_field_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(6)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+        expect(visible).to include(bar_root)
+        expect(visible).to include(bar_root_child)
+        expect(visible).to include(bar_root_child_child)
+      end
+    end
+
+    context 'as an all-corporate-visible employee' do
+      let!(:visible) { Area.visible(all_corporate_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(0)
+      end
+
+      it 'excludes everything' do
+        expect(visible).not_to include(foo_root)
+        expect(visible).not_to include(foo_root_child)
+        expect(visible).not_to include(foo_root_child_child)
+        expect(visible).not_to include(bar_root)
+        expect(visible).not_to include(bar_root_child)
+        expect(visible).not_to include(bar_root_child_child)
+      end
+    end
+
+    context 'as an everything-is-visible employee' do
+      let!(:visible) { Area.visible(everything_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(6)
+      end
+
+      it 'includes the areas that should be visible' do
+        expect(visible).to include(foo_root)
+        expect(visible).to include(foo_root_child)
+        expect(visible).to include(foo_root_child_child)
+        expect(visible).to include(bar_root)
+        expect(visible).to include(bar_root_child)
+        expect(visible).to include(bar_root_child_child)
+      end
+    end
+  end
 end
