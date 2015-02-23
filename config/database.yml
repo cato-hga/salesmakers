@@ -22,7 +22,7 @@ default: &default
   password: a55isTant
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 5
+  pool: 16
 
 development:
   <<: *default
@@ -62,6 +62,7 @@ development:
 test:
   <<: *default
   database: reconnect_test
+  pool: 5
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

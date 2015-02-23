@@ -8,7 +8,7 @@
       %ul
         - for department in @departments
           - active_people = department.people.where(active: true).order(:display_name).includes(:position)
-          - next unless active_people.count > 0
+          - next if active_people.empty?
           %li.nested_areas
             %a.nested_areas_icon= icon('plus')
             = department.name
@@ -21,15 +21,16 @@
 
   - for project in @visible_projects
     - next unless project.areas.count > 0
-    - roots = Area.project_roots(project).includes(:person_areas)
+    - roots = Area.project_roots(project).includes(:person_areas).includes(project: :client)
     .widget.org_chart
       .inner
         %h3= project.name
         - for area in roots
-          - if area.is_childless? and area.non_managers(true).count < 1
-            - next
-          - elsif area.is_childless?
-            = link_to area.name, [area.project.client, area.project, area]
+          - if area.is_childless?
+            - if area.non_managers.where(active: true).empty?
+              - next
+            - else
+              = link_to area.name, [area.project.client, area.project, area]
           - else
             - areas = area.subtree.arrange(order: :name)
             = people_nested_areas areas

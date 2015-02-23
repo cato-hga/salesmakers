@@ -10,7 +10,7 @@
     = area.name
     = managers
   - else
-    - area_non_managers = area.non_managers(true)
+    - area_non_managers = area.non_managers.where(active: true)
     - if area_non_managers.count > 1
       - icon = icon('plus').html_safe + ' '
       %a{ class: (icon.length > 0) ? 'nested_areas_icon' : '' }= icon

@@ -54,7 +54,7 @@ RSpec.describe Area, :type => :model do
 
     context 'for only active employees' do
       it 'should return all active, non-managers of a given area' do
-        non_managers_count = area.non_managers(true).count
+        non_managers_count = area.non_managers.where(active: true).count
         expect(non_managers_count).to eq(1)
       end
     end
