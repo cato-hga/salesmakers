@@ -26,8 +26,13 @@ class ComcastGroupMeBotCallback
     else
       chart_url = "http://localhost:3000/#{generate_pie_chart(results)}"
     end
-    messages = self.generate_sales_messages(results)
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+    if self.has_keyword?('schedule')
+      message = ['Schedule your new SalesMaker for training at http://bit.ly/1w3AGqG !']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    else
+      messages = self.generate_sales_messages(results)
+      GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+    end
   end
 
   def separate_string
@@ -60,7 +65,8 @@ class ComcastGroupMeBotCallback
         'weekend',
         'month',
         'yesterday',
-        'today'
+        'today',
+        'schedule'
     ]
   end
 
