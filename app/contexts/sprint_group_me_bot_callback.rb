@@ -164,12 +164,8 @@ class SprintGroupMeBotCallback
       select = self.territory_sales_query
     end
     select = wrap_sales_query(select)
-    previous_database = ActiveRecord::Base.connection.current_database
-    database_parts = previous_database.split('_')
-    database_parts.shift if database_parts.count > 1
-    connection = ActiveRecord::Base.establish_connection(:rbd_connect_production).connection
+    connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
     results = connection.execute(select)
-    ActiveRecord::Base.establish_connection database_parts.join('_').to_sym
     results
   end
 
@@ -306,9 +302,6 @@ class SprintGroupMeBotCallback
       select = self.territory_hpa_query
     end
     select = wrap_hpa_query(select)
-    previous_database = ActiveRecord::Base.connection.current_database
-    database_parts = previous_database.split('_')
-    database_parts.shift if database_parts.count > 1
     connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
     results = connection.execute(select)
     results
