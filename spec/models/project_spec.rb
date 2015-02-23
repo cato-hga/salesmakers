@@ -64,4 +64,58 @@ RSpec.describe Project, :type => :model do
     end
   end
 
+  describe 'visible scope' do
+    let(:hq_position) { create :position, hq: true }
+    let(:not_hq_position) { create :position, hq: false }
+    let(:foo_project) { create :project, name: 'Foo Project' }
+    let(:foo_area) { create :area, project: foo_project }
+    let!(:bar_project) { create :project, name: 'Bar Project' }
+    let(:foo_rep) {
+      create :person,
+             position: not_hq_position
+    }
+    let!(:foo_rep_person_area) {
+      create :person_area,
+             person: foo_rep,
+             area: foo_area
+    }
+    let(:hq_employee) {
+      create :person,
+             position: hq_position
+    }
+
+    it 'returns an empty set with no person argument' do
+      expect(Project.visible).to be_empty
+    end
+
+    context 'as a rep' do
+      let(:visible) { Project.visible(foo_rep) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(1)
+      end
+
+      it 'excludes outside projects' do
+        expect(visible).not_to include(bar_project)
+      end
+
+      it 'includes own projects' do
+        expect(visible).to include(foo_project)
+      end
+    end
+
+    context 'as an HQ employee' do
+      let(:visible) { Project.visible(hq_employee) }
+
+      it 'has the proper count' do
+        expect(visible.count).to eq(2)
+      end
+
+      it 'includes all projects' do
+        expect(visible).to include(foo_project)
+        expect(visible).to include(bar_project)
+      end
+    end
+  end
+
 end
