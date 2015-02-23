@@ -39,7 +39,6 @@ describe 'actions involving People' do
     it 'should show commissions for Vonage employees' do
       client.update name: 'Vonage'
       visit person_path(person)
-      save_and_open_page
       expect(page).to have_selector('a', text: 'Commissions')
     end
   end
