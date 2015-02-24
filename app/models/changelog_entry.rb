@@ -10,6 +10,22 @@ class ChangelogEntry < ActiveRecord::Base
 
   default_scope { order(released: :desc) }
 
+  scope :visible, ->(person = nil) {
+    return ChangelogEntry.none unless person
+    entries = ChangelogEntry.where("department_id IS NULL " +
+                                                   "AND project_id IS NULL " +
+                                                   "AND (all_hq = false " +
+                                                   "OR all_hq IS NULL) " +
+                                                   "AND (all_field = false " +
+                                                   "OR all_field IS NULL)")
+    entries = entries + ChangelogEntry.where(all_hq: true) if person.hq?
+    entries = entries + ChangelogEntry.where(all_field: true) if person.field?
+    entries = entries + ChangelogEntry.where(project: person.projects)
+    entries = entries + ChangelogEntry.where(department: person.position.department) if person.position
+    return ChangelogEntry.none if entries.empty?
+    ChangelogEntry.where("id IN (#{entries.map(&:id).join(',')})")
+  }
+
   private
 
   def department_selection

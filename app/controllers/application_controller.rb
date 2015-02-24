@@ -74,11 +74,13 @@ class ApplicationController < ActionController::Base
     return unless @current_person
     changelog_entry_id = @current_person.changelog_entry_id
     if changelog_entry_id
-      @unseen_changelog_entries = ChangelogEntry.where('id > ?',
-                                                       changelog_entry_id)
+      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
+          where('id > ?',
+                changelog_entry_id)
     else
-      @unseen_changelog_entries = ChangelogEntry.where('released >= ?',
-                                                       Time.now - 1.week)
+      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
+          where('released >= ?',
+                Time.now - 1.week)
     end
   end
 

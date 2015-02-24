@@ -102,4 +102,44 @@ describe ChangelogEntry do
       end
     end
   end
+
+  describe 'visible scope' do
+    let(:position) { create :position }
+    let(:person) { create :person, position: position}
+    let(:project) { create :project }
+    let(:area) { create :area, project: project }
+    let!(:outside_department) { create :department }
+    let(:outside_project) { create :project }
+    let!(:outside_area) { create :area, project: outside_project }
+    let!(:person_area) { create :person_area, person: person, area: area }
+
+    let!(:everything_entry) { create :changelog_entry }
+    let!(:department_entry) { create :changelog_entry, department: position.department }
+    let!(:outside_department_entry) { create :changelog_entry, department: outside_department }
+    let!(:project_entry) { create :changelog_entry, project: project }
+    let!(:outside_project_entry) { create :changelog_entry, project: outside_project }
+    let!(:all_hq_entry) { create :changelog_entry, all_hq: true }
+    let!(:all_field_entry) { create :changelog_entry, all_field: true }
+
+    it 'is correct for an hq employee' do
+      position.hq = true
+      position.field = false
+      entries = ChangelogEntry.visible(person)
+      expect(entries.count).to eq(4)
+    end
+
+    it 'is correct for a field employee' do
+      position.hq = false
+      position.field = true
+      entries = ChangelogEntry.visible(person)
+      expect(entries.count).to eq(4)
+    end
+
+    it 'is correct for neither a field nor hq employee' do
+      position.hq = false
+      position.field = false
+      entries = ChangelogEntry.visible(person)
+      expect(entries.count).to eq(3)
+    end
+  end
 end

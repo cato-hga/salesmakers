@@ -163,6 +163,10 @@ class Person < ActiveRecord::Base
     self.position and self.position.hq?
   end
 
+  def field?
+    self.position and self.position.field?
+  end
+
   def physical_address
     PersonAddress.get_physical(self)
   end
@@ -173,6 +177,10 @@ class Person < ActiveRecord::Base
 
   def clients
     self.person_areas.each.map(&:client)
+  end
+
+  def projects
+    self.person_areas.each.map(&:project)
   end
 
   private

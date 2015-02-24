@@ -53,11 +53,13 @@ describe 'Navigation Authorization' do
 
     describe 'for administrators' do
       let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
-      let(:permissions) { create :permission, key: 'device_index' }
+      let(:device_index_permission) { create :permission, key: 'device_index' }
+      let(:changelog_entry_manage_permission) { create :persmission, key: 'changelog_entry_manage' }
+      let(:log_entry_index_permission) { create :persmission, key: 'log_entry_index' }
       let(:position) { create :position, name: 'IT Tech', department: department, hq: true }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
-        position.permissions << permissions
+        position.permissions << device_index_permission
         CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
         visit root_path
       end
@@ -67,6 +69,8 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('Device Models')
           expect(page).to have_content('Devices')
           expect(page).to have_content('Lines')
+          expect(page).to have_content('Changelog')
+          expect(page).to have_content('Log')
         end
       end
       it 'contains links to the sales page for all projects' do
