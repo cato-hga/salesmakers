@@ -7,6 +7,10 @@ describe 'actions involving People' do
     let!(:log_entry) { create :log_entry, trackable: person }
     let(:person) { create :person }
     let!(:person_address) { create :person_address, person: person }
+    let(:client) { create :client, name: 'Other Client' }
+    let(:project) { create :project, name: 'Other Project', client: client }
+    let(:area) { create :area, project: project }
+    let!(:person_area) { create :person_area, person: person, area: area }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
     end
@@ -26,6 +30,16 @@ describe 'actions involving People' do
       expect(page).to have_content(person_address.city)
       expect(page).to have_content(person_address.state)
       expect(page).to have_content(person_address.zip)
+    end
+
+    it 'should not show commissions for non-Vonage employees' do
+      expect(page).not_to have_selector('a', text: 'Commissions')
+    end
+
+    it 'should show commissions for Vonage employees' do
+      client.update name: 'Vonage'
+      visit person_path(person)
+      expect(page).to have_selector('a', text: 'Commissions')
     end
   end
 

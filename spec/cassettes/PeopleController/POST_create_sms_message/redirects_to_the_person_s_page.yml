@@ -12,7 +12,7 @@ http_interactions:
       Accept-Charset:
       - utf-8
       User-Agent:
-      - twilio-ruby/3.14.4 (ruby/x86_64-linux 2.1.2-p95)
+      - twilio-ruby/3.14.4 (ruby/x86_64-linux 2.2.0-p0)
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 16 Feb 2015 15:21:55 GMT
+      - Mon, 23 Feb 2015 21:43:47 GMT
       X-Powered-By:
       - AT-5000
       X-Shenanigans:
@@ -36,14 +36,14 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"sid": "SMf82a459741d8443cac2f5f6d6f9b6baa", "date_created": "Mon,
-        16 Feb 2015 15:21:55 +0000", "date_updated": "Mon, 16 Feb 2015 15:21:55 +0000",
+      string: '{"sid": "SM79dca547d6ca48acbe89ad649c8ac887", "date_created": "Mon,
+        23 Feb 2015 21:43:47 +0000", "date_updated": "Mon, 23 Feb 2015 21:43:47 +0000",
         "date_sent": null, "account_sid": "AC96a051482517673481ee177d64d52bcf", "to":
         "+18137164150", "from": "+17272286225", "body": "Test message", "status":
         "queued", "num_segments": "1", "num_media": "0", "direction": "outbound-api",
         "api_version": "2010-04-01", "price": null, "price_unit": "USD", "error_code":
-        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMf82a459741d8443cac2f5f6d6f9b6baa.json",
-        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMf82a459741d8443cac2f5f6d6f9b6baa/Media.json"}}'
+        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM79dca547d6ca48acbe89ad649c8ac887.json",
+        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM79dca547d6ca48acbe89ad649c8ac887/Media.json"}}'
     http_version: 
-  recorded_at: Mon, 16 Feb 2015 15:21:55 GMT
+  recorded_at: Mon, 23 Feb 2015 21:43:46 GMT
 recorded_with: VCR 2.9.3

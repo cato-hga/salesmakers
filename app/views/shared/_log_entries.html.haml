@@ -7,7 +7,10 @@
   - created_at = log_entry.created_at.localtime
   - trackable = log_entry.trackable
   - trackable_class = trackable.class
-  - trackable_class_name = trackable_class.model_name
+  - if trackable_class.respond_to?(:model_name)
+    - trackable_class_name = trackable_class.model_name
+  - else
+    - trackable_class_name = log_entry.id.to_s
   - date_time = created_at.strftime '%-m/%d/%Y %-l:%M%P'
   - by = person_link(log_entry.person)
   - on = NameCase(trackable_class_name.human)

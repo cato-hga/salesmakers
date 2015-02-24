@@ -1,4 +1,7 @@
 class DevicesController < ApplicationController
+  include DeviceStateChangesControllerExtension
+  include AssetReceiptControllerExtension
+  
   before_action :search_bar, except: [:swap_line]
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
@@ -51,51 +54,6 @@ class DevicesController < ApplicationController
     @device = Device.new
   end
 
-  def create
-    @device = Device.new
-    @contract_end_date = receive_params[:contract_end_date]
-    @device_model = DeviceModel.find receive_params[:device_model_id] unless receive_params[:device_model_id].blank?
-    @service_provider = TechnologyServiceProvider.find receive_params[:technology_service_provider_id] unless receive_params[:technology_service_provider_id].blank?
-    @serials = receive_params[:serial]
-    @line_identifiers = receive_params[:line_identifier]
-    @device_identifiers = receive_params[:device_identifier]
-    serial_count = 0
-    @bad_receivers = Array.new
-    clean_blank_rows
-    unless has_rows?
-      flash[:error] = 'You did not enter any device information'
-      render :new and return
-    end
-    for serial in @serials do
-      line_identifier = @line_identifiers[serial_count]
-      @device_identifiers.present? ? device_identifier = @device_identifiers[serial_count] : nil
-      next if serial.blank? and line_identifier.blank?
-      receiver = AssetReceiver.new contract_end_date: @contract_end_date,
-                                   device_model: @device_model,
-                                   service_provider: @service_provider,
-                                   serial: serial,
-                                   line_identifier: line_identifier,
-                                   device_identifier: device_identifier,
-                                   creator: @current_person
-      unless receiver.valid?
-        @bad_receivers << receiver
-      else
-        receiver.receive
-      end
-      serial_count+= 1
-    end
-    if @bad_receivers.count > 0
-      render :new
-    else
-      flash[:notice] = 'All assets received successfully'
-      redirect_to devices_path
-    end
-  end
-
-
-  def destroy
-  end
-
   def edit
     @device = Device.find params[:id]
     @device_model = @device.device_model
@@ -111,121 +69,6 @@ class DevicesController < ApplicationController
       @current_person.log? 'update', @device
       redirect_to @device
       flash[:notice] = 'Device Updated!'
-    end
-  end
-
-  def write_off
-    @device = Device.find params[:id]
-    written_off = DeviceState.find_by name: 'Written Off'
-    @device.device_states << written_off
-    @device.save
-    @current_person.log? 'write_off', @device, nil
-    flash[:notice] = 'Device Written Off!'
-    redirect_to @device
-  end
-
-  def lost_stolen
-    @device = Device.find params[:id]
-    assigned_person = @device.person if @device.person
-    lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
-    if @device.device_states.include? lost_stolen_state
-      flash[:error] = 'The device was already reported lost or stolen'
-      redirect_to device_path(@device) and return
-    end
-    if @device.add_state lost_stolen_state
-      @current_person.log? 'lost_stolen',
-                           @device
-      flash[:notice] = 'Device successfully reported as lost or stolen'
-      redirect_to device_path(@device)
-      return if assigned_person == nil
-      AssetsMailer.lost_or_stolen_mailer(@device).deliver_later
-    else
-      flash[:error] = 'Could not set device state to lost or stolen'
-      redirect_to device_path(@device)
-    end
-  end
-
-  def found
-    @device = Device.find params[:id]
-    assigned_person = @device.person if @device.person
-    lost_stolen_state = DeviceState.find_by name: 'Lost or Stolen'
-    written_off_state = DeviceState.find_by name: 'Written Off'
-    if @device.device_states.delete lost_stolen_state, written_off_state
-      @current_person.log? 'found',
-                           @device
-      flash[:notice] = 'Device no longer reported lost or stolen and/or written off'
-      redirect_to device_path(@device)
-      return if assigned_person == nil
-      AssetsMailer.found_mailer(@device).deliver_later
-    else
-      flash[:error] = 'Could not remove the lost or stolen, or written off states from the device'
-      redirect_to device_path(@device)
-    end
-  end
-
-  def repairing
-    @device = Device.find params[:id]
-    repairing_state = DeviceState.find_by name: 'Repairing'
-    if @device.device_states.include? repairing_state
-      flash[:error] = 'The device was already reported as being repaired'
-      redirect_to device_path(@device) and return
-    end
-    if @device.add_state repairing_state
-      @current_person.log? 'repairing',
-                           @device
-      flash[:notice] = 'Device successfully reported as being repaired'
-      redirect_to device_path(@device)
-    else
-      flash[:error] = 'Could not set device state to repairing'
-      redirect_to device_path(@device)
-    end
-  end
-
-  def repaired
-    @device = Device.find params[:id]
-    repairing_state = DeviceState.find_by name: 'Repairing'
-    if @device.device_states.delete repairing_state
-      @current_person.log? 'repaired',
-                           @device
-      flash[:notice] = 'Device reported as repaired'
-      redirect_to device_path(@device)
-    else
-      flash[:error] = 'Could not set device as repaired'
-      redirect_to device_path(@device)
-    end
-  end
-
-  def remove_state
-    if @device and @device_state
-      deleted = @device.device_states.delete @device_state
-      if deleted
-        @current_person.log? 'remove_state',
-                             @device,
-                             @device_state
-        flash[:notice] = 'State removed from device'
-        redirect_to device_path(@device)
-      end
-    else
-      flash[:error] = 'Could not find that device or device state'
-      redirect_to device_path(@device)
-    end
-  end
-
-  def add_state
-    if @device and @device_state
-      if @device.add_state @device_state
-        @current_person.log? 'add_state',
-                             @device,
-                             @device_state
-        flash[:notice] = 'State added to device'
-        redirect_to device_path(@device)
-      else
-        flash[:error] = 'State could not be added to device'
-        redirect_to device_path(@device)
-      end
-    else
-      flash[:error] = 'Could not find that device or device state'
-      redirect_to device_path(@device)
     end
   end
 
@@ -251,11 +94,6 @@ class DevicesController < ApplicationController
     authorize Device.new
   end
 
-  def receive_params
-    params.permit :contract_end_date, :device_model_id, :technology_service_provider_id, serial: [], line_identifier: [],
-                  device_identifier: []
-  end
-
   def update_params
     params.permit :serial, :device_identifier, :device_model_id
   end
@@ -269,34 +107,4 @@ class DevicesController < ApplicationController
     @service_providers = TechnologyServiceProvider.all
   end
 
-  def set_device_and_device_state
-    @device = Device.find state_params[:id]
-    if state_params[:device_state_id].blank?
-      flash[:error] = 'You did not select a state to add'
-      redirect_to device_path(@device) and return
-    end
-    @device_state = DeviceState.find state_params[:device_state_id]
-    if @device_state.locked?
-      flash[:error] = 'You cannot add or remove built-in device states'
-      redirect_to device_path(@device) and return
-    end
-  end
-
-  def clean_blank_rows
-    non_blank_serials = Array.new
-    non_blank_line_ids = Array.new
-    serial_count = -1
-    for serial in @serials do
-      serial_count += 1
-      next if serial.blank? and @line_identifiers[serial_count].blank?
-      non_blank_serials << serial
-      non_blank_line_ids << @line_identifiers[serial_count]
-    end
-    @serials = non_blank_serials
-    @line_identifiers = non_blank_line_ids
-  end
-
-  def has_rows?
-    @serials.count > 0 or @line_identifiers.count > 0
-  end
 end

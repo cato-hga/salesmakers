@@ -1,8 +1,8 @@
 require 'apis/groupme'
-require 'group_me_bot_sales_query'
+require 'group_me_bot_query'
 
 class ComcastGroupMeBotCallback
-  include GroupMeBotSalesQuery
+  include GroupMeBotQuery
 
   attr_accessor :query_string,
                 :keywords
@@ -22,12 +22,17 @@ class ComcastGroupMeBotCallback
     sales = self.pull_sales
     results = self.query(sales)
     if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_chart(results)}"
+      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_pie_chart(results)}"
     else
-      chart_url = "http://localhost:3000/#{generate_chart(results)}"
+      chart_url = "http://localhost:3000/#{generate_pie_chart(results)}"
     end
-    messages = self.generate_messages(results)
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+    if self.has_keyword?('schedule')
+      message = ['Schedule your new SalesMaker for training at http://bit.ly/1w3AGqG !']
+      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+    else
+      messages = self.generate_sales_messages(results)
+      GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+    end
   end
 
   def separate_string
@@ -60,7 +65,8 @@ class ComcastGroupMeBotCallback
         'weekend',
         'month',
         'yesterday',
-        'today'
+        'today',
+        'schedule'
     ]
   end
 

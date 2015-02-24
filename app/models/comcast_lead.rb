@@ -12,7 +12,6 @@ class ComcastLead < ActiveRecord::Base
 
   default_scope {
     joins(:comcast_customer).
-        where(active: true).
         order('comcast_customers.first_name, comcast_customers.last_name')
 
   }
@@ -22,17 +21,22 @@ class ComcastLead < ActiveRecord::Base
   }
 
   scope :overdue, -> {
-    where('follow_up_by < ?', Date.today).order(:follow_up_by)
+    where(active: true).
+        where('follow_up_by < ?', Date.today).
+        order(:follow_up_by)
   }
 
   scope :upcoming, -> {
-    where('follow_up_by >= ? AND follow_up_by <= ?',
-          Date.today,
-          Date.today + 1.week).order(:follow_up_by)
+    where(active: true).
+        where('follow_up_by >= ? AND follow_up_by <= ?',
+              Date.today,
+              Date.today + 1.week).order(:follow_up_by)
   }
 
   scope :not_upcoming_or_overdue, -> {
-    where('follow_up_by > ? OR follow_up_by IS NULL', Date.today + 1.week)
+    where(active: true).
+        where('follow_up_by > ? OR follow_up_by IS NULL',
+              Date.today + 1.week)
   }
 
   def self.policy_class

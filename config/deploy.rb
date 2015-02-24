@@ -11,7 +11,7 @@ set :keep_releases, 5
 
 set :format, :pretty
 set :log_level, :debug
-set :pty, true
+set :pty, false
 
 set :linked_files, %w{config/database.yml config/nginx.conf config/staging_nginx.conf}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -28,6 +28,7 @@ set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log, "#{release_path}/log/puma.access.log"
 
 set :sidekiq_processes, 3
+set :sidekiq_config, 'config/sidekiq.yaml'
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'

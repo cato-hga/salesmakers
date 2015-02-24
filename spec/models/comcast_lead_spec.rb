@@ -77,6 +77,13 @@ describe ComcastLead do
       expect(overdue_leads).not_to include(no_date_lead)
     end
 
+    specify 'overdue leads do not include inactives' do
+      overdue_lead.active = false
+      overdue_lead.save validate: false
+      overdue_leads = ComcastLead.overdue
+      expect(overdue_leads).not_to include(overdue_lead)
+    end
+
     it 'scopes upcoming leads to follow_up_by dates within 7 days' do
       upcoming_leads = ComcastLead.upcoming
       expect(upcoming_leads).to include(upcoming_lead)
@@ -84,6 +91,12 @@ describe ComcastLead do
       expect(upcoming_leads).not_to include(overdue_lead)
       expect(upcoming_leads).not_to include(later_lead)
       expect(upcoming_leads).not_to include(no_date_lead)
+    end
+
+    specify 'upcoming leads do not include inactives' do
+      upcoming_lead.update active: false
+      upcoming_leads = ComcastLead.upcoming
+      expect(upcoming_leads).not_to include(upcoming_lead)
     end
 
     it 'scopes later and no date leads together' do
@@ -95,10 +108,10 @@ describe ComcastLead do
       expect(later_leads).not_to include(today_lead)
     end
 
-    it 'does not include inactive leads in the default scope' do
+    specify 'not upcoming and not overdue do not include inactives' do
       no_date_lead.update active: false
-      expect(ComcastLead.all).not_to include no_date_lead
+      later_leads = ComcastLead.not_upcoming_or_overdue
+      expect(later_leads).not_to include(no_date_lead)
     end
-
   end
 end

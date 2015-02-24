@@ -1,3 +1,5 @@
+#This isn't use anymore, but hey, lets keep it incase we want to revisit the use.
+
 class DeferredGarbageCollection
 
   DEFERRED_GC_THRESHOLD = (ENV['DEFER_GC'] || 15.0).to_f

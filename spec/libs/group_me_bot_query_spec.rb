@@ -1,5 +1,6 @@
-describe GroupMeBotSalesQuery do
-  let(:query) { TestGroupMeBotCallback.new.extend(GroupMeBotSalesQuery) }
+describe GroupMeBotQuery do
+
+  let(:query) { TestGroupMeBotCallback.new.extend(GroupMeBotQuery) }
 
   describe 'time range determination' do
     it 'pulls the correct range for mtd' do
@@ -74,7 +75,7 @@ describe GroupMeBotSalesQuery do
       ]
     }
     let(:result_strings) {
-      ["Atlanta Territory: 12\nBoston Territory: 17\n\n***TOTAL: 29"]
+      ["[#1] Atlanta Territory: 12\n[#2] Boston Territory: 17\n\n***TOTAL: 29"]
     }
 
     it 'formats results as a string', pending: 'THIS SHOULD NOT BE PENDING AFTER FEB 19TH UNCOMMENT ME' do
@@ -88,6 +89,6 @@ class TestGroupMeBotCallback
                 :query_string
 
   def messages(results)
-    self.generate_messages(results)
+    self.generate_sales_messages(results)
   end
 end
