@@ -5,7 +5,7 @@ FactoryGirl.define do
     last_name 'Tech'
     email 'ittech@salesmakersinc.com'
     mobile_phone '8137164150'
-    association :position, factory: :it_tech_position, strategy: :build_stubbed
+    association :position, factory: :it_tech_position
   end
 
   factory :it_tech_position, class: Position do
@@ -13,7 +13,7 @@ FactoryGirl.define do
     leadership false
     all_field_visibility true
     all_corporate_visibility true
-    association :department, factory: :information_technology_department, strategy: :build_stubbed
+    association :department, factory: :information_technology_department
     field false
     hq true
     trait :twilio do

@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
                 :check_active,
                 :get_projects,
                 #:setup_default_walls,
-                :set_last_seen,
+                :set_unseen_changelog_entries,
+                #:set_last_seen,
                 #:set_last_seen_profile,
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
@@ -65,6 +66,19 @@ class ApplicationController < ActionController::Base
     else
       @visible_people = Person.none
       @visible_projects = Project.none
+    end
+  end
+
+  def set_unseen_changelog_entries
+    @unseen_changelog_entries = ChangelogEntry.none
+    return unless @current_person
+    changelog_entry_id = @current_person.changelog_entry_id
+    if changelog_entry_id
+      @unseen_changelog_entries = ChangelogEntry.where('id > ?',
+                                                       changelog_entry_id)
+    else
+      @unseen_changelog_entries = ChangelogEntry.where('released >= ?',
+                                                       Time.now - 1.week)
     end
   end
 

@@ -104,6 +104,20 @@ $(function(){
 //		$(this).parents('.chart_container').find('div').toggle();
 //	});
 
+	$('body').on('click', '#changelog_dismiss', function() {
+		var changelog_dismiss_path = $('#changelog').data('path');
+		var authenticity_token = $('#changelog').data('authenticity-token');
+		$.ajax({
+			type: "PUT",
+			url: changelog_dismiss_path,
+			data: { authenticity_token: authenticity_token }
+		});
+	});
+
+	$('body').on('click', '#changelog_dismiss_and_close', function() {
+		$('#changelog a.close').click();
+	});
+
 });
 
 function wrapAndHide(element) {

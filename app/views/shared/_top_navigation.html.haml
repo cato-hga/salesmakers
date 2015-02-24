@@ -38,6 +38,8 @@
                 %li= link_to('Lines', lines_path)
                 %li= link_to('Device Models', device_models_path)
                 %li.divider
+                - if ChangelogEntryPolicy.new(current_person, ChangelogEntry.new).manage?
+                  %li= link_to('Changelog', changelog_entries_path)
                 %li= link_to('Log', log_entries_path)
           -#GOD. THIS IS DIRTIER THAN WHATS ABOVE. SORRY
           -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new).create?

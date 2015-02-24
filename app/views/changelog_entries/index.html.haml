@@ -1,0 +1,19 @@
+- content_for :action_buttons do
+  = new_button new_changelog_entry_path
+
+.widget
+  .inner
+    = paginate @changelog_entries
+    - header_row = header_row(['Released', 'Heading', 'Description', 'Department', 'Project', 'All HQ?', 'All Field?'])
+    - rows = Array.new
+    - for entry in @changelog_entries do
+      - released = friendly_datetime entry.released
+      - heading = entry.heading
+      - description = entry.description
+      - department = entry.department ? entry.department.name : nil
+      - project = entry.project ? entry.project.name : nil
+      - all_hq = entry.all_hq? ? icon('check') : nil
+      - all_field = entry.all_field? ? icon('check') : nil
+      - rows << table_row([released, heading, description, department, project, all_hq, all_field])
+    = table header_row, rows
+    = paginate @changelog_entries

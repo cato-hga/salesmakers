@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :changelog_entries, only: [:index, :new, :create]
+
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
@@ -128,6 +130,9 @@ Rails.application.routes.draw do
       get :sales, as: :sales
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
+      put 'update_changelog_entry_id/:changelog_entry_id',
+          to: 'people#update_changelog_entry_id',
+          as: :update_changelog_entry_id
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search

@@ -1,8 +1,30 @@
 require 'apis/gateway'
 
 class PeopleController < ProtectedController
-  after_action :verify_authorized, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show, :sales, :commission]
-  after_action :verify_policy_scoped, except: [:index, :search, :csv, :new_sms_message, :create_sms_message, :org_chart, :about, :show]
+  after_action :verify_authorized, except: [
+                                     :index,
+                                     :search,
+                                     :csv,
+                                     :new_sms_message,
+                                     :create_sms_message,
+                                     :org_chart,
+                                     :about,
+                                     :show,
+                                     :sales,
+                                     :commission,
+                                     :update_changelog_entry_id
+                                 ]
+  after_action :verify_policy_scoped, except: [
+                                        :index,
+                                        :search,
+                                        :csv,
+                                        :new_sms_message,
+                                        :create_sms_message,
+                                        :org_chart,
+                                        :about,
+                                        :show,
+                                        :update_changelog_entry_id
+                                    ]
   before_action :find_person, only: [:sales, :commission]
   require 'apis/mojo'
 
@@ -85,6 +107,12 @@ class PeopleController < ProtectedController
                                   @person.id)
   end
 
+  def update_changelog_entry_id
+    person = Person.find params[:id]
+    person.update changelog_entry_id: params[:changelog_entry_id]
+    render nothing: true
+  end
+
   private
 
   def person_params
@@ -122,4 +150,5 @@ class PeopleController < ProtectedController
     return results.where(active: true) unless @current_person.hq?
     results
   end
+
 end

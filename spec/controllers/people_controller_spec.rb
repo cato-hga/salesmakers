@@ -210,4 +210,26 @@ describe PeopleController do
     end
   end
 
+  describe 'PUT update_changelog_entry_id' do
+    let!(:person) { create :person }
+
+    subject do
+      put :update_changelog_entry_id,
+          id: person.id,
+          changelog_entry_id: 2
+      person.reload
+    end
+
+    it 'returns a success status' do
+      subject
+      expect(response).to be_success
+    end
+
+    it 'changes the changelog_entry_id' do
+      expect {
+        subject
+      }.to change(person, :changelog_entry_id).from(nil).to(2)
+    end
+  end
+
 end

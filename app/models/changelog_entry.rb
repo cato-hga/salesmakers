@@ -8,6 +8,8 @@ class ChangelogEntry < ActiveRecord::Base
   belongs_to :project
   belongs_to :department
 
+  default_scope { order(released: :desc) }
+
   private
 
   def department_selection

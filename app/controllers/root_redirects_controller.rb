@@ -1,5 +1,4 @@
 class RootRedirectsController < ApplicationController
-
   def incoming_redirect
     department = @current_person.position.department
     if department.name == 'Information Technology'

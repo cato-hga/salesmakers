@@ -24,6 +24,7 @@
         = render partial: "shared/off_canvas_navigation", locals: { current_person: @current_person }
         .container#main_container
           %header
+            = render partial: 'shared/changelog_entries', locals: { changelog_entries: @unseen_changelog_entries }
             %h1
               = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
               = yield :action_buttons
