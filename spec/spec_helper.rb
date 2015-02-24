@@ -19,7 +19,6 @@ require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 require 'pundit/rspec'
 require 'support/pundit_matcher'
-require 'support/deferred_garbage_collection'
 require 'factory_girl_rails'
 require 'vcr'
 
@@ -30,13 +29,8 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
   config.before :suite do
-    DeferredGarbageCollection.start
     DatabaseRewinder.clean_all
     #FactoryGirl.lint
-  end
-
-  config.after :suite do
-    DeferredGarbageCollection.reconsider
   end
 
   config.before(:each) do
