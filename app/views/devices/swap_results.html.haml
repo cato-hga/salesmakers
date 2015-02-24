@@ -1,26 +1,35 @@
 - title 'Line Swap Results for ' + @device.identifier
-.widget
-  .inner
-    %p Do you want to deactivate the device's original line or keep it active?
-    = link_to "Deactivate #{@original_line.identifier}", '#', class: [:button, :inline_button], id: 'deactivate_button'
-    = link_to "Keep #{@original_line.identifier} Active", '#', class: [:button, :inline_button], id: 'keep_active_button'
+- second_device = @new_line.device
+- if second_device.blank?
+  .widget
+    .inner
+      %p Do you want to deactivate the device's original line or keep it active?
+      = link_to "Deactivate #{@original_line.identifier}", '#', class: [:button, :inline_button], id: 'deactivate_button'
+      = link_to "Keep #{@original_line.identifier} Active", '#', class: [:button, :inline_button], id: 'keep_active_button'
 
-#swap_results_deactivate.widget.hidden
-  .inner
-    %strong Please review the parameters below and confirm the swap.
-    - if @original_line
-      %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and marked as inactive"
-    %p=  "#{@new_line.identifier} will be moved to #{@device.identifier}"
-    = link_to 'Confirm Swap', line_swap_finalize_device_path(@device, @new_line), method: :patch, class: ['button']
-    -#= link_to 'Confirm Swap', controller: 'devices', id: @device.id, line_id: @new_line.id, class: ['button']
+  #swap_results_deactivate.widget.hidden
+    .inner
+      %strong Please review the parameters below and confirm the swap.
+      - if @original_line
+        %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and marked as inactive"
+      %p=  "#{@new_line.identifier} will be moved to #{@device.identifier}"
+      = link_to 'Confirm Swap', line_swap_finalize_device_path(@device, @new_line), method: :patch, class: ['button']
+  -#= link_to 'Confirm Swap', controller: 'devices', id: @device.id, line_id: @new_line.id, class: ['button']
 
   #swap_results_keep_active.widget.hidden
-  .inner
-    %strong Please review the parameters below and confirm the swap.
-    - if @original_line
-      %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and NOT marked as inactive!"
-    %p=  "#{@new_line.identifier} will be moved to #{@device.identifier}"
-    = link_to 'Confirm Swap', "#", class: ['button']
+    .inner
+      %strong Please review the parameters below and confirm the swap.
+      - if @original_line
+        %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and NOT marked as inactive!"
+      %p=  "#{@new_line.identifier} will be moved to #{@device.identifier}"
+      = link_to 'Confirm Swap', "#", class: ['button']
+
+- else
+  #swap_results_two_lines.widget
+    .inner
+      %p= "#{@original_line.identifier} will be removed from #{@device.identifier} and replaced by #{@new_line.identifier}"
+      %p= "#{@new_line.identifier} will be removed from #{second_device.identifier} and replaced by #{@original_line.identifier}"
+      = link_to 'Confirm Swap', "#", class: ['button']
 
 :javascript
   $('body').on('click', '#deactivate_button', function() {
