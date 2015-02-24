@@ -26,8 +26,11 @@ class AssetReceiver
     validate_device_model
     validate_service_provider
     validate_line_identifier
+    validate_line_identifier_unused
     validate_serial
+    validate_serial_unused
     validate_device_identifier
+    validate_device_identifier_unused
     validate_contract_end_date
 
   end
@@ -93,6 +96,14 @@ class AssetReceiver
     end
   end
 
+  def validate_line_identifier_unused
+    return unless create_line?
+    existing_lines = Line.where(identifier: self.line_identifier)
+    unless existing_lines.empty?
+      errors.add :line_identifier, 'Line Identifier has already been entered'
+    end
+  end
+
   def validate_contract_end_date
     self.contract_end_date = nil if self.contract_end_date.present? and
         not self.contract_end_date.is_a?(Date) and self.contract_end_date.length < 1
@@ -115,9 +126,23 @@ class AssetReceiver
     end
   end
 
+  def validate_serial_unused
+    existing_devices = Device.where(serial: self.serial)
+    unless existing_devices.empty?
+      errors.add :serial, 'Serial has already been entered'
+    end
+  end
+
   def validate_device_identifier
     unless self.device_identifier.present? and self.device_identifier.length >= 4
       errors.add :device_identifier, 'A Device Identifier must be present and at least 4 characters in lenght'
+    end
+  end
+
+  def validate_device_identifier_unused
+    existing_devices = Device.where(identifier: self.device_identifier)
+    unless existing_devices.empty?
+      errors.add :device_identifier, 'Device Identifier has already been entered'
     end
   end
 

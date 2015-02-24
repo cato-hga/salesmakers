@@ -73,6 +73,18 @@ RSpec.describe 'Asset Receiver' do
       valid_receiver = AssetReceiver.new @attrs.merge(contract_end_date: '', service_provider: nil, line_identifier: nil)
       expect(valid_receiver).to be_valid
     end
+    it 'checks for existing serial numbers' do
+      existing_device = create :device, serial: serial
+      expect(receiver).not_to be_valid
+    end
+    it 'checks for existing device identifiers' do
+      existing_device = create :device, identifier: device_identifier
+      expect(receiver).not_to be_valid
+    end
+    it 'checks for existing line identifiers' do
+      existing_line = create :line, identifier: line_identifier
+      expect(receiver).not_to be_valid
+    end
   end
 
   describe 'asset receiving' do
