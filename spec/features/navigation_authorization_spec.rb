@@ -54,12 +54,14 @@ describe 'Navigation Authorization' do
     describe 'for administrators' do
       let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
       let(:device_index_permission) { create :permission, key: 'device_index' }
-      let(:changelog_entry_manage_permission) { create :persmission, key: 'changelog_entry_manage' }
-      let(:log_entry_index_permission) { create :persmission, key: 'log_entry_index' }
+      let(:changelog_entry_manage_permission) { create :permission, key: 'changelog_entry_manage' }
+      let(:log_entry_index_permission) { create :permission, key: 'log_entry_index' }
       let(:position) { create :position, name: 'IT Tech', department: department, hq: true }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
         position.permissions << device_index_permission
+        position.permissions << changelog_entry_manage_permission
+        position.permissions << log_entry_index_permission
         CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
         visit root_path
       end
