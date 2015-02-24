@@ -1,7 +1,7 @@
 class DevicesController < ApplicationController
   include DeviceStateChangesControllerExtension
   include AssetReceiptControllerExtension
-  
+
   before_action :search_bar, except: [:swap_line]
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
@@ -82,6 +82,21 @@ class DevicesController < ApplicationController
     @device = Device.find params[:id]
     @original_line = @device.line if @device.line
     @new_line = Line.find params[:line_id]
+  end
+
+  def line_swap_finalize
+    @device = Device.find params[:id]
+    @original_line = @device.line if @device.line
+    @new_line = Line.find params[:line_id]
+    active_state = LineState.find_or_initialize_by name: 'Active'
+    if @device.update line: @new_line
+      @original_line.line_states.delete active_state
+      @current_person.log? 'line_swap',
+                           @device,
+                           @original_line
+      redirect_to @device
+      flash[:notice] = 'Line(s) swapped!'
+    end
   end
 
   private

@@ -78,7 +78,7 @@ describe GroupMeBotQuery do
       ["[#1] Atlanta Territory: 12\n[#2] Boston Territory: 17\n\n***TOTAL: 29"]
     }
 
-    it 'formats results as a string', pending: 'THIS SHOULD NOT BE PENDING AFTER FEB 19TH UNCOMMENT ME' do
+    it 'formats results as a string' do
       expect(query.messages(results)).to eq(result_strings)
     end
   end

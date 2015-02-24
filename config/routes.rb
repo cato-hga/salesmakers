@@ -59,6 +59,9 @@ Rails.application.routes.draw do
       get 'swap_results/:line_id',
           action: :swap_results,
           as: 'swap_results'
+      patch 'line_swap_finalize/:line_id',
+            action: :line_swap_finalize,
+            as: 'line_swap_finalize'
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'

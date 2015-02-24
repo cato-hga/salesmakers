@@ -44,4 +44,8 @@ class DevicePolicy < ApplicationPolicy
   def swap_results?
     swap_line?
   end
+
+  def line_swap_finalize?
+    swap_line?
+  end
 end
