@@ -1,7 +1,7 @@
 = title line_display( @line )
 - if @line.active?
   - content_for :action_buttons do
-    = link_to 'Deactivate', deactivate_line_path(@line), class: [:button, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
+    = button_to 'Deactivate', deactivate_line_path(@line), class: [:button, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
 
 .line_states
   - for line_state in @line.line_states

@@ -5,7 +5,7 @@
       = poll_question_choice.name
       - unless poll_question_choice.locked?
         %a.edit_poll_question_choice_link(href="#") Edit
-        = link_to 'Delete', poll_question_poll_question_choice_path(poll_question, poll_question_choice), method: :delete, class: 'destroy_poll_question_choice_link'
+        = button_to 'Delete', poll_question_poll_question_choice_path(poll_question, poll_question_choice), method: :delete, class: 'destroy_poll_question_choice_link'
       - else
         %span.poll_question_choice_answer_count= pluralize poll_question_choice.people.count, 'Answer'
     .poll_question_choice_help_text

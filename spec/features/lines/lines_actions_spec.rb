@@ -48,14 +48,14 @@ describe 'actions on Lines' do
     it 'allows an unlocked line state to be removed' do
       line.line_states << unlocked_line_state
       visit line_path(line)
-      find('.line_state a.remove').click
+      find('.line_state .remove').click
       expect(page).not_to have_selector('.line_state', text: unlocked_line_state.name)
     end
 
     it 'does not allow a locked line state to be removed' do
       line.line_states << locked_line_state
       visit line_path(line)
-      expect(page).not_to have_selector('.line_state a.remove')
+      expect(page).not_to have_selector('.line_state .remove')
     end
 
     it 'adds an unlocked line state' do
@@ -113,9 +113,7 @@ describe 'actions on Lines' do
       it 'deactivates and detaches the line' do
         visit device_path(device)
         page.driver.browser.accept_js_confirms
-        within 'p#line' do
-          click_on 'Deactivate'
-        end
+        click_on 'Deactivate Line'
         visit device_path(device)
         within 'p#line' do
           expect(page).not_to have_content('Active')

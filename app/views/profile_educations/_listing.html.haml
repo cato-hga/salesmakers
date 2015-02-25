@@ -5,7 +5,7 @@
         = profile_education.school
         - if profile_education.profile.person == current_person
           = link_to 'Edit', edit_profile_profile_education_path(profile_education.profile, profile_education)
-          = link_to 'Delete', profile_profile_education_path(profile_education.profile, profile_education), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
+          = button_to 'Delete', profile_profile_education_path(profile_education.profile, profile_education), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
       - if profile_education.degree
         .degree= profile_education.degree
       - if profile_education.field_of_study

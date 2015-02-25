@@ -87,12 +87,12 @@ describe 'Devices NON-CRUD actions' do
       }
 
       it 'does not show the "Found" button when not Lost/Stolen' do
-        expect(page).not_to have_selector('.button', text: 'Found')
+        expect(page).not_to have_selector('.button[value="Found"]')
       end
 
       it 'does not show the deploy button when lost or stolen', js: true do
         subject
-        expect(page).not_to have_selector('.button', text: 'Deploy')
+        expect(page).not_to have_selector('.button[value="Deploy"]')
       end
 
       it 'reports it lost or stolen', js: true do
@@ -110,7 +110,7 @@ describe 'Devices NON-CRUD actions' do
           within '#main_container header' do
             click_on 'Lost/Stolen'
           end
-          expect(page).not_to have_selector('.button', text: 'Recoup')
+          expect(page).not_to have_selector('.button[value="Recoup"]')
         end
       end
     end
@@ -133,7 +133,7 @@ describe 'Devices NON-CRUD actions' do
     }
 
     it 'does not show the "Lost/Stolen" button when Lost/Stolen' do
-      expect(page).not_to have_selector('.button', text: 'Lost/Stolen')
+      expect(page).not_to have_selector('.button[value="Lost/Stolen"]')
     end
 
     it 'reports as found', js: true do
@@ -247,14 +247,14 @@ describe 'Devices NON-CRUD actions' do
     it 'allows an unlocked device state to be removed' do
       device.device_states << unlocked_device_state
       visit device_path(device)
-      find('.device_state a.remove').click
+      find('.device_state .remove').click
       expect(page).not_to have_selector('.device_state', text: unlocked_device_state.name)
     end
 
     it 'does not allow a locked device state to be removed' do
       device.device_states << locked_device_state
       visit device_path(device)
-      expect(page).not_to have_selector('.device_state a.remove')
+      expect(page).not_to have_selector('.device_state .remove')
     end
 
     it 'adds an unlocked device state' do
@@ -335,7 +335,7 @@ describe 'Devices NON-CRUD actions' do
 
     it 'does not show the repair button when in repair', js: true do
       subject
-      expect(page).not_to have_selector('.button', text: /\ARepair\z/, exact: true)
+      expect(page).not_to have_selector('.button[value="Repair"]', exact: true)
     end
 
     it 'reports it as in repair', js: true do
@@ -355,8 +355,8 @@ describe 'Devices NON-CRUD actions' do
     }
 
     it 'swaps buttons' do
-      expect(page).not_to have_selector('.button', text: 'Repaired')
-      expect(page).to have_selector('.button', text: 'Repair', exact: true)
+      expect(page).not_to have_selector('.button[value="Repaired"]')
+      expect(page).to have_selector('.button[value="Repair"]', exact: true)
     end
 
     it 'clears the repair device state' do
@@ -369,4 +369,5 @@ describe 'Devices NON-CRUD actions' do
       end
     end
   end
+
 end

@@ -10,7 +10,7 @@
             = poll_question.question
             = edit_button edit_poll_question_path(poll_question)
             - unless poll_question.locked?
-              = link_to 'Delete', poll_question_path(poll_question), method: :delete, class: 'destroy_poll_question_link'
+              = button_to 'Delete', poll_question_path(poll_question), method: :delete, class: 'destroy_poll_question_link'
           .small.comment
             = pluralize(poll_question.answers, 'Answer') + ','
             = succeed ', ' do

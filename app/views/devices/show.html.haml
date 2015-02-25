@@ -12,13 +12,13 @@
   - unless @device.written_off?
     = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
   - if @device.lost_or_stolen? or @device.written_off?
-    = link_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
+    = button_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
   - else
-    = link_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen and remove the written off status. Are you sure?' }, method: :patch
+    = button_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen and remove the written off status. Are you sure?' }, method: :patch
   - if not @device.repairing?
-    = link_to 'Repair', repairing_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will mark this device as being repaired. Are you sure?' }, method: :patch
+    = button_to 'Repair', repairing_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will mark this device as being repaired. Are you sure?' }, method: :patch
   - if @device.repairing?
-    = link_to 'Repaired', repaired_device_path(@device), class: [:button, :inline_button], method: :patch
+    = button_to 'Repaired', repaired_device_path(@device), class: [:button, :inline_button], method: :patch
 - unless @device.identifier == @device.serial
   %h3
     Secondary ID:
@@ -50,7 +50,7 @@
             &mdash;
             %em= states.join(', ')
           - if @device.line.active?
-            = link_to 'Deactivate', deactivate_line_path(@device.line), class: [:button, :tiny, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
+            = button_to 'Deactivate Line', deactivate_line_path(@device.line), class: [:button, :tiny, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
           .centered_text= line_service_provider_image(@device.line)
         - else
           None
