@@ -525,17 +525,18 @@ describe DevicesController do
       expect(response).to be_success
     end
 
-    it 'should render the index template' do
+    it 'should render the swap or move template' do
       expect(response).to render_template(:line_swap_or_move)
     end
   end
 
-  describe 'GET move_results' do
-    let(:device_one) { create :device, line: line }
+  describe 'GET line_move_results' do
+    let(:device_one) { create :device, line: device_one_line }
     let(:device_one_line) { create :line }
-    let(:device_two) { create :device, identifier: '555555', serial: '555555' }
+    let(:device_two) { create :device }
     before(:each) do
-      get :move_results,
+      allow(controller).to receive(:policy).and_return double(line_move_results?: true)
+      get :line_move_results,
           id: device_one.id,
           device_id: device_two.id
     end
@@ -543,21 +544,21 @@ describe DevicesController do
       expect(response).to be_success
     end
 
-    it 'should render the index template' do
-      expect(response).to render_template(:line_swap_results)
+    it 'should render the line move results template' do
+      expect(response).to render_template(:line_move_results)
     end
   end
 
-  describe 'PATCH move_line_finalize' do
+  describe 'PATCH line_move_finalize' do
     let!(:device_one) { create :device, line: line }
     let!(:line) { create :line }
     let(:device_two) { create :device, identifier: '555555', serial: '555555' }
     let!(:person) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
     before(:each) do
-      allow(controller).to receive(:policy).and_return double(line_swap_finalize?: true)
+      allow(controller).to receive(:policy).and_return double(line_move_finalize?: true)
       CASClient::Frameworks::Rails::Filter.fake(person.email)
-      patch :move_line_finalize,
+      patch :line_move_finalize,
             id: device_one.id,
             device_id: device_two.id
       device_one.reload
@@ -569,7 +570,7 @@ describe DevicesController do
       expect(device_two.line).to eq(line)
     end
     it 'renders show template for the original device' do
-      expect(response).to redirect_to device
+      expect(response).to redirect_to device_one
     end
     it 'creates log entries on both devices' do
       expect(LogEntry.all.count).to eq(2)
@@ -591,7 +592,7 @@ describe DevicesController do
       expect(response).to be_success
     end
 
-    it 'should render the index template' do
+    it 'should render the swap results template' do
       expect(response).to render_template(:line_swap_results)
     end
   end

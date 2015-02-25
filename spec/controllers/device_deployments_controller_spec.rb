@@ -102,8 +102,7 @@ describe DeviceDeploymentsController do
   end
 
   describe 'recouping' do
-    let(:deployed_device) { create :device, serial: '123458',
-                                   identifier: '123458',
+    let(:deployed_device) { create :device,
                                    line: line,
                                    device_deployments: [device_deployment],
                                    device_states: [deployed] }

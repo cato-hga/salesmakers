@@ -78,7 +78,7 @@ class DevicesController < ApplicationController
 
   def line_swap_results
     @device = Device.find params[:id]
-    @second_device = Line.find params[:device_id]
+    @second_device = Device.find params[:device_id]
   end
 
   def line_swap_finalize
@@ -95,7 +95,7 @@ class DevicesController < ApplicationController
       @current_person.log? 'line_swap',
                            @second_device,
                            @line
-      flash[:notice] = 'Line(s) swapped!'
+      flash[:notice] = 'Lines swapped!'
       redirect_to @device
     else
       puts @device.errors.full_messages
@@ -105,18 +105,22 @@ class DevicesController < ApplicationController
 
   def line_move_results
     @device = Device.find params[:id]
-    @second_device = Device.find param[:device_id]
+    @second_device = Device.find params[:device_id]
   end
 
   def line_move_finalize
     @device = Device.find params[:id]
     line = @device.line
-    @second_device = Device.find param[:device_id]
+    @second_device = Device.find params[:device_id]
+    @device.update line: nil
     if @second_device.update line: line
       @current_person.log? 'line_swap',
                            @device,
                            line
-      flash[:notice] = 'Line moved'
+      @current_person.log? 'line_swap',
+                           @second_device,
+                           line
+      flash[:notice] = 'Line moved!'
       redirect_to @device
     end
   end
