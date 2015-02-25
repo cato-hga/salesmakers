@@ -48,7 +48,7 @@
             %br/
             %span.comment= lead.comments
         - if manage
-          = link_to 'Dismiss Lead', |
+          = button_to 'Dismiss Lead', |
             comcast_customer_comcast_lead_path(@comcast_customer, lead), |
             data: { confirm: 'This action cannot be undone. Are you sure?' }, |
             method: :delete,
