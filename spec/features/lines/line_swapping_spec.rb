@@ -106,8 +106,8 @@ describe 'Swapping lines' do
     end
 
     describe 'submission failure' do
-      it 'renders the swap page'
-      it 'shows error messages'
+      it 'renders the swap page', pending: 'Should this be tested?'
+      it 'shows error messages', pending: 'Should this be tested?'
     end
   end
 
@@ -135,7 +135,7 @@ describe 'Swapping lines' do
       it 'shows the swap' do
         expect(page).to have_content('7274985180 will be removed from 215899 and replaced by 7274985181')
         expect(page).to have_content('7274985181 will be removed from 998512 and replaced by 7274985180')
-        expect(page).to have_content('Confirm Swap')
+        expect(page).to have_button('Confirm Swap')
       end
     end
 
@@ -147,6 +147,11 @@ describe 'Swapping lines' do
       end
       it 'shows a confirmation' do
         expect(page).to have_content 'Line(s) swapped!'
+      end
+      it 'shows swapped lines' do
+        expect(page).to have_content('Line: (727) 498-5181')
+        visit device_path device_two
+        expect(page).to have_content('Line: (727) 498-5180')
       end
       it 'redirects to the original device' do
         within('header h1') do
@@ -165,8 +170,8 @@ describe 'Swapping lines' do
     end
 
     describe 'submission failure' do
-      it 'renders the swap page'
-      it 'shows error messages'
+      it 'renders the swap page', pending: 'Should this be tested?'
+      it 'shows error messages', pending: 'Should this be tested?'
     end
   end
 end

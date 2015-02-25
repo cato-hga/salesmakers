@@ -551,33 +551,71 @@ describe DevicesController do
   end
 
   describe 'PATCH line_swap_finalize' do
-    let!(:device) { create :device, line: old_line }
-    let!(:old_line) { create :line, identifier: '9876543210', line_states: [line_state] }
-    let!(:line) { create :line }
-    let(:line_state) { create :line_state, name: 'Active', locked: true }
-    let!(:person) { create :it_tech_person, position: position }
-    let(:position) { create :it_tech_position }
-    before(:each) do
-      allow(controller).to receive(:policy).and_return double(line_swap_finalize?: true)
-      CASClient::Frameworks::Rails::Filter.fake(person.email)
-      patch :line_swap_finalize,
-            id: device.id,
-            line_id: line.id
-      device.reload
-      old_line.reload
+    context 'with a single line swap' do
+      let!(:device) { create :device, line: old_line }
+      let!(:old_line) { create :line, identifier: '9876543210', line_states: [line_state] }
+      let!(:line) { create :line }
+      let(:line_state) { create :line_state, name: 'Active', locked: true }
+      let!(:person) { create :it_tech_person, position: position }
+      let(:position) { create :it_tech_position }
+      before(:each) do
+        allow(controller).to receive(:policy).and_return double(line_swap_finalize?: true)
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
+        patch :line_swap_finalize,
+              id: device.id,
+              line_id: line.id
+        device.reload
+        old_line.reload
+      end
+
+      it 'swaps the devices line to the provided new line' do
+        expect(device.line).to eq(line)
+      end
+      it 'removes the active line state from the old line' do
+        expect(old_line.line_states).to eq([])
+      end
+      it 'renders show template for the device' do
+        expect(response).to redirect_to device
+      end
+      it 'creates log entries' do
+        expect(LogEntry.all.count).to eq(1)
+      end
     end
 
-    it 'swaps the devices line to the provided new line' do
-      expect(device.line).to eq(line)
-    end
-    it 'removes the active line state from the old line' do
-      expect(old_line.line_states).to eq([])
-    end
-    it 'renders show template for the device' do
-      expect(response).to redirect_to device
-    end
-    it 'creates log entries' do
-      expect(LogEntry.all.count).to eq(1)
+    context 'with multiple lines swapping' do
+      let!(:device_one) { create :device, line: line_one }
+      let!(:line_one) { create :line, identifier: '9876543210', line_states: [line_state] }
+      let!(:line_two) { create :line, line_states: [line_state] }
+      let!(:device_two) { create :device, line: line_two, serial: '123852', identifier: '123852' }
+      let(:line_state) { create :line_state, name: 'Active', locked: true }
+      let!(:person) { create :it_tech_person, position: position }
+      let(:position) { create :it_tech_position }
+      before(:each) do
+        allow(controller).to receive(:policy).and_return double(line_swap_finalize?: true)
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
+        patch :line_swap_finalize,
+              id: device_one.id,
+              line_id: line_two.id
+        device_one.reload
+        line_one.reload
+        device_two.reload
+        line_two.reload
+      end
+
+      it 'swaps the devices line to the provided new line' do
+        expect(device_one.line).to eq(line_two)
+        expect(device_two.line).to eq(line_one)
+      end
+      it 'keeps the active state on lines' do
+        expect(line_one.line_states).to include(line_state)
+        expect(line_two.line_states).to include(line_state)
+      end
+      it 'renders show template for the first device' do
+        expect(response).to redirect_to device_one
+      end
+      it 'creates log entries' do
+        expect(LogEntry.all.count).to eq(2)
+      end
     end
   end
 end

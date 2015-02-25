@@ -88,14 +88,34 @@ class DevicesController < ApplicationController
     @device = Device.find params[:id]
     @original_line = @device.line if @device.line
     @new_line = Line.find params[:line_id]
+    @second_device = @new_line.device if @new_line and @new_line.device
     active_state = LineState.find_or_initialize_by name: 'Active'
-    if @device.update line: @new_line
-      @original_line.line_states.delete active_state
-      @current_person.log? 'line_swap',
-                           @device,
-                           @original_line
-      redirect_to @device
-      flash[:notice] = 'Line(s) swapped!'
+    if @device.present? and @second_device.present?
+      @device.update line: nil
+      @second_device.update line: nil
+      if @device.update line: @new_line and @second_device.update line: @original_line
+        @current_person.log? 'line_swap',
+                             @device,
+                             @original_line
+        @current_person.log? 'line_swap',
+                             @second_device,
+                             @new_line
+        flash[:notice] = 'Line(s) swapped!'
+        redirect_to @device and return
+      else
+        puts @device.errors.full_messages
+        puts @second_device.errors.full_messages
+      end
+    end
+    if @device.present? and not @second_device.present?
+      if @device.update line: @new_line
+        @original_line.line_states.delete active_state
+        @current_person.log? 'line_swap',
+                             @device,
+                             @original_line
+        flash[:notice] = 'Line(s) swapped!'
+        redirect_to @device and return
+      end
     end
   end
 
