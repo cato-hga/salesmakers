@@ -53,6 +53,18 @@ describe ComcastLead do
     expect(subject).not_to be_valid
   end
 
+  it 'reflects the ComcastCustomer name as comcast_customer_name' do
+    expect(subject.comcast_customer_name).to eq(subject.comcast_customer.name)
+  end
+
+  it 'reflects the ComcastCustomer mobile phone as comcast_customer_mobile_phone' do
+    expect(subject.comcast_customer_mobile_phone).to eq(subject.comcast_customer.mobile_phone)
+  end
+
+  it 'reflects the ComcastCustomer other phone as comcast_customer_other_phone' do
+    expect(subject.comcast_customer_other_phone).to eq(subject.comcast_customer.other_phone)
+  end
+
   describe 'scopes' do
     let!(:overdue_lead) {
       lead = build :comcast_lead, follow_up_by: Date.yesterday

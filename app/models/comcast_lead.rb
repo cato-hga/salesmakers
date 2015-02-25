@@ -43,6 +43,30 @@ class ComcastLead < ActiveRecord::Base
     ComcastCustomerPolicy
   end
 
+  def comcast_customer_name
+    if self.comcast_customer
+      self.comcast_customer.name
+    else
+      nil
+    end
+  end
+
+  def comcast_customer_mobile_phone
+    if self.comcast_customer
+      self.comcast_customer.mobile_phone
+    else
+      nil
+    end
+  end
+
+  def comcast_customer_other_phone
+    if self.comcast_customer
+      self.comcast_customer.other_phone
+    else
+      nil
+    end
+  end
+
   private
 
   def one_service_selected

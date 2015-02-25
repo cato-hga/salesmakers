@@ -47,6 +47,11 @@ Rails.application.routes.draw do
   end
 
   resources :comcast_eods, only: [:new, :create]
+  resources :comcast_leads, only: [:index] do
+    collection do
+      get :csv, to: 'comcast_leads#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
 
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
 

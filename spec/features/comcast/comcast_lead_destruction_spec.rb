@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'Comcast lead destruction' do
-  let(:position) { create :comcast_sales_position }
+  let(:department) { create :department }
+  let(:position) { create :comcast_sales_position, department: department }
   let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
   let!(:comcast_lead) {
     create :comcast_lead,
@@ -60,12 +61,12 @@ describe 'Comcast lead destruction' do
     it 'deactivates a lead' do
       CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
       visit comcast_customer_path(comcast_customer)
+      save_and_open_page
       within '#comcast_lead' do
         click_on 'Dismiss Lead'
       end
       expect(page).to have_content('dismissed')
       expect(page).to have_content('My Leads')
     end
-
   end
 end

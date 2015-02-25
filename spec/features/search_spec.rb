@@ -57,4 +57,47 @@ describe 'searching' do
       expect(page).to have_selector('a', text: identifier)
     end
   end
+
+  context 'on ComcastLeads#index' do
+    let(:permission_index) { create :permission, key: 'comcast_lead_index' }
+    let(:comcast_customer) { create :comcast_customer, person: person }
+    let!(:comcast_lead) { create :comcast_lead, comcast_customer: comcast_customer, follow_up_by: Date.tomorrow }
+
+    before do
+      person.position.permissions << permission_index
+      visit comcast_leads_path
+    end
+
+    it 'searches for a rep' do
+      fill_in 'q_comcast_customer_person_display_name_cont', with: person.display_name[6]
+      click_on 'search'
+      expect(page).to have_content(comcast_customer.name)
+    end
+
+    it 'searches for a customer first name' do
+      fill_in 'q_comcast_customer_first_name_cont', with: comcast_customer.first_name[3]
+      expect(page).to have_content(comcast_customer.name)
+    end
+
+    it 'searches for a customer last name' do
+      fill_in 'q_comcast_customer_last_name_cont', with: comcast_customer.last_name[3]
+      expect(page).to have_content(comcast_customer.name)
+    end
+
+    it 'searches for follow up by after date' do
+      fill_in 'q_follow_up_by_gteq', with: Date.today.strftime('%m/%d/%Y')
+      expect(page).to have_content(comcast_customer.name)
+    end
+
+    it 'searches for follow up by before date' do
+      fill_in 'q_follow_up_by_lteq', with: (Date.today + 2.days).strftime('%m/%d/%Y')
+      expect(page).to have_content(comcast_customer.name)
+    end
+
+    it 'searches for a follow up by date range' do
+      fill_in 'q_follow_up_by_gteq', with: Date.today.strftime('%m/%d/%Y')
+      fill_in 'q_follow_up_by_lteq', with: (Date.today + 2.days).strftime('%m/%d/%Y')
+      expect(page).to have_content(comcast_customer.name)
+    end
+  end
 end

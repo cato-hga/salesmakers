@@ -125,7 +125,8 @@ module LinksHelperExtension
     '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9]
   end
 
-  def comcast_customer_link(comcast_customer)
-    link_to comcast_customer.name, comcast_customer_path(comcast_customer)
+  def comcast_customer_link(comcast_customer, classes = nil)
+    return unless comcast_customer
+    link_to comcast_customer.name, comcast_customer_path(comcast_customer), class: classes
   end
 end

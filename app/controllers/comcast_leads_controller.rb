@@ -1,6 +1,36 @@
 class ComcastLeadsController < ApplicationController
   before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
   before_action :do_authorization, only: [:new, :create]
+  after_action :verify_authorized, only: [:new, :create, :index]
+  after_action :verify_policy_scoped, only: [:index, :csv]
+
+  def index
+    @search = policy_scope(ComcastLead).search(params[:q])
+    @comcast_leads = @search.result.page(params[:page])
+    authorize ComcastLead.new
+  end
+
+  def csv
+    @search = policy_scope(ComcastLead).search(params[:q])
+    @comcast_leads = @search.result
+    respond_to do |format|
+      format.html { redirect_to comcast_leads_path }
+      format.csv do
+        render csv: @comcast_leads,
+               filename: "comcast_leads_#{date_time_string}",
+               except: [
+                   :id,
+                   :comcast_customer_id,
+                   :created_at
+               ],
+               add_methods: [
+                   :comcast_customer_name,
+                   :comcast_customer_mobile_phone,
+                   :comcast_customer_other_phone
+               ]
+      end
+    end
+  end
 
   def new
     @comcast_lead = ComcastLead.new

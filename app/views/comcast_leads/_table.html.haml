@@ -1,12 +1,14 @@
-- header = header_row ['F/U By', 'Name', 'Saved', 'Phone', 'Services']
+- header = header_row ['F/U By', 'Rep', 'Name', 'Saved', 'Phone', 'Services']
 
 - rows = Array.new
 - for lead in leads do
+  - classes = lead.active? ? nil : [:inactive]
   - follow_up_by = short_date(lead.follow_up_by)
-  - name = comcast_customer_link lead.comcast_customer
+  - rep = person_link(lead.comcast_customer.person)
+  - name = comcast_customer_link lead.comcast_customer, classes
   - saved = friendly_datetime(lead.created_at)
-  - mobile_phone = phone_link(lead.mobile_phone)
-  - other_phone = phone_link(lead.other_phone)
+  - mobile_phone = phone_link(lead.mobile_phone, classes)
+  - other_phone = phone_link(lead.other_phone, classes)
   - phone = ''.html_safe
   - phone += 'm '.html_safe + mobile_phone if mobile_phone
   - phone += "<br>".html_safe if mobile_phone and other_phone
@@ -16,5 +18,5 @@
   - services += icon('web', false, :service_icon) + ' ' if lead.internet?
   - services += icon('telephone', false, :service_icon) + ' ' if lead.phone?
   - services += icon('lock', false, :service_icon) + ' ' if lead.security?
-  - rows << table_row([follow_up_by, name, saved, phone, services])
+  - rows << table_row([follow_up_by, rep, name, saved, phone, services])
 = table(header, rows)

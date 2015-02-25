@@ -2,8 +2,16 @@ class ComcastCustomerPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
       people = PersonPolicy::Scope.new(self.person, Person).resolve
-      scope.where(person: people)
+      if people.empty?
+        scope.none
+      else
+        scope.where('comcast_customers.person_id IN (?)', [people.ids].flatten)
+      end
     end
+  end
+
+  def show?
+    index?
   end
 
   def update?
