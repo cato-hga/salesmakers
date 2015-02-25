@@ -19,24 +19,23 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every :hour do
-  runner 'GroupMeGroup.update_groups'
+every 5.minutes do
+  runner 'LegacyVonageSaleImporting.new(5.minutes).import'
 end
 
 every 15.minutes do
   runner 'DaySalesCount.import'
-end
-
-every 15.minutes do
   runner 'SalesPerformanceRank.rank_people_sales'
-end
-
-every 15.minutes do
   runner 'SalesPerformanceRank.rank_areas_sales'
 end
 
 every 30.minutes do
   runner 'ConnectUpdater.update(30)'
+  runner 'VonageCommissionProcessing.new.process'
+end
+
+every :hour do
+  runner 'GroupMeGroup.update_groups'
 end
 
 every 3.hours do
@@ -45,10 +44,6 @@ end
 
 every 1.day, at: '8:00 am' do
   runner 'ConnectUpdater.update_shifts(17.days)'
-end
-
-every 5.minutes do
-  runner 'LegacyVonageSaleImporting.new(5.minutes).import'
 end
 
 every 1.day, at: '5:00 pm' do
