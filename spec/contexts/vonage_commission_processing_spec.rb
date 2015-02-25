@@ -35,8 +35,10 @@ describe VonageCommissionProcessing do
            sale_date: old_paycheck.commission_start + 1.day,
            mac: 'FEDCBA654321'
   }
-  let(:area) { create :area }
-  let(:sub_area) { create :area, name: 'Sub-area' }
+  let(:vonage_retail) { create :project, name: 'Vonage Retail' }
+  let!(:vonage_events) { create :project, name: 'Vonage Events' }
+  let(:area) { create :area, project: vonage_retail }
+  let(:sub_area) { create :area, name: 'Sub-area', project: vonage_retail }
   let!(:person_area) {
     create :person_area,
            person: vonage_sale.person,
@@ -149,6 +151,38 @@ describe VonageCommissionProcessing do
     it 'makes an individual payout from a person, sale, and payout' do
       expect(processor).to receive(:make_payout).at_least(:once)
       processor.process
+    end
+  end
+
+  context 'changing manager payouts' do
+    before { person_area.update manages: true }
+
+    it 'changes manager payout amounts' do
+      expect(processor).to receive(:change_manager_payouts)
+      processor.process
+    end
+
+    it 'gets a list of Vonage managers' do
+      expect(processor).to receive(:determine_vonage_managers)
+      processor.process
+    end
+
+    it 'changes Vonage manager payout amounts' do
+      expect(processor).to receive(:change_vonage_manager_payout_amounts)
+      processor.process
+    end
+
+    it 'changes the payout amount for a Vonage manager' do
+      expect(processor).to receive(:change_payout_amount_for_manager)
+      processor.process
+    end
+
+    it 'should have two payouts totaling $30' do
+      processor.process
+      sale_payouts = VonageSalePayout.all
+      payout_total = 0.00
+      sale_payouts.each { |payout| payout_total += payout.payout }
+      expect(payout_total).to eq(30.00)
     end
   end
 
