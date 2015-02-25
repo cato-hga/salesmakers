@@ -1,7 +1,8 @@
 class ComcastCustomerPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
-      scope.all
+      people = PersonPolicy::Scope.new(self.person, Person).resolve
+      scope.where(person: people)
     end
   end
 

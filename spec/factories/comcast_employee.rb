@@ -5,7 +5,7 @@ FactoryGirl.define do
     last_name 'Employee'
     email 'comcast_employee@cc.salesmakersinc.com'
     mobile_phone '7274872610'
-    association :position, factory: :comcast_sales_position, strategy: :build_stubbed
+    association :position, factory: :comcast_sales_position
   end
 
   factory :comcast_sales_position, class: Position do
@@ -13,7 +13,7 @@ FactoryGirl.define do
     leadership false
     all_field_visibility false
     all_corporate_visibility false
-    association :department, factory: :comcast_retail_department, strategy: :build_stubbed
+    association :department, factory: :comcast_retail_department
     field true
     hq false
   end
