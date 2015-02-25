@@ -9,6 +9,7 @@ class DevicesController < ApplicationController
   after_action :verify_authorized
 
   layout 'devices', except: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
+  layout false, only: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
 
   def index
     authorize Device.new
@@ -73,7 +74,7 @@ class DevicesController < ApplicationController
 
   def line_swap_or_move
     @device = Device.find params[:id]
-    @devices = @search.result.order('serial').page(params[:page])
+    @devices = @search.result.order('identifier').page(params[:page])
   end
 
   def line_swap_results
@@ -91,10 +92,10 @@ class DevicesController < ApplicationController
     if @device.update line: @second_line and @second_device.update line: @line
       @current_person.log? 'line_swap',
                            @device,
-                           @second_line
+                           @line
       @current_person.log? 'line_swap',
                            @second_device,
-                           @line
+                           @second_line
       flash[:notice] = 'Lines swapped!'
       redirect_to @device
     else

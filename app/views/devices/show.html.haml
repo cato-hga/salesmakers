@@ -20,7 +20,7 @@
   - if @device.repairing?
     = link_to 'Repaired', repaired_device_path(@device), class: [:button, :inline_button], method: :patch
   - if @device.line.present?
-    = link_to 'Swap Line', swap_line_device_path(@device), class: [:button, :inline_button ]
+    = link_to 'Swap Line', line_swap_or_move_device_path(@device), class: [:button, :inline_button ]
 
 - unless @device.identifier == @device.serial
   %h3
