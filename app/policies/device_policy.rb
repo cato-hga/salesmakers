@@ -37,15 +37,23 @@ class DevicePolicy < ApplicationPolicy
     update?
   end
 
-  def swap_line?
+  def line_swap_or_move?
     update?
   end
 
-  def swap_results?
-    swap_line?
+  def line_swap_results?
+    line_swap_or_move?
   end
 
   def line_swap_finalize?
-    swap_line?
+    line_swap_or_move?
+  end
+
+  def line_move_results?
+    line_swap_or_move?
+  end
+
+  def line_move_finalize?
+    line_swap_or_move?
   end
 end

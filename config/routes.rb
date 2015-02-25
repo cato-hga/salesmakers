@@ -55,13 +55,19 @@ Rails.application.routes.draw do
   resources :devices do
     member do
       get 'write_off'
-      get 'swap_line'
-      get 'swap_results/:line_id',
-          action: :swap_results,
-          as: 'swap_results'
-      patch 'line_swap_finalize/:line_id',
+      get 'line_swap_or_move'
+      get 'line_swap_results/:device_id',
+          action: :line_swap_results,
+          as: 'line_swap_results'
+      get 'line_move_results/:device_id',
+          action: :line_move_results,
+          as: 'line_move_results'
+      patch 'line_swap_finalize/:device_id',
             action: :line_swap_finalize,
             as: 'line_swap_finalize'
+      patch 'line_move_finalize/:device_id',
+            action: :line_move_finalize,
+            as: 'line_move_finalize'
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'

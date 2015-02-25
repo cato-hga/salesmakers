@@ -2,14 +2,13 @@ class DevicesController < ApplicationController
   include DeviceStateChangesControllerExtension
   include AssetReceiptControllerExtension
 
-  before_action :search_bar, except: [:swap_line]
+  before_action :search_bar, except: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices', except: [:swap_line, :swap_results]
-  layout 'lines', only: [:swap_line]
+  layout 'devices', except: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
 
   def index
     authorize Device.new
@@ -72,50 +71,53 @@ class DevicesController < ApplicationController
     end
   end
 
-  def swap_line
+  def line_swap_or_move
     @device = Device.find params[:id]
-    @search = Line.search(params[:q])
-    @lines = @search.result.order('identifier').page(params[:page])
+    @devices = @search.result.order('serial').page(params[:page])
   end
 
-  def swap_results
+  def line_swap_results
     @device = Device.find params[:id]
-    @original_line = @device.line if @device.line
-    @new_line = Line.find params[:line_id]
+    @second_device = Line.find params[:device_id]
   end
 
   def line_swap_finalize
     @device = Device.find params[:id]
-    @original_line = @device.line if @device.line
-    @new_line = Line.find params[:line_id]
-    @second_device = @new_line.device if @new_line and @new_line.device
-    active_state = LineState.find_or_initialize_by name: 'Active'
-    if @device.present? and @second_device.present?
-      @device.update line: nil
-      @second_device.update line: nil
-      if @device.update line: @new_line and @second_device.update line: @original_line
-        @current_person.log? 'line_swap',
-                             @device,
-                             @original_line
-        @current_person.log? 'line_swap',
-                             @second_device,
-                             @new_line
-        flash[:notice] = 'Line(s) swapped!'
-        redirect_to @device and return
-      else
-        puts @device.errors.full_messages
-        puts @second_device.errors.full_messages
-      end
+    @second_device = Device.find params[:device_id]
+    @line = @device.line if @device.line
+    @second_line = @second_device.line
+    @device.update line: nil
+    @second_device.update line: nil
+    if @device.update line: @second_line and @second_device.update line: @line
+      @current_person.log? 'line_swap',
+                           @device,
+                           @second_line
+      @current_person.log? 'line_swap',
+                           @second_device,
+                           @line
+      flash[:notice] = 'Line(s) swapped!'
+      redirect_to @device
+    else
+      puts @device.errors.full_messages
+      puts @second_device.errors.full_messages
     end
-    if @device.present? and not @second_device.present?
-      if @device.update line: @new_line
-        @original_line.line_states.delete active_state
-        @current_person.log? 'line_swap',
-                             @device,
-                             @original_line
-        flash[:notice] = 'Line(s) swapped!'
-        redirect_to @device and return
-      end
+  end
+
+  def line_move_results
+    @device = Device.find params[:id]
+    @second_device = Device.find param[:device_id]
+  end
+
+  def line_move_finalize
+    @device = Device.find params[:id]
+    line = @device.line
+    @second_device = Device.find param[:device_id]
+    if @second_device.update line: line
+      @current_person.log? 'line_swap',
+                           @device,
+                           line
+      flash[:notice] = 'Line moved'
+      redirect_to @device
     end
   end
 
@@ -141,5 +143,4 @@ class DevicesController < ApplicationController
     @device_models = DeviceModel.all
     @service_providers = TechnologyServiceProvider.all
   end
-
 end
