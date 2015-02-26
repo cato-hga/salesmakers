@@ -64,7 +64,7 @@ class GroupMeGroupsController < ApplicationController
   def check_file
     uploaded_io = post_params[:file]
     return false unless uploaded_io
-    new_filename = Rails.root.join('public', 'uploads', uploaded_io.original_filename)
+    new_filename = Rails.root.join('public', 'uploads', "#{SecureRandom.uuid}_#{uploaded_io.original_filename}")
     File.open(new_filename, 'wb') do |file|
       file.write(uploaded_io.read)
     end
@@ -95,9 +95,9 @@ class GroupMeGroupsController < ApplicationController
 
   def get_url_to_file
     if Rails.env.staging? || Rails.env.production?
-      root_url + '/public/uploads/' + File.basename(@file)
+      URI::encode(root_url + '/public/uploads/' + File.basename(@file))
     else
-      'http://localhost:3000' + '/public/uploads/' + File.basename(@file)
+      URI::encode('http://localhost:3000' + '/public/uploads/' + File.basename(@file))
     end
   end
 
