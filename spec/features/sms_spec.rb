@@ -62,12 +62,12 @@ describe 'SMS messaging' do
 
     it 'shows the proper message count' do
       fill_in 'contact_message', with: 'a'*160
-      expect(page).to have_selector('.sms_length.ok', text: '0')
+      expect(page).to have_selector('.within_length.ok', text: '0')
     end
 
     it 'shows a red message count when over 160 characters' do
       fill_in 'contact_message', with: 'a'*161
-      expect(page).to have_selector('.sms_length.bad', text: '-1')
+      expect(page).to have_selector('.within_length.bad', text: '-1')
     end
   end
 
