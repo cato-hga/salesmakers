@@ -37,7 +37,7 @@ class GroupMeGroupsController < ApplicationController
     @message = check_message
     @file = check_file
     if @file
-      @is_image = FastImage.type @file
+      @is_image = FastImage.type File.path(@file)
     end
   end
 
@@ -64,6 +64,7 @@ class GroupMeGroupsController < ApplicationController
   def check_file
     uploaded_io = post_params[:file]
     return false unless uploaded_io
+    @original_filename = uploaded_io.original_filename
     new_filename = Rails.root.join('public', 'uploads', "#{SecureRandom.uuid}_#{uploaded_io.original_filename}")
     File.open(new_filename, 'wb') do |file|
       file.write(uploaded_io.read)
@@ -95,9 +96,9 @@ class GroupMeGroupsController < ApplicationController
 
   def get_url_to_file
     if Rails.env.staging? || Rails.env.production?
-      URI::encode(root_url + '/public/uploads/' + File.basename(@file))
+      URI::encode(root_url + '/uploads/' + File.basename(@file))
     else
-      URI::encode('http://localhost:3000' + '/public/uploads/' + File.basename(@file))
+      URI::encode('http://localhost:3000' + '/uploads/' + File.basename(@file))
     end
   end
 
@@ -115,13 +116,12 @@ class GroupMeGroupsController < ApplicationController
   end
 
   def build_upload_message
-    filename = File.basename(@file)
-    upload_message = "Download your copy of '#{filename}' here: "
+    upload_message = "Download your copy of '#{@original_filename}' here: "
     begin
       upload_message += Bitly.client.shorten(get_url_to_file).short_url
     rescue BitlyError
       return nil
     end
+    upload_message
   end
-
 end
