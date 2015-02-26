@@ -61,7 +61,6 @@ describe 'Comcast lead destruction' do
     it 'deactivates a lead' do
       CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
       visit comcast_customer_path(comcast_customer)
-      save_and_open_page
       within '#comcast_lead' do
         click_on 'Dismiss Lead'
       end
