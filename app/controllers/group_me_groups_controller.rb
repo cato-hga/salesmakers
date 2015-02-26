@@ -14,7 +14,7 @@ class GroupMeGroupsController < ApplicationController
     authorize GroupMeGroup.new
     group_me_group_ids = check_group_me_group_ids
     message = check_message
-    render :new and return unless group_me_group_ids and message
+    render :new_post and return unless group_me_group_ids and message
     add_bots_and_post group_me_group_ids, message
     flash[:notice] = 'Message successfully sent to GroupMe for delivery.'
     redirect_to new_post_group_me_groups_path
@@ -32,7 +32,7 @@ class GroupMeGroupsController < ApplicationController
 
   def check_message
     message = post_params[:message]
-    unless message and message.length > 10
+    unless message and message.length > 5
       flash[:error] = "You must select at least "
       false
     else
