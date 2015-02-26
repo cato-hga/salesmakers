@@ -15,6 +15,11 @@ class ComcastSale < ActiveRecord::Base
   has_one :comcast_former_provider
   has_one :comcast_lead
 
+  default_scope {
+    joins(:person, :comcast_install_appointment).
+        order('comcast_install_appointments.install_date DESC, people.display_name ASC')
+  }
+
   scope :person, ->(person_id) {
     where(person_id: person_id)
   }

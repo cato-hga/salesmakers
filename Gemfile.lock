@@ -29,6 +29,13 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: https://github.com/ndbroadbent/ransack_chronic.git
+  revision: d0f65fa16fc66e9f359f5d5bda59cc11567f4352
+  specs:
+    ransack_chronic (1.1.0)
+      chronic (>= 0.6.7)
+
+GIT
   remote: https://github.com/roo-rb/roo.git
   revision: 707ed1524dd4506e553c6528a674add910598395
   specs:
@@ -641,6 +648,7 @@ DEPENDENCIES
   rails (= 4.2.0)
   rails_best_practices (= 1.15.4)
   ransack (= 1.6.2)
+  ransack_chronic!
   remotipart (= 1.2.1)
   render_csv (= 2.0.0)
   responders (= 2.0.2)

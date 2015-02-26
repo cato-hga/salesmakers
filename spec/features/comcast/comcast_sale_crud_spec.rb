@@ -79,7 +79,36 @@ describe 'Comcast sales CRUD actions' do
         end
       end
     end
+  end
 
+  context 'for reading' do
+    describe 'index page' do
+      let(:area) { create :area }
+      let(:person) { create :comcast_employee }
+      let!(:person_area) { create :person_area, person: person, area: area }
+      let(:comcast_customer_one) { create :comcast_customer, person: person }
+      let(:comcast_customer_two) { create :comcast_customer, person: person }
+      let!(:comcast_sale_one) {
+        create :comcast_sale,
+               comcast_customer: comcast_customer_one,
+               person: person
+      }
+      let!(:comcast_sale_two) { create :comcast_sale, comcast_customer: comcast_customer_two }
+      let!(:permission) { create :permission, key: 'comcast_sale_index' }
 
+      before do
+        person.position.permissions << permission
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
+        visit comcast_sales_path
+      end
+
+      it 'has the correct page title' do
+        expect(page).to have_selector('h1', text: 'Comcast Sales')
+      end
+
+      it 'lists Comcast sales' do
+        expect(page).to have_content(comcast_customer_one.name)
+      end
+    end
   end
 end

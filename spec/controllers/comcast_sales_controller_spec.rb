@@ -2,7 +2,43 @@ require 'rails_helper'
 
 describe ComcastSalesController do
   let(:comcast_customer) { create :comcast_customer }
+  let(:comcast_employee) { create :comcast_employee }
+  let(:comcast_sale) {
+    build :comcast_sale,
+          comcast_customer: comcast_customer,
+          person: comcast_employee
+  }
   let(:former_provider) { create :comcast_former_provider }
+
+  before { CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email) }
+
+  describe 'GET index' do
+    before do
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:index)
+    end
+  end
+
+  describe 'GET csv' do
+    it 'returns a success status for CSV format' do
+      get :csv,
+          format: :csv
+      expect(response).to be_success
+    end
+
+    it 'redirects an HTML format' do
+      get :csv
+      expect(response).to redirect_to(comcast_sales_path)
+    end
+  end
 
   describe 'GET new' do
     before do

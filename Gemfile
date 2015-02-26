@@ -18,6 +18,7 @@ gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git' # CAS c
 #gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git' # Allow current_user to work in models
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git' # Tree-based hierarchies for models
 gem 'ransack', '1.6.2' # Was 1.2.3 01/21/2015 - ActiveRecord search
+gem 'ransack_chronic', git: 'https://github.com/ndbroadbent/ransack_chronic.git' # Use Chronic to parse dates with Ransack search
 gem 'kaminari', git: 'https://github.com/amatsuda/kaminari.git' # Was 0.16.2 02/16/2015 - Pagination
 gem 'httparty', '0.13.3' # Was 0.13.1 01/21/2015 - HTTP REST API client
 gem 'namecase', '1.1.0' # Easily turn names into proper cases

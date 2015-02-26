@@ -37,4 +37,31 @@ describe ComcastSalePolicy do
     specify { expect(policy.update?).to be_falsey }
     specify { expect(policy.destroy?).to be_falsey }
   end
+
+  describe 'scope' do
+    let(:permitted_comcast_customer) { create :comcast_customer, person: permitted_person }
+    let!(:permitted_comcast_sale) {
+      create :comcast_sale,
+             comcast_customer: permitted_comcast_customer,
+             person: permitted_person
+    }
+    let(:unpermitted_comcast_customer) { create :comcast_customer, person: unpermitted_person }
+    let!(:unpermitted_comcast_sale) {
+      create :comcast_sale,
+             comcast_customer: unpermitted_comcast_customer,
+             person: unpermitted_person
+    }
+    let(:area) { create :area }
+    let!(:person_area) { create :person_area, person: permitted_person, area: area }
+
+    let(:records) { ComcastSalePolicy::Scope.new(permitted_person, ComcastSale).resolve }
+
+    it 'shows leads for permitted people' do
+      expect(records).to include(permitted_comcast_sale)
+    end
+
+    it 'hides leads for unpermitted people' do
+      expect(records).not_to include(unpermitted_comcast_sale)
+    end
+  end
 end

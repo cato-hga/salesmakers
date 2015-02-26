@@ -4,12 +4,14 @@
   = search_form_for @search, id: 'search_form' do |f|
     = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
-    = f.select :active_eq, [['Active', true],['Dismissed', false]], include_blank: 'All'
-    = f.text_field :follow_up_by_gteq, placeholder: 'F/U on/after'
-    = f.text_field :follow_up_by_lteq, placeholder: 'F/U on/before'
-    = f.text_field :comcast_customer_person_display_name_cont, placeholder: 'Rep Name'
+    = f.text_field :comcast_install_appointment_install_date_gteq, placeholder: 'Inst. on/after'
+    = f.text_field :comcast_install_appointment_install_date_lteq, placeholder: 'Inst. on/before'
+    = f.text_field :person_display_name_cont, placeholder: 'Rep Name'
+    = f.text_field :order_date_gteq, placeholder: 'Sold on/after'
+    = f.text_field :order_date_lteq, placeholder: 'Sold on/before'
     = f.text_field :comcast_customer_first_name_cont, placeholder: 'Cust. first name'
     = f.text_field :comcast_customer_last_name_cont, placeholder: 'Cust. last name'
+    = f.text_field :order_number_cont, placeholder: 'Order #'
     = f.submit 'search', class: 'button'
   - if @devices
     .top-pagination
