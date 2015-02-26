@@ -118,7 +118,7 @@ class GroupMeGroupsController < ApplicationController
     filename = File.basename(@file)
     upload_message = "Download your copy of '#{filename}' here: "
     begin
-      upload_message += Bitly.client.shorten(get_url_to_file)
+      upload_message += Bitly.client.shorten(get_url_to_file).short_url
     rescue BitlyError
       return nil
     end
