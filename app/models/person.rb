@@ -183,6 +183,13 @@ class Person < ActiveRecord::Base
     self.person_areas.each.map(&:project)
   end
 
+  def manager_or_hq?
+    return true if self.hq?
+    manager = false
+    self.person_areas.each { |pa| pa.manages? ? manager = true : next }
+    manager
+  end
+
   private
 
   def generate_display_name
