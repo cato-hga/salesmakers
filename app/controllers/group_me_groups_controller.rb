@@ -34,16 +34,16 @@ class GroupMeGroupsController < ApplicationController
 
   def check_params
     @group_me_group_ids = check_group_me_group_ids
-    @message = check_message
     @file = check_file
     if @file
       @is_image = FastImage.type File.path(@file)
     end
+    @message = check_message
   end
 
   def check_message
     message = post_params[:message]
-    unless (message && message.length > 4) || check_file
+    unless (message && message.length > 4) || @file
       flash[:error] = "You must enter a message at least 5 characters long or upload a file."
       false
     else
@@ -65,7 +65,8 @@ class GroupMeGroupsController < ApplicationController
     uploaded_io = post_params[:file]
     return false unless uploaded_io
     @original_filename = uploaded_io.original_filename
-    new_filename = Rails.root.join('public', 'uploads', "#{SecureRandom.uuid}_#{uploaded_io.original_filename}")
+    uuid = SecureRandom.uuid
+    new_filename = Rails.root.join('public', 'uploads', "#{uuid}_#{uploaded_io.original_filename}")
     File.open(new_filename, 'wb') do |file|
       file.write(uploaded_io.read)
     end
