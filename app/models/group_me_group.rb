@@ -6,6 +6,12 @@ class GroupMeGroup < ActiveRecord::Base
   belongs_to :area
   has_many :group_me_posts
 
+  default_scope {
+    joins('LEFT OUTER JOIN areas ON areas.id = group_me_groups.area_ID ' +
+              "LEFT OUTER JOIN projects ON projects.id = areas.project_id").
+        order('projects.name, areas.name, group_me_groups.name')
+  }
+
   def self.update_group(group_me_group_num)
     groupme = GroupMe.new_global
     group_json = groupme.get_group group_me_group_num

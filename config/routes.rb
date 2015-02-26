@@ -110,6 +110,8 @@ Rails.application.routes.draw do
   resources :device_states, except: [:show]
 
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
+  get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
+  post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups
 
   resources :lines, only: [:index, :show, :new, :create, :update] do
     collection do

@@ -1,0 +1,34 @@
+- title 'Post to GroupMe Group(s)'
+
+- project_groups = Hash.new
+- current_project_name = 'FOOBAR'
+- current_project_groups = []
+- for group_me_group in @group_me_groups do
+  - project_name = group_me_group.area ? group_me_group.area.project.name : 'No Project'
+  - if current_project_name != project_name
+    - project_groups[current_project_name] = current_project_groups
+    - current_project_name = project_name
+    - current_project_groups = []
+  - current_project_groups << group_me_group
+- project_groups[current_project_name] = current_project_groups
+
+.widget
+  .inner
+    = form_tag post_group_me_groups_path, method: :post do
+      - project_groups.except('FOOBAR').each do |project_name, group_me_groups|
+        %fieldset
+          %legend= project_name
+          %p
+            %a.select_all Select All
+            \|
+            %a.select_none Select None
+          - for group_me_group in group_me_groups do
+            - area = group_me_group.area
+            - area_name = area ? "#{area.name} &mdash; ".html_safe : ''
+            = check_box_tag "group_me_group_ids[]", group_me_group.id, false
+            = "#{area_name}\"#{group_me_group.name}\"".html_safe
+            %br/
+      = label_tag 'message', 'Message'
+      = text_area_tag 'message', @message, rows: 5
+      = submit_tag 'Post', class: [:button]
+      .within_length.ok 375

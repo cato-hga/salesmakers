@@ -70,6 +70,12 @@ describe 'GroupMe API' do
     message = groupme.send_message('8936279', 'GroupMe API "send_message" test')
     expect(message).not_to be_nil
   end
+
+  it 'should add a bot', :vcr do
+    response = groupme.add_bot(SecureRandom.uuid, '8936279')
+    expect(response.length).to be > 0
+    groupme.destroy_bot response
+  end
 end
 
 # describe 'GroupMe API Message' do

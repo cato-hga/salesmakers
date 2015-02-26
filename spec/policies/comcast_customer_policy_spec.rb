@@ -46,7 +46,7 @@ describe ComcastCustomerPolicy do
     let(:area) { create :area }
     let!(:person_area) { create :person_area, person: permitted_person, area: area }
 
-    let(:records) { ComcastCustomerPolicy::Scope.new(permitted_person, ComcastCustomer).resolve }
+    let(:records) { ComcastCustomerPolicy::Scope.new(permitted_person, ComcastCustomer.all).resolve }
 
     it 'shows customers for permitted people' do
       expect(records).to include(permitted_comcast_customer)

@@ -259,7 +259,6 @@ class GroupMe
         }
     }.to_json
     response = doPost '/bots', new_bot
-    puts response.inspect
     return nil unless response and
         response['response'] and
         response['response']['bot']
