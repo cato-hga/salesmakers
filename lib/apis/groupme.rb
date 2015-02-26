@@ -282,6 +282,7 @@ class GroupMe
                                   }]
       end
       payload = payload.to_json
+      puts payload
       response = self.class.post '/bots/post', { body: payload }
     end
     response

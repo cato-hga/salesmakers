@@ -36,12 +36,28 @@ GIT
       chronic (>= 0.6.7)
 
 GIT
+  remote: https://github.com/philnash/bitly.git
+  revision: cfdc63e1e76fbb6033f5731ec9c44d369c6d10ac
+  specs:
+    bitly (0.10.3)
+      httparty (>= 0.7.6)
+      multi_json (~> 1.3)
+      oauth2 (>= 0.5.0, < 2.0)
+
+GIT
   remote: https://github.com/roo-rb/roo.git
   revision: 707ed1524dd4506e553c6528a674add910598395
   specs:
     roo (2.0.0)
       nokogiri
       rubyzip (>= 1.0.0)
+
+GIT
+  remote: https://github.com/sdsykes/fastimage.git
+  revision: eb2ee31cd266f152c437864925c7eda535fe778b
+  specs:
+    fastimage (1.6.6)
+      addressable (~> 2.3, >= 2.3.5)
 
 GIT
   remote: https://github.com/stefankroes/ancestry.git
@@ -217,6 +233,8 @@ GEM
       railties (>= 3.0.0)
     faker (1.4.3)
       i18n (~> 0.5)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     fattr (2.2.2)
     faye (1.1.0)
       cookiejar (>= 0.3.0)
@@ -345,6 +363,7 @@ GEM
     minitest (5.5.1)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
     namecase (1.1.0)
     nenv (0.2.0)
     net-scp (1.2.1)
@@ -360,6 +379,12 @@ GEM
     notiffany (0.0.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oauth2 (1.0.0)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 1.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (~> 1.2)
     parallel (1.3.3)
     parser (2.2.0.2)
       ast (>= 1.1, < 3.0)
@@ -598,6 +623,7 @@ DEPENDENCIES
   awesome_print (= 1.6.1)
   better_errors (= 2.1.1)
   binding_of_caller (= 0.7.2)
+  bitly!
   browser-timezone-rails (= 0.0.8)
   capistrano (= 3.3.5)
   capistrano-bundler (= 1.1.3)
@@ -619,6 +645,7 @@ DEPENDENCIES
   exception_notification (= 4.0.1)
   factory_girl_rails (= 4.5.0)
   faker (= 1.4.3)
+  fastimage!
   faye (= 1.1.0)
   foundation-icons-sass-rails (= 3.0.0)
   geocoder (= 1.2.6)

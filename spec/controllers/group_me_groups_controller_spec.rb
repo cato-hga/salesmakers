@@ -24,7 +24,14 @@ describe GroupMeGroupsController do
   end
 
   describe 'POST post' do
-    before do
+    let(:not_image_file) {
+      fixture_file_upload(Rails.root.join('spec', 'fixtures', 'UQube Import for FTP.xlsx'))
+    }
+    let(:image_file) {
+      fixture_file_upload(Rails.root.join('spec', 'fixtures', 'image.jpg'))
+    }
+
+    subject do
       post :post,
            group_me_group_ids: [
                group_me_group.id.to_s,
@@ -34,7 +41,31 @@ describe GroupMeGroupsController do
     end
 
     it 'redirects to new_post', :vcr do
+      subject
+      expect(response).to redirect_to(new_post_group_me_groups_path)
+    end
+
+    it 'succeeds with an image file', :vcr do
+      post :post,
+           group_me_group_ids: [
+               group_me_group.id.to_s,
+               second_group_me_group.id.to_s
+           ],
+           message: 'This is a test message.',
+           file: image_file
+      expect(response).to redirect_to(new_post_group_me_groups_path)
+    end
+
+    it 'succeeds with a non-image file', :vcr do
+      post :post,
+           group_me_group_ids: [
+               group_me_group.id.to_s,
+               second_group_me_group.id.to_s
+           ],
+           message: 'This is a test message.',
+           file: not_image_file
       expect(response).to redirect_to(new_post_group_me_groups_path)
     end
   end
+
 end

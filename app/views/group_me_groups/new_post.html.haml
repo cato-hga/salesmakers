@@ -14,7 +14,7 @@
 
 .widget
   .inner
-    = form_tag post_group_me_groups_path, method: :post do
+    = form_tag post_group_me_groups_path, method: :post, multipart: true do
       - project_groups.except('FOOBAR').each do |project_name, group_me_groups|
         %fieldset
           %legend= project_name
@@ -30,5 +30,7 @@
             %br/
       = label_tag 'message', 'Message'
       = text_area_tag 'message', @message, rows: 5
+      = label_tag 'file', 'Attachment'
+      = file_field_tag 'file'
       = submit_tag 'Post', class: [:button]
       .within_length.ok 375
