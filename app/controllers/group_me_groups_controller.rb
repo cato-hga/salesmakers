@@ -3,7 +3,7 @@ require 'apis/groupme'
 class GroupMeGroupsController < ApplicationController
   before_action :set_message
   after_action :verify_authorized
-  after_action :verify_policy_scoped, only: [:new_post]
+  after_action :verify_policy_scoped
 
   def new_post
     @group_me_groups = policy_scope(GroupMeGroup)
@@ -11,10 +11,13 @@ class GroupMeGroupsController < ApplicationController
   end
 
   def post
+    @group_me_groups = policy_scope(GroupMeGroup)
     authorize GroupMeGroup.new
     group_me_group_ids = check_group_me_group_ids
     message = check_message
-    render :new_post and return unless group_me_group_ids and message
+    unless group_me_group_ids and message
+      render :new_post and return
+    end
     add_bots_and_post group_me_group_ids, message
     flash[:notice] = 'Message successfully sent to GroupMe for delivery.'
     redirect_to new_post_group_me_groups_path
@@ -32,8 +35,8 @@ class GroupMeGroupsController < ApplicationController
 
   def check_message
     message = post_params[:message]
-    unless message and message.length > 5
-      flash[:error] = "You must select at least "
+    unless message and message.length > 4
+      flash[:error] = "You must enter a message at least 5 characters long."
       false
     else
       message
