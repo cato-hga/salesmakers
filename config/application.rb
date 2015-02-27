@@ -58,4 +58,9 @@ class Time
     self +
         ActiveSupport::TimeZone['Eastern Time (US & Canada)'].utc_offset
   end
+
+  def apply_pacific_offset
+    self +
+        ActiveSupport::TimeZone['Pacific Time (US & Canada)'].utc_offset
+  end
 end
