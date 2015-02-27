@@ -24,30 +24,29 @@ class GroupMesController < ApplicationController
   #   redirect_to root_url
   #
   # end
-  #
-  # def incoming_bot_message
-  #   json = request.body.read
-  #   existing_message = GroupMePost.find_by message_num: params[:id]
-  #   return if existing_message
-  #   group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
-  #   unless group_me_user
-  #     GroupMeGroup.update_group params[:group_id]
-  #     group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
-  #   end
-  #   group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
-  #   unless group_me_group
-  #     GroupMeGroup.update_group params[:group_id]
-  #     group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
-  #   end
-  #   return unless group_me_user
-  #   post = GroupMePost.create group_me_group: group_me_group,
-  #                             message_num: params[:id],
-  #                             posted_at: Time.now,
-  #                             json: json,
-  #                             group_me_user: group_me_user
-  # end
-  #
-  #
+
+  def incoming_bot_message
+    json = request.body.read
+    existing_message = GroupMePost.find_by message_num: params[:id]
+    return if existing_message
+    group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
+    unless group_me_user
+      GroupMeGroup.update_group params[:group_id]
+      group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
+    end
+    group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
+    unless group_me_group
+      GroupMeGroup.update_group params[:group_id]
+      group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
+    end
+    return unless group_me_user
+    post = GroupMePost.create group_me_group: group_me_group,
+                              message_num: params[:id],
+                              posted_at: Time.now,
+                              json: json,
+                              group_me_user: group_me_user
+  end
+
   # def groups
   #   groups = @groupme.get_groups
   #   respond_with groups
@@ -57,7 +56,6 @@ class GroupMesController < ApplicationController
   #   @messages = @groupme.get_messages(params[:group_id], 25)
   #   @group_id = params[:group_id]
   # end
-
 
   def post_message
     @response = @groupme.send_message params[:group_id], params[:message]
