@@ -564,6 +564,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timecop (0.7.3)
     timers (4.0.1)
       hitimes
     traceroute (0.4.0)
@@ -691,6 +692,7 @@ DEPENDENCIES
   spring (= 1.2.0)
   spring-commands-rspec (= 1.0.4)
   swiper-rails (= 1.0.2)
+  timecop (= 0.7.3)
   traceroute (= 0.4.0)
   twilio-ruby (= 3.14.4)
   uglifier (= 2.7.0)

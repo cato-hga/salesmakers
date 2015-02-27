@@ -77,7 +77,6 @@ group :development do
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
 end
 
-
 group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
@@ -87,6 +86,7 @@ group :test do
   gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests
   gem 'codeclimate-test-reporter', '0.4.5', require: nil #codeclimate test coverage
   gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
+  gem 'timecop', '0.7.3' # Alter times in testing
 end
 
 group :production do

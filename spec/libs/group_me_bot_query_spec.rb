@@ -65,6 +65,16 @@ describe GroupMeBotQuery do
       expect(query.start_date).to eq(Date.today.beginning_of_month - 1.month)
       expect(query.end_date).to eq(Date.today.beginning_of_month)
     end
+
+    it 'pulls the correct day after midnight UTC' do
+      after_midnight_utc = Time.now.utc.beginning_of_day + 27.hours
+      Timecop.freeze(after_midnight_utc)
+      query.keywords = ['today']
+      query.determine_date_range
+      Timecop.return
+      expect(query.start_date).to eq(Date.today)
+      expect(query.end_date).to eq(Date.tomorrow)
+    end
   end
 
   describe 'result formatting' do
