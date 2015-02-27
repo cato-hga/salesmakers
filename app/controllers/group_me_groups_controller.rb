@@ -87,6 +87,7 @@ class GroupMeGroupsController < ApplicationController
   end
 
   def schedule
+    Chronic.time_class = Time.zone
     if post_params[:schedule]
       @schedule = Chronic.parse(post_params[:schedule])
     else
