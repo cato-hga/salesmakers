@@ -7,18 +7,22 @@ class GroupMeGroupsController < ApplicationController
 
   def new_post
     @group_me_groups = policy_scope(GroupMeGroup)
+    @schedule = nil
     authorize GroupMeGroup.new
   end
 
   def post
     @group_me_groups = policy_scope(GroupMeGroup)
+    @schedule_when = post_params[:schedule]
     authorize GroupMeGroup.new
     check_params
     unless @group_me_group_ids && (@message || @file)
       render :new_post and return
     end
     add_bots_and_post
-    flash[:notice] = 'Message successfully sent to GroupMe for delivery.'
+    message = 'Message successfully sent to GroupMe for delivery'
+    message += ' on ' + @schedule.strftime('%m/%d/%Y at %-l:%M%P.') if @schedule
+    flash[:notice] = "#{message}."
     redirect_to new_post_group_me_groups_path
   end
 
@@ -29,7 +33,7 @@ class GroupMeGroupsController < ApplicationController
   end
 
   def post_params
-    params.permit :message, :file, {:group_me_group_ids => []}
+    params.permit :message, :file, :schedule, {:group_me_group_ids => []}
   end
 
   def check_params
@@ -74,24 +78,36 @@ class GroupMeGroupsController < ApplicationController
   end
 
   def add_bots_and_post
+    schedule
     @group_me = GroupMe.new_global
     for group_me_group_id in @group_me_group_ids do
       group_me_group = GroupMeGroup.find group_me_group_id.to_i
-      bot_name = "#{@current_person.display_name} via SalesCenter 2.0"
-      bot_id = @group_me.add_bot bot_name, group_me_group.group_num
-      next unless bot_id
-      post_message(bot_id)
-      @group_me.destroy_bot bot_id
+      post_message(group_me_group)
     end
   end
 
-  def post_message(bot_id)
-    if @file and @is_image
-      @group_me.post_messages_with_bot [@message], bot_id, get_url_to_file
-    elsif @file and not @is_image
-      send_attachment_messages(@message, bot_id)
+  def schedule
+    if post_params[:schedule]
+      @schedule = Chronic.parse(post_params[:schedule])
     else
-      @group_me.post_messages_with_bot [@message], bot_id
+      @schedule = Time.now
+    end
+  end
+
+  def post_message(group_me_group)
+    if @file and @is_image
+      GroupMeBotPostJob.set(wait_until: @schedule).
+          perform_later [@message],
+                        @current_person.display_name,
+                        group_me_group.group_num,
+                        get_url_to_file
+    elsif @file and not @is_image
+      send_attachment_messages(@message, group_me_group)
+    else
+      GroupMeBotPostJob.set(wait_until: @schedule).
+          perform_later [@message],
+                        @current_person.display_name,
+                        group_me_group.group_num
     end
   end
 
@@ -103,17 +119,23 @@ class GroupMeGroupsController < ApplicationController
     end
   end
 
-  def send_attachment_messages(message, bot_id)
+  def send_attachment_messages(message, group_me_group)
     upload_message = build_upload_message
     unless upload_message
-      @group_me.post_messages_with_bot [@message], bot_id and return
+      GroupMeBotPostJob.set(wait_until: @schedule).
+          perform_later [@message],
+                        @current_person.display_name,
+                        group_me_group.group_num and return
     end
     if message and message.length > 0
       messages = [message, upload_message]
     else
       messages = [upload_message]
     end
-    @group_me.post_messages_with_bot messages, bot_id
+    GroupMeBotPostJob.set(wait_until: @schedule).
+        perform_later messages,
+                      @current_person.display_name,
+                      group_me_group.group_num
   end
 
   def build_upload_message
@@ -125,4 +147,5 @@ class GroupMeGroupsController < ApplicationController
     end
     upload_message
   end
+
 end

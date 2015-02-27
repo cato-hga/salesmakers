@@ -66,6 +66,18 @@ describe GroupMeGroupsController do
            file: not_image_file
       expect(response).to redirect_to(new_post_group_me_groups_path)
     end
+
+    it 'succeeds on a schedule', :vcr do
+      schedule_for = Time.now + 10.seconds
+      post :post,
+           group_me_group_ids: [
+               group_me_group.id.to_s,
+               second_group_me_group.id.to_s
+           ],
+           message: 'This is a test message.',
+           schedule: schedule_for.strftime('%-l:%M%P')
+      expect(response).to redirect_to(new_post_group_me_groups_path)
+    end
   end
 
 end

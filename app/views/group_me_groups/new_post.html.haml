@@ -32,5 +32,13 @@
       = text_area_tag 'message', @message, rows: 5
       = label_tag 'file', 'Attachment'
       = file_field_tag 'file'
+      = label_tag 'schedule', 'Schedule'
+      %p#scheduleHelpText
+        %span.small
+          Leave blank to send now.
+          %br/
+          %span.comment
+            Try: "9pm", "tomorrow at noon", "1/27 10:30am", "saturday at 7:10am", "ten minutes from now"
+      = text_field_tag 'schedule', @schedule_when, 'aria-describedby' => 'scheduleHelpText', placeholder: "Don't forget am/pm"
       = submit_tag 'Post', class: [:button]
       .within_length.ok 375
