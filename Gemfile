@@ -57,7 +57,7 @@ gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
 gem 'goldiloader', '0.0.8' # Automatic eager loading
 gem 'sidekiq', '3.3.2' # Background job queuing system
 gem 'sinatra', '1.4.5', require: false
-gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq' # Sidekiq integrations for Capistrano
+#gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq' # Sidekiq integrations for Capistrano
 gem 'googlecharts', '1.6.10' # Google charts, duh.
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper

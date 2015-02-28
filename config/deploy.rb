@@ -27,8 +27,8 @@ set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
 set :puma_access_log, "#{release_path}/log/puma.error.log"
 set :puma_error_log, "#{release_path}/log/puma.access.log"
 
-set :sidekiq_processes, 3
-set :sidekiq_config, 'config/sidekiq.yaml'
+#set :sidekiq_processes, 3
+#set :sidekiq_config, 'config/sidekiq.yaml'
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -86,8 +86,16 @@ namespace :deploy do
     end
   end
 
+  desc 'Restart Sidekiq'
+  task :restart_sidekiq do
+    on roles(:app), in: :sequence do
+      execute 'sudo initctl restart sidekiq'
+    end
+  end
+
   before :starting, :check_revision
   after :finishing, :compile_assets
   after :finishing, :cleanup
   after :finishing, :restart
+  after :finishing, :restart_sidekiq
 end
