@@ -59,6 +59,16 @@ namespace :staging do
   end
 end
 
+namespace :sidekiq do
+  task :quiet do
+    # Horrible hack to get PID without having to use terrible PID files
+    puts capture("kill -USR1 $(sudo initctl status sidekiq | grep /running | awk '{print $NF}') || :")
+  end
+  task :restart do
+    execute :sudo, :initctl, :restart, :sidekiq
+  end
+end
+
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
@@ -86,16 +96,12 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart Sidekiq'
-  task :restart_sidekiq do
-    on roles(:app), in: :sequence do
-      execute 'sudo initctl restart sidekiq'
-    end
-  end
-
   before :starting, :check_revision
   after :finishing, :compile_assets
   after :finishing, :cleanup
   after :finishing, :restart
-  after :finishing, :restart_sidekiq
 end
+
+after 'deploy:starting', 'sidekiq:quiet'
+after 'deploy:reverted', 'sidekiq:restart'
+after 'deploy:published', 'sidekiq:restart'
