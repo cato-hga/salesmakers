@@ -60,10 +60,6 @@ namespace :staging do
 end
 
 namespace :sidekiq do
-  task :quiet do
-    # Horrible hack to get PID without having to use terrible PID files
-    puts capture("kill -USR1 $(sudo initctl status sidekiq | grep /running | awk '{print $NF}') || :")
-  end
   task :restart do
     execute :sudo, :initctl, :restart, :sidekiq
   end
@@ -102,6 +98,5 @@ namespace :deploy do
   after :finishing, :restart
 end
 
-after 'deploy:starting', 'sidekiq:quiet'
 after 'deploy:reverted', 'sidekiq:restart'
 after 'deploy:published', 'sidekiq:restart'
