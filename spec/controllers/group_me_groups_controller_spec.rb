@@ -79,5 +79,4 @@ describe GroupMeGroupsController do
       expect(response).to redirect_to(new_post_group_me_groups_path)
     end
   end
-
 end
