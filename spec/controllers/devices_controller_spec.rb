@@ -552,7 +552,7 @@ describe DevicesController do
   describe 'PATCH line_move_finalize' do
     let!(:device_one) { create :device, line: line }
     let!(:line) { create :line }
-    let(:device_two) { create :device, identifier: '555555', serial: '555555' }
+    let(:device_two) { create :device }
     let!(:person) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
     before(:each) do

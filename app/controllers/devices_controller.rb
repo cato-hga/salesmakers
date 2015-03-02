@@ -2,14 +2,14 @@ class DevicesController < ApplicationController
   include DeviceStateChangesControllerExtension
   include AssetReceiptControllerExtension
 
-  before_action :search_bar, except: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
+  before_action :search_bar
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices', except: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
-  layout false, only: [:line_swap_results, :line_swap_finalize, :line_move_results, :line_move_finalize]
+  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize]
+  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize]
 
   def index
     authorize Device.new
@@ -105,24 +105,24 @@ class DevicesController < ApplicationController
   end
 
   def line_move_results
-    @device = Device.find params[:id]
+    @first_device = Device.find params[:id]
     @second_device = Device.find params[:device_id]
   end
 
   def line_move_finalize
-    @device = Device.find params[:id]
-    line = @device.line
+    @first_device = Device.find params[:id]
+    @line = @first_device.line
     @second_device = Device.find params[:device_id]
-    @device.update line: nil
-    if @second_device.update line: line
-      @current_person.log? 'line_swap',
-                           @device,
-                           line
-      @current_person.log? 'line_swap',
+    @first_device.update line: nil
+    if @second_device.update line: @line
+      @current_person.log? 'line_moved_from',
+                           @first_device,
+                           @line
+      @current_person.log? 'line_moved_to',
                            @second_device,
-                           line
+                           @line
       flash[:notice] = 'Line moved!'
-      redirect_to @device
+      redirect_to @first_device
     end
   end
 
