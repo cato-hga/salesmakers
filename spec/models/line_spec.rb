@@ -11,6 +11,7 @@ RSpec.describe Line, :type => :model do
     it 'should validate uniqueness of identifier' do
       create :line
       line = build :line
+      line.identifier = Line.first.identifier
       expect(line).not_to be_valid
     end
 

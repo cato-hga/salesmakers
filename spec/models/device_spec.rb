@@ -33,6 +33,8 @@ RSpec.describe Device, :type => :model do
 
   describe 'uniqueness validations' do
     it 'should validate uniqueness of serial' do
+      device_two.serial = device.serial
+      device_two.save
       expect(device_two).not_to be_valid
     end
   end
