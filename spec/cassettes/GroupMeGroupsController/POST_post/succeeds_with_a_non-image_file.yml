@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/df8c6343-363d-4578-aa27-472f842f6c96_UQube%2520Import%2520for%2520FTP.xlsx
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/fb518ea8-82f8-41dd-9653-273ecec053f7_UQube%2520Import%2520for%2520FTP.xlsx
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 27 Feb 2015 20:14:39 GMT
+      - Mon, 02 Mar 2015 18:02:33 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -34,7 +34,7 @@ http_interactions:
       encoding: UTF-8
       string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:37 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:33 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
@@ -56,9 +56,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:39 GMT
+      - Mon, 02 Mar 2015 18:02:34 GMT
       Etag:
-      - '"956702c387d538ceb1b74f1d06394996"'
+      - '"4c758a8a64ce8bfcf0d9cf8e426462b9"'
       Server:
       - nginx/1.6.2
       Status:
@@ -68,9 +68,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 6a1a7b9c54fbdafabbb8b601da2d3640
+      - 4882105f338d17052a7e09e7b58fcab4
       X-Runtime:
-      - '0.028771'
+      - '0.083565'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -80,16 +80,16 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"666b0444f329591d6cd4bb6273","group_id":"8936279","group_name":"RBD
+        2.0","bot_id":"b79f64feea10bb1cd1e1ac669b","group_id":"8936279","group_name":"RBD
         Test Playground!","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:37 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:34 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"666b0444f329591d6cd4bb6273","text":"This is a test message."}'
+      string: '{"bot_id":"b79f64feea10bb1cd1e1ac669b","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -101,7 +101,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:40 GMT
+      - Mon, 02 Mar 2015 18:02:34 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -111,9 +111,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 001e0584447f489051921364a3c2aa0e
+      - c3d6b5a704646c63dc43b2e5429c3ffb
       X-Runtime:
-      - '0.061872'
+      - '0.068542'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -124,13 +124,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:37 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:34 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"666b0444f329591d6cd4bb6273"}'
+      string: '{"bot_id":"b79f64feea10bb1cd1e1ac669b"}'
     headers:
       Content-Type:
       - application/json
@@ -146,7 +146,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:40 GMT
+      - Mon, 02 Mar 2015 18:02:34 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -156,9 +156,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 1bd8234f8d756d17d6ede8823d785316
+      - b9b5c16e4b85bb73add43e0583e56fae
       X-Runtime:
-      - '0.012858'
+      - '0.024694'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -169,10 +169,10 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:37 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:34 GMT
 - request:
     method: get
-    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/df8c6343-363d-4578-aa27-472f842f6c96_UQube%2520Import%2520for%2520FTP.xlsx
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/fb518ea8-82f8-41dd-9653-273ecec053f7_UQube%2520Import%2520for%2520FTP.xlsx
     body:
       encoding: US-ASCII
       string: ''
@@ -191,7 +191,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 27 Feb 2015 20:14:40 GMT
+      - Mon, 02 Mar 2015 18:02:34 GMT
       Content-Type:
       - application/json; charset=utf-8
       Content-Length:
@@ -204,7 +204,7 @@ http_interactions:
       encoding: UTF-8
       string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:37 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:35 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
@@ -226,9 +226,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:40 GMT
+      - Mon, 02 Mar 2015 18:02:35 GMT
       Etag:
-      - '"2b5116e2c30288f6c1e6fe4d47b3d88d"'
+      - '"694c77f6c8971a4fb4fe46532896f9ee"'
       Server:
       - nginx/1.6.2
       Status:
@@ -238,9 +238,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - a04c358690eff62fde94873831539e94
+      - 7c0ea87d9c37c514fb426750c6696153
       X-Runtime:
-      - '0.025102'
+      - '0.020064'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -250,15 +250,15 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"55fce928aa048b8a1d41a6b91b","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
+        2.0","bot_id":"7bf59aa21eb5a152e68cd741ca","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:38 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:35 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"55fce928aa048b8a1d41a6b91b","text":"This is a test message."}'
+      string: '{"bot_id":"7bf59aa21eb5a152e68cd741ca","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -270,7 +270,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:40 GMT
+      - Mon, 02 Mar 2015 18:02:35 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -280,9 +280,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - cba9422793802341b3f3e69471dca6d3
+      - bd5c8578ea574dc7ab6eb5bd63c53fa2
       X-Runtime:
-      - '0.064828'
+      - '0.054113'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -293,13 +293,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:38 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:35 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"55fce928aa048b8a1d41a6b91b"}'
+      string: '{"bot_id":"7bf59aa21eb5a152e68cd741ca"}'
     headers:
       Content-Type:
       - application/json
@@ -315,7 +315,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:41 GMT
+      - Mon, 02 Mar 2015 18:02:35 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -325,9 +325,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 9123bf4cf34eab1c6193f320eb265202
+      - 3b3fed282f818fc54166c3c12fd1ba87
       X-Runtime:
-      - '0.017332'
+      - '0.028381'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -338,75 +338,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:38 GMT
-- request:
-    method: get
-    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/d071b0ca-7038-49cb-8ecd-8bcc73c35ff6_UQube%2520Import%2520for%2520FTP.xlsx
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Fri, 27 Feb 2015 20:36:08 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '64'
-      Connection:
-      - keep-alive
-      Mime-Version:
-      - '1.0'
-    body:
-      encoding: UTF-8
-      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
-    http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:36:06 GMT
-- request:
-    method: get
-    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/d071b0ca-7038-49cb-8ecd-8bcc73c35ff6_UQube%2520Import%2520for%2520FTP.xlsx
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Fri, 27 Feb 2015 20:36:08 GMT
-      Content-Type:
-      - application/json; charset=utf-8
-      Content-Length:
-      - '64'
-      Connection:
-      - keep-alive
-      Mime-Version:
-      - '1.0'
-    body:
-      encoding: UTF-8
-      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
-    http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:36:06 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:35 GMT
 recorded_with: VCR 2.9.3

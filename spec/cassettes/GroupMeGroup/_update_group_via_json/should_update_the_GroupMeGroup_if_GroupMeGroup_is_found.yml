@@ -21,7 +21,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Mon, 23 Feb 2015 21:48:53 GMT
+      - Mon, 02 Mar 2015 18:06:32 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -31,9 +31,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 17fa8cf0e27803e818d396d862158281
+      - 767f1f93ae08221c2643a0f042ebc582
       X-Runtime:
-      - '0.012372'
+      - '0.014756'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -44,5 +44,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 21:48:52 GMT
+  recorded_at: Mon, 02 Mar 2015 18:06:32 GMT
 recorded_with: VCR 2.9.3

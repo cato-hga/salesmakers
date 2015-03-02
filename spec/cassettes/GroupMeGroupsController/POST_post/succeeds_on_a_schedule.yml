@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:41 GMT
+      - Mon, 02 Mar 2015 18:02:36 GMT
       Etag:
-      - '"5b9878d94655e1580d7511c1ec0b49c5"'
+      - '"354be04cd4526dc93c9aa1e353cf873d"'
       Server:
       - nginx/1.6.2
       Status:
@@ -33,9 +33,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - cc74a4af5f9b3a50aaae5db69d2ba914
+      - 094f84a92c15965adff82eefb6ef8364
       X-Runtime:
-      - '0.021275'
+      - '0.019464'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -45,16 +45,16 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"0e8dcc1a9f68eb78539c7afafc","group_id":"8936279","group_name":"RBD
+        2.0","bot_id":"b077a090f76eb75bf7e6eaeed3","group_id":"8936279","group_name":"RBD
         Test Playground!","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:39 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:36 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"0e8dcc1a9f68eb78539c7afafc","text":"This is a test message."}'
+      string: '{"bot_id":"b077a090f76eb75bf7e6eaeed3","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -66,7 +66,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:42 GMT
+      - Mon, 02 Mar 2015 18:02:37 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -76,9 +76,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 20271c1a7ebaaef0fa3dbe7e60a6f4f0
+      - c451cd1a19800cd4d3b6dcf1b28a4fb6
       X-Runtime:
-      - '0.057855'
+      - '0.061874'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -89,13 +89,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:39 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:37 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"0e8dcc1a9f68eb78539c7afafc"}'
+      string: '{"bot_id":"b077a090f76eb75bf7e6eaeed3"}'
     headers:
       Content-Type:
       - application/json
@@ -111,7 +111,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:42 GMT
+      - Mon, 02 Mar 2015 18:02:37 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -121,9 +121,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 291894e90326af889f2c6e974430a5db
+      - cd6a433cf179e73e6db6abe3a5d5f1af
       X-Runtime:
-      - '0.022650'
+      - '0.023740'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -134,7 +134,7 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:40 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:37 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
@@ -156,9 +156,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:42 GMT
+      - Mon, 02 Mar 2015 18:02:37 GMT
       Etag:
-      - '"59ec39f92c8d66bef5537d0fc8b748f1"'
+      - '"ae122d441cfd49e5c30655388b1912bd"'
       Server:
       - nginx/1.6.2
       Status:
@@ -168,9 +168,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 13ae04020a41e7c214cd92ab478f4c82
+      - aad6ce36f1e3793c8b1f3a1b5c2773b7
       X-Runtime:
-      - '0.019082'
+      - '0.028538'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -180,15 +180,15 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"e8efba212c6082762328f03712","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
+        2.0","bot_id":"3627a8740ece8f7320579f91fc","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:40 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:37 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"e8efba212c6082762328f03712","text":"This is a test message."}'
+      string: '{"bot_id":"3627a8740ece8f7320579f91fc","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -200,7 +200,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:43 GMT
+      - Mon, 02 Mar 2015 18:02:38 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -210,9 +210,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - b592499e803359609205c977acb48cd5
+      - b2d74d7196a5b5b5373ab1a7bbadbf9e
       X-Runtime:
-      - '0.052105'
+      - '0.072215'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -223,13 +223,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:40 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:38 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"e8efba212c6082762328f03712"}'
+      string: '{"bot_id":"3627a8740ece8f7320579f91fc"}'
     headers:
       Content-Type:
       - application/json
@@ -245,7 +245,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Fri, 27 Feb 2015 20:14:43 GMT
+      - Mon, 02 Mar 2015 18:02:38 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -255,9 +255,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 19720b6f767a209d080004e05b42f53c
+      - 2f527006519c0e08cf07c42268f222b7
       X-Runtime:
-      - '0.011251'
+      - '0.012979'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -268,5 +268,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Fri, 27 Feb 2015 20:14:40 GMT
+  recorded_at: Mon, 02 Mar 2015 18:02:38 GMT
 recorded_with: VCR 2.9.3
