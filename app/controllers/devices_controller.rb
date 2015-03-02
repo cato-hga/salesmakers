@@ -8,7 +8,8 @@ class DevicesController < ApplicationController
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices'
+  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize]
+  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize]
 
   def index
     authorize Device.new
@@ -71,6 +72,60 @@ class DevicesController < ApplicationController
     end
   end
 
+  def line_swap_or_move
+    @device = Device.find params[:id]
+    @devices = @search.result.order('identifier').page(params[:page])
+  end
+
+  def line_swap_results
+    @device = Device.find params[:id]
+    @second_device = Device.find params[:device_id]
+  end
+
+  def line_swap_finalize
+    @device = Device.find params[:id]
+    @second_device = Device.find params[:device_id]
+    @line = @device.line if @device.line
+    @second_line = @second_device.line
+    @device.update line: nil
+    @second_device.update line: nil
+    if @device.update line: @second_line and @second_device.update line: @line
+      @current_person.log? 'line_swap',
+                           @device,
+                           @line
+      @current_person.log? 'line_swap',
+                           @second_device,
+                           @second_line
+      flash[:notice] = 'Lines swapped!'
+      redirect_to @device
+    else
+      puts @device.errors.full_messages
+      puts @second_device.errors.full_messages
+    end
+  end
+
+  def line_move_results
+    @first_device = Device.find params[:id]
+    @second_device = Device.find params[:device_id]
+  end
+
+  def line_move_finalize
+    @first_device = Device.find params[:id]
+    @line = @first_device.line
+    @second_device = Device.find params[:device_id]
+    @first_device.update line: nil
+    if @second_device.update line: @line
+      @current_person.log? 'line_moved_from',
+                           @first_device,
+                           @line
+      @current_person.log? 'line_moved_to',
+                           @second_device,
+                           @line
+      flash[:notice] = 'Line moved!'
+      redirect_to @first_device
+    end
+  end
+
   private
 
   def search_bar
@@ -93,5 +148,4 @@ class DevicesController < ApplicationController
     @device_models = DeviceModel.all
     @service_providers = TechnologyServiceProvider.all
   end
-
 end

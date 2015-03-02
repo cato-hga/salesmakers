@@ -1,0 +1,33 @@
+- title 'Swap Line for ' + @device.identifier + ' (' + @device.line.identifier + ')'
+
+%section#line_swap_table
+  - h_identifier = sort_link(@search, :identifier)
+  - h_serial = sort_link(@search, :serial)
+  - h_assignee = sort_link(@search, :person_display_name, 'Assignee')
+  - h_deploy_date = 'Deploy Date'
+  - h_line = sort_link(@search, :line_identifier, 'Line')
+  - h_manufacturer = sort_link(@search, :device_manufacturer_name, 'Manufacturer')
+  - h_model = sort_link(@search, :device_model_name, 'Model')
+  - h_states = 'State(s)'
+  - header = header_row [h_identifier, h_serial, h_assignee, h_deploy_date, h_line, h_manufacturer, h_model, h_states, 'Swap']
+  - rows = Array.new
+  - for device in @devices do
+    - identifier = link_to device.identifier, device
+    - serial = link_to device.serial, device
+    - assigned_to = (device.person) ? person_link(device.person) : ''
+    - deploy_date = (device.deployed?) ? link_to(device.deploy_date_string, device) : ''
+    - line_object = device.line
+    - line = line_object ? line_link(line_object) : ''
+    - manufacturer = device.manufacturer_name
+    - model_object = device.device_model
+    - model = model_object.name
+    - states = device_state_links device
+    - if device.line.present?
+      - swap_button = link_to 'Swap Line', line_swap_results_device_path(@device, device), class: [:button]
+    - else
+      - swap_button = link_to 'Move Line to This Device', line_move_results_device_path(@device, device), class: [:button]
+    - rows << table_row([identifier,serial,assigned_to,deploy_date,line,manufacturer,model,states, swap_button])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @devices

@@ -1,4 +1,5 @@
 // require wall.js
+//= require foundation_new/foundation.reveal
 
 function addRow(button) {
     if ($('#device_identifier_header').length) {

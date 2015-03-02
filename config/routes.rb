@@ -67,6 +67,19 @@ Rails.application.routes.draw do
   resources :devices do
     member do
       get 'write_off'
+      get 'line_swap_or_move'
+      get 'line_swap_results/:device_id',
+          action: :line_swap_results,
+          as: 'line_swap_results'
+      get 'line_move_results/:device_id',
+          action: :line_move_results,
+          as: 'line_move_results'
+      patch 'line_swap_finalize/:device_id',
+            action: :line_swap_finalize,
+            as: 'line_swap_finalize'
+      patch 'line_move_finalize/:device_id',
+            action: :line_move_finalize,
+            as: 'line_move_finalize'
       patch 'remove_state/:device_state_id',
             action: :remove_state,
             as: 'remove_state'
@@ -114,10 +127,6 @@ Rails.application.routes.draw do
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups
 
   resources :lines, only: [:index, :show, :new, :create, :update] do
-    collection do
-      get 'swap', to: 'lines#swap'
-    end
-
     member do
       patch 'remove_state/:line_state_id',
             action: :remove_state,

@@ -75,6 +75,21 @@ describe DevicePolicy do
     specify {
       permitted_person.position.permissions << permission_update
       expect(policy.repaired?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.line_swap_or_move?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.line_swap_results?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.line_swap_finalize?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.line_move_results?).to be_truthy }
+    specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.line_move_finalize?).to be_truthy }
   end
 
   context 'for those without permission' do
@@ -94,5 +109,10 @@ describe DevicePolicy do
     specify { expect(policy.remove_state?).to be_falsey }
     specify { expect(policy.repairing?).to be_falsey }
     specify { expect(policy.repaired?).to be_falsey }
+    specify { expect(policy.line_swap_or_move?).to be_falsey }
+    specify { expect(policy.line_swap_results?).to be_falsey }
+    specify { expect(policy.line_swap_finalize?).to be_falsey }
+    specify { expect(policy.line_move_results?).to be_falsey }
+    specify { expect(policy.line_move_finalize?).to be_falsey }
   end
 end

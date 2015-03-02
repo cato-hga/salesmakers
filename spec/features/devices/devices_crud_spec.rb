@@ -2,25 +2,25 @@ require 'rails_helper'
 
 describe 'Devices CRUD actions' do
   let!(:it_tech) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
-  let(:permission_index) { create :permission, key: 'device_index' }
-  let(:permission_new) { create :permission, key: 'device_new' }
-  let(:permission_update) { create :permission, key: 'device_update' }
-  let(:permission_edit) { create :permission, key: 'device_edit' }
-  let(:permission_destroy) { create :permission, key: 'device_destroy' }
-  let(:permission_create) { create :permission, key: 'device_create' }
-  let(:permission_show) { create :permission, key: 'device_show' }
+  let(:position) { create :it_tech_position, permissions: [permission_index, permission_create] }
+  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  let(:description) { 'TestDescription' }
+  let(:permission_index) { Permission.new key: 'device_index', permission_group: permission_group, description: description }
+  let(:permission_new) { Permission.new key: 'device_new', permission_group: permission_group, description: description }
+  let(:permission_update) { Permission.new key: 'device_update', permission_group: permission_group, description: description }
+  let(:permission_edit) { Permission.new key: 'device_edit', permission_group: permission_group, description: description }
+  let(:permission_destroy) { Permission.new key: 'device_destroy', permission_group: permission_group, description: description }
+  let(:permission_create) { Permission.new key: 'device_create', permission_group: permission_group, description: description }
+  let(:permission_show) { Permission.new key: 'device_show', permission_group: permission_group, description: description }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
 
   describe 'GET index' do
-    let!(:device) { create :device }
+    let!(:device) { create :device, device_states: [written_off] }
     let(:written_off) { create :device_state, name: 'Written Off', locked: true }
     let(:written_off_device) { create :device, serial: '654321', identifier: '654321' }
     before(:each) do
-      it_tech.position.permissions << permission_index
-      written_off_device.device_states << written_off
       visit devices_path
     end
     it 'should have a link to add new devices' do
@@ -38,9 +38,9 @@ describe 'Devices CRUD actions' do
 
   describe 'GET show' do
     context 'for all devices' do
-      let(:device) { create :device }
+      let(:device) { create :device, line: line }
+      let(:line) { create :line }
       before(:each) do
-        it_tech.position.permissions << permission_show
         visit device_path device
       end
       it 'should have the devices serial number' do
@@ -61,16 +61,25 @@ describe 'Devices CRUD actions' do
       it 'should have the option to edit a device' do
         expect(page).to have_content('Edit')
       end
+
+      it 'has a link to swap lines if the device has a line' do
+        expect(page).to have_content('Swap Line')
+      end
+      it 'does not have a link to swap lines if htere is not a line attached to the device' do
+        device.line = nil
+        device.save
+        visit device_path device
+        expect(page).not_to have_content('Swap Line')
+      end
     end
 
     context 'for deployed devices' do
-      let(:deployed_device) { create :device }
+      let(:deployed_device) { create :device, device_states: [deployed] }
       let(:person) { create :person }
       let!(:deployed) { create :device_state, name: 'Deployed' }
       let!(:device_deployment) { create :device_deployment, device: deployed_device, person: person}
 
       before(:each) do
-        deployed_device.device_states << deployed
         visit device_path deployed_device
       end
       it 'should have the "Deployed" state' do

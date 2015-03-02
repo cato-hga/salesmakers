@@ -1,0 +1,5 @@
+.widget#swap_results
+  .inner
+    %strong Please review the parameters below and confirm the move.
+    %p= "#{line_display(@first_device.line)} will be removed from #{@first_device.identifier} and moved to #{@second_device.identifier}"
+    = button_to 'Confirm Move', line_move_finalize_device_path(@first_device, @second_device), method: :patch, class: ['button']
