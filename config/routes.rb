@@ -2,10 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  get 'comcast_eod/new'
-
-  get 'comcast_eod/create'
-
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -20,6 +16,8 @@ Rails.application.routes.draw do
       get 'incoming_redirect'
     end
   end
+
+  resources :candidates, only: [:new, :create]
 
   resources :changelog_entries, only: [:index, :new, :create]
 

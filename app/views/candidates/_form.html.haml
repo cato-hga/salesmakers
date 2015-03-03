@@ -1,0 +1,26 @@
+- if @candidate.errors.any?
+  - @candidate.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @candidate do |f|
+      = f.label :first_name
+      = f.text_field :first_name
+      = f.label :last_name
+      = f.text_field :last_name
+      = f.label :suffix
+      = f.text_field :suffix
+      = f.label :mobile_phone
+      = f.text_field :mobile_phone
+      = f.label :email, 'Email address'
+      = f.text_field :email
+      = f.label :zip, 'Zip Code'
+      = f.text_field :zip
+      - if @projects
+        - options = options_from_collection_for_select(@projects, 'id', 'name')
+      - else
+        - options = ''
+      = f.label :project_id, 'Project recruited for'
+      = f.select :project_id, options
+      = f.submit 'Save and start Prescreen', class: :button
