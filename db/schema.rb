@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303155410) do
+ActiveRecord::Schema.define(version: 20150303173513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -593,6 +593,20 @@ ActiveRecord::Schema.define(version: 20150303155410) do
   end
 
   add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
+
+  create_table "prescreen_answers", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.boolean "worked_for_salesmakers", null: false
+    t.boolean "of_age_to_work", null: false
+    t.boolean "eligible_smart_phone", null: false
+    t.boolean "can_work_weekends", null: false
+    t.boolean "reliable_transportation", null: false
+    t.boolean "access_to_computer", null: false
+    t.boolean "part_time_employment", null: false
+    t.boolean "ok_to_screen", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "profile_educations", force: :cascade do |t|
     t.integer  "profile_id",           null: false
