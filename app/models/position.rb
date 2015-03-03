@@ -72,7 +72,7 @@ class Position < ActiveRecord::Base
   end
 
   def self.event?(connect_user)
-    connect_user_region = connect_user.region
+    connect_user_region = connect_user.region || return
     connect_user_region.name.include? 'Event'
   end
 

@@ -99,8 +99,8 @@ describe 'Comcast Sale creation' do
         fill_in 'Install date', with: 'tomorrow'
         select comcast_install_time_slot.name, from: 'Install time slot'
         click_on 'Complete Sale'
-        expect(page).to have_field('comcast_sale_order_date', with: Date.today.strftime('%m/%d/%Y'))
-        expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: Date.tomorrow.strftime('%m/%d/%Y'))
+        expect(page).to have_field('comcast_sale_order_date', with: Date.current.strftime('%m/%d/%Y'))
+        expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: (Date.current + 1.day).strftime('%m/%d/%Y'))
       end
     end
 
@@ -182,7 +182,7 @@ describe 'Comcast Sale creation' do
         end
         it 'renders :new and should retain information' do #Error messages handled above
           expect(page).to have_field('comcast_sale_order_date', with: Date.today.strftime('%m/%d/%Y'))
-          expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: Date.tomorrow.strftime('%m/%d/%Y'))
+          expect(page).to have_field('comcast_sale_comcast_install_appointment_attributes_install_date', with: (Date.current + 1.day).strftime('%m/%d/%Y'))
         end
       end
     end

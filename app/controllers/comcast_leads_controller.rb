@@ -37,12 +37,14 @@ class ComcastLeadsController < ApplicationController
   end
 
   def create
+    Chronic.time_class = Time.zone
     @comcast_lead = ComcastLead.new comcast_lead_params
     @comcast_lead.comcast_customer = @comcast_customer
 
     #The following section handle invalid Chronic dates, since we allow purposefully blank Follow Up Dates
     follow_up_by = params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
     chronic_parse_follow_up_by = Chronic.parse follow_up_by
+    Chronic.time_class = Time
     if follow_up_by.present? and chronic_parse_follow_up_by == nil
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       render :new and return

@@ -93,6 +93,8 @@ class GroupMeGroupsController < ApplicationController
     else
       @schedule = Time.now
     end
+    Chronic.time_class = Time
+    @schedule
   end
 
   def post_message(group_me_group)

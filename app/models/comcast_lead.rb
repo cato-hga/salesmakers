@@ -22,21 +22,21 @@ class ComcastLead < ActiveRecord::Base
 
   scope :overdue, -> {
     where(active: true).
-        where('follow_up_by < ?', Date.today).
+        where('follow_up_by < ?', Date.current).
         order(:follow_up_by)
   }
 
   scope :upcoming, -> {
     where(active: true).
         where('follow_up_by >= ? AND follow_up_by <= ?',
-              Date.today,
-              Date.today + 1.week).order(:follow_up_by)
+              Date.current,
+              Date.current + 1.week).order(:follow_up_by)
   }
 
   scope :not_upcoming_or_overdue, -> {
     where(active: true).
         where('follow_up_by > ? OR follow_up_by IS NULL',
-              Date.today + 1.week)
+              Date.current + 1.week)
   }
 
   def self.policy_class
@@ -79,7 +79,7 @@ class ComcastLead < ActiveRecord::Base
 
   def no_past_follow_up_by_date
     return unless self.follow_up_by
-    if self.follow_up_by.to_date <= Date.today and not self.persisted?
+    if self.follow_up_by.to_date <= Date.current and not self.persisted?
       errors.add(:follow_up_by, 'must be in the future')
     end
   end
