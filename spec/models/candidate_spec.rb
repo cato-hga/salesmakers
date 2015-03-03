@@ -30,6 +30,15 @@ describe Candidate do
     end
   end
 
+  describe 'mobile phone additional actions' do
+    let(:candidate) { create :candidate }
+    it 'cleans the phone numbers' do
+      candidate.mobile_phone = '716-415-8130'
+      candidate.save
+      expect(candidate.mobile_phone).to eq('7164158130')
+    end
+  end
+
   describe 'uniqueness' do
     let(:second_candidate) { build :candidate }
     it 'has unique mobile phone numbers' do
