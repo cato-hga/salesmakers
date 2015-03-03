@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :candidates, only: [:new, :create]
+  resources :candidates, only: [:new, :create] do
+    resources :prescreen_answers, only: [:new, :create]
+  end
 
   resources :changelog_entries, only: [:index, :new, :create]
 

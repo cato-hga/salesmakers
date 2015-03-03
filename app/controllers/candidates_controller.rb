@@ -10,9 +10,10 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new candidate_params
     if @candidate.save
-      #render the prescreen page that doesn't exist
       @current_person.log? 'candidate_create',
                            @candidate
+      flash[:notice] = 'Candidate saved!'
+      redirect_to new_candidate_prescreen_answer_path @candidate
     else
       render :new
     end

@@ -7,7 +7,7 @@ describe 'Candidate creation' do
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   let(:location) { create :location }
-  let(:project) { create :project, name: 'Comcast Retail' }
+  let!(:project) { create :project, name: 'Comcast Retail' }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -49,12 +49,24 @@ describe 'Candidate creation' do
           expect(page).to have_content "Mobile phone can't be blank"
           expect(page).to have_content "Email can't be blank"
           expect(page).to have_content "Zip can't be blank"
-          expect(page).to have_content "Project can't be blank"
         end
       end
       context 'with valid data' do
-        it 'displays a flash message', pending: 'Needs Prescreen page'
-        it 'redirects to the prescreen questions page', pending: 'Needs Prescreen page'
+        before(:each) do
+          fill_in 'First name', with: 'Test'
+          fill_in 'Last name', with: 'Candidate'
+          fill_in 'Mobile phone', with: '727-498-5180'
+          fill_in 'Email address', with: 'test@test.com'
+          fill_in 'Zip Code', with: '33701'
+          select project.name, from: 'Project recruited for'
+          click_on 'Save and start Prescreen'
+        end
+        it 'displays a flash message' do
+          expect(page).to have_content 'Candidate saved!'
+        end
+        it 'redirects to the prescreen questions page' do
+          expect(page).to have_content 'Prescreen Answers'
+        end
       end
     end
   end

@@ -47,7 +47,11 @@ describe CandidatesController do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
-      it 'redirects to prescreen_questions#new', pending: 'Waiting on Prescreen questions'
+      it 'redirects to prescreen_questions#new' do
+        subject
+        candidate = Candidate.first
+        expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
+      end
     end
 
     context 'failure' do
