@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226175917) do
+ActiveRecord::Schema.define(version: 20150303145740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,18 @@ ActiveRecord::Schema.define(version: 20150226175917) do
   end
 
   add_index "blog_posts", ["person_id"], name: "index_blog_posts_on_person_id", using: :btree
+
+  create_table "candidates", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "suffix"
+    t.string "mobile_phone", null: false
+    t.string "email", null: false
+    t.string "zip", null: false
+    t.integer "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "changelog_entries", force: :cascade do |t|
     t.integer  "department_id"
