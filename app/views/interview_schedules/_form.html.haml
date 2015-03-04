@@ -1,8 +1,6 @@
 .widget
   .inner
-    = form_for [@candidate, @interview_schedule] do |f|
-      = f.label :interview_date
-      = f.text_field :interview_date, class: 'interview_date', placeholder: "Use MM/DD/YYYY or terms like 'today', 'tomorrow', etc'"
-      = f.label :time_slot, class: ['interview_time', 'hidden']
-      = f.select
-      = f.submit 'Schedule Interview', class: :button
+    = form_tag time_slots_candidate_interview_schedules_path(@candidate) do
+      = label_tag :interview_date
+      = text_field_tag :interview_date, nil, placeholder: "Use MM/DD/YYYY or terms like 'today', 'tomorrow', etc, and hit ENTER"
+      = submit_tag 'Search for time slots', class: :button

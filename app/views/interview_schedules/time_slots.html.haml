@@ -1,0 +1,6 @@
+- title 'Available Interview Slots for ' + med_date(@interview_date)
+.widget
+  .inner
+    %h3 Select a time slot to schedule for that slot.
+    - for slot in @time_slots do
+      = link_to friendly_datetime(slot), schedule_candidate_interview_schedules_path(@candidate, slot.utc.strftime('%Y%m%d%H%M')), class: :button

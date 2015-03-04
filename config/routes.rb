@@ -19,7 +19,14 @@ Rails.application.routes.draw do
 
   resources :candidates, only: [:new, :create] do
     resources :prescreen_answers, only: [:new, :create]
-    resources :interview_schedules, only: [:new, :create]
+    resources :interview_schedules, only: [:new, :create] do
+      collection do
+        post :time_slots, as: 'time_slots'
+        get 'schedule/:interview_datetime',
+            action: :schedule,
+            as: :schedule
+      end
+    end
   end
 
   resources :changelog_entries, only: [:index, :new, :create]
