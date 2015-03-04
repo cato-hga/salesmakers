@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   geocoded_by :address
   after_validation :geocode_on_production,
                    if: ->(location) {
-                     location.street_1.present? and location.street_1.changed?
+                     location.street_1.present? and location.street_1_changed?
                    }
 
   states = Array["AK", "AL", "AR", "AS", "AZ", "CA", "CO",
