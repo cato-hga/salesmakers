@@ -36,4 +36,9 @@ describe Location do
     subject.channel = nil
     expect(subject).not_to be_valid
   end
+
+  it 'responds to latitude and longitude' do
+    expect(subject).to respond_to(:latitude)
+    expect(subject).to respond_to(:longitude)
+  end
 end

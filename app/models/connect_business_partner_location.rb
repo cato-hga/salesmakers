@@ -31,6 +31,7 @@ class ConnectBusinessPartnerLocation < ConnectModel
     if self.fax
       stripped = self.fax.sub /SP/, ''
       stripped = stripped.sub /POST/, ''
+      stripped = stripped.sub /RS/, ''
       stripped = stripped.sub /WM/, ''
       stripped = stripped.sub /CC/, ''
     end

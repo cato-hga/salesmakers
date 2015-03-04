@@ -1,4 +1,10 @@
 class Location < ActiveRecord::Base
+  geocoded_by :address
+  after_validation :geocode_on_production,
+                   if: ->(location) {
+                     location.street_1.present? and location.street_1.changed?
+                   }
+
   states = Array["AK", "AL", "AR", "AS", "AZ", "CA", "CO",
                  "CT", "DC", "DE", "FL", "GA", "GU", "HI",
                  "IA", "ID", "IL", "IN", "KS", "KY", "LA",
@@ -32,20 +38,29 @@ class Location < ActiveRecord::Base
                                                   channel: location_hash[:channel]
     new_location.attributes = {
         display_name: location_hash[:display_name],
+        street_1: location_hash[:street_1],
+        street_2: location_hash[:street_2],
         city: location_hash[:city],
-        state: location_hash[:state]
+        state: location_hash[:state],
+        zip: location_hash[:zip]
     }
+    unless new_location.valid?
+      puts new_location.inspect, '', errors.full_messages.each.join(', ')
+    end
     return unless new_location.save
     log_creation(new_location, c_bpl)
     create_location_area(new_location, c_bpl)
   end
 
   def self.get_location_hash(c_bpl)
-    location_hash = { }
+    location_hash = {}
     location_hash[:c_loc] = c_bpl.connect_location || return
     location_hash[:c_state] = location_hash[:c_loc].connect_state || return
+    location_hash[:street_1] = location_hash[:c_loc].address1
+    location_hash[:street_2] = location_hash[:c_loc].address2
     location_hash[:city] = c_bpl.city || return
     location_hash[:state] = location_hash[:c_state].name
+    location_hash[:zip] = location_hash[:c_loc].postal
     location_hash[:display_name] = c_bpl.display_name
     location_hash[:channel] = c_bpl.connect_business_partner.get_channel || return
     location_hash[:store_number] = c_bpl.store_number || return
@@ -121,5 +136,24 @@ class Location < ActiveRecord::Base
                    c_bpl.updated.apply_eastern_offset,
                    c_bpl.updated.apply_eastern_offset
     end
+  end
+
+  def address
+    string_address = ''
+    string_address += self.street_1 if self.street_1
+    string_address += ', '
+    string_address += self.street_2 + ', ' if self.street_2
+    string_address += self.city + ', ' if self.city
+    string_address += self.state if self.state
+    string_address += ' ' + self.zip if self.zip
+    string_address
+  end
+
+  private
+
+  def geocode_on_production
+    return unless Rails.env.production?
+    self.geocode
+    sleep 0.21
   end
 end

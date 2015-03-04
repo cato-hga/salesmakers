@@ -53,6 +53,16 @@ class AreaType < ActiveRecord::Base
     ]
   end
 
+  def self.sprint_postpaid_array
+    [
+        nil,
+        nil,
+        AreaType.find_by(name: 'Sprint Postpaid Region'),
+        nil,
+        AreaType.find_by(name: 'Sprint Postpaid Territory'),
+    ]
+  end
+
   def self.comcast_array
     [
         nil,
@@ -73,6 +83,8 @@ class AreaType < ActiveRecord::Base
         return AreaType.comcast_array[fast_type]
       elsif projects_hash[:sprint]
         return AreaType.sprint_array[fast_type]
+      elsif projects_hash[:sprint_postpaid]
+        return AreaType.sprint_postpaid_array[fast_type]
       else # Vonage Retail
         return AreaType.vonage_retail_array[fast_type]
       end
