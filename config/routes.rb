@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
   resources :candidates, only: [:new, :create] do
     resources :prescreen_answers, only: [:new, :create]
+    resources :interview_schedules, only: [:new, :create]
   end
 
   resources :changelog_entries, only: [:index, :new, :create]

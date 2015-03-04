@@ -41,7 +41,6 @@ gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'spring-commands-rspec', '1.0.4' # Was 1.0.2 01/21/2015 - Spring RSpec additions
-# gem 'foundation-datetimepicker-rails', '0.1.3' # Date/Time picker for Foundation
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'nilify_blanks', '1.2.0' # Was 1.1.0 01/21/2015 - Change empty strings to nil before saving certain models
