@@ -20,7 +20,7 @@ class SeedRadioShack < ActiveRecord::Migration
       spms_connect.each do |spm_connect|
         spts_connect = spm_connect.children
         spts_connect.each do |spt_connect|
-          new_spt = Area.find_or_initialize_by name: spt_connect.name.gsub('Sprint - ', ''),
+          new_spt = Area.find_or_initialize_by name: spt_connect.name.gsub('Sprint Postpaid - ', ''),
                                                area_type: spt,
                                                project: sprint_postpaid,
                                                created_at: spt_connect.created,
