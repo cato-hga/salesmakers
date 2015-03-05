@@ -12,6 +12,8 @@
               %ul.dropdown
                 %li= link_to 'Search', people_path
                 %li= link_to 'Org Chart', org_chart_people_path
+          - if CandidatePolicy.new(current_person, Candidate.new).index?
+            %li= link_to 'Candidates', candidates_path
           - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new)
           - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new)
           - if comcast_lead_policy.index? || comcast_sale_policy.index?

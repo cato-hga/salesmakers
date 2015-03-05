@@ -9,7 +9,7 @@ describe 'Navigation Authorization' do
 
   describe 'for top-navigation' do
     describe 'for comcast employees' do
-      let!(:comcast_employee) { create :person,
+      let(:comcast_employee) { create :person,
                                        position: comcast_position,
                                        email: 'comcastemployee@cc.salesmakersinc.com'
       }
@@ -20,7 +20,7 @@ describe 'Navigation Authorization' do
       before(:each) do
         comcast_employee.person_areas << comcast_person_area
         comcast_position.permissions << comcast_permissions
-        CASClient::Frameworks::Rails::Filter.fake("comcastemployee@cc.salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
         visit root_path
       end
       it 'contains links to the sales page' do
@@ -52,18 +52,32 @@ describe 'Navigation Authorization' do
     end
 
     describe 'for administrators' do
-      let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
+      let(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
+      let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
       let(:device_index_permission) { create :permission, key: 'device_index' }
       let(:changelog_entry_manage_permission) { create :permission, key: 'changelog_entry_manage' }
       let(:log_entry_index_permission) { create :permission, key: 'log_entry_index' }
-      let(:position) { create :position, name: 'IT Tech', department: department, hq: true }
+      let(:candidate_index_permission) { Permission.new key: 'candidate_index',
+                                                        permission_group: permission_group,
+                                                        description: 'Test Description' }
+      let(:position) { create :position, name: 'IT Tech',
+                              department: department,
+                              hq: true,
+                              permissions: [device_index_permission,
+                                            changelog_entry_manage_permission,
+                                            log_entry_index_permission,
+                                            candidate_index_permission] }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
-        position.permissions << device_index_permission
-        position.permissions << changelog_entry_manage_permission
-        position.permissions << log_entry_index_permission
-        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
         visit root_path
+      end
+
+
+      it 'does contain links to candidates' do
+        within('.top-bar') do
+          expect(page).to have_content('Candidates')
+        end
       end
       it 'does contain links to the Admin section' do
         within('.top-bar') do
@@ -87,11 +101,39 @@ describe 'Navigation Authorization' do
         end
       end
     end
+
+    describe 'for recruiters' do
+      let(:recruiter) { create :person, position: position }
+      let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
+      let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+      let(:permission_index) { Permission.new key: 'candidate_index',
+                                              permission_group: permission_group,
+                                              description: 'Test Description' }
+      let(:permission_create) { Permission.new key: 'candidate_create',
+                                               permission_group: permission_group,
+                                               description: 'Test Description' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+        visit root_path
+      end
+
+      it 'does contain links to candidates' do
+        within('.top-bar') do
+          expect(page).to have_content('Candidates')
+        end
+      end
+
+      it 'does not contain links to the Admin section' do
+        within('.top-bar') do
+          expect(page).not_to have_content('Admin')
+        end
+      end
+    end
   end
 
   describe 'for off-canvas navigation', js: true do
     describe 'for comcast employees' do
-      let!(:comcast_employee) { create :person,
+      let(:comcast_employee) { create :person,
                                        position: comcast_position,
                                        email: 'comcastemployee@cc.salesmakersinc.com'
       }
@@ -102,7 +144,7 @@ describe 'Navigation Authorization' do
       before(:each) do
         comcast_employee.person_areas << comcast_person_area
         comcast_position.permissions << comcast_permissions
-        CASClient::Frameworks::Rails::Filter.fake("comcastemployee@cc.salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
         page.driver.resize_window 640, 480
         visit root_path
       end
@@ -134,14 +176,44 @@ describe 'Navigation Authorization' do
         end
       end
     end
+
+    describe 'for recruiters' do
+      let(:recruiter) { create :person, position: position }
+      let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
+      let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+      let(:permission_index) { Permission.new key: 'candidate_index',
+                                              permission_group: permission_group,
+                                              description: 'Test Description' }
+      let(:permission_create) { Permission.new key: 'candidate_create',
+                                               permission_group: permission_group,
+                                               description: 'Test Description' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+        page.driver.resize_window 640, 480
+        visit root_path
+      end
+
+      it 'does contain links to candidates' do
+        within('.top-bar') do
+          expect(page).to have_content('Candidates')
+        end
+      end
+
+      it 'does not contain links to the Admin section' do
+        within('.top-bar') do
+          expect(page).not_to have_content('People')
+        end
+      end
+    end
+
     describe 'for administrators' do
-      let!(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
+      let(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
       let(:permissions) { create :permission, key: 'device_index' }
       let(:position) { create :position, name: 'IT Tech', department: department, hq: true }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
         position.permissions << permissions
-        CASClient::Frameworks::Rails::Filter.fake("ittech@salesmakersinc.com")
+        CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
         page.driver.resize_window 640, 480
         visit root_path
       end

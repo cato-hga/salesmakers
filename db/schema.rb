@@ -82,12 +82,12 @@ ActiveRecord::Schema.define(version: 20150305203700) do
     t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
     t.integer "person_id"
     t.integer "location_area_id"
     t.float "latitude"
     t.float "longitude"
     t.integer "status", default: 0, null: false
-    t.boolean "active", default: true, null: false
   end
 
   create_table "changelog_entries", force: :cascade do |t|

@@ -4,6 +4,9 @@ class RootRedirectsController < ApplicationController
     if department.name == 'Information Technology'
       redirect_to devices_path and return
     end
+    if department.name == 'Advocates Department'
+      redirect_to candidates_path and return
+    end
     if department.name == 'Comcast Retail Sales'
       redirect_to new_comcast_customer_path and return
     end
