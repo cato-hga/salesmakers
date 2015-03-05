@@ -149,6 +149,10 @@ class Location < ActiveRecord::Base
     string_address
   end
 
+  def geographic_distance(coordinates)
+    Geocoder::Calculations.distance_between self, coordinates
+  end
+
   private
 
   def geocode_on_production
