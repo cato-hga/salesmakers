@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Candidate do
 
-  let(:candidate) { build :candidate }
+  let(:candidate) { build :candidate, mobile_phone: '7164158131' }
   describe 'validations' do
     it 'requires a first name' do
       candidate.first_name = nil
@@ -40,7 +40,7 @@ describe Candidate do
   end
 
   describe 'uniqueness' do
-    let(:second_candidate) { build :candidate }
+    let(:second_candidate) { build :candidate, mobile_phone: '7164158131' }
     it 'has unique mobile phone numbers' do
       candidate.save
       expect(second_candidate).not_to be_valid

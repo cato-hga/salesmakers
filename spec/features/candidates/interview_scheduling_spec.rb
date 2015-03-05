@@ -66,9 +66,9 @@ describe 'Scheduling interviews' do
     end
 
     describe 'interview time slots' do
-      let!(:interview_schedule) { create :interview_schedule, interview_date: Date.tomorrow, start_time: Time.zone.now.beginning_of_hour }
+      let!(:interview_schedule) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 09:11:45 -0500' }
       before(:each) do
-        fill_in 'interview_date', with: 'tomorrow'
+        fill_in 'interview_date', with: '3/05/2015'
         click_on 'Search for time slots'
       end
       it 'displays the time slots available' do
@@ -77,8 +77,7 @@ describe 'Scheduling interviews' do
         expect(page).to have_content '9:30am EST'
       end
       it 'does not display taken time slots' do
-        save_and_open_page
-        expect(page).to have_content friendly_datetime(interview_schedule.start_time)
+        expect(page).not_to have_content '2:30pm EST'
       end
       describe 'when choosing a slot' do
         it 'schedules the candidate'
