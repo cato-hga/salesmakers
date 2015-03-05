@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304151138) do
+ActiveRecord::Schema.define(version: 20150305174110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -357,6 +357,22 @@ ActiveRecord::Schema.define(version: 20150304151138) do
   end
 
   add_index "group_me_users", ["person_id"], name: "index_group_me_users_on_person_id", using: :btree
+
+  create_table "interview_answers", force: :cascade do |t|
+    t.text "work_history", null: false
+    t.text "why_in_market", null: false
+    t.text "ideal_position", null: false
+    t.text "what_are_you_good_at", null: false
+    t.text "what_are_you_not_good_at", null: false
+    t.string "compensation_last_job_one", null: false
+    t.string "compensation_last_job_two"
+    t.string "compensation_last_job_three"
+    t.string "compensation_seeking", null: false
+    t.string "hours_looking_to_work", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "candidate_id"
+  end
 
   create_table "interview_schedules", force: :cascade do |t|
     t.integer "candidate_id", null: false

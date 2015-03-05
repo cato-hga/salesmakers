@@ -27,6 +27,7 @@ Rails.application.routes.draw do
             as: :schedule
       end
     end
+    resources :interview_answers, only: [:new, :create]
   end
 
   resources :changelog_entries, only: [:index, :new, :create]

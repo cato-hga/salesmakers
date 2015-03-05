@@ -31,9 +31,6 @@ describe PrescreenAnswersController do
 
   describe 'POST create' do
     context 'for eligible candidates' do
-      before(:each) do
-        allow(controller).to receive(:policy).and_return double(create?: true)
-      end
       subject do
         post :create,
              candidate_id: candidate.id,
