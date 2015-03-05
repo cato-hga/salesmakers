@@ -71,7 +71,7 @@ describe 'Comcast Lead Creation' do
         check 'Television'
         check 'Security'
         click_on 'Save as Lead'
-        expect(page).to have_field('comcast_lead_follow_up_by', with: Date.tomorrow.strftime('%m/%d/%Y'))
+        expect(page).to have_field('comcast_lead_follow_up_by', with: (Date.current + 1.day).strftime('%m/%d/%Y'))
       end
     end
 
@@ -91,7 +91,7 @@ describe 'Comcast Lead Creation' do
         expect(page).to have_content(comcast_customer.name)
       end
       it 'shows the lead information' do
-        expect(page).to have_content(Date.tomorrow.strftime('%m/%d/%Y'))
+        expect(page).to have_content((Date.current + 1.day).strftime('%m/%d/%Y'))
       end
     end
   end

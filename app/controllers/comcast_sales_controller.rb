@@ -38,11 +38,13 @@ class ComcastSalesController < ApplicationController
   end
 
   def create
+    Chronic.time_class = Time.zone
     @comcast_sale = ComcastSale.new comcast_sale_params
     sale_time = Chronic.parse params.require(:comcast_sale).permit(:order_date)[:order_date]
     install_time = Chronic.parse params.require(:comcast_sale).
                                      require(:comcast_install_appointment_attributes).
                                      permit(:install_date)[:install_date]
+    Chronic.time_class = Time
     @comcast_sale.order_date = sale_time.to_date if sale_time
     @comcast_sale.comcast_install_appointment.install_date = install_time.to_date if install_time
     @comcast_sale.comcast_customer = @comcast_customer

@@ -12,6 +12,7 @@ class InterviewAnswersController < ApplicationController
     @interview_answer.candidate = @candidate
     if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
       flash[:notice] = 'Interview answers saved, and job offer extended'
+      @candidate.accepted!
       @current_person.log? 'interview_answer_create',
                            @candidate
       @current_person.log? 'extended_job_offer',
@@ -19,6 +20,7 @@ class InterviewAnswersController < ApplicationController
       redirect_to new_candidate_path
     elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
       flash[:notice] = 'Interview answers saved, and candidate deactivated'
+      @candidate.rejected!
       @candidate.update active: false
       @current_person.log? 'interview_answer_create',
                            @candidate

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :candidates, only: [:new, :create] do
+  resources :candidates, except: [:edit, :update, :destroy] do
     resources :prescreen_answers, only: [:new, :create]
     resources :interview_schedules, only: [:new, :create] do
       collection do
@@ -26,6 +26,10 @@ Rails.application.routes.draw do
             action: :schedule,
             as: :schedule
       end
+    end
+    member do
+      get :select_location, as: :select_location
+      get 'set_location/:location_id', to: :set_location, as: :set_location
     end
     resources :interview_answers, only: [:new, :create]
   end

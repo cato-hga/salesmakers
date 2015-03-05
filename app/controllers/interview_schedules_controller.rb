@@ -15,6 +15,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
+      @candidate.interview_scheduled!
       @current_person.log? 'scheduled_for_interview',
                            @candidate,
                            @interview_schedule

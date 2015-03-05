@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305181515) do
+ActiveRecord::Schema.define(version: 20150305195537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,11 @@ ActiveRecord::Schema.define(version: 20150305181515) do
     t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "person_id"
+    t.integer "location_area_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "status", default: 0, null: false
     t.boolean "active", default: true, null: false
   end
 
@@ -443,10 +448,13 @@ ActiveRecord::Schema.define(version: 20150305181515) do
   add_index "link_posts", ["person_id"], name: "index_link_posts_on_person_id", using: :btree
 
   create_table "location_areas", force: :cascade do |t|
-    t.integer  "location_id", null: false
-    t.integer  "area_id",     null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer "location_id", null: false
+    t.integer "area_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "current_head_count", default: 0, null: false
+    t.integer "potential_candidate_count", default: 0, null: false
+    t.integer "target_head_count", default: 0, null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -460,6 +468,8 @@ ActiveRecord::Schema.define(version: 20150305181515) do
     t.integer  "channel_id",   null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.float "latitude"
+    t.float "longitude"
   end
 
   create_table "log_entries", force: :cascade do |t|

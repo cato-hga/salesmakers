@@ -1,0 +1,23 @@
+- headers = header_row(['', 'Distance', 'Location', 'Store Number', 'Target HC', 'Potentials', 'Current HC', 'Open'])
+- rows = []
+- count = 0
+- for location in @locations do
+  - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
+  - location_area = location_areas.empty? ? nil : location_areas.first
+  - target = 0
+  - potentials = 0
+  - current = 0
+  - target = location_area.target_head_count if location_area
+  - potentials = location_area.potential_candidate_count if location_area
+  - current = location_area.current_head_count if location_area
+  - open = target - (current + potentials)
+  - count += 1
+  - link_classes = []
+  - link_classes << :strikethrough if open < 1
+  - path = set_location_candidate_path(@candidate, location)
+  - distance = link_to location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes
+  - location_name = link_to "#{location.channel.name}, #{location.display_name}", path, class: link_classes
+  - store_number = link_to location.store_number, path, class: link_classes
+  - address = link_to location.address, path, class: link_classes
+  - rows << table_row(["#{count.to_s}.", distance, location_name, store_number, target.to_s, potentials.to_s, current.to_s, open.to_s])
+= table headers, rows

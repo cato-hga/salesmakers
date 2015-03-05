@@ -129,4 +129,9 @@ module LinksHelperExtension
     return unless comcast_customer
     link_to comcast_customer.name, comcast_customer_path(comcast_customer), class: classes
   end
+
+  def candidate_link(candidate, classes = nil)
+    return unless candidate
+    link_to candidate.name, candidate_path(candidate), class: classes
+  end
 end

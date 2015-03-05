@@ -120,4 +120,5 @@ class ComcastGroupMeBotCallback
         'ON people.id = comcast_sales.person_id ' +
         self.where_clause(sales)
   end
+
 end

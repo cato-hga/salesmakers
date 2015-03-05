@@ -23,6 +23,8 @@ class ConnectBusinessPartner < ConnectModel
         channel_name = 'Micro Center'
       when 'Sprint'
         channel_name = 'Walmart'
+      when 'Sprint Radio Shack'
+        channel_name = 'Radio Shack'
       when 'KMart'
         channel_name = 'Kmart'
       when 'RBD Event Teams'

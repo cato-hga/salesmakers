@@ -1,2 +1,4 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+//= require underscore.min
+//= require google_maps_api.min
+//= require marker_clusterer.min
+//= require gmaps/google

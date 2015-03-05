@@ -51,10 +51,21 @@ describe PrescreenAnswersController do
         answer = PrescreenAnswer.first
         expect(answer.candidate).to eq(candidate)
       end
+
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
-      it 'redirects to the location selection screen', pending: 'Not available yet'
+
+      it 'changes the candidate status' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('prescreened')
+      end
+
+      it 'redirects to the location selection screen' do
+        subject
+        expect(response).to redirect_to(select_location_candidate_path(candidate))
+      end
 
     end
   end

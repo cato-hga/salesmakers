@@ -34,11 +34,11 @@ describe ComcastLead do
   end
 
   it 'requires that the follow up date be in the future' do
-    subject.follow_up_by = Date.today
+    subject.follow_up_by = Date.current
     expect(subject).not_to be_valid
-    subject.follow_up_by = Date.yesterday
+    subject.follow_up_by = Date.current - 1.day
     expect(subject).not_to be_valid
-    subject.follow_up_by = Date.tomorrow
+    subject.follow_up_by = Date.current + 1.day
     expect(subject).to be_valid
   end
 

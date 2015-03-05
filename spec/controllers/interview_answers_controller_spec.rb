@@ -55,6 +55,11 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
       end
+      it 'updates the candidate status' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('accepted')
+      end
       it 'redirects to the new candidate screen' do
         subject
         expect(response).to redirect_to(new_candidate_path)
@@ -85,6 +90,11 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       end
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
+      end
+      it 'updates the candidate status' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('rejected')
       end
       it 'redirects to the new candidate screen' do
         subject

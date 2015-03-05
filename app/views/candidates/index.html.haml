@@ -1,0 +1,39 @@
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :first_name_cont, placeholder: 'First name'
+    = f.text_field :last_name_cont, placeholder: 'Last name'
+    = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
+    = f.text_field :email_cont, placeholder: 'Email'
+    = f.text_field :zip_cont, placeholder: 'ZIP'
+    = f.text_field :project_name_cont, placeholder: 'Project'
+    = f.text_field :location_area_location_channel_name_cont, placeholder: 'Channel'
+    = f.text_field :location_area_location_display_name_cont, placeholder: 'Location'
+    = f.submit 'Search', class: [:button, :inline_button]
+  .top-pagination
+    = paginate @candidates
+
+.widget
+  .inner
+    - headers = header_row ['Name', 'Mobile', 'Email', 'ZIP', 'Project', 'Channel', 'Location', 'Status']
+    - rows = []
+    - for candidate in @candidates do
+      - name = candidate_link candidate
+      - mobile = phone_link candidate.mobile_phone
+      - email = email_link candidate.email
+      - zip = candidate.zip
+      - project = candidate.project.name
+      - channel = ''
+      - location = ''
+      - location_obj = candidate.location_area ? candidate.location_area.location : nil
+      - channel = location_obj.channel.name if candidate.location_area
+      - location = location_obj.display_name if candidate.location_area
+      - status = ''
+      - status = NameCase(candidate.status.humanize) if candidate.status
+      - rows << table_row([name, mobile, email, zip, project, channel, location, status])
+    = table headers, rows
+
+- content_for :footer do
+  = paginate @candidates

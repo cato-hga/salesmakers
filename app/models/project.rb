@@ -22,6 +22,18 @@ class Project < ActiveRecord::Base
     projects
   }
 
+  def self.locations(project)
+    Location.
+        joins(%{
+              LEFT OUTER JOIN location_areas
+                ON location_areas.location_id = locations.id
+              LEFT OUTER JOIN areas
+                ON areas.id = location_areas.area_id
+              LEFT OUTER JOIN projects
+                ON projects.id = areas.project_id
+              }).where("projects.id = #{project.id}")
+  end
+
   def active_people
     person_areas = Array.new
     people = Array.new

@@ -47,6 +47,11 @@ describe InterviewSchedulesController do
       it 'redirects to the new candidate path' do
         expect(response).to redirect_to(new_candidate_path)
       end
+
+      it 'changes the candidate status' do
+        candidate.reload
+        expect(candidate.status).to eq('interview_scheduled')
+      end
     end
   end
 

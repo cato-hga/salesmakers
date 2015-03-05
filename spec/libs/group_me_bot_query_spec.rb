@@ -6,64 +6,64 @@ describe GroupMeBotQuery do
     it 'pulls the correct range for mtd' do
       query.keywords = ['mtd']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_month)
-      expect(query.end_date).to eq(Date.tomorrow)
+      expect(query.start_date).to eq(Date.current.beginning_of_month)
+      expect(query.end_date).to eq(Date.current + 1.day)
     end
 
     it 'pulls the correct range for yesterday' do
       query.keywords = ['yesterday']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.yesterday)
-      expect(query.end_date).to eq(Date.today)
+      expect(query.start_date).to eq(Date.current - 1.day)
+      expect(query.end_date).to eq(Date.current)
     end
 
     it 'pulls the correct range for this weekend' do
       query.keywords = ['this', 'weekend']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_week + 4.days)
-      expect(query.end_date).to eq(Date.today.beginning_of_week + 1.week)
+      expect(query.start_date).to eq(Date.current.beginning_of_week + 4.days)
+      expect(query.end_date).to eq(Date.current.beginning_of_week + 1.week)
     end
 
     it 'pulls the correct range for last weekend' do
       query.keywords = ['last', 'weekend']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_week - 3.days)
-      expect(query.end_date).to eq(Date.today.beginning_of_week)
+      expect(query.start_date).to eq(Date.current.beginning_of_week - 3.days)
+      expect(query.end_date).to eq(Date.current.beginning_of_week)
     end
 
     it 'pulls the correct range for wtd' do
       query.keywords = ['wtd']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_week)
-      expect(query.end_date).to eq(Date.tomorrow)
+      expect(query.start_date).to eq(Date.current.beginning_of_week)
+      expect(query.end_date).to eq(Date.current + 1.day)
     end
 
     it 'pulls the correct range for this week' do
       query.keywords = ['this', 'week']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_week)
-      expect(query.end_date).to eq(Date.today.beginning_of_week + 1.week)
+      expect(query.start_date).to eq(Date.current.beginning_of_week)
+      expect(query.end_date).to eq(Date.current.beginning_of_week + 1.week)
     end
 
     it 'pulls the correct range for last week' do
       query.keywords = ['last', 'week']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_week - 1.week)
-      expect(query.end_date).to eq(Date.today.beginning_of_week)
+      expect(query.start_date).to eq(Date.current.beginning_of_week - 1.week)
+      expect(query.end_date).to eq(Date.current.beginning_of_week)
     end
 
     it 'pulls the correct range for this month' do
       query.keywords = ['this', 'month']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_month)
-      expect(query.end_date).to eq(Date.today.end_of_month + 1.day)
+      expect(query.start_date).to eq(Date.current.beginning_of_month)
+      expect(query.end_date).to eq(Date.current.end_of_month + 1.day)
     end
 
     it 'pulls the correct range for last month' do
       query.keywords = ['last', 'month']
       query.determine_date_range
-      expect(query.start_date).to eq(Date.today.beginning_of_month - 1.month)
-      expect(query.end_date).to eq(Date.today.beginning_of_month)
+      expect(query.start_date).to eq(Date.current.beginning_of_month - 1.month)
+      expect(query.end_date).to eq(Date.current.beginning_of_month)
     end
 
     it 'pulls the correct day after midnight UTC' do
@@ -72,8 +72,8 @@ describe GroupMeBotQuery do
       query.keywords = ['today']
       query.determine_date_range
       Timecop.return
-      expect(query.start_date).to eq(Date.today)
-      expect(query.end_date).to eq(Date.tomorrow)
+      expect(query.start_date).to eq(Date.current)
+      expect(query.end_date).to eq(Date.current + 1.day)
     end
   end
 
