@@ -1,5 +1,6 @@
 class Candidate < ActiveRecord::Base
   geocoded_by :zip
+  nilify_blanks
   extend NonAlphaNumericRansacker
 
   enum status: [
@@ -44,7 +45,7 @@ class Candidate < ActiveRecord::Base
 
   def display_name
     "#{self.first_name} #{self.last_name}" +
-        (self.suffix ? ", #{self.suffix}" : '')
+        (self.suffix.blank? ? '' : ", #{self.suffix}")
   end
 
   def name
