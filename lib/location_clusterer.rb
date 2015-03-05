@@ -14,7 +14,7 @@ class LocationClusterer
 
   def self.cluster(clusterer)
     CSV.open('clusters.csv', 'w') do |csv|
-      csv << ['cluster_number', 'store_num', 'store_address', 'latitude', 'longitude', 'center_store_number', 'center_store_address', 'center_latitude', 'center_longitude', 'distance_to_center']
+      csv << ['cluster_number', 'territory', 'store_num', 'store_address', 'latitude', 'longitude', 'center_store_number', 'center_store_address', 'center_latitude', 'center_longitude', 'distance_to_center']
       for cluster in clusterer.clusters do
         count = 0 unless count
         count += 1
@@ -23,10 +23,13 @@ class LocationClusterer
         center_address = near_center ? near_center.address : nil
         for data_point in cluster.data_points do
           near_point = Location.near(data_point).first
+          location_areas = near_point ? near_point.location_areas : nil
+          point_area = near_point ? (location_areas.empty? ? nil : location_areas.first.area.name) : nil
           point_store_number = near_point ? near_point.store_number : nil
           point_address = near_point ? near_point.address : nil
           csv << [
               count.to_s,
+              point_area,
               point_store_number,
               point_address,
               data_point.latitude,
