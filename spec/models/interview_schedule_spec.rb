@@ -15,5 +15,9 @@ describe InterviewSchedule do
       interview.start_time = nil
       expect(interview).not_to be_valid
     end
+    it 'requires an interview date' do
+      interview.interview_date = nil
+      expect(interview).not_to be_valid
+    end
   end
 end

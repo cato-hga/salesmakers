@@ -15,7 +15,10 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
-      redirect_to new_candidate_interview_schedule_path
+      @current_person.log? 'scheduled_for_interview',
+                           @candidate,
+                           @interview_schedule
+      redirect_to new_candidate_path
     else
       puts @interview_schedule.errors.full_messages.join(', ')
     end
@@ -27,20 +30,24 @@ class InterviewSchedulesController < ApplicationController
 
   def time_slots
     @interview_date = Chronic.parse params[:interview_date]
+    if @interview_date == nil
+      flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
+      redirect_to new_candidate_interview_schedule_path @candidate and return
+    end
     scheduled_interviews = InterviewSchedule.where interview_date: @interview_date
-    start_time = @interview_date.to_time.beginning_of_day
+    time_slots_start = @interview_date.to_time.beginning_of_day
     @time_slots = []
     taken_time_slots = []
     for interview in scheduled_interviews do
       taken_time_slots << interview.start_time
     end
     48.times do
-      next if start_time == taken_time_slots.any?
-      @time_slots << start_time
-      start_time = start_time + 30.minutes
+      next if taken_time_slots.include?(time_slots_start)
+      @time_slots << time_slots_start
+      time_slots_start = time_slots_start + 30.minutes
     end
-
   end
+
 
   private
 

@@ -2,5 +2,5 @@
   .inner
     = form_tag time_slots_candidate_interview_schedules_path(@candidate) do
       = label_tag :interview_date
-      = text_field_tag :interview_date, nil, placeholder: "Use MM/DD/YYYY or terms like 'today', 'tomorrow', etc, and hit ENTER"
+      = text_field_tag :interview_date, nil, placeholder: "Use MM/DD/YYYY or terms like 'today', 'tomorrow', 'next monday' etc"
       = submit_tag 'Search for time slots', class: :button
