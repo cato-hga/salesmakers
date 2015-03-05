@@ -66,7 +66,8 @@ describe 'Scheduling interviews' do
     end
 
     describe 'interview time slots' do
-      let!(:interview_schedule) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 09:11:45 -0500' }
+      let!(:interview_schedule) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 09:00:00 -0500' }
+      let!(:interview_schedule_two) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 23:30:00 -0500' }
       before(:each) do
         fill_in 'interview_date', with: '3/05/2015'
         click_on 'Search for time slots'
@@ -77,11 +78,20 @@ describe 'Scheduling interviews' do
         expect(page).to have_content '9:30am EST'
       end
       it 'does not display taken time slots' do
-        expect(page).not_to have_content '2:30pm EST'
+        expect(page).not_to have_content '9:00am EST'
+        expect(page).not_to have_content '11:30pm EST'
       end
+
       describe 'when choosing a slot' do
-        it 'schedules the candidate'
-        it 'renders the new candidate screen'
+        before(:each) do
+          click_on '9:30am EST'
+        end
+        it 'schedules the candidate' do
+          expect(InterviewSchedule.count).to eq(3)
+        end
+        it 'renders the new candidate screen' do
+          expect(page).to have_content 'New Candidate'
+        end
       end
     end
   end

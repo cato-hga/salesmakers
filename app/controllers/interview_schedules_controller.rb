@@ -34,33 +34,21 @@ class InterviewSchedulesController < ApplicationController
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate and return
     end
-
-    #Creating the time slots
     scheduled_interviews = InterviewSchedule.where interview_date: @interview_date
+    taken_time_slots = []
+    for interview in scheduled_interviews do
+      taken_time_slots << interview.start_time.strftime('%H%M')
+    end
     time_slots_start = @interview_date.to_time.beginning_of_day
     @time_slots = []
     48.times do
-      @time_slots << time_slots_start
+      time_slot = time_slots_start.strftime('%H%M')
+      unless taken_time_slots.include? time_slot
+        @time_slots << time_slots_start
+      end
       time_slots_start = time_slots_start + 30.minutes
     end
-
-    #Finding taken time slots
-    taken_time_slots = []
-    for interview in scheduled_interviews do
-      taken_time_slots << interview.start_time
-    end
-    puts taken_time_slots.inspect
-
-    for slot in @time_slots do
-      puts slot.inspect
-      if taken_time_slots.include? slot
-        slot.delete
-      end
-    end
-    @time_slots
-    puts @time_slots.first
   end
-
 
   private
 
