@@ -74,17 +74,17 @@ describe 'Scheduling interviews' do
       end
       it 'displays the time slots available' do
         expect(page).to have_content 'Available Interview Slots for '
-        expect(page).to have_content '12:00am EST'
-        expect(page).to have_content '9:30am EST'
+        expect(page).to have_content '12:00am'
+        expect(page).to have_content '9:30am'
       end
       it 'does not display taken time slots' do
-        expect(page).not_to have_content '9:00am EST'
-        expect(page).not_to have_content '11:30pm EST'
+        expect(page).not_to have_content '9:00am'
+        expect(page).not_to have_content '11:30pm'
       end
 
       describe 'when choosing a slot' do
         before(:each) do
-          click_on '9:30am EST'
+          click_on '9:30am'
         end
         it 'schedules the candidate' do
           expect(InterviewSchedule.count).to eq(3)
