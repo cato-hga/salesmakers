@@ -8,6 +8,7 @@ class Candidate < ActiveRecord::Base
   validates :zip, presence: true
   validates :project_id, presence: true
   validate :strip_phone_number
+
   belongs_to :project
 
   stripping_ransacker(:mobile_phone_number, :mobile_phone)

@@ -8,5 +8,6 @@ FactoryGirl.define do
     email 'test@user.com'
     zip '33711'
     association :project
+    active true
   end
 end

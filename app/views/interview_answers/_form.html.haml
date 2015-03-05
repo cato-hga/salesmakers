@@ -25,6 +25,6 @@
       = f.text_field :compensation_seeking
       = f.label :hours_looking_to_work, "Hours per week looking to work"
       = f.text_field :hours_looking_to_work
-      = hidden_field_tag 'extend_offer', 'false'
+      = hidden_field_tag 'extend_offer', 'true'
       = f.submit 'Extend offer', class: :button
       %a.button(href="#" id="submit_do_not_extend_offer") Do not extend offer

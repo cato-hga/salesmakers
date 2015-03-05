@@ -67,40 +67,47 @@ describe 'Interview answers' do
           expect(page).to have_content 'Interview Answers for'
         end
       end
-      # context 'with valid data' do
-      #   before(:each) do
-      #     fill_in :interview_answer_work_history, with: 'Work History'
-      #     fill_in :interview_answer_why_in_market, with: 'Why in market'
-      #     fill_in :interview_answer_ideal_position, with: 'Ideal position'
-      #     fill_in :interview_answer_what_are_you_good_at, with: 'What are you good at'
-      #     fill_in :interview_answer_what_are_you_not_good_at, with: 'What are you not good at'
-      #     fill_in :interview_answer_compensation_last_job_one, with: 'Comp 1'
-      #     fill_in :interview_answer_compensation_last_job_two, with: 'Comp 2'
-      #     fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
-      #     fill_in :interview_answer_compensation_seeking, with: 'Seeking comp'
-      #     fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
-      #     click_on 'Extend offer'
-      #   end
-      #   context 'and job extended' do
-      #     it 'displays a confirmation' do
-      #       expect(page).to have_content 'Interview answers saved, and job extended'
-      #     end
-      #     it 'redirects to the new candidate screen' do
-      #       expect(page).to have_content 'New Candidate'
-      #     end
-      #   end
-      #   context 'and job not extended' do
-      #     it 'display a confirmation' do
-      #       expect(page).to have_content 'Interview answers saved, and candidate deactivated'
-      #     end
-      #     it 'redirects to new candidate screen' do
-      #       expect(page).to have_content 'New Candidate'
-      #     end
-      #     it 'deactivates the candidate' do
-      #       expect(candidate.active).to eq(false)
-      #     end
-      #   end
-      # end
+      context 'with valid data' do
+        before(:each) do
+          fill_in :interview_answer_work_history, with: 'Work History'
+          fill_in :interview_answer_why_in_market, with: 'Why in market'
+          fill_in :interview_answer_ideal_position, with: 'Ideal position'
+          fill_in :interview_answer_what_are_you_good_at, with: 'What are you good at'
+          fill_in :interview_answer_what_are_you_not_good_at, with: 'What are you not good at'
+          fill_in :interview_answer_compensation_last_job_one, with: 'Comp 1'
+          fill_in :interview_answer_compensation_last_job_two, with: 'Comp 2'
+          fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
+          fill_in :interview_answer_compensation_seeking, with: 'Seeking comp'
+          fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
+        end
+        context 'and job extended' do
+          before(:each) do
+            click_on 'Extend offer'
+          end
+          it 'displays a confirmation' do
+            expect(page).to have_content 'Interview answers saved, and job offer extended'
+          end
+          it 'redirects to the new candidate screen' do
+            expect(page).to have_content 'New Candidate'
+          end
+        end
+        context 'and job not extended' do
+          before(:each) do
+            find(:xpath, "//input[@id='extend_offer']").set false
+            click_on 'Extend offer'
+          end
+          it 'display a confirmation' do
+            expect(page).to have_content 'Interview answers saved, and candidate deactivated'
+          end
+          it 'redirects to new candidate screen' do
+            expect(page).to have_content 'New Candidate'
+          end
+          it 'deactivates the candidate' do
+            candidate.reload
+            expect(candidate.active).to eq(false)
+          end
+        end
+      end
     end
   end
 end

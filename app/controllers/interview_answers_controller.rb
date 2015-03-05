@@ -10,10 +10,22 @@ class InterviewAnswersController < ApplicationController
   def create
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
-    if @interview_answer.save
-      puts 'NO'
+    if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
+      flash[:notice] = 'Interview answers saved, and job offer extended'
+      @current_person.log? 'interview_answer_create',
+                           @candidate
+      @current_person.log? 'extended_job_offer',
+                           @candidate
+      redirect_to new_candidate_path
+    elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
+      flash[:notice] = 'Interview answers saved, and candidate deactivated'
+      @candidate.update active: false
+      @current_person.log? 'interview_answer_create',
+                           @candidate
+      @current_person.log? 'job_offer_not_extended',
+                           @candidate
+      redirect_to new_candidate_path
     else
-      puts @interview_answer.errors.full_messages.join(', ')
       flash[:error] = "The candidate's interview answers cannot be saved"
       render :new
     end
