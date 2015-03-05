@@ -54,8 +54,8 @@ describe 'Scheduling interviews' do
             fill_in 'interview_date', with: 'tomorrow'
             click_on 'Search for time slots'
             expect(page).to have_content 'Available Interview Slots for '
-            expect(page).to have_content '12:00am EST'
-            expect(page).to have_content '9:30am EST'
+            expect(page).to have_content '12:00am'
+            expect(page).to have_content '9:30am'
           end
         end
       end
