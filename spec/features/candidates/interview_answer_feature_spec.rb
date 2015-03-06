@@ -88,7 +88,7 @@ describe 'Interview answers' do
             click_on 'Extend offer'
           end
           it 'displays a confirmation' do
-            expect(page).to have_content 'Interview answers saved and job offer extended'
+            expect(page).to have_content 'Could not send'
           end
           it 'redirects to the candidate show page' do
             expect(page).to have_content candidate.name

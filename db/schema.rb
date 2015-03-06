@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305203700) do
+ActiveRecord::Schema.define(version: 20150306171023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(version: 20150305203700) do
     t.float "longitude"
     t.boolean "active", default: true, null: false
     t.integer "status", default: 0, null: false
+    t.boolean "active", default: true, null: false
+    t.string "state", limit: 2
   end
 
   create_table "changelog_entries", force: :cascade do |t|
@@ -284,6 +286,15 @@ ActiveRecord::Schema.define(version: 20150305203700) do
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
+  create_table "docusign_templates", force: :cascade do |t|
+    t.string "template_guid", null: false
+    t.string "state", limit: 2, null: false
+    t.integer "document_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "project_id", null: false
+  end
+
   create_table "email_messages", force: :cascade do |t|
     t.string   "from_email",   null: false
     t.string   "to_email",     null: false
@@ -395,6 +406,7 @@ ActiveRecord::Schema.define(version: 20150305203700) do
     t.datetime "completed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "envelope_guid"
   end
 
   create_table "likes", force: :cascade do |t|

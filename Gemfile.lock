@@ -195,6 +195,9 @@ GEM
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    docusign_rest (0.1.1)
+      json
+      multipart-post (>= 1.2)
     dragonfly (1.0.7)
       addressable (~> 2.3)
       multi_json (~> 1.0)
@@ -632,6 +635,7 @@ DEPENDENCIES
   coffee-script (= 2.3.0)
   coolline (= 0.5.0)
   database_rewinder (= 0.4.2)
+  docusign_rest (= 0.1.1)
   dragonfly (= 1.0.7)
   emoji (= 1.0.1)
   exception_notification (= 4.0.1)

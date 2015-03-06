@@ -25,6 +25,10 @@ class CandidatePolicy < ApplicationPolicy
     select_location?
   end
 
+  def send_paperwork?
+    create?
+  end
+
   def interview_now?
     create?
   end

@@ -48,7 +48,7 @@ describe 'Candidate creation' do
           expect(page).to have_content "Last name can't be blank"
           expect(page).to have_content "Mobile phone can't be blank"
           expect(page).to have_content "Email can't be blank"
-          expect(page).to have_content "Zip can't be blank"
+          expect(page).to have_content "Zip is the wrong length"
         end
       end
       context 'with valid data' do

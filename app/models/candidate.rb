@@ -1,5 +1,12 @@
 class Candidate < ActiveRecord::Base
   geocoded_by :zip
+  reverse_geocoded_by :latitude, :longitude do |obj, results|
+    if geo = results.first
+      obj.state = geo.state_code
+    end
+  end
+  after_validation :reverse_geocode_on_production
+
   nilify_blanks
   extend NonAlphaNumericRansacker
 
@@ -11,7 +18,8 @@ class Candidate < ActiveRecord::Base
            :interviewed,
            :rejected,
            :accepted,
-           :paperwork_complete,
+           :paperwork_sent,
+           :paperwork_completed,
            :onboarded
        ]
 
@@ -24,7 +32,7 @@ class Candidate < ActiveRecord::Base
   validates :last_name, presence: true
   validates :mobile_phone, presence: true, uniqueness: true
   validates :email, presence: true
-  validates :zip, presence: true
+  validates :zip, length: { is: 5 }
   validates :project_id, presence: true
   validate :strip_phone_number
 
@@ -59,6 +67,10 @@ class Candidate < ActiveRecord::Base
   def geocode_on_production
     return unless Rails.env.production? or Rails.env.staging?
     self.geocode
-    sleep 0.21
+  end
+
+  def reverse_geocode_on_production
+    return unless Rails.env.production?
+    self.reverse_geocode
   end
 end
