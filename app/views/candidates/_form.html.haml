@@ -10,7 +10,7 @@
       = f.label :last_name
       = f.text_field :last_name
       = f.label :suffix
-      = f.text_field :suffix
+      = f.select :suffix, @suffixes.map { |value| [value, value]}
       = f.label :mobile_phone
       = f.text_field :mobile_phone
       = f.label :email, 'Email address'

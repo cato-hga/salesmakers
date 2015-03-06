@@ -14,6 +14,7 @@ class CandidatesController < ApplicationController
   def new
     @candidate = Candidate.new
     @projects = Project.all
+    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
   end
 
   def create
