@@ -149,4 +149,26 @@ describe CandidatesController do
       expect(candidate.status).to eq('location_selected')
     end
   end
+
+  describe 'GET send_paperwork' do
+    let(:candidate) { create :candidate, state: 'FL' }
+    let!(:docusign_template) {
+      create :docusign_template,
+             template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
+             state: 'FL',
+             project: candidate.project,
+             document_type: 0
+    }
+
+    before { get :send_paperwork, id: candidate.id }
+
+    it 'redirects to the candidate show page', :vcr do
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'changes the candidate status', :vcr do
+      candidate.reload
+      expect(candidate.status).to eq('paperwork_sent')
+    end
+  end
 end

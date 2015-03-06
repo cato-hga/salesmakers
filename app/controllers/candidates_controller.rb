@@ -49,6 +49,22 @@ class CandidatesController < ApplicationController
     redirect_to new_candidate_interview_schedule_path(@candidate)
   end
 
+  def send_paperwork
+    candidate = Candidate.find params[:id]
+    envelope_response = DocusignTemplate.send_nhp candidate, @current_person
+    job_offer_details = JobOfferDetail.new candidate: candidate,
+                                           sent: DateTime.now
+    if envelope_response
+      job_offer_details.envelope_guid = response
+      flash[:notice] = 'Paperwork sent successfully.'
+    else
+      flash[:error] = 'Could not send paperwork automatically. Please send now manually.'
+    end
+    job_offer_details.save
+    candidate.paperwork_sent!
+    redirect_to candidate
+  end
+
   private
 
   def candidate_params
@@ -81,4 +97,5 @@ class CandidatesController < ApplicationController
         joins(:area).
         where('areas.project_id = ?', @candidate.project_id)
   end
+
 end

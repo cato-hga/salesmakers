@@ -17,7 +17,7 @@ class InterviewAnswersController < ApplicationController
                            @candidate
       @current_person.log? 'extended_job_offer',
                            @candidate
-      redirect_to @candidate
+      redirect_to send_paperwork_candidate_path(@candidate)
     elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
       flash[:notice] = 'Interview answers saved and candidate deactivated'
       @candidate.rejected!

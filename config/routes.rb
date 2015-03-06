@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     member do
       get :select_location, as: :select_location
       get 'set_location/:location_id', to: :set_location, as: :set_location
+      get :send_paperwork, to: :send_paperwork, as: :send_paperwork
     end
     resources :interview_answers, only: [:new, :create]
   end
