@@ -16,6 +16,7 @@
         "lng": #{html_escape(@candidate.longitude)},
         "infowindow": "#{html_escape(@candidate.zip)} (Home)"
       });
+
  - count = 0
     - for location in @locations do
       - next if @candidate.location_area and @candidate.location_area.location == location
