@@ -17,4 +17,7 @@ class DocusignTemplate < ActiveRecord::Base
   validates :template_guid, presence: true
   validates :state, length: { is: 2 }, inclusion: { in: states }
   validates :document_type, presence: true, inclusion: { in: DocusignTemplate.document_types.keys }
+  validates :project, presence: true
+
+  belongs_to :project
 end

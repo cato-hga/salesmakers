@@ -26,4 +26,9 @@ describe DocusignTemplate do
     subject.document_type = nil
     expect(subject).not_to be_valid
   end
+
+  it 'requires a project' do
+    subject.project = nil
+    expect(subject).not_to be_valid
+  end
 end
