@@ -16,8 +16,7 @@
         "lng": #{html_escape(@candidate.longitude)},
         "infowindow": "#{html_escape(@candidate.zip)} (Home)"
       });
-
- - count = 0
+ - location_count = 0
     - for location in @locations do
       - next if @candidate.location_area and @candidate.location_area.location == location
       - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
@@ -29,9 +28,9 @@
       - potentials = location_area.potential_candidate_count if location_area
       - current = location_area.current_head_count if location_area
       - open = target - (current + potentials)
-      - count += 1
+      - location_count += 1
       - distance = location.geographic_distance(@candidate).round(2)
-      - info_window = "#{count.to_s}. #{location.channel.name}, #{location.display_name}".html_safe
+      - info_window = "#{location_count.to_s}. #{location.channel.name}, #{location.display_name}".html_safe
       - info_window += " (##{location.store_number})<br><br>".html_safe
       - info_window += "#{distance} miles<br><br>".html_safe
       - info_window += "#{location.address}<br><br>".html_safe
