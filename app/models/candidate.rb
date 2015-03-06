@@ -57,7 +57,7 @@ class Candidate < ActiveRecord::Base
   private
 
   def geocode_on_production
-    return unless Rails.env.production?
+    return unless Rails.env.production? or Rails.env.staging?
     self.geocode
     sleep 0.21
   end

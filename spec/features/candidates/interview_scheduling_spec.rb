@@ -64,7 +64,16 @@ describe 'Scheduling interviews' do
       end
 
       describe 'when interviewing now' do
-        it 'takes the recruiter to the interview notes section'
+        before(:each) do
+          click_on 'Interview Now!'
+        end
+        it 'takes the recruiter to the interview notes section' do
+          expect(page).to have_content ('Interview Answers')
+        end
+        it 'the candidates status is changed to scheduled' do
+          candidate.reload
+          expect(candidate.status).to eq('interview_scheduled')
+        end
       end
     end
 
@@ -90,7 +99,9 @@ describe 'Scheduling interviews' do
           click_on 'Schedule for 9:30am'
         end
         it 'schedules the candidate' do
+          candidate.reload
           expect(InterviewSchedule.count).to eq(3)
+          expect(candidate.status).to eq('interview_scheduled')
         end
         it 'renders the new candidate screen' do
           expect(page).to have_content candidate.name

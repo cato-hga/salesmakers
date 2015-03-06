@@ -55,6 +55,30 @@ describe InterviewSchedulesController do
     end
   end
 
+  describe 'GET interview_now' do
+    context 'success' do
+      before(:each) do
+        get :interview_now,
+            candidate_id: candidate.id
+      end
+      it 'schedules the candidate' do
+        expect(InterviewSchedule.all.count).to eq(1)
+      end
+      it 'creates a log entry' do
+        expect(LogEntry.all.count).to eq(1)
+      end
+
+      it 'redirects to the cinterview answer path' do
+        expect(response).to redirect_to(new_candidate_interview_answer_path(candidate))
+      end
+
+      it 'changes the candidate status' do
+        candidate.reload
+        expect(candidate.status).to eq('interview_scheduled')
+      end
+    end
+  end
+
   describe 'GET schedule' do
     before(:each) do
       expect(controller).to receive(:create)

@@ -24,4 +24,8 @@ class CandidatePolicy < ApplicationPolicy
   def set_location?
     select_location?
   end
+
+  def interview_now?
+    create?
+  end
 end

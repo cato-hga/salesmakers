@@ -1,5 +1,5 @@
 - title 'Interview Scheduler'
 - content_for :action_buttons do
-  = link_to 'Interview Now!', '#', class: [:button, :inline_button]
+  = link_to 'Interview Now!', interview_now_candidate_interview_schedules_path(@candidate), class: [:button, :inline_button]
 
 = render 'form'

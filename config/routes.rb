@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         get 'schedule/:interview_datetime',
             action: :schedule,
             as: :schedule
+        get 'interview_now'
       end
     end
     member do

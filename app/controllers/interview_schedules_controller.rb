@@ -31,6 +31,24 @@ class InterviewSchedulesController < ApplicationController
     create
   end
 
+  def interview_now
+    @interview_schedule = InterviewSchedule.new
+    @interview_schedule.interview_date = Date.today
+    @interview_schedule.start_time = Time.now
+    @interview_schedule.person = @current_person
+    @interview_schedule.candidate = @candidate
+    if @interview_schedule.save
+      @candidate.interview_scheduled!
+      @current_person.log? 'interviewed_now',
+                           @candidate,
+                           @interview_schedule
+      redirect_to new_candidate_interview_answer_path @candidate
+    else
+      #TODO: HELP
+      puts @interview_schedule.errors.full_messages.join(', ')
+    end
+  end
+
   def time_slots
     @interview_date = Chronic.parse params[:interview_date]
     if @interview_date == nil
