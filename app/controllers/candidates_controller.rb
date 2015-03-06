@@ -20,6 +20,7 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new candidate_params
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
+    @candidate.person = @current_person
     if @candidate.save
       @current_person.log? 'candidate_create',
                            @candidate

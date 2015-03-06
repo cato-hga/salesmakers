@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe 'candidate index' do
-  let!(:candidate) { create :candidate, location_area: location_area }
-  let!(:recruiter) { create :person, position: position }
+  let!(:candidate) { create :candidate, location_area: location_area, person: recruiter }
+  let!(:recruiter) { create :person, last_name: 'Recruiter', position: position }
   let(:position) { create :position, permissions: [permission] }
   let!(:location_area) { create :location_area }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
@@ -19,6 +19,10 @@ describe 'candidate index' do
 
   it 'should show the candidate on the index page' do
     expect(page).to have_content(candidate.name)
+  end
+
+  it 'shows the person who entered the candidate' do
+    expect(page).to have_content(recruiter.display_name)
   end
 
   it 'searches for first names' do

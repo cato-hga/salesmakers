@@ -78,6 +78,11 @@ describe CandidatesController do
         candidate = Candidate.first
         expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
       end
+      it 'saves the candidates recruiter/person' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.person).to eq(recruiter)
+      end
     end
 
     context 'failure' do

@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(version: 20150306171023) do
     t.float "longitude"
     t.boolean "active", default: true, null: false
     t.integer "status", default: 0, null: false
-    t.boolean "active", default: true, null: false
     t.string "state", limit: 2
   end
 
