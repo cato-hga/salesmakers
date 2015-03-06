@@ -4,12 +4,12 @@ class PrescreenAnswersController < ApplicationController
 
   def new
     @prescreen_answer = PrescreenAnswer.new
-    @candidate = Candidate.find_by params[:id]
+    @candidate = Candidate.find params[:candidate_id]
   end
 
   def create
     @prescreen_answer = PrescreenAnswer.new prescreen_answer_params
-    @candidate = Candidate.find_by params[:id]
+    @candidate = Candidate.find params[:candidate_id]
     @prescreen_answer.candidate = @candidate
     if @prescreen_answer.save
       @candidate.prescreened!

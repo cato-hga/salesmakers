@@ -37,6 +37,8 @@ class Candidate < ActiveRecord::Base
   has_many :interview_answers
   has_many :job_offer_details
 
+  default_scope { order(:first_name, :last_name) }
+
   stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
   def strip_phone_number

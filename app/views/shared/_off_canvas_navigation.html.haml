@@ -18,6 +18,17 @@
     - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
     - if group_count > 0
       %li= link_to 'GroupMe Post', new_post_group_me_groups_path
+  - candidate_policy = CandidatePolicy.new(current_person, Candidate.new)
+  - if candidate_policy.index? or candidate_policy.create?
+    %ul.off-canvas-list
+      %li
+        %label Candidates
+      - if candidate_policy.index?
+        %li
+          = link_to 'Candidates List', candidates_path
+      - if candidate_policy.create?
+        %li
+          = link_to 'New Candidate', new_candidate_path
   %ul.off-canvas-list
     %li
       %label People

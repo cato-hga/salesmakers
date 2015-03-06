@@ -60,9 +60,9 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         candidate.reload
         expect(candidate.status).to eq('accepted')
       end
-      it 'redirects to the new candidate screen' do
+      it 'redirects to the candidate show screen' do
         subject
-        expect(response).to redirect_to(new_candidate_path)
+        expect(response).to redirect_to(candidate_path(candidate))
       end
     end
     context 'success for candidates not extended a job offer' do

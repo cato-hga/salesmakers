@@ -3,11 +3,14 @@ require 'rails_helper'
 describe 'Scheduling interviews' do
 
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
+  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
+  let(:permission_index) { Permission.new key: 'candidate_index',
+                                          permission_group: permission_group,
+                                          description: 'Test Description' }
   let(:candidate) { create :candidate }
 
   describe 'for unauthorized users' do
@@ -84,13 +87,13 @@ describe 'Scheduling interviews' do
 
       describe 'when choosing a slot' do
         before(:each) do
-          click_on '9:30am'
+          click_on 'Schedule for 9:30am'
         end
         it 'schedules the candidate' do
           expect(InterviewSchedule.count).to eq(3)
         end
         it 'renders the new candidate screen' do
-          expect(page).to have_content 'New Candidate'
+          expect(page).to have_content candidate.name
         end
       end
     end

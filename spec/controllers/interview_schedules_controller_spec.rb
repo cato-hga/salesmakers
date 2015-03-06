@@ -44,8 +44,8 @@ describe InterviewSchedulesController do
         expect(LogEntry.all.count).to eq(1)
       end
 
-      it 'redirects to the new candidate path' do
-        expect(response).to redirect_to(new_candidate_path)
+      it 'redirects to the candidate show path' do
+        expect(response).to redirect_to(candidate_path(candidate))
       end
 
       it 'changes the candidate status' do

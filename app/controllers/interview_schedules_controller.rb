@@ -19,8 +19,10 @@ class InterviewSchedulesController < ApplicationController
       @current_person.log? 'scheduled_for_interview',
                            @candidate,
                            @interview_schedule
-      redirect_to new_candidate_path
+      flash[:notice] = 'Candidate scheduled!'
+      redirect_to @candidate
     else
+      #TODO: HELP
       puts @interview_schedule.errors.full_messages.join(', ')
     end
   end
@@ -54,7 +56,7 @@ class InterviewSchedulesController < ApplicationController
   private
 
   def set_candidate
-    @candidate = Candidate.find_by params[:id]
+    @candidate = Candidate.find params[:candidate_id]
   end
 
   def chronic_time_zones

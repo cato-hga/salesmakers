@@ -22,7 +22,7 @@ describe RootRedirectsController do
     end
 
     describe 'Recruiting' do
-      let(:recruiter) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
+      let(:recruiter) { create :person, position: position, email: 'recruiter@salesmakersinc.com' }
       let(:permissions) { create :permission }
       let(:position) { create :position, name: 'Advocate', department: department }
       let(:department) { create :department, name: 'Advocate Department' }

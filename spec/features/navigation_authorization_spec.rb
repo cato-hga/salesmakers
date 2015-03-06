@@ -104,12 +104,13 @@ describe 'Navigation Authorization' do
 
     describe 'for recruiters' do
       let(:recruiter) { create :person, position: position }
-      let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
-      let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-      let(:permission_index) { Permission.new key: 'candidate_index',
+      let(:position) { create :position, name: 'Advocate', department: department, permissions: [permission_create, permission_index] }
+      let(:department) { create :department, name: 'Advocate Department' }
+      let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
+      let!(:permission_index) { Permission.create key: 'candidate_index',
                                               permission_group: permission_group,
                                               description: 'Test Description' }
-      let(:permission_create) { Permission.new key: 'candidate_create',
+      let!(:permission_create) { Permission.create key: 'candidate_create',
                                                permission_group: permission_group,
                                                description: 'Test Description' }
       before(:each) do
@@ -117,7 +118,7 @@ describe 'Navigation Authorization' do
         visit root_path
       end
 
-      it 'does contain links to candidates' do
+      it 'contains links to candidates' do
         within('.top-bar') do
           expect(page).to have_content('Candidates')
         end
@@ -179,12 +180,13 @@ describe 'Navigation Authorization' do
 
     describe 'for recruiters' do
       let(:recruiter) { create :person, position: position }
-      let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
-      let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-      let(:permission_index) { Permission.new key: 'candidate_index',
+      let(:position) { create :position, name: 'Advocate', department: department, permissions: [permission_create, permission_index] }
+      let(:department) { create :department, name: 'Advocate Department' }
+      let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
+      let!(:permission_index) { Permission.create key: 'candidate_index',
                                               permission_group: permission_group,
                                               description: 'Test Description' }
-      let(:permission_create) { Permission.new key: 'candidate_create',
+      let!(:permission_create) { Permission.create key: 'candidate_create',
                                                permission_group: permission_group,
                                                description: 'Test Description' }
       before(:each) do
@@ -193,14 +195,20 @@ describe 'Navigation Authorization' do
         visit root_path
       end
 
-      it 'does contain links to candidates' do
-        within('.top-bar') do
-          expect(page).to have_content('Candidates')
+      it 'contains links to candidates' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_content('Candidates List')
+        end
+      end
+
+      it 'contains a link to a new candidate' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_content('New Candidate')
         end
       end
 
       it 'does not contain links to the Admin section' do
-        within('.top-bar') do
+        within('.left-off-canvas-menu') do
           expect(page).not_to have_content('People')
         end
       end

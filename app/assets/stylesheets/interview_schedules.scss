@@ -2,3 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.interview_time_slot {
+	display: block;
+	padding: 1em;
+	border-bottom: 1px solid #ccc;
+	&:last-child {
+		border-bottom: none;
+	}
+	.slot_date_time {
+		text-align: left;
+		font-size: 1.2em;
+	}
+}

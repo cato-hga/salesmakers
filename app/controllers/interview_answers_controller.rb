@@ -11,15 +11,15 @@ class InterviewAnswersController < ApplicationController
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
     if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
-      flash[:notice] = 'Interview answers saved, and job offer extended'
+      flash[:notice] = 'Interview answers saved and job offer extended'
       @candidate.accepted!
       @current_person.log? 'interview_answer_create',
                            @candidate
       @current_person.log? 'extended_job_offer',
                            @candidate
-      redirect_to new_candidate_path
+      redirect_to @candidate
     elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
-      flash[:notice] = 'Interview answers saved, and candidate deactivated'
+      flash[:notice] = 'Interview answers saved and candidate deactivated'
       @candidate.rejected!
       @candidate.update active: false
       @current_person.log? 'interview_answer_create',
@@ -54,6 +54,6 @@ class InterviewAnswersController < ApplicationController
   end
 
   def set_candidate
-    @candidate = Candidate.find_by params[:id]
+    @candidate = Candidate.find params[:candidate_id]
   end
 end

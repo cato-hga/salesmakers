@@ -2,11 +2,14 @@ require 'rails_helper'
 
 describe 'Interview answers' do
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
+  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, candidate_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
+  let(:candidate_index) { Permission.new key: 'candidate_index',
+                                         permission_group: permission_group,
+                                         description: 'Test Description' }
   let(:candidate) { create :candidate }
 
   describe 'for unauthorized users' do
@@ -85,10 +88,10 @@ describe 'Interview answers' do
             click_on 'Extend offer'
           end
           it 'displays a confirmation' do
-            expect(page).to have_content 'Interview answers saved, and job offer extended'
+            expect(page).to have_content 'Interview answers saved and job offer extended'
           end
-          it 'redirects to the new candidate screen' do
-            expect(page).to have_content 'New Candidate'
+          it 'redirects to the candidate show page' do
+            expect(page).to have_content candidate.name
           end
         end
         context 'and job not extended' do
@@ -97,7 +100,7 @@ describe 'Interview answers' do
             click_on 'Extend offer'
           end
           it 'display a confirmation' do
-            expect(page).to have_content 'Interview answers saved, and candidate deactivated'
+            expect(page).to have_content 'Interview answers saved and candidate deactivated'
           end
           it 'redirects to new candidate screen' do
             expect(page).to have_content 'New Candidate'
