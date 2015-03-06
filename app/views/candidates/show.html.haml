@@ -46,9 +46,16 @@
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
+      - offers = @candidate.job_offer_details
       %p
-        %strong Job Offer:
-        - if @candidate.job_offer_details.empty?
+        %strong Sending Paperwork:
+        - if offers.empty?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Paperwork Completion:
+        - if offers.empty? or offers.first.completed.blank?
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
