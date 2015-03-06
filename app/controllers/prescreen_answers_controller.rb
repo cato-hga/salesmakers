@@ -14,7 +14,7 @@ class PrescreenAnswersController < ApplicationController
     if @prescreen_answer.save
       @candidate.prescreened!
       flash[:notice] = 'Answers saved!'
-      @current_person.log? 'prescreen_answer_create',
+      @current_person.log? 'create',
                            @candidate
       redirect_to select_location_candidate_path(@candidate)
     else

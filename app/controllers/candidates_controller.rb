@@ -22,7 +22,7 @@ class CandidatesController < ApplicationController
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
     @candidate.person = @current_person
     if @candidate.save
-      @current_person.log? 'candidate_create',
+      @current_person.log? 'create',
                            @candidate
       flash[:notice] = 'Candidate saved!'
       redirect_to new_candidate_prescreen_answer_path @candidate
