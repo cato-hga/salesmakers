@@ -69,7 +69,7 @@ class CandidatesController < ApplicationController
   def get_locations(candidate)
     project_locations = Project.locations(candidate.project)
     locations = project_locations.near(@candidate, 30)
-    if not locations or locations.size < 5
+    if not locations or locations.count(:all) < 5
       locations = project_locations.near(@candidate, 500).first(5)
     end
     locations
