@@ -1,4 +1,11 @@
 - title "Select Location for #{@candidate.name}"
+:javascript
+  var markers = [];
+  markers.push({
+    "lat": #{html_escape(@candidate.latitude)},
+    "lng": #{html_escape(@candidate.longitude)},
+    "infowindow": "#{html_escape(@candidate.zip)} (Home)"
+  });
 
 .widget
   .inner
@@ -9,14 +16,7 @@
 .widget
   .inner
     #locations_map
-    :javascript
-      var markers = [];
-      markers.push({
-        "lat": #{html_escape(@candidate.latitude)},
-        "lng": #{html_escape(@candidate.longitude)},
-        "infowindow": "#{html_escape(@candidate.zip)} (Home)"
-      });
- - location_count = 0
+    - location_count = 0
     - for location in @locations do
       - next if @candidate.location_area and @candidate.location_area.location == location
       - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
