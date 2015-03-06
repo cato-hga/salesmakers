@@ -7,4 +7,4 @@
         .large-2.medium-3.small-6.columns
           .slot_date_time= friendly_datetime(slot)
         .large-10.medium-9.small-6.columns
-          = link_to "Schedule for #{slot.strftime('%-l:%M%P')}", schedule_candidate_interview_schedules_path(@candidate, slot.utc.strftime('%Y%m%d%H%M')), class: [:button, :inline_button, :schedule_button]
+          = link_to "Schedule for #{slot.strftime('%-l:%M%P')}", schedule_candidate_interview_schedules_path(@candidate, @interview_date.strftime('%Y%m%d'), slot.in_time_zone.strftime('%H%M')), class: [:button, :inline_button, :schedule_button]

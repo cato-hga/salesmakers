@@ -57,7 +57,7 @@ describe 'Scheduling interviews' do
             fill_in 'interview_date', with: 'tomorrow'
             click_on 'Search for time slots'
             expect(page).to have_content 'Available Interview Slots for '
-            expect(page).to have_content '12:00am'
+            expect(page).to have_content '3:00pm'
             expect(page).to have_content '9:30am'
           end
         end
@@ -78,21 +78,27 @@ describe 'Scheduling interviews' do
     end
 
     describe 'interview time slots' do
-      let!(:interview_schedule) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 09:00:00 -0500' }
-      let!(:interview_schedule_two) { create :interview_schedule, interview_date: ('20150305').to_date, start_time: '2015-03-05 23:30:00 -0500' }
+      let(:other_candidate) { create :candidate }
+      let!(:interview_schedule) { create :interview_schedule, candidate: other_candidate, interview_date: Date.new(2015, 03, 05), start_time: '2015-03-05 14:00:00' }
+      let!(:interview_schedule_two) { create :interview_schedule, candidate: other_candidate, interview_date: Date.new(2015, 03, 05), start_time: '2015-03-05 23:30:00' }
       before(:each) do
         fill_in 'interview_date', with: '3/05/2015'
         click_on 'Search for time slots'
       end
       it 'displays the time slots available' do
         expect(page).to have_content 'Available Interview Slots for '
-        expect(page).to have_content '12:00am'
+        expect(page).to have_content '3:00pm'
         expect(page).to have_content '9:30am'
       end
       it 'does not display taken time slots' do
         expect(page).not_to have_content '9:00am'
-        expect(page).not_to have_content '11:30pm'
+        expect(page).not_to have_content '6:30pm'
       end
+      it 'does not display time slots outside of 9am to 8:30 pm' do
+        expect(page).not_to have_content '8:30am'
+        expect(page).not_to have_content '9:00pm'
+      end
+
 
       describe 'when choosing a slot' do
         before(:each) do
@@ -105,6 +111,9 @@ describe 'Scheduling interviews' do
         end
         it 'renders the new candidate screen' do
           expect(page).to have_content candidate.name
+        end
+        it 'schedules the correct time (Screw you time zones!)' do
+          expect(candidate.interview_schedules.first.start_time.in_time_zone.strftime('%H%M%S')).to eq('093000')
         end
       end
     end

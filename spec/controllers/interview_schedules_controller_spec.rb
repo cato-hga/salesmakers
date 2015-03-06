@@ -31,7 +31,8 @@ describe InterviewSchedulesController do
     context 'success' do
       before(:each) do
         post :create,
-             interview_datetime: DateTime.now,
+             interview_date: Date.today.strftime('%Y%m%d'),
+             interview_time: Time.zone.now.strftime('%H%M'),
              candidate_id: candidate.id,
              person_id: recruiter.id
       end
@@ -84,7 +85,8 @@ describe InterviewSchedulesController do
       expect(controller).to receive(:create)
       get :schedule,
           candidate_id: candidate.id,
-          interview_datetime: DateTime.now
+          interview_date: Date.today.strftime('%Y%m%d'),
+          interview_time: Time.zone.now.strftime('%H%M')
     end
     it 'returns a success status' do
       expect(response).to be_success

@@ -10,8 +10,12 @@ class InterviewSchedulesController < ApplicationController
 
   def create
     @interview_schedule = InterviewSchedule.new
-    @interview_schedule.interview_date = params[:interview_datetime].to_date
-    @interview_schedule.start_time = params[:interview_datetime].to_time
+    interview_date = params[:interview_date].to_date
+    @interview_schedule.interview_date = interview_date
+    hour = params[:interview_time].slice 0..1
+    minutes = params[:interview_time].slice 2..3
+    interview_time = Time.new(interview_date.year, interview_date.month, interview_date.day, hour, minutes).in_time_zone
+    @interview_schedule.start_time = interview_time
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
@@ -33,8 +37,8 @@ class InterviewSchedulesController < ApplicationController
 
   def interview_now
     @interview_schedule = InterviewSchedule.new
-    @interview_schedule.interview_date = Date.today
-    @interview_schedule.start_time = Time.now
+    @interview_schedule.interview_date = Date.today.in_time_zone
+    @interview_schedule.start_time = Time.now.in_time_zone
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
@@ -58,11 +62,11 @@ class InterviewSchedulesController < ApplicationController
     scheduled_interviews = InterviewSchedule.where interview_date: @interview_date
     taken_time_slots = []
     for interview in scheduled_interviews do
-      taken_time_slots << interview.start_time.strftime('%H%M')
+      taken_time_slots << interview.start_time.in_time_zone.strftime('%H%M')
     end
-    time_slots_start = @interview_date.to_time.beginning_of_day
+    time_slots_start = Time.new(@interview_date.year, @interview_date.month, @interview_date.day, 9, 0, 0)
     @time_slots = []
-    48.times do
+    24.times do
       time_slot = time_slots_start.strftime('%H%M')
       unless taken_time_slots.include? time_slot
         @time_slots << time_slots_start

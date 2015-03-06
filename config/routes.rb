@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     resources :interview_schedules, only: [:new, :create] do
       collection do
         post :time_slots, as: 'time_slots'
-        get 'schedule/:interview_datetime',
+        get 'schedule/:interview_date/:interview_time',
             action: :schedule,
             as: :schedule
         get 'interview_now'
