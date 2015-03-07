@@ -1,6 +1,7 @@
 .widget
   .inner
     = form_for [@candidate, @prescreen_answer] do |f|
+      = hidden_field_tag 'call_initiated', @call_initiated
       %p
         = f.check_box :worked_for_salesmakers
         = f.label :worked_for_salesmakers, 'Candidate has not worked for SalesMakers'
@@ -25,4 +26,7 @@
       %p
         = f.check_box :ok_to_screen
         = f.label :ok_to_screen, 'Candidate gave permission for background check and drug screen'
+      %p
+        = label_tag :inbound, 'Is this call inbound or outbound?'
+        = select_tag :inbound, options_for_select([['Inbound', true], ['Outbound', false]]), include_blank: true
       = f.submit 'Save Answers', class: :button
