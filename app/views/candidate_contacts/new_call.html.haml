@@ -1,0 +1,11 @@
+- title "Call Notes for #{@candidate.name}"
+
+.widget
+  .inner
+    = form_for [@candidate, @candidate_contact], data: { remote: true } do |f|
+      = f.hidden_field :contact_method
+      = f.label :notes, "Enter a note on why you are calling #{@candidate.first_name}"
+      = f.text_area :notes, rows: 5
+      %p
+        = f.submit 'Show Phone Number', class: [:button, :inline_button]
+        %span#phone_number(style="display:none;")= phone_link(@candidate.mobile_phone)

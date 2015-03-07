@@ -16,4 +16,6 @@ class CandidateContact < ActiveRecord::Base
 
   belongs_to :candidate
   belongs_to :person
+
+  default_scope { order(created_at: :desc) }
 end

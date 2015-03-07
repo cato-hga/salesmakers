@@ -19,11 +19,11 @@
 
 .widget
   .inner
-    - headers = header_row ['Name', 'Mobile', 'Email', 'ZIP', 'Project', 'Channel', 'Location', 'Status']
+    - headers = header_row ['Name', 'Entered By', 'Email', 'ZIP', 'Project', 'Channel', 'Location', 'Status', '']
     - rows = []
     - for candidate in @candidates do
       - name = candidate_link candidate
-      - mobile = phone_link candidate.mobile_phone
+      - entered_by = person_link candidate.created_by
       - email = email_link candidate.email
       - zip = candidate.zip
       - project = candidate.project.name
@@ -34,7 +34,8 @@
       - location = location_obj.display_name if candidate.location_area
       - status = ''
       - status = NameCase(candidate.status.humanize) if candidate.status
-      - rows << table_row([name, mobile, email, zip, project, channel, location, status])
+      - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
+      - rows << table_row([name, entered_by, email, zip, project, channel, location, status, call_button])
     = table headers, rows
 
 - content_for :footer do

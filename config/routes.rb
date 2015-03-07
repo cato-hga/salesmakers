@@ -34,6 +34,11 @@ Rails.application.routes.draw do
       get :send_paperwork, to: :send_paperwork, as: :send_paperwork
     end
     resources :interview_answers, only: [:new, :create]
+    resources :candidate_contacts, only: [:create] do
+      collection do
+        get 'new_call', to: :new_call, as: :new_call
+      end
+    end
   end
 
   resources :changelog_entries, only: [:index, :new, :create]

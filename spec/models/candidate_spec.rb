@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Candidate do
-
   let(:candidate) { build :candidate, mobile_phone: '7164158131' }
+
   describe 'validations' do
     it 'requires a first name' do
       candidate.first_name = nil
@@ -26,6 +26,11 @@ describe Candidate do
     end
     it 'requires a project' do
       candidate.project_id = nil
+      expect(candidate).not_to be_valid
+    end
+
+    it 'requires a created_by Person' do
+      candidate.created_by = nil
       expect(candidate).not_to be_valid
     end
   end
