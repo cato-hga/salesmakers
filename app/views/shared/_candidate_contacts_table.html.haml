@@ -5,6 +5,6 @@
   - contacted_by = person_link(contact.person)
   - method = NameCase(contact.contact_method.humanize)
   - in_out = contact.inbound? ? 'Inbound' : 'Outbound'
-  - notes = contact.notes
+  - notes = content_tag(:span, contact.notes, class: [:small, :comment])
   - rows << table_row([date_time, contacted_by, method, in_out, notes])
 = table headers, rows

@@ -8,7 +8,8 @@ describe CandidatesController do
            permissions: [
                permission_create,
                permission_index
-           ]
+           ],
+           hq: true
   }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
@@ -169,6 +170,45 @@ describe CandidatesController do
     it 'changes the candidate status', :vcr do
       candidate.reload
       expect(candidate.status).to eq('paperwork_sent')
+    end
+  end
+
+  describe 'GET new_sms_message' do
+    let(:candidate) { create :candidate }
+    before(:each) do
+      get :new_sms_message, id: candidate.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the new_sms_message template' do
+      expect(response).to render_template(:new_sms_message)
+    end
+  end
+
+  describe 'POST create_sms_message', vcr: true do
+    let(:message) { 'Test message' }
+    let!(:candidate) { create :candidate }
+
+    subject { post :create_sms_message, id: candidate.id, contact_message: message }
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
+    end
+
+    it "redirects to the candidate's page" do
+      subject
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'creates an SMS message entry' do
+      expect {
+        subject
+      }.to change(SMSMessage, :count).by(1)
     end
   end
 end

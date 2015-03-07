@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       get :select_location, as: :select_location
       get 'set_location/:location_id', to: :set_location, as: :set_location
       get :send_paperwork, to: :send_paperwork, as: :send_paperwork
+      get :new_sms_message, as: :new_sms_message
+      post :create_sms_message, as: :create_sms_message
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

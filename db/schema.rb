@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150307161419) do
+ActiveRecord::Schema.define(version: 20150307165846) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -778,6 +778,8 @@ ActiveRecord::Schema.define(version: 20150307161419) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sid",                                     null: false
+    t.integer "from_candidate_id"
+    t.integer "to_candidate_id"
   end
 
   create_table "sprint_group_me_bots", force: :cascade do |t|

@@ -32,4 +32,12 @@ class CandidatePolicy < ApplicationPolicy
   def interview_now?
     create?
   end
+
+  def new_sms_message?
+    create_sms_message?
+  end
+
+  def create_sms_message?
+    create?
+  end
 end

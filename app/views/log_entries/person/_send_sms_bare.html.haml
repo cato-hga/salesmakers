@@ -1,6 +1,9 @@
 Sent an SMS to
 = succeed ':' do
-  = person_link log_entry.trackable
+  - if log_entry.trackable.is_a? Person
+    = person_link log_entry.trackable
+  - elsif log_entry.trackable.is_a? Candidate
+    = candidate_link log_entry.trackable
 %span.comment
   = surround '"', '"' do
     = log_entry.comment
