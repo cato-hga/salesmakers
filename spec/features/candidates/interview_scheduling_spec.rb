@@ -102,7 +102,9 @@ describe 'Scheduling interviews' do
 
       describe 'when choosing a slot' do
         before(:each) do
-          click_on 'Schedule for 9:30am'
+          within('.inner') do
+            first('.button').click
+          end
         end
         it 'schedules the candidate' do
           candidate.reload
@@ -113,6 +115,7 @@ describe 'Scheduling interviews' do
           expect(page).to have_content candidate.name
         end
         it 'schedules the correct time (Screw you time zones!)' do
+          candidate.reload
           expect(candidate.interview_schedules.first.start_time.in_time_zone.strftime('%H%M%S')).to eq('093000')
         end
       end
