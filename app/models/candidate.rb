@@ -27,6 +27,7 @@ class Candidate < ActiveRecord::Base
                    if: ->(candidate) {
                      candidate.zip.present? and candidate.zip_changed?
                    }
+  after_validation :proper_casing
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -34,16 +35,19 @@ class Candidate < ActiveRecord::Base
   validates :email, presence: true
   validates :zip, length: { is: 5 }
   validates :project_id, presence: true
+  validates :created_by, presence: true
   validate :strip_phone_number
 
   belongs_to :project
   belongs_to :location_area
   belongs_to :person
+  belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
 
   has_many :prescreen_answers
   has_many :interview_schedules
   has_many :interview_answers
   has_many :job_offer_details
+  has_many :candidate_contacts
 
   default_scope { order(:first_name, :last_name) }
 
@@ -72,5 +76,11 @@ class Candidate < ActiveRecord::Base
   def reverse_geocode_on_production
     return unless Rails.env.production?
     self.reverse_geocode
+  end
+
+  def proper_casing
+    self.first_name = NameCase(self.first_name) if self.first_name
+    self.last_name = NameCase(self.last_name) if self.last_name
+    self.email = self.email.downcase if self.email
   end
 end

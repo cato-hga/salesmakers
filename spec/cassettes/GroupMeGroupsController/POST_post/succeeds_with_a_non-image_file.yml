@@ -1529,4 +1529,214 @@ http_interactions:
       string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
     http_version: 
   recorded_at: Fri, 06 Mar 2015 18:41:34 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/88de0c6e-da47-42af-9bcf-dfc81b3dce7a_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 16:30:20 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 16:30:21 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/88de0c6e-da47-42af-9bcf-dfc81b3dce7a_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 16:30:20 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 16:30:21 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/9d0b22d1-04bd-4e38-86c8-af1c75268625_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 17:54:26 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 17:54:27 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/9d0b22d1-04bd-4e38-86c8-af1c75268625_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 17:54:26 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 17:54:27 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/8e0fffa9-dd9d-4c06-80e7-561ced8b85d4_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 18:01:38 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 18:01:39 GMT
+- request:
+    method: get
+    uri: https://api-ssl.bitly.com/v3/shorten?access_token=f58f317c1fc3271679551ccf681f69a8f253447a&longUrl=http://localhost:3000/uploads/8e0fffa9-dd9d-4c06-80e7-561ced8b85d4_UQube%2520Import%2520for%2520FTP.xlsx
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sat, 07 Mar 2015 18:01:39 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '64'
+      Connection:
+      - keep-alive
+      Mime-Version:
+      - '1.0'
+    body:
+      encoding: UTF-8
+      string: '{ "data": [ ], "status_code": 500, "status_txt": "INVALID_URI" }'
+    http_version: 
+  recorded_at: Sat, 07 Mar 2015 18:01:40 GMT
 recorded_with: VCR 2.9.3

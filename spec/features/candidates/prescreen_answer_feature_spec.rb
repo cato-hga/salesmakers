@@ -37,12 +37,14 @@ describe 'Prescreen answers' do
       expect(page).to have_content('Candidate has access to a computer or tablet')
       expect(page).to have_content('Candidate is looking for part time employment')
       expect(page).to have_content('Candidate gave permission for background check and drug screen')
+      expect(page).to have_content('Is this call inbound or outbound?')
       expect(page).to have_button 'Save Answers'
     end
 
     describe 'form submission' do
       context 'with any checkboxes missed' do #Person cannot work for us, exits process
         before(:each) do
+          select 'Outbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
         it 'redirects to candidate#new' do
@@ -53,7 +55,7 @@ describe 'Prescreen answers' do
         end
       end
 
-      context 'with all checkboxes checked' do
+      context 'with all fields selected' do
         before(:each) do
           check :prescreen_answer_worked_for_salesmakers
           check :prescreen_answer_of_age_to_work
@@ -63,6 +65,7 @@ describe 'Prescreen answers' do
           check :prescreen_answer_access_to_computer
           check :prescreen_answer_part_time_employment
           check :prescreen_answer_ok_to_screen
+          select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
 
@@ -71,6 +74,9 @@ describe 'Prescreen answers' do
         end
         it 'redirects to the prescreen questions page', pending: 'Not available yet' do
           expect(page).to have_content 'Location Selection'
+        end
+        it 'sets the direction of the call' do
+          expect(CandidateContact.first.inbound?).to be_truthy
         end
       end
     end

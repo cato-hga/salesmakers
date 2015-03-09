@@ -1,0 +1,3 @@
+- title 'Send Message to ' + @candidate.name
+
+= render partial: 'shared/sms_message_form', locals: { path: create_sms_message_candidate_path(@candidate) }

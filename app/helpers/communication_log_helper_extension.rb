@@ -11,6 +11,8 @@ module CommunicationLogHelperExtension
     message = entry.loggable
     if message.from_person
       person_link message.from_person
+    elsif message.from_candidate
+      candidate_link message.from_candidate
     else
       phone_link message.from_num
     end
@@ -33,6 +35,8 @@ module CommunicationLogHelperExtension
     message = entry.loggable
     if message.to_person
       person_link message.to_person
+    elsif message.to_candidate
+      candidate_link message.to_candidate
     else
       phone_link message.to_num
     end

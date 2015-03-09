@@ -7,6 +7,8 @@ class SMSMessage < ActiveRecord::Base
 
   belongs_to :to_person, class_name: 'Person', foreign_key: 'to_person_id'
   belongs_to :from_person, class_name: 'Person', foreign_key: 'from_person_id'
+  belongs_to :to_candidate, class_name: 'Candidate', foreign_key: 'to_candidate_id'
+  belongs_to :from_candidate, class_name: 'Candidate', foreign_key: 'from_candidate_id'
 
   default_scope { order(created_at: :desc) }
 

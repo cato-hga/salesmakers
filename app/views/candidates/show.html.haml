@@ -5,9 +5,6 @@
     .inner
       %h3 Basic Information
       %p
-        %strong Mobile Phone:
-        = phone_link @candidate.mobile_phone
-      %p
         %strong Email:
         = email_link @candidate.email
       %p
@@ -19,6 +16,8 @@
       %p
         %strong Entered:
         = friendly_datetime(@candidate.created_at)
+      %p
+        = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
   .widget
     .inner
       %h3 Progress
@@ -116,3 +115,7 @@
             handler.map.centerOn(markers[0]);
             handler.getMap().setZoom(10);
           });
+.widget
+  .inner
+    %h3 Communication Log
+    = render 'shared/candidate_contacts_table'

@@ -1,3 +1,5 @@
+require 'apis/gateway'
+
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
@@ -9,18 +11,18 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find params[:id]
+    @candidate_contacts = @candidate.candidate_contacts
   end
 
   def new
     @candidate = Candidate.new
     @projects = Project.all
-    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
+    @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
   end
 
   def create
-    @candidate = Candidate.new candidate_params
-    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
-    @candidate.person = @current_person
+    @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
+    @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
     if @candidate.save
       @current_person.log? 'create',
                            @candidate
@@ -68,6 +70,19 @@ class CandidatesController < ApplicationController
     redirect_to candidate
   end
 
+  def new_sms_message
+    @candidate = Candidate.find params[:id]
+  end
+
+  def create_sms_message
+    candidate = Candidate.find params[:id]
+    message = sms_message_params[:contact_message]
+    gateway = Gateway.new '+18133441170'
+    gateway.send_text_to_candidate candidate, message, @current_person
+    flash[:notice] = 'Message successfully sent.'
+    redirect_to candidate_path(candidate)
+  end
+
   private
 
   def candidate_params
@@ -79,6 +94,10 @@ class CandidatesController < ApplicationController
                                       :zip,
                                       :project_id
     )
+  end
+
+  def sms_message_params
+    params.permit :contact_message
   end
 
   def do_authorization

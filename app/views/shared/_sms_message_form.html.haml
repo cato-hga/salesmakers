@@ -1,0 +1,5 @@
+= form_tag path do
+  = label_tag 'contact_message', 'Message'
+  = text_area_tag 'contact_message', nil, rows: 5
+  = submit_tag 'Send', class: [:button]
+  .within_length.ok 160
