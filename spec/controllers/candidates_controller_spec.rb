@@ -84,7 +84,7 @@ describe CandidatesController do
       it 'saves the candidates recruiter/person' do
         subject
         candidate = Candidate.first
-        expect(candidate.person).to eq(recruiter)
+        expect(candidate.created_by).to eq(recruiter)
       end
       it 'saves the candidates source' do
         subject

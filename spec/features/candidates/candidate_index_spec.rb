@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'candidate index' do
-  let!(:candidate) { create :candidate, location_area: location_area, person: recruiter }
+  let!(:candidate) { create :candidate, location_area: location_area, created_by: recruiter }
   let!(:recruiter) { create :person, last_name: 'Recruiter', position: position }
   let(:position) { create :position, permissions: [permission] }
   let!(:location_area) { create :location_area }
