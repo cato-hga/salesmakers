@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe InterviewSchedulesController do
+  include ActiveJob::TestHelper
   let(:recruiter) { create :person, position: position }
   let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
@@ -34,7 +35,8 @@ describe InterviewSchedulesController do
              interview_date: Date.today.strftime('%Y%m%d'),
              interview_time: Time.zone.now.strftime('%H%M'),
              candidate_id: candidate.id,
-             person_id: recruiter.id
+             person_id: recruiter.id,
+             cloud_room: '33711'
       end
 
       it 'schedules the candidate' do
@@ -52,6 +54,14 @@ describe InterviewSchedulesController do
       it 'changes the candidate status' do
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
+      end
+
+      it 'sends emails to the recruiter and candidate' do
+        candidate.reload
+        expect { perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
     end
   end
