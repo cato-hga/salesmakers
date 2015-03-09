@@ -21,6 +21,7 @@ describe CandidatesController do
                                           description: 'Test Description' }
   let(:location) { create :location }
   let(:project) { create :project, name: 'Comcast Retail' }
+  let(:source) { create :candidate_source }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -62,7 +63,8 @@ describe CandidatesController do
                  mobile_phone: '7274985180',
                  email: 'test@test.com',
                  zip: '33701',
-                 project_id: position.id
+                 project_id: position.id,
+                 candidate_source_id: source.id
              }
       }
       it 'creates a candidate' do
@@ -79,6 +81,16 @@ describe CandidatesController do
         subject
         candidate = Candidate.first
         expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
+      end
+      it 'saves the candidates recruiter/person' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.created_by).to eq(recruiter)
+      end
+      it 'saves the candidates source' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.candidate_source).to eq(source)
       end
     end
 

@@ -9,6 +9,7 @@ FactoryGirl.define do
     project
     association :created_by, factory: :person
     active true
+    association :candidate_source
   end
 
 end

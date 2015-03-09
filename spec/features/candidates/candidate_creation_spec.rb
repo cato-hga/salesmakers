@@ -8,6 +8,7 @@ describe 'Candidate creation' do
                                            description: 'Test Description' }
   let(:location) { create :location }
   let!(:project) { create :project, name: 'Comcast Retail' }
+  let!(:source) { create :candidate_source }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -36,6 +37,7 @@ describe 'Candidate creation' do
       expect(page).to have_content('Email address')
       expect(page).to have_content('Zip Code')
       expect(page).to have_content('Project recruited for')
+      expect(page).to have_content('Candidate source')
       expect(page).to have_button 'Save and start Prescreen'
     end
 
@@ -59,6 +61,7 @@ describe 'Candidate creation' do
           fill_in 'Email address', with: 'test@test.com'
           fill_in 'Zip Code', with: '33701'
           select project.name, from: 'Project recruited for'
+          select source.name, from: 'Candidate source'
           click_on 'Save and start Prescreen'
         end
         it 'displays a flash message' do

@@ -17,14 +17,15 @@ class CandidatesController < ApplicationController
   def new
     @candidate = Candidate.new
     @projects = Project.all
-    @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
+    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
+    @sources = CandidateSource.all
   end
 
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
     if @candidate.save
-      @current_person.log? 'candidate_create',
+      @current_person.log? 'create',
                            @candidate
       flash[:notice] = 'Candidate saved!'
       redirect_to new_candidate_prescreen_answer_path @candidate
@@ -114,7 +115,8 @@ class CandidatesController < ApplicationController
                                       :mobile_phone,
                                       :email,
                                       :zip,
-                                      :project_id
+                                      :project_id,
+                                      :candidate_source_id
     )
   end
 

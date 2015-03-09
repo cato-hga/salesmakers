@@ -20,8 +20,12 @@ describe Candidate do
       candidate.email = nil
       expect(candidate).not_to be_valid
     end
-    it 'requires a zip code' do
+    it 'requires a zip code exactly 5 digits long' do
       candidate.zip = nil
+      expect(candidate).not_to be_valid
+      candidate.zip = '1234'
+      expect(candidate).not_to be_valid
+      candidate.zip = '123456'
       expect(candidate).not_to be_valid
     end
     it 'requires a project' do
@@ -31,6 +35,10 @@ describe Candidate do
 
     it 'requires a created_by Person' do
       candidate.created_by = nil
+      expect(candidate).not_to be_valid
+    end
+    it 'requires a source' do
+      candidate.candidate_source_id = nil
       expect(candidate).not_to be_valid
     end
   end
