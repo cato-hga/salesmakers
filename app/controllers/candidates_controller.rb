@@ -17,7 +17,8 @@ class CandidatesController < ApplicationController
   def new
     @candidate = Candidate.new
     @projects = Project.all
-    @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
+    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
+    @sources = CandidateSource.all
   end
 
   def create
@@ -92,7 +93,8 @@ class CandidatesController < ApplicationController
                                       :mobile_phone,
                                       :email,
                                       :zip,
-                                      :project_id
+                                      :project_id,
+                                      :candidate_source_id
     )
   end
 

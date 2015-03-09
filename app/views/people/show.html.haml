@@ -8,7 +8,7 @@
   - vonage = true if client.name == 'Vonage'
 - if show_details and vonage
   = content_for :action_buttons do
-    = link_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
+    = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs

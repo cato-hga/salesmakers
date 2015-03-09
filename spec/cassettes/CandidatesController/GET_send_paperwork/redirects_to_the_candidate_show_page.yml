@@ -19,7 +19,7 @@ http_interactions:
         your recruiter should you have any questions or problems.\n            ","emailSubject":"Test
         Project Employment Application and New Hire Paperwork for: Test Candidate","templateId":"BCDA79DF-21E1-4726-96A6-AC2AAD715BB5","eventNotification":{},"templateRoles":[{"name":"Test
         Candidate","email":"test@user.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}},{"name":"Test
-        User","email":"tuser15@rbd-von.com","roleName":"Advocate","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+        User","email":"tuser105@rbd-von.com","roleName":"Advocate","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
       - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
@@ -43,25 +43,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1425664800'
+      - '1425913200'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '987'
+      - '999'
       Date:
-      - Fri, 06 Mar 2015 17:30:57 GMT
+      - Mon, 09 Mar 2015 14:38:16 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"2195cc06-9b07-40fb-b0ed-d38b3b5f84cd\",\r\n
-        \ \"uri\": \"/envelopes/2195cc06-9b07-40fb-b0ed-d38b3b5f84cd\",\r\n  \"statusDateTime\":
-        \"2015-03-06T17:30:54.4300000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"2d3882af-f091-4692-a0f1-f94309b581aa\",\r\n
+        \ \"uri\": \"/envelopes/2d3882af-f091-4692-a0f1-f94309b581aa\",\r\n  \"statusDateTime\":
+        \"2015-03-09T14:38:14.8000000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Fri, 06 Mar 2015 17:30:58 GMT
+  recorded_at: Mon, 09 Mar 2015 14:38:17 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/2195cc06-9b07-40fb-b0ed-d38b3b5f84cd
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/2d3882af-f091-4692-a0f1-f94309b581aa
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -88,12 +88,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 06 Mar 2015 17:30:59 GMT
+      - Mon, 09 Mar 2015 14:38:18 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Fri, 06 Mar 2015 17:31:00 GMT
+  recorded_at: Mon, 09 Mar 2015 14:38:19 GMT
 recorded_with: VCR 2.9.3

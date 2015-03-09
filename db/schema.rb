@@ -82,6 +82,13 @@ ActiveRecord::Schema.define(version: 20150307165846) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "candidate_sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "candidates", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -96,8 +103,10 @@ ActiveRecord::Schema.define(version: 20150307165846) do
     t.integer "location_area_id"
     t.float "latitude"
     t.float "longitude"
+    t.boolean "active", default: true, null: false
     t.integer "status", default: 0, null: false
     t.string "state", limit: 2
+    t.integer "candidate_source_id"
     t.integer "created_by", null: false
   end
 

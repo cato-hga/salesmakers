@@ -37,6 +37,10 @@ describe Candidate do
       candidate.created_by = nil
       expect(candidate).not_to be_valid
     end
+    it 'requires a source' do
+      candidate.candidate_source_id = nil
+      expect(candidate).not_to be_valid
+    end
   end
 
   describe 'mobile phone additional actions' do
