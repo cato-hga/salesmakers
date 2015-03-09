@@ -29,15 +29,16 @@ class GroupMesController < ApplicationController
     json = request.body.read
     existing_message = GroupMePost.find_by message_num: params[:id]
     return if existing_message
+    group_num = params[:group_id] || return
     group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
     unless group_me_user
-      GroupMeGroup.update_group params[:group_id]
+      GroupMeGroup.update_group group_num
       group_me_user = GroupMeUser.find_by group_me_user_num: params[:user_id]
     end
-    group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
+    group_me_group = GroupMeGroup.find_by group_num: group_num
     unless group_me_group
-      GroupMeGroup.update_group params[:group_id]
-      group_me_group = GroupMeGroup.find_by group_num: params[:group_id]
+      GroupMeGroup.update_group group_num
+      group_me_group = GroupMeGroup.find_by group_num: group_num
     end
     return unless group_me_user
     post = GroupMePost.create group_me_group: group_me_group,
