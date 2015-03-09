@@ -42,9 +42,13 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find params[:id]
     @location = Location.find params[:location_id]
     location_areas = get_location_areas(@location)
+    previous_location_area = @candidate.location_area
     unless location_areas and @candidate.update(location_area: location_areas.first)
       flash[:error] = "Could not update the candidate's location."
       redirect_to select_location_candidate_path(@candidate) and return
+    end
+    if previous_location_area
+      previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
     end
     for location_area in location_areas do
       location_area.update potential_candidate_count: location_area.potential_candidate_count + 1
@@ -81,6 +85,24 @@ class CandidatesController < ApplicationController
     gateway.send_text_to_candidate candidate, message, @current_person
     flash[:notice] = 'Message successfully sent.'
     redirect_to candidate_path(candidate)
+  end
+
+  def select_person
+    @candidate = Candidate.find params[:id]
+    @search = policy_scope(Person).search(params[:q])
+    @people = @search.result.order('display_name').page(params[:page])
+  end
+
+  def link_person
+    @candidate = Candidate.find params[:id]
+    @person = Person.find params[:person_id]
+    if @candidate.update person: @person
+      flash[:notice] = 'Successfully linked candidate to person.'
+      redirect_to @candidate
+    else
+      flash[:error] = 'Could not update candidate.'
+      redirect_to @candidate
+    end
   end
 
   private

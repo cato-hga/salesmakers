@@ -66,6 +66,14 @@ class Candidate < ActiveRecord::Base
     display_name
   end
 
+  def person=(person)
+    self.status = :onboarded
+    self[:person_id] = person.id
+    location_area = self.location_area || return
+    location_area.update potential_candidate_count: location_area.potential_candidate_count - 1,
+                         current_head_count: location_area.current_head_count + 1
+  end
+
   private
 
   def geocode_on_production

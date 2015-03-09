@@ -34,6 +34,8 @@ Rails.application.routes.draw do
       get :send_paperwork, to: :send_paperwork, as: :send_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
+      get :select_person, as: :select_person
+      post :link_person, as: :link_person
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
@@ -143,6 +145,8 @@ Rails.application.routes.draw do
   resources :device_manufacturers, only: [:new, :create]
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
+
+  post 'docusign_connect', to: 'docusign_connect#incoming'
 
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
