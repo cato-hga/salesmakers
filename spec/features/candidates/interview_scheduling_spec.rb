@@ -29,7 +29,6 @@ describe 'Scheduling interviews' do
   describe 'for authorized users' do
 
     before(:each) do
-      Time.zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit new_candidate_interview_schedule_path candidate
     end
@@ -103,6 +102,7 @@ describe 'Scheduling interviews' do
 
       describe 'when choosing a slot' do
         before(:each) do
+          Time.zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
           within('.inner') do
             first('.button').click
           end
