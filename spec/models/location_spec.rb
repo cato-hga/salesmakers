@@ -57,4 +57,9 @@ describe Location do
       expect(location_areas).not_to include(second_location_area)
     end
   end
+
+  it 'responds to latitude and longitude' do
+    expect(subject).to respond_to(:latitude)
+    expect(subject).to respond_to(:longitude)
+  end
 end
