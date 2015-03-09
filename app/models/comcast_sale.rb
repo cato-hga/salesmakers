@@ -47,6 +47,18 @@ class ComcastSale < ActiveRecord::Base
     where('order_date >= ? AND order_date < ?', start_date, end_date)
   }
 
+  def comcast_customer_name
+    self.comcast_customer.name
+  end
+
+  def comcast_customer_mobile_phone
+    self.comcast_customer.mobile_phone
+  end
+
+  def comcast_customer_other_phone
+    self.comcast_customer.other_phone
+  end
+
   private
 
   def within_24_hours
