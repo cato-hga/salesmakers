@@ -1,3 +1,6 @@
+require 'spec_helper'
+require_relative '../../app/contexts/vonage_commission_processing'
+
 describe VonageCommissionProcessing do
   let!(:paycheck) {
     create :vonage_paycheck,

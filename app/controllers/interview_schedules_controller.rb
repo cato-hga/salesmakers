@@ -1,7 +1,7 @@
 class InterviewSchedulesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :chronic_time_zones
+  before_action :chronic_time_zones, except: [:time_slots]
   before_action :set_candidate
 
   def new
@@ -60,7 +60,8 @@ class InterviewSchedulesController < ApplicationController
 
   def time_slots
     @cloud_room = params[:cloud_room]
-    @interview_date = Chronic.parse params[:interview_date]
+    interview_chronic = Chronic.parse params[:interview_date]
+    @interview_date = interview_chronic.to_date if interview_chronic
     if @interview_date == nil
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate and return
