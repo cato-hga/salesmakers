@@ -8,6 +8,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   let(:candidate) { create :candidate }
+  let!(:denial_reason) { create :candidate_denial_reason }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -80,8 +81,12 @@ RSpec.describe InterviewAnswersController, :type => :controller do
                  compensation_last_job_two: 'Comp 2',
                  compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
-                 hours_looking_to_work: 'Hours looking to work'
+                 hours_looking_to_work: 'Hours looking to work',
+                 candidate: {
+                     candidate_denial_reason_id: denial_reason.id
+                 }
              }
+
       end
       it 'creates a Interview Answer and attaches it to the correct candidate' do
         expect { subject }.to change(InterviewAnswer, :count).by(1)
@@ -104,6 +109,11 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         subject
         candidate.reload
         expect(candidate.active).to eq(false)
+      end
+      it 'assigns a candidate denial id' do
+        subject
+        candidate.reload
+        expect(candidate.candidate_denial_reason).to eq(denial_reason)
       end
     end
   end

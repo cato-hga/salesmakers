@@ -5,9 +5,11 @@ class InterviewAnswersController < ApplicationController
 
   def new
     @interview_answer = InterviewAnswer.new
+    @denial_reasons = CandidateDenialReason.where active: true
   end
 
   def create
+    @denial_reasons = CandidateDenialReason.where active: true
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
     if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
@@ -21,7 +23,7 @@ class InterviewAnswersController < ApplicationController
     elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
       flash[:notice] = 'Interview answers saved and candidate deactivated'
       @candidate.rejected!
-      @candidate.update active: false
+      @candidate.update active: false, candidate_denial_reason_id: params[:interview_answer][:candidate][:candidate_denial_reason_id]
       @current_person.log? 'create',
                            @candidate
       @current_person.log? 'job_offer_not_extended',
@@ -46,7 +48,8 @@ class InterviewAnswersController < ApplicationController
                                              :compensation_last_job_three,
                                              :compensation_seeking,
                                              :hours_looking_to_work,
-                                             :extend_offer
+                                             :extend_offer,
+                                             candidate_attributes: [:candidate_denial_reason_id]
   end
 
   def do_authorization
