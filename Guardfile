@@ -27,5 +27,6 @@ guard :rspec,
 
   # Context specs
   watch(%r{^app/contexts/(.+)\.rb$})                  { |m| "spec/contexts/#{m[1]}_spec.rb" }
+
 end
 
