@@ -26,8 +26,10 @@ class InterviewAnswersController < ApplicationController
       @candidate.update active: false, candidate_denial_reason_id: params[:interview_answer][:candidate][:candidate_denial_reason_id]
       @current_person.log? 'create',
                            @candidate
+      denial_reason = CandidateDenialReason.find_by id: params[:interview_answer][:candidate][:candidate_denial_reason_id]
       @current_person.log? 'job_offer_not_extended',
-                           @candidate
+                           @candidate,
+                           denial_reason
       redirect_to new_candidate_path
     else
       flash[:error] = "The candidate's interview answers cannot be saved"
