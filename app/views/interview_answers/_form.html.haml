@@ -32,6 +32,6 @@
         - else
           - denial_reasons = ''
         = denial.label :candidate_denial_reason_id, 'IF NOT EXTENDING OFFER: Why was candidate denied'
-        = denial.select :candidate_denial_reason_id, denial_reasons
+        = denial.select :candidate_denial_reason_id, denial_reasons, include_blank: true
       = f.submit 'Extend offer', class: :button
       %a.button(href="#" id="submit_do_not_extend_offer") Do not extend offer
