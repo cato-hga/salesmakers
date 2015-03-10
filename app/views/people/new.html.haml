@@ -21,8 +21,19 @@
 - zip = @params[:zip]
 - override_username = @params[:override_username]
 
+- if @candidate
+  - first_name = @candidate.first_name unless first_name
+  - last_name = @candidate.last_name unless last_name
+  - personal_email = @candidate.email unless personal_email
+  - mobile_phone = @candidate.mobile_phone unless mobile_phone
+  - zip = @candidate.zip unless zip
+  - if @candidate.location_area and not connect_salesregion_id and not management_connect_salesregion_id
+    - connect_salesregion_id = @candidate.location_area.area.connect_salesregion_id
 
-= form_tag people_path, autocomplete: 'off' do
+
+= form_tag people_path, autocomplete: 'off', id: 'new_person_form' do
+  - if @candidate
+    = hidden_field_tag :candidate_id, @candidate.id
   .widgets
     .widget
       .inner

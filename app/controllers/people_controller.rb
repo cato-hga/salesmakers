@@ -3,7 +3,7 @@ require 'apis/mojo'
 
 class PeopleController < ProtectedController
   include HTTParty
-  base_uri 'http://test.rbdconnect.com/ws/com.retailingwireless.core.onboarder'
+  base_uri 'https://rbdconnect.com/ws/com.retailingwireless.core.onboarder'
   default_timeout 120
 
   after_action :verify_authorized, except: [
@@ -76,6 +76,7 @@ class PeopleController < ProtectedController
   end
 
   def new
+    @candidate = params[:candidate_id] ? Candidate.find(params[:candidate_id]) : nil
     authorize Person.new
   end
 
@@ -91,12 +92,15 @@ class PeopleController < ProtectedController
                                      }
                                  }
     hash = Hash.from_xml response.body if response.success?
-    logger.debug response.body
     if not response.success? or hash['error']
-      flash[:error] = hash['error']['message']
+      flash[:error] = hash && hash['error'] ? hash['error']['message'] : 'Unknown Error. Please contact support.'
       render :new
     else
-      flash[:notice] = 'Person created successfully!'
+      if link_candidate_to_person hash
+        flash[:notice] = 'Person created successfully and candidate removed from pool!'
+      else
+        flash[:notice] = 'Person created successfully!'
+      end
       redirect_to new_person_path
     end
   end
@@ -211,4 +215,11 @@ class PeopleController < ProtectedController
     @params = params
   end
 
+  def link_candidate_to_person(hash)
+    return unless params[:candidate_id] && hash && hash['success']
+    sleep 5
+    @candidate = Candidate.find(params[:candidate_id]) || return
+    @person = Person.find_by connect_user_id: hash['success'] || return
+    @candidate.update person: @person
+  end
 end

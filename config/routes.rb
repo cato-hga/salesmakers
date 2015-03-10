@@ -34,8 +34,6 @@ Rails.application.routes.draw do
       get :send_paperwork, to: :send_paperwork, as: :send_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
-      get :select_person, as: :select_person
-      post :link_person, as: :link_person
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
@@ -185,6 +183,7 @@ Rails.application.routes.draw do
       match 'search' => 'people#search', via: [:get, :post], as: :search
       get :org_chart, as: :org_chart
       get :csv, to: 'people#csv', as: :csv, defaults: { format: :csv }
+      get 'new/:candidate_id', to: 'people#new', as: :new_from_candidate
     end
   end
 

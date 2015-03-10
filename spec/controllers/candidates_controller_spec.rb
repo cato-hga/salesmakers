@@ -224,37 +224,4 @@ describe CandidatesController do
       }.to change(SMSMessage, :count).by(1)
     end
   end
-
-  describe 'GET select_person' do
-    let!(:candidate) { create :candidate }
-    let!(:person) { create :person }
-
-    before do
-      get :select_person,
-          id: candidate.id
-    end
-
-    it 'returns a success status' do
-      expect(response).to be_success
-    end
-
-    it 'renders the select_person template' do
-      expect(response).to render_template(:select_person)
-    end
-  end
-
-  describe 'POST link_person' do
-    let!(:candidate) { create :candidate }
-    let!(:person) { create :person }
-
-    before do
-      post :link_person,
-           id: candidate.id,
-           person_id: person.id
-    end
-
-    it 'redirects to candidates#show' do
-      expect(response).to redirect_to(candidate_path(candidate))
-    end
-  end
 end

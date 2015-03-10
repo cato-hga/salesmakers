@@ -35,8 +35,8 @@
       - status = ''
       - status = NameCase(candidate.status.humanize) if candidate.status
       - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
-      - link_person_button = link_to 'Link Person', select_person_candidate_path(candidate), class: [:button, :inline_button]
-      - rows << table_row([name, entered_by, email, zip, project, channel, location, status, "#{call_button}&nbsp;#{link_person_button}".html_safe])
+      - onboard_button = link_to 'Onboard', new_from_candidate_people_path(candidate), class: [:button, :inline_button]
+      - rows << table_row([name, entered_by, email, zip, project, channel, location, status, "#{call_button}&nbsp;#{onboard_button}".html_safe])
     = table headers, rows
 
 - content_for :footer do
