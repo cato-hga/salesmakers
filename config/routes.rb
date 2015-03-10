@@ -144,6 +144,8 @@ Rails.application.routes.draw do
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
 
+  post 'docusign_connect', to: 'docusign_connect#incoming'
+
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups
@@ -166,7 +168,7 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
-  resources :people, only: [:index, :show, :update] do
+  resources :people, except: [:edit, :destroy] do
     member do
       get :commission, as: :commission
       post :commission
@@ -181,6 +183,7 @@ Rails.application.routes.draw do
       match 'search' => 'people#search', via: [:get, :post], as: :search
       get :org_chart, as: :org_chart
       get :csv, to: 'people#csv', as: :csv, defaults: { format: :csv }
+      get 'new/:candidate_id', to: 'people#new', as: :new_from_candidate
     end
   end
 

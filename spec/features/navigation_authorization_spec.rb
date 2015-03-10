@@ -60,13 +60,21 @@ describe 'Navigation Authorization' do
       let(:candidate_index_permission) { Permission.new key: 'candidate_index',
                                                         permission_group: permission_group,
                                                         description: 'Test Description' }
+      let(:person_create_permission) { Permission.new key: 'person_create',
+                                                      permission_group: permission_group,
+                                                      description: 'Test Description' }
+      let(:person_index_permission) { Permission.new key: 'person_index',
+                                                     permission_group: permission_group,
+                                                     description: 'Test Description' }
       let(:position) { create :position, name: 'IT Tech',
                               department: department,
                               hq: true,
                               permissions: [device_index_permission,
                                             changelog_entry_manage_permission,
                                             log_entry_index_permission,
-                                            candidate_index_permission] }
+                                            candidate_index_permission,
+                                            person_create_permission,
+                                            person_index_permission] }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
@@ -99,6 +107,9 @@ describe 'Navigation Authorization' do
         within('.top-bar') do
           expect(page).to have_content('Areas')
         end
+      end
+      it 'contains a link to create a new person' do
+        expect(page).to have_selector('a[href="/people/new"]')
       end
     end
 
@@ -217,10 +228,24 @@ describe 'Navigation Authorization' do
     describe 'for administrators' do
       let(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
       let(:permissions) { create :permission, key: 'device_index' }
-      let(:position) { create :position, name: 'IT Tech', department: department, hq: true }
+      let(:position) {
+        create :position,
+               name: 'IT Tech',
+               department: department,
+               hq: true,
+               permissions: [
+                   permissions, person_create_permission, person_index_permission
+               ]
+      }
       let(:department) { create :department, name: 'Information Technology' }
+      let(:person_create_permission) { Permission.new key: 'person_create',
+                                                      permission_group: permissions.permission_group,
+                                                      description: 'Test Description' }
+      let(:person_index_permission) { Permission.new key: 'person_index',
+                                                     permission_group: permissions.permission_group,
+                                                     description: 'Test Description' }
+
       before(:each) do
-        position.permissions << permissions
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
         page.driver.resize_window 640, 480
         visit root_path
@@ -242,6 +267,11 @@ describe 'Navigation Authorization' do
       it 'contains links to Areas' do
         within('.left-off-canvas-menu') do
           expect(page).to have_content('Areas')
+        end
+      end
+      it 'contains a link to create a new person' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_selector('a[href="/people/new"]')
         end
       end
     end

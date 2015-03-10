@@ -9,7 +9,8 @@ describe CandidatesController do
                permission_create,
                permission_index
            ],
-           hq: true
+           hq: true,
+           all_field_visibility: true
   }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150307165846) do
+ActiveRecord::Schema.define(version: 20150310114150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,11 +103,11 @@ ActiveRecord::Schema.define(version: 20150307165846) do
     t.integer "location_area_id"
     t.float "latitude"
     t.float "longitude"
-    t.boolean "active", default: true, null: false
     t.integer "status", default: 0, null: false
+    t.boolean "active", default: true, null: false
     t.string "state", limit: 2
-    t.integer "candidate_source_id"
     t.integer "created_by", null: false
+    t.integer "candidate_source_id"
   end
 
   create_table "changelog_entries", force: :cascade do |t|
@@ -763,6 +763,16 @@ ActiveRecord::Schema.define(version: 20150307165846) do
   end
 
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
   create_table "shifts", force: :cascade do |t|
     t.integer  "person_id",                 null: false

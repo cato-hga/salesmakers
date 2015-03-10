@@ -40,4 +40,12 @@ class CandidatePolicy < ApplicationPolicy
   def create_sms_message?
     create?
   end
+
+  def select_person?
+    create?
+  end
+
+  def link_person?
+    select_person?
+  end
 end

@@ -40,7 +40,7 @@ class Area < ActiveRecord::Base
 
     return Area.none if areas.count < 1
 
-    Area.where("id IN (#{areas.map(&:id).join(',')})")
+    Area.where("areas.id IN (#{areas.map(&:id).join(',')})")
   }
 
   scope :project_roots, ->(project = nil) {
@@ -48,9 +48,16 @@ class Area < ActiveRecord::Base
     Area.roots.where(project: project).order(:name)
   }
 
+  default_scope { joins('LEFT OUTER JOIN projects ON projects.id = areas.project_id').
+      order('projects.name, areas.name') }
+
   def all_locations
     subtree_location_areas = LocationArea.where area_id: self.subtree_ids
     return Location.none if subtree_location_areas.empty?
     Location.where("id IN (#{subtree_location_areas.map(&:location_id).join(',')})")
+  end
+
+  def full_name
+    "#{self.project.name} - #{self.name}"
   end
 end

@@ -1,6 +1,11 @@
 require 'apis/gateway'
+require 'apis/mojo'
 
 class PeopleController < ProtectedController
+  include HTTParty
+  base_uri 'https://rbdconnect.com/ws/com.retailingwireless.core.onboarder'
+  default_timeout 120
+
   after_action :verify_authorized, except: [
                                      :index,
                                      :search,
@@ -8,7 +13,6 @@ class PeopleController < ProtectedController
                                      :new_sms_message,
                                      :create_sms_message,
                                      :org_chart,
-                                     :about,
                                      :show,
                                      :sales,
                                      :commission,
@@ -21,12 +25,13 @@ class PeopleController < ProtectedController
                                         :new_sms_message,
                                         :create_sms_message,
                                         :org_chart,
-                                        :about,
                                         :show,
-                                        :update_changelog_entry_id
+                                        :update_changelog_entry_id,
+                                        :new,
+                                        :create
                                     ]
   before_action :find_person, only: [:sales, :commission]
-  require 'apis/mojo'
+  before_action :setup_onboarding_fields, only: [:new, :create]
 
   def index
     @search = Person.search(params[:q])
@@ -68,6 +73,36 @@ class PeopleController < ProtectedController
     @communication_log_entries = @person.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
+  end
+
+  def new
+    @candidate = params[:candidate_id] ? Candidate.find(params[:candidate_id]) : nil
+    authorize Person.new
+  end
+
+  def create
+    body = params
+    authorize Person.new
+    response = self.class.post '', {
+                                     body: body,
+                                     #headers: { 'Content-Type' => 'application/xml', 'Accept' => 'application/xml' },
+                                     basic_auth: {
+                                         username: 'aatkinson@retaildoneright.com',
+                                         password: 'ct924dbr'
+                                     }
+                                 }
+    hash = Hash.from_xml response.body if response.success?
+    if not response.success? or hash['error']
+      flash[:error] = hash && hash['error'] ? hash['error']['message'] : 'Unknown Error. Please contact support.'
+      render :new
+    else
+      if link_candidate_to_person hash
+        flash[:notice] = 'Person created successfully and candidate removed from pool!'
+      else
+        flash[:notice] = 'Person created successfully!'
+      end
+      redirect_to new_person_path
+    end
   end
 
   def sales
@@ -151,4 +186,40 @@ class PeopleController < ProtectedController
     results
   end
 
+  def setup_onboarding_fields
+    @domains = [
+        ['rbd-von.com', 'rbd-von.com'],
+        ['rbd-spr.com', 'rbd-spr.com'],
+        ['cc.salesmakersinc.com', 'cc.salesmakersinc.com'],
+        ['srs.salesmakersinc.com', 'srs.salesmakersinc.com'],
+        ['retaildoneright.com', 'retaildoneright.com']
+    ]
+    @areas = Area.where('connect_salesregion_id IS NOT NULL')
+    @recruiters = Person.where(active: true)
+    @candidate_sources = [
+        ['Field Hire', 'Field Hire'],
+        ['HQ Hire', 'HQ Hire']
+    ]
+    @referrers = Person.where('connect_user_id IS NOT NULL')
+    @pay_rates = ConnectSalaryCategory.where(isactive: 'Y')
+    @states = ["AK", "AL", "AR", "AS", "AZ", "CA", "CO",
+               "CT", "DC", "DE", "FL", "GA", "GU", "HI",
+               "IA", "ID", "IL", "IN", "KS", "KY", "LA",
+               "MA", "MD", "ME", "MI", "MN", "MO", "MS",
+               "MT", "NC", "ND", "NE", "NH", "NJ", "NM",
+               "NV", "NY", "OH", "OK", "OR", "PA", "PR",
+               "RI", "SC", "SD", "TN", "TX", "UT", "VA",
+               "VI", "VT", "WA", "WI", "WV", "WY"].map {
+        |s| [s, s]
+    }
+    @params = params
+  end
+
+  def link_candidate_to_person(hash)
+    return unless params[:candidate_id] && hash && hash['success']
+    sleep 5
+    @candidate = Candidate.find(params[:candidate_id]) || return
+    @person = Person.find_by connect_user_id: hash['success'] || return
+    @candidate.update person: @person
+  end
 end

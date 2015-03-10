@@ -43,9 +43,13 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find params[:id]
     @location = Location.find params[:location_id]
     location_areas = get_location_areas(@location)
+    previous_location_area = @candidate.location_area
     unless location_areas and @candidate.update(location_area: location_areas.first)
       flash[:error] = "Could not update the candidate's location."
       redirect_to select_location_candidate_path(@candidate) and return
+    end
+    if previous_location_area
+      previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
     end
     for location_area in location_areas do
       location_area.update potential_candidate_count: location_area.potential_candidate_count + 1
@@ -116,7 +120,7 @@ class CandidatesController < ApplicationController
   end
 
   def get_location_areas(location)
-    location_areas = location.
+    location.
         location_areas.
         joins(:area).
         where('areas.project_id = ?', @candidate.project_id)

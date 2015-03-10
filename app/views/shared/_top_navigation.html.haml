@@ -12,6 +12,9 @@
               %ul.dropdown
                 %li= link_to 'Search', people_path
                 %li= link_to 'Org Chart', org_chart_people_path
+                - if PersonPolicy.new(current_person, Person.new).create?
+                  %li.divider
+                  %li= link_to 'New', new_person_path
           - if CandidatePolicy.new(current_person, Candidate.new).index?
             %li= link_to 'Candidates', candidates_path
           - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new)

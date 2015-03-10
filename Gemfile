@@ -61,6 +61,7 @@ gem 'googlecharts', '1.6.10' # Google charts, duh.
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
+gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
@@ -80,6 +81,7 @@ end
 group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
+  gem 'launchy', '2.4.3' # Open applications (save_and_open_page)
   gem 'factory_girl_rails', '4.5.0' # Was 4.4.1 01/21/2015 - Easily create mock objects for testing
   gem 'shoulda-matchers', '2.7.0', require: false # Was 2.6.2 01/21/2015 - Easy model validation test methods
   gem 'webmock', '1.20.4' # Was 1.20.0 01/21/2015 - Stubbing of HTTP requests

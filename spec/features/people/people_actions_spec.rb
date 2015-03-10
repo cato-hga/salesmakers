@@ -41,6 +41,51 @@ describe 'actions involving People' do
       visit person_path(person)
       expect(page).to have_button('Commissions')
     end
+
+    it 'should have a working link to new person creation on #index' do
+      permission = create :permission, key: 'person_create'
+      person.position.permissions << permission
+      visit people_path
+      click_on 'new_action_button'
+      expect(page).to have_selector('h1', text: 'New Person')
+    end
+  end
+
+  context 'when creating' do
+    let!(:it_tech) { create :it_tech_person, position: position }
+    let(:position) {
+      create :it_tech_position,
+             permissions: [
+                 person_create_permission,
+                 candidate_index_permission,
+                 candidate_create_permission
+             ]
+    }
+    let(:person_create_permission) { create :permission, key: 'person_create' }
+    let(:candidate_index_permission) { create :permission, key: 'candidate_index' }
+    let(:candidate_create_permission) { create :permission, key: 'candidate_create' }
+    let(:client) { create :client, name: 'Other Client' }
+    let(:project) { create :project, name: 'Other Project', client: client }
+    let(:area) { create :area, project: project, connect_salesregion_id: '77777' }
+    let(:location_area) { create :location_area, area: area }
+    let!(:candidate) { create :candidate, location_area: location_area }
+
+    before do
+      CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+    end
+
+    it 'fills in candidate information in the new person form' do
+      visit candidates_path
+      click_on 'Onboard'
+      expect(page).to have_selector('h1', "New Person for #{candidate.name}")
+      expect(page).to have_selector('#candidate_id')
+      expect(find_field('First name').value).to eq(candidate.first_name)
+      expect(find_field('Last name').value).to eq(candidate.last_name)
+      expect(find_field('Mobile phone').value).to eq(candidate.mobile_phone)
+      expect(find_field('Personal email').value).to eq(candidate.email)
+      expect(find_field('Sales rep for area (blank for manager)').value).to eq(candidate.location_area.area.connect_salesregion_id)
+      expect(find_field('Zip').value).to eq(candidate.zip)
+    end
   end
 
   context 'comcast employees' do

@@ -98,5 +98,4 @@ class ComcastSalesController < ApplicationController
                          @comcast_sale,
                          @current_person
   end
-
 end
