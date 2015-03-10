@@ -81,26 +81,14 @@ class PeopleController < ProtectedController
   end
 
   def create
-    body = params
     authorize Person.new
-    response = self.class.post '', {
-                                     body: body,
-                                     #headers: { 'Content-Type' => 'application/xml', 'Accept' => 'application/xml' },
-                                     basic_auth: {
-                                         username: 'aatkinson@retaildoneright.com',
-                                         password: 'ct924dbr'
-                                     }
-                                 }
+    response = onboard(params)
     hash = Hash.from_xml response.body if response.success?
     if not response.success? or hash['error']
-      flash[:error] = hash && hash['error'] ? hash['error']['message'] : 'Unknown Error. Please contact support.'
+      flash[:error] = get_error_message(hash)
       render :new
     else
-      if link_candidate_to_person hash
-        flash[:notice] = 'Person created successfully and candidate removed from pool!'
-      else
-        flash[:notice] = 'Person created successfully!'
-      end
+      flash[:notice] = get_success_message(hash)
       redirect_to new_person_path
     end
   end
@@ -221,5 +209,27 @@ class PeopleController < ProtectedController
     @candidate = Candidate.find(params[:candidate_id]) || return
     @person = Person.find_by connect_user_id: hash['success'] || return
     @candidate.update person: @person
+  end
+
+  def onboard(parameters)
+    self.class.post '', {
+                          body: parameters,
+                          basic_auth: {
+                              username: 'retailingw@retaildoneright.com',
+                              password: 'rbdC0nn3c7'
+                          }
+                      }
+  end
+
+  def get_error_message(hash)
+    hash && hash['error'] ? hash['error']['message'] : 'Unknown Error. Please contact support.'
+  end
+
+  def get_success_message(hash)
+    if link_candidate_to_person hash
+      'Person created successfully and candidate removed from pool!'
+    else
+      'Person created successfully!'
+    end
   end
 end
