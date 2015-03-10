@@ -93,8 +93,10 @@ describe 'Scheduling interviews' do
                                              start_time: interview_time_two }
       before(:each) do
         fill_in 'interview_date', with: 'today'
+        fill_in 'What is your LifeSize cloud room?', with: '33333'
         click_on 'Search for time slots'
       end
+
       it 'displays the time slots available' do
         expect(page).to have_content 'Available Interview Slots for '
         expect(page).to have_content '3:00pm'
@@ -108,8 +110,6 @@ describe 'Scheduling interviews' do
         expect(page).not_to have_content '8:30am'
         expect(page).not_to have_content '9:00pm'
       end
-
-
       describe 'when choosing a slot' do
         before(:each) do
           within('.inner') do

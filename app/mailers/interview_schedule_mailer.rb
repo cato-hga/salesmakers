@@ -5,7 +5,6 @@ class InterviewScheduleMailer < ApplicationMailer
     @candidate = candidate
     @recruiter = recruiter
     @schedule = schedule
-    logger.debug @schedule
     @cloud_room = cloud_room
     mail(to: candidate.email, cc: recruiter.email, subject: 'Your interview with SalesMakers, Inc')
   end

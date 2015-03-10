@@ -9,6 +9,7 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def create
+    @cloud_room = params[:cloud_room]
     @interview_schedule = InterviewSchedule.new
     interview_date = params[:interview_date].to_date
     @interview_schedule.interview_date = interview_date
@@ -20,7 +21,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
       @candidate.interview_scheduled!
-      InterviewScheduleMailer.interview_mailer(@candidate, @current_person, @interview_schedule, params[:cloud_room]).deliver_later
+      InterviewScheduleMailer.interview_mailer(@candidate, @current_person, @interview_schedule, @cloud_room).deliver_later
       @current_person.log? 'scheduled_for_interview',
                            @candidate,
                            @interview_schedule
@@ -35,6 +36,7 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def schedule
+    puts 'Schedule'
     create
   end
 
@@ -57,6 +59,7 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def time_slots
+    @cloud_room = params[:cloud_room]
     @interview_date = Chronic.parse params[:interview_date]
     if @interview_date == nil
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'

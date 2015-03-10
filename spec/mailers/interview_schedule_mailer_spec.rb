@@ -39,5 +39,4 @@ describe InterviewScheduleMailer do
       expect(mail.body).to include(cloud_room)
     end
   end
-
 end
