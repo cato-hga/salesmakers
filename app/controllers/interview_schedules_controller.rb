@@ -20,6 +20,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
       @candidate.interview_scheduled!
+      InterviewScheduleMailer.interview_mailer(@candidate, @current_person, @interview_schedule, params[:cloud_room]).deliver_later
       @current_person.log? 'scheduled_for_interview',
                            @candidate,
                            @interview_schedule
@@ -29,6 +30,7 @@ class InterviewSchedulesController < ApplicationController
       #TODO: HELP
       puts @interview_schedule.errors.full_messages.join(', ')
     end
+
   end
 
   def schedule
