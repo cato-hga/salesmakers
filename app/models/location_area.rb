@@ -5,4 +5,9 @@ class LocationArea < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :area
+  has_many :candidates
+
+  def self.for_project_and_location(project, location)
+    location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
+  end
 end

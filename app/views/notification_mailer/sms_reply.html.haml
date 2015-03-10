@@ -1,9 +1,17 @@
-- from = @sms_message.from_person
+- from_person = @sms_message.from_person
+- from_candidate = @sms_message.from_candidate
 %p
-  = link_to from.display_name, person_url(from)
+  - if from_person
+    = link_to from_person.display_name, person_url(from_person)
+  - elsif from_candidate
+    = link_to from_candidate.name, candidate_url(from_candidate)
   has just replied to your previous text message:
+
 %blockquote
   = @sms_message.message
-= link_to 'Click here to reply.', new_sms_message_person_url(from)
-%h3 Last 24 Hours of Communication
-= render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours, skip_pagination: true }
+- if from_candidate
+  = link_to 'Click here to reply.', new_sms_message_candidate_url(from_candidate)
+- elsif from_person
+  = link_to 'Click here to reply.', new_sms_message_person_url(from_person)
+  %h3 Last 24 Hours of Communication
+  = render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours, skip_pagination: true }

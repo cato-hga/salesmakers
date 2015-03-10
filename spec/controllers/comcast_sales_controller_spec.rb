@@ -29,10 +29,12 @@ describe ComcastSalesController do
 
   describe 'GET csv' do
     it 'returns a success status for CSV format' do
+      comcast_sale.save
       get :csv,
           format: :csv
       expect(response).to be_success
     end
+
 
     it 'redirects an HTML format' do
       get :csv

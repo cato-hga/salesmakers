@@ -2,7 +2,7 @@ module Algorithms
   module KMeans
     class Clusterer
       MAX_FIXNUM = (2**(0.size * 8 - 2) - 1)
-      MAX_ITERATIONS = 3000
+      MAX_ITERATIONS = 4000
 
       attr_reader :data_points
       attr_accessor :clusters

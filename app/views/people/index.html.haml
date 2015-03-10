@@ -1,5 +1,7 @@
 - content_for :action_buttons do
   = link_to icon('indent-more') + ' Org Chart', org_chart_people_path, class: [:button, :inline_button]
+  - if PersonPolicy.new(@current_person, Person.new).create?
+    = new_button new_person_path
 
 - content_for :header do
   = link_to icon('magnifying-glass'), '#', id: 'show_search'

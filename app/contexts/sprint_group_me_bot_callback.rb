@@ -164,8 +164,15 @@ class SprintGroupMeBotCallback
       select = self.territory_sales_query
     end
     select = wrap_sales_query(select)
-    connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
-    results = connection.execute(select)
+    begin
+      tries ||= 3
+      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+      sleep 0.1
+      results = connection.execute(select)
+    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
+      sleep 0.1
+      retry unless (tries -= 1).zero?
+    end
     results
   end
 
@@ -302,8 +309,15 @@ class SprintGroupMeBotCallback
       select = self.territory_hpa_query
     end
     select = wrap_hpa_query(select)
-    connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
-    results = connection.execute(select)
+    begin
+      tries ||= 3
+      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+      sleep 0.1
+      results = connection.execute(select)
+    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
+      sleep 0.1
+      retry unless (tries -= 1).zero?
+    end
     results
   end
 

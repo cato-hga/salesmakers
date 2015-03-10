@@ -94,10 +94,26 @@ namespace :deploy do
     end
   end
 
+  desc 'Silence Inspeqtor'
+  task :silence_inspeqtor do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute 'sudo inspeqtorctl start deploy'
+    end
+  end
+
+  desc 'Start Inspeqtor'
+  task :start_inspeqtor do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute 'sudo inspeqtorctl finish deploy'
+    end
+  end
+
   before :starting, :check_revision
+  before :starting, :silence_inspeqtor
   after :finishing, :compile_assets
   after :finishing, :cleanup
   after :finishing, :restart
+  after :finishing, :start_inspeqtor
 end
 
 after 'deploy:reverted', 'sidekiq:restart'

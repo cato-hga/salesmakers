@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150305142548) do
+ActiveRecord::Schema.define(version: 20150310114150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,44 @@ ActiveRecord::Schema.define(version: 20150305142548) do
   end
 
   add_index "blog_posts", ["person_id"], name: "index_blog_posts_on_person_id", using: :btree
+
+  create_table "candidate_contacts", force: :cascade do |t|
+    t.integer "contact_method", null: false
+    t.boolean "inbound", default: false, null: false
+    t.integer "person_id", null: false
+    t.integer "candidate_id", null: false
+    t.text "notes", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "candidate_sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "candidates", force: :cascade do |t|
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "suffix"
+    t.string "mobile_phone", null: false
+    t.string "email", null: false
+    t.string "zip", null: false
+    t.integer "project_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "person_id"
+    t.integer "location_area_id"
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "status", default: 0, null: false
+    t.boolean "active", default: true, null: false
+    t.string "state", limit: 2
+    t.integer "created_by", null: false
+    t.integer "candidate_source_id"
+  end
 
   create_table "changelog_entries", force: :cascade do |t|
     t.integer  "department_id"
@@ -266,6 +304,15 @@ ActiveRecord::Schema.define(version: 20150305142548) do
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
+  create_table "docusign_templates", force: :cascade do |t|
+    t.string "template_guid", null: false
+    t.string "state", limit: 2, null: false
+    t.integer "document_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "project_id", null: false
+  end
+
   create_table "email_messages", force: :cascade do |t|
     t.string   "from_email",   null: false
     t.string   "to_email",     null: false
@@ -345,6 +392,40 @@ ActiveRecord::Schema.define(version: 20150305142548) do
   end
 
   add_index "group_me_users", ["person_id"], name: "index_group_me_users_on_person_id", using: :btree
+
+  create_table "interview_answers", force: :cascade do |t|
+    t.text "work_history", null: false
+    t.text "why_in_market", null: false
+    t.text "ideal_position", null: false
+    t.text "what_are_you_good_at", null: false
+    t.text "what_are_you_not_good_at", null: false
+    t.string "compensation_last_job_one", null: false
+    t.string "compensation_last_job_two"
+    t.string "compensation_last_job_three"
+    t.string "compensation_seeking", null: false
+    t.string "hours_looking_to_work", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "candidate_id"
+  end
+
+  create_table "interview_schedules", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.integer "person_id", null: false
+    t.time "start_time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "interview_date"
+  end
+
+  create_table "job_offer_details", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.datetime "sent", null: false
+    t.datetime "completed"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "envelope_guid"
+  end
 
   create_table "likes", force: :cascade do |t|
     t.integer  "person_id",    null: false
@@ -571,6 +652,20 @@ ActiveRecord::Schema.define(version: 20150305142548) do
 
   add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
 
+  create_table "prescreen_answers", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.boolean "worked_for_salesmakers", default: false, null: false
+    t.boolean "of_age_to_work", default: false, null: false
+    t.boolean "eligible_smart_phone", default: false, null: false
+    t.boolean "can_work_weekends", default: false, null: false
+    t.boolean "reliable_transportation", default: false, null: false
+    t.boolean "access_to_computer", default: false, null: false
+    t.boolean "part_time_employment", default: false, null: false
+    t.boolean "ok_to_screen", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "profile_educations", force: :cascade do |t|
     t.integer  "profile_id",           null: false
     t.string   "school",               null: false
@@ -669,6 +764,16 @@ ActiveRecord::Schema.define(version: 20150305142548) do
 
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
 
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.text "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
+
   create_table "shifts", force: :cascade do |t|
     t.integer  "person_id",                 null: false
     t.integer  "location_id"
@@ -691,6 +796,8 @@ ActiveRecord::Schema.define(version: 20150305142548) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sid",                                     null: false
+    t.integer "from_candidate_id"
+    t.integer "to_candidate_id"
   end
 
   create_table "sprint_group_me_bots", force: :cascade do |t|

@@ -1,7 +1,3 @@
 - title 'Send Message to ' + @person.display_name
 
-= form_tag create_sms_message_person_path(@person) do
-  = label_tag 'contact_message', 'Message'
-  = text_area_tag 'contact_message', nil, rows: 5
-  = submit_tag 'Send', class: [:button]
-  .within_length.ok 160
+= render partial: 'shared/sms_message_form', locals: { path: create_sms_message_person_path(@person) }

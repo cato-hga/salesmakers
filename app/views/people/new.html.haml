@@ -1,0 +1,87 @@
+- title 'New Person'
+
+- first_name = @params[:first_name]
+- last_name = @params[:last_name]
+- personal_email = @params[:personal_email]
+- mobile_phone = @params[:mobile_phone]
+- domain = @params[:domain]
+- management_connect_salesregion_id = @params[:management_connect_salesregion_id]
+- connect_salesregion_id = @params[:connect_salesregion_id]
+- recruiter_connect_user_id = @params[:recruiter_connect_user_id]
+- candidate_source = @params[:candidate_source]
+- referrer = @params[:referrer]
+- rate_of_pay = @params[:rate_of_pay]
+- hire_date = @params[:hire_date]
+- blueforce_username = @params[:blueforce_username]
+- blueforce_password = @params[:blueforce_password]
+- address_line_1 = @params[:address_line_1]
+- address_line_2 = @params[:address_line_2]
+- city = @params[:city]
+- state = @params[:state]
+- zip = @params[:zip]
+- override_username = @params[:override_username]
+
+- if @candidate
+  - first_name = @candidate.first_name unless first_name
+  - last_name = @candidate.last_name unless last_name
+  - personal_email = @candidate.email unless personal_email
+  - mobile_phone = @candidate.mobile_phone unless mobile_phone
+  - zip = @candidate.zip unless zip
+  - if @candidate.location_area and not connect_salesregion_id and not management_connect_salesregion_id
+    - connect_salesregion_id = @candidate.location_area.area.connect_salesregion_id
+
+
+= form_tag people_path, autocomplete: 'off', id: 'new_person_form' do
+  - if @candidate
+    = hidden_field_tag :candidate_id, @candidate.id
+  .widgets
+    .widget
+      .inner
+        = hidden_field_tag 'creator_email', @current_person.email
+        = label_tag :first_name
+        = text_field_tag :first_name, first_name
+        = label_tag :last_name
+        = text_field_tag :last_name, last_name
+        = label_tag :personal_email
+        = text_field_tag :personal_email, personal_email
+        = label_tag :mobile_phone
+        = text_field_tag :mobile_phone, mobile_phone, placeholder: '10 digits, numbers only'
+        = label_tag :domain
+        = select_tag :domain, options_for_select(@domains, domain), include_blank: true
+        = label_tag :management_connect_salesregion_id, 'Manages area (blank for non-manager)'
+        = select_tag :management_connect_salesregion_id, options_from_collection_for_select(@areas, :connect_salesregion_id, :full_name, management_connect_salesregion_id), include_blank: true
+        = label_tag :connect_salesregion_id, 'Sales rep for area (blank for manager)'
+        = select_tag :connect_salesregion_id, options_from_collection_for_select(@areas, :connect_salesregion_id, :full_name, connect_salesregion_id), include_blank: true
+    .widget
+      .inner
+        = label_tag :recruiter_connect_user_id, 'Recruiter'
+        = select_tag :recruiter_connect_user_id, options_from_collection_for_select(@recruiters, :connect_user_id, :display_name, recruiter_connect_user_id), include_blank: true
+        = label_tag :candidate_source
+        = select_tag :candidate_source, options_for_select(@candidate_sources, candidate_source), include_blank: true
+        = label_tag :referrer
+        = select_tag :referrer, options_from_collection_for_select(@referrers, :connect_user_id, :display_name, referrer), include_blank: true
+        = label_tag :rate_of_pay
+        = select_tag :rate_of_pay, options_from_collection_for_select(@pay_rates, :c_salary_category_id, :name, rate_of_pay), include_blank: true
+        = label_tag :hire_date, 'Start date'
+        = text_field_tag :hire_date, hire_date, placeholder: 'MM/DD/YYYY'
+        = label_tag :blueforce_username
+        = text_field_tag :blueforce_username, blueforce_username
+        = label_tag :blueforce_password
+        = text_field_tag :blueforce_password, blueforce_password
+    .widget
+      .inner
+        = label_tag :address_line_1
+        = text_field_tag :address_line_1, address_line_1
+        = label_tag :address_line_2
+        = text_field_tag :address_line_2, address_line_2
+        = label_tag :city
+        = text_field_tag :city, city
+        = label_tag :state
+        = select_tag :state, options_for_select(@states, state), include_blank: true
+        = label_tag :zip
+        = text_field_tag :zip, zip
+        = label_tag :override_username
+        = text_field_tag :override_username, override_username, placeholder: 'Not required'
+        .small Saving could take up to 1 &frac12; minutes to complete. Please be patient.
+        %br/
+        = submit_tag 'Save', class: [:button]

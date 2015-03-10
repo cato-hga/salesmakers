@@ -1,0 +1,60 @@
+- title "Select Location for #{@candidate.name}"
+:javascript
+  var markers = [];
+  markers.push({
+    "lat": #{html_escape(@candidate.latitude)},
+    "lng": #{html_escape(@candidate.longitude)},
+    "infowindow": "#{html_escape(@candidate.zip)} (Home)"
+  });
+
+.widget
+  .inner
+    %h3 Nearby Locations
+    %p
+      Listed below are the nearest locations to the candidate.
+    = render 'locations_table'
+.widget
+  .inner
+    #locations_map
+    - location_count = 0
+    - for location in @locations do
+      - next if @candidate.location_area and @candidate.location_area.location == location
+      - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
+      - location_area = location_areas.empty? ? nil : location_areas.first
+      - target = 0
+      - potentials = 0
+      - current = 0
+      - target = location_area.target_head_count if location_area
+      - potentials = location_area.potential_candidate_count if location_area
+      - current = location_area.current_head_count if location_area
+      - open = target - (current + potentials)
+      - location_count += 1
+      - distance = location.geographic_distance(@candidate).round(2)
+      - info_window = "#{location_count.to_s}. #{location.channel.name}, #{location.display_name}".html_safe
+      - info_window += " (##{location.store_number})<br><br>".html_safe
+      - info_window += "#{distance} miles<br><br>".html_safe
+      - info_window += "#{location.address}<br><br>".html_safe
+      - info_window += "<strong>Open: #{open}</strong><br><br>".html_safe
+      - info_window += link_to 'Choose', set_location_candidate_path(@candidate, location)
+      :javascript
+         markers.push({
+          "lat": #{html_escape(location.latitude)},
+          "lng": #{html_escape(location.longitude)},
+          "picture": {
+            "url": "/images/store_map_marker.png",
+            "width": 32,
+            "height": 32
+          },
+          "infowindow": '#{info_window}'
+        });
+    :javascript
+      handler = Gmaps.build('Google');
+      handler.buildMap({ provider: {
+        styles: mapStyle()
+      }, internal: {id: 'locations_map'}}, function () {
+        handledMarkers = handler.addMarkers(markers);
+        handler.map.centerOn(markers[0]);
+        handler.bounds.extendWith(handledMarkers);
+        handler.fitMapToBounds();
+        // handler.getMap().setZoom(10);
+      });

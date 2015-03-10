@@ -41,7 +41,6 @@ gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'spring-commands-rspec', '1.0.4' # Was 1.0.2 01/21/2015 - Spring RSpec additions
-# gem 'foundation-datetimepicker-rails', '0.1.3' # Date/Time picker for Foundation
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'nilify_blanks', '1.2.0' # Was 1.1.0 01/21/2015 - Change empty strings to nil before saving certain models
@@ -61,6 +60,8 @@ gem 'sinatra', '1.4.5', require: false
 gem 'googlecharts', '1.6.10' # Google charts, duh.
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
+gem 'docusign_rest', '0.1.1' # Docusign API wrapper
+gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
@@ -75,11 +76,13 @@ group :development do
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
+  gem 'parallel_tests', '1.3.5' # Parallel testing
 end
 
 group :test do
   gem 'capybara', '2.4.4' # Was 2.3.0 01/21/2015 - Testing views and interactions
   gem 'capybara-webkit', '1.3.1' # Was 1.3.0 01/21/2015 - Javascript driver for capybara
+  gem 'launchy', '2.4.3' # Open applications (save_and_open_page)
   gem 'factory_girl_rails', '4.5.0' # Was 4.4.1 01/21/2015 - Easily create mock objects for testing
   gem 'shoulda-matchers', '2.7.0', require: false # Was 2.6.2 01/21/2015 - Easy model validation test methods
   gem 'webmock', '1.20.4' # Was 1.20.0 01/21/2015 - Stubbing of HTTP requests

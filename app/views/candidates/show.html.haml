@@ -1,0 +1,121 @@
+- title @candidate.name
+
+.widgets
+  .widget
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Email:
+        = email_link @candidate.email
+      %p
+        %strong ZIP:
+        = @candidate.zip
+      %p
+        %strong Project:
+        = @candidate.project.name
+      %p
+        %strong Entered:
+        = friendly_datetime(@candidate.created_at)
+      %p
+        = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+  .widget
+    .inner
+      %h3 Progress
+      %p
+        %strong Prescreening:
+        - if @candidate.prescreen_answers.empty?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Location Selection:
+        - unless @candidate.location_area
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Interview Scheduling:
+        - if @candidate.interview_schedules.empty?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+
+      %p
+        %strong Interview:
+        - if @candidate.interview_answers.empty?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      - offers = @candidate.job_offer_details
+      %p
+        %strong Sending Paperwork:
+        - if offers.empty?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Paperwork Completion:
+        - if offers.empty? or offers.first.completed.blank?
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      - action = ''.html_safe
+      - action = case @candidate.status
+        - when 'entered'
+          - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+        - when 'prescreened'
+          - link_to 'Select Location', select_location_candidate_path(@candidate), class: :button
+        - when 'location_selected'
+          - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+        - when 'interview_scheduled'
+          - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
+        - else
+          - ''
+      = action
+  - if @candidate.location_area
+    .widget
+      .inner
+        %h3 Location Selected
+        - location = @candidate.location_area.location
+        %p
+          %strong Area:
+          = area_link @candidate.location_area.area
+        = location.address
+        - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
+        - location_area = location_areas.empty? ? nil : location_areas.first
+        - target = 0
+        - potentials = 0
+        - current = 0
+        - target = location_area.target_head_count if location_area
+        - potentials = location_area.potential_candidate_count if location_area
+        - current = location_area.current_head_count if location_area
+        - open = target - (current + potentials)
+        - info_window = "#{location.channel.name}, #{location.display_name}".html_safe
+        - info_window += " (##{location.store_number})<br><br>".html_safe
+        - info_window += "#{location.address}<br><br>".html_safe
+        - info_window += "<strong>Open: #{open}</strong>".html_safe
+        #location_map
+        :javascript
+          var markers = [];
+          markers.push({
+            "lat": #{html_escape(location.latitude)},
+            "lng": #{html_escape(location.longitude)},
+            "picture": {
+              "url": "/images/store_map_marker.png",
+              "width": 32,
+              "height": 32
+            },
+            "infowindow": '#{info_window}'
+          });
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {
+            styles: mapStyle()
+          }, internal: {id: 'location_map'}}, function () {
+            handledMarkers = handler.addMarkers(markers);
+            handler.map.centerOn(markers[0]);
+            handler.getMap().setZoom(10);
+          });
+.widget
+  .inner
+    %h3 Communication Log
+    = render 'shared/candidate_contacts_table'

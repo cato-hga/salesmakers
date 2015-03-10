@@ -57,6 +57,7 @@ describe GroupMeGroupsController do
     end
 
     it 'succeeds with a non-image file', :vcr do
+      allow(SecureRandom).to receive(:uuid).and_return('1')
       post :post,
            group_me_group_ids: [
                group_me_group.id.to_s,

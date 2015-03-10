@@ -80,16 +80,20 @@ module LinksHelperExtension
     link_to icon('megaphone'), new_sms_message_person_url(person), class: [:send_contact]
   end
 
+  def candidate_contact_link(candidate)
+    link_to icon('megaphone'), new_sms_message_candidate_url(candidate), class: [:send_contact]
+  end
+
   def person_sales_link(person, classes = nil)
     classes = tack_on_inactive_class(person, classes)
     link_to NameCase(person.display_name), sales_person_url(person), class: classes
   end
 
-  def tack_on_inactive_class(person, classes)
+  def tack_on_inactive_class(object, classes)
     if classes and classes.is_a? String
       classes = [classes]
     end
-    extra_classes = person.active? ? [] : [:inactive]
+    extra_classes = object.active? ? [] : [:inactive]
     if classes
       classes = classes.zip(extra_classes).flatten.compact.uniq
     else
@@ -128,5 +132,14 @@ module LinksHelperExtension
   def comcast_customer_link(comcast_customer, classes = nil)
     return unless comcast_customer
     link_to comcast_customer.name, comcast_customer_path(comcast_customer), class: classes
+  end
+
+  def candidate_link(candidate, classes = nil)
+    classes = tack_on_inactive_class(candidate, classes)
+    link = link_to candidate.name, candidate_url(candidate), class: classes
+    if candidate.mobile_phone and @current_person.position.hq?
+      link = link + candidate_contact_link(candidate)
+    end
+    link
   end
 end

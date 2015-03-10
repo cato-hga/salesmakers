@@ -1,3 +1,13 @@
-* @current_person.id: <%= @current_person.id %>
-* @current_person.display_name: <%= @current_person.display_name %>
-* @current_person.email: <%= @current_person.email %>
+<% if session and session[:cas_user] %>
+    * session[:cas_user]: <%= session[:cas_user] %>
+<% else %>
+    * session[:cas_user]: UNSET
+<% end %>
+
+<% if @current_person %>
+    * @current_person.id: <%= @current_person.id %>
+    * @current_person.display_name: <%= @current_person.display_name %>
+    * @current_person.email: <%= @current_person.email %>
+<% else %>
+    @current_person has not been set.
+<% end %>

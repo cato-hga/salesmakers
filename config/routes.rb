@@ -2,10 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  get 'comcast_eod/new'
-
-  get 'comcast_eod/create'
-
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -18,6 +14,32 @@ Rails.application.routes.draw do
   resources :root_redirects do #DIRTY DIRTY DIRTY
     collection do
       get 'incoming_redirect'
+    end
+  end
+
+  resources :candidates, except: [:edit, :update, :destroy] do
+    resources :prescreen_answers, only: [:new, :create]
+    resources :interview_schedules, only: [:new, :create] do
+      collection do
+        post :time_slots, as: 'time_slots'
+        get 'schedule/:interview_date/:interview_time',
+            action: :schedule,
+            as: :schedule
+        get 'interview_now'
+      end
+    end
+    member do
+      get :select_location, as: :select_location
+      get 'set_location/:location_id', to: :set_location, as: :set_location
+      get :send_paperwork, to: :send_paperwork, as: :send_paperwork
+      get :new_sms_message, as: :new_sms_message
+      post :create_sms_message, as: :create_sms_message
+    end
+    resources :interview_answers, only: [:new, :create]
+    resources :candidate_contacts, only: [:create] do
+      collection do
+        get 'new_call', to: :new_call, as: :new_call
+      end
     end
   end
 
@@ -122,6 +144,8 @@ Rails.application.routes.draw do
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
 
+  post 'docusign_connect', to: 'docusign_connect#incoming'
+
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups
@@ -144,7 +168,7 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
-  resources :people, only: [:index, :show, :update] do
+  resources :people, except: [:edit, :destroy] do
     member do
       get :commission, as: :commission
       post :commission
@@ -159,6 +183,7 @@ Rails.application.routes.draw do
       match 'search' => 'people#search', via: [:get, :post], as: :search
       get :org_chart, as: :org_chart
       get :csv, to: 'people#csv', as: :csv, defaults: { format: :csv }
+      get 'new/:candidate_id', to: 'people#new', as: :new_from_candidate
     end
   end
 

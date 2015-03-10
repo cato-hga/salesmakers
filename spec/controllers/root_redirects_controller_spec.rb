@@ -21,6 +21,23 @@ describe RootRedirectsController do
       end
     end
 
+    describe 'Recruiting' do
+      let(:recruiter) { create :person, position: position, email: 'recruiter@salesmakersinc.com' }
+      let(:permissions) { create :permission }
+      let(:position) { create :position, name: 'Advocate', department: department }
+      let(:department) { create :department, name: 'Advocate Department' }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+        get :incoming_redirect
+      end
+      it 'returns a redirect status' do
+        expect(response).to be_redirect
+      end
+      it 'routes Recruiters to candidates#index' do
+        expect(response).to redirect_to(candidates_path)
+      end
+    end
+
     describe 'Executives' do
       let!(:executive) { create :person, position: position, email: 'executive@salesmakersinc.com' }
       let(:position) { create :position, name: 'Executives', department: department }

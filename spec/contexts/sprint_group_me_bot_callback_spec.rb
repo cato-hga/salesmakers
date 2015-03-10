@@ -1,3 +1,6 @@
+require 'spec_helper'
+require_relative '../../app/contexts/sprint_group_me_bot_callback'
+
 describe SprintGroupMeBotCallback do
   let!(:sprint_group_me_bot) { create :sprint_group_me_bot }
 

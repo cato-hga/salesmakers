@@ -18,6 +18,17 @@
     - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
     - if group_count > 0
       %li= link_to 'GroupMe Post', new_post_group_me_groups_path
+  - candidate_policy = CandidatePolicy.new(current_person, Candidate.new)
+  - if candidate_policy.index? or candidate_policy.create?
+    %ul.off-canvas-list
+      %li
+        %label Candidates
+      - if candidate_policy.index?
+        %li
+          = link_to 'Candidates List', candidates_path
+      - if candidate_policy.create?
+        %li
+          = link_to 'New Candidate', new_candidate_path
   %ul.off-canvas-list
     %li
       %label People
@@ -25,6 +36,8 @@
       = link_to 'Search', people_path
     %li
       = link_to 'Org Chart', org_chart_people_path
+    - if PersonPolicy.new(current_person, Person.new).create?
+      %li= link_to 'New', new_person_path
   - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new)
   - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new)
   - if comcast_lead_policy.index? || comcast_sale_policy.index?

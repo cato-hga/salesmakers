@@ -1,0 +1,32 @@
+.widget
+  .inner
+    = form_for [@candidate, @prescreen_answer] do |f|
+      = hidden_field_tag 'call_initiated', @call_initiated.to_s
+      %p
+        = f.check_box :worked_for_salesmakers
+        = f.label :worked_for_salesmakers, 'Candidate has not worked for SalesMakers'
+      %p
+        = f.check_box :of_age_to_work
+        = f.label :of_age_to_work,'Candidate is over 18'
+      %p
+        = f.check_box :eligible_smart_phone
+        = f.label :eligible_smart_phone, 'Candidate has an eligible smart phone'
+      %p
+        = f.check_box :can_work_weekends
+        = f.label :can_work_weekends, 'Candidate can work weekends'
+      %p
+        = f.check_box :reliable_transportation
+        = f.label :reliable_transportation, 'Candidate has access to reliable transportation'
+      %p
+        = f.check_box :access_to_computer
+        = f.label :access_to_computer, 'Candidate has access to a computer or tablet'
+      %p
+        = f.check_box :part_time_employment
+        = f.label :part_time_employment, 'Candidate is looking for part time employment'
+      %p
+        = f.check_box :ok_to_screen
+        = f.label :ok_to_screen, 'Candidate gave permission for background check and drug screen'
+      %p
+        = label_tag :inbound, 'Is this call inbound or outbound?'
+        = select_tag :inbound, options_for_select([['Inbound', true], ['Outbound', false]]), include_blank: true
+      = f.submit 'Save Answers', class: :button

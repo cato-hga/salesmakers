@@ -9,7 +9,7 @@ class LocationClusterer
     for location in channel.locations.where('latitude IS NOT NULL') do
       data_points << DataPoint.new(latitude: location.latitude, longitude: location.longitude)
     end
-    Algorithms::KMeans::Clusterer.new data_points: data_points, num_clusters: 250
+    Algorithms::KMeans::Clusterer.new data_points: data_points, num_clusters: 300
   end
 
   def self.cluster(clusterer)
