@@ -9,10 +9,6 @@ describe InterviewScheduleMailer do
     let(:position) {
       create :position,
              name: 'Advocate',
-             # permissions: [
-             # permission_create,
-             # permission_index
-             # ],
              hq: true
     }
 
@@ -31,7 +27,7 @@ describe InterviewScheduleMailer do
       expect(mail.cc).to include(recruiter.email)
     end
     it 'includes the correct interview time and date' do
-      expect(mail.body).to include(schedule.start_time.strftime('%l:%M %p EST'))
+      expect(mail.body).to include(schedule.start_time.strftime('%l:%M %p %Z'))
       expect(mail.body).to include(long_date(schedule.interview_date))
     end
     it 'includes lifesize cloud instructions' do

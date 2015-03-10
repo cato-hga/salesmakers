@@ -80,10 +80,19 @@ describe 'Scheduling interviews' do
 
     describe 'interview time slots' do
       let(:other_candidate) { create :candidate }
-      let!(:interview_schedule) { create :interview_schedule, candidate: other_candidate, interview_date: Date.new(2015, 03, 05), start_time: '2015-03-05 14:00:00' }
-      let!(:interview_schedule_two) { create :interview_schedule, candidate: other_candidate, interview_date: Date.new(2015, 03, 05), start_time: '2015-03-05 23:30:00' }
+      let(:interview_date) { Date.today }
+      let(:interview_time_one) { Time.zone.local(interview_date.year, interview_date.month, interview_date.day, 9, 0, 0) }
+      let(:interview_time_two) { Time.zone.local(interview_date.year, interview_date.month, interview_date.day, 18, 30, 0) }
+      let!(:interview_schedule) { create :interview_schedule,
+                                         candidate: other_candidate,
+                                         interview_date: interview_date,
+                                         start_time: interview_time_one }
+      let!(:interview_schedule_two) { create :interview_schedule,
+                                             candidate: other_candidate,
+                                             interview_date: interview_date,
+                                             start_time: interview_time_two }
       before(:each) do
-        fill_in 'interview_date', with: '3/05/2015'
+        fill_in 'interview_date', with: 'today'
         click_on 'Search for time slots'
       end
       it 'displays the time slots available' do
@@ -116,11 +125,11 @@ describe 'Scheduling interviews' do
         it 'renders the new candidate screen' do
           expect(page).to have_content candidate.name
         end
-        it 'schedules the correct time (Screw you time zones!)', pending: 'screw you time zones, I know this works' # do
-        # candidate.reload
-        # time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
-        #  expect(time.strftime('%H%M%S')).to eq('093000')
-        #  end
+        it 'schedules the correct time (Screw you time zones!)' do
+          candidate.reload
+          time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
+          expect(time.strftime('%H%M%S')).to eq('093000')
+        end
       end
     end
   end

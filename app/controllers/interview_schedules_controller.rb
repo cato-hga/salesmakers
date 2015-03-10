@@ -68,7 +68,6 @@ class InterviewSchedulesController < ApplicationController
       taken_time_slots << interview.start_time.in_time_zone.strftime('%H%M')
     end
     time_slots_start = Time.zone.local(@interview_date.year, @interview_date.month, @interview_date.day, 9, 0, 0)
-    #time_slots_start = Time.zone.today.beginning_of_day + 9.hours
     @time_slots = []
     24.times do
       time_slot = time_slots_start.strftime('%H%M')
