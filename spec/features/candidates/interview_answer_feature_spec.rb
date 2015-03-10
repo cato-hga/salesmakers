@@ -100,9 +100,11 @@ describe 'Interview answers' do
             expect(candidate.candidate_denial_reason).to be_nil
           end
         end
+
         context 'and job not extended' do
           before(:each) do
             find(:xpath, "//input[@id='extend_offer']").set false
+            select denial_reason.name, from: :interview_answer_candidate_candidate_denial_reason_id
             click_on 'Extend offer'
           end
           it 'display a confirmation' do
