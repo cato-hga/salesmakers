@@ -20,7 +20,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
       @candidate.interview_scheduled!
-      InterviewScheduleMailer.interview_mailer(@candidate, @current_person, @interview_schedule, params[:cloud_room]).deliver_later
+      InterviewScheduleMailer.interview_mailer(@candidate, @current_person, @interview_schedule, params[:cloud_room]).deliver_now
       @current_person.log? 'scheduled_for_interview',
                            @candidate,
                            @interview_schedule
