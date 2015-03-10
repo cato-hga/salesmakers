@@ -26,5 +26,12 @@
       = f.label :hours_looking_to_work, "Hours per week looking to work"
       = f.text_field :hours_looking_to_work
       = hidden_field_tag 'extend_offer', 'true'
+      = f.fields_for @candidate do |denial|
+        - if @denial_reasons
+          - denial_reasons = options_from_collection_for_select(@denial_reasons, 'id', 'name')
+        - else
+          - denial_reasons = ''
+        = denial.label :candidate_denial_reason_id, 'IF NOT EXTENDING OFFER: Why was candidate denied'
+        = denial.select :candidate_denial_reason_id, denial_reasons, include_blank: true
       = f.submit 'Extend offer', class: :button
       %a.button(href="#" id="submit_do_not_extend_offer") Do not extend offer

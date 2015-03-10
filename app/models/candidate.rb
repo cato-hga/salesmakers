@@ -43,6 +43,7 @@ class Candidate < ActiveRecord::Base
   belongs_to :location_area
   belongs_to :person
   belongs_to :candidate_source
+  belongs_to :candidate_denial_reason
   belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
 
   has_many :prescreen_answers

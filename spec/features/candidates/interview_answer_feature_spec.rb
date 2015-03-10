@@ -11,6 +11,7 @@ describe 'Interview answers' do
                                          permission_group: permission_group,
                                          description: 'Test Description' }
   let(:candidate) { create :candidate }
+  let!(:denial_reason) { create :candidate_denial_reason }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -45,6 +46,7 @@ describe 'Interview answers' do
       expect(page).to have_content("Candidate's previous compensation (3)")
       expect(page).to have_content('Pay rate sought')
       expect(page).to have_content('Hours per week looking to work')
+      expect(page).to have_content('IF NOT EXTENDING OFFER: Why was candidate denied')
       expect(page).to have_button 'Extend offer'
       expect(page).to have_content 'Do not extend offer'
     end
@@ -93,10 +95,16 @@ describe 'Interview answers' do
           it 'redirects to the candidate show page' do
             expect(page).to have_content candidate.name
           end
+          it 'does not assign a denial reason' do
+            candidate.reload
+            expect(candidate.candidate_denial_reason).to be_nil
+          end
         end
+
         context 'and job not extended' do
           before(:each) do
             find(:xpath, "//input[@id='extend_offer']").set false
+            select denial_reason.name, from: :interview_answer_candidate_candidate_denial_reason_id
             click_on 'Extend offer'
           end
           it 'display a confirmation' do
@@ -108,6 +116,11 @@ describe 'Interview answers' do
           it 'deactivates the candidate' do
             candidate.reload
             expect(candidate.active).to eq(false)
+          end
+          it 'assigns a denial reason' do
+            candidate.reload
+            expect(candidate.candidate_denial_reason).not_to be_nil
+            expect(candidate.candidate_denial_reason).to eq(denial_reason)
           end
         end
       end
