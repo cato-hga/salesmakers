@@ -76,6 +76,7 @@ group :development do
   gem 'traceroute', '0.4.0' # Find dead routes and missing controller actions.
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
+  gem 'parallel_tests', '1.3.5' # Parallel testing
 end
 
 group :test do

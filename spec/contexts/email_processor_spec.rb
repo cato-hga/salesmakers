@@ -1,3 +1,6 @@
+require 'spec_helper'
+require_relative '../../app/contexts/email_processor'
+
 describe EmailProcessor do
   let(:vonage_account_processor) {
     email = build :email, :with_vonage_account_excel_attachment

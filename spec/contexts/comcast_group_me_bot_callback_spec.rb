@@ -1,3 +1,6 @@
+require 'spec_helper'
+require_relative '../../app/contexts/comcast_group_me_bot_callback'
+
 describe ComcastGroupMeBotCallback do
   let(:comcast_group_me_bot) { create :comcast_group_me_bot }
 

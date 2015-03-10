@@ -1,4 +1,6 @@
 require 'roo'
+require 'spec_helper'
+require_relative '../../app/contexts/vonage_account_status_changes_importer'
 
 describe VonageAccountStatusChangesImporter do
   let(:file) {

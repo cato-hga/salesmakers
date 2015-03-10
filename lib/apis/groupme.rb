@@ -1,6 +1,7 @@
 require 'uri'
 require 'open-uri'
 require 'fileutils'
+require 'httparty'
 
 class GroupMe
   include HTTParty
