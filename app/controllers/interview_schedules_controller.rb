@@ -14,7 +14,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.interview_date = interview_date
     hour = params[:interview_time].slice 0..1
     minutes = params[:interview_time].slice 2..3
-    interview_time = Time.new(interview_date.year, interview_date.month, interview_date.day, hour, minutes).in_time_zone
+    interview_time = Time.zone.local(interview_date.year, interview_date.month, interview_date.day, hour, minutes)
     @interview_schedule.start_time = interview_time
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
@@ -41,7 +41,7 @@ class InterviewSchedulesController < ApplicationController
   def interview_now
     @interview_schedule = InterviewSchedule.new
     @interview_schedule.interview_date = Date.today.in_time_zone
-    @interview_schedule.start_time = Time.now.in_time_zone
+    @interview_schedule.start_time = Time.zone.now
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
     if @interview_schedule.save
@@ -67,7 +67,8 @@ class InterviewSchedulesController < ApplicationController
     for interview in scheduled_interviews do
       taken_time_slots << interview.start_time.in_time_zone.strftime('%H%M')
     end
-    time_slots_start = Time.new(@interview_date.year, @interview_date.month, @interview_date.day, 9, 0, 0).in_time_zone
+    time_slots_start = Time.zone.local(@interview_date.year, @interview_date.month, @interview_date.day, 9, 0, 0)
+    #time_slots_start = Time.zone.today.beginning_of_day + 9.hours
     @time_slots = []
     24.times do
       time_slot = time_slots_start.strftime('%H%M')

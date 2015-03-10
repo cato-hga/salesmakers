@@ -1,7 +1,7 @@
 %p We're excited to have you interview with us! Here are your interview details:
 
 %p= 'Interview Date: ' + long_date(@schedule.interview_date)
-%p= 'Interview Time: ' + @schedule.start_time.strftime('%l:%M %p EST')
+%p= 'Interview Time: ' + @schedule.start_time.in_time_zone.strftime('%l:%M %p %Z')
 
 %p Although this is an online interview, be sure to treat it as you would a face to face interview (I.E: dress the part, be on time, smile and be ready to discuss your work history)
 %strong We want to be sure this is the right position for you. If you decide for any reason this position is not for you, please contact your recruiter ASAP to cancel your interview
