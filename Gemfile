@@ -61,6 +61,7 @@ gem 'googlecharts', '1.6.10' # Google charts, duh.
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
+gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development

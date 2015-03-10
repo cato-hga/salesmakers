@@ -41,6 +41,14 @@ describe 'actions involving People' do
       visit person_path(person)
       expect(page).to have_button('Commissions')
     end
+
+    it 'should have a working link to new person creation on #index' do
+      permission = create :permission, key: 'person_create'
+      person.position.permissions << permission
+      visit people_path
+      click_on 'new_action_button'
+      expect(page).to have_selector('h1', text: 'New Person')
+    end
   end
 
   context 'comcast employees' do

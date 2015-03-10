@@ -5,4 +5,6 @@ class ConnectSalaryCategory < ConnectModel
   has_many :connect_business_partner_salary_categories,
            primary_key: 'c_salary_category_id',
            foreign_key: 'c_salary_category_id'
+
+  default_scope { order(:name) }
 end

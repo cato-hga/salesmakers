@@ -41,6 +41,21 @@ describe PeopleController do
     end
   end
 
+  describe 'GET new' do
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+      allow(controller).to receive(:policy).and_return double(new?: true)
+      get :new
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+  end
+
   describe 'GET sales' do
     let!(:person) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
