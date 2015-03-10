@@ -31,6 +31,7 @@ class InterviewSchedulesController < ApplicationController
       puts @interview_schedule.errors.full_messages.join(', ')
     end
 
+
   end
 
   def schedule
