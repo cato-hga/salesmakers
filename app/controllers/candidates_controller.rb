@@ -28,7 +28,6 @@ class CandidatesController < ApplicationController
     @sources = CandidateSource.all
     @projects = Project.all
     call_initiated = Time.at(params[:call_initiated].to_i)
-    puts call_initiated
     cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
     cookies[:candidate_project_select] = candidate_params[:project_id]
     if @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'true'

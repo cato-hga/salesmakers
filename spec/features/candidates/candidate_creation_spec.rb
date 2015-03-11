@@ -105,7 +105,10 @@ describe 'Candidate creation' do
             expect(page).to have_content 'Left Voicemail'
           end
           it 'sets the candidate contact datetime correctly' do
-            expect(CandidateContact.first.created_at.to_i).to eq(Time.now.to_i)
+            expect(CandidateContact.first.created_at).to be_within((2).second).of(Time.now)
+            candidate = Candidate.first
+            visit candidate_path candidate
+            expect(page).to have_content Time.now.strftime('%l:%M%P %Z')
           end
         end
       end
