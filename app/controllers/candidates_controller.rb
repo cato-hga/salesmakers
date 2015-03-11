@@ -24,6 +24,10 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
+    @sources = CandidateSource.all
+    @projects = Project.all
+    cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
+    cookies[:candidate_project_select] = candidate_params[:project_id]
     if @candidate.save
       @current_person.log? 'create',
                            @candidate
@@ -32,6 +36,8 @@ class CandidatesController < ApplicationController
     else
       render :new
     end
+    cookies.delete :candidate_source_selection
+    cookies.delete :candidate_project_select
   end
 
   def select_location

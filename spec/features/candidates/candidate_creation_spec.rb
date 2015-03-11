@@ -52,6 +52,8 @@ describe 'Candidate creation' do
           expect(page).to have_content "Email can't be blank"
           expect(page).to have_content "Zip is the wrong length"
         end
+
+        it ''
       end
       context 'with valid data' do
         before(:each) do
