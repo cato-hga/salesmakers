@@ -10,9 +10,10 @@
       %p
         %strong ZIP:
         = @candidate.zip
-      %p
-        %strong Project:
-        = @candidate.project.name
+      - if @candidate.location_area
+        %p
+          %strong Project:
+          = @candidate.location_area.area.project.name
       %p
         %strong Entered:
         = friendly_datetime(@candidate.created_at)
@@ -115,6 +116,8 @@
             handler.map.centerOn(markers[0]);
             handler.getMap().setZoom(10);
           });
+ %p
+          = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
 .widget
   .inner
     %h3 Communication Log

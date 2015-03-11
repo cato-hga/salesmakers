@@ -22,7 +22,7 @@ class Project < ActiveRecord::Base
     projects
   }
 
-  def self.locations(project)
+  def self.location_areas(project)
     Location.
         joins(%{
               LEFT OUTER JOIN location_areas

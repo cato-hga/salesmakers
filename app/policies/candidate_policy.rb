@@ -21,7 +21,11 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
-  def set_location?
+  def set_location_area?
+    select_location?
+  end
+
+  def confirm_location?
     select_location?
   end
 

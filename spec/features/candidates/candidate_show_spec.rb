@@ -31,4 +31,12 @@ describe 'candidate show page' do
   it 'should show the contact log' do
     expect(page).to have_content(candidate_contact.notes)
   end
+
+  it 'should show the location address' do
+    expect(page).to have_content(location_area.location.address)
+  end
+
+  it 'should show the "Change Location" button' do
+    expect(page).to have_selector('a', text: 'Change Location')
+  end
 end

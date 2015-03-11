@@ -36,27 +36,37 @@ class CandidatesController < ApplicationController
 
   def select_location
     @candidate = Candidate.find params[:id]
-    @locations = get_locations(@candidate)
+    all_location_areas = get_all_location_areas
+    @search = all_location_areas.search(params[:q])
+    @location_areas = order_by_distance(@search.result)
+    logger.debug params.inspect
+    @send_nhp = params[:send_nhp] == 'true' ? true : false
   end
 
-  def set_location
+  def set_location_area
     @candidate = Candidate.find params[:id]
-    @location = Location.find params[:location_id]
-    location_areas = get_location_areas(@location)
+    @location_area = LocationArea.find params[:location_area_id]
+    @send_nhp = params[:send_nhp] == 'true' ? true : false
     previous_location_area = @candidate.location_area
-    unless location_areas and @candidate.update(location_area: location_areas.first)
-      flash[:error] = "Could not update the candidate's location."
-      redirect_to select_location_candidate_path(@candidate) and return
+    unless @candidate.update(location_area: @location_area)
+      flash[:error] = @candidate.errors.full_messages.join(', ')
+      redirect_to select_location_candidate_path(@candidate, @send_nhp.to_s) and return
     end
     if previous_location_area
       previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
     end
-    for location_area in location_areas do
-      location_area.update potential_candidate_count: location_area.potential_candidate_count + 1
-    end
+    @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
     @candidate.location_selected!
     flash[:notice] = 'Location chosen successfully.'
-    redirect_to new_candidate_interview_schedule_path(@candidate)
+    if @send_nhp
+      redirect_to send_paperwork_candidate_path(@candidate)
+    else
+      redirect_to new_candidate_interview_schedule_path(@candidate)
+    end
+  end
+
+  def confirm_location
+    @candidate = Candidate.find params[:id]
   end
 
   def send_paperwork
@@ -110,13 +120,38 @@ class CandidatesController < ApplicationController
     authorize Candidate.new
   end
 
-  def get_locations(candidate)
-    project_locations = Project.locations(candidate.project)
+  def get_all_location_areas
+    all_locations = Location.
+        joins(:location_areas).
+        where('location_areas.target_head_count > 0')
+    return LocationArea.none if all_locations.count(:all) < 1
+    all_locations = Location.where("locations.id IN (#{all_locations.map(&:id).join(',')})")
+    locations = all_locations.near(@candidate, 30)
+    if not locations or locations.count(:all) < 5
+      locations = all_locations.near(@candidate, 500).first(5)
+    end
+    return LocationArea.none if locations.empty?
+    location_areas = locations.map { |l| l.location_areas }.flatten
+    LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')})")
+  end
+
+  def get_staffable_projects
+    Project.
+        joins(:areas).
+        joins(:location_areas).
+        where('location_areas.target_head_count > 0')
+  end
+
+  def get_project_location_areas(project)
+    project_locations = Project.locations(project)
     locations = project_locations.near(@candidate, 30)
     if not locations or locations.count(:all) < 5
       locations = project_locations.near(@candidate, 500).first(5)
     end
-    locations
+    LocationArea.
+        where(location: locations).
+        joins(:area).
+        where("areas.project_id = ?", project.id)
   end
 
   def get_location_areas(location)
@@ -126,4 +161,11 @@ class CandidatesController < ApplicationController
         where('areas.project_id = ?', @candidate.project_id)
   end
 
+  def order_by_distance(location_areas)
+    return [] if location_areas.empty? or not @candidate
+    location_areas.sort do |x, y|
+      x.location.geographic_distance(@candidate) <=>
+          y.location.geographic_distance(@candidate)
+    end
+  end
 end

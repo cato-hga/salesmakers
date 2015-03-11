@@ -115,7 +115,7 @@ describe CandidatesController do
   describe 'GET select_location' do
     let(:candidate) { create :candidate }
 
-    before { get :select_location, id: candidate.id }
+    before { get :select_location, id: candidate.id, send_nhp: 'false' }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -126,16 +126,17 @@ describe CandidatesController do
     end
   end
 
-  describe 'GET set_location' do
+  describe 'GET set_location_area' do
     let!(:candidate) { create :candidate }
     let(:location) { create :location }
     let(:area) { create :area, project: candidate.project }
     let!(:location_area) { create :location_area, location: location, area: area }
 
     subject {
-      get :set_location,
+      get :set_location_area,
           id: candidate.id,
-          location_id: location.id
+          location_area_id: location_area.id,
+          send_nhp: 'false'
     }
 
     it 'redirects to interview schedule' do
@@ -143,7 +144,7 @@ describe CandidatesController do
       expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
     end
 
-    it 'sets the location_id on the candidate' do
+    it 'sets the location_area_id on the candidate' do
       expect {
         subject
         candidate.reload
@@ -161,6 +162,21 @@ describe CandidatesController do
       subject
       candidate.reload
       expect(candidate.status).to eq('location_selected')
+    end
+  end
+
+  describe 'GET confirm_location' do
+    let!(:candidate) { create :candidate, location_area: location_area }
+    let!(:location_area) { create :location_area }
+
+    before { get :confirm_location, id: candidate.id }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'sets the location_area_id on the candidate' do
+      expect(response).to render_template(:confirm_location)
     end
   end
 

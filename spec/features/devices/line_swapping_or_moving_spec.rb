@@ -174,7 +174,6 @@ describe 'Moving lines' do
       it 'renders the swap page', pending: 'Should this be tested?'
       it 'shows error messages', pending: 'Build object and skip validation'
     end
-
   end
 
 

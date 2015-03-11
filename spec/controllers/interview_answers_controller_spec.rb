@@ -61,9 +61,9 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         candidate.reload
         expect(candidate.status).to eq('accepted')
       end
-      it 'redirects to sending paperwork' do
+      it 'redirects to location confirmation' do
         subject
-        expect(response).to redirect_to(send_paperwork_candidate_path(candidate))
+        expect(response).to redirect_to(confirm_location_candidate_path(candidate))
       end
     end
     context 'success for candidates not extended a job offer' do

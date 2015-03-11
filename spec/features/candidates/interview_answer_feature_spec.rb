@@ -10,8 +10,9 @@ describe 'Interview answers' do
   let(:candidate_index) { Permission.new key: 'candidate_index',
                                          permission_group: permission_group,
                                          description: 'Test Description' }
-  let(:candidate) { create :candidate }
+  let(:candidate) { create :candidate, location_area: location_area }
   let!(:denial_reason) { create :candidate_denial_reason }
+  let(:location_area) { create :location_area }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -90,10 +91,10 @@ describe 'Interview answers' do
             click_on 'Extend offer'
           end
           it 'displays a confirmation' do
-            expect(page).to have_content 'Could not send'
+            expect(page).to have_content 'Confirm Location'
           end
-          it 'redirects to the candidate show page' do
-            expect(page).to have_content candidate.name
+          it 'redirects to the location confirmation page' do
+            expect(page).to have_content location_area.location.address
           end
           it 'does not assign a denial reason' do
             candidate.reload

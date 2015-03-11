@@ -33,6 +33,7 @@ describe PrescreenAnswersController do
     end
   end
 
+
   describe 'POST create' do
     let!(:call_initiated) { DateTime.now - 5.minutes }
     let(:prescreen_hash) {
@@ -84,7 +85,7 @@ describe PrescreenAnswersController do
 
     it 'redirects to the location selection screen' do
       subject
-      expect(response).to redirect_to(select_location_candidate_path(candidate))
+      expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
     end
 
     context 'without an inbound/outbound value' do

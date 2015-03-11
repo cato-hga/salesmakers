@@ -18,7 +18,10 @@ module LinksHelperExtension
 
   def project_link(project)
     #link_to project.name, [project.client, project]
-    project.name
+    image_tag("/images/#{project.name.gsub(' ', '').underscore}_logo_transparent_32x32.png",
+              class: [:inline_logo]).html_safe +
+        "&nbsp;".html_safe +
+        project.name
   end
 
   def client_link(client)
