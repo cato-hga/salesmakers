@@ -108,7 +108,7 @@ describe 'Candidate creation' do
             expect(CandidateContact.first.created_at).to be_within((2).second).of(Time.now)
             candidate = Candidate.first
             visit candidate_path candidate
-            expect(page).to have_content Time.now.strftime('%l:%M%P %Z')
+            expect(page).to have_content Time.zone.now.strftime('%l:%M%P %Z')
           end
         end
       end
