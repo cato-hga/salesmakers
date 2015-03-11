@@ -11,6 +11,7 @@ class PrescreenAnswersController < ApplicationController
   def create
     @prescreen_answer = PrescreenAnswer.new prescreen_answer_params
     @candidate = Candidate.find params[:candidate_id]
+    call_initiated = Time.at(params[:call_initiated].to_i)
     @inbound = params[:inbound]
     if @inbound.blank?
       flash[:error] = 'You must select whether the call is inbound or outbound.'
@@ -18,13 +19,13 @@ class PrescreenAnswersController < ApplicationController
     end
     @prescreen_answer.candidate = @candidate
     if @prescreen_answer.save
-      set_prescreened
+      set_prescreened(call_initiated)
       redirect_to select_location_candidate_path(@candidate)
     else
       flash[:error] = 'Candidate did not pass prescreening'
       @candidate.rejected!
       @candidate.update active: false
-      create_rejection_contact
+      create_rejection_contact(call_initiated)
       redirect_to new_candidate_path
     end
   end
@@ -47,16 +48,16 @@ class PrescreenAnswersController < ApplicationController
     authorize Candidate.new
   end
 
-  def set_prescreened
+  def set_prescreened(time)
     @candidate.prescreened!
     flash[:notice] = 'Answers saved!'
     @current_person.log? 'prescreen_answer_create',
                          @candidate
-    create_acceptance_contact
+    create_acceptance_contact(time)
   end
 
-  def create_acceptance_contact
-    call_initiated = Time.at(params[:call_initiated].to_i)
+  def create_acceptance_contact(time)
+    call_initiated = time
     CandidateContact.create candidate: @candidate,
                             person: @current_person,
                             contact_method: :phone,
@@ -65,8 +66,8 @@ class PrescreenAnswersController < ApplicationController
                             created_at: call_initiated
   end
 
-  def create_rejection_contact
-    call_initiated = Time.at(params[:call_initiated].to_i)
+  def create_rejection_contact(time)
+    call_initiated = time
     CandidateContact.create candidate: @candidate,
                             person: @current_person,
                             contact_method: :phone,

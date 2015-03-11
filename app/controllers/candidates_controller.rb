@@ -19,6 +19,7 @@ class CandidatesController < ApplicationController
     @projects = Project.all
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
     @sources = CandidateSource.all
+    @call_initiated = DateTime.now.to_i
   end
 
   def create
@@ -26,13 +27,21 @@ class CandidatesController < ApplicationController
     @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
     @sources = CandidateSource.all
     @projects = Project.all
+    call_initiated = Time.at(params[:call_initiated].to_i)
+    puts call_initiated
     cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
     cookies[:candidate_project_select] = candidate_params[:project_id]
-    if @candidate.save
+    if @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'true'
       @current_person.log? 'create',
                            @candidate
       flash[:notice] = 'Candidate saved!'
       redirect_to new_candidate_prescreen_answer_path @candidate
+    elsif @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'false'
+      @current_person.log? 'create',
+                           @candidate
+      create_voicemail_contact(call_initiated)
+      flash[:notice] = 'Candidate saved!'
+      redirect_to candidates_path
     else
       render :new
     end
@@ -99,6 +108,16 @@ class CandidatesController < ApplicationController
 
   private
 
+  def create_voicemail_contact(time)
+    call_initiated = time
+    CandidateContact.create candidate: @candidate,
+                            person: @current_person,
+                            contact_method: :phone,
+                            inbound: false,
+                            notes: 'Left Voicemail',
+                            created_at: call_initiated
+  end
+
   def get_candidate
     @candidate = Candidate.find params[:id]
   end
@@ -111,7 +130,8 @@ class CandidatesController < ApplicationController
                                       :email,
                                       :zip,
                                       :project_id,
-                                      :candidate_source_id
+                                      :candidate_source_id,
+                                      :start_prescreen
     )
   end
 

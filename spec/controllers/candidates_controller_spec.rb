@@ -54,7 +54,7 @@ describe CandidatesController do
     before(:each) do
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
-    context 'success' do
+    context 'success, going to prescreen' do
       subject {
         post :create,
              candidate: {
@@ -65,7 +65,8 @@ describe CandidatesController do
                  zip: '33701',
                  project_id: position.id,
                  candidate_source_id: source.id
-             }
+             },
+             start_prescreen: 'true'
       }
       it 'creates a candidate' do
         expect { subject }.to change(Candidate, :count).by(1)
@@ -91,6 +92,55 @@ describe CandidatesController do
         subject
         candidate = Candidate.first
         expect(candidate.candidate_source).to eq(source)
+      end
+    end
+
+    context 'success, left voicemail' do
+      let!(:call_initiated) { DateTime.now - 5.minutes }
+      subject {
+        post :create,
+             candidate: {
+                 first_name: 'Test',
+                 last_name: 'Candidate',
+                 mobile_phone: '7274985180',
+                 email: 'test@test.com',
+                 zip: '33701',
+                 project_id: position.id,
+                 candidate_source_id: source.id
+             },
+             start_prescreen: 'false',
+             call_initiated: call_initiated.to_i
+      }
+      it 'creates a candidate' do
+        expect { subject }.to change(Candidate, :count).by(1)
+      end
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+      it 'sets the candidate as entered' do
+        subject
+        expect(Candidate.first.entered?).to be_truthy
+      end
+      it 'redirects to candidates#index' do
+        subject
+        expect(response).to redirect_to(candidates_path)
+      end
+      it 'saves the candidates recruiter/person' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.created_by).to eq(recruiter)
+      end
+      it 'saves the candidates source' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.candidate_source).to eq(source)
+      end
+      it 'creates a candidate contact' do
+        expect { subject }.to change(CandidateContact, :count).by(1)
+      end
+      it 'sets the candidate contact datetime correctly' do
+        subject
+        expect(CandidateContact.first.created_at.to_i).to eq(call_initiated.to_i)
       end
     end
 
