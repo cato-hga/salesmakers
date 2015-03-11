@@ -20,6 +20,10 @@ describe 'candidate show page' do
     visit candidate_path(candidate)
   end
 
+  it 'has a dismissal button' do
+    expect(page).to have_button 'Dismiss Candidate'
+  end
+
   it 'should have the proper page title' do
     expect(page).to have_selector('h1', text: candidate.name)
   end

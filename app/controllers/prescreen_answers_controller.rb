@@ -22,6 +22,8 @@ class PrescreenAnswersController < ApplicationController
       redirect_to select_location_candidate_path(@candidate)
     else
       flash[:error] = 'Candidate did not pass prescreening'
+      @candidate.rejected!
+      @candidate.update active: false
       create_rejection_contact
       redirect_to new_candidate_path
     end

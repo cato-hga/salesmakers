@@ -224,4 +224,24 @@ describe CandidatesController do
       }.to change(SMSMessage, :count).by(1)
     end
   end
+
+  describe 'DELETE destroy' do
+    let(:candidate) { create :candidate }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(destroy?: true)
+      delete :destroy,
+             id: candidate.id
+    end
+
+    it 'marks the candidate as inactive' do
+      candidate.reload
+      expect(candidate.active).to eq(false)
+    end
+    it 'renders the index page' do
+      expect(response).to redirect_to(candidates_path)
+    end
+    it 'creates a log entry' do
+      expect(LogEntry.count).to eq(1)
+    end
+  end
 end

@@ -95,5 +95,36 @@ describe PrescreenAnswersController do
         expect(response).to render_template(:new)
       end
     end
+
+    context 'when a candidate failes the prescreen' do
+      before(:each) do
+        post :create,
+             candidate_id: candidate.id,
+             prescreen_answer: {
+                 worked_for_salesmakers: true,
+                 of_age_to_work: false,
+                 eligible_smart_phone: true,
+                 can_work_weekends: true,
+                 reliable_transportation: true,
+                 access_to_computer: true,
+                 part_time_employment: true,
+                 ok_to_screen: true
+             },
+             call_initiated: call_initiated.to_i,
+             inbound: true
+      end
+
+      it 'marks the candidate as inactive' do
+        candidate.reload
+        expect(candidate.active).to eq(false)
+      end
+      it 'renders the new template' do
+        expect(response).to redirect_to(new_candidate_path)
+      end
+      it 'sets the candidates status to rejected' do
+        candidate.reload
+        expect(candidate.status).to eq('rejected')
+      end
+    end
   end
 end

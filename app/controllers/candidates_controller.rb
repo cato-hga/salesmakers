@@ -3,6 +3,7 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
+  before_action :get_candidate, except: [:index, :new, :create]
 
   def index
     @search = Candidate.search(params[:q])
@@ -10,7 +11,6 @@ class CandidatesController < ApplicationController
   end
 
   def show
-    @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
   end
 
@@ -40,13 +40,19 @@ class CandidatesController < ApplicationController
     cookies.delete :candidate_project_select
   end
 
+  def destroy
+    @candidate.update active: false
+    @current_person.log? 'dismiss',
+                         @candidate
+    flash[:notice] = 'Candidate dismissed'
+    redirect_to candidates_path
+  end
+
   def select_location
-    @candidate = Candidate.find params[:id]
     @locations = get_locations(@candidate)
   end
 
   def set_location
-    @candidate = Candidate.find params[:id]
     @location = Location.find params[:location_id]
     location_areas = get_location_areas(@location)
     previous_location_area = @candidate.location_area
@@ -66,9 +72,8 @@ class CandidatesController < ApplicationController
   end
 
   def send_paperwork
-    candidate = Candidate.find params[:id]
-    envelope_response = DocusignTemplate.send_nhp candidate, @current_person
-    job_offer_details = JobOfferDetail.new candidate: candidate,
+    envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
+    job_offer_details = JobOfferDetail.new candidate: @candidate,
                                            sent: DateTime.now
     if envelope_response
       job_offer_details.envelope_guid = response
@@ -77,24 +82,26 @@ class CandidatesController < ApplicationController
       flash[:error] = 'Could not send paperwork automatically. Please send now manually.'
     end
     job_offer_details.save
-    candidate.paperwork_sent!
-    redirect_to candidate
+    @candidate.paperwork_sent!
+    redirect_to @candidate
   end
 
   def new_sms_message
-    @candidate = Candidate.find params[:id]
   end
 
   def create_sms_message
-    candidate = Candidate.find params[:id]
     message = sms_message_params[:contact_message]
     gateway = Gateway.new '+18133441170'
-    gateway.send_text_to_candidate candidate, message, @current_person
+    gateway.send_text_to_candidate @candidate, message, @current_person
     flash[:notice] = 'Message successfully sent.'
-    redirect_to candidate_path(candidate)
+    redirect_to candidate_path(@candidate)
   end
 
   private
+
+  def get_candidate
+    @candidate = Candidate.find params[:id]
+  end
 
   def candidate_params
     params.require(:candidate).permit(:first_name,
