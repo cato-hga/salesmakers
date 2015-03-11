@@ -110,11 +110,11 @@ ActiveRecord::Schema.define(version: 20150311115250) do
     t.integer "location_area_id"
     t.float "latitude"
     t.float "longitude"
-    t.integer "status", default: 0, null: false
     t.boolean "active", default: true, null: false
+    t.integer "status", default: 0, null: false
     t.string "state", limit: 2
-    t.integer "created_by", null: false
     t.integer "candidate_source_id"
+    t.integer "created_by", null: false
     t.integer "candidate_denial_reason_id"
   end
 

@@ -36,7 +36,6 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def schedule
-    puts 'Schedule'
     create
   end
 
@@ -66,7 +65,8 @@ class InterviewSchedulesController < ApplicationController
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate and return
     end
-    scheduled_interviews = InterviewSchedule.where interview_date: @interview_date
+    scheduled_interviews = InterviewSchedule.where(interview_date: @interview_date,
+                                                   person: @current_person)
     taken_time_slots = []
     for interview in scheduled_interviews do
       taken_time_slots << interview.start_time.in_time_zone.strftime('%H%M')

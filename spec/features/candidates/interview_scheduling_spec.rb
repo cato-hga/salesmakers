@@ -86,11 +86,18 @@ describe 'Scheduling interviews' do
       let!(:interview_schedule) { create :interview_schedule,
                                          candidate: other_candidate,
                                          interview_date: interview_date,
-                                         start_time: interview_time_one }
+                                         start_time: interview_time_one,
+                                         person: recruiter
+      }
       let!(:interview_schedule_two) { create :interview_schedule,
                                              candidate: other_candidate,
                                              interview_date: interview_date,
-                                             start_time: interview_time_two }
+                                             start_time: interview_time_two,
+                                             person: other_recruiter
+      }
+      let(:other_recruiter) { create :person, position: position }
+      let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
+
       before(:each) do
         fill_in 'interview_date', with: 'today'
         fill_in 'What is your LifeSize cloud room?', with: '33333'
@@ -102,13 +109,15 @@ describe 'Scheduling interviews' do
         expect(page).to have_content '3:00pm'
         expect(page).to have_content '9:30am'
       end
-      it 'does not display taken time slots' do
+      it 'does not display taken time slots for the recruiter' do
         expect(page).not_to have_content '9:00am'
-        expect(page).not_to have_content '6:30pm'
       end
       it 'does not display time slots outside of 9am to 8:30 pm' do
         expect(page).not_to have_content '8:30am'
         expect(page).not_to have_content '9:00pm'
+      end
+      it 'does not remove time slots used by another recruiter' do
+        expect(page).to have_content '6:30pm'
       end
       describe 'when choosing a slot' do
         before(:each) do
@@ -129,6 +138,10 @@ describe 'Scheduling interviews' do
           candidate.reload
           time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
           expect(time.strftime('%H%M%S')).to eq('093000')
+        end
+        it 'assigns the person to the schedule' do
+          schedule = InterviewSchedule.find_by candidate: candidate
+          expect(schedule.person).to eq(recruiter)
         end
       end
     end
