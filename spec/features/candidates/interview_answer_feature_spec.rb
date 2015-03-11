@@ -52,7 +52,7 @@ describe 'Interview answers' do
     end
 
     describe 'form submission' do
-      context 'with invalid data' do
+      context 'with invalid data (job offered)' do
         before(:each) do
           click_on 'Extend offer'
         end
@@ -72,6 +72,31 @@ describe 'Interview answers' do
           expect(page).to have_content 'Interview Answers for'
         end
       end
+
+      context 'with invalid data (job not offered)' do
+        before(:each) do
+          find(:xpath, "//input[@id='extend_offer']").set false
+          click_on 'Extend offer'
+        end
+
+        it 'displays relevant error messages' do
+          expect(page).to have_content "The candidate's interview answers cannot be saved"
+          expect(page).to have_content "Work history can't be blank"
+          expect(page).to have_content "Why in market can't be blank"
+          expect(page).to have_content "Ideal position can't be blank"
+          expect(page).to have_content "What are you good at can't be blank"
+          expect(page).to have_content "What are you not good at can't be blank"
+          expect(page).to have_content "Compensation last job one can't be blank"
+          expect(page).to have_content "Compensation seeking can't be blank"
+          expect(page).to have_content "Hours looking to work can't be blank"
+          expect(page).to have_content "Denial reason must be selected"
+        end
+
+        it 'renders new' do
+          expect(page).to have_content 'Interview Answers for'
+        end
+      end
+
       context 'with valid data' do
         before(:each) do
           fill_in :interview_answer_work_history, with: 'Work History'
