@@ -107,7 +107,8 @@ describe InterviewSchedulesController do
     before(:each) do
       post :time_slots,
            candidate_id: candidate.id,
-           interview_date: Date.today
+           interview_date: Date.today,
+           cloud_room: '11111'
     end
     it 'returns a success status' do
       expect(response).to be_success

@@ -48,14 +48,24 @@ describe 'Scheduling interviews' do
         context 'an invalid date' do
           it 'returns a proper error message' do
             fill_in 'interview_date', with: 'totallynotacorrectdateyo'
+            fill_in 'cloud_room', with: '33333'
             click_on 'Search for time slots'
             expect(page).to have_content 'Interview Scheduler'
             expect(page).to have_content 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
           end
         end
+        context 'no cloud room selected' do
+          it 'returns an error message' do
+            fill_in 'interview_date', with: 'tomorrow'
+            click_on 'Search for time slots'
+            expect(page).to have_content 'Interview Scheduler'
+            expect(page).to have_content 'Cloud room is required'
+          end
+        end
         context 'a valid date' do
           it 'renders the available interview slots for a date' do
             fill_in 'interview_date', with: 'tomorrow'
+            fill_in 'cloud_room', with: '33333'
             click_on 'Search for time slots'
             expect(page).to have_content 'Available Interview Slots for '
             expect(page).to have_content '3:00pm'

@@ -80,7 +80,6 @@ describe 'Devices NON-CRUD actions' do
       }
 
       subject {
-        page.driver.browser.accept_js_confirms
         within '#main_container header' do
           click_on 'Lost/Stolen'
         end
@@ -90,12 +89,12 @@ describe 'Devices NON-CRUD actions' do
         expect(page).not_to have_selector('.button[value="Found"]')
       end
 
-      it 'does not show the deploy button when lost or stolen', js: true do
+      it 'does not show the deploy button when lost or stolen' do
         subject
         expect(page).not_to have_selector('.button[value="Deploy"]')
       end
 
-      it 'reports it lost or stolen', js: true do
+      it 'reports it lost or stolen' do
         subject
         expect(page).to have_selector('.device_state', text: 'Lost or Stolen')
       end
@@ -103,10 +102,9 @@ describe 'Devices NON-CRUD actions' do
       context 'for a deployed device' do
         let(:person) { create :person }
         let(:deployment) { create :device_deployment, device: device, person: person }
-        it 'does not show the recoup button when lost or stolen', js: true do
+        it 'does not show the recoup button when lost or stolen' do
           device.device_deployments << deployment
           visit device_path(device)
-          page.driver.browser.accept_js_confirms
           within '#main_container header' do
             click_on 'Lost/Stolen'
           end
@@ -125,7 +123,6 @@ describe 'Devices NON-CRUD actions' do
     end
 
     subject {
-      page.driver.browser.accept_js_confirms
       within '#main_container header' do
         click_on 'Found'
       end
@@ -148,12 +145,11 @@ describe 'Devices NON-CRUD actions' do
         visit device_path(device)
       end
       subject {
-        page.driver.browser.accept_js_confirms
         within '#main_container header' do
           click_on 'Found'
         end
       }
-      it 'reports as found', js: true do
+      it 'reports as found' do
         subject
         expect(page).not_to have_selector('.device_state', text: 'Lost or Stolen')
       end
@@ -166,12 +162,11 @@ describe 'Devices NON-CRUD actions' do
         visit device_path(device)
       end
       subject {
-        page.driver.browser.accept_js_confirms
         within '#main_container header' do
           click_on 'Found'
         end
       }
-      it 'reports as found', js: true do
+      it 'reports as found' do
         subject
         expect(page).not_to have_selector('.device_state', text: 'Written Off')
       end
@@ -320,19 +315,18 @@ describe 'Devices NON-CRUD actions' do
       visit device_path(device)
     }
     subject {
-      page.driver.browser.accept_js_confirms
       within '#main_container header' do
         click_on 'Repair'
       end
     }
 
 
-    it 'does not show the repair button when in repair', js: true do
+    it 'does not show the repair button when in repair' do
       subject
       expect(page).not_to have_selector('.button[value="Repair"]', exact: true)
     end
 
-    it 'reports it as in repair', js: true do
+    it 'reports it as in repair' do
       subject
       expect(page).to have_selector('.device_state', text: 'Repairing')
     end

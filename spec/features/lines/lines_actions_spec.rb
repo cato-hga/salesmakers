@@ -75,7 +75,7 @@ describe 'actions on Lines' do
     end
   end
 
-  context 'for deactivation', js: true do
+  context 'for deactivation' do
     let(:active_state) { create :line_state, name: 'Active', locked: true }
     let(:line) {
       new_line = create :line
@@ -86,7 +86,6 @@ describe 'actions on Lines' do
 
     subject {
       visit line_path(line)
-      page.driver.browser.accept_js_confirms
       within '#main_container header' do
         click_on 'Deactivate'
       end
@@ -112,7 +111,6 @@ describe 'actions on Lines' do
       end
       it 'deactivates and detaches the line' do
         visit device_path(device)
-        page.driver.browser.accept_js_confirms
         click_on 'Deactivate Line'
         visit device_path(device)
         within 'p#line' do

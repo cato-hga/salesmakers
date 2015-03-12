@@ -96,7 +96,7 @@ describe 'LineStates CRUD actions' do
     end
   end
 
-  context 'for destroying', js: true do
+  context 'for destroying' do
     let!(:line_state) { create :line_state }
     let(:line) { create :line }
     before(:each) do
@@ -108,7 +108,6 @@ describe 'LineStates CRUD actions' do
     subject do
       visit line_states_path
       click_on line_state.name
-      page.driver.browser.accept_js_confirms
       within '#main_container header h1' do
         click_on 'delete_action_button'
       end

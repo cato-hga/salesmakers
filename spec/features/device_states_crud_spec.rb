@@ -95,7 +95,7 @@ describe 'DeviceStates CRUD actions' do
     end
   end
 
-  context 'for destroying', js: true do
+  context 'for destroying' do
     let!(:device_state) { create :device_state }
     let(:device) { create :device }
 
@@ -105,7 +105,6 @@ describe 'DeviceStates CRUD actions' do
       person.position.permissions << permission_update
       visit device_states_path
       click_on device_state.name
-      page.driver.browser.accept_js_confirms
       within '#main_container header h1' do
         click_on 'delete_action_button'
       end

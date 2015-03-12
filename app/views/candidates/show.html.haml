@@ -1,6 +1,6 @@
 - title @candidate.name
 - content_for :action_buttons do
-  = button_to 'Dismiss Candidate', candidate_path(@candidate), action: :destroy, method: :delete, class: [:button, :inline_button]
+  = button_to 'Dismiss Candidate', candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, method: :delete, class: [:button, :inline_button]
 
 .widgets
   .widget

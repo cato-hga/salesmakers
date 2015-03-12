@@ -59,6 +59,10 @@ class InterviewSchedulesController < ApplicationController
 
   def time_slots
     @cloud_room = params[:cloud_room]
+    if @cloud_room.blank?
+      flash[:error] = 'Cloud room is required'
+      redirect_to new_candidate_interview_schedule_path @candidate and return
+    end
     interview_chronic = Chronic.parse params[:interview_date]
     @interview_date = interview_chronic.to_date if interview_chronic
     if @interview_date == nil
