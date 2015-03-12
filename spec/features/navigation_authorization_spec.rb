@@ -84,7 +84,7 @@ describe 'Navigation Authorization' do
 
       it 'does contain links to candidates' do
         within('.top-bar') do
-          expect(page).to have_content('Candidates')
+          expect(page).to have_selector('a[href="/candidates"]')
         end
       end
       it 'does contain links to the Admin section' do
@@ -111,6 +111,11 @@ describe 'Navigation Authorization' do
       it 'contains a link to create a new person' do
         expect(page).to have_selector('a[href="/people/new"]')
       end
+      it 'contains a link to interview schedules' do
+        within('.top-bar') do
+          expect(page).to have_selector('a[href^="/interview_schedules"]')
+        end
+      end
     end
 
     describe 'for recruiters' do
@@ -131,13 +136,19 @@ describe 'Navigation Authorization' do
 
       it 'contains links to candidates' do
         within('.top-bar') do
-          expect(page).to have_content('Candidates')
+          expect(page).to have_selector('a[href="/candidates"]')
         end
       end
 
       it 'does not contain links to the Admin section' do
         within('.top-bar') do
           expect(page).not_to have_content('Admin')
+        end
+      end
+
+      it 'contains a link to interview schedules' do
+        within('.top-bar') do
+          expect(page).to have_selector('a[href^="/interview_schedules"]')
         end
       end
     end
@@ -208,7 +219,7 @@ describe 'Navigation Authorization' do
 
       it 'contains links to candidates' do
         within('.left-off-canvas-menu') do
-          expect(page).to have_content('Candidates List')
+          expect(page).to have_selector('a[href="/candidates"]')
         end
       end
 
@@ -223,6 +234,11 @@ describe 'Navigation Authorization' do
           expect(page).not_to have_content('People')
         end
       end
+      it 'contains a link to interview schedules' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_selector('a[href^="/interview_schedules"]')
+        end
+      end
     end
 
     describe 'for administrators' do
@@ -234,7 +250,10 @@ describe 'Navigation Authorization' do
                department: department,
                hq: true,
                permissions: [
-                   permissions, person_create_permission, person_index_permission
+                   permissions,
+                   person_create_permission,
+                   person_index_permission,
+                   candidate_index_permission
                ]
       }
       let(:department) { create :department, name: 'Information Technology' }
@@ -244,6 +263,9 @@ describe 'Navigation Authorization' do
       let(:person_index_permission) { Permission.new key: 'person_index',
                                                      permission_group: permissions.permission_group,
                                                      description: 'Test Description' }
+      let!(:candidate_index_permission) { Permission.create key: 'candidate_index',
+                                                            permission_group: permissions.permission_group,
+                                                            description: 'Test Description' }
 
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
@@ -272,6 +294,11 @@ describe 'Navigation Authorization' do
       it 'contains a link to create a new person' do
         within('.left-off-canvas-menu') do
           expect(page).to have_selector('a[href="/people/new"]')
+        end
+      end
+      it 'contains a link to interview schedules' do
+        within('.left-off-canvas-menu') do
+          expect(page).to have_selector('a[href^="/interview_schedules"]')
         end
       end
     end

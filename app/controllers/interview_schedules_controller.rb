@@ -2,7 +2,20 @@ class InterviewSchedulesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :chronic_time_zones, except: [:time_slots]
-  before_action :set_candidate
+  before_action :set_candidate, except: [:index]
+
+  def index
+    @schedule_date = Date.parse(params[:schedule_date])
+    interview_schedules = policy_scope(InterviewSchedule.where(interview_date: @schedule_date))
+    @interview_schedules = {}
+    cookies[:show_open_time_slots] ? nil : cookies[:show_open_time_slots] = true
+    for schedule in interview_schedules do
+      recruiter = schedule.person
+      recruiter_schedules = @interview_schedules[recruiter] || []
+      recruiter_schedules << schedule
+      @interview_schedules[recruiter] = recruiter_schedules
+    end
+  end
 
   def new
     @interview_schedule = InterviewSchedule.new

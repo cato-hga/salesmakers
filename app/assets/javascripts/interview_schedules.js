@@ -14,3 +14,10 @@
 //        return false;
 //    }
 //});
+
+$(function () {
+	$('body').on('change', '#show_open_time_slots', function () {
+		$.cookie('show_open_time_slots', $(this).val());
+		location.reload();
+	});
+});

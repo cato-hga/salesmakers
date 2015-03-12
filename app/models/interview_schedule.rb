@@ -7,4 +7,6 @@ class InterviewSchedule < ActiveRecord::Base
 
   belongs_to :candidate
   belongs_to :person
+
+  default_scope { joins(:person).order('people.display_name') }
 end

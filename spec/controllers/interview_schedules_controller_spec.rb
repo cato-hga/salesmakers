@@ -3,17 +3,32 @@ require 'rails_helper'
 describe InterviewSchedulesController do
   include ActiveJob::TestHelper
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
+  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
+  let(:permission_index) { Permission.new key: 'candidate_index',
+                                          permission_group: permission_group,
+                                          description: 'Test Description' }
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
   end
 
   let(:candidate) { create :candidate }
   let(:interview_schedule) { build :interview_schedule }
+
+  describe 'GET index' do
+    before { get :index, schedule_date: Date.today.to_s }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:index)
+    end
+  end
 
   describe 'GET new' do
     before(:each) do
