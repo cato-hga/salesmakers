@@ -3,8 +3,7 @@ class CandidatePolicy < ApplicationPolicy
     def resolve
       return scope.none unless person.position
       permission = Permission.find_by key: 'candidate_view_all'
-      return scope.none unless permission
-      if person.position.permissions.include? permission
+      if permission and person.position.permissions.include? permission
         scope.all
       else
         scope.where(created_by: person)

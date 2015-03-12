@@ -152,6 +152,8 @@ Rails.application.routes.draw do
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups
 
+  get 'interview_schedules/:schedule_date', to: 'interview_schedules#index', as: :interview_schedules
+
   resources :lines, only: [:index, :show, :new, :create, :update] do
     member do
       patch 'remove_state/:line_state_id',
