@@ -30,7 +30,7 @@ describe 'viewing Candidate interview schedules' do
     end
 
     it 'shows each time slot' do
-      expect(page).to have_content((Time.now + 2.hours).beginning_of_hour.strftime('%-l:%M%P'))
+      expect(page).to have_content((Time.zone.now + 2.hours).beginning_of_hour.strftime('%-l:%M'))
     end
 
     it 'shows the candidate link' do
@@ -39,12 +39,12 @@ describe 'viewing Candidate interview schedules' do
 
     it 'goes to the previous date' do
       click_on 'previous_schedule_date'
-      expect(page).to have_selector('h3', (Time.now.beginning_of_day - 1.day).strftime('%A, %B %-d, %Y'))
+      expect(page).to have_selector('h3', (Time.zone.now.beginning_of_day - 1.day).strftime('%A, %B %-d, %Y'))
     end
 
     it 'goes to the next date' do
       click_on 'next_schedule_date'
-      expect(page).to have_selector('h3', (Time.now.beginning_of_day + 1.day).strftime('%A, %B %-d, %Y'))
+      expect(page).to have_selector('h3', (Time.zone.now.beginning_of_day + 1.day).strftime('%A, %B %-d, %Y'))
     end
   end
 
