@@ -19,8 +19,8 @@ class PrescreenAnswersController < ApplicationController
     end
     @prescreen_answer.candidate = @candidate
     if @prescreen_answer.save
-      set_prescreened
-      redirect_to select_location_candidate_path(@candidate)
+      set_prescreened(call_initiated)
+      redirect_to select_location_candidate_path(@candidate, 'false')
     else
       flash[:error] = 'Candidate did not pass prescreening'
       @candidate.rejected!

@@ -54,17 +54,24 @@ describe 'Candidate creation' do
           expect(page).to have_content "Email can't be blank"
           expect(page).to have_content "Zip is the wrong length"
         end
-
       end
       context 'with valid data' do
-        before(:each) do
-          fill_in 'First name', with: 'Test'
-          fill_in 'Last name', with: 'Candidate'
-          fill_in 'Mobile phone', with: '727-498-5180'
-          fill_in 'Email address', with: 'test@test.com'
-          fill_in 'Zip Code', with: '33701'
-          select source.name, from: 'Candidate source'
-          click_on 'Save and start Prescreen'
+        context 'and starting prescreen' do
+          before(:each) do
+            fill_in 'First name', with: 'Test'
+            fill_in 'Last name', with: 'Candidate'
+            fill_in 'Mobile phone', with: '727-498-5180'
+            fill_in 'Email address', with: 'test@test.com'
+            fill_in 'Zip Code', with: '33701'
+            select source.name, from: 'Candidate source'
+            click_on 'Save and start Prescreen'
+          end
+          it 'displays a flash message' do
+            expect(page).to have_content 'Candidate saved!'
+          end
+          it 'redirects to the prescreen questions page' do
+            expect(page).to have_content 'Prescreen Answers'
+          end
         end
 
         context 'and leaving voicemail' do
@@ -74,7 +81,6 @@ describe 'Candidate creation' do
             fill_in 'Mobile phone', with: '727-498-5180'
             fill_in 'Email address', with: 'test@test.com'
             fill_in 'Zip Code', with: '33701'
-            select project.name, from: 'Project recruited for'
             select source.name, from: 'Candidate source'
             find(:xpath, "//input[@id='start_prescreen']").set false
             click_on 'Save and start Prescreen'

@@ -19,6 +19,7 @@ describe CandidatesController do
   let(:permission_index) { Permission.new key: 'candidate_index',
                                           permission_group: permission_group,
                                           description: 'Test Description' }
+  let(:location_area) { create :ocation_area, location: location }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
 
@@ -37,6 +38,7 @@ describe CandidatesController do
       expect(response).to render_template(:index)
     end
   end
+
 
   describe 'GET new' do
     before(:each) do
@@ -103,7 +105,7 @@ describe CandidatesController do
                  mobile_phone: '7274985180',
                  email: 'test@test.com',
                  zip: '33701',
-                 project_id: position.id,
+                 location_area_id: position.id,
                  candidate_source_id: source.id
              },
              start_prescreen: 'false',
