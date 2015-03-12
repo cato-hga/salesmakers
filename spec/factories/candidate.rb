@@ -6,7 +6,6 @@ FactoryGirl.define do
     sequence(:mobile_phone, (1..9).cycle) { |n| "727498518#{n}" }
     email 'test@user.com'
     zip '33711'
-    association :project
     association :created_by, factory: :person
     active true
     association :candidate_source

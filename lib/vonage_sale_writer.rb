@@ -2,22 +2,26 @@ module VonageSaleWriter
   def create_and_update_all(sales)
     written_sales = Array.new
     for sale in sales do
-      updated_sale = new_or_existing(sale)
-      set_attributes(sale, updated_sale)
-      updated = updated_sale.save
-      unless updated_sale.valid?
-        puts "#{updated_sale.persisted? ? 'PERSISTED' : 'NOT PERSISTED' }"
+      mark_existing_resold(sale)
+      new_sale = VonageSale.new
+      set_attributes(sale, new_sale)
+      updated = new_sale.save
+      unless new_sale.valid?
+        puts "#{new_sale.persisted? ? 'PERSISTED' : 'NOT PERSISTED' }"
         puts sale.attributes.inspect
-        puts updated_sale.attributes.inspect
-        puts updated_sale.errors.full_messages.join(', ')
+        puts new_sale.attributes.inspect
+        puts new_sale.errors.full_messages.join(', ')
       end
-      written_sales << updated_sale if updated
+      written_sales << new_sale if updated
     end
     written_sales
   end
 
-  def new_or_existing(sale)
-    VonageSale.find_by(mac: sale.mac) || VonageSale.new
+  def mark_existing_resold(sale)
+    existing_sale = VonageSale.find_by(mac: sale.mac) || return
+    if existing_sale.connect_order
+      existing_sale.update resold: true if existing_sale.connect_order != sale.connect_order
+    end
   end
 
   def set_attributes(source, destination)
@@ -28,6 +32,7 @@ module VonageSaleWriter
                                   customer_first_name: source.customer_first_name,
                                   customer_last_name: source.customer_last_name,
                                   mac: source.mac,
+                                  connect_order_uuid: source.connect_order_uuid,
                                   vonage_product: source.vonage_product
   end
 end

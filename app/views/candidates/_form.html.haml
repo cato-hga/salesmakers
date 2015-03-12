@@ -18,18 +18,12 @@
       = f.text_field :email
       = f.label :zip, 'Zip Code'
       = f.text_field :zip
-      - if @projects
-        - projects = options_from_collection_for_select(@projects, 'id', 'name', (cookies[:candidate_project_select] if cookies[:candidate_project_select]))
-      - else
-        - projects = ''
-      = f.label :project_id, 'Project recruited for'
-      = f.select :project_id, projects
       - if @sources
         - sources = options_from_collection_for_select(@sources, 'id', 'name', (cookies[:candidate_source_selection] if cookies[:candidate_source_selection]))
       - else
         - sources = ''
       = f.label :candidate_source_id, 'Candidate source'
-      = f.select :candidate_source_id, sources
+      = f.select :candidate_source_id, sources, include_blank: true
       = hidden_field_tag 'start_prescreen', 'true'
       = f.submit 'Save and start Prescreen', class: :button
       %a.button(href="#" id="submit_leave_voicemail") Save, left voicemail

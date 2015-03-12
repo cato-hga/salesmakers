@@ -67,4 +67,9 @@ describe VonageSale do
     expect(described_class.for_paycheck(paycheck).count).to eq(1)
     expect(described_class.for_paycheck(old_paycheck).count).to eq(0)
   end
+
+  it 'responds to connect_order' do
+    expect(subject).to respond_to(:connect_order)
+  end
+
 end

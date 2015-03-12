@@ -28,10 +28,6 @@ describe Candidate do
       candidate.zip = '123456'
       expect(candidate).not_to be_valid
     end
-    it 'requires a project' do
-      candidate.project_id = nil
-      expect(candidate).not_to be_valid
-    end
 
     it 'requires a created_by Person' do
       candidate.created_by = nil

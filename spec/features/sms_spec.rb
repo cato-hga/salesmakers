@@ -9,6 +9,7 @@ describe 'SMS messaging' do
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
+
   describe 'links on view' do
     it 'shows for People#index and People#search' do
       visit people_path

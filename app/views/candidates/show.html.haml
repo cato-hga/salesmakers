@@ -12,9 +12,10 @@
       %p
         %strong ZIP:
         = @candidate.zip
-      %p
-        %strong Project:
-        = @candidate.project.name
+      - if @candidate.location_area
+        %p
+          %strong Project:
+          = @candidate.location_area.area.project.name
       %p
         %strong Entered:
         = friendly_datetime(@candidate.created_at)
@@ -79,12 +80,11 @@
       .inner
         %h3 Location Selected
         - location = @candidate.location_area.location
+        - location_area = @candidate.location_area
         %p
           %strong Area:
-          = area_link @candidate.location_area.area
+          = area_link location_area.area
         = location.address
-        - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
-        - location_area = location_areas.empty? ? nil : location_areas.first
         - target = 0
         - potentials = 0
         - current = 0
@@ -97,27 +97,31 @@
         - info_window += "#{location.address}<br><br>".html_safe
         - info_window += "<strong>Open: #{open}</strong>".html_safe
         #location_map
-        :javascript
-          var markers = [];
-          markers.push({
-            "lat": #{html_escape(location.latitude)},
-            "lng": #{html_escape(location.longitude)},
-            "picture": {
-              "url": "/images/store_map_marker.png",
-              "width": 32,
-              "height": 32
-            },
-            "infowindow": '#{info_window}'
-          });
-          handler = Gmaps.build('Google');
-          handler.buildMap({ provider: {
-            styles: mapStyle()
-          }, internal: {id: 'location_map'}}, function () {
-            handledMarkers = handler.addMarkers(markers);
-            handler.map.centerOn(markers[0]);
-            handler.getMap().setZoom(10);
-          });
+        %p
+          = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
 .widget
   .inner
     %h3 Communication Log
     = render 'shared/candidate_contacts_table'
+
+- if @candidate.location_area
+  :javascript
+    var markers = [];
+    markers.push({
+      "lat": #{html_escape(location.latitude)},
+      "lng": #{html_escape(location.longitude)},
+      "picture": {
+        "url": "/images/store_map_marker.png",
+        "width": 32,
+        "height": 32
+      },
+      "infowindow": '#{info_window}'
+    });
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {
+      styles: mapStyle()
+    }, internal: {id: 'location_map'}}, function () {
+      handledMarkers = handler.addMarkers(markers);
+      handler.map.centerOn(markers[0]);
+      handler.getMap().setZoom(10);
+    });

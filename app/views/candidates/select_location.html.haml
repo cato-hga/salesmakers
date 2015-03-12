@@ -12,15 +12,19 @@
     %h3 Nearby Locations
     %p
       Listed below are the nearest locations to the candidate.
+    %p.row.full-width
+      = search_form_for @search, url: select_location_candidate_path(@candidate, @send_nhp.to_s) do |f|
+        - projects = @location_areas.map{|la| [la.area.project.name, la.area.project.id]}.uniq
+        = f.select :area_project_id_eq, projects, { include_blank: true }, { class: [:autosize_dropdown] }
+        = f.submit 'Filter', class: [:button, :inline_button]
     = render 'locations_table'
 .widget
   .inner
     #locations_map
     - location_count = 0
-    - for location in @locations do
-      - next if @candidate.location_area and @candidate.location_area.location == location
-      - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
-      - location_area = location_areas.empty? ? nil : location_areas.first
+    - for location_area in @location_areas do
+      - next if @candidate.location_area and @candidate.location_area == location_area
+      - location = location_area.location
       - target = 0
       - potentials = 0
       - current = 0
@@ -35,13 +39,13 @@
       - info_window += "#{distance} miles<br><br>".html_safe
       - info_window += "#{location.address}<br><br>".html_safe
       - info_window += "<strong>Open: #{open}</strong><br><br>".html_safe
-      - info_window += link_to 'Choose', set_location_candidate_path(@candidate, location)
+      - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @send_nhp.to_s)
       :javascript
          markers.push({
           "lat": #{html_escape(location.latitude)},
           "lng": #{html_escape(location.longitude)},
           "picture": {
-            "url": "/images/store_map_marker.png",
+            "url": "/images/#{location_area.area.project.name.gsub(' ', '').underscore}_logo_32x32.png",
             "width": 32,
             "height": 32
           },

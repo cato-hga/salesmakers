@@ -20,7 +20,6 @@ describe CandidatesController do
                                           permission_group: permission_group,
                                           description: 'Test Description' }
   let(:location) { create :location }
-  let(:project) { create :project, name: 'Comcast Retail' }
   let(:source) { create :candidate_source }
 
   before do
@@ -63,7 +62,6 @@ describe CandidatesController do
                  mobile_phone: '7274985180',
                  email: 'test@test.com',
                  zip: '33701',
-                 project_id: position.id,
                  candidate_source_id: source.id
              },
              start_prescreen: 'true'
@@ -151,8 +149,7 @@ describe CandidatesController do
                  first_name: 'Test',
                  last_name: 'Candidate',
                  mobile_phone: '',
-                 zip: '33701',
-                 project_id: 1
+                 zip: '33701'
              }
       }
       it 'renders the new template' do
@@ -165,7 +162,7 @@ describe CandidatesController do
   describe 'GET select_location' do
     let(:candidate) { create :candidate }
 
-    before { get :select_location, id: candidate.id }
+    before { get :select_location, id: candidate.id, send_nhp: 'false' }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -176,16 +173,17 @@ describe CandidatesController do
     end
   end
 
-  describe 'GET set_location' do
+  describe 'GET set_location_area' do
     let!(:candidate) { create :candidate }
     let(:location) { create :location }
-    let(:area) { create :area, project: candidate.project }
+    let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
 
     subject {
-      get :set_location,
+      get :set_location_area,
           id: candidate.id,
-          location_id: location.id
+          location_area_id: location_area.id,
+          send_nhp: 'false'
     }
 
     it 'redirects to interview schedule' do
@@ -193,7 +191,7 @@ describe CandidatesController do
       expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
     end
 
-    it 'sets the location_id on the candidate' do
+    it 'sets the location_area_id on the candidate' do
       expect {
         subject
         candidate.reload
@@ -214,13 +212,29 @@ describe CandidatesController do
     end
   end
 
+  describe 'GET confirm_location' do
+    let!(:candidate) { create :candidate, location_area: location_area }
+    let!(:location_area) { create :location_area }
+
+    before { get :confirm_location, id: candidate.id }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'sets the location_area_id on the candidate' do
+      expect(response).to render_template(:confirm_location)
+    end
+  end
+
   describe 'GET send_paperwork' do
-    let(:candidate) { create :candidate, state: 'FL' }
+    let(:candidate) { create :candidate, state: 'FL', location_area: location_area }
+    let(:location_area) { create :location_area }
     let!(:docusign_template) {
       create :docusign_template,
              template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
              state: 'FL',
-             project: candidate.project,
+             project: location_area.area.project,
              document_type: 0
     }
 

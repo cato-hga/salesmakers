@@ -34,12 +34,10 @@ class Candidate < ActiveRecord::Base
   validates :mobile_phone, presence: true, uniqueness: true
   validates :email, presence: true
   validates :zip, length: { is: 5 }
-  validates :project_id, presence: true
   validates :candidate_source_id, presence: true
   validates :created_by, presence: true
   validate :strip_phone_number
 
-  belongs_to :project
   belongs_to :location_area
   belongs_to :person
   belongs_to :candidate_source

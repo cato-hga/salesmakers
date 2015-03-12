@@ -14,8 +14,7 @@ describe 'selecting a Location for a Candidate' do
   let(:candidate) {
     create :candidate,
            latitude: 18.00,
-           longitude: -66.40,
-           project: area.project
+           longitude: -66.40
   }
   let(:area) { create :area }
   let(:location) {
@@ -41,7 +40,7 @@ describe 'selecting a Location for a Candidate' do
 
     before do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-      visit select_location_candidate_path candidate
+      visit select_location_candidate_path candidate, 'false'
     end
 
     it "shows the 'You are not authorized' page" do
@@ -52,11 +51,15 @@ describe 'selecting a Location for a Candidate' do
   describe 'for authorized users' do
     before do
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
-      visit select_location_candidate_path candidate
+      visit select_location_candidate_path candidate, 'false'
     end
 
     it 'has the proper title' do
       expect(page).to have_selector('h1', text: "Select Location for #{candidate.display_name}")
+    end
+
+    it 'shows the project for the location' do
+      expect(page).to have_content(location_area.area.project.name)
     end
 
     it 'selects a location' do
@@ -64,4 +67,5 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content('successfully')
     end
   end
+
 end

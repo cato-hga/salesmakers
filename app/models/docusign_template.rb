@@ -13,7 +13,8 @@ class DocusignTemplate < ActiveRecord::Base
   belongs_to :project
 
   def self.send_nhp(candidate, advocate)
-    project = candidate.project || return
+    location_area = candidate.location_area || return
+    project = location_area.area.project || return
     state = candidate.state || return
     template = DocusignTemplate.find_by(state: state, project: project, document_type: DocusignTemplate.document_types[:nhp]) || return
     client = DocusignRest::Client.new

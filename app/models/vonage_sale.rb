@@ -11,6 +11,7 @@ class VonageSale < ActiveRecord::Base
   belongs_to :person
   belongs_to :location
   belongs_to :vonage_product
+  belongs_to :connect_order, foreign_key: 'connect_order_uuid'
 
   has_many :vonage_sale_payouts
   has_one :vonage_refund

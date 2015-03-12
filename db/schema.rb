@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150311115250) do
+ActiveRecord::Schema.define(version: 20150312153732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20150311115250) do
     t.text "notes", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "call_results"
   end
 
   create_table "candidate_denial_reasons", force: :cascade do |t|
@@ -103,7 +104,6 @@ ActiveRecord::Schema.define(version: 20150311115250) do
     t.string "mobile_phone", null: false
     t.string "email", null: false
     t.string "zip", null: false
-    t.integer "project_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "person_id"
@@ -937,16 +937,18 @@ ActiveRecord::Schema.define(version: 20150311115250) do
   end
 
   create_table "vonage_sales", force: :cascade do |t|
-    t.date     "sale_date",           null: false
-    t.integer  "person_id",           null: false
-    t.string   "confirmation_number", null: false
-    t.integer  "location_id",         null: false
-    t.string   "customer_first_name", null: false
-    t.string   "customer_last_name",  null: false
-    t.string   "mac",                 null: false
-    t.integer  "vonage_product_id",   null: false
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.date "sale_date", null: false
+    t.integer "person_id", null: false
+    t.string "confirmation_number", null: false
+    t.integer "location_id", null: false
+    t.string "customer_first_name", null: false
+    t.string "customer_last_name", null: false
+    t.string "mac", null: false
+    t.integer "vonage_product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "connect_order_uuid"
+    t.boolean "resold", default: false, null: false
   end
 
   create_table "wall_post_comments", force: :cascade do |t|

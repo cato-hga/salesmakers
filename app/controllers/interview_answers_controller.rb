@@ -13,13 +13,13 @@ class InterviewAnswersController < ApplicationController
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
     if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
-      flash[:notice] = 'Interview answers saved and job offer extended'
+      flash[:notice] = 'Interview answers saved.'
       @candidate.accepted!
       @current_person.log? 'create',
                            @candidate
       @current_person.log? 'extended_job_offer',
                            @candidate
-      redirect_to send_paperwork_candidate_path(@candidate)
+      redirect_to confirm_location_candidate_path(@candidate)
     elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
       flash[:notice] = 'Interview answers saved and candidate deactivated'
       @candidate.rejected!
