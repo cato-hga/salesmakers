@@ -1,7 +1,14 @@
 class CandidatePolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
-      scope
+      return scope.none unless person.position
+      permission = Permission.find_by key: 'candidate_view_all'
+      return scope.none unless permission
+      if person.position.permissions.include? permission
+        scope.all
+      else
+        scope.where(created_by: person)
+      end
     end
   end
 
