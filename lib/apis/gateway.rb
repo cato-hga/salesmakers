@@ -66,6 +66,11 @@ class Gateway
                   nil,
                   nil,
                   text
+      CandidateContact.create candidate: candidate,
+                              contact_method: :sms,
+                              person: sender,
+                              notes: text
+
     end
     response
   end

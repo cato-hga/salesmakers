@@ -344,6 +344,11 @@ describe CandidatesController do
         subject
       }.to change(SMSMessage, :count).by(1)
     end
+    it 'creates a Candidate Contact entry' do
+      expect {
+        subject
+      }.to change(CandidateContact, :count).by(1)
+    end
   end
 
   describe 'DELETE destroy' do

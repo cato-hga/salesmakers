@@ -49,7 +49,7 @@ describe 'SMS messaging' do
     end
   end
 
-  context 'sending a message' do
+  context 'sending a message (not a candidate)' do
     let(:message) { 'This is an example message.' }
 
     it 'sends an SMS message', :vcr do

@@ -1,5 +1,11 @@
-= form_tag path do
-  = label_tag 'contact_message', 'Message'
-  = text_area_tag 'contact_message', nil, rows: 5
-  = submit_tag 'Send', class: [:button]
-  .within_length.ok 160
+- if controller_name == 'candidates' and @messages
+  = form_tag path do
+    = label_tag 'contact_message', 'Message'
+    = select_tag 'contact_message', options_from_collection_for_select(@messages, 'text', 'text'), include_blank: true
+    = submit_tag 'Send', class: [:button]
+- else
+  = form_tag path do
+    = label_tag 'contact_message', 'Message'
+    = text_area_tag 'contact_message', nil, rows: 5
+    = submit_tag 'Send', class: [:button]
+    .within_length.ok 160

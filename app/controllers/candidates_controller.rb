@@ -69,7 +69,6 @@ class CandidatesController < ApplicationController
   end
 
   def select_location
-    @candidate = Candidate.find params[:id]
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
@@ -78,7 +77,6 @@ class CandidatesController < ApplicationController
   end
 
   def set_location_area
-    @candidate = Candidate.find params[:id]
     @location_area = LocationArea.find params[:location_area_id]
     @send_nhp = params[:send_nhp] == 'true' ? true : false
     previous_location_area = @candidate.location_area
@@ -100,7 +98,7 @@ class CandidatesController < ApplicationController
   end
 
   def confirm_location
-    @candidate = Candidate.find params[:id]
+    #just uses get_candidate
   end
 
   def send_paperwork
@@ -119,11 +117,10 @@ class CandidatesController < ApplicationController
   end
 
   def new_sms_message
-    @candidate = Candidate.find params[:id]
+    @messages = CandidateSMSMessage.all
   end
 
   def create_sms_message
-    candidate = Candidate.find params[:id]
     message = sms_message_params[:contact_message]
     gateway = Gateway.new '+18133441170'
     gateway.send_text_to_candidate @candidate, message, @current_person
