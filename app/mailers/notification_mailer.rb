@@ -5,7 +5,13 @@ class NotificationMailer < ApplicationMailer
     @sms_message = sms_message
     @last_24_hours = sms_message.from_person ? sms_message.from_person.communication_log_entries.
         where('created_at > ?', Time.zone.now - 1.day) : nil
+    if sms_message.from_candidate
+      message_cc = 'candidatesms@salesmakersinc.com'
+    else
+      message_cc = ''
+    end
     mail to: sms_message.to_person.email,
+         cc: message_cc,
          subject: 'SMS Reply from ' +
              (sms_message.from_person ? sms_message.from_person.display_name : sms_message.from_candidate.name)
   end
@@ -29,13 +35,16 @@ class NotificationMailer < ApplicationMailer
       subject = 'New SMS Thread Started by ' + sms_message.from_person.display_name
     elsif sms_message.from_candidate
       subject = 'New SMS Thread Started by ' + sms_message.from_candidate.name
+      message_cc = 'candidatesms@salesmakersinc.com'
     else
       formatted_num = '(' + sms_message.from_num[0..2] +
           ') ' + sms_message.from_num[3..5] + '-' +
           sms_message.from_num[6..9]
       subject = 'New SMS Thread Started by ' + formatted_num
+      message_cc = ''
     end
     mail to: emails,
+         cc: message_cc,
          subject: subject
   end
 
