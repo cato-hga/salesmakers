@@ -8,10 +8,10 @@
 .widget
   .inner
     = select_tag :show_open_time_slots, options_for_select([['Show Open Slots', true], ['Hide Open Slots', false]], cookies[:show_open_time_slots]), class: [:inline_select]
-    %p.comment
-      %strong
-        = pluralize @interview_schedules.count, 'person'
-        have interviews scheduled.
+    - if @interview_schedules.empty?
+      %p.comment
+        %strong
+          Nothing to show.
 .widgets
   - for recruiter in @interview_schedules.keys do
     - interview_schedules = @interview_schedules[recruiter]
