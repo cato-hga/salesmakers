@@ -78,12 +78,11 @@
       .inner
         %h3 Location Selected
         - location = @candidate.location_area.location
+        - location_area = @candidate.location_area
         %p
           %strong Area:
-          = area_link @candidate.location_area.area
+          = area_link location_area.area
         = location.address
-        - location_areas = LocationArea.for_project_and_location(@candidate.project, location)
-        - location_area = location_areas.empty? ? nil : location_areas.first
         - target = 0
         - potentials = 0
         - current = 0

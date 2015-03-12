@@ -15,7 +15,7 @@ describe 'sending Docusign paperwork' do
     docusign_template = create :docusign_template,
                                template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
                                state: 'FL',
-                               project: candidate.project,
+                               project: location_area.area.project,
                                document_type: 0
     expect {
       visit send_paperwork_candidate_path(candidate)

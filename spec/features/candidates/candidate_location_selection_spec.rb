@@ -14,8 +14,7 @@ describe 'selecting a Location for a Candidate' do
   let(:candidate) {
     create :candidate,
            latitude: 18.00,
-           longitude: -66.40,
-           project: area.project
+           longitude: -66.40
   }
   let(:area) { create :area }
   let(:location) {
@@ -68,4 +67,5 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content('successfully')
     end
   end
+
 end

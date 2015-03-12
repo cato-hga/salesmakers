@@ -56,7 +56,7 @@ describe 'candidate index' do
   end
 
   it 'searches for projects' do
-    fill_in 'q_project_name_cont', with: candidate.project.name[4]
+    fill_in 'q_location_area_area_project_name_cont', with: location_area.area.project.name[4]
     find('input[value="Search"]').click
     expect(page).to have_content(candidate.name)
   end

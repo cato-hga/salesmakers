@@ -39,4 +39,5 @@ describe 'candidate show page' do
   it 'should show the "Change Location" button' do
     expect(page).to have_selector('a', text: 'Change Location')
   end
+
 end

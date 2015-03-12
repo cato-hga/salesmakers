@@ -36,11 +36,9 @@ describe 'Candidate creation' do
       expect(page).to have_content('Mobile phone')
       expect(page).to have_content('Email address')
       expect(page).to have_content('Zip Code')
-      expect(page).to have_content('Project recruited for')
       expect(page).to have_content('Candidate source')
       expect(page).to have_button 'Save and start Prescreen'
     end
-
 
     describe 'form submission' do
       context 'with invalid data' do
@@ -60,7 +58,6 @@ describe 'Candidate creation' do
           fill_in 'Mobile phone', with: '727-498-5180'
           fill_in 'Email address', with: 'test@test.com'
           fill_in 'Zip Code', with: '33701'
-          select project.name, from: 'Project recruited for'
           select source.name, from: 'Candidate source'
           click_on 'Save and start Prescreen'
         end

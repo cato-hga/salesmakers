@@ -37,10 +37,16 @@ describe DocusignTemplate do
       create :docusign_template,
              template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
              state: 'FL',
-             project: candidate.project,
+             project: location_area.area.project,
              document_type: 0
     }
-    let(:candidate) { create :candidate, state: 'FL', email: 'developers@salesmakersinc.com' }
+    let(:candidate) {
+      create :candidate,
+             state: 'FL',
+             email: 'developers@salesmakersinc.com',
+             location_area: location_area
+    }
+    let(:location_area) { create :location_area }
     let(:person) { create :person, email: 'developers@salesmakersinc.com' }
 
     it 'sends an NHP', :vcr do

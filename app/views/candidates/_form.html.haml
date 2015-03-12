@@ -17,12 +17,6 @@
       = f.text_field :email
       = f.label :zip, 'Zip Code'
       = f.text_field :zip
-      - if @projects
-        - projects = options_from_collection_for_select(@projects, 'id', 'name')
-      - else
-        - projects = ''
-      = f.label :project_id, 'Project recruited for'
-      = f.select :project_id, projects
       - if @sources
         - sources = options_from_collection_for_select(@sources, 'id', 'name')
       - else

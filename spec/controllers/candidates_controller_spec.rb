@@ -20,7 +20,6 @@ describe CandidatesController do
                                           permission_group: permission_group,
                                           description: 'Test Description' }
   let(:location) { create :location }
-  let(:project) { create :project, name: 'Comcast Retail' }
   let(:source) { create :candidate_source }
 
   before do
@@ -63,7 +62,6 @@ describe CandidatesController do
                  mobile_phone: '7274985180',
                  email: 'test@test.com',
                  zip: '33701',
-                 project_id: position.id,
                  candidate_source_id: source.id
              }
       }
@@ -101,8 +99,7 @@ describe CandidatesController do
                  first_name: 'Test',
                  last_name: 'Candidate',
                  mobile_phone: '',
-                 zip: '33701',
-                 project_id: 1
+                 zip: '33701'
              }
       }
       it 'renders the new template' do
@@ -129,7 +126,7 @@ describe CandidatesController do
   describe 'GET set_location_area' do
     let!(:candidate) { create :candidate }
     let(:location) { create :location }
-    let(:area) { create :area, project: candidate.project }
+    let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
 
     subject {
@@ -181,12 +178,13 @@ describe CandidatesController do
   end
 
   describe 'GET send_paperwork' do
-    let(:candidate) { create :candidate, state: 'FL' }
+    let(:candidate) { create :candidate, state: 'FL', location_area: location_area }
+    let(:location_area) { create :location_area }
     let!(:docusign_template) {
       create :docusign_template,
              template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
              state: 'FL',
-             project: candidate.project,
+             project: location_area.area.project,
              document_type: 0
     }
 

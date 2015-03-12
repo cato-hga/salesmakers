@@ -11,7 +11,6 @@ describe 'contacting the candidate' do
                                           permission_group: permission_group,
                                           description: 'Test Description' }
   let(:location) { create :location }
-  let!(:project) { create :project, name: 'Comcast Retail' }
 
   let!(:candidate) { create :candidate, location_area: location_area }
   let!(:location_area) { create :location_area, location: location }

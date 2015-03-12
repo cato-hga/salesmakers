@@ -12,7 +12,7 @@
     = f.text_field :email_cont, placeholder: 'Email'
     = f.text_field :zip_cont, placeholder: 'ZIP'
     %br/
-    = f.text_field :project_name_cont, placeholder: 'Project'
+    = f.text_field :location_area_area_project_name_cont, placeholder: 'Project'
     = f.text_field :location_area_location_channel_name_cont, placeholder: 'Channel'
     = f.text_field :location_area_location_display_name_cont, placeholder: 'Location'
     - selected_status = params['q'] ? params['q']['status_eq'] : nil
@@ -31,7 +31,7 @@
       - entered_by = person_link candidate.created_by
       - email = email_link candidate.email
       - zip = candidate.zip
-      - project = candidate.project.name
+      - project = candidate.location_area ? candidate.location_area.area.project.name : nil
       - channel = ''
       - location = ''
       - location_obj = candidate.location_area ? candidate.location_area.location : nil
