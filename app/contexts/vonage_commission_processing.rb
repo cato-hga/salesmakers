@@ -14,7 +14,7 @@ class VonageCommissionProcessing
 
   def generate_payouts
     @all_payouts = []
-    @all_sales = VonageSale.for_paycheck(@paycheck)
+    @all_sales = VonageSale.for_paycheck(@paycheck).where(resold: false)
     determine_weeks
     split_sales_into_weeks
     generate_payouts_for_weeks

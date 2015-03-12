@@ -121,4 +121,77 @@ describe LegacyVonageSaleImporting do
     end
   end
 
+  # I can't figure out how to stub an ActiveRecord relation
+  # (to return the resold ConnectOrders)
+  #
+  # describe 'clearing out resold devices' do
+  #   let!(:vonage_paycheck) {
+  #     create :vonage_paycheck,
+  #            commission_start: Date.today - 1.week,
+  #            commission_end: Date.today - 2.days,
+  #            wages_start: Date.today - 1.week,
+  #            wages_end: Date.today + 2.days,
+  #            cutoff: DateTime.now + 3.days
+  #   }
+  #   let(:connect_order) {
+  #     build_stubbed :connect_order,
+  #                   connect_user: connect_user,
+  #                   documentno: 'VONXXX456789011+',
+  #                   c_order_id: 'FF80808233E664900133E664E6350002'
+  #   }
+  #   let(:existing_sale) {
+  #     create :vonage_sale,
+  #            connect_order_uuid: connect_order.c_order_id
+  #   }
+  #   let!(:vonage_sale_payout) {
+  #     create :vonage_sale_payout,
+  #            vonage_sale: existing_sale,
+  #            vonage_paycheck: vonage_paycheck
+  #   }
+  #   let(:second_vonage_paycheck) {
+  #     create :vonage_paycheck,
+  #            name: 'Second Paycheck',
+  #            commission_start: Date.today - 2.months,
+  #            commission_end: Date.today - 1.month,
+  #            wages_start: Date.today - 2.months,
+  #            wages_end: Date.today - 1.month,
+  #            cutoff: DateTime.now - 1.week
+  #   }
+  #   let(:second_connect_order) {
+  #     build_stubbed :connect_order,
+  #                   connect_user: connect_user,
+  #                   documentno: 'VONXXX456789012+',
+  #                   c_order_id: 'FF80808233E664900133E664E6350003'
+  #   }
+  #   let(:second_existing_sale) {
+  #     create :vonage_sale,
+  #            connect_order_uuid: second_connect_order.c_order_id,
+  #            sale_date: Date.today - 2.days
+  #   }
+  #   let!(:second_vonage_sale_payout) {
+  #     create :vonage_sale_payout,
+  #            vonage_sale: second_existing_sale,
+  #            vonage_paycheck: second_vonage_paycheck
+  #   }
+  #
+  #   let!(:importer) { LegacyVonageSaleImporting.new 1.day }
+  #
+  #   before {
+  #     allow()
+  #   }
+  #
+  #   it 'clears the existing sale payout' do
+  #     expect {
+  #       importer.clear_resold_devices
+  #     }.to change(VonageSalePayout, :count).from(2).to(1)
+  #   end
+  #
+  #   it 'sets the sale as resold' do
+  #     expect {
+  #       importer.clear_resold_devices
+  #       existing_sale.reload
+  #     }.to change(existing_sale, :resold?).from(false).to(true)
+  #   end
+  # end
+
 end

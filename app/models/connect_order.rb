@@ -46,6 +46,10 @@ class ConnectOrder < RealConnectModel
     where "documentno LIKE '%+' AND documentno NOT LIKE '%X%'"
   }
 
+  scope :resales, -> {
+    where "documentno LIKE '%X%+'"
+  }
+
   def dateordered
     self[:dateordered].remove_eastern_offset
   end
