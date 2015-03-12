@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :candidate_contacts, only: [:create] do
       collection do
         get 'new_call', to: :new_call, as: :new_call
+        put :save_call_results, as: :save_call_results
       end
     end
   end

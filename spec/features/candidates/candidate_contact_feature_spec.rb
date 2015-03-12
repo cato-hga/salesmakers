@@ -15,15 +15,25 @@ describe 'contacting the candidate' do
   let!(:candidate) { create :candidate, location_area: location_area }
   let!(:location_area) { create :location_area, location: location }
   let(:note) { 'Because I feel like it' }
+  let(:results) { 'The call went very well!' }
 
-  before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }
-
-  it 'records phone call details', js: true do
+  before do
+    CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
     visit candidates_path
     click_on 'Call'
     fill_in "Enter a note on why you are calling #{candidate.first_name}", with: note
     click_on 'Show Phone Number'
+  end
+
+  it 'records phone call details', js: true do
     expect(page).to have_content("(#{candidate.mobile_phone[0..2]}) #{candidate.mobile_phone[3..5]}-#{candidate.mobile_phone[6..9]}")
+  end
+
+  it 'records call results', js: true do
+    fill_in "Enter the results of your call", with: results
+    click_on 'Save'
+    expect(page).to have_content 'Call results successfully'
+    expect(page).to have_content results
   end
 
 end

@@ -9,3 +9,9 @@
       %p
         = f.submit 'Show Phone Number', class: [:button, :inline_button]
         %span#phone_number(style="display:none;")= phone_link(@candidate.mobile_phone)
+    #call_results(style="display:none;")
+      = form_tag save_call_results_candidate_candidate_contacts_path(@candidate), method: :put do
+        = hidden_field_tag 'candidate_contact_id'
+        = label_tag :call_results, 'Enter the results of your call'
+        = text_area_tag :call_results, nil, rows: 5
+        = submit_tag 'Save', class: [:button]

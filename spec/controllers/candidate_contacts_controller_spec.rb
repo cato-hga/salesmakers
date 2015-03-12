@@ -40,5 +40,26 @@ describe CandidateContactsController do
     it 'creates the candidate contact' do
       expect(CandidateContact.count).to eq(1)
     end
+
+    it 'returns the candidate contact ID' do
+      expect(response.body).to eq(CandidateContact.first.id.to_s)
+    end
+  end
+
+  describe 'PUT save_call_results' do
+    let(:candidate) { create :candidate }
+    let!(:candidate_contact) { create :candidate_contact, candidate: candidate }
+
+    before do
+      CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+      put :save_call_results,
+          candidate_id: candidate.id,
+          candidate_contact_id: candidate_contact.id,
+          call_results: 'Here is a sample result note'
+    end
+
+    it 'redirects to the candidate show page' do
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
   end
 end

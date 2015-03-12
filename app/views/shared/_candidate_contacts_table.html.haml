@@ -5,6 +5,10 @@
   - contacted_by = person_link(contact.person)
   - method = NameCase(contact.contact_method.humanize)
   - in_out = contact.inbound? ? 'Inbound' : 'Outbound'
-  - notes = content_tag(:span, contact.notes, class: [:small, :comment])
+  - notes = '<strong class="small comment">Pre-call notes: </strong>'.html_safe
+  - notes += content_tag(:span, contact.notes, class: [:small, :comment])
+  - if contact.call_results
+    - notes += "<br><strong class='small comment'>Results: </strong>".html_safe
+    - notes += content_tag(:span, contact.call_results, class: [:small, :comment])
   - rows << table_row([date_time, contacted_by, method, in_out, notes])
 = table headers, rows

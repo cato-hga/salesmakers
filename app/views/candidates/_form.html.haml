@@ -22,5 +22,5 @@
       - else
         - sources = ''
       = f.label :candidate_source_id, 'Candidate source'
-      = f.select :candidate_source_id, sources
+      = f.select :candidate_source_id, sources, include_blank: true
       = f.submit 'Save and start Prescreen', class: :button
