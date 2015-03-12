@@ -59,4 +59,8 @@ class CandidatePolicy < ApplicationPolicy
   def link_person?
     select_person?
   end
+
+  def destroy?
+    create?
+  end
 end

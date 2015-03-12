@@ -3,6 +3,7 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
+  before_action :get_candidate, except: [:index, :new, :create]
 
   def index
     @search = Candidate.search(params[:q])
@@ -18,19 +19,41 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
     @sources = CandidateSource.all
+    @call_initiated = DateTime.now.to_i
   end
 
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
-    if @candidate.save
+    @sources = CandidateSource.all
+    @projects = Project.all
+    call_initiated = Time.at(params[:call_initiated].to_i)
+    cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
+    cookies[:candidate_project_select] = candidate_params[:project_id]
+    if @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'true'
       @current_person.log? 'create',
                            @candidate
       flash[:notice] = 'Candidate saved!'
       redirect_to new_candidate_prescreen_answer_path @candidate
+    elsif @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'false'
+      @current_person.log? 'create',
+                           @candidate
+      create_voicemail_contact(call_initiated)
+      flash[:notice] = 'Candidate saved!'
+      redirect_to candidates_path
     else
       render :new
     end
+    cookies.delete :candidate_source_selection
+    cookies.delete :candidate_project_select
+  end
+
+  def destroy
+    @candidate.update active: false
+    @current_person.log? 'dismiss',
+                         @candidate
+    flash[:notice] = 'Candidate dismissed'
+    redirect_to candidates_path
   end
 
   def select_location
@@ -69,9 +92,8 @@ class CandidatesController < ApplicationController
   end
 
   def send_paperwork
-    candidate = Candidate.find params[:id]
-    envelope_response = DocusignTemplate.send_nhp candidate, @current_person
-    job_offer_details = JobOfferDetail.new candidate: candidate,
+    envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
+    job_offer_details = JobOfferDetail.new candidate: @candidate,
                                            sent: DateTime.now
     if envelope_response
       job_offer_details.envelope_guid = response
@@ -80,8 +102,8 @@ class CandidatesController < ApplicationController
       flash[:error] = 'Could not send paperwork automatically. Please send now manually.'
     end
     job_offer_details.save
-    candidate.paperwork_sent!
-    redirect_to candidate
+    @candidate.paperwork_sent!
+    redirect_to @candidate
   end
 
   def new_sms_message
@@ -92,12 +114,26 @@ class CandidatesController < ApplicationController
     candidate = Candidate.find params[:id]
     message = sms_message_params[:contact_message]
     gateway = Gateway.new '+18133441170'
-    gateway.send_text_to_candidate candidate, message, @current_person
+    gateway.send_text_to_candidate @candidate, message, @current_person
     flash[:notice] = 'Message successfully sent.'
-    redirect_to candidate_path(candidate)
+    redirect_to candidate_path(@candidate)
   end
 
   private
+
+  def create_voicemail_contact(time)
+    call_initiated = time
+    CandidateContact.create candidate: @candidate,
+                            person: @current_person,
+                            contact_method: :phone,
+                            inbound: false,
+                            notes: 'Left Voicemail',
+                            created_at: call_initiated
+  end
+
+  def get_candidate
+    @candidate = Candidate.find params[:id]
+  end
 
   def candidate_params
     params.require(:candidate).permit(:first_name,
@@ -107,7 +143,8 @@ class CandidatesController < ApplicationController
                                       :email,
                                       :zip,
                                       :project_id,
-                                      :candidate_source_id
+                                      :candidate_source_id,
+                                      :start_prescreen
     )
   end
 

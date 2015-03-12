@@ -5,6 +5,7 @@
 .widget
   .inner
     = form_for @candidate do |f|
+      = hidden_field_tag 'call_initiated', @call_initiated.to_s
       = f.label :first_name
       = f.text_field :first_name
       = f.label :last_name
@@ -18,9 +19,11 @@
       = f.label :zip, 'Zip Code'
       = f.text_field :zip
       - if @sources
-        - sources = options_from_collection_for_select(@sources, 'id', 'name')
+        - sources = options_from_collection_for_select(@sources, 'id', 'name', (cookies[:candidate_source_selection] if cookies[:candidate_source_selection]))
       - else
         - sources = ''
       = f.label :candidate_source_id, 'Candidate source'
       = f.select :candidate_source_id, sources, include_blank: true
+      = hidden_field_tag 'start_prescreen', 'true'
       = f.submit 'Save and start Prescreen', class: :button
+      %a.button(href="#" id="submit_leave_voicemail") Save, left voicemail

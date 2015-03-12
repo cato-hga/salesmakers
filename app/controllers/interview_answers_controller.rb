@@ -32,7 +32,10 @@ class InterviewAnswersController < ApplicationController
                            denial_reason
       redirect_to new_candidate_path
     else
-      flash[:error] = "The candidate's interview answers cannot be saved"
+      if params[:interview_answer][:candidate][:candidate_denial_reason_id].empty?
+        @interview_answer.errors.add(:denial_reason, "must be selected")
+      end
+      flash[:error] = "The candidate's interview answers cannot be saved:"
       render :new
     end
   end
