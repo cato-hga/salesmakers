@@ -41,6 +41,10 @@ RSpec.configure do |config|
 
   config.include Rails.application.routes.url_helpers
 
+  test_env_number = ENV['TEST_ENV_NUMBER']
+  test_env_number ||= 1
+  test_port = 9887 + test_env_number.to_i
+  Capybara.server_port = test_port
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

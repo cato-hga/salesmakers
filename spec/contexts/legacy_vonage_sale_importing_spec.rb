@@ -120,4 +120,5 @@ describe LegacyVonageSaleImporting do
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
+
 end

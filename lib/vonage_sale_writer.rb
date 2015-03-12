@@ -28,6 +28,7 @@ module VonageSaleWriter
                                   customer_first_name: source.customer_first_name,
                                   customer_last_name: source.customer_last_name,
                                   mac: source.mac,
+                                  connect_order_uuid: source.connect_order_uuid,
                                   vonage_product: source.vonage_product
   end
 end
