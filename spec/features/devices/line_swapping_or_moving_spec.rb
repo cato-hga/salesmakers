@@ -28,8 +28,8 @@ describe 'Swapping lines' do
 
   describe 'for authorized users' do
     let!(:device_one) { create :device, line: line }
-    let(:line) { create :line }
-    let(:second_line) { create :line }
+    let(:line) { create :line, identifier: '9876543210' }
+    let(:second_line) { create :line, identifier: '8765432109' }
     let!(:device_two) { create :device, line: second_line }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -123,7 +123,7 @@ describe 'Moving lines' do
 
   describe 'for authorized users' do
     let!(:device_without_line) { create :device }
-    let!(:line) { create :line }
+    let!(:line) { create :line, identifier: '9876543210' }
     let!(:device_with_line) { create :device, line: line }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
