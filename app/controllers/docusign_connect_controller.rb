@@ -41,7 +41,7 @@ class DocusignConnectController < ApplicationController
     return if recipient_statuses.empty?
     recipient_status_array = recipient_statuses["RecipientStatus"] || return
     return if recipient_status_array.empty?
-    recipient_status = recipient_status_array[0]
+    recipient_status = recipient_status_array[2]
     signed = recipient_status.has_key?('Signed') ? recipient_status['Signed'] : nil
     return unless signed
     Time.parse "#{signed} #{time_zone_offset}"

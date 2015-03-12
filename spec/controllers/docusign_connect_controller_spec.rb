@@ -6,6 +6,8 @@ describe DocusignConnectController do
         "EnvelopeStatus" => {
             "RecipientStatuses" => {
                 "RecipientStatus" => [
+                    {},
+                    {},
                     {
                         "Signed" => "2015-03-09T08:49:43.747",
                     }
