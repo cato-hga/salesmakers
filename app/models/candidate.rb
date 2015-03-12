@@ -29,8 +29,8 @@ class Candidate < ActiveRecord::Base
                    }
   after_validation :proper_casing
 
-  validates :first_name, presence: true
-  validates :last_name, presence: true
+  validates :first_name, presence: true, length: {minimum: 2}
+  validates :last_name, presence: true, length: {minimum: 2}
   validates :mobile_phone, presence: true, uniqueness: true
   validates :email, presence: true
   validates :zip, length: { is: 5 }

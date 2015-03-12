@@ -4,6 +4,7 @@ class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :get_candidate, except: [:index, :new, :create]
+  before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   def index
     @search = Candidate.search(params[:q])
@@ -17,15 +18,11 @@ class CandidatesController < ApplicationController
 
   def new
     @candidate = Candidate.new
-    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
-    @sources = CandidateSource.all
     @call_initiated = DateTime.now.to_i
   end
 
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
-    @suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV']
-    @sources = CandidateSource.all
     @projects = Project.all
     call_initiated = Time.at(params[:call_initiated].to_i)
     cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
@@ -46,6 +43,21 @@ class CandidatesController < ApplicationController
     end
     cookies.delete :candidate_source_selection
     cookies.delete :candidate_project_select
+  end
+
+  def edit
+  end
+
+  def update
+    if @candidate.update candidate_params
+      @current_person.log? 'update',
+                           @candidate
+      flash[:notice] = 'Candidate updated'
+      redirect_to candidate_path @candidate
+    else
+      flash[:notice] = 'Candidate could not be saved:'
+      render :edit
+    end
   end
 
   def destroy
@@ -120,6 +132,11 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def get_suffixes_and_sources
+    @sources = CandidateSource.where active: true
+    @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
+  end
 
   def create_voicemail_contact(time)
     call_initiated = time

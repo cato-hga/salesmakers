@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :candidates, except: [:edit, :update] do
+  resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
     resources :interview_schedules, only: [:new, :create] do
       collection do

@@ -4,12 +4,12 @@ describe Candidate do
   let(:candidate) { build :candidate, mobile_phone: '7164158131' }
 
   describe 'validations' do
-    it 'requires a first name' do
-      candidate.first_name = nil
+    it 'requires a first name at least 2 characters long' do
+      candidate.first_name = 'a'
       expect(candidate).not_to be_valid
     end
-    it 'requires a last name' do
-      candidate.last_name = nil
+    it 'requires a last name at least 2 characters long' do
+      candidate.last_name = 'a'
       expect(candidate).not_to be_valid
     end
     it 'requires a mobile phone' do

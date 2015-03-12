@@ -161,6 +161,61 @@ describe CandidatesController do
     end
   end
 
+  describe 'GET edit' do
+    let(:candidate) { create :candidate }
+    before(:each) do
+      allow(controller).to receive(:policy).and_return double(edit?: true)
+    end
+    it 'returns a success status' do
+      get :edit, id: candidate.id
+      expect(response).to be_success
+      expect(response).to render_template(:edit)
+    end
+  end
+
+  describe 'PATCH update' do
+    let(:candidate) { create :candidate }
+    context 'success' do
+      subject do
+        patch :update,
+              id: candidate.id,
+              candidate: {
+                  first_name: 'Anewfirstname'
+              }
+
+      end
+      it 'updates the candidate' do
+        subject
+        candidate.reload
+        expect(candidate.first_name).to eq('Anewfirstname')
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+
+      it 'redirects to candidate#show' do
+        subject
+        expect(response).to redirect_to candidate_path candidate
+      end
+    end
+
+    context 'failure' do
+      subject do
+        patch :update,
+              id: candidate.id,
+              candidate: {
+                  first_name: ''
+              }
+
+      end
+      it 'renders new' do
+        subject
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
+
   describe 'GET select_location' do
     let(:candidate) { create :candidate }
 

@@ -5,7 +5,10 @@
 .widgets
   .widget
     .inner
-      %h3 Basic Information
+      %h3
+        Basic Information
+        = edit_button edit_candidate_path(@candidate)
+
       %p
         %strong Email:
         = email_link @candidate.email

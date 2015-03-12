@@ -63,4 +63,12 @@ class CandidatePolicy < ApplicationPolicy
   def destroy?
     create?
   end
+
+  def edit?
+    create?
+  end
+
+  def update?
+    create?
+  end
 end
