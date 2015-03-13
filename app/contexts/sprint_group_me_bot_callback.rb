@@ -32,12 +32,9 @@ class SprintGroupMeBotCallback
     elsif self.has_keyword?('training')
       message = ['https://docs.google.com/a/retaildoneright.com/forms/d/1QP2zs_r_wO77eOYBYVinpGBvIcY0931T3SBapjZYXmE/viewform']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
-    elsif self.has_keyword?('hpa')
-      self.hpa_messages(bot_id)
     else
-      self.sales_messages(bot_id)
+      self.sales_and_hpa_messages(bot_id)
     end
-
   end
 
   def help_messages(bot_id)
@@ -81,17 +78,18 @@ class SprintGroupMeBotCallback
     GroupMe.new_global.post_messages_with_bot(messages, bot_id)
   end
 
-  def sales_messages(bot_id)
-    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
-    level_keywords.each do |key|
-      if self.has_keyword? key
-        level = key and return
-      end
-    end
+  def sales_and_hpa_messages(bot_id)
+    level_keywords_and_setup
     self.determine_date_range
-    @results = self.query(level, 'sales')
-    check_environment
-    messages = self.generate_sales_messages(@results)
+    if self.has_keyword? 'sales'
+      @results = self.query(@level, 'sales')
+      check_environment
+      messages = self.generate_sales_messages(@results)
+    end
+    if self.has_keyword? 'hpa'
+      @results = self.query(@level, 'hpa')
+      messages = self.generate_sales_messages(@results)
+    end
     if messages.empty?
       messages << "No results for '#{query_string}'"
       @chart_url = nil
@@ -99,11 +97,20 @@ class SprintGroupMeBotCallback
     GroupMe.new_global.post_messages_with_bot(messages, bot_id, @chart_url)
   end
 
+  def level_keywords_and_setup
+    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
+    level_keywords.each do |key|
+      if self.has_keyword? key
+        @level = key and return
+      end
+    end
+  end
+
   protected
 
   def query(level, type)
     select = self.send(level + '_' + type + '_query')
-    select = wrap_hpa_query(select)
+    select = self.send('wrap_'+ type + '_query', (select))
     begin
       tries ||= 3
       connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
@@ -263,23 +270,6 @@ class SprintGroupMeBotCallback
   end
 
   #----------HPA------------
-
-  def hpa_messages(bot_id)
-    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
-    level_keywords.each do |key|
-      if self.has_keyword? key
-        level = key and return
-      end
-    end
-    self.determine_date_range
-    @results = self.hpa_query(level, 'hpa')
-    messages = self.generate_hpa_messages(results)
-    if messages.empty?
-      messages << "No results for '#{query_string}'"
-      @chart_url = nil
-    end
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id)
-  end
 
   def wrap_hpa_query(query)
     "SELECT name, " +
