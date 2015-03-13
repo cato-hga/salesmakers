@@ -140,23 +140,6 @@ class Location < ActiveRecord::Base
     string_address
   end
 
-  def geocode_on_production
-    return unless Rails.env.production?
-    self.geocode
-    sleep 0.21
-  end
-
-  def address
-    string_address = ''
-    string_address += self.street_1 if self.street_1
-    string_address += ', '
-    string_address += self.street_2 + ', ' if self.street_2
-    string_address += self.city + ', ' if self.city
-    string_address += self.state if self.state
-    string_address += ' ' + self.zip if self.zip
-    string_address
-  end
-
   def geographic_distance(coordinates)
     Geocoder::Calculations.distance_between self, coordinates
   end

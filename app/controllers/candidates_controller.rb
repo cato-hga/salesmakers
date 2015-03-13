@@ -24,13 +24,12 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @projects = Project.all
+    @prescreen = params[:start_prescreen] == 'true' ? true : false
     create_cookies
-    if @candidate.save
-      if params.permit(:start_prescreen)[:start_prescreen] == 'true'
-        create_and_prescreen
-      else
-        create_without_prescreen
-      end
+    if @candidate.save and @prescreen
+      create_and_prescreen
+    elsif @candidate.save
+      create_without_prescreen
     else
       render :new
     end
@@ -236,4 +235,5 @@ class CandidatesController < ApplicationController
           y.location.geographic_distance(@candidate)
     end
   end
+
 end
