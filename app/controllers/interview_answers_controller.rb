@@ -12,27 +12,13 @@ class InterviewAnswersController < ApplicationController
     @denial_reasons = CandidateDenialReason.where active: true
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
-    if @interview_answer.save and params.permit(:extend_offer)[:extend_offer] != 'false'
-      flash[:notice] = 'Interview answers saved.'
-      @candidate.accepted!
-      @current_person.log? 'create',
-                           @candidate
-      @current_person.log? 'extended_job_offer',
-                           @candidate
-      redirect_to confirm_location_candidate_path(@candidate)
-    elsif @interview_answer.save and params.permit(:extend_offer)[:extend_offer] == 'false'
-      flash[:notice] = 'Interview answers saved and candidate deactivated'
-      @candidate.rejected!
-      @candidate.update active: false, candidate_denial_reason_id: params[:interview_answer][:candidate][:candidate_denial_reason_id]
-      @current_person.log? 'create',
-                           @candidate
-      denial_reason = CandidateDenialReason.find_by id: params[:interview_answer][:candidate][:candidate_denial_reason_id]
-      @current_person.log? 'job_offer_not_extended',
-                           @candidate,
-                           denial_reason
-      redirect_to new_candidate_path
+    @extend_offer = params.permit(:extend_offer)[:extend_offer] == 'false' ? false : true
+    if @interview_answer.save and @extend_offer
+      extend_job_offer
+    elsif @interview_answer.save
+      do_not_extend_offer
     else
-      if params[:interview_answer][:candidate][:candidate_denial_reason_id].empty?
+      unless @denial_reason
         @interview_answer.errors.add(:denial_reason, "must be selected")
       end
       flash[:error] = "The candidate's interview answers cannot be saved:"
@@ -41,6 +27,30 @@ class InterviewAnswersController < ApplicationController
   end
 
   private
+
+  def extend_job_offer
+    flash[:notice] = 'Interview answers saved.'
+    @candidate.accepted!
+    @current_person.log? 'create',
+                         @candidate
+    @current_person.log? 'extended_job_offer',
+                         @candidate
+    redirect_to confirm_location_candidate_path(@candidate)
+  end
+
+  def do_not_extend_offer
+    flash[:notice] = 'Interview answers saved and candidate deactivated'
+    @candidate.rejected!
+    @denial_reason = params[:interview_answer][:candidate][:candidate_denial_reason_id]
+    @candidate.update active: false, candidate_denial_reason_id: @denial_reason
+    @current_person.log? 'create',
+                         @candidate
+    denial_reason = CandidateDenialReason.find_by id: @denial_reason
+    @current_person.log? 'job_offer_not_extended',
+                         @candidate,
+                         denial_reason
+    redirect_to new_candidate_path
+  end
 
   def interview_answer_params
     params.require(:interview_answer).permit :work_history,
