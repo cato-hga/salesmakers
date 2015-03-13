@@ -24,25 +24,17 @@ class CandidatesController < ApplicationController
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @projects = Project.all
-    call_initiated = Time.at(params[:call_initiated].to_i)
-    cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
-    cookies[:candidate_project_select] = candidate_params[:project_id]
-    if @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'true'
-      @current_person.log? 'create',
-                           @candidate
-      flash[:notice] = 'Candidate saved!'
-      redirect_to new_candidate_prescreen_answer_path @candidate
-    elsif @candidate.save and params.permit(:start_prescreen)[:start_prescreen] == 'false'
-      @current_person.log? 'create',
-                           @candidate
-      create_voicemail_contact(call_initiated)
-      flash[:notice] = 'Candidate saved!'
-      redirect_to candidates_path
+    create_cookies
+    if @candidate.save
+      if params.permit(:start_prescreen)[:start_prescreen] == 'true'
+        create_and_prescreen
+      else
+        create_without_prescreen
+      end
     else
       render :new
     end
-    cookies.delete :candidate_source_selection
-    cookies.delete :candidate_project_select
+    delete_cookies
   end
 
   def edit
@@ -129,6 +121,32 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def create_cookies
+    cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
+    cookies[:candidate_project_select] = candidate_params[:project_id]
+  end
+
+  def delete_cookies
+    cookies.delete :candidate_source_selection
+    cookies.delete :candidate_project_select
+  end
+
+  def create_and_prescreen
+    @current_person.log? 'create',
+                         @candidate
+    flash[:notice] = 'Candidate saved!'
+    redirect_to new_candidate_prescreen_answer_path @candidate
+  end
+
+  def create_without_prescreen
+    call_initiated = Time.at(params[:call_initiated].to_i)
+    @current_person.log? 'create',
+                         @candidate
+    create_voicemail_contact(call_initiated)
+    flash[:notice] = 'Candidate saved!'
+    redirect_to candidates_path
+  end
 
   def get_suffixes_and_sources
     @sources = CandidateSource.where active: true
