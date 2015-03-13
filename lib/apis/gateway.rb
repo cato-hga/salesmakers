@@ -92,8 +92,8 @@ class Gateway
     from_number = unformat_number from
     from_person = lookup_object_by_number Person, from_number
     from_candidate = lookup_object_by_number Candidate, from_number
-    reply_to_message = lookup_reply_to_person from_person
-    reply_to_message = lookup_reply_to_candidate from_candidate unless reply_to_message
+    reply_to_message = lookup_reply_to_object from_person
+    reply_to_message = lookup_reply_to_object from_candidate unless reply_to_message
     from_person_id = from_person ? from_person.id : nil
     from_candidate_id = from_candidate ? from_candidate.id : nil
     to_person = reply_to_message ? reply_to_message.from_person : nil
@@ -164,22 +164,12 @@ class Gateway
 
   private
 
-  def lookup_reply_to_person(person)
-    return nil unless person
+  def lookup_reply_to_object(object)
+    return nil unless object
     messages = SMSMessage.where(
-        'created_at > ? AND to_person_id = ?',
+        'created_at > ? AND to_' + object.class.name.underscore + '_id = ?',
         Time.zone.now - 1.day,
-        person.id
-    ).order(created_at: :desc).limit(1)
-    messages.count > 0 ? messages.first : nil
-  end
-
-  def lookup_reply_to_candidate(candidate)
-    return nil unless candidate
-    messages = SMSMessage.where(
-        'created_at > ? AND to_candidate_id = ?',
-        Time.zone.now - 1.day,
-        candidate.id
+        object.id
     ).order(created_at: :desc).limit(1)
     messages.count > 0 ? messages.first : nil
   end

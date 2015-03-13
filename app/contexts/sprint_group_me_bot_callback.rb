@@ -99,7 +99,8 @@ class SprintGroupMeBotCallback
       @results = self.query(@level, 'hpa')
       @messages = self.generate_hpa_messages(@results)
     else
-      @messages = "No results for '#{query_string}'"
+      @messages = []
+      @messages << "No results for '#{@query_string}'"
       @chart_url = nil
     end
   end
