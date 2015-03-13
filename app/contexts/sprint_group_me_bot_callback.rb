@@ -82,7 +82,7 @@ class SprintGroupMeBotCallback
     level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
     level_keywords.each do |key|
       if self.has_keyword? key
-        @level = key and return
+        @level = key
       end
     end
     self.determine_date_range
@@ -95,16 +95,15 @@ class SprintGroupMeBotCallback
       @results = self.query(@level, 'sales')
       check_environment
       @messages = self.generate_sales_messages(@results)
-    end
-    if self.has_keyword? 'hpa'
+    elsif self.has_keyword? 'hpa'
       @results = self.query(@level, 'hpa')
-      @messages = self.generate_sales_messages(@results)
-    end
-    if messages.empty?
-      @messages << "No results for '#{query_string}'"
+      @messages = self.generate_hpa_messages(@results)
+    else
+      @messages = "No results for '#{query_string}'"
       @chart_url = nil
     end
   end
+
   protected
 
   def query(level, type)
