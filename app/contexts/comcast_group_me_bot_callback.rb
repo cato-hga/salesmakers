@@ -20,33 +20,15 @@ class ComcastGroupMeBotCallback
     self.separate_string
     self.determine_date_range
     sales = self.pull_sales
-    results = self.query(sales)
-    if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_pie_chart(results)}"
-    else
-      chart_url = "http://localhost:3000/#{generate_pie_chart(results)}"
-    end
+    @results = self.query(sales)
+    check_environment #GroupMeBotQuery
     if self.has_keyword?('schedule')
       message = ['Schedule your new SalesMaker for training at http://bit.ly/1w3AGqG !']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
     else
-      messages = self.generate_sales_messages(results)
-      GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
+      messages = self.generate_sales_messages(@results)
+      GroupMe.new_global.post_messages_with_bot(messages, bot_id, @chart_url)
     end
-  end
-
-  def separate_string
-    self.keywords = Array.new
-    self.query_string = Array.new
-    for word in @callback.text.split do
-      word.strip!; word.gsub!(/[^A-Za-z0-9 ]/, '')
-      if keyword_list.include?(word)
-        self.keywords << word
-      else
-        self.query_string << word
-      end
-    end
-    self.query_string = self.query_string.join(' ').strip
   end
 
   protected

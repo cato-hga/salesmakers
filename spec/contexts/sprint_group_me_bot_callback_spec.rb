@@ -26,6 +26,28 @@ describe SprintGroupMeBotCallback do
     }
   end
 
+  let(:hpa_callback_data) do
+    {
+        attachments: [
+            {
+                type: 'image',
+                url: 'http://i.groupme.com/123456789'
+            }
+        ],
+        avatar_url: "http://i.groupme.com/123456789",
+        created_at: 1302623328,
+        group_id: sprint_group_me_bot.group_num,
+        id: "1234567890",
+        name: "John",
+        sender_id: "12345",
+        sender_type: "user",
+        source_guid: "GUID",
+        system: false,
+        text: "!atlanta hpa mtd by rep",
+        user_id: "1234567890"
+    }
+  end
+
   context 'for initialization' do
     it 'succeeds with one parameter' do
       expect {
@@ -42,6 +64,7 @@ describe SprintGroupMeBotCallback do
 
   context 'for processing' do
     let(:callback) { SprintGroupMeBotCallback.new callback_data.to_json }
+    let(:hpa_callback) { SprintGroupMeBotCallback.new hpa_callback_data.to_json }
 
     before { callback.process }
 
@@ -52,6 +75,11 @@ describe SprintGroupMeBotCallback do
     it 'returns keywords', :vcr do
       expect(callback.keywords.count).to eq(3)
     end
-  end
 
+    it 'works for hpa as well', :vcr do
+      hpa_callback.process
+      expect(hpa_callback.query_string).to eq('atlanta')
+      expect(callback.keywords.count).to eq(3)
+    end
+  end
 end

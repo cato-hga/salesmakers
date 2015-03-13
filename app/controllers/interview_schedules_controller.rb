@@ -3,6 +3,7 @@ class InterviewSchedulesController < ApplicationController
   before_action :do_authorization
   before_action :chronic_time_zones, except: [:time_slots]
   before_action :set_candidate, except: [:index]
+  before_action :get_and_handle_inputted_date, only: [:time_slots]
 
   def index
     @schedule_date = Date.parse(params[:schedule_date])
@@ -60,7 +61,7 @@ class InterviewSchedulesController < ApplicationController
       flash[:error] = 'Cloud room is required'
       redirect_to new_candidate_interview_schedule_path @candidate and return
     end
-    get_and_handle_inputted_date
+    #get_and_handle_inputted_date is in a before filter, because it wasn't return correct, being in a private method
     create_taken_time_slots
     create_available_time_slots
   end
@@ -89,11 +90,10 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def get_and_handle_inputted_date
-    interview_chronic = Chronic.parse params[:interview_date]
-    @interview_date = interview_chronic.to_date if interview_chronic
+    @interview_date = Chronic.parse params[:interview_date]
     if @interview_date == nil
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
-      redirect_to new_candidate_interview_schedule_path @candidate and return
+      redirect_to new_candidate_interview_schedule_path @candidate
     end
   end
 

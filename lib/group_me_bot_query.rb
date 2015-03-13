@@ -10,6 +10,28 @@ module GroupMeBotQuery
     month
   end
 
+  def check_environment
+    if Rails.env.production? or Rails.env == 'staging'
+      @chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_pie_chart(@results)}"
+    else
+      @chart_url = "http://localhost:3000/#{generate_pie_chart(@results)}"
+    end
+  end
+
+  def separate_string
+    self.keywords = Array.new
+    self.query_string = Array.new
+    for word in @callback.text.split do
+      word.strip!; word.gsub!(/[^A-Za-z0-9 ]/, '')
+      if keyword_list.include?(word)
+        self.keywords << word
+      else
+        self.query_string << word
+      end
+    end
+    self.query_string = self.query_string.join(' ').strip
+  end
+
   def start_date
     @start_date
   end

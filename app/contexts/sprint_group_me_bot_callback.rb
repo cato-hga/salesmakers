@@ -2,7 +2,6 @@ require 'apis/groupme'
 require 'group_me_bot_query'
 
 class SprintGroupMeBotCallback
-
   include GroupMeBotQuery
 
   attr_accessor :query_string,
@@ -38,6 +37,7 @@ class SprintGroupMeBotCallback
     else
       self.sales_messages(bot_id)
     end
+
   end
 
   def help_messages(bot_id)
@@ -82,36 +82,39 @@ class SprintGroupMeBotCallback
   end
 
   def sales_messages(bot_id)
-    self.determine_date_range
-    results = self.sales_query
-    if Rails.env.production? or Rails.env == 'staging'
-      chart_url = "#{Rails.application.routes.url_helpers.root_url}#{generate_pie_chart(results)}"
-    else
-      chart_url = "http://localhost:3000/#{generate_pie_chart(results)}"
-    end
-    messages = self.generate_sales_messages(results)
-    if messages.empty?
-      messages << "No results for '#{query_string}'"
-      chart_url = nil
-    end
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id, chart_url)
-  end
-
-  def separate_string
-    self.keywords = Array.new
-    self.query_string = Array.new
-    for word in @callback.text.split do
-      word.strip!; word.gsub!(/[^A-Za-z0-9 ]/, '')
-      if keyword_list.include?(word)
-        self.keywords << word
-      else
-        self.query_string << word
+    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
+    level_keywords.each do |key|
+      if self.has_keyword? key
+        level = key and return
       end
     end
-    self.query_string = self.query_string.join(' ').strip
+    self.determine_date_range
+    @results = self.query(level, 'sales')
+    check_environment
+    messages = self.generate_sales_messages(@results)
+    if messages.empty?
+      messages << "No results for '#{query_string}'"
+      @chart_url = nil
+    end
+    GroupMe.new_global.post_messages_with_bot(messages, bot_id, @chart_url)
   end
 
   protected
+
+  def query(level, type)
+    select = self.send(level + '_' + type + '_query')
+    select = wrap_hpa_query(select)
+    begin
+      tries ||= 3
+      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+      sleep 0.1
+      results = connection.execute(select)
+    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
+      sleep 0.1
+      retry unless (tries -= 1).zero?
+    end
+    results
+  end
 
   def keyword_list
     [
@@ -151,30 +154,6 @@ class SprintGroupMeBotCallback
     ]
   end
 
-  def sales_query
-    if self.has_keyword?('rep')
-      select = self.rep_sales_query
-    elsif self.has_keyword?('brand')
-      select = self.brand_sales_query
-    elsif self.has_keyword?('region')
-      select = self.region_sales_query
-    elsif self.has_keyword?('director')
-      select = self.director_sales_query
-    else
-      select = self.territory_sales_query
-    end
-    select = wrap_sales_query(select)
-    begin
-      tries ||= 3
-      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
-      sleep 0.1
-      results = connection.execute(select)
-    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
-      sleep 0.1
-      retry unless (tries -= 1).zero?
-    end
-    results
-  end
 
   def wrap_sales_query(query)
     "SELECT * FROM (" + query + ") everything ORDER BY everything.count DESC"
@@ -286,39 +265,20 @@ class SprintGroupMeBotCallback
   #----------HPA------------
 
   def hpa_messages(bot_id)
+    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
+    level_keywords.each do |key|
+      if self.has_keyword? key
+        level = key and return
+      end
+    end
     self.determine_date_range
-    results = self.hpa_query
+    @results = self.hpa_query(level, 'hpa')
     messages = self.generate_hpa_messages(results)
     if messages.empty?
       messages << "No results for '#{query_string}'"
-      chart_url = nil
+      @chart_url = nil
     end
     GroupMe.new_global.post_messages_with_bot(messages, bot_id)
-  end
-
-  def hpa_query
-    if self.has_keyword?('rep')
-      select = self.rep_hpa_query
-    elsif self.has_keyword?('brand')
-      select = self.brand_hpa_query
-    elsif self.has_keyword?('region')
-      select = self.region_hpa_query
-    elsif self.has_keyword?('director')
-      select = self.director_hpa_query
-    else
-      select = self.territory_hpa_query
-    end
-    select = wrap_hpa_query(select)
-    begin
-      tries ||= 3
-      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
-      sleep 0.1
-      results = connection.execute(select)
-    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
-      sleep 0.1
-      retry unless (tries -= 1).zero?
-    end
-    results
   end
 
   def wrap_hpa_query(query)
