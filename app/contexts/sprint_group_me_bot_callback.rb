@@ -79,33 +79,32 @@ class SprintGroupMeBotCallback
   end
 
   def sales_and_hpa_messages(bot_id)
-    level_keywords_and_setup
-    self.determine_date_range
-    if self.has_keyword? 'sales'
-      @results = self.query(@level, 'sales')
-      check_environment
-      messages = self.generate_sales_messages(@results)
-    end
-    if self.has_keyword? 'hpa'
-      @results = self.query(@level, 'hpa')
-      messages = self.generate_sales_messages(@results)
-    end
-    if messages.empty?
-      messages << "No results for '#{query_string}'"
-      @chart_url = nil
-    end
-    GroupMe.new_global.post_messages_with_bot(messages, bot_id, @chart_url)
-  end
-
-  def level_keywords_and_setup
     level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
     level_keywords.each do |key|
       if self.has_keyword? key
         @level = key and return
       end
     end
+    self.determine_date_range
+    generate_message_content
+    GroupMe.new_global.post_messages_with_bot(@messages, bot_id, @chart_url)
   end
 
+  def generate_message_content
+    if self.has_keyword? 'sales'
+      @results = self.query(@level, 'sales')
+      check_environment
+      @messages = self.generate_sales_messages(@results)
+    end
+    if self.has_keyword? 'hpa'
+      @results = self.query(@level, 'hpa')
+      @messages = self.generate_sales_messages(@results)
+    end
+    if messages.empty?
+      @messages << "No results for '#{query_string}'"
+      @chart_url = nil
+    end
+  end
   protected
 
   def query(level, type)
