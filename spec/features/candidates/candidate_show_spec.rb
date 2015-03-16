@@ -14,6 +14,7 @@ describe 'candidate show page' do
            contact_method: :phone,
            notes: 'This is a sample note'
   }
+  let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate, start_time: (Time.zone.now + 1.day) }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -42,6 +43,10 @@ describe 'candidate show page' do
 
   it 'should show the "Change Location" button' do
     expect(page).to have_selector('a', text: 'Change Location')
+  end
+
+  it 'shows the scheduled interview time' do
+    expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
   end
 
 end
