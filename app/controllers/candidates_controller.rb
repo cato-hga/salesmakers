@@ -63,7 +63,6 @@ class CandidatesController < ApplicationController
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
-    logger.debug params.inspect
     @send_nhp = params[:send_nhp] == 'true' ? true : false
   end
 
