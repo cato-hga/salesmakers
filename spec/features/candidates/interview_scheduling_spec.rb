@@ -119,7 +119,7 @@ describe 'Scheduling interviews' do
         expect(page).to have_content '3:00pm'
         expect(page).to have_content '9:30am'
       end
-      it 'does not display taken time slots for the recruiter', pending: 'NOT WORKING MUST FIX' do
+      it 'does not display taken time slots for the recruiter' do
         expect(page).not_to have_content '9:00am'
       end
       it 'does not display time slots outside of 9am to 8:30 pm' do
