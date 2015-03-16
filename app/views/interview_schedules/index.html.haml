@@ -26,16 +26,18 @@
           - interview_schedules.each {|s| interview_schedule = s if s.start_time == time_slot}
           - if interview_schedule or cookies[:show_open_time_slots] != 'true'
             .row.interview_schedule_time_slot{ class: count % 2 == 0 ? 'even_row' : '' }
-              .interview_schedule_time.medium-3.small-4.columns
+              .interview_schedule_time.medium-2.small-2.columns
                 = time_slot.strftime('%-l:%M%P')
-              .interview_schedule_candidate.medium-9.small-8.columns
+              .interview_schedule_candidate.medium-10.small-10.columns
                 - if interview_schedule
                   - candidate = interview_schedule.candidate
                   = candidate_link(interview_schedule.candidate)
+                  = button_to 'Cancel Interview', candidate_interview_schedule_path(interview_schedule, candidate), data: { confirm: 'This will cancel the interview. Are you sure?' }, method: :delete, class: [:bare_button]
                   - if candidate.location_area
                     %span.small.right
                       = surround '(', ')' do
                         = project_link candidate.location_area.area.project
+
                 - else
                   &nbsp;
                 - interview_schedule = nil

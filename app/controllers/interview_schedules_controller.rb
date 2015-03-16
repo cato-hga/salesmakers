@@ -2,7 +2,7 @@ class InterviewSchedulesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :chronic_time_zones, except: [:time_slots]
-  before_action :set_candidate, except: [:index]
+  before_action :set_candidate, except: [:index, :destroy]
   before_action :get_and_handle_inputted_date, only: [:time_slots]
 
   def index
@@ -64,6 +64,16 @@ class InterviewSchedulesController < ApplicationController
     #get_and_handle_inputted_date is in a before filter, because it wasn't return correct, being in a private method
     create_taken_time_slots
     create_available_time_slots
+  end
+
+  def destroy
+    @interview_schedule = InterviewSchedule.find params[:id]
+    candidate = @interview_schedule.candidate
+    @interview_schedule.update active: false
+    @current_person.log? 'cancel',
+                         @interview_schedule,
+                         candidate
+    redirect_to interview_schedules_path @interview_schedule.interview_date
   end
 
   private

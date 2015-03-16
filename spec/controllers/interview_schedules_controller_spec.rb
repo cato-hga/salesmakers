@@ -132,4 +132,24 @@ describe InterviewSchedulesController do
       expect(response).to render_template(:time_slots)
     end
   end
+
+  describe 'DELETE destroy' do
+    before(:each) do
+      interview_schedule.save
+      delete :destroy,
+             id: interview_schedule.id,
+             candidate_id: candidate.id
+    end
+
+    it 'marks the interview as inactive' do
+      interview_schedule.reload
+      expect(interview_schedule.active).to eq(false)
+    end
+    it 'renders the schedules page' do
+      expect(response).to redirect_to(interview_schedules_path(interview_schedule.interview_date))
+    end
+    it 'creates a log entry' do
+      expect(LogEntry.count).to eq(1)
+    end
+  end
 end
