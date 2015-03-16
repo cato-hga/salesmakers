@@ -91,7 +91,7 @@ class InterviewSchedulesController < ApplicationController
 
   def get_and_handle_inputted_date
     @interview_date = Chronic.parse params[:interview_date]
-    if @interview_date == nil
+    if @interview_date == nil or @interview_date < Date.today
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate
     end

@@ -54,6 +54,15 @@ describe 'Scheduling interviews' do
             expect(page).to have_content 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
           end
         end
+        context 'a date in the past' do
+          it 'returns a proper error message' do
+            fill_in 'interview_date', with: 'yesterday'
+            fill_in 'cloud_room', with: '33333'
+            click_on 'Search for time slots'
+            expect(page).to have_content 'Interview Scheduler'
+            expect(page).to have_content 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
+          end
+        end
         context 'no cloud room selected' do
           it 'returns an error message' do
             fill_in 'interview_date', with: 'tomorrow'
@@ -119,7 +128,7 @@ describe 'Scheduling interviews' do
         expect(page).to have_content '3:00pm'
         expect(page).to have_content '9:30am'
       end
-      it 'does not display taken time slots for the recruiter', pending: 'NOT WORKING MUST FIX' do
+      it 'does not display taken time slots for the recruiter' do
         expect(page).not_to have_content '9:00am'
       end
       it 'does not display time slots outside of 9am to 8:30 pm' do
