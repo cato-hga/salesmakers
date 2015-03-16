@@ -22,9 +22,10 @@
       %p
         %strong Entered:
         = friendly_datetime(@candidate.created_at)
-      %p
-        %strong Interview Time:
-        = friendly_datetime(@candidate.interview_schedules.first.start_time)
+      - if @candidate.interview_schedules.any?
+        %p
+          %strong Interview Time:
+          = friendly_datetime(@candidate.interview_schedules.last.start_time)
       %p
         = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
   .widget

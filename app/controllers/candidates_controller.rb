@@ -52,6 +52,12 @@ class CandidatesController < ApplicationController
   end
 
   def destroy
+    @interviews = InterviewSchedule.where(candidate_id: @candidate.id)
+    if @interviews.any?
+      for interview in @interviews
+        interview.update active: false
+      end
+    end
     @candidate.update active: false
     @current_person.log? 'dismiss',
                          @candidate
