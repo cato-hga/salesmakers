@@ -77,6 +77,7 @@ group :development do
   gem 'rails_best_practices', '1.15.4' #Gem to output best practices
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
   gem 'parallel_tests', '1.3.5' # Parallel testing
+  gem 'seed_dump', '3.2.2' # Dump database records to seeds
 end
 
 group :test do

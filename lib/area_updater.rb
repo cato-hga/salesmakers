@@ -20,6 +20,7 @@ class AreaUpdater
     @rbh = Client.find_by name: 'Retail Business Holdings'
     @sprint = Client.find_by name: 'Sprint'
     @comcast = Client.find_by name: 'Comcast'
+    @directv = Client.find_by name: 'DirecTV'
   end
 
   def self.setup_projects
@@ -35,6 +36,8 @@ class AreaUpdater
                                        client: @sprint
     @comcast_retail = Project.find_by name: 'Comcast Retail',
                                       client: @comcast
+    @directv_retail = Project.find_by name: 'DirecTV Retail',
+                                      client: @directv
   end
 
   def self.setup_area_types
@@ -42,6 +45,7 @@ class AreaUpdater
     setup_sprint_retail_area_types
     setup_sprint_postpaid_area_types
     setup_comcast_area_types
+    setup_directv_area_types
   end
 
   def self.setup_vonage_area_types
@@ -82,6 +86,15 @@ class AreaUpdater
                              project: @comcast_retail
   end
 
+  def self.setup_directv_area_types
+    @dtvrr = AreaType.find_by name: 'DirecTV Retail Region',
+                              project: @directv_retail
+    @dtvrm = AreaType.find_by name: 'DirecTV Retail Market',
+                              project: @directv_retail
+    @dtvrt = AreaType.find_by name: 'DirecTV Retail Territory',
+                              project: @directv_retail
+  end
+
   def self.sync_area(connect, area_type, project, parent_connect = nil)
     existing_area = Area.find_by connect_salesregion_id: connect.c_salesregion_id
     clean_name = Position.clean_area_name(connect)
@@ -119,6 +132,7 @@ class AreaUpdater
     update_sprint_retail_areas
     update_sprint_postpaid_areas
     update_comcast_areas
+    update_directv_areas
   end
 
   def self.update_vonage_areas
@@ -184,6 +198,18 @@ class AreaUpdater
         sync_area ccrm_connect, @ccrm, @comcast_retail, ccrr_connect
         ccrm_connect.children.each do |ccrt_connect|
           sync_area ccrt_connect, @ccrt, @comcast_retail, ccrm_connect
+        end
+      end
+    end
+  end
+
+  def self.update_directv_areas
+    dtvr_connect = ConnectRegion.find_by_value 'DirecTV-1'
+    dtvr_connect.children.each do |dtvrr_connect|
+      sync_area dtvrr_connect, @dtvrr, @directv_retail
+      dtvrr_connect.children.each do |dtvrm_connect|
+        dtvrm_connect.children.each do |dtvrt_connect|
+          sync_area dtvrt_connect, @dtvrt, @directv_retail, dtvrr_connect
         end
       end
     end

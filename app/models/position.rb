@@ -30,6 +30,7 @@ class Position < ActiveRecord::Base
 
     area_name = area_name.gsub('Vonage Retail - ', '')
     area_name = area_name.gsub('Comcast - ', '')
+    area_name = area_name.gsub('DirecTV - ', '')
     area_name = area_name.gsub('Vonage Events - ', '')
     area_name = area_name.gsub('Sprint - ', '')
     area_name = area_name.gsub('Sprint Postpaid - ', '')

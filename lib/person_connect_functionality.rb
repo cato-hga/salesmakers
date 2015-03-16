@@ -59,7 +59,8 @@ module PersonConnectFunctionality
         vonage: (project_name == 'Vonage'),
         sprint: (project_name == 'Sprint'),
         sprint_postpaid: (project_name == 'Sprint Postpaid'),
-        comcast: (project_name == 'Comcast')
+        comcast: (project_name == 'Comcast'),
+        comcast: (project_name == 'DirecTV')
     }
   end
 
