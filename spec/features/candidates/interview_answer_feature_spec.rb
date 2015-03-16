@@ -42,6 +42,9 @@ describe 'Interview answers' do
       expect(page).to have_content("Candidate's ideal position and responsibilities")
       expect(page).to have_content('What is the candidate good at')
       expect(page).to have_content('What is the candidate NOT good at')
+      expect(page).to have_content('Candidate willingness description')
+      expect(page).to have_content('Candidate personality description')
+      expect(page).to have_content('Candidate self motivated description')
       expect(page).to have_content("Candidate's previous compensation (1)")
       expect(page).to have_content("Candidate's previous compensation (2)")
       expect(page).to have_content("Candidate's previous compensation (3)")
@@ -105,6 +108,9 @@ describe 'Interview answers' do
           fill_in :interview_answer_ideal_position, with: 'Ideal position'
           fill_in :interview_answer_what_are_you_good_at, with: 'What are you good at'
           fill_in :interview_answer_what_are_you_not_good_at, with: 'What are you not good at'
+          fill_in :interview_answer_willingness_characteristic, with: 'Willing'
+          fill_in :interview_answer_personality_characteristic, with: 'What are you not good at'
+          fill_in :interview_answer_self_motivated_characteristic, with: 'What are you not good at'
           fill_in :interview_answer_compensation_last_job_one, with: 'Comp 1'
           fill_in :interview_answer_compensation_last_job_two, with: 'Comp 2'
           fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
