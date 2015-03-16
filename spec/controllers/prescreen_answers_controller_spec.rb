@@ -64,10 +64,6 @@ describe PrescreenAnswersController do
       expect(answer.candidate).to eq(candidate)
     end
 
-    it 'creates a log entry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
-    end
-
     it 'creates a candidate contact entry' do
       expect { subject }.to change(CandidateContact, :count).by(1)
     end
