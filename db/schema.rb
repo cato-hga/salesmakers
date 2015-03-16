@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20150316193056) do
     t.datetime "updated_at"
     t.integer  "project_id",             null: false
     t.string   "connect_salesregion_id"
+    t.string "personality_assessment_url"
   end
 
   add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree

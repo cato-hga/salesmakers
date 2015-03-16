@@ -19,7 +19,9 @@ class AreaType < ActiveRecord::Base
         at_srt: AreaType.find_by(name: 'Sprint Retail Territory'),
         at_ccrr: AreaType.find_by(name: 'Comcast Retail Region'),
         at_ccrm: AreaType.find_by(name: 'Comcast Retail Market'),
-        at_ccrt: AreaType.find_by(name: 'Comcast Retail Territory')
+        at_ccrt: AreaType.find_by(name: 'Comcast Retail Territory'),
+        at_dtvrr: AreaType.find_by(name: 'DirecTV Retail Region'),
+        at_dtvrt: AreaType.find_by(name: 'DirecTV Retail Territory')
     }
   end
 
@@ -70,6 +72,15 @@ class AreaType < ActiveRecord::Base
         AreaType.find_by(name: 'Comcast Retail Region'),
         AreaType.find_by(name: 'Comcast Retail Market'),
         AreaType.find_by(name: 'Comcast Retail Territory')
+    ]
+  end
+
+  def self.directv_array
+    [
+        nil,
+        nil,
+        AreaType.find_by(name: 'DirecTV Retail Region'),
+        AreaType.find_by(name: 'DirecTV Retail Territory')
     ]
   end
 
