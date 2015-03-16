@@ -51,8 +51,6 @@ class PrescreenAnswersController < ApplicationController
   def set_prescreened(time)
     @candidate.prescreened!
     flash[:notice] = 'Answers saved!'
-    @current_person.log? 'prescreen_answer_create',
-                         @candidate
     create_acceptance_contact(time)
   end
 

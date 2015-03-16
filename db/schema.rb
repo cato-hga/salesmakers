@@ -47,14 +47,14 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "area_types", ["project_id"], name: "index_area_types_on_project_id", using: :btree
 
   create_table "areas", force: :cascade do |t|
-    t.string   "name",                   null: false
-    t.integer  "area_type_id",           null: false
+    t.string   "name",                       null: false
+    t.integer  "area_type_id",               null: false
     t.string   "ancestry"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "project_id",             null: false
+    t.integer  "project_id",                 null: false
     t.string   "connect_salesregion_id"
-    t.string "personality_assessment_url"
+    t.string   "personality_assessment_url"
   end
 
   add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree
@@ -74,56 +74,56 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "blog_posts", ["person_id"], name: "index_blog_posts_on_person_id", using: :btree
 
   create_table "candidate_contacts", force: :cascade do |t|
-    t.integer "contact_method", null: false
-    t.boolean "inbound", default: false, null: false
-    t.integer "person_id", null: false
-    t.integer "candidate_id", null: false
-    t.text "notes", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "call_results"
+    t.integer  "contact_method",                 null: false
+    t.boolean  "inbound",        default: false, null: false
+    t.integer  "person_id",                      null: false
+    t.integer  "candidate_id",                   null: false
+    t.text     "notes",                          null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.text     "call_results"
   end
 
   create_table "candidate_denial_reasons", force: :cascade do |t|
-    t.string "name", null: false
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                      null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "candidate_sms_messages", force: :cascade do |t|
-    t.string "text", null: false
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "text",                      null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "candidate_sources", force: :cascade do |t|
-    t.string "name", null: false
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                      null: false
+    t.boolean  "active",     default: true, null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "candidates", force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.string "suffix"
-    t.string "mobile_phone", null: false
-    t.string "email", null: false
-    t.string "zip", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "person_id"
-    t.integer "location_area_id"
-    t.float "latitude"
-    t.float "longitude"
-    t.boolean "active", default: true, null: false
-    t.integer "status", default: 0, null: false
-    t.string "state", limit: 2
-    t.integer "candidate_source_id"
-    t.integer "created_by", null: false
-    t.integer "candidate_denial_reason_id"
+    t.string   "first_name",                                          null: false
+    t.string   "last_name",                                           null: false
+    t.string   "suffix"
+    t.string   "mobile_phone",                                        null: false
+    t.string   "email",                                               null: false
+    t.string   "zip",                                                 null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.integer  "person_id"
+    t.integer  "location_area_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "active",                               default: true, null: false
+    t.integer  "status",                               default: 0,    null: false
+    t.string   "state",                      limit: 2
+    t.integer  "candidate_source_id"
+    t.integer  "created_by",                                          null: false
+    t.integer  "candidate_denial_reason_id"
   end
 
   create_table "changelog_entries", force: :cascade do |t|
@@ -321,12 +321,12 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
   create_table "docusign_templates", force: :cascade do |t|
-    t.string "template_guid", null: false
-    t.string "state", limit: 2, null: false
-    t.integer "document_type", default: 0, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "project_id", null: false
+    t.string   "template_guid",                       null: false
+    t.string   "state",         limit: 2,             null: false
+    t.integer  "document_type",           default: 0, null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "project_id",                          null: false
   end
 
   create_table "email_messages", force: :cascade do |t|
@@ -410,41 +410,41 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "group_me_users", ["person_id"], name: "index_group_me_users_on_person_id", using: :btree
 
   create_table "interview_answers", force: :cascade do |t|
-    t.text "work_history", null: false
-    t.text "why_in_market", null: false
-    t.text "ideal_position", null: false
-    t.text "what_are_you_good_at", null: false
-    t.text "what_are_you_not_good_at", null: false
-    t.string "compensation_last_job_one", null: false
-    t.string "compensation_last_job_two"
-    t.string "compensation_last_job_three"
-    t.string "compensation_seeking", null: false
-    t.string "hours_looking_to_work", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "candidate_id"
-    t.text "willingness_characteristic", null: false
-    t.text "personality_characteristic", null: false
-    t.text "self_motivated_characteristic", null: false
+    t.text     "work_history",                  null: false
+    t.text     "why_in_market",                 null: false
+    t.text     "ideal_position",                null: false
+    t.text     "what_are_you_good_at",          null: false
+    t.text     "what_are_you_not_good_at",      null: false
+    t.string   "compensation_last_job_one",     null: false
+    t.string   "compensation_last_job_two"
+    t.string   "compensation_last_job_three"
+    t.string   "compensation_seeking",          null: false
+    t.string   "hours_looking_to_work",         null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.integer  "candidate_id"
+    t.text     "willingness_characteristic",    null: false
+    t.text     "personality_characteristic",    null: false
+    t.text     "self_motivated_characteristic", null: false
   end
 
   create_table "interview_schedules", force: :cascade do |t|
-    t.integer "candidate_id", null: false
-    t.integer "person_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "interview_date"
-    t.datetime "start_time", null: false
-    t.boolean "active"
+    t.integer  "candidate_id",   null: false
+    t.integer  "person_id",      null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.date     "interview_date"
+    t.datetime "start_time",     null: false
+    t.boolean  "active"
   end
 
   create_table "job_offer_details", force: :cascade do |t|
-    t.integer "candidate_id", null: false
-    t.datetime "sent", null: false
+    t.integer  "candidate_id",  null: false
+    t.datetime "sent",          null: false
     t.datetime "completed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "envelope_guid"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "envelope_guid"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -498,13 +498,13 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "link_posts", ["person_id"], name: "index_link_posts_on_person_id", using: :btree
 
   create_table "location_areas", force: :cascade do |t|
-    t.integer "location_id", null: false
-    t.integer "area_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "current_head_count", default: 0, null: false
-    t.integer "potential_candidate_count", default: 0, null: false
-    t.integer "target_head_count", default: 0, null: false
+    t.integer  "location_id",                           null: false
+    t.integer  "area_id",                               null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "current_head_count",        default: 0, null: false
+    t.integer  "potential_candidate_count", default: 0, null: false
+    t.integer  "target_head_count",         default: 0, null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -518,8 +518,8 @@ ActiveRecord::Schema.define(version: 20150316193056) do
     t.integer  "channel_id",   null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.float "latitude"
-    t.float "longitude"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "log_entries", force: :cascade do |t|
@@ -673,17 +673,17 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "positions", ["department_id"], name: "index_positions_on_department_id", using: :btree
 
   create_table "prescreen_answers", force: :cascade do |t|
-    t.integer "candidate_id", null: false
-    t.boolean "worked_for_salesmakers", default: false, null: false
-    t.boolean "of_age_to_work", default: false, null: false
-    t.boolean "eligible_smart_phone", default: false, null: false
-    t.boolean "can_work_weekends", default: false, null: false
-    t.boolean "reliable_transportation", default: false, null: false
-    t.boolean "ok_to_screen", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "worked_for_sprint", default: false, null: false
-    t.boolean "high_school_diploma", default: false, null: false
+    t.integer  "candidate_id",                            null: false
+    t.boolean  "worked_for_salesmakers",  default: false, null: false
+    t.boolean  "of_age_to_work",          default: false, null: false
+    t.boolean  "eligible_smart_phone",    default: false, null: false
+    t.boolean  "can_work_weekends",       default: false, null: false
+    t.boolean  "reliable_transportation", default: false, null: false
+    t.boolean  "ok_to_screen",            default: false, null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "worked_for_sprint",       default: false, null: false
+    t.boolean  "high_school_diploma",     default: false, null: false
   end
 
   create_table "profile_educations", force: :cascade do |t|
@@ -785,8 +785,8 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
 
   create_table "sessions", force: :cascade do |t|
-    t.string "session_id", null: false
-    t.text "data"
+    t.string   "session_id", null: false
+    t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -816,8 +816,8 @@ ActiveRecord::Schema.define(version: 20150316193056) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "sid",                                     null: false
-    t.integer "from_candidate_id"
-    t.integer "to_candidate_id"
+    t.integer  "from_candidate_id"
+    t.integer  "to_candidate_id"
   end
 
   create_table "sprint_group_me_bots", force: :cascade do |t|
@@ -949,18 +949,18 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   end
 
   create_table "vonage_sales", force: :cascade do |t|
-    t.date "sale_date", null: false
-    t.integer "person_id", null: false
-    t.string "confirmation_number", null: false
-    t.integer "location_id", null: false
-    t.string "customer_first_name", null: false
-    t.string "customer_last_name", null: false
-    t.string "mac", null: false
-    t.integer "vonage_product_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "connect_order_uuid"
-    t.boolean "resold", default: false, null: false
+    t.date     "sale_date",                           null: false
+    t.integer  "person_id",                           null: false
+    t.string   "confirmation_number",                 null: false
+    t.integer  "location_id",                         null: false
+    t.string   "customer_first_name",                 null: false
+    t.string   "customer_last_name",                  null: false
+    t.string   "mac",                                 null: false
+    t.integer  "vonage_product_id",                   null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "connect_order_uuid"
+    t.boolean  "resold",              default: false, null: false
   end
 
   create_table "wall_post_comments", force: :cascade do |t|

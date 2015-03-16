@@ -74,7 +74,7 @@
         - when 'entered'
           - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
         - when 'prescreened'
-          - link_to 'Select Location', select_location_candidate_path(@candidate), class: :button
+          - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
         - when 'location_selected'
           - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
         - when 'interview_scheduled'
@@ -110,6 +110,10 @@
   .inner
     %h3 Communication Log
     = render 'shared/candidate_contacts_table'
+.widget
+  .inner
+    %h3 Log Entries
+    = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
 
 - if @candidate.location_area
   :javascript

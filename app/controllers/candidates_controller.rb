@@ -14,6 +14,7 @@ class CandidatesController < ApplicationController
   def show
     @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
+    @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
   end
 
   def new
