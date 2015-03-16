@@ -79,6 +79,26 @@ describe InterviewSchedulesController do
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
     end
+    context 'failure' do
+      before(:each) do
+        expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
+        expect(interview_schedule).to receive(:save).and_return false
+        post :create,
+             interview_date: Date.today.strftime('%Y%m%d'),
+             interview_time: Time.zone.now.strftime('%H%M'),
+             candidate_id: candidate.id,
+             person_id: recruiter.id,
+             cloud_room: '33711'
+      end
+
+      it 'does not schedule the candidate' do
+        expect(InterviewSchedule.all.count).to eq(0)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe 'GET interview_now' do
@@ -101,6 +121,22 @@ describe InterviewSchedulesController do
       it 'changes the candidate status' do
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
+      end
+    end
+    context 'failure' do
+      before(:each) do
+        expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
+        expect(interview_schedule).to receive(:save).and_return false
+        get :interview_now,
+            candidate_id: candidate.id
+      end
+
+      it 'does not schedule the candidate' do
+        expect(InterviewSchedule.all.count).to eq(0)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
       end
     end
   end

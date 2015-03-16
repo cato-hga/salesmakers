@@ -30,7 +30,7 @@ class InterviewSchedulesController < ApplicationController
     if @interview_schedule.save
       schedule_candidate
     else
-      puts @interview_schedule.errors.full_messages.join(', ')
+      render :new
     end
   end
 
@@ -51,7 +51,7 @@ class InterviewSchedulesController < ApplicationController
                            @interview_schedule
       redirect_to new_candidate_interview_answer_path @candidate
     else
-      puts @interview_schedule.errors.full_messages.join(', ')
+      render :new
     end
   end
 
