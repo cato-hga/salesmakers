@@ -38,6 +38,11 @@ RSpec.describe Area, :type => :model do
     expect(Area.project_roots(proj)).not_to be_nil
   end
 
+  it 'responds to personality_assessment_url' do
+    area = build :area
+    expect(area).to respond_to(:personality_assessment_url)
+  end
+
   it 'managers method should return all areas that a person manages' do
     person = create :person
     area = create :area
