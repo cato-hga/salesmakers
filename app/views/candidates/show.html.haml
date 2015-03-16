@@ -59,9 +59,22 @@
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
+      - status_int = Candidate.statuses[@candidate.status]
       %p
-        %strong Paperwork Completion:
-        - if offers.empty? or offers.first.completed.blank?
+        %strong Paperwork Completed by Candidate:
+        - if status_int < 8
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Paperwork Completed by Advocate:
+        - if status_int < 9
+          %span.sm_red INCOMPLETE
+        - else
+          %span.sm_green COMPLETE
+      %p
+        %strong Paperwork Completed by HR:
+        - if status_int < 10
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
