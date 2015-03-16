@@ -19,7 +19,9 @@ class Candidate < ActiveRecord::Base
            :rejected,
            :accepted,
            :paperwork_sent,
-           :paperwork_completed,
+           :paperwork_completed_by_candidate,
+           :paperwork_completed_by_advocate,
+           :paperwork_completed_by_hr,
            :onboarded
        ]
 

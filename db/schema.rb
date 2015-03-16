@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150316152716) do
+ActiveRecord::Schema.define(version: 20150316153125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 20150316152716) do
     t.integer "candidate_source_id"
     t.integer "created_by", null: false
     t.integer "candidate_denial_reason_id"
+    t.boolean "personality_assessment_completed", default: false, null: false
   end
 
   create_table "changelog_entries", force: :cascade do |t|

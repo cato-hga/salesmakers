@@ -33,9 +33,14 @@ describe Candidate do
       candidate.created_by = nil
       expect(candidate).not_to be_valid
     end
+
     it 'requires a source' do
       candidate.candidate_source_id = nil
       expect(candidate).not_to be_valid
+    end
+
+    it 'responds to personality_assessment_completed?' do
+      expect(candidate).to respond_to(:personality_assessment_completed?)
     end
   end
 
