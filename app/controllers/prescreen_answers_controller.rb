@@ -23,7 +23,6 @@ class PrescreenAnswersController < ApplicationController
       redirect_to select_location_candidate_path(@candidate, 'false')
     else
       flash[:error] = 'Candidate did not pass prescreening'
-      puts @prescreen_answer.errors.full_messages.join(', ')
       @candidate.rejected!
       @candidate.update active: false
       create_rejection_contact(call_initiated)
