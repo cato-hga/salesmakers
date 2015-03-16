@@ -19,9 +19,9 @@ describe PrescreenAnswer do
       expect(answer).not_to be_valid
       answer.reliable_transportation = nil
       expect(answer).not_to be_valid
-      answer.access_to_computer = nil
+      answer.high_school_diploma = nil
       expect(answer).not_to be_valid
-      answer.part_time_employment = nil
+      answer.worked_for_sprint = nil
       expect(answer).not_to be_valid
       answer.ok_to_screen = nil
       expect(answer).not_to be_valid

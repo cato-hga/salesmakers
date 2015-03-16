@@ -30,12 +30,12 @@ describe 'Prescreen answers' do
 
     it 'has the new candidate form with all fields' do
       expect(page).to have_content('Candidate has not worked for SalesMakers')
+      expect(page).to have_content('Candidate has not worked for Sprint, or is eligible for rehire')
       expect(page).to have_content('Candidate is over 18')
-      expect(page).to have_content('Candidate has an eligible smart phone')
-      expect(page).to have_content('Candidate can work weekends')
+      expect(page).to have_content('Candidate has achieved a high school diploma or equivalant')
+      expect(page).to have_content('Candidate has an eligible smart phone and/or computer')
+      expect(page).to have_content('Candidate can work weekends and is OK with 20-24 hours')
       expect(page).to have_content('Candidate has access to reliable transportation')
-      expect(page).to have_content('Candidate has access to a computer or tablet')
-      expect(page).to have_content('Candidate is looking for part time employment')
       expect(page).to have_content('Candidate gave permission for background check and drug screen')
       expect(page).to have_content('Is this call inbound or outbound?')
       expect(page).to have_button 'Save Answers'
@@ -58,12 +58,12 @@ describe 'Prescreen answers' do
       context 'with all fields selected' do
         before(:each) do
           check :prescreen_answer_worked_for_salesmakers
+          check :prescreen_answer_worked_for_sprint
           check :prescreen_answer_of_age_to_work
+          check :prescreen_answer_high_school_diploma
           check :prescreen_answer_eligible_smart_phone
           check :prescreen_answer_can_work_weekends
           check :prescreen_answer_reliable_transportation
-          check :prescreen_answer_access_to_computer
-          check :prescreen_answer_part_time_employment
           check :prescreen_answer_ok_to_screen
           select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
@@ -72,8 +72,8 @@ describe 'Prescreen answers' do
         it 'displays a flash message' do
           expect(page).to have_content 'Answers saved'
         end
-        it 'redirects to the prescreen questions page', pending: 'Not available yet' do
-          expect(page).to have_content 'Location Selection'
+        it 'redirects to the prescreen questions page' do
+          expect(page).to have_content 'Select Location'
         end
         it 'sets the direction of the call' do
           expect(CandidateContact.first.inbound?).to be_truthy

@@ -6,9 +6,8 @@ class PrescreenAnswer < ActiveRecord::Base
   validates :eligible_smart_phone, presence: true
   validates :can_work_weekends, presence: true
   validates :reliable_transportation, presence: true
-  validates :access_to_computer, presence: true
-  validates :part_time_employment, presence: true
-  validates :ok_to_screen, presence: true
+  validates :worked_for_sprint, presence: true
+  validates :high_school_diploma, presence: true
 
   belongs_to :candidate
 end

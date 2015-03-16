@@ -23,6 +23,7 @@ class PrescreenAnswersController < ApplicationController
       redirect_to select_location_candidate_path(@candidate, 'false')
     else
       flash[:error] = 'Candidate did not pass prescreening'
+      puts @prescreen_answer.errors.full_messages.join(', ')
       @candidate.rejected!
       @candidate.update active: false
       create_rejection_contact(call_initiated)
@@ -35,11 +36,11 @@ class PrescreenAnswersController < ApplicationController
   def prescreen_answer_params
     params.require(:prescreen_answer).permit(:worked_for_salesmakers,
                                              :of_age_to_work,
-                                             :eligible_smart_phone,
+                                             :high_school_diploma,
                                              :can_work_weekends,
                                              :reliable_transportation,
-                                             :access_to_computer,
-                                             :part_time_employment,
+                                             :worked_for_sprint,
+                                             :eligible_smart_phone,
                                              :ok_to_screen
     )
   end
