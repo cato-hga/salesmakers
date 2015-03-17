@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 12 Mar 2015 20:08:35 GMT
+      - Tue, 17 Mar 2015 18:51:36 GMT
       X-Powered-By:
       - AT-5000
       X-Shenanigans:
@@ -36,14 +36,14 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"sid": "SM9a3a807dcbcb49d288bfded92e39fbcc", "date_created": "Thu,
-        12 Mar 2015 20:08:35 +0000", "date_updated": "Thu, 12 Mar 2015 20:08:35 +0000",
+      string: '{"sid": "SMbfd486e9a06a44f9a9bec70ccdb1b146", "date_created": "Tue,
+        17 Mar 2015 18:51:36 +0000", "date_updated": "Tue, 17 Mar 2015 18:51:36 +0000",
         "date_sent": null, "account_sid": "AC96a051482517673481ee177d64d52bcf", "to":
         "+17274985183", "from": "+18133441170", "body": "Test message", "status":
         "queued", "num_segments": "1", "num_media": "0", "direction": "outbound-api",
         "api_version": "2010-04-01", "price": null, "price_unit": "USD", "error_code":
-        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM9a3a807dcbcb49d288bfded92e39fbcc.json",
-        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM9a3a807dcbcb49d288bfded92e39fbcc/Media.json"}}'
+        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMbfd486e9a06a44f9a9bec70ccdb1b146.json",
+        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMbfd486e9a06a44f9a9bec70ccdb1b146/Media.json"}}'
     http_version: 
-  recorded_at: Thu, 12 Mar 2015 20:08:35 GMT
+  recorded_at: Tue, 17 Mar 2015 18:51:37 GMT
 recorded_with: VCR 2.9.3
