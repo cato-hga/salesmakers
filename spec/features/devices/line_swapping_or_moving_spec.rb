@@ -69,6 +69,7 @@ describe 'Swapping lines' do
         expect(page).to have_content 'Lines swapped!'
       end
       it 'shows swapped lines' do
+        sleep 1.second
         expect(page).to have_content("Line: #{line_display(second_line)}")
         visit device_path device_two
         expect(page).to have_content("Line: #{line_display(line)}")
