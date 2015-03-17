@@ -106,24 +106,25 @@ ActiveRecord::Schema.define(version: 20150316193056) do
   end
 
   create_table "candidates", force: :cascade do |t|
-    t.string   "first_name",                                          null: false
-    t.string   "last_name",                                           null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
     t.string   "suffix"
-    t.string   "mobile_phone",                                        null: false
-    t.string   "email",                                               null: false
-    t.string   "zip",                                                 null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.string "mobile_phone", null: false
+    t.string "email", null: false
+    t.string "zip", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "person_id"
     t.integer  "location_area_id"
     t.float    "latitude"
     t.float    "longitude"
-    t.boolean  "active",                               default: true, null: false
-    t.integer  "status",                               default: 0,    null: false
-    t.string   "state",                      limit: 2
+    t.boolean "active", default: true, null: false
+    t.integer "status", default: 0, null: false
+    t.string "state", limit: 2
     t.integer  "candidate_source_id"
-    t.integer  "created_by",                                          null: false
+    t.integer "created_by", null: false
     t.integer  "candidate_denial_reason_id"
+    t.boolean "personality_assessment_completed", default: false, null: false
   end
 
   create_table "changelog_entries", force: :cascade do |t|

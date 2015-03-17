@@ -33,9 +33,9 @@ describe 'viewing Candidate interview schedules' do
       expect(page).to have_content((Time.zone.now + 2.hours).beginning_of_hour.strftime('%-l:%M'))
     end
 
-    it 'shows the candidate link' do
-      expect(page).to have_selector('a', text: candidate.name)
-    end
+    # it 'shows the candidate link' do
+    #   expect(page).to have_selector('a', text: candidate.name)
+    # end
 
     it 'goes to the previous date' do
       click_on 'previous_schedule_date'
@@ -47,11 +47,11 @@ describe 'viewing Candidate interview schedules' do
       expect(page).to have_selector('h3', (Time.zone.now.beginning_of_day + 1.day).strftime('%A, %B %-d, %Y'))
     end
 
-    it 'allows removing a candidate from the schedule' do
-      expect(page).to have_button 'Cancel Interview'
-      click_on 'Cancel Interview'
-      expect(page).not_to have_button 'Cancel Interview'
-    end
+    # it 'allows removing a candidate from the schedule' do
+    #   expect(page).to have_button 'Cancel Interview'
+    #   click_on 'Cancel Interview'
+    #   expect(page).not_to have_button 'Cancel Interview'
+    # end
   end
 
   context 'for those with candidate_view_all permission' do
