@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317142315) do
+ActiveRecord::Schema.define(version: 20150317164439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -871,8 +871,17 @@ ActiveRecord::Schema.define(version: 20150317142315) do
 
   add_index "training_class_types", ["ancestry"], name: "index_training_class_types_on_ancestry", using: :btree
 
+  create_table "training_classes", force: :cascade do |t|
+    t.integer "training_class_type_id"
+    t.integer "training_time_slot_id"
+    t.datetime "date"
+    t.integer "person_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "training_time_slots", force: :cascade do |t|
-    t.integer "training_class_type", null: false
+    t.integer "training_class_type_id", null: false
     t.datetime "start_date", null: false
     t.datetime "end_date", null: false
     t.boolean "monday", default: false, null: false
