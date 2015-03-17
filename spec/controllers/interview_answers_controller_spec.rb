@@ -31,6 +31,9 @@ RSpec.describe InterviewAnswersController, :type => :controller do
 
   describe 'POST create' do
     context 'success for candidates with job offers' do
+      let(:area) { create :area, personality_assessment_url: 'https://google.com' }
+      let(:location_area) { create :location_area, area: area }
+
       subject do
         post :create,
              candidate_id: candidate.id,
@@ -64,9 +67,30 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         candidate.reload
         expect(candidate.status).to eq('accepted')
       end
-      it 'redirects to location confirmation' do
-        subject
-        expect(response).to redirect_to(confirm_location_candidate_path(candidate))
+
+      context 'when personality assessment passed' do
+        before do
+          candidate.update personality_assessment_completed: true,
+                           location_area: location_area
+        end
+
+        it 'redirects to location confirmation' do
+          subject
+          expect(response).to redirect_to(confirm_location_candidate_path(candidate))
+        end
+      end
+
+      context 'when personality assessment not passed' do
+        before do
+          candidate.update personality_assessment_completed: true,
+                           location_area: location_area,
+                           active: false
+        end
+
+        it 'redirects to candidate page' do
+          subject
+          expect(response).to redirect_to(candidate_path(candidate))
+        end
       end
     end
     context 'success for candidates not extended a job offer' do

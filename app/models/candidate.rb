@@ -81,6 +81,12 @@ class Candidate < ActiveRecord::Base
     LogEntry.for_candidate(self)
   end
 
+  def passed_personality_assessment?
+    location_area = self.location_area || return
+    return true unless location_area.area.personality_assessment_url
+    self.personality_assessment_completed?
+  end
+
   private
 
   def geocode_on_production

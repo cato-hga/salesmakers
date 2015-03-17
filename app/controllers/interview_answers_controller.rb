@@ -14,9 +14,9 @@ class InterviewAnswersController < ApplicationController
     @interview_answer.candidate = @candidate
     @extend_offer = params.permit(:extend_offer)[:extend_offer] == 'false' ? false : true
     if @interview_answer.save and @extend_offer
-      extend_job_offer
+      extend_job_offer and return
     elsif @interview_answer.save
-      do_not_extend_offer
+      do_not_extend_offer and return
     else
       unless @denial_reason
         @interview_answer.errors.add(:denial_reason, "must be selected")
@@ -29,13 +29,18 @@ class InterviewAnswersController < ApplicationController
   private
 
   def extend_job_offer
-    flash[:notice] = 'Interview answers saved.'
     @candidate.accepted!
     @current_person.log? 'create',
                          @candidate
     @current_person.log? 'extended_job_offer',
                          @candidate
-    redirect_to confirm_location_candidate_path(@candidate)
+    if @candidate.active? and @candidate.passed_personality_assessment?
+      flash[:notice] = 'Interview answers saved.'
+      redirect_to confirm_location_candidate_path(@candidate)
+    else
+      flash[:notice] = 'Interview answers saved. Paperwork will be sent when personality assessment is passed.'
+      redirect_to candidate_path(@candidate)
+    end
   end
 
   def do_not_extend_offer

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
       get :confirm_location, as: :confirm_location
+      put :passed_assessment, as: :passed_assessment
+      put :failed_assessment, as: :failed_assessment
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

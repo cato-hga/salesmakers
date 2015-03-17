@@ -1,6 +1,9 @@
 - title @candidate.name
 - content_for :action_buttons do
   = button_to 'Dismiss Candidate', candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, method: :delete, class: [:button, :inline_button]
+  - unless @candidate.passed_personality_assessment?
+    = button_to 'Mark Personality Assessment Passed', passed_assessment_candidate_path(@candidate), class: [:button, :inline_button], method: :put
+    = button_to 'Mark Personality Assessment Failed', failed_assessment_candidate_path(@candidate), class: [:button, :inline_button, :alert], method: :put, data: { confirm: 'The candidate will be automatically rejected. Are you sure?' }
 
 .widgets
   .widget

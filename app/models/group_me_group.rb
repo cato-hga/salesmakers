@@ -37,7 +37,7 @@ class GroupMeGroup < ActiveRecord::Base
       group_users << group_me_user if group_me_user and not group_me_group.group_me_users.include?(group_me_user)
     end
     group_me_group.group_me_users << group_users
-    GroupMeSubscription.new group_me_group_num
+    GroupMeSubscription.new group_me_group_num if Rails.env.production?
   end
 
   def self.update_json(group_me_group, group_json)
