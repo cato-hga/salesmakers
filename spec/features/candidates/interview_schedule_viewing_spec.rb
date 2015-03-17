@@ -11,12 +11,13 @@ describe 'viewing Candidate interview schedules' do
                                               permission_group: permission_group,
                                               description: 'Test Description' }
   let(:candidate) { create :candidate }
+  let(:start_time) { Time.now.beginning_of_day + 11.hours }
   let!(:interview_schedule) {
     create :interview_schedule,
            candidate: candidate,
            person: recruiter,
            interview_date: Date.today,
-           start_time: Time.now.beginning_of_hour
+           start_time: start_time
   }
 
   before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }
@@ -30,7 +31,7 @@ describe 'viewing Candidate interview schedules' do
     end
 
     it 'shows each time slot' do
-      expect(page).to have_content((Time.zone.now + 2.hours).beginning_of_hour.strftime('%-l:%M'))
+      expect(page).to have_content((start_time + 2.hours).beginning_of_hour.strftime('%-l:%M'))
     end
 
     # it 'shows the candidate link' do
