@@ -40,11 +40,6 @@ class DocusignTemplate < ActiveRecord::Base
                 name: candidate.name,
                 email: candidate.email,
                 role_name: 'New Employee'
-            },
-            {
-                name: advocate.display_name,
-                email: advocate.email,
-                role_name: 'Advocate'
             }
         ]
     )

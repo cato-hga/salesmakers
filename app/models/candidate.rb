@@ -19,7 +19,9 @@ class Candidate < ActiveRecord::Base
            :rejected,
            :accepted,
            :paperwork_sent,
-           :paperwork_completed,
+           :paperwork_completed_by_candidate,
+           :paperwork_completed_by_advocate,
+           :paperwork_completed_by_hr,
            :onboarded
        ]
 
@@ -77,6 +79,12 @@ class Candidate < ActiveRecord::Base
 
   def related_log_entries
     LogEntry.for_candidate(self)
+  end
+
+  def passed_personality_assessment?
+    location_area = self.location_area || return
+    return true unless location_area.area.personality_assessment_url
+    self.personality_assessment_completed?
   end
 
   private

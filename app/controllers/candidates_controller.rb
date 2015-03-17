@@ -125,6 +125,39 @@ class CandidatesController < ApplicationController
     redirect_to candidate_path(@candidate)
   end
 
+  def passed_assessment
+    @current_person.log? 'passed_assessment',
+                         @candidate
+    @candidate.update personality_assessment_completed: true
+    if @candidate.accepted?
+      flash[:notice] = 'Marked candidate as having passed their personality assessment.'
+      redirect_to confirm_location_candidate_path(@candidate)
+    else
+      flash[:notice] = 'Marked candidate as having passed their personality assessment. ' +
+          'Paperwork will be sent after the job offer is extended.'
+      redirect_to candidate_path(@candidate)
+    end
+  end
+
+  def failed_assessment
+    @current_person.log? 'failed_assessment',
+                         @candidate
+    @current_person.log? 'dismiss',
+                         @candidate
+    denial_reason = CandidateDenialReason.find_by name: 'Failed personality assessment'
+    if denial_reason
+      @candidate.update active: false,
+                        status: :rejected,
+                        candidate_denial_reason: denial_reason,
+                        personality_assessment_completed: true
+    else
+      @candidate.update active: false,
+                        status: :rejected,
+                        personality_assessment_completed: true
+    end
+    redirect_to candidate_path(@candidate)
+  end
+
   private
 
   def create_cookies

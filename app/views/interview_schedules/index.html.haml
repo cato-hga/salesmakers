@@ -19,12 +19,12 @@
     .widget
       .inner
         %h3= recruiter.name
-        - time_slot = Time.zone.now.beginning_of_day + 9.hours
+        - time_slot = @schedule_date.to_time.in_time_zone.beginning_of_day + 9.hours
         - count = 0
         - 24.times do
           - count += 1
           - interview_schedules.each {|s| interview_schedule = s if s.start_time == time_slot}
-          - if interview_schedule or cookies[:show_open_time_slots] != 'true'
+          - if interview_schedule or cookies[:show_open_time_slots] != 'false'
             .row.interview_schedule_time_slot{ class: count % 2 == 0 ? 'even_row' : '' }
               .interview_schedule_time.medium-2.small-2.columns
                 = time_slot.strftime('%-l:%M%P')

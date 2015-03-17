@@ -33,9 +33,51 @@ describe Candidate do
       candidate.created_by = nil
       expect(candidate).not_to be_valid
     end
+
     it 'requires a source' do
       candidate.candidate_source_id = nil
       expect(candidate).not_to be_valid
+    end
+
+    it 'responds to personality_assessment_completed?' do
+      expect(candidate).to respond_to(:personality_assessment_completed?)
+    end
+  end
+
+  describe 'personality assessment requirements' do
+    let(:area) { build_stubbed :area, personality_assessment_url: 'https://google.com' }
+    let(:location_area) { build_stubbed :location_area, area: area }
+
+    describe 'when a personality assessment URL is present on the area' do
+      before do
+        candidate.location_area = location_area
+      end
+
+      it 'does not show that the candidate passed the assessment if not completed' do
+        expect(candidate.passed_personality_assessment?).to be_falsey
+      end
+
+      it 'shows that the candidate passed the assessment if completed' do
+        candidate.personality_assessment_completed = true
+        expect(candidate.passed_personality_assessment?).to be_truthy
+      end
+    end
+
+    describe 'when there is no location_area on the candidate' do
+      it 'does not show that the candidate passed the assessment' do
+        expect(candidate.passed_personality_assessment?).to be_falsey
+      end
+    end
+
+    describe 'when there is no personality assessment URL on the area' do
+      before do
+        second_location_area = build_stubbed :location_area
+        candidate.location_area = second_location_area
+      end
+
+      it 'shows that the candidate passed the personality assessment' do
+        expect(candidate.passed_personality_assessment?).to be_truthy
+      end
     end
   end
 

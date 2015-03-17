@@ -1,26 +1,34 @@
 class Project < ActiveRecord::Base
   #after_save :create_wall
 
-  validates :name, presence: true, length: { minimum: 4 }
-  validates :client, presence: true
+  def self.setup_validations
+    validates :name, presence: true, length: { minimum: 4 }
+    validates :client, presence: true
+  end
 
-  belongs_to :client
-  has_many :area_types
-  has_many :areas
-  has_one :wall, as: :wallable
-  has_many :day_sales_counts, as: :saleable
+  def self.setup_associations
+    belongs_to :client
+    has_many :area_types
+    has_many :areas
+    has_one :wall, as: :wallable
+    has_many :day_sales_counts, as: :saleable
+  end
+
+  setup_validations
+  setup_associations
 
   default_scope { order(:name) }
-  scope :visible, -> (person = nil) {
-    return self.none unless person
-    return self.all if person.position and person.position.hq?
+
+  def self.visible(person = nil)
+    return Project.none unless person
+    return Project.all if person.position and person.position.hq?
     projects = Array.new
     for person_area in person.person_areas do
       next unless person_area.area
       projects << person_area.area.project unless projects.include? person_area.area.project
     end
     projects
-  }
+  end
 
   def self.location_areas(project)
     Location.
@@ -62,4 +70,5 @@ class Project < ActiveRecord::Base
       person.locations.sort_by { |l| l.name }
     end
   end
+
 end

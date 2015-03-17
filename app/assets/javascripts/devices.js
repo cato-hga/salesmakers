@@ -47,25 +47,33 @@ function addRowWithDevice(button) {
 
 function deviceIdentifier() {
     $('.add_delete_button').remove();
-    $('<div class="large-4 columns" id="device_identifier_header">' +
-    '<strong>Device Identifier</strong>' +
-    '</div>').insertAfter('#serial_header');
-    $('<div class="large-4 columns device_column">' +
-    '<input type="text" name="device_identifier[]" id="device_identifier" class="device_identifier_field">' +
-    '</div>').insertAfter('.serial_column');
+	insertDeviceIdentifierColumn();
     $('.line_column').remove();
-    $('<div class="large-4 columns">' +
-    '<div class="large-8 columns line_column">' +
-    '<input type="text" name="line_identifier[]" id="line_identifier" class="line_id_field">' +
-    '</div>' +
-    '<div class="large-4 columns add_delete_button">' +
-    '<a class="button postfix add_row" href="#">Add</a>' +
-    '</div>' +
-    '</div>').insertAfter('.device_column');
+	insertLineIdentifierColumn();
     $('#serial_header').switchClass('large-6', 'large-4');
     $('#line_header').switchClass('large-6', 'large-4');
     $('.serial_column').switchClass('large-6', 'large-4');
     $('.line_column').switchClass('large-5', 'large-4');
+}
+
+function insertDeviceIdentifierColumn() {
+	$('<div class="large-4 columns" id="device_identifier_header">' +
+	'<strong>Device Identifier</strong>' +
+	'</div>').insertAfter('#serial_header');
+	$('<div class="large-4 columns device_column">' +
+	'<input type="text" name="device_identifier[]" id="device_identifier" class="device_identifier_field">' +
+	'</div>').insertAfter('.serial_column');
+}
+
+function insertLineIdentifierColumn() {
+	$('<div class="large-4 columns">' +
+	'<div class="large-8 columns line_column">' +
+	'<input type="text" name="line_identifier[]" id="line_identifier" class="line_id_field">' +
+	'</div>' +
+	'<div class="large-4 columns add_delete_button">' +
+	'<a class="button postfix add_row" href="#">Add</a>' +
+	'</div>' +
+	'</div>').insertAfter('.device_column');
 }
 
 $(function () {

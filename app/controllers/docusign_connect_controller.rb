@@ -17,8 +17,10 @@ class DocusignConnectController < ApplicationController
   def incoming
     data = Hash.from_xml request.raw_post
     envelope_id = get_envelope_id(data) || (render nothing: true, status: :unprocessable_entity and return)
-    signed_time = get_signed_time(data) || (render nothing: true, status: :unprocessable_entity and return)
-    mark_signed(envelope_id, signed_time)
+    candidate_signed_time = get_signed_time(data, 0) || (render nothing: true, status: :unprocessable_entity and return)
+    advocate_signed_time = get_signed_time(data, 1)
+    hr_signed_time = get_signed_time(data, 2)
+    mark_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     render nothing: true
   end
 
@@ -32,7 +34,7 @@ class DocusignConnectController < ApplicationController
     envelope_status["EnvelopeID"]
   end
 
-  def get_signed_time(data)
+  def get_signed_time(data, position)
     envelope_info = data["DocuSignEnvelopeInformation"] || return
     time_zone_offset = envelope_info["TimeZoneOffset"] + '00'
     time_zone_offset.gsub!(/\-/, '-0')
@@ -41,16 +43,24 @@ class DocusignConnectController < ApplicationController
     return if recipient_statuses.empty?
     recipient_status_array = recipient_statuses["RecipientStatus"] || return
     return if recipient_status_array.empty?
-    recipient_status = recipient_status_array[2]
+    recipient_status = recipient_status_array[position] || return
+    return unless recipient_status.is_a?(Hash)
     signed = recipient_status.has_key?('Signed') ? recipient_status['Signed'] : nil
     return unless signed
     Time.parse "#{signed} #{time_zone_offset}"
   end
 
-  def mark_signed(envelope_id, signed_time)
+  def mark_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     job_offer_detail = get_job_offer_detail(envelope_id) || return
-    job_offer_detail.update completed: signed_time
-    job_offer_detail.candidate.paperwork_completed!
+    candidate = job_offer_detail.candidate || return
+    if hr_signed_time
+      job_offer_detail.update completed: hr_signed_time
+      candidate.paperwork_completed_by_hr!
+    elsif advocate_signed_time
+      candidate.paperwork_completed_by_advocate!
+    elsif candidate_signed_time
+      candidate.paperwork_completed_by_candidate!
+    end
   end
 
   def get_job_offer_detail(envelope_id)
