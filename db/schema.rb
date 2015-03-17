@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317151836) do
+ActiveRecord::Schema.define(version: 20150317164439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -859,6 +859,42 @@ ActiveRecord::Schema.define(version: 20150317151836) do
     t.string  "mac",      limit: 255
     t.decimal "payout"
     t.string  "username", limit: 255
+  end
+
+  create_table "training_class_types", force: :cascade do |t|
+    t.integer "project_id", null: false
+    t.string "name", null: false
+    t.string "ancestry"
+    t.integer "max_attendance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "training_class_types", ["ancestry"], name: "index_training_class_types_on_ancestry", using: :btree
+
+  create_table "training_classes", force: :cascade do |t|
+    t.integer "training_class_type_id"
+    t.integer "training_time_slot_id"
+    t.datetime "date"
+    t.integer "person_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "training_time_slots", force: :cascade do |t|
+    t.integer "training_class_type_id", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.boolean "monday", default: false, null: false
+    t.boolean "tuesday", default: false, null: false
+    t.boolean "wednesday", default: false, null: false
+    t.boolean "thursday", default: false, null: false
+    t.boolean "friday", default: false, null: false
+    t.boolean "saturday", default: false, null: false
+    t.boolean "sunday", default: false, null: false
+    t.integer "person_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "uploaded_images", force: :cascade do |t|
