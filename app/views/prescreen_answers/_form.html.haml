@@ -6,23 +6,23 @@
         = f.check_box :worked_for_salesmakers
         = f.label :worked_for_salesmakers, 'Candidate has not worked for SalesMakers'
       %p
+        = f.check_box :worked_for_sprint
+        = f.label :worked_for_sprint, 'Candidate has not worked for Sprint, or is eligible for rehire'
+      %p
         = f.check_box :of_age_to_work
         = f.label :of_age_to_work,'Candidate is over 18'
       %p
+        = f.check_box :high_school_diploma
+        = f.label :high_school_diploma,'Candidate has achieved a high school diploma or equivalant'
+      %p
         = f.check_box :eligible_smart_phone
-        = f.label :eligible_smart_phone, 'Candidate has an eligible smart phone'
+        = f.label :eligible_smart_phone, 'Candidate has an eligible smart phone and/or computer'
       %p
         = f.check_box :can_work_weekends
-        = f.label :can_work_weekends, 'Candidate can work weekends'
+        = f.label :can_work_weekends, 'Candidate can work weekends and is OK with 20-24 hours'
       %p
         = f.check_box :reliable_transportation
         = f.label :reliable_transportation, 'Candidate has access to reliable transportation'
-      %p
-        = f.check_box :access_to_computer
-        = f.label :access_to_computer, 'Candidate has access to a computer or tablet'
-      %p
-        = f.check_box :part_time_employment
-        = f.label :part_time_employment, 'Candidate is looking for part time employment'
       %p
         = f.check_box :ok_to_screen
         = f.label :ok_to_screen, 'Candidate gave permission for background check and drug screen'

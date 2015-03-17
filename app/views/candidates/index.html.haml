@@ -5,6 +5,7 @@
   = search_form_for @search, id: 'search_form' do |f|
     = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
+    = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
     = f.text_field :first_name_cont, placeholder: 'First name'
     = f.text_field :last_name_cont, placeholder: 'Last name'
     = f.text_field :created_by_display_name_cont, placeholder: 'Entered by'

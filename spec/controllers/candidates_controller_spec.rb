@@ -353,6 +353,7 @@ describe CandidatesController do
 
   describe 'DELETE destroy' do
     let(:candidate) { create :candidate }
+    let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate }
     before(:each) do
       allow(controller).to receive(:policy).and_return double(destroy?: true)
       delete :destroy,
@@ -362,6 +363,11 @@ describe CandidatesController do
     it 'marks the candidate as inactive' do
       candidate.reload
       expect(candidate.active).to eq(false)
+    end
+    it 'deactivates any scheduled interviews' do
+      candidate.reload
+      schedules = candidate.interview_schedules.where(active: true)
+      expect(schedules.count).to eq(0)
     end
     it 'renders the index page' do
       expect(response).to redirect_to(candidates_path)

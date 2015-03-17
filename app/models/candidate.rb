@@ -77,6 +77,10 @@ class Candidate < ActiveRecord::Base
                          current_head_count: location_area.current_head_count + 1
   end
 
+  def related_log_entries
+    LogEntry.for_candidate(self)
+  end
+
   private
 
   def geocode_on_production

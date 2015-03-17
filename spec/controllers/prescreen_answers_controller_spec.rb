@@ -42,11 +42,11 @@ describe PrescreenAnswersController do
           prescreen_answer: {
               worked_for_salesmakers: true,
               of_age_to_work: true,
-              eligible_smart_phone: true,
+              high_school_diploma: true,
               can_work_weekends: true,
               reliable_transportation: true,
-              access_to_computer: true,
-              part_time_employment: true,
+              eligible_smart_phone: true,
+              worked_for_sprint: true,
               ok_to_screen: true
           },
           call_initiated: call_initiated.to_i
@@ -62,10 +62,6 @@ describe PrescreenAnswersController do
       expect { subject }.to change(PrescreenAnswer, :count).by(1)
       answer = PrescreenAnswer.first
       expect(answer.candidate).to eq(candidate)
-    end
-
-    it 'creates a log entry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
     end
 
     it 'creates a candidate contact entry' do
@@ -103,12 +99,12 @@ describe PrescreenAnswersController do
              candidate_id: candidate.id,
              prescreen_answer: {
                  worked_for_salesmakers: true,
-                 of_age_to_work: false,
-                 eligible_smart_phone: true,
+                 of_age_to_work: true,
+                 high_school_diploma: true,
                  can_work_weekends: true,
                  reliable_transportation: true,
-                 access_to_computer: true,
-                 part_time_employment: true,
+                 eligible_smart_phone: true,
+                 worked_for_sprint: false,
                  ok_to_screen: true
              },
              call_initiated: call_initiated.to_i,

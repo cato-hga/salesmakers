@@ -1,0 +1,8 @@
+- candidate = log_entry.trackable
+- recruiter = log_entry.person
+= recruiter.name
+rejected to send a job offer to
+= candidate.first_name + ' ' + candidate.last_name
+with the reason
+%span.comment
+  = log_entry.referenceable

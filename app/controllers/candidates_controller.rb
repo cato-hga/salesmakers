@@ -14,6 +14,7 @@ class CandidatesController < ApplicationController
   def show
     @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
+    @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
   end
 
   def new
@@ -52,6 +53,12 @@ class CandidatesController < ApplicationController
   end
 
   def destroy
+    @interviews = InterviewSchedule.where(candidate_id: @candidate.id)
+    if @interviews.any?
+      for interview in @interviews
+        interview.update active: false
+      end
+    end
     @candidate.update active: false
     @current_person.log? 'dismiss',
                          @candidate
@@ -63,7 +70,6 @@ class CandidatesController < ApplicationController
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
-    logger.debug params.inspect
     @send_nhp = params[:send_nhp] == 'true' ? true : false
   end
 
