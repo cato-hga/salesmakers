@@ -24,7 +24,7 @@
         - 24.times do
           - count += 1
           - interview_schedules.each {|s| interview_schedule = s if s.start_time == time_slot}
-          - if interview_schedule or cookies[:show_open_time_slots] != 'true'
+          - if interview_schedule or cookies[:show_open_time_slots] != 'false'
             .row.interview_schedule_time_slot{ class: count % 2 == 0 ? 'even_row' : '' }
               .interview_schedule_time.medium-2.small-2.columns
                 = time_slot.strftime('%-l:%M%P')
