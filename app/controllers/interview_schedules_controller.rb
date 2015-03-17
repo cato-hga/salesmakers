@@ -2,7 +2,7 @@ class InterviewSchedulesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :chronic_time_zones, except: [:time_slots]
-  before_action :set_candidate, except: [:index]
+  before_action :set_candidate, except: [:index, :destroy]
   before_action :get_and_handle_inputted_date, only: [:time_slots]
 
   def index
@@ -30,7 +30,7 @@ class InterviewSchedulesController < ApplicationController
     if @interview_schedule.save
       schedule_candidate
     else
-      puts @interview_schedule.errors.full_messages.join(', ')
+      render :new
     end
   end
 
@@ -51,7 +51,7 @@ class InterviewSchedulesController < ApplicationController
                            @interview_schedule
       redirect_to new_candidate_interview_answer_path @candidate
     else
-      puts @interview_schedule.errors.full_messages.join(', ')
+      render :new
     end
   end
 
@@ -64,6 +64,16 @@ class InterviewSchedulesController < ApplicationController
     #get_and_handle_inputted_date is in a before filter, because it wasn't return correct, being in a private method
     create_taken_time_slots
     create_available_time_slots
+  end
+
+  def destroy
+    @interview_schedule = InterviewSchedule.find params[:id]
+    candidate = @interview_schedule.candidate
+    @interview_schedule.update active: false
+    @current_person.log? 'cancel',
+                         @interview_schedule,
+                         candidate
+    redirect_to interview_schedules_path @interview_schedule.interview_date
   end
 
   private
@@ -91,7 +101,7 @@ class InterviewSchedulesController < ApplicationController
 
   def get_and_handle_inputted_date
     @interview_date = Chronic.parse params[:interview_date]
-    if @interview_date == nil
+    if @interview_date == nil or @interview_date < Date.today
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate
     end

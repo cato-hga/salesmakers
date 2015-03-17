@@ -79,6 +79,26 @@ describe InterviewSchedulesController do
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
     end
+    context 'failure' do
+      before(:each) do
+        expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
+        expect(interview_schedule).to receive(:save).and_return false
+        post :create,
+             interview_date: Date.today.strftime('%Y%m%d'),
+             interview_time: Time.zone.now.strftime('%H%M'),
+             candidate_id: candidate.id,
+             person_id: recruiter.id,
+             cloud_room: '33711'
+      end
+
+      it 'does not schedule the candidate' do
+        expect(InterviewSchedule.all.count).to eq(0)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
+      end
+    end
   end
 
   describe 'GET interview_now' do
@@ -101,6 +121,22 @@ describe InterviewSchedulesController do
       it 'changes the candidate status' do
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
+      end
+    end
+    context 'failure' do
+      before(:each) do
+        expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
+        expect(interview_schedule).to receive(:save).and_return false
+        get :interview_now,
+            candidate_id: candidate.id
+      end
+
+      it 'does not schedule the candidate' do
+        expect(InterviewSchedule.all.count).to eq(0)
+      end
+
+      it 'renders the new template' do
+        expect(response).to render_template(:new)
       end
     end
   end
@@ -130,6 +166,26 @@ describe InterviewSchedulesController do
     end
     it 'renders the time_slot template' do
       expect(response).to render_template(:time_slots)
+    end
+  end
+
+  describe 'DELETE destroy' do
+    before(:each) do
+      interview_schedule.save
+      delete :destroy,
+             id: interview_schedule.id,
+             candidate_id: candidate.id
+    end
+
+    it 'marks the interview as inactive' do
+      interview_schedule.reload
+      expect(interview_schedule.active).to eq(false)
+    end
+    it 'renders the schedules page' do
+      expect(response).to redirect_to(interview_schedules_path(interview_schedule.interview_date))
+    end
+    it 'creates a log entry' do
+      expect(LogEntry.count).to eq(1)
     end
   end
 end

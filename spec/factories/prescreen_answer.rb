@@ -7,8 +7,8 @@ FactoryGirl.define do
     eligible_smart_phone true
     can_work_weekends true
     reliable_transportation true
-    access_to_computer true
-    part_time_employment true
+    worked_for_sprint true
+    high_school_diploma true
     ok_to_screen true
   end
 end

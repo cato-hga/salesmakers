@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
-    resources :interview_schedules, only: [:new, :create] do
+    resources :interview_schedules, only: [:new, :create, :destroy] do
       collection do
         post :time_slots, as: 'time_slots'
         post 'schedule/:interview_date/:interview_time',

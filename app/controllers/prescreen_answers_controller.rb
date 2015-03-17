@@ -35,11 +35,11 @@ class PrescreenAnswersController < ApplicationController
   def prescreen_answer_params
     params.require(:prescreen_answer).permit(:worked_for_salesmakers,
                                              :of_age_to_work,
-                                             :eligible_smart_phone,
+                                             :high_school_diploma,
                                              :can_work_weekends,
                                              :reliable_transportation,
-                                             :access_to_computer,
-                                             :part_time_employment,
+                                             :worked_for_sprint,
+                                             :eligible_smart_phone,
                                              :ok_to_screen
     )
   end
@@ -51,8 +51,6 @@ class PrescreenAnswersController < ApplicationController
   def set_prescreened(time)
     @candidate.prescreened!
     flash[:notice] = 'Answers saved!'
-    @current_person.log? 'prescreen_answer_create',
-                         @candidate
     create_acceptance_contact(time)
   end
 

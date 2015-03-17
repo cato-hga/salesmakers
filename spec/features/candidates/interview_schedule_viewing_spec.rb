@@ -46,6 +46,12 @@ describe 'viewing Candidate interview schedules' do
       click_on 'next_schedule_date'
       expect(page).to have_selector('h3', (Time.zone.now.beginning_of_day + 1.day).strftime('%A, %B %-d, %Y'))
     end
+
+    it 'allows removing a candidate from the schedule' do
+      expect(page).to have_button 'Cancel Interview'
+      click_on 'Cancel Interview'
+      expect(page).not_to have_button 'Cancel Interview'
+    end
   end
 
   context 'for those with candidate_view_all permission' do
