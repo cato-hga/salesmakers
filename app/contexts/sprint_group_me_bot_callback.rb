@@ -23,9 +23,9 @@ class SprintGroupMeBotCallback
     elsif self.has_keyword?('s')
       message = ['Enter sales at http://sprint.rbdconnect.com/']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
-    elsif self.has_keyword?('referral')
-      message = ['Refer our next superstar by visiting http://goo.gl/forms/hwljCSx9gr']
-      GroupMe.new_global.post_messages_with_bot(message, bot_id)
+      #elsif self.has_keyword?('referral')
+      #message = ['Refer our next superstar by visiting http://goo.gl/forms/hwljCSx9gr']
+      #GroupMe.new_global.post_messages_with_bot(message, bot_id)
     elsif self.has_keyword?('schedule')
       message = ['Schedule your new SalesMaker for training at http://goo.gl/zH8cOi !']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
@@ -91,7 +91,7 @@ class SprintGroupMeBotCallback
   end
 
   def generate_message_content
-    if self.has_keyword? 'sales'
+    if !self.has_keyword? 'hpa'
       @results = self.query(@level, 'sales')
       check_environment
       @messages = self.generate_sales_messages(@results)
