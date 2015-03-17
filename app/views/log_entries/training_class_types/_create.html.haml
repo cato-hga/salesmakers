@@ -1,0 +1,8 @@
+- training_class_type = log_entry.trackable
+.entry_pertains_to= training_class_type.name
+.entry_type
+  created
+by
+= person_link log_entry.person
+.time_ago
+  = time_ago_in_words(log_entry.created_at) + ' ago'
