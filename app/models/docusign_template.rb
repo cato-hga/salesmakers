@@ -66,4 +66,5 @@ class DocusignTemplate < ActiveRecord::Base
       nil
     end
   end
+
 end
