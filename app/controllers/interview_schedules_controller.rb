@@ -128,7 +128,7 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.interview_date = interview_date
     hour = params[:interview_time].slice 0..1
     minutes = params[:interview_time].slice 2..3
-    @interview_time = Time.zone.local(interview_date.year, interview_date.month, interview_date.day, hour, minutes)
+    @interview_time = Time.zone.local(interview_date.year, interview_date.month, interview_date.day, hour, minutes, 0)
   end
 
   def set_candidate
