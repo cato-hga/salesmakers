@@ -1,0 +1,7 @@
+- candidate = log_entry.trackable
+- recruiter = log_entry.person
+= recruiter.name
+scheduled
+= candidate.first_name + ' ' + candidate.last_name
+for an interview on
+= friendly_datetime(log_entry.referenceable.start_time.in_time_zone)
