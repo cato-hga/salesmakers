@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150317184547) do
+ActiveRecord::Schema.define(version: 20150317202104) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -506,9 +506,11 @@ ActiveRecord::Schema.define(version: 20150317184547) do
   add_index "link_posts", ["person_id"], name: "index_link_posts_on_person_id", using: :btree
 
   create_table "location_areas", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
     t.integer "area_id", null: false
     t.datetime "created_at", null: false
     t.integer "current_head_count", default: 0, null: false
+    t.float "hourly_rate"
     t.integer "location_id", null: false
     t.integer "potential_candidate_count", default: 0, null: false
     t.integer "target_head_count", default: 0, null: false
