@@ -85,23 +85,28 @@ class SprintGroupMeBotCallback
         @level = key
       end
     end
+    if @level == nil
+      @level = 'rep'
+    end
     self.determine_date_range
     generate_message_content
+    if @messages.empty?
+      @messages = []
+      @query_string.empty? ? string = "No Results" : "No results for '#{@query_string}'"
+      @messages << string
+      @chart_url = nil
+    end
     GroupMe.new_global.post_messages_with_bot(@messages, bot_id, @chart_url)
   end
 
   def generate_message_content
-    if !self.has_keyword? 'hpa'
-      @results = self.query(@level, 'sales')
-      check_environment
-      @messages = self.generate_sales_messages(@results)
-    elsif self.has_keyword? 'hpa'
+    if self.has_keyword? 'hpa'
       @results = self.query(@level, 'hpa')
       @messages = self.generate_hpa_messages(@results)
     else
-      @messages = []
-      @messages << "No results for '#{@query_string}'"
-      @chart_url = nil
+      @results = self.query(@level, 'sales')
+      check_environment
+      @messages = self.generate_sales_messages(@results)
     end
   end
 
