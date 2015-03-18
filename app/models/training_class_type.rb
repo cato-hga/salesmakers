@@ -4,4 +4,8 @@ class TrainingClassType < ActiveRecord::Base
   validates :name, presence: true
 
   belongs_to :project
+
+  def self.policy_class
+    TrainingPolicy
+  end
 end

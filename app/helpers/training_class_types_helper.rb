@@ -1,0 +1,2 @@
+module TrainingClassTypesHelper
+end

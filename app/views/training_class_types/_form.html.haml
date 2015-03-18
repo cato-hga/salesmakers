@@ -1,0 +1,20 @@
+- if @training_class_type.errors.any?
+  - @training_class_type.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @training_class_type do |f|
+      = f.label :name, 'Name of training type'
+      = f.text_field :name
+      - if @projects and action_name == 'new' or action_name == 'create'
+        - projects = options_from_collection_for_select(@projects, 'id', 'name', (cookies[:project_selection] if cookies[:project_selection]))
+      - elsif @projects and action_name == 'edit' or action_name == 'update'
+        - projects = options_from_collection_for_select(@projects, 'id', 'name', @training_class_type.project.id)
+      - else
+        - projects = ''
+      = f.label :project_id, 'Project for class type'
+      = f.select :project_id, projects, include_blank: true
+      = f.label :max_attendance, 'Max Attendence in class'
+      = f.number_field :max_attendance
+      = f.submit 'Save', class: 'button'
