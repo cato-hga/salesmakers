@@ -67,6 +67,10 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content('$15.00')
     end
 
+    it 'shows the city for the location' do
+      expect(page).to have_content(location_area.location.city)
+    end
+
     it 'selects a location' do
       click_on "#{location.channel.name}, #{location.display_name}"
       expect(page).to have_content('successfully')
