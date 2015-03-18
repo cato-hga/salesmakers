@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe CandidatesController do
+  include ActiveJob::TestHelper
   let(:recruiter) { create :person, position: position }
   let(:position) {
     create :position,
@@ -266,6 +267,15 @@ describe CandidatesController do
       subject
       candidate.reload
       expect(candidate.status).to eq('location_selected')
+    end
+
+    it 'sends the candidate the personality assessment URL' do
+      expect {
+        subject
+        perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
+      }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
 
