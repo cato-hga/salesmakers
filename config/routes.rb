@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       get :confirm_location, as: :confirm_location
       put :passed_assessment, as: :passed_assessment
       put :failed_assessment, as: :failed_assessment
+      get :dismiss
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

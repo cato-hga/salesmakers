@@ -40,9 +40,6 @@ describe 'Scheduling interviews' do
         expect(page).to have_content 'Interview date'
         expect(page).to have_button 'Search for time slots'
       end
-      it 'has an option to interview now' do
-        expect(page).to have_content 'Interview Now!'
-      end
 
       describe 'when picking' do
         context 'an invalid date' do
@@ -85,8 +82,12 @@ describe 'Scheduling interviews' do
 
       describe 'when interviewing now' do
         before(:each) do
+          fill_in 'interview_date', with: 'today'
+          fill_in 'cloud_room', with: '33333'
+          click_on 'Search for time slots'
           click_on 'Interview Now!'
         end
+
         it 'takes the recruiter to the interview notes section' do
           expect(page).to have_content ('Interview Answers')
         end
@@ -121,6 +122,10 @@ describe 'Scheduling interviews' do
         fill_in 'interview_date', with: 'today'
         fill_in 'What is your LifeSize cloud room?', with: '33333'
         click_on 'Search for time slots'
+      end
+
+      it 'has an option to interview now' do
+        expect(page).to have_content 'Interview Now!'
       end
 
       it 'displays the time slots available' do

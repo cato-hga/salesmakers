@@ -29,6 +29,7 @@ class InterviewSchedulesController < ApplicationController
     assign_schedule_attributes
     if @interview_schedule.save
       schedule_candidate
+      cookies.delete :cloud_room
     else
       render :new
     end
@@ -44,12 +45,15 @@ class InterviewSchedulesController < ApplicationController
     @interview_schedule.start_time = Time.zone.now
     @interview_schedule.person = @current_person
     @interview_schedule.candidate = @candidate
+    @cloud_room = cookies[:cloud_room]
     if @interview_schedule.save
       @candidate.interview_scheduled!
       @current_person.log? 'interviewed_now',
                            @candidate,
                            @interview_schedule
+      InterviewScheduleMailer.interview_now_mailer(@candidate, @current_person, @interview_schedule, @cloud_room).deliver_later
       redirect_to new_candidate_interview_answer_path @candidate
+      cookies.delete :cloud_room
     else
       render :new
     end
@@ -57,6 +61,7 @@ class InterviewSchedulesController < ApplicationController
 
   def time_slots
     @cloud_room = params[:cloud_room]
+    cookies[:cloud_room] = params[:cloud_room]
     if @cloud_room.blank?
       flash[:error] = 'Cloud room is required'
       redirect_to new_candidate_interview_schedule_path @candidate and return

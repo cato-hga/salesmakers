@@ -1,0 +1,15 @@
+- title 'Dismiss Candidate'
+
+- if @candidate.errors.any?
+  - @candidate.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+.widget
+  .inner
+    = form_for @candidate, url: candidate_path(@candidate), method: :delete do |denial|
+      - if @denial_reasons
+        - denial_reasons = options_from_collection_for_select(@denial_reasons, 'id', 'name')
+      - else
+        - denial_reasons = ''
+      = denial.label :candidate_denial_reason_id, 'Candidate denial reason'
+      = denial.select :candidate_denial_reason_id, denial_reasons, include_blank: true
+      = denial.submit 'Dismiss Candidate', class: :button

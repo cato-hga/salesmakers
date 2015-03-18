@@ -122,6 +122,13 @@ describe InterviewSchedulesController do
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
       end
+      it 'sends emails to the recruiter and candidate' do
+        candidate.reload
+        expect { perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
     end
     context 'failure' do
       before(:each) do

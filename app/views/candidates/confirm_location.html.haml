@@ -1,4 +1,6 @@
 - title 'Confirm Location'
+- content_for :action_buttons do
+  = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
 
 - location_area = @candidate.location_area
 - location = location_area.location

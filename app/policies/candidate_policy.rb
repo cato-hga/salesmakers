@@ -71,6 +71,10 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
+  def dismiss?
+    create?
+  end
+
   def passed_assessment?
     update?
   end
