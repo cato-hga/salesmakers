@@ -699,4 +699,26 @@ RSpec.describe Person, :type => :model do
       expect(person_one.locations.count).to eq(2)
     end
   end
+
+  describe 'separation' do
+    let(:to_separate) { create :person }
+    let!(:candidate) { create :candidate, person: to_separate, location_area: location_area }
+    let(:location_area) { create :location_area, current_head_count: 1 }
+
+    subject { to_separate.separate }
+
+    it 'deactivates the employee' do
+      expect {
+        subject
+        to_separate.reload
+      }.to change(to_separate, :active).from(true).to(false)
+    end
+
+    it 'changes a location_area current_head_count' do
+      expect {
+        subject
+        location_area.reload
+      }.to change(location_area, :current_head_count).from(1).to(0)
+    end
+  end
 end
