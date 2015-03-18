@@ -21,6 +21,7 @@
 /.idea/workspace.xml
 /.idea/reconnect.iml
 .idea/*
+/.idea/*
 .rvmrcconfig/database.yml
 public/system
 coverage/*
