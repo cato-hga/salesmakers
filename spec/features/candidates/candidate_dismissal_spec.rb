@@ -59,6 +59,10 @@ describe 'Candidate dismissal' do
         it 'flashes a success message' do
           expect(page).to have_content('Candidate dismissed')
         end
+        it 'reduces the potential candidate count' do
+          location_area.reload
+          expect(location_area.potential_candidate_count).to eq(0)
+        end
       end
       context 'form submission failure' do
         before(:each) do
@@ -75,13 +79,6 @@ describe 'Candidate dismissal' do
           expect(page).to have_content('Candidate denial reason can not be blank')
         end
       end
-    end
-    it 'flashes a success message' do
-      expect(page).to have_content('Candidate dismissed')
-    end
-    it 'reduces the potential candidate count' do
-      location_area.reload
-      expect(location_area.potential_candidate_count).to eq(0)
     end
   end
 end

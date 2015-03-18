@@ -59,7 +59,6 @@ class CandidatesController < ApplicationController
 
   def destroy
     @selected_reason = params[:candidate][:candidate_denial_reason_id]
-    puts params[:candidate][:candidate_denial_reason_id]
     @denial_reason = CandidateDenialReason.find_by id: @selected_reason
     if @selected_reason.blank?
       flash[:error] = 'Candidate denial reason can not be blank'
