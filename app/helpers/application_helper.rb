@@ -129,4 +129,8 @@ module ApplicationHelper
   def groupme_emoji_filter(text, attachments)
     GroupMeEmojiFilter.filter(text, attachments).html_safe
   end
+
+  def phone_display(phone_string)
+    '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9]
+  end
 end

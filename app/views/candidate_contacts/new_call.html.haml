@@ -8,7 +8,7 @@
       = f.text_area :notes, rows: 5
       %p
         = f.submit 'Show Phone Number', class: [:button, :inline_button]
-        %span#phone_number(style="display:none;")= phone_link(@candidate.mobile_phone)
+        %span#phone_number(style="display:none;")= phone_display(@candidate.mobile_phone)
     #call_results(style="display:none;")
       = form_tag save_call_results_candidate_candidate_contacts_path(@candidate), method: :put do
         = hidden_field_tag 'candidate_contact_id'
