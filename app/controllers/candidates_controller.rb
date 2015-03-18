@@ -103,7 +103,7 @@ class CandidatesController < ApplicationController
       redirect_to send_paperwork_candidate_path(@candidate)
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
-      @current_person.log? 'sent assessment',
+      @current_person.log? 'sent_assessment',
                            @candidate
       redirect_to new_candidate_interview_schedule_path(@candidate)
     end
