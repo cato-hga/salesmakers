@@ -90,6 +90,7 @@ class CandidatesController < ApplicationController
     if @send_nhp
       redirect_to send_paperwork_candidate_path(@candidate)
     else
+      CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
       redirect_to new_candidate_interview_schedule_path(@candidate)
     end
   end
