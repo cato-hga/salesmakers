@@ -277,6 +277,10 @@ describe CandidatesController do
         end
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
   end
 
   describe 'GET confirm_location' do
@@ -361,13 +365,32 @@ describe CandidatesController do
     end
   end
 
+  describe 'GET dismiss' do
+    let(:candidate) { create :candidate }
+    before(:each) do
+      get :dismiss,
+          id: candidate.id
+    end
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the dismissal template' do
+      expect(response).to render_template(:dismiss)
+    end
+  end
+
   describe 'DELETE destroy' do
     let(:candidate) { create :candidate }
     let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate }
+    let!(:reason) { create :candidate_denial_reason }
     before(:each) do
       allow(controller).to receive(:policy).and_return double(destroy?: true)
       delete :destroy,
-             id: candidate.id
+             id: candidate.id,
+             candidate: {
+                 candidate_denial_reason_id: reason.id
+             }
     end
 
     it 'marks the candidate as inactive' do

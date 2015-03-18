@@ -25,6 +25,8 @@
         %label Candidates
       - if candidate_policy.index?
         %li
+          = link_to 'New', new_candidate_path
+        %li
           = link_to 'Search', candidates_path
         %li
           = link_to 'Interview Schedules', interview_schedules_path(Date.today.to_s)

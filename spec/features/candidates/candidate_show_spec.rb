@@ -22,7 +22,7 @@ describe 'candidate show page' do
   end
 
   it 'has a dismissal button' do
-    expect(page).to have_button 'Dismiss Candidate'
+    expect(page).to have_content 'Dismiss Candidate'
   end
 
   it 'should have the proper page title' do

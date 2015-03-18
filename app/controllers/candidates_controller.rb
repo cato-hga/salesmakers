@@ -19,14 +19,15 @@ class CandidatesController < ApplicationController
 
   def new
     @candidate = Candidate.new
+    @candidate_source = nil
     @call_initiated = DateTime.now.to_i
   end
 
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @projects = Project.all
+    @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
     @prescreen = params[:start_prescreen] == 'true' ? true : false
-    create_cookies
     if @candidate.save and @prescreen
       create_and_prescreen
     elsif @candidate.save
@@ -34,13 +35,14 @@ class CandidatesController < ApplicationController
     else
       render :new
     end
-    delete_cookies
   end
 
   def edit
+    @candidate_source = @candidate.candidate_source
   end
 
   def update
+    @candidate_source = @candidate.candidate_source
     if @candidate.update candidate_params
       @current_person.log? 'update',
                            @candidate
@@ -52,16 +54,29 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def dismiss
+    #get_candidate
+    @denial_reasons = CandidateDenialReason.where active: true
+  end
+
   def destroy
+    @selected_reason = params[:candidate][:candidate_denial_reason_id]
+    puts params[:candidate][:candidate_denial_reason_id]
+    @denial_reason = CandidateDenialReason.find_by id: @selected_reason
+    if @selected_reason.blank?
+      flash[:error] = 'Candidate denial reason can not be blank'
+      render :dismiss and return
+    end
     @interviews = InterviewSchedule.where(candidate_id: @candidate.id)
     if @interviews.any?
       for interview in @interviews
         interview.update active: false
       end
     end
-    @candidate.update active: false
+    @candidate.update active: false, candidate_denial_reason: @denial_reason
     @current_person.log? 'dismiss',
-                         @candidate
+                         @candidate,
+                         @denial_reason
     flash[:notice] = 'Candidate dismissed'
     redirect_to candidates_path
   end
@@ -91,6 +106,8 @@ class CandidatesController < ApplicationController
       redirect_to send_paperwork_candidate_path(@candidate)
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
+      @current_person.log? 'sent assessment',
+                           @candidate
       redirect_to new_candidate_interview_schedule_path(@candidate)
     end
   end
@@ -160,16 +177,6 @@ class CandidatesController < ApplicationController
   end
 
   private
-
-  def create_cookies
-    cookies[:candidate_source_selection] = candidate_params[:candidate_source_id]
-    cookies[:candidate_project_select] = candidate_params[:project_id]
-  end
-
-  def delete_cookies
-    cookies.delete :candidate_source_selection
-    cookies.delete :candidate_project_select
-  end
 
   def create_and_prescreen
     @current_person.log? 'create',
@@ -275,5 +282,4 @@ class CandidatesController < ApplicationController
           y.location.geographic_distance(@candidate)
     end
   end
-
 end

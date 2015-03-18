@@ -109,6 +109,7 @@ class Person < ActiveRecord::Base
 
   def separate(separated_at = Time.now)
     if self.update(active: false, updated_at: separated_at)
+      take_down_candidate_count
       if self.devices.any?
         AssetsMailer.separated_with_assets_mailer(self).deliver_later
         AssetsMailer.asset_return_mailer(self).deliver_later
@@ -213,6 +214,15 @@ class Person < ActiveRecord::Base
 
   def strip_trailing_comma(string)
     string.reverse.chomp(',').reverse.chomp(',')
+  end
+
+  def take_down_candidate_count
+    candidate = Candidate.find_by person: self
+    return unless candidate and candidate.location_area
+    location_area = candidate.location_area
+    new_count = location_area.current_head_count - 1
+    return if new_count < 0
+    location_area.update current_head_count: new_count
   end
 
 end
