@@ -10,8 +10,9 @@ describe 'Candidate dismissal' do
   let(:permission_index) { Permission.create key: 'candidate_index',
                                              description: 'Blah blah blah',
                                              permission_group: permission_group }
-  let!(:candidate) { create :candidate }
   let!(:reason) { create :candidate_denial_reason }
+  let!(:candidate) { create :candidate, location_area: location_area }
+  let(:location_area) { create :location_area, target_head_count: 2, potential_candidate_count: 1 }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -27,7 +28,6 @@ describe 'Candidate dismissal' do
   end
 
   describe 'for authorized users' do
-
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit candidate_path candidate
@@ -57,6 +57,10 @@ describe 'Candidate dismissal' do
         end
         it 'flashes a success message' do
           expect(page).to have_content('Candidate dismissed')
+        end
+        it 'reduces the potential candidate count' do
+          location_area.reload
+          expect(location_area.potential_candidate_count).to eq(0)
         end
       end
       context 'form submission failure' do

@@ -61,7 +61,6 @@ class CandidatesController < ApplicationController
 
   def destroy
     @selected_reason = params[:candidate][:candidate_denial_reason_id]
-    puts params[:candidate][:candidate_denial_reason_id]
     @denial_reason = CandidateDenialReason.find_by id: @selected_reason
     if @selected_reason.blank?
       flash[:error] = 'Candidate denial reason can not be blank'
@@ -106,7 +105,7 @@ class CandidatesController < ApplicationController
       redirect_to send_paperwork_candidate_path(@candidate)
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
-      @current_person.log? 'sent assessment',
+      @current_person.log? 'sent_assessment',
                            @candidate
       redirect_to new_candidate_interview_schedule_path(@candidate)
     end
