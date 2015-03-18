@@ -27,7 +27,8 @@ describe 'selecting a Location for a Candidate' do
            location: location,
            area: area,
            target_head_count: 2,
-           potential_candidate_count: 1
+           potential_candidate_count: 1,
+           hourly_rate: 15
   }
 
   it 'recognizes that the location is nearby the candidate' do
@@ -60,6 +61,10 @@ describe 'selecting a Location for a Candidate' do
 
     it 'shows the project for the location' do
       expect(page).to have_content(location_area.area.project.name)
+    end
+
+    it 'shows the hourly rate for the location area' do
+      expect(page).to have_content('$15.00')
     end
 
     it 'selects a location' do

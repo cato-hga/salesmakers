@@ -99,7 +99,7 @@ describe 'Scheduling interviews' do
 
     describe 'interview time slots' do
       let(:other_candidate) { create :candidate }
-      let(:interview_date) { Date.today }
+      let(:interview_date) { Date.current }
       let(:interview_time_one) { Time.zone.local(interview_date.year, interview_date.month, interview_date.day, 9, 0, 0) }
       let(:interview_time_two) { Time.zone.local(interview_date.year, interview_date.month, interview_date.day, 18, 30, 0) }
       let!(:interview_schedule) { create :interview_schedule,
@@ -165,4 +165,5 @@ describe 'Scheduling interviews' do
       end
     end
   end
+
 end

@@ -54,4 +54,5 @@ describe DocusignTemplate do
       expect(envelope_response.length).to be > 0
     end
   end
+
 end

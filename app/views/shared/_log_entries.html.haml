@@ -11,7 +11,7 @@
     - trackable_class_name = trackable_class.model_name
   - else
     - trackable_class_name = log_entry.id.to_s
-  - date_time = created_at.strftime '%-m/%d/%Y %-l:%M%P'
+  - date_time = friendly_datetime(created_at.in_time_zone)
   - by = person_link(log_entry.person)
   - on = NameCase(trackable_class_name.human)
   - entry = bare_log_entry(log_entry)
