@@ -365,6 +365,13 @@ describe CandidatesController do
     end
   end
 
+  describe 'PATCH reactivate' do
+    it 'creates a log entry'
+    it 'redirects to candidate#show'
+    it 'reactivates the candidate'
+    it 'increases the potential candidate count'
+  end
+
   describe 'GET dismiss' do
     let(:candidate) { create :candidate }
     before(:each) do
