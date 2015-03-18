@@ -120,7 +120,7 @@ class CandidatesController < ApplicationController
     job_offer_details = JobOfferDetail.new candidate: @candidate,
                                            sent: DateTime.now
     if envelope_response
-      job_offer_details.envelope_guid = response
+      job_offer_details.envelope_guid = envelope_response
       flash[:notice] = 'Paperwork sent successfully.'
     else
       flash[:error] = 'Could not send paperwork automatically. Please send now manually.'
