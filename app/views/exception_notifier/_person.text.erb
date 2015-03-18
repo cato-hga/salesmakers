@@ -1,9 +1,3 @@
-<% if session and session[:cas_user] %>
-    * session[:cas_user]: <%= session[:cas_user] %>
-<% else %>
-    * session[:cas_user]: UNSET
-<% end %>
-
 <% if @current_person %>
     * @current_person.id: <%= @current_person.id %>
     * @current_person.display_name: <%= @current_person.display_name %>

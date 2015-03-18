@@ -34,7 +34,7 @@ class Candidate < ActiveRecord::Base
   validates :first_name, presence: true, length: {minimum: 2}
   validates :last_name, presence: true, length: {minimum: 2}
   validates :mobile_phone, presence: true, uniqueness: true
-  validates :email, presence: true
+  validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }
   validates :zip, length: { is: 5 }
   validates :candidate_source_id, presence: true
   validates :created_by, presence: true
@@ -67,6 +67,13 @@ class Candidate < ActiveRecord::Base
 
   def name
     display_name
+  end
+
+  def active=(is_active)
+    return if self[:active] == is_active
+    self[:active] = is_active
+    return if is_active or self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
   end
 
   def person=(person)
