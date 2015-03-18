@@ -69,6 +69,13 @@ class Candidate < ActiveRecord::Base
     display_name
   end
 
+  def active=(is_active)
+    return if self[:active] == is_active
+    self[:active] = is_active
+    return if is_active or self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
+  end
+
   def person=(person)
     self.status = :onboarded
     self[:person_id] = person.id
