@@ -79,8 +79,5 @@ describe 'Candidate dismissal' do
         end
       end
     end
-    it 'flashes a success message' do
-      expect(page).to have_content('Candidate dismissed')
-    end
   end
 end
