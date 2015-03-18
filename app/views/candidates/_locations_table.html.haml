@@ -1,4 +1,4 @@
-- headers = header_row(['', 'Project', 'Distance', 'Location', 'Store Number', 'Target HC', 'Potentials', 'Current HC', 'Open'])
+- headers = header_row(['', 'Project', 'Distance', 'Location', 'Store Number', 'Hourly Rate', 'Target HC', 'Potentials', 'Current HC', 'Open'])
 - rows = []
 - count = 0
 - project = nil
@@ -20,6 +20,7 @@
   - distance = link_to location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes
   - location_name = link_to "#{location.channel.name}, #{location.display_name}", path, class: link_classes
   - store_number = link_to location.store_number, path, class: link_classes
+  - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''
   - address = link_to location.address, path, class: link_classes
-  - rows << table_row(["#{count.to_s}.", project, distance, location_name, store_number, target.to_s, potentials.to_s, current.to_s, open.to_s])
+  - rows << table_row(["#{count.to_s}.", project, distance, location_name, store_number, hourly_rate, target.to_s, potentials.to_s, current.to_s, open.to_s])
 = table headers, rows

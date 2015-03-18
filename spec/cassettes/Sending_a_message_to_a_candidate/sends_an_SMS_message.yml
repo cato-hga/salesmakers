@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 12 Mar 2015 20:02:40 GMT
+      - Tue, 17 Mar 2015 18:52:41 GMT
       X-Powered-By:
       - AT-5000
       X-Shenanigans:
@@ -36,16 +36,16 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"sid": "SM9e3d8ac974d94d579320a4356a65c93b", "date_created": "Thu,
-        12 Mar 2015 20:02:40 +0000", "date_updated": "Thu, 12 Mar 2015 20:02:40 +0000",
+      string: '{"sid": "SM3a5da4df7a5f4e1ba21399f3353a0990", "date_created": "Tue,
+        17 Mar 2015 18:52:41 +0000", "date_updated": "Tue, 17 Mar 2015 18:52:41 +0000",
         "date_sent": null, "account_sid": "AC96a051482517673481ee177d64d52bcf", "to":
         "+18137164150", "from": "+18133441170", "body": "This is a text that is 160
         characters long, so its going to go on and on and on and on and on and on
         and on and on and on and on and on and on and then just en", "status": "queued",
         "num_segments": "1", "num_media": "0", "direction": "outbound-api", "api_version":
         "2010-04-01", "price": null, "price_unit": "USD", "error_code": null, "error_message":
-        null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM9e3d8ac974d94d579320a4356a65c93b.json",
-        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM9e3d8ac974d94d579320a4356a65c93b/Media.json"}}'
+        null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM3a5da4df7a5f4e1ba21399f3353a0990.json",
+        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SM3a5da4df7a5f4e1ba21399f3353a0990/Media.json"}}'
     http_version: 
-  recorded_at: Thu, 12 Mar 2015 20:02:40 GMT
+  recorded_at: Tue, 17 Mar 2015 18:52:42 GMT
 recorded_with: VCR 2.9.3

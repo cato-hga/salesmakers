@@ -32,7 +32,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=utf-8
       Date:
-      - Mon, 09 Mar 2015 14:36:44 GMT
+      - Tue, 17 Mar 2015 18:51:32 GMT
       Server:
       - nginx/1.6.2
       X-Gm-Service:
@@ -46,5 +46,5 @@ http_interactions:
       string: |
         {"response":{"id":"12486363","user_id":"12486363","name":"SalesMakers IT","email":"it@retaildoneright.com","phone_number":"+1 7274872633","zip_code":null,"created_at":1374873482,"updated_at":1422645646,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","locale":"en_US","sms":false,"facebook_connected":false,"twitter_connected":false},"meta":{"code":200}}
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 14:36:44 GMT
+  recorded_at: Tue, 17 Mar 2015 18:51:32 GMT
 recorded_with: VCR 2.9.3

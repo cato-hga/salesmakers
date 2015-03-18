@@ -18,8 +18,7 @@ http_interactions:
         applicable to you please type in \"N/A\".\n\n              Please contact
         your recruiter should you have any questions or problems.\n            ","emailSubject":"Test
         Project Employment Application and New Hire Paperwork for: Test Candidate","templateId":"BCDA79DF-21E1-4726-96A6-AC2AAD715BB5","eventNotification":{},"templateRoles":[{"name":"Test
-        Candidate","email":"test@user.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}},{"name":"Test
-        User","email":"tuser105@rbd-von.com","roleName":"Advocate","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+        Candidate","email":"test@user.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
       - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
@@ -43,25 +42,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1425913200'
+      - '1426618800'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '999'
+      - '998'
       Date:
-      - Mon, 09 Mar 2015 14:38:16 GMT
+      - Tue, 17 Mar 2015 18:51:27 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"2d3882af-f091-4692-a0f1-f94309b581aa\",\r\n
-        \ \"uri\": \"/envelopes/2d3882af-f091-4692-a0f1-f94309b581aa\",\r\n  \"statusDateTime\":
-        \"2015-03-09T14:38:14.8000000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"9847f64e-a8c9-402e-a815-1550a47efe20\",\r\n
+        \ \"uri\": \"/envelopes/9847f64e-a8c9-402e-a815-1550a47efe20\",\r\n  \"statusDateTime\":
+        \"2015-03-17T18:51:25.1600000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 14:38:17 GMT
+  recorded_at: Tue, 17 Mar 2015 18:51:28 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/2d3882af-f091-4692-a0f1-f94309b581aa
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/9847f64e-a8c9-402e-a815-1550a47efe20
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -78,22 +77,24 @@ http_interactions:
       - Ruby
   response:
     status:
-      code: 200
-      message: OK
+      code: 400
+      message: Bad Request
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - '2'
+      - '149'
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 09 Mar 2015 14:38:18 GMT
+      - Tue, 17 Mar 2015 18:51:28 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{}"
+      string: "{\r\n  \"errorCode\": \"INVALID_EMAIL_ADDRESS_FOR_RECIPIENT\",\r\n
+        \ \"message\": \"The email address for the recipient is invalid. The recipient
+        Id follows.\"\r\n}"
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 14:38:19 GMT
+  recorded_at: Tue, 17 Mar 2015 18:51:29 GMT
 recorded_with: VCR 2.9.3

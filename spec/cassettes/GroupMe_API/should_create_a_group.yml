@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 09 Mar 2015 14:36:25 GMT
+      - Tue, 17 Mar 2015 18:51:09 GMT
       Etag:
-      - '"5c6df37f91f419b89011d00f872d3a7e"'
+      - '"4c6c0297f8e61e89322aaa1b4d6354a3"'
       Server:
       - nginx/1.6.2
       Status:
@@ -33,9 +33,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 6199155d0d1d4696d2c7f769145e3944
+      - fc0e73e530d5fd3c23b93335dc7efe3d
       X-Runtime:
-      - '0.073508'
+      - '0.182129'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -44,9 +44,9 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"code":201},"response":{"id":"12798149","group_id":"12798149","name":"TEST","phone_number":"+1
-        7472000368","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1425911784,"updated_at":1425911784,"office_mode":false,"share_url":null,"members":[{"id":"78323193","user_id":"12486363","nickname":"SalesMakers
+      string: '{"meta":{"code":201},"response":{"id":"12939277","group_id":"12939277","name":"TEST","phone_number":"+1
+        2813463903","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1426618268,"updated_at":1426618268,"office_mode":false,"share_url":null,"members":[{"id":"79445664","user_id":"12486363","nickname":"SalesMakers
         IT","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":50,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
     http_version: 
-  recorded_at: Mon, 09 Mar 2015 14:36:25 GMT
+  recorded_at: Tue, 17 Mar 2015 18:51:09 GMT
 recorded_with: VCR 2.9.3

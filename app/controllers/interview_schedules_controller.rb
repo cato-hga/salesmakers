@@ -79,19 +79,25 @@ class InterviewSchedulesController < ApplicationController
   private
 
   def create_taken_time_slots
-    scheduled_interviews = InterviewSchedule.where(interview_date: @interview_date,
+    adjusted_date = @interview_date.to_time.in_time_zone +
+        Time.zone.utc_offset +
+        (@interview_date.to_time.in_time_zone.dst? ? 3600 : 0)
+    scheduled_interviews = InterviewSchedule.where(interview_date: adjusted_date.to_date,
                                                    person: @current_person)
     @taken_time_slots = []
     for interview in scheduled_interviews do
-      @taken_time_slots << interview.start_time.in_time_zone.strftime('%H%M')
+      @taken_time_slots << interview.start_time.in_time_zone.beginning_of_minute
     end
   end
 
   def create_available_time_slots
-    time_slots_start = Time.zone.local(@interview_date.year, @interview_date.month, @interview_date.day, 9, 0, 0)
+    adjusted_date = @interview_date.to_time.in_time_zone +
+        Time.zone.utc_offset +
+        (@interview_date.to_time.in_time_zone.dst? ? 3600 : 0)
+    time_slots_start = Time.zone.local(adjusted_date.year, adjusted_date.month, adjusted_date.day, 9, 0, 0)
     @time_slots = []
     24.times do
-      time_slot = time_slots_start.strftime('%H%M')
+      time_slot = time_slots_start.beginning_of_minute
       unless @taken_time_slots.include? time_slot
         @time_slots << time_slots_start
       end
@@ -101,7 +107,7 @@ class InterviewSchedulesController < ApplicationController
 
   def get_and_handle_inputted_date
     @interview_date = Chronic.parse params[:interview_date]
-    if @interview_date == nil or @interview_date < Date.today
+    if @interview_date == nil or @interview_date < Date.current
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
       redirect_to new_candidate_interview_schedule_path @candidate
     end
