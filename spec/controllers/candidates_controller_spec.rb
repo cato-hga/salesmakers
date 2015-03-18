@@ -277,6 +277,10 @@ describe CandidatesController do
         end
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
   end
 
   describe 'GET confirm_location' do
