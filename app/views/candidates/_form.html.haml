@@ -21,12 +21,7 @@
       = f.text_field :email
       = f.label :zip, 'Zip Code'
       = f.text_field :zip
-      - if @sources and action_name == 'new' or action_name == 'create'
-        - sources = options_from_collection_for_select(@sources, 'id', 'name', (cookies[:candidate_source_selection] if cookies[:candidate_source_selection]))
-      - elsif @sources and action_name == 'edit' or action_name == 'update'
-        - sources = options_from_collection_for_select(@sources, 'id', 'name', @candidate.candidate_source.id)
-      - else
-        - sources = ''
+      - sources = options_from_collection_for_select(@sources, 'id', 'name', (@candidate_source ? @candidate_source.id : nil))
       = f.label :candidate_source_id, 'Candidate source'
       = f.select :candidate_source_id, sources, include_blank: true
       - if action_name == 'new'
