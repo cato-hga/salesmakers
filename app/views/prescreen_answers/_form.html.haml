@@ -1,3 +1,5 @@
+- content_for :action_buttons do
+  = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
 .widget
   .inner
     = form_for [@candidate, @prescreen_answer] do |f|

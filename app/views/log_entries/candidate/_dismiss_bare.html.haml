@@ -4,3 +4,6 @@
 dismissed
 = candidate.first_name + ' ' + candidate.last_name
 as a potential candidate
+%strong
+  Reason:
+= candidate.candidate_denial_reason.name

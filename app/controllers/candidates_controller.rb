@@ -52,16 +52,29 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def dismiss
+    #get_candidate
+    @denial_reasons = CandidateDenialReason.where active: true
+  end
+
   def destroy
+    @selected_reason = params[:candidate][:candidate_denial_reason_id]
+    puts params[:candidate][:candidate_denial_reason_id]
+    @denial_reason = CandidateDenialReason.find_by id: @selected_reason
+    if @selected_reason.blank?
+      flash[:error] = 'Candidate denial reason can not be blank'
+      render :dismiss and return
+    end
     @interviews = InterviewSchedule.where(candidate_id: @candidate.id)
     if @interviews.any?
       for interview in @interviews
         interview.update active: false
       end
     end
-    @candidate.update active: false
+    @candidate.update active: false, candidate_denial_reason: @denial_reason
     @current_person.log? 'dismiss',
-                         @candidate
+                         @candidate,
+                         @denial_reason
     flash[:notice] = 'Candidate dismissed'
     redirect_to candidates_path
   end
@@ -91,6 +104,8 @@ class CandidatesController < ApplicationController
       redirect_to send_paperwork_candidate_path(@candidate)
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
+      @current_person.log? 'sent assessment',
+                           @candidate
       redirect_to new_candidate_interview_schedule_path(@candidate)
     end
   end
