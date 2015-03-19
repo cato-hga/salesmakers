@@ -54,7 +54,7 @@ class Candidate < ActiveRecord::Base
   }
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
-      if geo.state_code.length > 2
+      if geo and geo.state_code and geo.state_code.length > 2
         obj.state = state_abbreviations[geo.state_code]
       else
         obj.state = geo.state_code
