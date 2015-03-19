@@ -57,5 +57,6 @@ describe 'Candidate dismissal' do
         expect(page).to have_content 'reactivated'
       end
     end
+
   end
 end
