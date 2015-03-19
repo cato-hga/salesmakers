@@ -60,6 +60,7 @@ class CandidatesController < ApplicationController
 
   def reactivate
     if @candidate.update active: true
+      reset_candidate_status
       @current_person.log? 'reactivate',
                            @candidate
       flash[:notice] = 'Candidate reactivated'
@@ -187,6 +188,22 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def reset_candidate_status
+    if @candidate.job_offer_details.any?
+      @candidate.update status: :paperwork_sent
+    elsif @candidate.interview_answers.any?
+      @candidate.update status: :interviewed
+    elsif @candidate.interview_schedules.any?
+      @candidate.update status: :interview_scheduled
+    elsif @candidate.location_area.present?
+      @candidate.update status: :location_selected
+    elsif @candidate.prescreen_answers.any?
+      @candidate.update status: :prescreened
+    else
+      @candidate.update status: :entered
+    end
+  end
 
   def create_and_prescreen
     @current_person.log? 'create',

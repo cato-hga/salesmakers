@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe 'Candidate dismissal' do
+describe 'Candidate reactivation' do
 
   let(:recruiter) { create :person, position: position }
   let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
@@ -38,25 +38,71 @@ describe 'Candidate dismissal' do
     end
 
     describe 'reactivation success' do
-      before(:each) do
-        click_button 'Reactivate Candidate'
-      end
-
+      let(:offer) { create :job_offer_detail }
+      let(:interview) { create :interview_answer }
+      let(:schedule) { create :interview_schedule }
+      let(:answers) { create :prescreen_answer }
       it 'confirms, and then reactivates the candidate' do
+        click_button 'Reactivate Candidate'
         candidate.reload
         expect(candidate.active).to eq(true)
       end
       it 'redirects to the candidate#show page' do
+        click_button 'Reactivate Candidate'
         expect(page).to have_content 'Basic Information'
       end
       it 'shows the dismiss candidate button again' do
+        click_button 'Reactivate Candidate'
         expect(page).to have_content 'Dismiss Candidate'
       end
       it 'creates a log entry' do
+        click_button 'Reactivate Candidate'
         visit candidate_path candidate
         expect(page).to have_content 'reactivated'
       end
-    end
 
+      it 'resets the candidate to a paperwork sent status if applicable' do
+        candidate.job_offer_details << offer
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('paperwork_sent')
+      end
+
+      it 'resets the candidate to an interviewed status if applicable' do
+        candidate.interview_answers << interview
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('interviewed')
+      end
+      it 'resets the candidate to a scheduled status if applicable' do
+        candidate.interview_schedules << schedule
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('interview_scheduled')
+      end
+      it 'resets the candidate to a location selected status if applicable' do
+        #Candidate factory in this test has location_area
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('location_selected')
+      end
+      it 'resets the candidate to a prescreened status if applicable' do
+        #Candidate factory in this test has location_area
+        candidate.location_area = nil
+        candidate.prescreen_answers << answers
+        candidate.save
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('prescreened')
+      end
+      it 'resets the candidate to a entered status if applicable' do
+        #Candidate factory in this test has location_area
+        candidate.location_area = nil
+        candidate.save
+        click_button 'Reactivate Candidate'
+        candidate.reload
+        expect(candidate.status).to eq('entered')
+      end
+    end
   end
 end

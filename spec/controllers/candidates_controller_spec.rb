@@ -366,8 +366,8 @@ describe CandidatesController do
   end
 
   describe 'PATCH reactivate' do
-    let!(:candidate) { create :candidate, active: false, location_area: location_area }
     context 'success' do
+      let!(:candidate) { create :candidate, active: false, location_area: location_area }
       subject do
         get :reactivate,
             id: candidate.id
@@ -390,6 +390,54 @@ describe CandidatesController do
         candidate.reload
         location_area.reload
         expect(location_area.potential_candidate_count).to eq(1)
+      end
+    end
+    context 'success (status changes)' do
+      let!(:candidate) { create :candidate, active: false }
+      let(:offer) { create :job_offer_detail }
+      let(:interview) { create :interview_answer }
+      let(:schedule) { create :interview_schedule }
+      let(:answers) { create :prescreen_answer }
+      subject do
+        get :reactivate,
+            id: candidate.id
+      end
+      it 'resets the candidate to a paperwork sent status if applicable' do
+        candidate.job_offer_details << offer
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('paperwork_sent')
+      end
+
+      it 'resets the candidate to an interviewed status if applicable' do
+        candidate.interview_answers << interview
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('interviewed')
+      end
+      it 'resets the candidate to a scheduled status if applicable' do
+        candidate.interview_schedules << schedule
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('interview_scheduled')
+      end
+      it 'resets the candidate to a location selected status if applicable' do
+        candidate.location_area = location_area
+        candidate.save
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('location_selected')
+      end
+      it 'resets the candidate to a prescreened status if applicable' do
+        candidate.prescreen_answers << answers
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('prescreened')
+      end
+      it 'resets the candidate to a entered status if applicable' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('entered')
       end
     end
   end

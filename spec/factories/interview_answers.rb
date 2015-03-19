@@ -8,5 +8,9 @@ FactoryGirl.define do
     compensation_last_job_one 'Last job one'
     compensation_seeking 'Seeking'
     hours_looking_to_work 'Looking to work'
+    willingness_characteristic 'Characteristic'
+    self_motivated_characteristic 'Characteristic'
+    personality_characteristic 'Characteristic'
+    association :candidate
   end
 end

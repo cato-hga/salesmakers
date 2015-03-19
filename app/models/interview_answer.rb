@@ -7,6 +7,9 @@ class InterviewAnswer < ActiveRecord::Base
   validates :compensation_last_job_one, presence: true
   validates :compensation_seeking, presence: true
   validates :hours_looking_to_work, presence: true
+  validates :personality_characteristic, presence: true
+  validates :self_motivated_characteristic, presence: true
+  validates :willingness_characteristic, presence: true
   belongs_to :candidate
   accepts_nested_attributes_for :candidate
 end
