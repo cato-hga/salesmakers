@@ -61,7 +61,7 @@ class PrescreenAnswersController < ApplicationController
                             contact_method: :phone,
                             inbound: @inbound,
                             notes: 'Candidate prescreened successfully.',
-                            created_at: call_initiated
+                            created_at: (call_initiated ? call_initiated : DateTime.now)
   end
 
   def create_rejection_contact(time)
@@ -71,6 +71,6 @@ class PrescreenAnswersController < ApplicationController
                             contact_method: :phone,
                             inbound: @inbound,
                             notes: 'Candidate eliminated during prescreening.',
-                            created_at: call_initiated
+                            created_at: (call_initiated ? call_initiated : DateTime.now)
   end
 end
