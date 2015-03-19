@@ -129,6 +129,7 @@ class Candidate < ActiveRecord::Base
     return if self[:active] == is_active
     self[:active] = is_active
     if is_active == false
+      self.status = :rejected
       return if self.location_area.nil?
       self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
     else

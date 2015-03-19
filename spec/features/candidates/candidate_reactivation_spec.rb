@@ -37,6 +37,7 @@ describe 'Candidate reactivation' do
       expect(page).to have_button 'Reactivate Candidate'
     end
 
+
     describe 'reactivation success' do
       let(:offer) { create :job_offer_detail }
       let(:interview) { create :interview_answer }

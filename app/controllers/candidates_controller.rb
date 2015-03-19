@@ -203,18 +203,19 @@ class CandidatesController < ApplicationController
   private
 
   def reset_candidate_status
+    @candidate.entered!
     if @candidate.job_offer_details.any?
-      @candidate.update status: :paperwork_sent
+      @candidate.paperwork_sent!
     elsif @candidate.interview_answers.any?
-      @candidate.update status: :interviewed
+      @candidate.interviewed!
     elsif @candidate.interview_schedules.any?
-      @candidate.update status: :interview_scheduled
+      @candidate.interview_scheduled!
     elsif @candidate.location_area.present?
-      @candidate.update status: :location_selected
+      @candidate.location_selected!
     elsif @candidate.prescreen_answers.any?
-      @candidate.update status: :prescreened
+      @candidate.prescreened!
     else
-      @candidate.update status: :entered
+      @candidate.entered!
     end
   end
 
