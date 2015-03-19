@@ -24,7 +24,7 @@ describe CandidatesController do
   let(:permission_view_all) { Permission.new key: 'candidate_view_all',
                                              permission_group: permission_group,
                                              description: 'Test Description' }
-  let(:location_area) { create :ocation_area, location: location }
+  let(:location_area) { create :location_area, location: location }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
 
@@ -598,4 +598,5 @@ describe CandidatesController do
       expect(response).to render_template(:dashboard)
     end
   end
+
 end
