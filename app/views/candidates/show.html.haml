@@ -104,6 +104,11 @@
           - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
         - when 'interview_scheduled'
           - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
+        - when 'accepted'
+          - if @candidate.job_offer_details == []
+            - link_to 'Confirm Location and Send Paperwork', confirm_location_candidate_path(@candidate), class: :button
+          - else
+            - ''
         - else
           - ''
       = action
