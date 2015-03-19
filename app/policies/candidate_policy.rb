@@ -1,13 +1,14 @@
 class CandidatePolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
-      return scope.none unless person.position
-      permission = Permission.find_by key: 'candidate_view_all'
-      if permission and person.position.permissions.include? permission
-        scope.all
-      else
-        scope.where(created_by: person)
-      end
+      # return scope.none unless person.position
+      # permission = Permission.find_by key: 'candidate_view_all'
+      # if permission and person.position.permissions.include? permission
+      #   scope.all
+      # else
+      #   scope.where(created_by: person)
+      # end
+      scope.all # This is because candidates are being exchanged between recruiters
     end
   end
 
