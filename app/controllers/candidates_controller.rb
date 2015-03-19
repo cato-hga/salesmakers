@@ -3,12 +3,25 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :get_candidate, except: [:index, :new, :create]
+  before_action :get_candidate, except: [:index, :dashboard, :new, :create]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   def index
     @search = Candidate.search(params[:q])
     @candidates = @search.result.page(params[:page])
+  end
+
+  def dashboard
+    set_datetime_range
+    @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
+    @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
+    @location_selected_total = Candidate.where(status: Candidate.statuses[:location_selected].to_i, active: true)
+    @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
+    @accepted_total = Candidate.where(status: Candidate.statuses[:accepted].to_i, active: true)
+    @paperwork_sent_total = Candidate.where(status: Candidate.statuses[:paperwork_sent].to_i, active: true)
+    @paperwork_completed_by_candidate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_candidate].to_i, active: true)
+    @paperwork_completed_by_advocate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_advocate].to_i, active: true)
+    @onboarded_total = Candidate.where(status: Candidate.statuses[:onboarded].to_i, active: true)
   end
 
   def show
@@ -280,5 +293,16 @@ class CandidatesController < ApplicationController
       x.location.geographic_distance(@candidate) <=>
           y.location.geographic_distance(@candidate)
     end
+  end
+
+  def set_datetime_range
+    @datetime_start = (DateTime.now.in_time_zone +
+        Time.zone.utc_offset +
+        (DateTime.now.in_time_zone.dst? ? 3600 : 0)).
+        beginning_of_day
+    @datetime_end = (DateTime.now.in_time_zone +
+        Time.zone.utc_offset +
+        (DateTime.now.in_time_zone.dst? ? 3600 : 0)).
+        end_of_day
   end
 end

@@ -8,7 +8,8 @@ describe CandidatesController do
            name: 'Advocate',
            permissions: [
                permission_create,
-               permission_index
+               permission_index,
+               permission_view_all
            ],
            hq: true,
            all_field_visibility: true
@@ -20,6 +21,9 @@ describe CandidatesController do
   let(:permission_index) { Permission.new key: 'candidate_index',
                                           permission_group: permission_group,
                                           description: 'Test Description' }
+  let(:permission_view_all) { Permission.new key: 'candidate_view_all',
+                                             permission_group: permission_group,
+                                             description: 'Test Description' }
   let(:location_area) { create :ocation_area, location: location }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
@@ -501,6 +505,20 @@ describe CandidatesController do
     it 'sets the candidate status to rejected' do
       subject
       expect(candidate.rejected?).to be_truthy
+    end
+  end
+
+  describe 'GET dashboard' do
+    before do
+      get :dashboard
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the dashboard template' do
+      expect(response).to render_template(:dashboard)
     end
   end
 end

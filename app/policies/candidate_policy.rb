@@ -83,4 +83,8 @@ class CandidatePolicy < ApplicationPolicy
   def failed_assessment?
     update?
   end
+
+  def dashboard?
+    has_permission? 'view_all'
+  end
 end

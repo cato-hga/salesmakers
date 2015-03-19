@@ -38,6 +38,9 @@ Rails.application.routes.draw do
       put :failed_assessment, as: :failed_assessment
       get :dismiss
     end
+    collection do
+      get :dashboard, as: :dashboard
+    end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
       collection do
