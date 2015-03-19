@@ -1,0 +1,44 @@
+- title 'Active Candidate States'
+
+.widgets#candidate_dashboard
+  .widget#entered
+    .inner
+      %h3 Entered
+      .candidate_count.sm_green= @entered_total.count
+  .widget#prescreened
+    .inner
+      %h3 Prescreened
+      .candidate_count.sm_red= @prescreened_total.count
+  .widget#location_selected
+    .inner
+      %h3 Location Selected
+      .candidate_count.sm_red= @location_selected_total.count
+  .widget#interview_scheduled
+    .inner
+      %h3 Interview Scheduled
+      .candidate_count.sm_green= @interview_scheduled_total.count
+  .widget#accepted
+    .inner
+      %h3 Accepted
+      .candidate_count.sm_red= @accepted_total.count
+  .widget#paperwork_sent
+    .inner
+      %h3 Paperwork Sent
+      .candidate_count.sm_red= @paperwork_sent_total.count
+  .widget#paperwork_completed_by_candidate
+    .inner
+      %h3 Paperwork Completed by Candidate
+      .candidate_count.sm_red= @paperwork_completed_by_candidate_total.count
+  .widget#paperwork_completed_by_advocate
+    .inner
+      %h3 Paperwork Completed by Advocate
+      .candidate_count.sm_green= @paperwork_completed_by_advocate_total.count
+  .widget#onboarded
+    .inner
+      %h3 Onboarded
+      .candidate_count.sm_green= @onboarded_total.count
+
+:javascript
+  setTimeout(function() {
+    location = '';
+  }, 10000);

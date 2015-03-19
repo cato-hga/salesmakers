@@ -8,7 +8,8 @@ describe CandidatesController do
            name: 'Advocate',
            permissions: [
                permission_create,
-               permission_index
+               permission_index,
+               permission_view_all
            ],
            hq: true,
            all_field_visibility: true
@@ -20,6 +21,9 @@ describe CandidatesController do
   let(:permission_index) { Permission.new key: 'candidate_index',
                                           permission_group: permission_group,
                                           description: 'Test Description' }
+  let(:permission_view_all) { Permission.new key: 'candidate_view_all',
+                                             permission_group: permission_group,
+                                             description: 'Test Description' }
   let(:location_area) { create :ocation_area, location: location }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
@@ -365,6 +369,83 @@ describe CandidatesController do
     end
   end
 
+  describe 'PATCH reactivate' do
+    context 'success' do
+      let!(:candidate) { create :candidate, active: false, location_area: location_area }
+      subject do
+        get :reactivate,
+            id: candidate.id
+      end
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+      it 'redirects to candidate#show' do
+        subject
+        expect(response).to redirect_to(candidate_path(candidate))
+      end
+      it 'reactivates the candidate' do
+        subject
+        candidate.reload
+        expect(candidate.active).to eq(true)
+      end
+      it 'decreases the potential candidate count' do
+        expect(location_area.potential_candidate_count).to eq(0)
+        subject
+        candidate.reload
+        location_area.reload
+        expect(location_area.potential_candidate_count).to eq(1)
+      end
+    end
+    context 'success (status changes)' do
+      let!(:candidate) { create :candidate, active: false }
+      let(:offer) { create :job_offer_detail }
+      let(:interview) { create :interview_answer }
+      let(:schedule) { create :interview_schedule }
+      let(:answers) { create :prescreen_answer }
+      subject do
+        get :reactivate,
+            id: candidate.id
+      end
+      it 'resets the candidate to a paperwork sent status if applicable' do
+        candidate.job_offer_details << offer
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('paperwork_sent')
+      end
+
+      it 'resets the candidate to an interviewed status if applicable' do
+        candidate.interview_answers << interview
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('interviewed')
+      end
+      it 'resets the candidate to a scheduled status if applicable' do
+        candidate.interview_schedules << schedule
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('interview_scheduled')
+      end
+      it 'resets the candidate to a location selected status if applicable' do
+        candidate.location_area = location_area
+        candidate.save
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('location_selected')
+      end
+      it 'resets the candidate to a prescreened status if applicable' do
+        candidate.prescreen_answers << answers
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('prescreened')
+      end
+      it 'resets the candidate to a entered status if applicable' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('entered')
+      end
+    end
+  end
+
   describe 'GET dismiss' do
     let(:candidate) { create :candidate }
     before(:each) do
@@ -501,6 +582,20 @@ describe CandidatesController do
     it 'sets the candidate status to rejected' do
       subject
       expect(candidate.rejected?).to be_truthy
+    end
+  end
+
+  describe 'GET dashboard' do
+    before do
+      get :dashboard
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the dashboard template' do
+      expect(response).to render_template(:dashboard)
     end
   end
 end

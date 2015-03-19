@@ -14,7 +14,7 @@ set :log_level, :debug
 set :pty, false
 
 set :linked_files, %w{config/database.yml config/nginx.conf config/staging_nginx.conf}
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/sales_charts}
 
 app_name = 'oneconnect'
 user = 'deploy'
