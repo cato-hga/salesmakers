@@ -20,7 +20,7 @@ describe CandidatesController do
   let(:permission_index) { Permission.new key: 'candidate_index',
                                           permission_group: permission_group,
                                           description: 'Test Description' }
-  let(:location_area) { create :ocation_area, location: location }
+  let(:location_area) { create :location_area, location: location }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
 
@@ -366,10 +366,32 @@ describe CandidatesController do
   end
 
   describe 'PATCH reactivate' do
-    it 'creates a log entry'
-    it 'redirects to candidate#show'
-    it 'reactivates the candidate'
-    it 'increases the potential candidate count'
+    let!(:candidate) { create :candidate, active: false, location_area: location_area }
+    context 'success' do
+      subject do
+        get :reactivate,
+            id: candidate.id
+      end
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+      it 'redirects to candidate#show' do
+        subject
+        expect(response).to redirect_to(candidate_path(candidate))
+      end
+      it 'reactivates the candidate' do
+        subject
+        candidate.reload
+        expect(candidate.active).to eq(true)
+      end
+      it 'decreases the potential candidate count' do
+        expect(location_area.potential_candidate_count).to eq(0)
+        subject
+        candidate.reload
+        location_area.reload
+        expect(location_area.potential_candidate_count).to eq(1)
+      end
+    end
   end
 
   describe 'GET dismiss' do

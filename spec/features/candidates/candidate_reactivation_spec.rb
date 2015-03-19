@@ -37,7 +37,7 @@ describe 'Candidate dismissal' do
       expect(page).to have_button 'Reactivate Candidate'
     end
 
-    describe 'reactivation' do
+    describe 'reactivation success' do
       before(:each) do
         click_button 'Reactivate Candidate'
       end
@@ -46,7 +46,7 @@ describe 'Candidate dismissal' do
         candidate.reload
         expect(candidate.active).to eq(true)
       end
-      it 'redirects to the candiate#show page' do
+      it 'redirects to the candidate#show page' do
         expect(page).to have_content 'Basic Information'
       end
       it 'shows the dismiss candidate button again' do
@@ -57,6 +57,5 @@ describe 'Candidate dismissal' do
         expect(page).to have_content 'reactivated'
       end
     end
-
   end
 end

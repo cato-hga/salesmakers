@@ -59,7 +59,15 @@ class CandidatesController < ApplicationController
   end
 
   def reactivate
-    #get candidate
+    if @candidate.update active: true
+      @current_person.log? 'reactivate',
+                           @candidate
+      flash[:notice] = 'Candidate reactivated'
+      redirect_to candidate_path @candidate
+    else
+      flash[:error] = 'Candidate could not be reactivated'
+      render :show
+    end
   end
 
   def destroy
