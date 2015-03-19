@@ -48,13 +48,15 @@ describe 'Candidate dismissal' do
           select reason.name, from: 'Candidate denial reason'
           click_on 'Dismiss Candidate'
         end
-        it 'archives the candidate' do
+        it 'archives the candidate and sets them to rejected' do
           candidate.reload
           expect(candidate.active).to eq(false)
+          expect(candidate.status).to eq('rejected')
         end
         it 'redirects to candidates#index' do
           expect(page).to have_content('Candidates')
         end
+
         it 'flashes a success message' do
           expect(page).to have_content('Candidate dismissed')
         end

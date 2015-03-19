@@ -477,6 +477,7 @@ describe CandidatesController do
     it 'marks the candidate as inactive' do
       candidate.reload
       expect(candidate.active).to eq(false)
+      expect(candidate.status).to eq('rejected')
     end
     it 'deactivates any scheduled interviews' do
       candidate.reload
