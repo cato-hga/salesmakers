@@ -23,6 +23,9 @@ describe 'confirming location' do
     fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
     fill_in :interview_answer_compensation_seeking, with: 'Seeking comp'
     fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
+    fill_in :interview_answer_personality_characteristic, with: 'Hours looking to work'
+    fill_in :interview_answer_self_motivated_characteristic, with: 'Hours looking to work'
+    fill_in :interview_answer_willingness_characteristic, with: 'Hours looking to work'
     click_on 'Extend offer'
     expect(page).to have_selector('h1', text: 'Confirm Location')
     expect(page).to have_content(location_area.location.address)
