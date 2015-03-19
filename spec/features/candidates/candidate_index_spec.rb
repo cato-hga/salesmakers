@@ -25,11 +25,17 @@ describe 'candidate index' do
     expect(page).to have_content(recruiter.display_name)
   end
 
+  it 'shows the preassessment status of the candidate' do
+    expect(page).to have_content('Assessment')
+    expect(page).to have_content('Not Completed')
+  end
+
   it 'searches for first names' do
     fill_in 'q_first_name_cont', with: candidate.first_name[3]
     find('input[value="Search"]').click
     expect(page).to have_content(candidate.name)
   end
+
 
   it 'searches for last names' do
     fill_in 'q_last_name_cont', with: candidate.last_name[3]

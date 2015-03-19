@@ -84,6 +84,10 @@ class CandidatePolicy < ApplicationPolicy
     update?
   end
 
+  def reactivate?
+    create?
+  end
+
   def dashboard?
     has_permission? 'view_all'
   end

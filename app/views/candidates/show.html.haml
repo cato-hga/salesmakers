@@ -2,6 +2,8 @@
 - content_for :action_buttons do
   - if @candidate.active?
     = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
+  - else
+    = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]
   - unless @candidate.passed_personality_assessment?
     = button_to 'Mark Personality Assessment Passed', passed_assessment_candidate_path(@candidate), class: [:button, :inline_button], method: :put
     = button_to 'Mark Personality Assessment Failed', failed_assessment_candidate_path(@candidate), class: [:button, :inline_button, :alert], method: :put, data: { confirm: 'The candidate will be automatically rejected. Are you sure?' }
