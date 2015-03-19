@@ -55,8 +55,11 @@ class CandidatesController < ApplicationController
   end
 
   def dismiss
-    #get_candidate
     @denial_reasons = CandidateDenialReason.where active: true
+  end
+
+  def reactivate
+    #get candidate
   end
 
   def destroy

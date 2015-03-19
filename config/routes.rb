@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       put :passed_assessment, as: :passed_assessment
       put :failed_assessment, as: :failed_assessment
       get :dismiss
+      patch :reactivate
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

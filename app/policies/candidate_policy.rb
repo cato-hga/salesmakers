@@ -82,4 +82,8 @@ class CandidatePolicy < ApplicationPolicy
   def failed_assessment?
     update?
   end
+
+  def reactivate?
+    create?
+  end
 end

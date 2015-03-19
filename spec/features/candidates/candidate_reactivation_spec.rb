@@ -44,7 +44,7 @@ describe 'Candidate dismissal' do
 
       it 'confirms, and then reactivates the candidate' do
         candidate.reload
-        expect(candidate.status).to eq(true)
+        expect(candidate.active).to eq(true)
       end
       it 'redirects to the candiate#show page' do
         expect(page).to have_content 'Basic Information'
@@ -52,6 +52,11 @@ describe 'Candidate dismissal' do
       it 'shows the dismiss candidate button again' do
         expect(page).to have_content 'Dismiss Candidate'
       end
+      it 'creates a log entry' do
+        visit candidate_path candidate
+        expect(page).to have_content 'reactivated'
+      end
     end
+
   end
 end
