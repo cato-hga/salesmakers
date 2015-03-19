@@ -47,9 +47,12 @@ class ApplicationPolicy
   def has_permission?(permission_name)
     key = @record.class.name.underscore + '_' + permission_name
     return false unless @user and @user.position
-    permission = Permission.find_by key: key
-    return false unless permission
-    @user.position.permissions.include? permission
+    permissions = Permission.where(key: key)
+    return false if permissions.empty?
+    for permission in permissions do
+      return true if @user.position.permissions.include?(permission)
+    end
+    false
   end
 end
 
