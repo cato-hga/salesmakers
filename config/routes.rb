@@ -217,6 +217,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get '*unmatched_route', to: 'root_redirects#no_route'
 end
 
 # OLD CRAP

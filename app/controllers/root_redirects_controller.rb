@@ -24,4 +24,12 @@ class RootRedirectsController < ApplicationController
       redirect_to devices_path and return
     end
   end
+
+  def no_route
+    unless request.fullpath.include?('/sales_charts/')
+      raise ActionController::RoutingError.new("No route matches #{params[:unmatched_route]}")
+    else
+      render nothing: true
+    end
+  end
 end
