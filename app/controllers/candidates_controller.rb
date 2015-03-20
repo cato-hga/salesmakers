@@ -214,11 +214,11 @@ class CandidatesController < ApplicationController
     @current_person.log? 'passed_assessment',
                          @candidate
     @candidate.update personality_assessment_completed: true
-    if @candidate.accepted?
+    if @candidate.confirmed?
       redirect_to send_paperwork_candidate_path(@candidate)
     else
       flash[:notice] = 'Marked candidate as having passed their personality assessment. ' +
-          'Paperwork will be sent after the job offer is extended.'
+          'Paperwork will be sent after details are confirmed.'
       redirect_to candidate_path(@candidate)
     end
   end

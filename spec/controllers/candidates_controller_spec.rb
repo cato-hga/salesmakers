@@ -557,7 +557,7 @@ describe CandidatesController do
     end
 
     context 'when accepted' do
-      let(:candidate) { create :candidate, status: :accepted }
+      let(:candidate) { create :candidate, status: :confirmed }
 
       before do
         allow(controller).to receive(:policy).and_return double(passed_assessment?: true)
