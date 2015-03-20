@@ -61,7 +61,6 @@ class Candidate < ActiveRecord::Base
       end
     end
   end
-  after_validation :reverse_geocode_on_production
 
   nilify_blanks
   extend NonAlphaNumericRansacker
@@ -81,6 +80,10 @@ class Candidate < ActiveRecord::Base
            :onboarded
        ]
 
+  after_validation :reverse_geocode_on_production,
+                   if: ->(candidate) {
+                     candidate.latitude.present? and candidate.latitude_changed?
+                   }
   after_validation :geocode_on_production,
                    if: ->(candidate) {
                      candidate.zip.present? and candidate.zip_changed?
