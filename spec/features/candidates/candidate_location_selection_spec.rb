@@ -22,7 +22,21 @@ describe 'selecting a Location for a Candidate' do
            latitude: 17.9857925,
            longitude: -66.3914388
   }
+  let(:location_two) {
+    create :location,
+           latitude: 18.9857925,
+           longitude: -69.3914388
+  }
   let!(:location_area) {
+    create :location_area,
+           location: location_two,
+           area: area,
+           target_head_count: 2,
+           potential_candidate_count: 1,
+           hourly_rate: 15,
+           radio_shack_location_schedule: schedule
+  }
+  let!(:location_area_two) {
     create :location_area,
            location: location,
            area: area,
@@ -30,6 +44,8 @@ describe 'selecting a Location for a Candidate' do
            potential_candidate_count: 1,
            hourly_rate: 15
   }
+
+  let(:schedule) { create :radio_shack_location_schedule }
 
   it 'recognizes that the location is nearby the candidate' do
     nearby = Location.near(candidate)
@@ -72,15 +88,16 @@ describe 'selecting a Location for a Candidate' do
     end
 
     it 'selects a location' do
-      click_on "#{location.channel.name}, #{location.display_name}"
+      within first('tbody tr') do
+        click_on "#{location.channel.name}, #{location.display_name}"
+      end
       expect(page).to have_content('successfully')
     end
-    # it 'has the option to dismiss a candidate due to schedule unavailability' do
-    #   expect(page).to have_content('Dismiss due to Schedule')
-    # end
-    # it 'has the schedules for each location listed' do
-    #   expect(page).to have_content 'Location Schedules'
-    # end
+    it 'has the option to dismiss a candidate due to schedule unavailability' do
+      expect(page).to have_content('Dismiss Candidate for Schedule Reason')
+    end
+    it 'has the schedules for each location listed' do
+      expect(page).to have_content 'Schedule'
+    end
   end
-
 end

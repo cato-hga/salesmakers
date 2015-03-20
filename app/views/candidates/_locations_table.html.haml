@@ -19,7 +19,7 @@
   - path = set_location_area_candidate_path(@candidate, location_area, @send_nhp.to_s)
   - distance = link_to location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes
   - city = location.city
-  - schedule = 'T4 W8 F4 Sa4'
+  - schedule = @schedule
   - location_name = link_to "#{location.channel.name}, #{location.display_name}", path, class: link_classes
   - store_number = link_to location.store_number, path, class: link_classes
   - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''

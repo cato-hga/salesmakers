@@ -109,6 +109,23 @@ class CandidatesController < ApplicationController
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
+    for location_area in @location_areas do
+      if location_area.radio_shack_location_schedule
+        schedule = location_area.radio_shack_location_schedule
+        monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
+        tuesday = schedule.tuesday > 0 ? ('T ' + schedule.tuesday.to_s + '<br/>') : ''
+        wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
+        thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
+        friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
+        saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
+        sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
+        @schedule = (
+        monday + tuesday + wednesday + thursday + friday + saturday + sunday
+        ).html_safe
+      else
+        @schedule = ''
+      end
+    end
     @send_nhp = params[:send_nhp] == 'true' ? true : false
   end
 

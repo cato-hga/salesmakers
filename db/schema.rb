@@ -808,7 +808,6 @@ ActiveRecord::Schema.define(version: 20150320201444) do
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.float "friday", default: 0.0, null: false
-    t.integer "location_area_id"
     t.float "monday", default: 0.0, null: false
     t.string "name", null: false
     t.float "saturday", default: 0.0, null: false
