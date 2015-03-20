@@ -1,42 +1,141 @@
 - title 'Active Candidate States'
 
+- content_for :action_buttons do
+  .label.inline_button
+    %strong
+      = Candidate.count
+    All Time
+
+- date_start = @datetime_start.to_date.strftime('%m/%d')
+- date_end = @datetime_end.to_date.strftime('%m/%d')
+
 .widgets#candidate_dashboard
   .widget#entered
     .inner
       %h3 Entered
-      .candidate_count.sm_green= @entered_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @entered_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @entered_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#prescreened
     .inner
       %h3 Prescreened
-      .candidate_count.sm_red= @prescreened_total.count
-  .widget#location_selected
-    .inner
-      %h3 Location Selected
-      .candidate_count.sm_red= @location_selected_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_red= @prescreened_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_red= @prescreened_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#interview_scheduled
     .inner
       %h3 Interview Scheduled
-      .candidate_count.sm_green= @interview_scheduled_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @interview_scheduled_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @interview_scheduled_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#accepted
     .inner
       %h3 Accepted
-      .candidate_count.sm_red= @accepted_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_red= @accepted_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_red= @accepted_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#paperwork_sent
     .inner
       %h3 Paperwork Sent
-      .candidate_count.sm_red= @paperwork_sent_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_red= @paperwork_sent_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_red= @paperwork_sent_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#paperwork_completed_by_candidate
     .inner
       %h3 Paperwork Completed by Candidate
-      .candidate_count.sm_red= @paperwork_completed_by_candidate_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_red= @paperwork_completed_by_candidate_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_red= @paperwork_completed_by_candidate_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#paperwork_completed_by_advocate
     .inner
       %h3 Paperwork Completed by Advocate
-      .candidate_count.sm_green= @paperwork_completed_by_advocate_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @paperwork_completed_by_advocate_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @paperwork_completed_by_advocate_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#onboarded
     .inner
       %h3 Onboarded
-      .candidate_count.sm_green= @onboarded_total.count
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @onboarded_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @onboarded_total.count
+          .small.centered_text.vertical_space
+            Active in Status
+  .widget#rejected
+    .inner
+      %h3 Rejected
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_red= @rejected_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_red= @rejected_total.count
+          .small.centered_text.vertical_space
+            Overall Rejections
 
 :javascript
   setTimeout(function() {

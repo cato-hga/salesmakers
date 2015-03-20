@@ -13,15 +13,15 @@ class CandidatesController < ApplicationController
 
   def dashboard
     set_datetime_range
-    @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
-    @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
-    @location_selected_total = Candidate.where(status: Candidate.statuses[:location_selected].to_i, active: true)
-    @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
-    @accepted_total = Candidate.where(status: Candidate.statuses[:accepted].to_i, active: true)
-    @paperwork_sent_total = Candidate.where(status: Candidate.statuses[:paperwork_sent].to_i, active: true)
-    @paperwork_completed_by_candidate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_candidate].to_i, active: true)
-    @paperwork_completed_by_advocate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_advocate].to_i, active: true)
-    @onboarded_total = Candidate.where(status: Candidate.statuses[:onboarded].to_i, active: true)
+    set_entered
+    set_prescreened
+    set_interview_scheduled
+    set_accepted
+    set_paperwork_sent
+    set_paperwork_completed_by_candidate
+    set_paperwork_completed_by_advocate
+    set_onboarded
+    set_rejected
   end
 
   def show
@@ -333,5 +333,88 @@ class CandidatesController < ApplicationController
         Time.zone.utc_offset +
         (DateTime.now.in_time_zone.dst? ? 3600 : 0)).
         end_of_day
+  end
+
+  def set_entered
+    @entered_range = Candidate.where(
+        "created_at >= ? AND created_at <= ?",
+        @datetime_start,
+        @datetime_end
+    )
+    @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
+  end
+
+  def set_prescreened
+    @prescreened_range = Candidate.
+        joins(:prescreen_answers).
+        where("prescreen_answers.created_at >= ? AND prescreen_answers.created_at <= ?",
+              @datetime_start,
+              @datetime_end)
+    @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
+  end
+
+  def set_interview_scheduled
+    @interview_scheduled_range = Candidate.
+        joins(:interview_schedules).
+        where("interview_schedules.created_at >= ? AND interview_schedules.created_at <= ?",
+              @datetime_start,
+              @datetime_end)
+    @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
+  end
+
+  def set_accepted
+    @accepted_range = Candidate.
+        joins(:interview_answers).
+        where("interview_answers.created_at >= ? AND interview_answers.created_at <= ? AND candidates.active = true",
+              @datetime_start,
+              @datetime_end)
+    @accepted_total = Candidate.where(status: Candidate.statuses[:accepted].to_i, active: true)
+  end
+
+  def set_paperwork_sent
+    @paperwork_sent_range = Candidate.
+        joins(:job_offer_details).
+        where("job_offer_details.sent >= ? AND job_offer_details.sent <= ?",
+              @datetime_start,
+              @datetime_end)
+    @paperwork_sent_total = Candidate.where(status: Candidate.statuses[:paperwork_sent].to_i, active: true)
+  end
+
+  def set_paperwork_completed_by_candidate
+    @paperwork_completed_by_candidate_range = Candidate.
+        joins(:job_offer_details).
+        where("job_offer_details.completed_by_candidate >= ? AND job_offer_details.completed_by_candidate <= ?",
+              @datetime_start,
+              @datetime_end)
+    @paperwork_completed_by_candidate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_candidate].to_i, active: true)
+  end
+
+  def set_paperwork_completed_by_advocate
+    @paperwork_completed_by_advocate_range = Candidate.
+        joins(:job_offer_details).
+        where("job_offer_details.completed_by_advocate >= ? AND job_offer_details.completed_by_advocate <= ?",
+              @datetime_start,
+              @datetime_end)
+    @paperwork_completed_by_advocate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_advocate].to_i, active: true)
+  end
+
+  def set_onboarded
+    @onboarded_range = Candidate.
+        joins(:person).
+        where(
+            "people.created_at >= ? AND people.created_at <= ?",
+            @datetime_start,
+            @datetime_end
+        )
+    @onboarded_total = Candidate.where(status: Candidate.statuses[:onboarded].to_i, active: true)
+  end
+
+  def set_rejected
+    @rejected_range = Candidate.where(
+        "active = false AND updated_at >= ? AND updated_at <= ?",
+        @datetime_start,
+        @datetime_end
+    )
+    @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
   end
 end
