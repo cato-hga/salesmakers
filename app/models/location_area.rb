@@ -5,7 +5,9 @@ class LocationArea < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :area
+  belongs_to :radio_shack_location_schedule
   has_many :candidates
+
 
   default_scope { where(active: true) }
 

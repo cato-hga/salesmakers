@@ -75,6 +75,12 @@ describe 'selecting a Location for a Candidate' do
       click_on "#{location.channel.name}, #{location.display_name}"
       expect(page).to have_content('successfully')
     end
+    # it 'has the option to dismiss a candidate due to schedule unavailability' do
+    #   expect(page).to have_content('Dismiss due to Schedule')
+    # end
+    # it 'has the schedules for each location listed' do
+    #   expect(page).to have_content 'Location Schedules'
+    # end
   end
 
 end
