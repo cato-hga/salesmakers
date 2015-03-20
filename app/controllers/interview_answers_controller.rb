@@ -31,6 +31,7 @@ class InterviewAnswersController < ApplicationController
   def extend_job_offer
     @candidate.accepted!
     @current_person.log? 'create',
+                         @interview_answer,
                          @candidate
     @current_person.log? 'extended_job_offer',
                          @candidate
@@ -49,6 +50,7 @@ class InterviewAnswersController < ApplicationController
     @denial_reason = params[:interview_answer][:candidate][:candidate_denial_reason_id]
     @candidate.update active: false, candidate_denial_reason_id: @denial_reason
     @current_person.log? 'create',
+                         @interview_answer,
                          @candidate
     denial_reason = CandidateDenialReason.find_by id: @denial_reason
     @current_person.log? 'job_offer_not_extended',
