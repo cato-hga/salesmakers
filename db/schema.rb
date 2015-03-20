@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320120232) do
+ActiveRecord::Schema.define(version: 20150320153519) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,27 @@ ActiveRecord::Schema.define(version: 20150320120232) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "candidate_scheduling_dismissals", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.text "comment", null: false
+    t.datetime "created_at", null: false
+    t.datetime "friday_end"
+    t.datetime "friday_start"
+    t.datetime "monday_end"
+    t.datetime "monday_start"
+    t.datetime "saturday_end"
+    t.datetime "saturday_start"
+    t.datetime "sunday_end"
+    t.datetime "sunday_start"
+    t.datetime "thursday_end"
+    t.datetime "thursday_start"
+    t.datetime "tuesday_end"
+    t.datetime "tuesday_start"
+    t.datetime "updated_at", null: false
+    t.datetime "wednesday_end"
+    t.datetime "wednesday_start"
   end
 
   create_table "candidate_sms_messages", force: :cascade do |t|
@@ -781,6 +802,20 @@ ActiveRecord::Schema.define(version: 20150320120232) do
 
   add_index "questions", ["answer_id"], name: "index_questions_on_answer_id", using: :btree
   add_index "questions", ["person_id"], name: "index_questions_on_person_id", using: :btree
+
+  create_table "radio_shack_location_schedules", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.float "friday", default: 0.0, null: false
+    t.float "monday", default: 0.0, null: false
+    t.string "name", null: false
+    t.float "saturday", default: 0.0, null: false
+    t.float "sunday", default: 0.0, null: false
+    t.float "thursday", default: 0.0, null: false
+    t.float "tuesday", default: 0.0, null: false
+    t.datetime "updated_at", null: false
+    t.float "wednesday", default: 0.0, null: false
+  end
 
   create_table "sales_performance_ranks", force: :cascade do |t|
     t.datetime "created_at"
