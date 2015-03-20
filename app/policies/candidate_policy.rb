@@ -32,8 +32,12 @@ class CandidatePolicy < ApplicationPolicy
     select_location?
   end
 
-  def confirm_location?
+  def confirm?
     select_location?
+  end
+
+  def record_confirmation?
+    confirm?
   end
 
   def send_paperwork?

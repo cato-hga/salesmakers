@@ -28,12 +28,13 @@ Rails.application.routes.draw do
       end
     end
     member do
-      get 'select_location/:send_nhp', to: :select_location, as: :select_location
-      get 'set_location_area/:location_area_id/:send_nhp', to: :set_location_area, as: :set_location_area
+      get 'select_location/:back_to_confirm', to: :select_location, as: :select_location
+      get 'set_location_area/:location_area_id/:back_to_confirm', to: :set_location_area, as: :set_location_area
       get :send_paperwork, to: :send_paperwork, as: :send_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
-      get :confirm_location, as: :confirm_location
+      get :confirm, as: :confirm
+      post :record_confirmation, as: :record_confirmation
       put :passed_assessment, as: :passed_assessment
       put :failed_assessment, as: :failed_assessment
       get :dismiss

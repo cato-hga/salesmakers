@@ -35,13 +35,8 @@ class InterviewAnswersController < ApplicationController
                          @candidate
     @current_person.log? 'extended_job_offer',
                          @candidate
-    if @candidate.active? and @candidate.passed_personality_assessment?
-      flash[:notice] = 'Interview answers saved.'
-      redirect_to confirm_location_candidate_path(@candidate)
-    else
-      flash[:notice] = 'Interview answers saved. Paperwork will be sent when personality assessment is passed.'
-      redirect_to candidate_path(@candidate)
-    end
+    flash[:notice] = 'Interview answers saved.'
+    redirect_to confirm_candidate_path(@candidate)
   end
 
   def do_not_extend_offer

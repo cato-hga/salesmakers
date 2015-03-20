@@ -16,7 +16,7 @@
     %p
       Listed below are the nearest locations to the candidate.
     %p.row.full-width
-      = search_form_for @search, url: select_location_candidate_path(@candidate, @send_nhp.to_s) do |f|
+      = search_form_for @search, url: select_location_candidate_path(@candidate, @back_to_confirm.to_s) do |f|
         - projects = @location_areas.map{|la| [la.area.project.name, la.area.project.id]}.uniq
         = f.select :area_project_id_eq, projects, { include_blank: true }, { class: [:autosize_dropdown] }
         = f.submit 'Filter', class: [:button, :inline_button]
@@ -44,7 +44,7 @@
       - if location_area.hourly_rate
         - info_window += "<strong>Hourly Rate: #{number_to_currency(location_area.hourly_rate)}</strong><br><br>".html_safe
       - info_window += "<strong>Open: #{open}</strong><br><br>".html_safe
-      - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @send_nhp.to_s)
+      - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
       :javascript
          markers.push({
           "lat": #{html_escape(location.latitude)},

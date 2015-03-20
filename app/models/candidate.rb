@@ -73,6 +73,7 @@ class Candidate < ActiveRecord::Base
            :interviewed,
            :rejected,
            :accepted,
+           :confirmed,
            :paperwork_sent,
            :paperwork_completed_by_candidate,
            :paperwork_completed_by_advocate,
@@ -110,6 +111,7 @@ class Candidate < ActiveRecord::Base
   has_many :interview_answers
   has_many :job_offer_details
   has_many :candidate_contacts
+  has_one :training_availability
 
   default_scope { order(:first_name, :last_name) }
 

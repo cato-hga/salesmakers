@@ -49,14 +49,6 @@ describe 'personality assessment functionality' do
         expect(page).not_to have_selector('input[value="Mark Personality Assessment Passed"]')
         expect(page).not_to have_selector('input[value="Mark Personality Assessment Failed"]')
       end
-
-      context 'but the location is not confirmed' do
-        let(:candidate_no_offer) { create :candidate, status: :accepted }
-        it 'shows a button for confirming location' do
-          visit candidate_path(candidate_no_offer)
-          expect(page).to have_content 'Confirm Location and Send Paperwork'
-        end
-      end
     end
   end
 end

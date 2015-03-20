@@ -122,7 +122,7 @@ describe 'Interview answers' do
             click_on 'Extend offer'
           end
           it 'displays a confirmation' do
-            expect(page).to have_content 'Confirm Location'
+            expect(page).to have_content 'Confirm Details'
           end
           it 'redirects to the location confirmation page' do
             expect(page).to have_content location_area.location.address

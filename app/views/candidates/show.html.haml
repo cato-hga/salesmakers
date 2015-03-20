@@ -64,6 +64,13 @@
           %span.sm_green COMPLETE
       - offers = @candidate.job_offer_details
       %p
+        %strong Confirmation of Details:
+        - if @candidate.training_availability
+          %span.sm_green COMPLETE
+        - else
+          %span.sm_red INCOMPLETE
+      - offers = @candidate.job_offer_details
+      %p
         %strong Sending Paperwork:
         - if offers.empty?
           %span.sm_red INCOMPLETE
@@ -106,7 +113,7 @@
           - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
         - when 'accepted'
           - if @candidate.job_offer_details == []
-            - link_to 'Confirm Location and Send Paperwork', confirm_location_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details and Send Paperwork', confirm_candidate_path(@candidate), class: :button
           - else
             - ''
         - else

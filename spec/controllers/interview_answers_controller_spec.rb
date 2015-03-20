@@ -62,37 +62,19 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
       end
+
       it 'updates the candidate status' do
         subject
         candidate.reload
         expect(candidate.status).to eq('accepted')
       end
 
-      context 'when personality assessment passed' do
-        before do
-          candidate.update personality_assessment_completed: true,
-                           location_area: location_area
-        end
-
-        it 'redirects to location confirmation' do
-          subject
-          expect(response).to redirect_to(confirm_location_candidate_path(candidate))
-        end
-      end
-
-      context 'when personality assessment not passed' do
-        before do
-          candidate.update personality_assessment_completed: true,
-                           location_area: location_area,
-                           active: false
-        end
-
-        it 'redirects to candidate page' do
-          subject
-          expect(response).to redirect_to(candidate_path(candidate))
-        end
+      it 'redirects to confirmation page' do
+        subject
+        expect(response).to redirect_to(confirm_candidate_path(candidate))
       end
     end
+
     context 'success for candidates not extended a job offer' do
       subject do
         post :create,

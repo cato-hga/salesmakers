@@ -224,7 +224,7 @@ describe CandidatesController do
   describe 'GET select_location' do
     let(:candidate) { create :candidate }
 
-    before { get :select_location, id: candidate.id, send_nhp: 'false' }
+    before { get :select_location, id: candidate.id, back_to_confirm: 'false' }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -245,7 +245,7 @@ describe CandidatesController do
       get :set_location_area,
           id: candidate.id,
           location_area_id: location_area.id,
-          send_nhp: 'false'
+          back_to_confirm: 'false'
     }
 
     it 'redirects to interview schedule' do
@@ -287,18 +287,76 @@ describe CandidatesController do
     end
   end
 
-  describe 'GET confirm_location' do
+  describe 'GET confirm' do
     let!(:candidate) { create :candidate, location_area: location_area }
     let!(:location_area) { create :location_area }
 
-    before { get :confirm_location, id: candidate.id }
+    before { get :confirm, id: candidate.id }
 
     it 'returns a success status' do
       expect(response).to be_success
     end
 
-    it 'sets the location_area_id on the candidate' do
-      expect(response).to render_template(:confirm_location)
+    it 'renders the confirm template' do
+      expect(response).to render_template(:confirm)
+    end
+  end
+
+  describe 'POST record_confirmation' do
+    let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
+    let!(:recruiter) { create :person, position: position }
+    let(:position) { create :position, permissions: [permission_create, permission_index] }
+    let!(:location_area) { create :location_area }
+    let(:permission_group) { PermissionGroup.create name: 'Candidates' }
+    let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
+    let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
+    let!(:reason) { create :training_unavailability_reason }
+
+    before do
+      CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+    end
+
+    subject do
+      post :record_confirmation,
+           id: candidate.id,
+           shirt_gender: 'Male',
+           shirt_size: 'L',
+           able_to_attend: 'true'
+    end
+
+    it 'creates a log entry' do
+      expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'updates the candidate status' do
+      subject
+      candidate.reload
+      expect(candidate.status).to eq('confirmed')
+    end
+
+    context 'when personality assessment passed' do
+      before do
+        candidate.update personality_assessment_completed: true,
+                         location_area: location_area
+      end
+
+      it 'redirects to sending paperwork' do
+        subject
+        expect(response).to redirect_to(send_paperwork_candidate_path(candidate))
+      end
+    end
+
+    context 'when personality assessment not passed' do
+      before do
+        candidate.update personality_assessment_completed: true,
+                         location_area: location_area,
+                         active: false
+      end
+
+      it 'redirects to candidate page' do
+        subject
+        expect(response).to redirect_to(candidate_path(candidate))
+      end
     end
   end
 
@@ -362,6 +420,7 @@ describe CandidatesController do
         subject
       }.to change(SMSMessage, :count).by(1)
     end
+
     it 'creates a Candidate Contact entry' do
       expect {
         subject
@@ -515,8 +574,8 @@ describe CandidatesController do
         expect(candidate.personality_assessment_completed?).to be_truthy
       end
 
-      it 'redirects to confirm location' do
-        expect(response).to redirect_to(confirm_location_candidate_path(candidate))
+      it 'redirects to send_paperwork' do
+        expect(response).to redirect_to(send_paperwork_candidate_path(candidate))
       end
     end
 

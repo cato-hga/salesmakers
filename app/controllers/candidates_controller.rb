@@ -3,6 +3,7 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
+  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
@@ -109,12 +110,12 @@ class CandidatesController < ApplicationController
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
-    @send_nhp = params[:send_nhp] == 'true' ? true : false
+    @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
   end
 
   def set_location_area
     @location_area = LocationArea.find params[:location_area_id]
-    @send_nhp = params[:send_nhp] == 'true' ? true : false
+    @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
     previous_location_area = @candidate.location_area
     unless @candidate.update(location_area: @location_area)
       flash[:error] = @candidate.errors.full_messages.join(', ')
@@ -126,8 +127,8 @@ class CandidatesController < ApplicationController
     @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
     @candidate.location_selected!
     flash[:notice] = 'Location chosen successfully.'
-    if @send_nhp
-      redirect_to send_paperwork_candidate_path(@candidate)
+    if @back_to_confirm
+      redirect_to confirm_candidate_path(@candidate)
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
       @current_person.log? 'sent_assessment',
@@ -136,8 +137,33 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def confirm_location
+  def confirm
     #just uses get_candidate
+    @training_availability = TrainingAvailability.new
+  end
+
+  def record_confirmation
+    @training_availability = TrainingAvailability.new
+    if @shirt_gender.blank? or @shirt_size.blank?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :confirm and return
+    end
+    @training_availability.able_to_attend = @able_to_attend
+    @training_availability.candidate = @candidate
+    set_unable_to_attend_params unless @able_to_attend
+    if @training_availability.save
+      @current_person.log? 'confirmed',
+                           @candidate
+      @candidate.confirmed!
+      if @candidate.active? and @candidate.passed_personality_assessment?
+        redirect_to send_paperwork_candidate_path(@candidate)
+      else
+        flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
+        redirect_to candidate_path(@candidate)
+      end
+    else
+      render :confirm
+    end
   end
 
   def send_paperwork
@@ -172,8 +198,7 @@ class CandidatesController < ApplicationController
                          @candidate
     @candidate.update personality_assessment_completed: true
     if @candidate.accepted?
-      flash[:notice] = 'Marked candidate as having passed their personality assessment.'
-      redirect_to confirm_location_candidate_path(@candidate)
+      redirect_to send_paperwork_candidate_path(@candidate)
     else
       flash[:notice] = 'Marked candidate as having passed their personality assessment. ' +
           'Paperwork will be sent after the job offer is extended.'
@@ -417,4 +442,48 @@ class CandidatesController < ApplicationController
     )
     @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
   end
+
+  def setup_confirm_form_values
+    @training_unavailability_reasons = TrainingUnavailabilityReason.all
+    @shirt_gender = params[:shirt_gender]
+    @shirt_size = params[:shirt_size]
+    @shirt_size = params[:shirt_size]
+    @able_to_attend = params[:able_to_attend] == 'true' ? true : false
+    @training_unavailability_reason_id = params[:training_unavailability_reason_id]
+    @comments = params[:comments]
+    @monday_am = params[:monday_am]
+    @tuesday_am = params[:tuesday_am]
+    @wednesday_am = params[:wednesday_am]
+    @thursday_am = params[:thursday_am]
+    @friday_am = params[:friday_am]
+    @saturday_am = params[:saturday_am]
+    @sunday_am = params[:sunday_am]
+    @monday_pm = params[:monday_pm]
+    @tuesday_pm = params[:tuesday_pm]
+    @wednesday_pm = params[:wednesday_pm]
+    @thursday_pm = params[:thursday_pm]
+    @friday_pm = params[:friday_pm]
+    @saturday_pm = params[:saturday_pm]
+    @sunday_pm = params[:sunday_pm]
+  end
+
+  def set_unable_to_attend_params
+    @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
+    @comments = @comments
+    @training_availability.monday_am = @monday_am
+    @training_availability.tuesday_am = @tuesday_am
+    @training_availability.wednesday_am = @wednesday_am
+    @training_availability.thursday_am = @thursday_am
+    @training_availability.friday_am = @friday_am
+    @training_availability.saturday_am = @saturday_am
+    @training_availability.sunday_am = @sunday_am
+    @training_availability.monday_pm = @monday_pm
+    @training_availability.tuesday_pm = @tuesday_pm
+    @training_availability.wednesday_pm = @wednesday_pm
+    @training_availability.thursday_pm = @thursday_pm
+    @training_availability.friday_pm = @friday_pm
+    @training_availability.saturday_pm = @saturday_pm
+    @training_availability.sunday_pm = @sunday_pm
+  end
+
 end

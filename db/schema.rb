@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320183904) do
+ActiveRecord::Schema.define(version: 20150320230456) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -140,6 +140,8 @@ ActiveRecord::Schema.define(version: 20150320183904) do
     t.string "mobile_phone", null: false
     t.integer "person_id"
     t.boolean "personality_assessment_completed", default: false, null: false
+    t.string "shirt_gender"
+    t.string "shirt_size"
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
@@ -916,6 +918,29 @@ ActiveRecord::Schema.define(version: 20150320183904) do
     t.string "zip", limit: 255
   end
 
+  create_table "training_availabilities", force: :cascade do |t|
+    t.boolean "able_to_attend", default: false, null: false
+    t.integer "candidate_id", null: false
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.boolean "friday_am"
+    t.boolean "friday_pm"
+    t.boolean "monday_am"
+    t.boolean "monday_pm"
+    t.boolean "saturday_am"
+    t.boolean "saturday_pm"
+    t.boolean "sunday_am"
+    t.boolean "sunday_pm"
+    t.boolean "thursday_am"
+    t.boolean "thursday_pm"
+    t.integer "training_unavailability_reason_id"
+    t.boolean "tuesday_am"
+    t.boolean "tuesday_pm"
+    t.datetime "updated_at", null: false
+    t.boolean "wednesday_am"
+    t.boolean "wednesday_pm"
+  end
+
   create_table "training_class_attendees", force: :cascade do |t|
     t.boolean "attended", default: false, null: false
     t.text "conditional_pass_condition"
@@ -964,6 +989,12 @@ ActiveRecord::Schema.define(version: 20150320183904) do
     t.boolean "tuesday", default: false, null: false
     t.datetime "updated_at", null: false
     t.boolean "wednesday", default: false, null: false
+  end
+
+  create_table "training_unavailability_reasons", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "uploaded_images", force: :cascade do |t|
