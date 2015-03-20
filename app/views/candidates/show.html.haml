@@ -118,7 +118,7 @@
             - ''
         - else
           - ''
-      = action
+      = action if @candidate.active?
   - if @candidate.location_area
     .widget
       .inner
