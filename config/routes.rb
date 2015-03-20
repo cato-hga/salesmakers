@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -49,6 +50,7 @@ Rails.application.routes.draw do
         put :save_call_results, as: :save_call_results
       end
     end
+    resources :candidate_scheduling_dismissals, only: [:new, :create]
   end
 
   resources :changelog_entries, only: [:index, :new, :create]
