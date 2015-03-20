@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320120232) do
+ActiveRecord::Schema.define(version: 20150320171037) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,27 @@ ActiveRecord::Schema.define(version: 20150320120232) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "candidate_scheduling_dismissals", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.text "comment", null: false
+    t.datetime "created_at", null: false
+    t.boolean "friday_am"
+    t.boolean "friday_pm"
+    t.datetime "monday_am"
+    t.boolean "monday_pm"
+    t.boolean "saturday_am"
+    t.boolean "saturday_pm"
+    t.boolean "sunday_am"
+    t.boolean "sunday_pm"
+    t.boolean "thursday_am"
+    t.boolean "thursday_pm"
+    t.boolean "tuesday_am"
+    t.boolean "tuesday_pm"
+    t.datetime "updated_at", null: false
+    t.boolean "wednesday_am"
+    t.boolean "wednesday_pm"
   end
 
   create_table "candidate_sms_messages", force: :cascade do |t|
@@ -515,6 +536,7 @@ ActiveRecord::Schema.define(version: 20150320120232) do
     t.float "hourly_rate"
     t.integer "location_id", null: false
     t.integer "potential_candidate_count", default: 0, null: false
+    t.integer "radio_shack_location_schedule_id"
     t.integer "target_head_count", default: 0, null: false
     t.datetime "updated_at", null: false
   end
@@ -781,6 +803,21 @@ ActiveRecord::Schema.define(version: 20150320120232) do
 
   add_index "questions", ["answer_id"], name: "index_questions_on_answer_id", using: :btree
   add_index "questions", ["person_id"], name: "index_questions_on_person_id", using: :btree
+
+  create_table "radio_shack_location_schedules", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.float "friday", default: 0.0, null: false
+    t.integer "location_area_id"
+    t.float "monday", default: 0.0, null: false
+    t.string "name", null: false
+    t.float "saturday", default: 0.0, null: false
+    t.float "sunday", default: 0.0, null: false
+    t.float "thursday", default: 0.0, null: false
+    t.float "tuesday", default: 0.0, null: false
+    t.datetime "updated_at", null: false
+    t.float "wednesday", default: 0.0, null: false
+  end
 
   create_table "sales_performance_ranks", force: :cascade do |t|
     t.datetime "created_at"
