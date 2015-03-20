@@ -9,4 +9,6 @@ class RadioShackLocationSchedule < ActiveRecord::Base
   validates :friday, presence: true
   validates :saturday, presence: true
   validates :sunday, presence: true
+
+  has_many :location_areas
 end
