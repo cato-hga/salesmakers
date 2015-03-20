@@ -32,6 +32,10 @@ class DocusignTemplate < ActiveRecord::Base
               ·         Click the "Next"" box on the left hand side in order to take you through the required fields, If anything is not applicable to you please type in "N/A".
 
               Please contact your recruiter should you have any questions or problems.
+
+              Your location is set to #{location_area.location.address} (store number #{location_area.location.store_number}).
+              Your area is set to #{location_area.area.name}.
+
             }
         },
         template_id: template.template_guid,
