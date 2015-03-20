@@ -8,9 +8,9 @@ describe PrescreenAnswer do
       answer.candidate_id = nil
       expect(answer).not_to be_valid
     end
-    it 'requires an answer to all questions' do
-      answer.worked_for_salesmakers = nil
-      expect(answer).not_to be_valid
+    it 'requires an answer to all questions except "has not worked for SalesMakers"' do
+      #answer.worked_for_salesmakers = nil
+      #expect(answer).not_to be_valid
       answer.of_age_to_work = nil
       expect(answer).not_to be_valid
       answer.eligible_smart_phone = nil

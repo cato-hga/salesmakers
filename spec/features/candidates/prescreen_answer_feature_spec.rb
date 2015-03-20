@@ -57,7 +57,7 @@ describe 'Prescreen answers' do
 
       context 'with all fields selected' do
         before(:each) do
-          check :prescreen_answer_worked_for_salesmakers
+          #check :prescreen_answer_worked_for_salesmakers
           check :prescreen_answer_worked_for_sprint
           check :prescreen_answer_of_age_to_work
           check :prescreen_answer_high_school_diploma

@@ -1,7 +1,7 @@
 class PrescreenAnswer < ActiveRecord::Base
 
   validates :candidate_id, presence: true
-  validates :worked_for_salesmakers, presence: true
+  # validates :worked_for_salesmakers, presence: true
   validates :of_age_to_work, presence: true
   validates :eligible_smart_phone, presence: true
   validates :can_work_weekends, presence: true
