@@ -18,7 +18,11 @@
 #Custom ignores
 /config/database.yml
 /.idea/*.ids
-/.idea/workspace.xml
+*/.idea/workspace.xml
+**/.idea/workspace.xml
+.idea/workspace.xml
+.idea*
+.idea*.generators
 /.idea/reconnect.iml
 .idea/*
 /.idea/*
