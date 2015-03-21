@@ -24,6 +24,11 @@
         %p
           %strong Hourly Rate:
           = number_to_currency(@candidate.location_area.hourly_rate)
+        - unless @schedule.empty?
+          %p
+            %strong Schedule:
+            %br/
+            = @schedule
         %p
           %br/
           = link_to 'Change Location', select_location_candidate_path(@candidate, 'true'), class: [:button]
@@ -40,57 +45,10 @@
         %p
           Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
         = label_tag :able_to_attend, 'Is the candidate able to attend the training?'
-        = select_tag :able_to_attend, options_for_select([['Yes', true], ['No', false]], @able_to_attend)
+        = select_tag :able_to_attend, options_for_select([['Yes', true], ['No', false]], @able_to_attend), include_blank: true
         #unable_to_attend(style="display:none;")
           = label_tag :training_unavailability_reason_id, 'Why not?'
           = select_tag :training_unavailability_reason_id, options_from_collection_for_select(@training_unavailability_reasons, :id, :name, @training_unavailability_reason_id), include_blank: true
           = label_tag :comments
           = text_area_tag :comments, @comments, rows: 5
-          = label_tag :availability
-          %table
-            %thead
-              %tr
-                %th
-                %th M
-                %th Tu
-                %th W
-                %th Th
-                %th F
-                %th Sa
-                %th Su
-            %tbody
-              %tr
-                %td
-                  %strong AM
-                %td
-                  = check_box_tag :monday_am, @monday_am
-                %td
-                  = check_box_tag :tueday_am, @tuesday_am
-                %td
-                  = check_box_tag :wednesday_am, @wednesday_am
-                %td
-                  = check_box_tag :thursday_am, @thursday_am
-                %td
-                  = check_box_tag :friday_am, @friday_am
-                %td
-                  = check_box_tag :saturday_am, @saturday_am
-                %td
-                  = check_box_tag :sunday_am, @sunday_am
-              %tr
-                %td
-                  %strong AM
-                %td
-                  = check_box_tag :monday_pm, @monday_pm
-                %td
-                  = check_box_tag :tueday_pm, @tuesday_pm
-                %td
-                  = check_box_tag :wednesday_pm, @wednesday_pm
-                %td
-                  = check_box_tag :thursday_pm, @thursday_pm
-                %td
-                  = check_box_tag :friday_pm, @friday_pm
-                %td
-                  = check_box_tag :saturday_pm, @saturday_pm
-                %td
-                  = check_box_tag :sunday_pm, @sunday_pm
   = submit_tag 'Confirm and Save', class: [:button, :success]

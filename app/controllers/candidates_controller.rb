@@ -3,8 +3,8 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
+  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   def index
@@ -157,6 +157,7 @@ class CandidatesController < ApplicationController
   def confirm
     #just uses get_candidate
     @training_availability = TrainingAvailability.new
+
   end
 
   def record_confirmation
@@ -466,42 +467,38 @@ class CandidatesController < ApplicationController
     @shirt_gender = params[:shirt_gender]
     @shirt_size = params[:shirt_size]
     @shirt_size = params[:shirt_size]
-    @able_to_attend = (params[:able_to_attend] and params[:able_to_attend] == 'false') ? false : true
+    @able_to_attend = if params[:able_to_attend] and not params[:able_to_attend].empty?
+                        if params[:able_to_attend] == 'false'
+                          false
+                        else
+                          true
+                        end
+                      else
+                        nil
+                      end
     @training_unavailability_reason_id = params[:training_unavailability_reason_id]
     @comments = params[:comments]
-    @monday_am = params[:monday_am]
-    @tuesday_am = params[:tuesday_am]
-    @wednesday_am = params[:wednesday_am]
-    @thursday_am = params[:thursday_am]
-    @friday_am = params[:friday_am]
-    @saturday_am = params[:saturday_am]
-    @sunday_am = params[:sunday_am]
-    @monday_pm = params[:monday_pm]
-    @tuesday_pm = params[:tuesday_pm]
-    @wednesday_pm = params[:wednesday_pm]
-    @thursday_pm = params[:thursday_pm]
-    @friday_pm = params[:friday_pm]
-    @saturday_pm = params[:saturday_pm]
-    @sunday_pm = params[:sunday_pm]
+    location_area = @candidate.location_area
+    if location_area and location_area.radio_shack_location_schedule
+      schedule = location_area.radio_shack_location_schedule
+      monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
+      tuesday = schedule.tuesday > 0 ? ('Tu ' + schedule.tuesday.to_s + '<br/>') : ''
+      wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
+      thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
+      friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
+      saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
+      sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
+      @schedule = (
+      monday + tuesday + wednesday + thursday + friday + saturday + sunday
+      ).html_safe
+    else
+      @schedule = ''
+    end
   end
 
   def set_unable_to_attend_params
     @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
     @comments = @comments
-    @training_availability.monday_am = @monday_am
-    @training_availability.tuesday_am = @tuesday_am
-    @training_availability.wednesday_am = @wednesday_am
-    @training_availability.thursday_am = @thursday_am
-    @training_availability.friday_am = @friday_am
-    @training_availability.saturday_am = @saturday_am
-    @training_availability.sunday_am = @sunday_am
-    @training_availability.monday_pm = @monday_pm
-    @training_availability.tuesday_pm = @tuesday_pm
-    @training_availability.wednesday_pm = @wednesday_pm
-    @training_availability.thursday_pm = @thursday_pm
-    @training_availability.friday_pm = @friday_pm
-    @training_availability.saturday_pm = @saturday_pm
-    @training_availability.sunday_pm = @sunday_pm
   end
 
   def geocode_if_necessary

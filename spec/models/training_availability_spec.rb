@@ -23,12 +23,6 @@ describe TrainingAvailability do
       subject.training_unavailability_reason = nil
       expect(subject).not_to be_valid
     end
-
-    it 'requires at least one availability flag' do
-      expect(subject).not_to be_valid
-      subject.tuesday_am = true
-      expect(subject).to be_valid
-    end
   end
 
 end
