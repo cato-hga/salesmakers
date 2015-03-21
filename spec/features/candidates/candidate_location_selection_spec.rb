@@ -93,9 +93,9 @@ describe 'selecting a Location for a Candidate' do
       end
       expect(page).to have_content('successfully')
     end
-    it 'has the option to dismiss a candidate due to schedule unavailability' do
-      expect(page).to have_content('Dismiss Candidate for Schedule Reason')
-    end
+    # it 'has the option to dismiss a candidate due to schedule unavailability' do
+    #   expect(page).to have_content('Dismiss Candidate for Schedule Reason')
+    # end
     it 'has the schedules for each location listed' do
       expect(page).to have_content 'Schedule'
     end

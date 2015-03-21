@@ -15,6 +15,7 @@ describe 'candidate show page' do
            notes: 'This is a sample note'
   }
   let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate, start_time: (Time.zone.now + 1.day) }
+  let!(:interview_answer) { create :interview_answer, candidate: candidate }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
