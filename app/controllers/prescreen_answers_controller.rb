@@ -6,6 +6,7 @@ class PrescreenAnswersController < ApplicationController
     @prescreen_answer = PrescreenAnswer.new
     @candidate = Candidate.find params[:candidate_id]
     @call_initiated = DateTime.now.to_i
+    @candidate_availability = CandidateAvailability.new
   end
 
   def create
@@ -18,16 +19,25 @@ class PrescreenAnswersController < ApplicationController
       render :new and return
     end
     @prescreen_answer.candidate = @candidate
-    if @prescreen_answer.save
-      set_prescreened(call_initiated)
-      redirect_to select_location_candidate_path(@candidate, 'false')
+    @candidate_availability = CandidateAvailability.new availability_params
+    @candidate_availability.candidate = @candidate
+    if @candidate_availability.save
+      if @prescreen_answer.save
+        set_prescreened(call_initiated)
+        flash[:notice] = 'Answers and Availability saved'
+        redirect_to select_location_candidate_path(@candidate, 'false')
+      else
+        flash[:error] = 'Candidate did not pass prescreening'
+        @candidate.rejected!
+        @candidate.update active: false
+        create_rejection_contact(call_initiated)
+        redirect_to new_candidate_path
+      end
     else
-      flash[:error] = 'Candidate did not pass prescreening'
-      @candidate.rejected!
-      @candidate.update active: false
-      create_rejection_contact(call_initiated)
-      redirect_to new_candidate_path
+      flash[:error] = 'At least one availability checkbox must be selected'
+      render :new
     end
+
   end
 
   private
@@ -41,6 +51,33 @@ class PrescreenAnswersController < ApplicationController
                                              :worked_for_sprint,
                                              :eligible_smart_phone,
                                              :ok_to_screen
+    )
+  end
+
+  def availability_params
+    params.require(:candidate_availability).permit(
+        :monday_first,
+        :monday_second,
+        :monday_third,
+        :tuesday_first,
+        :tuesday_second,
+        :tuesday_third,
+        :wednesday_first,
+        :wednesday_second,
+        :wednesday_third,
+        :thursday_first,
+        :thursday_second,
+        :thursday_third,
+        :friday_first,
+        :friday_second,
+        :friday_third,
+        :saturday_first,
+        :saturday_second,
+        :saturday_third,
+        :sunday_first,
+        :sunday_second,
+        :sunday_third,
+        :comment
     )
   end
 

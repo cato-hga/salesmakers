@@ -28,7 +28,7 @@ describe 'Prescreen answers' do
       visit new_candidate_prescreen_answer_path candidate
     end
 
-    it 'has the new candidate form with all fields' do
+    it 'has the prescreen candidate form with all fields' do
       expect(page).to have_content('Candidate has not worked for SalesMakers')
       expect(page).to have_content('Candidate has not worked for Sprint, or is eligible for rehire')
       expect(page).to have_content('Candidate is over 18')
@@ -39,11 +39,18 @@ describe 'Prescreen answers' do
       expect(page).to have_content('Candidate gave permission for background check and drug screen')
       expect(page).to have_content('Is this call inbound or outbound?')
       expect(page).to have_button 'Save Answers'
+      within('.availability') do
+        expect(page).to have_content 'Candidate Availability'
+        expect(page).to have_content('10-2', count: 7)
+        expect(page).to have_content('2-6', count: 7)
+        expect(page).to have_content('5-9', count: 7)
+      end
     end
 
-    describe 'form submission' do
-      context 'with any checkboxes missed' do #Person cannot work for us, exits process
+    describe 'prescreen form submission' do
+      context 'with any prescreen checkboxes missed, and availability selected' do #Person cannot work for us, exits process
         before(:each) do
+          check :candidate_availability_monday_first
           select 'Outbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
@@ -53,11 +60,44 @@ describe 'Prescreen answers' do
         it 'flashes an error message' do
           expect(page).to have_content 'Candidate did not pass prescreening'
         end
+        it 'saves the candidates availability' do
+          candidate.reload
+          expect(candidate.candidate_availability).not_to be_nil
+        end
+
       end
 
-      context 'with all fields selected' do
+      context 'with all fields selected, and availability selected' do
         before(:each) do
-          #check :prescreen_answer_worked_for_salesmakers
+          check :prescreen_answer_worked_for_sprint
+          check :prescreen_answer_of_age_to_work
+          check :prescreen_answer_high_school_diploma
+          check :prescreen_answer_eligible_smart_phone
+          check :prescreen_answer_can_work_weekends
+          check :prescreen_answer_reliable_transportation
+          check :prescreen_answer_ok_to_screen
+          check :candidate_availability_monday_first
+          select 'Inbound', from: 'Is this call inbound or outbound?'
+          click_on 'Save Answers'
+        end
+
+        it 'displays a flash message' do
+          expect(page).to have_content 'Answers and Availability saved'
+        end
+        it 'redirects to the select location page' do
+          expect(page).to have_content 'Select Location'
+        end
+        it 'sets the direction of the call' do
+          expect(CandidateContact.first.inbound?).to be_truthy
+        end
+        it 'saves the candidates availability' do
+          candidate.reload
+          expect(candidate.candidate_availability).not_to be_nil
+        end
+      end
+
+      context 'with all fields selected, and availability NOT selected' do
+        before(:each) do
           check :prescreen_answer_worked_for_sprint
           check :prescreen_answer_of_age_to_work
           check :prescreen_answer_high_school_diploma
@@ -70,13 +110,21 @@ describe 'Prescreen answers' do
         end
 
         it 'displays a flash message' do
-          expect(page).to have_content 'Answers saved'
+          expect(page).to have_content "At least one availability checkbox must be selected"
         end
         it 'redirects to the prescreen questions page' do
-          expect(page).to have_content 'Select Location'
+          expect(page).to have_content 'Prescreen Answers'
         end
-        it 'sets the direction of the call' do
-          expect(CandidateContact.first.inbound?).to be_truthy
+        it 'does not set the direction of the call or create a candidate Contact' do
+          expect(CandidateContact.count).to be(0)
+        end
+        it ' does not save the candidates availability' do
+          candidate.reload
+          expect(candidate.candidate_availability).to be_nil
+        end
+        it 'does not save the prescreen answers' do
+          candidate.reload
+          expect(candidate.prescreen_answers.count).to be(0)
         end
       end
     end

@@ -93,39 +93,9 @@ describe 'selecting a Location for a Candidate' do
       end
       expect(page).to have_content('successfully')
     end
-    # it 'has the option to dismiss a candidate due to schedule unavailability' do
-    #   expect(page).to have_content('Dismiss Candidate for Schedule Reason')
-    # end
+
     it 'has the schedules for each location listed' do
       expect(page).to have_content 'Schedule'
-    end
-
-    describe 'the candidate availability form' do
-      it 'is present' do
-        within('.availability') do
-          expect(page).to have_content 'Candidate Availability'
-          expect(page).to have_content('10-2', count: 7)
-          expect(page).to have_content('2-6', count: 7)
-          expect(page).to have_content('5-9', count: 7)
-        end
-      end
-      # context 'submission success' do
-      #   before(:each) do
-      #     set :candidate_availability_monday_first, true
-      #     click_on 'Save'
-      #   end
-      #   it 'saves the candidate availability' do
-      #     candidate.reload
-      #     expect(candidate.candidate_availabilities.count).to eq(1)
-      #   end
-      #   it 'stays on the select location  page (or re-renders the page)'
-      #   it 'displays the new availability'
-      #   it 'does not select a location'
-      # end
-      # context 'submission failure' do
-      #   it 'renders the select location page'
-      #   it 'displays an error message'
-      # end
     end
   end
 end
