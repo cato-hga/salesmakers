@@ -20,6 +20,7 @@
 /.idea/*.ids
 */.idea/workspace.xml
 **/.idea/workspace.xml
+**.idea*runConfigurations**
 .idea/workspace.xml
 .idea*
 .idea*.generators
