@@ -6,7 +6,6 @@ set :repo_url, 'git@bitbucket.org:salesmakers/salesmakers.git'
 
 set :deploy_to, '/opt/oneconnect'
 set :scm, :git
-set :branch, 'master'
 set :keep_releases, 5
 
 set :format, :pretty
@@ -59,6 +58,10 @@ namespace :staging do
   end
 end
 
+namespace :production do
+
+end
+
 namespace :sidekiq do
   task :restart do
     on roles(:app) do
@@ -71,11 +74,20 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
-        exit
+      if :rails_env == 'staging'
+        unless `git rev-parse HEAD` == `git rev-parse origin/staging_deploy`
+          puts "WARNING: HEAD is not the same as origin/staging_deploy"
+          puts "Run `git push` to sync changes."
+          exit
+        end
+      else
+        unless `git rev-parse HEAD` == `git rev-parse origin/master`
+          puts "WARNING: HEAD is not the same as origin/master"
+          puts "Run `git push` to sync changes."
+          exit
+        end
       end
+
     end
   end
 
