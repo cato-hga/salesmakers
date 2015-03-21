@@ -184,6 +184,7 @@ class CandidatesController < ApplicationController
   end
 
   def send_paperwork
+    geocode_if_necessary
     envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
     job_offer_details = JobOfferDetail.new candidate: @candidate,
                                            sent: DateTime.now
@@ -503,4 +504,10 @@ class CandidatesController < ApplicationController
     @training_availability.sunday_pm = @sunday_pm
   end
 
+  def geocode_if_necessary
+    return if @candidate.state
+    @candidate.geocode
+    @candidate.reverse_geocode
+    @candidate.save
+  end
 end
