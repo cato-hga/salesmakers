@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150321123837) do
+ActiveRecord::Schema.define(version: 20150321182419) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,6 +71,33 @@ ActiveRecord::Schema.define(version: 20150321123837) do
   end
 
   add_index "blog_posts", ["person_id"], name: "index_blog_posts_on_person_id", using: :btree
+
+  create_table "candidate_availabilities", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.boolean "friday_first", default: false, null: false
+    t.boolean "friday_second", default: false, null: false
+    t.boolean "friday_third", default: false, null: false
+    t.boolean "monday_first", default: false, null: false
+    t.boolean "monday_second", default: false, null: false
+    t.boolean "monday_third", default: false, null: false
+    t.boolean "saturday_first", default: false, null: false
+    t.boolean "saturday_second", default: false, null: false
+    t.boolean "saturday_third", default: false, null: false
+    t.boolean "sunday_first", default: false, null: false
+    t.boolean "sunday_second", default: false, null: false
+    t.boolean "sunday_third", default: false, null: false
+    t.boolean "thursday_first", default: false, null: false
+    t.boolean "thursday_second", default: false, null: false
+    t.boolean "thursday_third", default: false, null: false
+    t.boolean "tuesday_first", default: false, null: false
+    t.boolean "tuesday_second", default: false, null: false
+    t.boolean "tuesday_third", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "wednesday_first", default: false, null: false
+    t.boolean "wednesday_second", default: false, null: false
+    t.boolean "wednesday_third", default: false, null: false
+  end
 
   create_table "candidate_contacts", force: :cascade do |t|
     t.text "call_results"

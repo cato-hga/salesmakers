@@ -7,50 +7,5 @@
 .widget
   .inner
     %h3 What time is the Candidate Available?
-    = form_for [@candidate, @schedule_dismissal] do |f|
-      %fieldset
-        %strong Monday
-        = f.check_box :monday_am
-        = f.label :monday_am, 'AM'
-        = f.check_box :monday_pm
-        = f.label :monday_pm, 'PM'
-        %br
-        %strong Tuesday
-        = f.check_box :tuesday_am
-        = f.label :tuesday_am, 'AM'
-        = f.check_box :tuesday_pm
-        = f.label :tuesday_pm, 'PM'
-        %br
-        %strong Wednesday
-        = f.check_box :wednesday_am
-        = f.label :wednesday_am, 'AM'
-        = f.check_box :wednesday_pm
-        = f.label :wednesday_pm, 'PM'
-        %br
-        %strong Thursday
-        = f.check_box :thursday_am
-        = f.label :thursday_am, 'AM'
-        = f.check_box :thursday_pm
-        = f.label :thursday_pm, 'PM'
-        %br
-        %strong Friday
-        = f.check_box :friday_am
-        = f.label :friday_am, 'AM'
-        = f.check_box :friday_pm
-        = f.label :friday_pm, 'PM'
-        %br
-        %strong Saturday
-        = f.check_box :saturday_am
-        = f.label :saturday_am, 'AM'
-        = f.check_box :saturday_pm
-        = f.label :saturday_pm, 'PM'
-        %br
-        %strong Sunday
-        = f.check_box :sunday_am
-        = f.label :sunday_am, 'AM'
-        = f.check_box :sunday_pm
-        = f.label :sunday_pm, 'PM'
-      = f.label :comment, 'Additional Comments'
-      = f.text_field :comment
-      = f.submit 'Save and Dismiss Candidate', class: :button
+
 
