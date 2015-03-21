@@ -466,7 +466,7 @@ class CandidatesController < ApplicationController
     @shirt_gender = params[:shirt_gender]
     @shirt_size = params[:shirt_size]
     @shirt_size = params[:shirt_size]
-    @able_to_attend = params[:able_to_attend] == 'true' ? true : false
+    @able_to_attend = (params[:able_to_attend] and params[:able_to_attend] == 'false') ? false : true
     @training_unavailability_reason_id = params[:training_unavailability_reason_id]
     @comments = params[:comments]
     @monday_am = params[:monday_am]
