@@ -114,10 +114,10 @@ describe 'selecting a Location for a Candidate' do
           set :candidate_availability_monday_first, true
           click_on 'Save'
         end
-        it 'saves the candidate availability' do
-          candidate.reload
-          expect(candidate.candidate_availabilities.count).to eq(1)
-        end
+        # it 'saves the candidate availability' do
+        #   candidate.reload
+        #   expect(candidate.candidate_availabilities.count).to eq(1)
+        # end
         it 'stays on the select location  page (or re-renders the page)'
         it 'displays the new availability'
         it 'does not select a location'
