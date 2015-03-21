@@ -107,6 +107,7 @@ class CandidatesController < ApplicationController
   end
 
   def select_location
+    @candidate_availability = CandidateAvailability.new
     all_location_areas = get_all_location_areas
     @search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@search.result)
