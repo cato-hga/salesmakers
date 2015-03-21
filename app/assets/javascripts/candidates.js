@@ -18,9 +18,6 @@ $(function () {
 			$('#unable_to_attend').find('select').each(function () {
 				$(this).val('');
 			});
-			$('#unable_to_attend').find('input').each(function () {
-				$(this).prop('checked', false);
-			});
 			$('#unable_to_attend').find('textarea').each(function () {
 				$(this).val('');
 			});
