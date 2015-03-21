@@ -29,7 +29,100 @@
       %p
         = f.check_box :ok_to_screen
         = f.label :ok_to_screen, 'Candidate gave permission for background check and drug screen'
-      %p
-        = label_tag :inbound, 'Is this call inbound or outbound?'
-        = select_tag :inbound, options_for_select([['Inbound', true], ['Outbound', false]]), include_blank: true
+      %p.row.full-width
+      .availability
+        = form_for [@candidate, @candidate_availability], method: :post do |f|
+          %fieldset
+            %legend Candidate Availability
+            .large-4.columns
+              .large-3.columns
+                %strong Monday
+              .large-3.columns
+                = f.check_box :monday_first
+                = f.label :monday_first, '10-2'
+              .large-3.columns
+                = f.check_box :monday_second
+                = f.label :monday_second, '2-6'
+              .large-3.columns
+                = f.check_box :monday_third
+                = f.label :monday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Tuesday
+              .large-3.columns
+                = f.check_box :tuesday_first
+                = f.label :tuesday_first, '10-2'
+              .large-3.columns
+                = f.check_box :tuesday_second
+                = f.label :tuesday_second, '2-6'
+              .large-3.columns
+                = f.check_box :tuesday_third
+                = f.label :tuesday_third, '5-9'
+              %br
+            .large-4.columns
+              .large-3.columns
+                %strong Wednesday
+              .large-3.columns
+                = f.check_box :wednesday_first
+                = f.label :wednesday_first, '10-2'
+              .large-3.columns
+                = f.check_box :wednesday_second
+                = f.label :wednesday_second, '2-6'
+              .large-3.columns
+                = f.check_box :wednesday_third
+                = f.label :wednesday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Thursday
+              .large-3.columns
+                = f.check_box :thursday_first
+                = f.label :thursday_first, '10-2'
+              .large-3.columns
+                = f.check_box :thursday_second
+                = f.label :thursday_second, '2-6'
+              .large-3.columns
+                = f.check_box :thursday_third
+                = f.label :thursday_third, '5-9'
+              %br
+            .large-4.columns
+              .large-3.columns
+                %strong Friday
+              .large-3.columns
+                = f.check_box :friday_first
+                = f.label :friday_first, '10-2'
+              .large-3.columns
+                = f.check_box :friday_second
+                = f.label :friday_second, '2-6'
+              .large-3.columns
+                = f.check_box :friday_third
+                = f.label :friday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Saturday
+              .large-3.columns
+                = f.check_box :saturday_first
+                = f.label :saturday_first, '10-2'
+              .large-3.columns
+                = f.check_box :saturday_second
+                = f.label :saturday_second, '2-6'
+              .large-3.columns
+                = f.check_box :saturday_third
+                = f.label :saturday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Sunday
+              .large-3.columns
+                = f.check_box :sunday_first
+                = f.label :sunday_first, '10-2'
+              .large-3.columns
+                = f.check_box :sunday_second
+                = f.label :sunday_second, '2-6'
+              .large-3.columns
+                = f.check_box :sunday_third
+                = f.label :sunday_third, '5-9'
+            = f.label :comment, 'Additional Comments'
+            = f.text_field :comment
+        %p
+          = label_tag :inbound, 'Is this call inbound or outbound?'
+          = select_tag :inbound, options_for_select([['Inbound', true], ['Outbound', false]]), include_blank: true
       = f.submit 'Save Answers', class: :button

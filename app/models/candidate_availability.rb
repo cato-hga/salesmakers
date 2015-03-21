@@ -18,9 +18,9 @@ class AvailabilityValidator < ActiveModel::Validator
         record.saturday_first or
         record.saturday_second or
         record.saturday_third or
-        record.monday_first or
-        record.monday_second or
-        record.monday_third
+        record.sunday_first or
+        record.sunday_second or
+        record.sunday_third
       record.errors[:schedule] << 'At least one schedule period must be selected'
       return
     end

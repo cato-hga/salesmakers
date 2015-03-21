@@ -115,10 +115,8 @@ class Candidate < ActiveRecord::Base
   has_many :interview_answers
   has_many :job_offer_details
   has_many :candidate_contacts
-  has_one :training_availability
-
   has_one :candidate_availability
-  accepts_nested_attributes_for :candidate_availability
+  has_one :training_availability
 
   default_scope { order(:first_name, :last_name) }
 
