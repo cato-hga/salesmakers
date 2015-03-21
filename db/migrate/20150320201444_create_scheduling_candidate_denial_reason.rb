@@ -3,3 +3,4 @@ class CreateSchedulingCandidateDenialReason < ActiveRecord::Migration
     CandidateDenialReason.create name: 'Scheduling Conflict', active: true
   end
 end
+
