@@ -23,55 +23,99 @@
         = f.select :area_project_id_eq, projects, { include_blank: true }, { class: [:autosize_dropdown] }
         = f.submit 'Filter', class: [:button, :inline_button]
     %p.row.full-width
-      = form_for [@candidate, @candidate_availability] do |f|
-        %fieldset
-          .large-4.columns
-            %strong Monday
-            = f.check_box :monday_am
-            = f.label :monday_am, 'AM'
-            = f.check_box :monday_pm
-            = f.label :monday_pm, 'PM'
-            %br
-            %strong Tuesday
-            = f.check_box :tuesday_am
-            = f.label :tuesday_am, 'AM'
-            = f.check_box :tuesday_pm
-            = f.label :tuesday_pm, 'PM'
-            %br
-          .large-4.columns
-            %strong Wednesday
-            = f.check_box :wednesday_am
-            = f.label :wednesday_am, 'AM'
-            = f.check_box :wednesday_pm
-            = f.label :wednesday_pm, 'PM'
-            %br
-            %strong Thursday
-            = f.check_box :thursday_am
-            = f.label :thursday_am, 'AM'
-            = f.check_box :thursday_pm
-            = f.label :thursday_pm, 'PM'
-            %br
-          .large-4.columns
-            %strong Friday
-            = f.check_box :friday_am
-            = f.label :friday_am, 'AM'
-            = f.check_box :friday_pm
-            = f.label :friday_pm, 'PM'
-            %br
-            %strong Saturday
-            = f.check_box :saturday_am
-            = f.label :saturday_am, 'AM'
-            = f.check_box :saturday_pm
-            = f.label :saturday_pm, 'PM'
-            %br
-            %strong Sunday
-            = f.check_box :sunday_am
-            = f.label :sunday_am, 'AM'
-            = f.check_box :sunday_pm
-            = f.label :sunday_pm, 'PM'
-          = f.label :comment, 'Additional Comments'
-          = f.text_field :comment
-          = f.submit 'Save and Dismiss Candidate', class: :button
+      .availability
+        = form_for [@candidate, @candidate_availability], method: :post do |f|
+          %fieldset
+            %legend Candidate Availability
+            .large-4.columns
+              .large-3.columns
+                %strong Monday
+              .large-3.columns
+                = f.check_box :monday_first
+                = f.label :monday_first, '10-2'
+              .large-3.columns
+                = f.check_box :monday_second
+                = f.label :monday_second, '2-6'
+              .large-3.columns
+                = f.check_box :monday_third
+                = f.label :monday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Tuesday
+              .large-3.columns
+                = f.check_box :tuesday_first
+                = f.label :tuesday_first, '10-2'
+              .large-3.columns
+                = f.check_box :tuesday_second
+                = f.label :tuesday_second, '2-6'
+              .large-3.columns
+                = f.check_box :tuesday_third
+                = f.label :tuesday_third, '5-9'
+              %br
+            .large-4.columns
+              .large-3.columns
+                %strong Wednesday
+              .large-3.columns
+                = f.check_box :wednesday_first
+                = f.label :wednesday_first, '10-2'
+              .large-3.columns
+                = f.check_box :wednesday_second
+                = f.label :wednesday_second, '2-6'
+              .large-3.columns
+                = f.check_box :wednesday_third
+                = f.label :wednesday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Thursday
+              .large-3.columns
+                = f.check_box :thursday_first
+                = f.label :thursday_first, '10-2'
+              .large-3.columns
+                = f.check_box :thursday_second
+                = f.label :thursday_second, '2-6'
+              .large-3.columns
+                = f.check_box :thursday_third
+                = f.label :thursday_third, '5-9'
+              %br
+            .large-4.columns
+              .large-3.columns
+                %strong Friday
+              .large-3.columns
+                = f.check_box :friday_first
+                = f.label :friday_first, '10-2'
+              .large-3.columns
+                = f.check_box :friday_second
+                = f.label :friday_second, '2-6'
+              .large-3.columns
+                = f.check_box :friday_third
+                = f.label :friday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Saturday
+              .large-3.columns
+                = f.check_box :saturday_first
+                = f.label :saturday_first, '10-2'
+              .large-3.columns
+                = f.check_box :saturday_second
+                = f.label :saturday_second, '2-6'
+              .large-3.columns
+                = f.check_box :saturday_third
+                = f.label :saturday_third, '5-9'
+              %br
+              .large-3.columns
+                %strong Sunday
+              .large-3.columns
+                = f.check_box :sunday_first
+                = f.label :sunday_first, '10-2'
+              .large-3.columns
+                = f.check_box :sunday_second
+                = f.label :sunday_second, '2-6'
+              .large-3.columns
+                = f.check_box :sunday_third
+                = f.label :sunday_third, '5-9'
+            = f.label :comment, 'Additional Comments'
+            = f.text_field :comment
+            = f.submit 'Save', class: :button
     = render 'locations_table'
 .widget
   .inner

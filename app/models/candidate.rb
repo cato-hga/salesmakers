@@ -117,6 +117,9 @@ class Candidate < ActiveRecord::Base
   has_many :candidate_contacts
   has_one :training_availability
 
+  has_one :candidate_availability
+  accepts_nested_attributes_for :candidate_availability
+
   default_scope { order(:first_name, :last_name) }
 
   stripping_ransacker(:mobile_phone_number, :mobile_phone)

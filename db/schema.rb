@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150321182419) do
+ActiveRecord::Schema.define(version: 20150321190424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20150321182419) do
 
   create_table "candidate_availabilities", force: :cascade do |t|
     t.integer "candidate_id", null: false
+    t.text "comment"
     t.datetime "created_at", null: false
     t.boolean "friday_first", default: false, null: false
     t.boolean "friday_second", default: false, null: false
