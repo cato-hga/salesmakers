@@ -30,7 +30,6 @@ describe 'confirming details' do
     before do
       select 'No', from: 'Is the candidate able to attend the training?'
       select reason.name, from: 'Why not?'
-      check 'monday_am'
     end
 
     it 'successfully redirects to candidate show' do
