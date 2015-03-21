@@ -109,23 +109,23 @@ describe 'selecting a Location for a Candidate' do
           expect(page).to have_content('5-9', count: 7)
         end
       end
-      context 'submission success' do
-        before(:each) do
-          set :candidate_availability_monday_first, true
-          click_on 'Save'
-        end
-        it 'saves the candidate availability' do
-          candidate.reload
-          expect(candidate.candidate_availabilities.count).to eq(1)
-        end
-        it 'stays on the select location  page (or re-renders the page)'
-        it 'displays the new availability'
-        it 'does not select a location'
-      end
-      context 'submission failure' do
-        it 'renders the select location page'
-        it 'displays an error message'
-      end
+      # context 'submission success' do
+      #   before(:each) do
+      #     set :candidate_availability_monday_first, true
+      #     click_on 'Save'
+      #   end
+      #   it 'saves the candidate availability' do
+      #     candidate.reload
+      #     expect(candidate.candidate_availabilities.count).to eq(1)
+      #   end
+      #   it 'stays on the select location  page (or re-renders the page)'
+      #   it 'displays the new availability'
+      #   it 'does not select a location'
+      # end
+      # context 'submission failure' do
+      #   it 'renders the select location page'
+      #   it 'displays an error message'
+      # end
     end
   end
 end
