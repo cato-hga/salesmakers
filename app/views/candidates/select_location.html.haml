@@ -18,7 +18,7 @@
     %p
       Listed below are the nearest locations to the candidate.
     %p.row.full-width
-      = search_form_for @search, url: select_location_candidate_path(@candidate, @back_to_confirm.to_s) do |f|
+      = search_form_for @location_area_search, url: select_location_candidate_path(@candidate, @back_to_confirm.to_s) do |f|
         - projects = @location_areas.map{|la| [la.area.project.name, la.area.project.id]}.uniq
         = f.select :area_project_id_eq, projects, { include_blank: true }, { class: [:autosize_dropdown] }
         = f.submit 'Filter', class: [:button, :inline_button]

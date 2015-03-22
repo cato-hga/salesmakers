@@ -33,15 +33,17 @@ describe 'Candidate creation' do
       visit new_candidate_path
     end
     it 'has the new candidate form with all fields' do
-      expect(page).to have_content('First name')
-      expect(page).to have_content('Last name')
-      expect(page).to have_content('Suffix')
-      expect(page).to have_content('Mobile phone')
-      expect(page).to have_content('Email address')
-      expect(page).to have_content('Zip Code')
-      expect(page).to have_content('Candidate source')
-      expect(page).to have_button 'Save and start Prescreen'
-      expect(page).to have_content 'Save, left voicemail'
+      within '#content' do
+        expect(page).to have_content('First name')
+        expect(page).to have_content('Last name')
+        expect(page).to have_content('Suffix')
+        expect(page).to have_content('Mobile phone')
+        expect(page).to have_content('Email address')
+        expect(page).to have_content('Zip Code')
+        expect(page).to have_content('Candidate source')
+        expect(page).to have_button 'Save and start Prescreen'
+        expect(page).to have_content 'Save, left voicemail'
+      end
     end
 
     describe 'form submission' do
@@ -58,13 +60,15 @@ describe 'Candidate creation' do
       context 'with valid data' do
         context 'and starting prescreen' do
           before(:each) do
-            fill_in 'First name', with: 'Test'
-            fill_in 'Last name', with: 'Candidate'
-            fill_in 'Mobile phone', with: '727-498-5180'
-            fill_in 'Email address', with: 'test@test.com'
-            fill_in 'Zip Code', with: '33701'
-            select source.name, from: 'Candidate source'
-            click_on 'Save and start Prescreen'
+            within '#content' do
+              fill_in 'First name', with: 'Test'
+              fill_in 'Last name', with: 'Candidate'
+              fill_in 'Mobile phone', with: '727-498-5180'
+              fill_in 'Email address', with: 'test@test.com'
+              fill_in 'Zip Code', with: '33701'
+              select source.name, from: 'Candidate source'
+              click_on 'Save and start Prescreen'
+            end
           end
           it 'displays a flash message' do
             expect(page).to have_content 'Candidate saved!'
@@ -76,14 +80,16 @@ describe 'Candidate creation' do
 
         context 'and leaving voicemail' do
           before(:each) do
-            fill_in 'First name', with: 'Test'
-            fill_in 'Last name', with: 'Candidate'
-            fill_in 'Mobile phone', with: '727-498-5180'
-            fill_in 'Email address', with: 'test@test.com'
-            fill_in 'Zip Code', with: '33701'
-            select source.name, from: 'Candidate source'
-            find(:xpath, "//input[@id='start_prescreen']").set false
-            click_on 'Save and start Prescreen'
+            within '#content' do
+              fill_in 'First name', with: 'Test'
+              fill_in 'Last name', with: 'Candidate'
+              fill_in 'Mobile phone', with: '727-498-5180'
+              fill_in 'Email address', with: 'test@test.com'
+              fill_in 'Zip Code', with: '33701'
+              select source.name, from: 'Candidate source'
+              find(:xpath, "//input[@id='start_prescreen']").set false
+              click_on 'Save and start Prescreen'
+            end
           end
           it 'displays a flash message' do
             expect(page).to have_content 'Candidate saved!'

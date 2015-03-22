@@ -40,14 +40,17 @@ describe 'Editing Candidates' do
 
     context 'the edit form' do
       it 'contains all fields' do
-        expect(page).to have_content('First name')
-        expect(page).to have_content('Last name')
-        expect(page).to have_content('Suffix')
-        expect(page).to have_content('Mobile phone')
-        expect(page).to have_content('Email address')
-        expect(page).to have_content('Zip Code')
-        expect(page).to have_content('Candidate source')
+        within '#content' do
+          expect(page).to have_content('First name')
+          expect(page).to have_content('Last name')
+          expect(page).to have_content('Suffix')
+          expect(page).to have_content('Mobile phone')
+          expect(page).to have_content('Email address')
+          expect(page).to have_content('Zip Code')
+          expect(page).to have_content('Candidate source')
+        end
       end
+
       it 'does not show the prescreen or left voicemail buttons' do
         expect(page).not_to have_button 'Save and start Prescreen'
         expect(page).not_to have_content 'Save, left voicemail'
@@ -60,8 +63,10 @@ describe 'Editing Candidates' do
     describe 'form submission' do
       context 'with invalid data' do
         before(:each) do
-          fill_in 'First name', with: ''
-          click_on 'Save Candidate'
+          within '#content' do
+            fill_in 'First name', with: ''
+            click_on 'Save Candidate'
+          end
         end
         it 'shows all relevant error messages' do
           expect(page).to have_content 'Candidate could not be saved:'
@@ -74,8 +79,10 @@ describe 'Editing Candidates' do
 
       context 'with valid data' do
         before(:each) do
-          fill_in 'First name', with: 'Acorrectfirst'
-          click_on 'Save Candidate'
+          within '#content' do
+            fill_in 'First name', with: 'Acorrectfirst'
+            click_on 'Save Candidate'
+          end
         end
         it 'updates the candidate' do
           candidate.reload

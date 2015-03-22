@@ -3,7 +3,7 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :search_bar, except: [:send_paperwork, :record_confirmation, :destroy]
+  before_action :search_bar, except: [:send_paperwork, :record_confirmation]
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
   before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
@@ -111,8 +111,8 @@ class CandidatesController < ApplicationController
 
   def select_location
     all_location_areas = get_all_location_areas
-    @search = all_location_areas.search(params[:q])
-    @location_areas = order_by_distance(@search.result)
+    @location_area_search = all_location_areas.search(params[:q])
+    @location_areas = order_by_distance(@location_area_search.result)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
     for location_area in @location_areas do
       if location_area.radio_shack_location_schedule
