@@ -49,6 +49,9 @@ describe PrescreenAnswersController do
               worked_for_sprint: true,
               ok_to_screen: true
           },
+          candidate_availability: {
+              monday_first: true
+          },
           call_initiated: call_initiated.to_i
       }
     }
@@ -84,6 +87,12 @@ describe PrescreenAnswersController do
       expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
     end
 
+    it 'creates a candidate availability record' do
+      subject
+      candidate.reload
+      expect(candidate.candidate_availability).not_to be_nil
+    end
+
     context 'without an inbound/outbound value' do
       let(:no_inbound) { post :create, prescreen_hash }
 
@@ -93,7 +102,7 @@ describe PrescreenAnswersController do
       end
     end
 
-    context 'when a candidate failes the prescreen' do
+    context 'when a candidate fails the prescreen, with availability' do
       before(:each) do
         post :create,
              candidate_id: candidate.id,
@@ -106,6 +115,9 @@ describe PrescreenAnswersController do
                  eligible_smart_phone: true,
                  worked_for_sprint: false,
                  ok_to_screen: true
+             },
+             candidate_availability: {
+                 monday_first: true
              },
              call_initiated: call_initiated.to_i,
              inbound: true
@@ -121,6 +133,45 @@ describe PrescreenAnswersController do
       it 'sets the candidates status to rejected' do
         candidate.reload
         expect(candidate.status).to eq('rejected')
+      end
+      it 'creates a candidate availability record' do
+        subject
+        candidate.reload
+        expect(candidate.candidate_availability).not_to be_nil
+      end
+    end
+
+    context 'without availability selected' do
+      subject do
+        post :create,
+             candidate_id: candidate.id,
+             prescreen_answer: {
+                 worked_for_salesmakers: true,
+                 of_age_to_work: true,
+                 high_school_diploma: true,
+                 can_work_weekends: true,
+                 reliable_transportation: true,
+                 eligible_smart_phone: true,
+                 worked_for_sprint: true,
+                 ok_to_screen: true
+             },
+             candidate_availability: {
+                 monday_first: false
+             },
+             call_initiated: call_initiated.to_i,
+             inbound: true
+      end
+
+      it 'renders the new template' do
+        subject
+        expect(response).to render_template :new
+      end
+
+      it 'does not save a Prescreen Answer or Availability' do
+        subject
+        candidate.reload
+        expect(candidate.candidate_availability).to be_nil
+        expect(candidate.prescreen_answers.count).to be(0)
       end
     end
   end
