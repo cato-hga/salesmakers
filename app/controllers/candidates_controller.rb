@@ -145,7 +145,7 @@ class CandidatesController < ApplicationController
       previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
     end
     @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-    @candidate.location_selected!
+    @candidate.location_selected! if @candidate.status == 'prescreened'
     flash[:notice] = 'Location chosen successfully.'
     if @back_to_confirm
       redirect_to confirm_candidate_path(@candidate)
