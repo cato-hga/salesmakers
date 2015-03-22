@@ -14,12 +14,13 @@ class PrescreenAnswersController < ApplicationController
     @candidate = Candidate.find params[:candidate_id]
     call_initiated = Time.at(params[:call_initiated].to_i)
     @inbound = params[:inbound]
+    @candidate_availability = CandidateAvailability.new
     if @inbound.blank?
       flash[:error] = 'You must select whether the call is inbound or outbound.'
       render :new and return
     end
     @prescreen_answer.candidate = @candidate
-    @candidate_availability = CandidateAvailability.new availability_params
+    @candidate_availability.attributes = availability_params
     @candidate_availability.candidate = @candidate
     if @candidate_availability.save
       if @prescreen_answer.save
