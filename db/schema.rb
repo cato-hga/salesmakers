@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150321190424) do
+ActiveRecord::Schema.define(version: 20150322183322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -565,6 +565,7 @@ ActiveRecord::Schema.define(version: 20150321190424) do
     t.integer "current_head_count", default: 0, null: false
     t.float "hourly_rate"
     t.integer "location_id", null: false
+    t.integer "offer_extended_count", default: 0, null: false
     t.integer "potential_candidate_count", default: 0, null: false
     t.integer "radio_shack_location_schedule_id"
     t.integer "target_head_count", default: 0, null: false
