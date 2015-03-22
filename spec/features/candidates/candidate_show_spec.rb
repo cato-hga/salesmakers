@@ -55,4 +55,9 @@ describe 'candidate show page' do
     expect(page).to have_content('Availability')
   end
 
+  it 'has an edit button for candidate availability' do
+    within('.widget.availability') do
+      expect(page).to have_content ('Edit')
+    end
+  end
 end

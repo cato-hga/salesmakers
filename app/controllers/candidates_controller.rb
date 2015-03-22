@@ -248,7 +248,49 @@ class CandidatesController < ApplicationController
     redirect_to candidate_path(@candidate)
   end
 
+  def edit_availability
+    @candidate_availability = @candidate.candidate_availability
+  end
+
+  def update_availability
+    @candidate_availability = @candidate.candidate_availability
+    @candidate_availability.update_attributes availability_params
+    if @candidate_availability.save
+      flash[:notice] = 'Candidate Availability Updated'
+      redirect_to candidate_path @candidate
+      @current_person.log? 'update_availability',
+                           @candidate
+    end
+  end
+
   private
+
+  def availability_params
+    params.require(:candidate_availability).permit(
+        :monday_first,
+        :monday_second,
+        :monday_third,
+        :tuesday_first,
+        :tuesday_second,
+        :tuesday_third,
+        :wednesday_first,
+        :wednesday_second,
+        :wednesday_third,
+        :thursday_first,
+        :thursday_second,
+        :thursday_third,
+        :friday_first,
+        :friday_second,
+        :friday_third,
+        :saturday_first,
+        :saturday_second,
+        :saturday_third,
+        :sunday_first,
+        :sunday_second,
+        :sunday_third,
+        :comment
+    )
+  end
 
   def search_bar
     @search = Candidate.search(params[:q])
