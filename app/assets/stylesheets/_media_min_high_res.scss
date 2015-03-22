@@ -19,6 +19,7 @@
 		box-shadow: $shadow;
 		display: none;
 		text-align: right;
+		z-index: 99;
 
 		input[type = text], select, textarea {
 			width: 10em;

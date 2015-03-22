@@ -3,9 +3,12 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
+  before_action :search_bar, except: [:send_paperwork, :record_confirmation, :destroy]
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
   before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
+
+  layout 'candidates'
 
   def index
     @search = Candidate.search(params[:q])
@@ -246,6 +249,10 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def search_bar
+    @search = Candidate.search(params[:q])
+  end
 
   def reset_candidate_status
     @candidate.entered!
