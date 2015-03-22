@@ -1,0 +1,52 @@
+- available = @candidate.candidate_availability
+.widget
+  .inner
+    %h3 Availability
+    - if available.monday_first and available.monday_second and available.monday_third
+      %p= 'Monday: All Day'
+    - elsif available.monday_first == false and available.monday_second == false and available.monday_third == false
+      %p= 'Monday: No Availability'
+    -else
+      %p= 'Monday: ' + (available.monday_first ? '10-2' : '') + ' ' + (available.monday_second ? '2-6' : '') + ' ' + (available.monday_third ? '5-9' : '')
+
+    - if available.tuesday_first and available.tuesday_second and available.tuesday_third
+      %p= 'Tuesday: All Day'
+    - elsif available.tuesday_first == false and available.tuesday_second == false and available.tuesday_third == false
+      %p= 'Tuesday: No Availability'
+    -else
+      %p= 'Tuesday: ' + (available.tuesday_first ? '10-2' : '') + ' ' + (available.tuesday_second ? '2-6' : '') + ' ' + (available.tuesday_third ? '5-9' : '')
+
+    - if available.wednesday_first and available.wednesday_second and available.wednesday_third
+      %p= 'Wednesday: All Day'
+    - elsif available.wednesday_first == false and available.wednesday_second == false and available.wednesday_third == false
+      %p= 'Wednesday: No Availability'
+    -else
+      %p= 'Wednesday: ' + (available.wednesday_first ? '10-2' : '') + ' ' + (available.wednesday_second ? '2-6' : '') + ' ' + (available.wednesday_third ? '5-9' : '')
+
+    - if available.thursday_first and available.thursday_second and available.thursday_third
+      %p= 'Thursday: All Day'
+    - elsif available.thursday_first == false and available.thursday_second == false and available.thursday_third == false
+      %p= 'Thursday: No Availability'
+    -else
+      %p= 'Thursday: ' + (available.thursday_first ? '10-2' : '') + ' ' + (available.thursday_second ? '2-6' : '') + ' ' + (available.thursday_third ? '5-9' : '')
+
+    - if available.friday_first and available.friday_second and available.friday_third
+      %p= 'Friday: All Day'
+    - elsif available.friday_first == false and available.friday_second == false and available.friday_third == false
+      %p= 'Friday: No Availability'
+    -else
+      %p= 'Friday: ' + (available.friday_first ? '10-2' : '') + ' ' + (available.friday_second ? '2-6' : '') + ' ' + (available.friday_third ? '5-9' : '')
+
+    - if available.saturday_first and available.saturday_second and available.saturday_third
+      %p= 'Saturday: All Day'
+    - elsif available.saturday_first == false and available.saturday_second == false and available.saturday_third == false
+      %p= 'Saturday: No Availability'
+    -else
+      %p= 'Saturday: ' + (available.saturday_first ? '10-2' : '') + ' ' + (available.saturday_second ? '2-6' : '') + ' ' + (available.saturday_third ? '5-9' : '')
+
+    - if available.sunday_first and available.sunday_second and available.sunday_third
+      %p= 'Sunday: All Day'
+    - elsif available.sunday_first == false and available.sunday_second == false and available.sunday_third == false
+      %p= 'Sunday: No Availability'
+    -else
+      %p= 'Sunday: ' + (available.sunday_first ? '10-2' : '') + ' ' + (available.sunday_second ? '2-6' : '') + ' ' + (available.sunday_third ? '5-9' : '')

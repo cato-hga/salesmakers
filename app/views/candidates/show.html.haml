@@ -148,6 +148,8 @@
         #location_map
         %p
           = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
+  - if @candidate.candidate_availability.present?
+    = render 'availability'
 .widget
   .inner
     %h3 Communication Log
