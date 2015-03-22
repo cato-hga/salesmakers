@@ -1,4 +1,4 @@
-Geocoder.configure timeout: 15,
+Geocoder.configure timeout: 25,
                    lookup: :google,
                    #lookup: :nominatim,
                    use_https: true,

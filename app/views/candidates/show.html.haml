@@ -116,6 +116,11 @@
             - link_to 'Confirm Details and Send Paperwork', confirm_candidate_path(@candidate), class: :button
           - else
             - ''
+        - when 'paperwork_sent'
+          - unless @candidate.job_offer_details.empty? or @candidate.job_offer_details.first.envelope_guid
+            - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+          - else
+            - ''
         - else
           - ''
       = action if @candidate.active?

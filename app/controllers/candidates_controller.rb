@@ -187,6 +187,7 @@ class CandidatesController < ApplicationController
   def send_paperwork
     geocode_if_necessary
     envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
+    @candidate.job_offer_details.destroy_all
     job_offer_details = JobOfferDetail.new candidate: @candidate,
                                            sent: DateTime.now
     if envelope_response
