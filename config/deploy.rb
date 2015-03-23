@@ -29,6 +29,8 @@ set :puma_error_log, "#{release_path}/log/puma.access.log"
 #set :sidekiq_processes, 3
 #set :sidekiq_config, 'config/sidekiq.yaml'
 
+set :branch_name, -> { fetch(:branch) }
+
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
@@ -73,11 +75,10 @@ end
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
-    branch = :branch
     on roles(:app) do
       #if :branch == 'staging_deployment'
-      unless `git rev-parse HEAD` == "git rev-parse origin/#{branch}"
-        puts "WARNING: HEAD is not the same as origin/#{branch}"
+      unless `git rev-parse HEAD` == "git rev-parse origin/#{:branch_name}"
+        puts "WARNING: HEAD is not the same as origin/#{:branch_name}"
         puts "Run `git push` to sync changes."
         exit
       end
