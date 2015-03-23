@@ -2,94 +2,116 @@
 .widget
   .inner
     = form_for @candidate_availability, method: :patch, url: { action: :update_availability } do |avail|
-      %fieldset
-        %legend Candidate Availability
-        .large-4.columns
-          .large-3.columns
-            %strong Monday
-          .large-3.columns
-            = avail.check_box :monday_first
-            = avail.label :monday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :monday_second
-            = avail.label :monday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :monday_third
-            = avail.label :monday_third, '5-9'
-          %br
-          .large-3.columns
-            %strong Tuesday
-          .large-3.columns
-            = avail.check_box :tuesday_first
-            = avail.label :tuesday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :tuesday_second
-            = avail.label :tuesday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :tuesday_third
-            = avail.label :tuesday_third, '5-9'
-          %br
-        .large-4.columns
-          .large-3.columns
-            %strong Wednesday
-          .large-3.columns
-            = avail.check_box :wednesday_first
-            = avail.label :wednesday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :wednesday_second
-            = avail.label :wednesday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :wednesday_third
-            = avail.label :wednesday_third, '5-9'
-          %br
-          .large-3.columns
-            %strong Thursday
-          .large-3.columns
-            = avail.check_box :thursday_first
-            = avail.label :thursday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :thursday_second
-            = avail.label :thursday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :thursday_third
-            = avail.label :thursday_third, '5-9'
-          %br
-        .large-4.columns
-          .large-3.columns
-            %strong Friday
-          .large-3.columns
-            = avail.check_box :friday_first
-            = avail.label :friday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :friday_second
-            = avail.label :friday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :friday_third
-            = avail.label :friday_third, '5-9'
-          %br
-          .large-3.columns
-            %strong Saturday
-          .large-3.columns
-            = avail.check_box :saturday_first
-            = avail.label :saturday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :saturday_second
-            = avail.label :saturday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :saturday_third
-            = avail.label :saturday_third, '5-9'
-          %br
-          .large-3.columns
-            %strong Sunday
-          .large-3.columns
-            = avail.check_box :sunday_first
-            = avail.label :sunday_first, '10-2'
-          .large-3.columns
-            = avail.check_box :sunday_second
-            = avail.label :sunday_second, '2-6'
-          .large-3.columns
-            = avail.check_box :sunday_third
-            = avail.label :sunday_third, '5-9'
-        = avail.label :comment, 'Additional Comments'
-        = avail.text_field :comment
-        = avail.submit 'Save', class: :button
+      .availability
+        %fieldset
+          %legend Candidate Availability
+          .large-4.columns
+            .large-3.columns
+              %strong Monday
+            .large-3.columns
+              = check_box_tag :monday_all
+              = label_tag :monday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :monday_first
+              = avail.label :monday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :monday_second
+              = avail.label :monday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :monday_third
+              = avail.label :monday_third, '5-9'
+            %br
+            .large-3.columns
+              %strong Tuesday
+            .large-3.columns
+              = check_box_tag :tuesday_all
+              = label_tag :tuesday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :tuesday_first
+              = avail.label :tuesday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :tuesday_second
+              = avail.label :tuesday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :tuesday_third
+              = avail.label :tuesday_third, '5-9'
+            %br
+          .large-4.columns
+            .large-3.columns
+              %strong Wednesday
+            .large-3.columns
+              = check_box_tag :wednesday_all
+              = label_tag :wednesday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :wednesday_first
+              = avail.label :wednesday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :wednesday_second
+              = avail.label :wednesday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :wednesday_third
+              = avail.label :wednesday_third, '5-9'
+            %br
+            .large-3.columns
+              %strong Thursday
+            .large-3.columns
+              = check_box_tag :thursday_all
+              = label_tag :thursday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :thursday_first
+              = avail.label :thursday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :thursday_second
+              = avail.label :thursday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :thursday_third
+              = avail.label :thursday_third, '5-9'
+            %br
+          .large-4.columns
+            .large-3.columns
+              %strong Friday
+            .large-3.columns
+              = check_box_tag :friday_all
+              = label_tag :friday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :friday_first
+              = avail.label :friday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :friday_second
+              = avail.label :friday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :friday_third
+              = avail.label :friday_third, '5-9'
+            %br
+            .large-3.columns
+              %strong Saturday
+            .large-3.columns
+              = check_box_tag :saturday_all
+              = label_tag :saturday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :saturday_first
+              = avail.label :saturday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :saturday_second
+              = avail.label :saturday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :saturday_third
+              = avail.label :saturday_third, '5-9'
+            %br
+            .large-3.columns
+              %strong Sunday
+            .large-3.columns
+              = check_box_tag :sunday_all
+              = label_tag :sunday_all, 'All Day'
+            .large-2.columns
+              = avail.check_box :sunday_first
+              = avail.label :sunday_first, '10-2'
+            .large-2.columns
+              = avail.check_box :sunday_second
+              = avail.label :sunday_second, '2-6'
+            .large-2.columns
+              = avail.check_box :sunday_third
+              = avail.label :sunday_third, '5-9'
+          = avail.label :comment, 'Additional Comments'
+          = avail.text_field :comment
+          = avail.submit 'Save', class: :button
