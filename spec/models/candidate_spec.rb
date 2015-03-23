@@ -39,6 +39,13 @@ describe Candidate do
       expect(candidate).not_to be_valid
     end
 
+    it 'requires a unique email without case sensitivity' do
+      email = 'foo@bar.com'
+      create :candidate, email: email.upcase
+      candidate.email = email
+      expect(candidate).not_to be_valid
+    end
+
     it 'responds to personality_assessment_completed?' do
       expect(candidate).to respond_to(:personality_assessment_completed?)
     end

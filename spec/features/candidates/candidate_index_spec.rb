@@ -27,7 +27,7 @@ describe 'candidate index' do
 
   it 'shows the preassessment status of the candidate' do
     expect(page).to have_content('Assessment')
-    expect(page).to have_content('Not Completed')
+    expect(page).to have_content('Incomplete')
   end
 
   it 'searches for first names' do

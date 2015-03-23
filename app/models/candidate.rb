@@ -104,7 +104,10 @@ class Candidate < ActiveRecord::Base
   validates :last_name, presence: true, length: {minimum: 2}
   validate :strip_phone_number
   validates :mobile_phone, presence: true, uniqueness: true
-  validates :email, presence: true, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }
+  validates :email,
+            presence: true,
+            format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' },
+            uniqueness: { case_sensitive: false }
   validates :zip, length: { is: 5 }
   validates :candidate_source_id, presence: true
   validates :created_by, presence: true
