@@ -15,7 +15,7 @@ class ChangelogEntriesController < ApplicationController
     @changelog_entry = ChangelogEntry.new changelog_entry_params
     released = params.require(:changelog_entry).permit(:released)[:released]
     chronic_time = Chronic.parse(released)
-    adjusted_time = chronic_time.in_time_zone
+    adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
     @changelog_entry.released = adjusted_time
     if @changelog_entry.save
       puts @changelog_entry.inspect
