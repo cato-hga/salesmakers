@@ -65,6 +65,7 @@ module GroupMeBotQuery
   end
 
   def generate_pie_chart(results)
+    return unless results
     labels = []
     data = []
     for result in results do
