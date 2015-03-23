@@ -20,7 +20,7 @@
       = select_tag :able_to_attend, options_for_select([['Yes', true], ['No', false]], (@candidate.training_availability.able_to_attend)), include_blank: true
       #unable_to_attend(style="display:none;")
         = label_tag :training_unavailability_reason_id, 'Why not?'
-        = select_tag :training_unavailability_reason_id, options_from_collection_for_select(@training_unavailability_reasons, :id, :name, @training_unavailability_reason_id), include_blank: true
+        = select_tag :training_unavailability_reason_id, options_from_collection_for_select(@training_unavailability_reasons, :id, :name, @candidate.training_availability.training_unavailability_reason_id), include_blank: true
         = label_tag :comments
-        = text_area_tag :comments, @comments, rows: 5
+        = text_area_tag :comments, @candidate.training_availability.comments, rows: 5
   = submit_tag 'Update Details', class: [:button]

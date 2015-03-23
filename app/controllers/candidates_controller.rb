@@ -581,7 +581,7 @@ class CandidatesController < ApplicationController
 
   def set_unable_to_attend_params
     @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
-    @comments = @comments
+    @training_availability.comments = @comments
   end
 
   def geocode_if_necessary
