@@ -131,12 +131,17 @@
           - else
             - ''
         - when 'paperwork_sent'
-          - unless @candidate.job_offer_details.empty? or @candidate.job_offer_details.first.envelope_guid
+          - if @candidate.training_availability == nil
+            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+          - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
             - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
           - else
             - ''
         - else
-          - ''
+          - if @candidate.training_availability == nil
+            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+          - else
+            - ''
       = action if @candidate.active?
   - if @candidate.location_area
     .widget

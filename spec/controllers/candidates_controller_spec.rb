@@ -422,6 +422,39 @@ describe CandidatesController do
         expect(candidate.training_availability.comments).to eq('Test')
       end
     end
+
+    context 'when confirming a prior candidate (paperwork already sent)' do
+      let!(:candidate_with_paper) { create :candidate, location_area: location_area_two, state: 'FL' }
+      let!(:job_offer_detail) { create :job_offer_detail, candidate: candidate_with_paper }
+      let!(:location_area_two) { create :location_area }
+
+      subject do
+        post :record_confirmation,
+             id: candidate_with_paper.id,
+             shirt_gender: 'Male',
+             shirt_size: 'L',
+             able_to_attend: 'true'
+      end
+
+      it 'saves the training availability' do
+        expect(candidate_with_paper.training_availability).to be_nil
+        subject
+        candidate_with_paper.reload
+        expect(candidate_with_paper.training_availability).not_to be_nil
+      end
+
+      it 'does not send paperwork' do
+        expect(candidate_with_paper.job_offer_details).to eq([job_offer_detail])
+        subject
+        candidate_with_paper.reload
+        expect(candidate_with_paper.job_offer_details).to eq([job_offer_detail])
+      end
+
+      it 'redirects to the candidate show page' do
+        subject
+        expect(response).to redirect_to candidate_path candidate_with_paper
+      end
+    end
   end
 
   describe 'GET send_paperwork' do
