@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Candidate do
-  let(:candidate) { build :candidate, mobile_phone: '7164158131' }
+  let(:candidate) { build :candidate, mobile_phone: '7164158131', personality_assessment_status: :incomplete }
 
   describe 'validations' do
     it 'requires a first name at least 2 characters long' do
@@ -42,10 +42,21 @@ describe Candidate do
     it 'responds to personality_assessment_completed?' do
       expect(candidate).to respond_to(:personality_assessment_completed?)
     end
+
+    it 'responds to personality_assessment_status' do
+      expect(candidate).to respond_to(:personality_assessment_status)
+    end
+
+    it 'responds to personality_assessment_score' do
+      expect(candidate).to respond_to(:personality_assessment_score)
+    end
   end
 
   describe 'personality assessment requirements' do
-    let(:area) { build_stubbed :area, personality_assessment_url: 'https://google.com' }
+    let(:area) {
+      build_stubbed :area,
+                    personality_assessment_url: 'https://google.com'
+    }
     let(:location_area) { build_stubbed :location_area, area: area }
 
     describe 'when a personality assessment URL is present on the area' do

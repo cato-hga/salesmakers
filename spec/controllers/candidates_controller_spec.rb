@@ -570,59 +570,7 @@ describe CandidatesController do
     end
   end
 
-  describe 'PUT passed_assessment' do
-    before(:each) do
-      allow(controller).to receive(:policy).and_return double(destroy?: true)
-    end
-
-    context 'when accepted' do
-      let(:candidate) { create :candidate, status: :confirmed }
-
-      before do
-        allow(controller).to receive(:policy).and_return double(passed_assessment?: true)
-        put :passed_assessment,
-            id: candidate.id
-        candidate.reload
-      end
-
-      it 'creates a log entry' do
-        expect(LogEntry.count).to eq(1)
-      end
-
-      it 'sets the personality assessment to having been completed' do
-        expect(candidate.personality_assessment_completed?).to be_truthy
-      end
-
-      it 'redirects to send_paperwork' do
-        expect(response).to redirect_to(send_paperwork_candidate_path(candidate))
-      end
-    end
-
-    context 'when not yet accepted' do
-      let(:candidate) { create :candidate }
-
-      before do
-        allow(controller).to receive(:policy).and_return double(passed_assessment?: true)
-        put :passed_assessment,
-            id: candidate.id
-        candidate.reload
-      end
-
-      it 'creates a log entry' do
-        expect(LogEntry.count).to eq(1)
-      end
-
-      it 'sets the personality assessment to having been completed' do
-        expect(candidate.personality_assessment_completed?).to be_truthy
-      end
-
-      it 'redirects to candidates#show' do
-        expect(response).to redirect_to(candidate_path(candidate))
-      end
-    end
-  end
-
-  describe 'PUT failed_assessment' do
+  describe 'PUT record_assessment_score' do
     let(:candidate) { create :candidate, status: :accepted }
     let!(:failed_denial_reason) {
       create :candidate_denial_reason,
@@ -630,37 +578,94 @@ describe CandidatesController do
              active: true
     }
 
-    subject do
-      allow(controller).to receive(:policy).and_return double(failed_assessment?: true)
-      put :failed_assessment,
-          id: candidate.id
-      candidate.reload
-    end
+    before { allow(controller).to receive(:policy).and_return double(record_assessment_score?: true) }
 
-    it 'creates a log entry' do
-      expect {
+    context 'failing score' do
+      subject do
+        put :record_assessment_score,
+            id: candidate.id,
+            assessment_score: 30
+        candidate.reload
+      end
+
+      it 'creates a log entry' do
+        expect {
+          subject
+        }.to change(LogEntry, :count).by(2)
+      end
+
+      it "sets the candidate's denial reason" do
         subject
-      }.to change(LogEntry, :count).by(2)
+        expect(candidate.candidate_denial_reason).to eq(failed_denial_reason)
+      end
+
+      it 'marks the candidate as having completed their assessment' do
+        subject
+        expect(candidate.personality_assessment_completed?).to be_truthy
+      end
+
+      it 'sets the personality assessment score' do
+        subject
+        expect(candidate.personality_assessment_score).to eq(30)
+      end
+
+      it 'marks the candidate as inactive' do
+        subject
+        expect(candidate.active?).to be_falsey
+      end
+
+      it 'sets the candidate status to rejected' do
+        subject
+        expect(candidate.rejected?).to be_truthy
+      end
+
+      it 'sets the personality_assessment_status to disqualified' do
+        expect {
+          subject
+        }.to change(candidate, :personality_assessment_status).to('disqualified')
+      end
     end
 
-    it "sets the candidate's denial reason" do
-      subject
-      expect(candidate.candidate_denial_reason).to eq(failed_denial_reason)
-    end
+    context 'passing score' do
+      subject do
+        put :record_assessment_score,
+            id: candidate.id,
+            assessment_score: 32
+        candidate.reload
+      end
 
-    it 'marks the candidate as having completed their assessment' do
-      subject
-      expect(candidate.personality_assessment_completed?).to be_truthy
-    end
+      it 'creates a log entry' do
+        expect {
+          subject
+        }.to change(LogEntry, :count).by(1)
+      end
 
-    it 'marks the candidate as inactive' do
-      subject
-      expect(candidate.active?).to be_falsey
-    end
+      it 'marks the candidate as having completed their assessment' do
+        subject
+        expect(candidate.personality_assessment_completed?).to be_truthy
+      end
 
-    it 'sets the candidate status to rejected' do
-      subject
-      expect(candidate.rejected?).to be_truthy
+      it 'sets the personality assessment score' do
+        subject
+        expect(candidate.personality_assessment_score).to eq(32)
+      end
+
+      it 'keeps the candidate active' do
+        subject
+        expect(candidate.active?).to be_truthy
+      end
+
+      it 'does not change the candidate status' do
+        expect {
+          subject
+        }.not_to change(candidate, :status)
+      end
+
+      it 'sets the personality_assessment_status to qualified' do
+        expect {
+          subject
+        }.to change(candidate, :personality_assessment_status).to('qualified')
+      end
     end
   end
 

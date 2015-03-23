@@ -20,8 +20,7 @@ describe 'personality assessment functionality' do
 
     it 'does not show the link to the assessment completion' do
       visit candidate_path(candidate)
-      expect(page).not_to have_selector('input[value="Qualified per Assessment"]')
-      expect(page).not_to have_selector('input[value="Did Not Qualify per Assessment"]')
+      expect(page).not_to have_selector('input[value="Record Assessment Score"]')
     end
   end
 
@@ -34,20 +33,32 @@ describe 'personality assessment functionality' do
     end
 
     describe 'when the assessment is not completed' do
-      it 'shows the link to assessment completion' do
+      it 'shows the form for assessment score' do
         visit candidate_path(candidate)
-        expect(page).to have_selector('input[value="Qualified per Assessment"]')
-        expect(page).to have_selector('input[value="Did Not Qualify per Assessment"]')
+        expect(page).to have_selector('input[value="Record Assessment Score"]')
+      end
+
+      it 'records the assessment score' do
+        visit candidate_path(candidate)
+        fill_in 'assessment_score', with: '29'
+        click_on 'Record Assessment Score'
+        expect(page).to have_content('disqualified')
+      end
+
+      it 'displays an error when the score is not a number' do
+        visit candidate_path(candidate)
+        fill_in 'assessment_score', with: 'aa'
+        click_on 'Record Assessment Score'
+        expect(page).to have_content('must be a number')
       end
     end
 
     describe 'when the assessment is completed' do
       before { candidate.update personality_assessment_completed: true }
 
-      it 'does not show the link to the assessment completion' do
+      it 'does not show the form for assessment score' do
         visit candidate_path(candidate)
-        expect(page).not_to have_selector('input[value="Qualified per Assessment"]')
-        expect(page).not_to have_selector('input[value="Did Not Qualify per Assessment"]')
+        expect(page).not_to have_selector('input[value="Record Assessment Score"]')
       end
     end
   end

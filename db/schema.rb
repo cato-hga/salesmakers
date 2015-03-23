@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323143347) do
+ActiveRecord::Schema.define(version: 20150323153340) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -168,6 +168,8 @@ ActiveRecord::Schema.define(version: 20150323143347) do
     t.string "mobile_phone", null: false
     t.integer "person_id"
     t.boolean "personality_assessment_completed", default: false, null: false
+    t.float "personality_assessment_score"
+    t.integer "personality_assessment_status"
     t.string "shirt_gender"
     t.string "shirt_size"
     t.string "state", limit: 2

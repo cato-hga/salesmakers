@@ -37,8 +37,7 @@ Rails.application.routes.draw do
       post :create_sms_message, as: :create_sms_message
       get :confirm, as: :confirm
       post :record_confirmation, as: :record_confirmation
-      put :passed_assessment, as: :passed_assessment
-      put :failed_assessment, as: :failed_assessment
+      put :record_assessment_score, as: :record_assessment_score
       get :dismiss
       patch :reactivate
       get :edit_availability

@@ -88,11 +88,7 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
-  def passed_assessment?
-    update?
-  end
-
-  def failed_assessment?
+  def record_assessment_score?
     update?
   end
 

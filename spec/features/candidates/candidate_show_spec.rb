@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 describe 'candidate show page' do
-  let!(:candidate) { create :candidate, location_area: location_area, candidate_availability: available }
+  let!(:candidate) {
+    create :candidate,
+           location_area: location_area,
+           candidate_availability: available,
+           personality_assessment_score: 45,
+           personality_assessment_status: :qualified
+  }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission] }
   let!(:location_area) { create :location_area }
@@ -49,6 +55,16 @@ describe 'candidate show page' do
 
   it 'shows the scheduled interview time' do
     expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
+  end
+
+  it 'shows the personality assessment score' do
+    expect(page).to have_content('45')
+  end
+
+  it 'shows the personality assessment status' do
+    within '#basic_information' do
+      expect(page).to have_selector('.sm_green', text: 'Qualified')
+    end
   end
 
   it 'shows the candidate availability' do

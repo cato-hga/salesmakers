@@ -84,6 +84,11 @@ class Candidate < ActiveRecord::Base
            :paperwork_completed_by_hr,
            :onboarded
        ]
+  enum personality_assessment_status: [
+           :incomplete,
+           :disqualified,
+           :qualified
+       ]
 
   after_validation :reverse_geocode_on_production,
                    if: ->(candidate) {
@@ -166,6 +171,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def passed_personality_assessment?
+    return true if self.personality_assessment_status != 'incomplete'
     location_area = self.location_area || return
     return true unless location_area.area.personality_assessment_url
     self.personality_assessment_completed?

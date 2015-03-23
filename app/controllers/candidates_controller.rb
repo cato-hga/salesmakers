@@ -219,37 +219,22 @@ class CandidatesController < ApplicationController
     redirect_to candidate_path(@candidate)
   end
 
-  def passed_assessment
-    @current_person.log? 'passed_assessment',
-                         @candidate
-    @candidate.update personality_assessment_completed: true
-    if @candidate.confirmed?
-      redirect_to send_paperwork_candidate_path(@candidate)
-    else
-      flash[:notice] = 'Marked candidate as having qualified for employment per the personality assessment score. ' +
-          'Paperwork will be sent after details are confirmed.'
-      redirect_to candidate_path(@candidate)
+  def record_assessment_score
+    begin
+      @score = Float params[:assessment_score]
+    rescue
+      flash[:error] = 'Score must be a number'
+      redirect_to candidate_path(@candidate) and return
     end
-  end
-
-  def failed_assessment
-    @current_person.log? 'failed_assessment',
-                         @candidate
-    @current_person.log? 'dismiss',
-                         @candidate
-    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
-    if denial_reason
-      @candidate.update active: false,
-                        status: :rejected,
-                        candidate_denial_reason: denial_reason,
-                        personality_assessment_completed: true
-    else
-      @candidate.update active: false,
-                        status: :rejected,
-                        personality_assessment_completed: true
+    if @score > 100
+      flash[:error] = 'Score cannot be greater than 100. Please try again.'
+      redirect_to candidate_path(@candidate) and return
     end
-    flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
-    redirect_to candidate_path(@candidate)
+    if @score < 31
+      failed_assessment
+    else
+      passed_assessment
+    end
   end
 
   def edit_availability
@@ -560,5 +545,44 @@ class CandidatesController < ApplicationController
     @candidate.geocode
     @candidate.reverse_geocode
     @candidate.save
+  end
+
+  def passed_assessment
+    @current_person.log? 'passed_assessment',
+                         @candidate
+    @candidate.update personality_assessment_completed: true,
+                      personality_assessment_score: @score,
+                      personality_assessment_status: :qualified
+    if @candidate.confirmed?
+      redirect_to send_paperwork_candidate_path(@candidate)
+    else
+      flash[:notice] = 'Marked candidate as having qualified for employment per the personality assessment score. ' +
+          'Paperwork will be sent after details are confirmed.'
+      redirect_to candidate_path(@candidate)
+    end
+  end
+
+  def failed_assessment
+    @current_person.log? 'failed_assessment',
+                         @candidate
+    @current_person.log? 'dismiss',
+                         @candidate
+    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
+    if denial_reason
+      @candidate.update active: false,
+                        status: :rejected,
+                        candidate_denial_reason: denial_reason,
+                        personality_assessment_completed: true,
+                        personality_assessment_score: @score,
+                        personality_assessment_status: :disqualified
+    else
+      @candidate.update active: false,
+                        status: :rejected,
+                        personality_assessment_completed: true,
+                        personality_assessment_score: @score,
+                        personality_assessment_status: :disqualified
+    end
+    flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
+    redirect_to candidate_path(@candidate)
   end
 end
