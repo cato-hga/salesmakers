@@ -25,6 +25,7 @@ class ChangelogEntriesController < ApplicationController
     end
   end
 
+
   private
 
   def chronic_time_zones
