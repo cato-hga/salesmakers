@@ -226,7 +226,7 @@ class CandidatesController < ApplicationController
     if @candidate.confirmed?
       redirect_to send_paperwork_candidate_path(@candidate)
     else
-      flash[:notice] = 'Marked candidate as having passed their personality assessment. ' +
+      flash[:notice] = 'Marked candidate as having qualified for employment per the personality assessment score. ' +
           'Paperwork will be sent after details are confirmed.'
       redirect_to candidate_path(@candidate)
     end
@@ -237,7 +237,7 @@ class CandidatesController < ApplicationController
                          @candidate
     @current_person.log? 'dismiss',
                          @candidate
-    denial_reason = CandidateDenialReason.find_by name: 'Failed personality assessment'
+    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
     if denial_reason
       @candidate.update active: false,
                         status: :rejected,
@@ -248,6 +248,7 @@ class CandidatesController < ApplicationController
                         status: :rejected,
                         personality_assessment_completed: true
     end
+    flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
     redirect_to candidate_path(@candidate)
   end
 

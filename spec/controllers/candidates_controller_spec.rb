@@ -626,7 +626,7 @@ describe CandidatesController do
     let(:candidate) { create :candidate, status: :accepted }
     let!(:failed_denial_reason) {
       create :candidate_denial_reason,
-             name: 'Failed personality assessment',
+             name: "Personality assessment score does not qualify for employment",
              active: true
     }
 

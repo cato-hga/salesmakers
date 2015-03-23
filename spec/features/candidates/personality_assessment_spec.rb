@@ -20,8 +20,8 @@ describe 'personality assessment functionality' do
 
     it 'does not show the link to the assessment completion' do
       visit candidate_path(candidate)
-      expect(page).not_to have_selector('input[value="Mark Personality Assessment Passed"]')
-      expect(page).not_to have_selector('input[value="Mark Personality Assessment Failed"]')
+      expect(page).not_to have_selector('input[value="Qualified per Assessment"]')
+      expect(page).not_to have_selector('input[value="Did Not Qualify per Assessment"]')
     end
   end
 
@@ -36,8 +36,8 @@ describe 'personality assessment functionality' do
     describe 'when the assessment is not completed' do
       it 'shows the link to assessment completion' do
         visit candidate_path(candidate)
-        expect(page).to have_selector('input[value="Mark Personality Assessment Passed"]')
-        expect(page).to have_selector('input[value="Mark Personality Assessment Failed"]')
+        expect(page).to have_selector('input[value="Qualified per Assessment"]')
+        expect(page).to have_selector('input[value="Did Not Qualify per Assessment"]')
       end
     end
 
@@ -46,8 +46,8 @@ describe 'personality assessment functionality' do
 
       it 'does not show the link to the assessment completion' do
         visit candidate_path(candidate)
-        expect(page).not_to have_selector('input[value="Mark Personality Assessment Passed"]')
-        expect(page).not_to have_selector('input[value="Mark Personality Assessment Failed"]')
+        expect(page).not_to have_selector('input[value="Qualified per Assessment"]')
+        expect(page).not_to have_selector('input[value="Did Not Qualify per Assessment"]')
       end
     end
   end
