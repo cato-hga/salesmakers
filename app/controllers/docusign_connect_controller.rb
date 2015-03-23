@@ -20,6 +20,9 @@ class DocusignConnectController < ApplicationController
     candidate_signed_time = get_signed_time(data, 0) || (render nothing: true, status: :unprocessable_entity and return)
     advocate_signed_time = get_signed_time(data, 1)
     hr_signed_time = get_signed_time(data, 2)
+    Rails.logger.debug "HR: #{hr_signed_time}"
+    Rails.logger.debug "Advocate: #{advocate_signed_time}"
+    Rails.logger.debug "Candidate: #{candidate_signed_time}"
     mark_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     render nothing: true
   end
@@ -63,7 +66,7 @@ class DocusignConnectController < ApplicationController
                               completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_advocate!
     elsif candidate_signed_time
-      job_offer_detail.update completed_by_advocate: candidate_signed_time
+      job_offer_detail.update completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_candidate!
     end
   end
