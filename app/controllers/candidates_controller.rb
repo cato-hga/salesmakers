@@ -237,6 +237,18 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def resend_assessment
+    unless @candidate.location_area
+      flash[:error] = 'You cannot resend the assessment because there is no location selected for the candidate.'
+      redirect_to @candidate and return
+    end
+    CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @candidate.location_area.area).deliver_later
+    @current_person.log? 'sent_assessment',
+                         @candidate
+    flash[:notice] = 'Personality assessment email resent.'
+    redirect_to @candidate
+  end
+
   def edit_availability
     @candidate_availability = @candidate.candidate_availability
   end

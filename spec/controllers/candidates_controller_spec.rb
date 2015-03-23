@@ -724,4 +724,17 @@ describe CandidatesController do
       expect(LogEntry.count).to be(1)
     end
   end
+
+  describe 'GET resend_assessment' do
+    let(:candidate) { create :candidate, state: 'FL', location_area: location_area }
+    let(:location_area) { create :location_area }
+
+    before { allow(controller).to receive(:policy).and_return double(resend_assessment?: true) }
+
+    it 'sends the assessment' do
+      get :resend_assessment,
+          id: candidate.id
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+  end
 end

@@ -92,6 +92,10 @@ class CandidatePolicy < ApplicationPolicy
     update?
   end
 
+  def resend_assessment?
+    set_location_area?
+  end
+
   def reactivate?
     create?
   end

@@ -14,8 +14,10 @@
   = f.text_field :location_area_area_project_name_cont, placeholder: 'Project'
   = f.text_field :location_area_location_channel_name_cont, placeholder: 'Channel'
   = f.text_field :location_area_location_display_name_cont, placeholder: 'Location'
-  = f.select 'personality_assessment_completed_eq', [['Completed', true],['Not Completed', false]], include_blank: 'All Assessment Statuses'
+  - selected_assessment_status = params['q'] ? params['q']['personality_assessment_status_eq'] : nil
+  - assessment_status_options = options_for_select(Candidate.personality_assessment_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_assessment_status)
+  = f.select :personality_assessment_status_eq, assessment_status_options, prompt: 'Assessment Status'
   - selected_status = params['q'] ? params['q']['status_eq'] : nil
-  - options = options_for_select(Candidate.statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
-  = f.select :status_eq, options, prompt: 'Status'
+  - status_options = options_for_select(Candidate.statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
+  = f.select :status_eq, status_options, prompt: 'Status'
   = f.submit 'Search', class: [:button, :inline_button]

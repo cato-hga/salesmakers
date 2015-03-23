@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'personality assessment functionality' do
-  let!(:candidate) { create :candidate, state: 'FL', status: :accepted }
+  let!(:candidate) { create :candidate, state: 'FL', status: :accepted, personality_assessment_status: :incomplete }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
@@ -25,7 +25,9 @@ describe 'personality assessment functionality' do
   end
 
   context 'when the assessment is required' do
-    let(:area) { create :area, personality_assessment_url: 'https://google.com' }
+    let(:area) { create :area,
+                        personality_assessment_url: 'https://google.com'
+    }
     let(:location_area) { create :location_area, area: area }
 
     before do

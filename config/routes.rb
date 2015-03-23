@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       get :confirm, as: :confirm
       post :record_confirmation, as: :record_confirmation
       put :record_assessment_score, as: :record_assessment_score
+      get :resend_assessment, as: :resend_assessment
       get :dismiss
       patch :reactivate
       get :edit_availability

@@ -20,7 +20,7 @@
       - location = location_obj.display_name if candidate.location_area
       - status = ''
       - status = NameCase(candidate.status.humanize) if candidate.status
-      - assessment = candidate.personality_assessment_completed? ? 'Completed' : 'Not Completed'
+      - assessment = candidate.personality_assessment_status ? NameCase(candidate.personality_assessment_status) : ''
       - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
       - onboard_button = link_to 'Onboard', new_from_candidate_people_path(candidate), class: [:button, :inline_button]
       - rows << table_row([name, entered_by, email, zip, project, channel, location, status, assessment, "#{call_button}&nbsp;#{onboard_button}".html_safe])
