@@ -1,6 +1,7 @@
 class ChangelogEntriesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
+  before_action :chronic_time_zones
 
   def index
     @changelog_entries = ChangelogEntry.all.page
@@ -18,6 +19,7 @@ class ChangelogEntriesController < ApplicationController
     @changelog_entry.released = adjusted_time
     puts @changelog_entry.released
     puts adjusted_time
+
     if @changelog_entry.save
       puts @changelog_entry.inspect
       redirect_to changelog_entries_path
