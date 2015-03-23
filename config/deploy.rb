@@ -58,10 +58,6 @@ namespace :staging do
   end
 end
 
-namespace :production do
-
-end
-
 namespace :sidekiq do
   task :restart do
     on roles(:app) do
@@ -71,14 +67,26 @@ namespace :sidekiq do
 end
 
 namespace :deploy do
+  branch = fetch(:branch)
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     task :check_revision do
-      branch = fetch(:branch)
       on roles(:app) do
         unless `git rev-parse HEAD` == `git rev-parse origin/#{branch}`
           puts "WARNING: HEAD is not the same as origin/#{branch}"
           puts "Run `git push` to sync changes."
+          exit
+        end
+      end
+    end
+  end
+
+  task :check_branch_on_production do
+    on roles(:app) do
+      if :stage == :staging
+        unless branch == 'staging_deployment'
+          puts "WARNING: You're not deploying from the master branch!"
+          puts "Checkout master and deploy from there"
           exit
         end
       end
@@ -115,6 +123,7 @@ namespace :deploy do
   end
 
   before :starting, :check_revision
+  before :starting, :check_branch_on_production
   before :starting, :silence_inspeqtor
   after :finishing, :compile_assets
   after :finishing, :cleanup
