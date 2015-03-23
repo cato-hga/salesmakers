@@ -43,6 +43,8 @@ Rails.application.routes.draw do
       patch :reactivate
       get :edit_availability
       patch :update_availability
+      get :edit_candidate_details
+      patch :update_candidate_details
     end
     collection do
       get :dashboard, as: :dashboard

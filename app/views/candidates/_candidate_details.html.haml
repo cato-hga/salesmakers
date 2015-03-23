@@ -1,0 +1,9 @@
+- available = @candidate.training_availability
+.widget.candidate_details
+  .inner
+    %h3
+      Candidate Details
+      = edit_button edit_candidate_details_candidate_path(@candidate)
+    %p= available.able_to_attend ? 'Able to Attend Training: YES' : 'Able to Attend Training: NO'
+    %p= @candidate.shirt_gender.present? ? "Shirt Gender: #{@candidate.shirt_gender}" : 'Shirt Gender: N/A'
+    %p= @candidate.shirt_size.present? ? "Shirt Size: #{@candidate.shirt_size}" : 'Shirt Size: N/A'

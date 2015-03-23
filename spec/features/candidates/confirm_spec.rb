@@ -24,6 +24,12 @@ describe 'confirming details' do
       click_on 'Confirm and Save'
       expect(page).to have_content('Please send now manually')
     end
+
+    it 'updates the candidate' do
+      candidate.reload
+      expect(candidate.shirt_size).to eq('XL')
+      expect(candidate.shirt_gender).to eq('Male')
+    end
   end
 
   describe 'someone unavailable for training', js: true do

@@ -150,6 +150,9 @@
           = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
   - if @candidate.candidate_availability.present?
     = render 'availability'
+  - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
+    = render 'candidate_details'
+
 .widget
   .inner
     %h3 Communication Log
