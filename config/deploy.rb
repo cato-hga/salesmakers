@@ -68,6 +68,7 @@ end
 
 namespace :deploy do
   branch = fetch(:branch)
+  stage = fetch(:stage)
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     task :check_revision do
@@ -83,7 +84,7 @@ namespace :deploy do
 
   task :check_branch_on_production do
     on roles(:app) do
-      if :stage == :staging and branch != 'staging_deployment'
+      if stage == :staging and branch != 'staging_deployment'
         puts "WARNING: You're not deploying from the master branch!"
         puts "Checkout master and deploy from there"
         exit
