@@ -474,6 +474,7 @@ describe CandidatesController do
         expect(location_area.potential_candidate_count).to eq(1)
       end
     end
+
     context 'success (status changes)' do
       let!(:candidate) { create :candidate, active: false }
       let(:offer) { create :job_offer_detail }
