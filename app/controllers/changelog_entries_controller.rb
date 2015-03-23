@@ -23,6 +23,10 @@ class ChangelogEntriesController < ApplicationController
 
   private
 
+  def chronic_time_zones
+    Chronic.time_class = Time.zone
+  end
+
   def changelog_entry_params
     params.require(:changelog_entry).permit :department_id,
                                             :project_id,
