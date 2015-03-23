@@ -5,6 +5,7 @@ describe ChangelogEntriesController do
   let(:permission_manage) { create :permission, key: 'changelog_entry_manage' }
 
   before do
+    Time.zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
     person.position.permissions << permission_manage
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
@@ -36,7 +37,8 @@ describe ChangelogEntriesController do
   describe 'POST create' do
     let(:entry) { build :changelog_entry }
 
-   subject do
+
+    subject do
       post :create,
            changelog_entry: entry.attributes
     end

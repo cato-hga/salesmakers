@@ -5,6 +5,7 @@ describe 'ChangelogEntry CRUD actions' do
   let(:permission_manage) { create :permission, key: 'changelog_entry_manage' }
 
   before do
+    Time.zone = ActiveSupport::TimeZone["Eastern Time (US & Canada)"]
     person.position.permissions << permission_manage
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
@@ -24,7 +25,7 @@ describe 'ChangelogEntry CRUD actions' do
   context 'for creating' do
     let(:project) { create :project }
     let(:department) { Department.first }
-    let(:released_string) { changelog_entry.released.strftime('%m/%d/%Y %-l:%M%P') }
+    let(:released_string) { Time.zone.local(Date.current.year, Date.current.month, Date.current.day, 9, 0, 0) }
 
     let(:changelog_entry) { build :changelog_entry }
 
@@ -84,6 +85,18 @@ describe 'ChangelogEntry CRUD actions' do
       check 'All field?'
       click_on 'Save'
       expect(ChangelogEntry.first).to be_all_field
+    end
+
+    it 'sets the correct time' do
+      visit new_changelog_entry_path
+      fill_in 'Heading', with: changelog_entry.heading
+      fill_in 'Description', with: changelog_entry.description
+      fill_in 'Released', with: released_string
+      check 'All field?'
+      click_on 'Save'
+      change = ChangelogEntry.first
+      change.reload
+      expect(change.released).to be_within(1.second).of(released_string)
     end
   end
 

@@ -7,7 +7,7 @@
     - header_row = header_row(['Released', 'Heading', 'Description', 'Department', 'Project', 'All HQ?', 'All Field?'])
     - rows = Array.new
     - for entry in @changelog_entries do
-      - released = friendly_datetime entry.released
+      - released = friendly_datetime entry.released.in_time_zone
       - heading = entry.heading
       - description = entry.description
       - department = entry.department ? entry.department.name : nil
