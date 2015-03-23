@@ -62,11 +62,14 @@ class DocusignConnectController < ApplicationController
                               completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_hr!
     elsif advocate_signed_time
-      job_offer_detail.update completed_by_advocate: advocate_signed_time,
+      job_offer_detail.update completed: nil,
+                              completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_advocate!
     elsif candidate_signed_time
-      job_offer_detail.update completed_by_candidate: candidate_signed_time
+      job_offer_detail.update completed: nil,
+                              completed_by_advocate: nil,
+                              completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_candidate!
     end
   end
