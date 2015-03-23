@@ -176,6 +176,9 @@ class CandidatesController < ApplicationController
     @training_availability.candidate = @candidate
     set_unable_to_attend_params unless @able_to_attend
     if @training_availability.save
+      @candidate.shirt_size = params[:shirt_size]
+      @candidate.shirt_gender = params[:shirt_gender]
+      @candidate.save
       @current_person.log? 'confirmed',
                            @candidate
       @candidate.confirmed!
@@ -204,11 +207,16 @@ class CandidatesController < ApplicationController
     @training_availability.able_to_attend = @able_to_attend
     @training_availability.candidate = @candidate
     set_unable_to_attend_params unless @able_to_attend
-    if @training_availability.save
-      @current_person.log? 'updated',
+    @candidate.shirt_size = params[:shirt_size]
+    @candidate.shirt_gender = params[:shirt_gender]
+    if @training_availability.save and @candidate.save
+      @current_person.log? 'update',
                            @candidate
+      flash[:notice] = 'Candidate updated'
+      redirect_to candidate_path @candidate
     else
-      render :confirm
+      flash[:error] = 'Candidate could not be updated'
+      render :edit_candidate_details
     end
   end
 

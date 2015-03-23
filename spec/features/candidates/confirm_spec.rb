@@ -26,6 +26,7 @@ describe 'confirming details' do
     end
 
     it 'updates the candidate' do
+      click_on 'Confirm and Save'
       candidate.reload
       expect(candidate.shirt_size).to eq('XL')
       expect(candidate.shirt_gender).to eq('Male')

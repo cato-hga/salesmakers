@@ -354,7 +354,10 @@ describe CandidatesController do
     end
 
     it 'updates the candidates shirt information' do
-
+      subject
+      candidate.reload
+      expect(candidate.shirt_size).to eq('L')
+      expect(candidate.shirt_gender).to eq('Male')
     end
 
     context 'when personality assessment passed' do
@@ -753,6 +756,7 @@ describe CandidatesController do
             shirt_size: 'L',
             shirt_gender: 'Male',
             able_to_attend: 'true'
+      candidate.reload
     end
     it 'updates the candidates details' do
       expect(candidate.shirt_size).to eq('M')

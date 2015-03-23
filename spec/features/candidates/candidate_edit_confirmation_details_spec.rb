@@ -29,32 +29,36 @@ describe 'edit candidate details' do
     expect(page).to have_content 'Training Attendance'
   end
 
-  # describe 'form submission' do
-  #   subject do
-  #     select 'Male', from: :shirt_gender
-  #     select 'L', from: :shirt_size
-  #     select 'Yes', from: :able_to_attend
-  #     click_on 'Update Details'
-  #     candidate.reload
-  #   end
-  #   it 'updates the candidates details' do
-  #     expect(candidate.shirt_size).to eq('M')
-  #     expect(candidate.shirt_gender).to eq('Female')
-  #     expect(candidate.training_availability.able_to_attend).to eq(false)
-  #     subject
-  #     expect(candidate.shirt_size).to eq('L')
-  #     expect(candidate.shirt_gender).to eq('Male')
-  #     expect(candidate.training_availability.able_to_attend).to eq(true)
-  #   end
-  #   it 'redirects to candidate#show' do
-  #     subject
-  #     expect(page).to have_content candidate.name
-  #   end
-  #   it 'creates a log entry' do
-  #     log = LogEntry.first
-  #     expect(page).to have_content log.trackable
-  #   end
-  #     it 'flashes a success message'
-  # end
+  describe 'form submission' do
+    subject do
+      select 'Male', from: :shirt_gender
+      select 'L', from: :shirt_size
+      select 'Yes', from: :able_to_attend
+      click_on 'Update Details'
+      candidate.reload
+    end
+    it 'updates the candidates details' do
+      expect(candidate.shirt_size).to eq('M')
+      expect(candidate.shirt_gender).to eq('Female')
+      expect(candidate.training_availability.able_to_attend).to eq(false)
+      subject
+      expect(candidate.shirt_size).to eq('L')
+      expect(candidate.shirt_gender).to eq('Male')
+      expect(candidate.training_availability.able_to_attend).to eq(true)
+    end
+    it 'redirects to candidate#show' do
+      subject
+      expect(page).to have_content candidate.name
+    end
+    it 'creates a log entry' do
+      subject
+      log = LogEntry.first
+      expect(page).to have_content "#{log.person.name} updated #{log.trackable.first_name} #{log.trackable.last_name}"
+    end
+    it 'flashes a success message' do
+      subject
+      expect(page).to have_content 'Candidate updated'
+    end
+  end
 
 end
