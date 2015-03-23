@@ -713,16 +713,6 @@ describe CandidatesController do
         }.to change(candidate, :personality_assessment_status).to('qualified')
       end
     end
-
-    it 'marks the candidate as inactive' do
-      subject
-      expect(candidate.active?).to be_falsey
-    end
-
-    it 'sets the candidate status to rejected' do
-      subject
-      expect(candidate.rejected?).to be_truthy
-    end
   end
 
   describe 'GET dashboard' do
