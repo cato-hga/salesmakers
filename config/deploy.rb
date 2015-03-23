@@ -75,6 +75,7 @@ namespace :deploy do
         puts "WARNING: HEAD is not the same as origin/#{branch}"
         puts "Run `git push` to sync changes."
         exit
+      end
     end
   end
 
