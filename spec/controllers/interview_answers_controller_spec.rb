@@ -69,6 +69,15 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         expect(candidate.status).to eq('accepted')
       end
 
+      it 'updates the offer_extended_count of the LocationArea' do
+        candidate.update location_area: location_area
+        location_area.reload
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :offer_extended_count).from(0).to(1)
+      end
+
       it 'redirects to confirmation page' do
         subject
         expect(response).to redirect_to(confirm_candidate_path(candidate))

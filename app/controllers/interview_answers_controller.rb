@@ -35,6 +35,10 @@ class InterviewAnswersController < ApplicationController
                          @candidate
     @current_person.log? 'extended_job_offer',
                          @candidate
+    if @candidate.location_area
+      location_area = @candidate.location_area
+      location_area.update offer_extended_count: location_area.offer_extended_count + 1
+    end
     flash[:notice] = 'Interview answers saved.'
     redirect_to confirm_candidate_path(@candidate)
   end

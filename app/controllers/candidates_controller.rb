@@ -139,10 +139,13 @@ class CandidatesController < ApplicationController
     previous_location_area = @candidate.location_area
     unless @candidate.update(location_area: @location_area)
       flash[:error] = @candidate.errors.full_messages.join(', ')
-      redirect_to select_location_candidate_path(@candidate, @send_nhp.to_s) and return
+      redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s) and return
     end
     if previous_location_area
       previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
+      if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
+        previous_location_area.update offer_extended_count: previous_location_area.offer_extended_count - 1
+      end
     end
     @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
     @candidate.location_selected! if @candidate.status == 'prescreened'

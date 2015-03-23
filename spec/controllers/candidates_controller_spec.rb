@@ -240,6 +240,7 @@ describe CandidatesController do
     let(:location) { create :location }
     let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
+    let!(:second_location_area) { create :location_area, area: area, offer_extended_count: 1 }
 
     subject {
       get :set_location_area,
@@ -265,6 +266,24 @@ describe CandidatesController do
         subject
         location_area.reload
       }.to change(location_area, :potential_candidate_count).from(0).to(1)
+    end
+
+    it 'updates the offer_extended_count on the LocationArea if necessary' do
+      expect {
+        candidate.update location_area: second_location_area,
+                         status: :accepted
+        subject
+        second_location_area.reload
+      }.to change(second_location_area, :offer_extended_count).from(1).to(0)
+    end
+
+    it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+      expect {
+        candidate.update location_area: second_location_area,
+                         status: :prescreened
+        subject
+        second_location_area.reload
+      }.not_to change(second_location_area, :offer_extended_count)
     end
 
     it 'updates the candidate status' do

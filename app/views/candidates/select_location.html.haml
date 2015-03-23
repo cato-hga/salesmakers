@@ -31,12 +31,12 @@
       - next if @candidate.location_area and @candidate.location_area == location_area
       - location = location_area.location
       - target = 0
-      - potentials = 0
+      - offers_extended = 0
       - current = 0
       - target = location_area.target_head_count if location_area
-      - potentials = location_area.potential_candidate_count if location_area
+      - offers_extended = location_area.offer_extended_count if location_area
       - current = location_area.current_head_count if location_area
-      - open = target - (current + potentials)
+      - open = target - (current + offers_extended)
       - location_count += 1
       - distance = location.geographic_distance(@candidate).round(2)
       - info_window = "#{location_count.to_s}. #{location.channel.name}, #{location.display_name}".html_safe

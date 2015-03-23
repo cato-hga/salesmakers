@@ -1,4 +1,4 @@
-- headers = header_row(['', 'Project', 'Distance', 'City', 'Location', 'Store Number','Schedule', 'Hourly Rate', 'Target HC', 'Potentials', 'Current HC', 'Open'])
+- headers = header_row(['', 'Project', 'Distance', 'City', 'Location', 'Store Number','Schedule', 'Hourly Rate', 'Target HC', 'Potentials', 'Extended Offers', 'Current HC', 'Open'])
 - rows = []
 - count = 0
 - project = nil
@@ -7,11 +7,13 @@
   - target = 0
   - location = location_area.location
   - potentials = 0
+  - offers_extended = 0
   - current = 0
   - target = location_area.target_head_count if location_area
   - potentials = location_area.potential_candidate_count if location_area
+  - offers_extended = location_area.offer_extended_count if location_area
   - current = location_area.current_head_count if location_area
-  - open = target - (current + potentials)
+  - open = target - (current + offers_extended)
   - count += 1
   - project = project_link location_area.area.project
   - link_classes = []
@@ -24,5 +26,5 @@
   - store_number = link_to location.store_number, path, class: link_classes
   - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''
   - address = link_to location.address, path, class: link_classes
-  - rows << table_row(["#{count.to_s}.", project, distance, city, location_name, store_number, schedule,  hourly_rate, target.to_s, potentials.to_s, current.to_s, open.to_s])
+  - rows << table_row(["#{count.to_s}.", project, distance, city, location_name, store_number, schedule,  hourly_rate, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s])
 = table headers, rows
