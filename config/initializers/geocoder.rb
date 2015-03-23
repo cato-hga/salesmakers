@@ -1,6 +1,6 @@
 Geocoder.configure timeout: 25,
-                   lookup: :google,
+                   lookup: :google_premier,
                    #lookup: :nominatim,
                    use_https: true,
-                   api_key: 'AIzaSyBKG_uR_Ii_MZUizVNme6l5TWk-sERckAY'
+                   api_key: ['zE002EyHd5TAgBXB9cfdz57Gfio=', 'gme-salesmakersinc', 'SalesCenter_2']
 #http_headers: { "User-Agent" => "SalesMakers, Inc. <developers@salesmakersinc.com>" }

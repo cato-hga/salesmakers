@@ -61,6 +61,7 @@
     :javascript
       handler = Gmaps.build('Google');
       handler.buildMap({ provider: {
+        client: 'gme-salesmakersinc',
         styles: mapStyle()
       }, internal: {id: 'locations_map'}}, function () {
         handledMarkers = handler.addMarkers(markers);
