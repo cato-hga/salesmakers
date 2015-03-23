@@ -25,10 +25,10 @@ module TableHelperExtension
     end
   end
 
-  def table_row(data)
+  def table_row(data, classes = nil)
     content = ''.html_safe
     for cell in data
-      content = content + content_tag(:td, cell)
+      content = content + content_tag(:td, cell, class: classes)
     end
     content
   end

@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323161539) do
+ActiveRecord::Schema.define(version: 20150323175711) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -572,6 +573,7 @@ ActiveRecord::Schema.define(version: 20150323161539) do
     t.integer "radio_shack_location_schedule_id"
     t.integer "target_head_count", default: 0, null: false
     t.datetime "updated_at", null: false
+    t.boolean "outsourced", default: false, null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -1164,4 +1166,5 @@ ActiveRecord::Schema.define(version: 20150323161539) do
   end
 
   add_index "walls", ["wallable_id", "wallable_type"], name: "index_walls_on_wallable_id_and_wallable_type", using: :btree
+
 end

@@ -5,6 +5,9 @@ describe 'selecting a Location for a Candidate' do
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
+  let(:permission_outsourced) { Permission.new key: 'location_area_outsourced',
+                                               permission_group: permission_group,
+                                               description: 'Test Description' }
   let(:position) {
     create :position,
            name: 'Advocate',
@@ -27,9 +30,15 @@ describe 'selecting a Location for a Candidate' do
            latitude: 18.9857925,
            longitude: -69.3914388
   }
+  let(:location_three) {
+    create :location,
+           city: 'Springfield',
+           latitude: 17.9857925,
+           longitude: -66.3914388
+  }
   let!(:location_area) {
     create :location_area,
-           location: location_two,
+           location: location,
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
@@ -38,11 +47,18 @@ describe 'selecting a Location for a Candidate' do
   }
   let!(:location_area_two) {
     create :location_area,
-           location: location,
+           location: location_two,
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
            hourly_rate: 15
+  }
+  let!(:location_area_outsourced) {
+    create :location_area,
+           location: location_three,
+           area: area,
+           target_head_count: 2,
+           outsourced: true
   }
 
   let(:schedule) { create :radio_shack_location_schedule }
@@ -96,6 +112,22 @@ describe 'selecting a Location for a Candidate' do
 
     it 'has the schedules for each location listed' do
       expect(page).to have_content 'Schedule'
+    end
+
+    it 'does not show the outsourced locations without permission' do
+      expect(page).not_to have_content(location_three.city)
+    end
+  end
+
+  describe 'for those with permission to view outsourced doors' do
+    before do
+      recruiter.position.permissions << permission_outsourced
+      CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+      visit select_location_candidate_path candidate, 'false'
+    end
+
+    it 'shows the locations' do
+      expect(page).to have_content(location_three.city)
     end
   end
 end
