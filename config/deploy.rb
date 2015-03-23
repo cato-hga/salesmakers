@@ -75,7 +75,7 @@ end
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
-    branch = :branch_name
+    branch = :branch_name.to_s
     on roles(:app) do
       #if :branch == 'staging_deployment'
       unless `git rev-parse HEAD` == "git rev-parse origin/#{branch}"
