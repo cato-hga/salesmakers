@@ -79,13 +79,7 @@ class LogEntry < ActiveRecord::Base
   end
 
   def self.for_candidate(candidate)
-    interview_answers = candidate.interview_answers
-    if interview_answers.count > 0
-      interview_answers_query = "trackable_id IN (#{interview_answers.map(&:id).join(',')})"
-    else
-      interview_answers_query = 'FALSE'
-    end
-    self.where("(trackable_type = 'Candidate' AND trackable_id = ?) OR (referenceable_type = 'Candidate' AND referenceable_id = ?) OR (trackable_type = 'Candidate' AND #{interview_answers_query})", candidate.id, candidate.id)
+    self.where("(trackable_type = 'Candidate' AND trackable_id = ?) OR (referenceable_type = 'Candidate' AND referenceable_id = ?)", candidate.id, candidate.id)
   end
   #:nocov:
 
