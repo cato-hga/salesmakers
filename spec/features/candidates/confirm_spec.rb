@@ -18,23 +18,40 @@ describe 'confirming details' do
   end
 
   describe 'someone available for training' do
-    before { select 'Yes', from: 'Is the candidate able to attend the training?' }
+    before {
+      select 'Yes', from: 'Is the candidate able to attend the training?'
+      click_on 'Confirm and Save'
+    }
 
     it 'successfully redirects to candidate show' do
-      click_on 'Confirm and Save'
       expect(page).to have_content('Please send now manually')
     end
+
+    it 'updates the candidate' do
+      candidate.reload
+      expect(candidate.shirt_size).to eq('XL')
+      expect(candidate.shirt_gender).to eq('Male')
+      expect(candidate.training_availability.able_to_attend).to eq(true)
+    end
+
   end
 
   describe 'someone unavailable for training', js: true do
     before do
       select 'No', from: 'Is the candidate able to attend the training?'
       select reason.name, from: 'Why not?'
+      #fill_in 'Comments', with: 'Test'
+      click_on 'Confirm and Save'
     end
 
     it 'successfully redirects to candidate show' do
-      click_on 'Confirm and Save'
       expect(page).to have_content('Please send now manually')
     end
+
+    # it 'updates the training availability' do
+    #   candidate.reload
+    #   expect(candidate.training_availability.able_to_attend).to eq(false)
+    #   expect(candidate.training_availability.training_unavailability_reason).to eq(reason)
+    # end
   end
 end

@@ -5,7 +5,7 @@ class CandidatesController < ApplicationController
   before_action :do_authorization
   before_action :search_bar
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
-  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
+  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   layout 'candidates'
@@ -176,6 +176,9 @@ class CandidatesController < ApplicationController
     @training_availability.candidate = @candidate
     set_unable_to_attend_params unless @able_to_attend
     if @training_availability.save
+      @candidate.shirt_size = params[:shirt_size]
+      @candidate.shirt_gender = params[:shirt_gender]
+      @candidate.save
       @current_person.log? 'confirmed',
                            @candidate
       @candidate.confirmed!
@@ -187,6 +190,33 @@ class CandidatesController < ApplicationController
       end
     else
       render :confirm
+    end
+  end
+
+  def edit_candidate_details
+    #get candidate
+    @training_availability = @candidate.training_availability
+  end
+
+  def update_candidate_details
+    @training_availability = @candidate.training_availability
+    if @shirt_gender.blank? or @shirt_size.blank?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :edit_candidate_details and return
+    end
+    @training_availability.able_to_attend = @able_to_attend
+    @training_availability.candidate = @candidate
+    set_unable_to_attend_params unless @able_to_attend
+    @candidate.shirt_size = params[:shirt_size]
+    @candidate.shirt_gender = params[:shirt_gender]
+    if @training_availability.save and @candidate.save
+      @current_person.log? 'update',
+                           @candidate
+      flash[:notice] = 'Candidate updated'
+      redirect_to candidate_path @candidate
+    else
+      flash[:error] = 'Candidate could not be updated'
+      render :edit_candidate_details
     end
   end
 
@@ -549,7 +579,7 @@ class CandidatesController < ApplicationController
 
   def set_unable_to_attend_params
     @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
-    @comments = @comments
+    @training_availability.comments = @comments
   end
 
   def geocode_if_necessary
