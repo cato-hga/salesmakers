@@ -19,6 +19,7 @@ class GiveRegionalVPsandMarissaAccessToCandidates < ActiveRecord::Migration
   end
 
   def self.down
+    permission_group = PermissionGroup.find_or_create_by name: 'Candidates'
     permission_index = Permission.find_or_create_by key: 'candidate_index',
                                                     description: "Can view candidates",
                                                     permission_group: permission_group
@@ -34,7 +35,7 @@ class GiveRegionalVPsandMarissaAccessToCandidates < ActiveRecord::Migration
   def get_positions
     pos_vg_vp = Position.find_by_name 'Vonage Retail Regional Vice President'
     pos_spr_vp = Position.find_by_name 'Sprint Retail Regional Vice President'
-    pos_com_vp = Position.find_by_name 'Comcast Retail Regional Viceesident'
+    pos_com_vp = Position.find_by_name 'Comcast Retail Regional Vice President'
     pos_spr_rm = Position.find_by_name 'Sprint Retail Regional Manager'
     pos_vp_sales = Position.find_by_name 'Vice President of Sales'
 
