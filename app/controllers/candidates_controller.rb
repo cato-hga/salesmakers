@@ -3,7 +3,7 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :search_bar, except: [:send_paperwork, :record_confirmation]
+  before_action :search_bar
   before_action :get_candidate, except: [:index, :dashboard, :new, :create]
   before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]

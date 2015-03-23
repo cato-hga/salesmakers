@@ -236,7 +236,7 @@ describe CandidatesController do
   end
 
   describe 'GET set_location_area' do
-    let!(:candidate) { create :candidate }
+    let!(:candidate) { create :candidate, status: :prescreened }
     let(:location) { create :location }
     let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
