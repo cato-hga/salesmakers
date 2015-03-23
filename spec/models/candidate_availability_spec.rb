@@ -10,6 +10,7 @@ RSpec.describe CandidateAvailability, :type => :model do
     end
     it 'requires at least one option selected' do
       available.monday_first = false
+      available.tuesday_second = false
       expect(available).not_to be_valid
       available.tuesday_first = true
       expect(available).to be_valid

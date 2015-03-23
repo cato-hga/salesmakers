@@ -76,6 +76,14 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
+  def edit_availability?
+    create?
+  end
+
+  def update_availability?
+    create?
+  end
+
   def dismiss?
     create?
   end

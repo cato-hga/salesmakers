@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'candidate show page' do
-  let!(:candidate) { create :candidate, location_area: location_area }
+  let!(:candidate) { create :candidate, location_area: location_area, candidate_availability: available }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission] }
   let!(:location_area) { create :location_area }
@@ -16,6 +16,7 @@ describe 'candidate show page' do
   }
   let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate, start_time: (Time.zone.now + 1.day) }
   let!(:interview_answer) { create :interview_answer, candidate: candidate }
+  let(:available) { create :candidate_availability }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -50,4 +51,13 @@ describe 'candidate show page' do
     expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
   end
 
+  it 'shows the candidate availability' do
+    expect(page).to have_content('Availability')
+  end
+
+  it 'has an edit button for candidate availability' do
+    within('.widget.availability') do
+      expect(page).to have_content ('Edit')
+    end
+  end
 end

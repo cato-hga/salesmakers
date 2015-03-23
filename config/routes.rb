@@ -41,6 +41,8 @@ Rails.application.routes.draw do
       put :failed_assessment, as: :failed_assessment
       get :dismiss
       patch :reactivate
+      get :edit_availability
+      patch :update_availability
     end
     collection do
       get :dashboard, as: :dashboard
