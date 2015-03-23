@@ -15,11 +15,10 @@ class ChangelogEntriesController < ApplicationController
     @changelog_entry = ChangelogEntry.new changelog_entry_params
     released = params.require(:changelog_entry).permit(:released)[:released]
     chronic_time = Chronic.parse(released)
-    adjusted_time = chronic_time.in_time_zone + Time.zone.utc_offset + (chronic_time.to_time.in_time_zone.dst? ? 3600 : 0)
+    adjusted_time = chronic_time.in_time_zone # + Time.zone.utc_offset + (chronic_time.to_time.in_time_zone.dst? ? 3600 : 0)
     @changelog_entry.released = adjusted_time
     puts @changelog_entry.released
     puts adjusted_time
-
     if @changelog_entry.save
       puts @changelog_entry.inspect
       redirect_to changelog_entries_path
