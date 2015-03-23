@@ -54,10 +54,13 @@ class DocusignConnectController < ApplicationController
     job_offer_detail = get_job_offer_detail(envelope_id) || return
     candidate = job_offer_detail.candidate || return
     if hr_signed_time
-      job_offer_detail.update completed: hr_signed_time
+      job_offer_detail.update completed: hr_signed_time,
+                              completed_by_advocate: advocate_signed_time,
+                              completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_hr!
     elsif advocate_signed_time
-      job_offer_detail.update completed_by_advocate: advocate_signed_time
+      job_offer_detail.update completed_by_advocate: advocate_signed_time,
+                              completed_by_candidate: candidate_signed_time
       candidate.paperwork_completed_by_advocate!
     elsif candidate_signed_time
       job_offer_detail.update completed_by_advocate: candidate_signed_time
