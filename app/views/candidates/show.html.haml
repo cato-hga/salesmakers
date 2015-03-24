@@ -41,7 +41,7 @@
           %strong Personality Assessment Score:
           %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
             = @candidate.personality_assessment_score
-      - unless @candidate.passed_personality_assessment?
+      - unless (@candidate.passed_personality_assessment? and @candidate.personality_assessment_score.present?) or @candidate.location_area.area.personality_assessment_url.blank?
         = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
           .row.full-width
             .medium-5.columns= number_field_tag :assessment_score
