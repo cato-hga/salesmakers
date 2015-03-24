@@ -53,6 +53,17 @@ describe 'personality assessment functionality' do
         click_on 'Record Assessment Score'
         expect(page).to have_content('must be a number')
       end
+
+      it 'records the assessment score for outsourced locations' do
+        area.update personality_assessment_url: nil
+        location_area.update outsourced: true
+        visit candidate_path(candidate)
+        fill_in 'assessment_score', with: '99'
+        expect {
+          click_on 'Record Assessment Score'
+          candidate.reload
+        }.to change(candidate, :personality_assessment_score).from(nil).to(99.0)
+      end
     end
 
     describe 'when the assessment is completed' do
