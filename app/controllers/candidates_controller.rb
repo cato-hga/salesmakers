@@ -114,7 +114,6 @@ class CandidatesController < ApplicationController
     @location_area_search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@location_area_search.result)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-    setup_schedules
     for @location_area in @location_areas do
       setup_schedules
     end

@@ -77,11 +77,6 @@ describe 'selecting a Location for a Candidate' do
   let(:schedule) { create :radio_shack_location_schedule }
   let(:schedule_two) { create :radio_shack_location_schedule, name: 'A1PT2' }
 
-  before(:each) do
-    location_area.radio_shack_location_schedules << schedule
-    location_area_three.radio_shack_location_schedules << schedule
-    location_area_three.radio_shack_location_schedules << schedule_two
-  end
 
   it 'recognizes that the location is nearby the candidate' do
     nearby = Location.near(candidate)
@@ -103,6 +98,10 @@ describe 'selecting a Location for a Candidate' do
 
   describe 'for authorized users' do
     before do
+      location_area.radio_shack_location_schedules << schedule
+      location_area_three.radio_shack_location_schedules << schedule
+      location_area_three.radio_shack_location_schedules << schedule_two
+      location_area_three.reload
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit select_location_candidate_path candidate, 'false'
     end
