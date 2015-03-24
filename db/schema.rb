@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324205902) do
+ActiveRecord::Schema.define(version: 20150324171749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -570,13 +570,9 @@ ActiveRecord::Schema.define(version: 20150324205902) do
     t.integer "offer_extended_count", default: 0, null: false
     t.boolean "outsourced", default: false, null: false
     t.integer "potential_candidate_count", default: 0, null: false
+    t.integer "radio_shack_location_schedule_id"
     t.integer "target_head_count", default: 0, null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "location_areas_radio_shack_location_schedules", id: false, force: :cascade do |t|
-    t.integer "location_area_id", null: false
-    t.integer "radio_shack_location_schedule_id", null: false
   end
 
   create_table "locations", force: :cascade do |t|
