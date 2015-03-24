@@ -612,8 +612,7 @@ class CandidatesController < ApplicationController
     @current_person.log? 'failed_assessment',
                          @candidate
     @current_person.log? 'dismiss',
-                         @candidate,
-                         denial_reason
+                         @candidate
     if denial_reason
       @candidate.update active: false,
                         status: :rejected,
