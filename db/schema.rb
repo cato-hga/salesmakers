@@ -946,11 +946,6 @@ ActiveRecord::Schema.define(version: 20150324182252) do
     t.string "username", limit: 255
   end
 
-  create_table "tmp_rates", id: false, force: :cascade do |t|
-    t.decimal "hourly_rate"
-    t.string "store_number"
-  end
-
   create_table "tmp_rs", id: false, force: :cascade do |t|
     t.string "address", limit: 255
     t.string "city", limit: 255
