@@ -38,10 +38,10 @@ Sprint:
       not_leader: Sprint Retail Sales Specialist
   3:
     Retail:
-      leader: Sprint Retail Area Sales Manager
+      leader: Sprint Retail Sales Director
       not_leader: Sprint Retail Sales Specialist
     Event:
-      leader: Sprint Retail Area Sales Manager
+      leader: Sprint Retail Sales Director
       not_leader: Sprint Retail Sales Specialist
   2:
     Retail:
