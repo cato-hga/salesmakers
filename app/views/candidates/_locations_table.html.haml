@@ -23,11 +23,32 @@
   - path = set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
   - distance = link_to location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes
   - city = location.city
-  - schedule = raw @schedule.join.html_safe
+  - if location_area and location_area.radio_shack_location_schedules.any?
+    - @schedule = []
+    - schedule_count = 0
+    - for schedule in location_area.radio_shack_location_schedules do
+      - if location_area.radio_shack_location_schedules.count > 1
+        - name = "<strong>Schedule #{(schedule_count + 1)}</strong><br/>"
+      - else
+        - name = ''
+      - monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
+      - tuesday = schedule.tuesday > 0 ? ('Tu ' + schedule.tuesday.to_s + '<br/>') : ''
+      - wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
+      - thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
+      - friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
+      - saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
+      - sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
+      - @schedule << (
+      - name + monday + tuesday + wednesday + thursday + friday + saturday + sunday
+      - ).html_safe
+      - schedule_count += 1
+    - location_schedule = raw [@schedule].join.html_safe
+  - else
+    - location_schedule = ''
   - location_name = link_to "#{location.channel.name}, #{location.display_name}", path, class: link_classes
   - store_number = link_to location.store_number, path, class: link_classes
   - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''
   - address = link_to location.address, path, class: link_classes
   - classes = location_area.outsourced? ? [:outsourced_row] : nil
-  - rows << table_row(["#{count.to_s}.", project, distance, city, location_name, store_number, schedule,  hourly_rate, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s], classes)
+  - rows << table_row(["#{count.to_s}.", project, distance, city, location_name, store_number, location_schedule,  hourly_rate, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s], classes)
 = table headers, rows

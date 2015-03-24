@@ -124,9 +124,6 @@ class CandidatesController < ApplicationController
     @location_area_search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@location_area_search.result)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-    for @location_area in @location_areas do
-      setup_schedules
-    end
   end
 
   def set_location_area
@@ -553,32 +550,7 @@ class CandidatesController < ApplicationController
   end
 
   def setup_schedules
-    @schedule = []
-    if @location_area and @location_area.radio_shack_location_schedules
-      count = @location_area.radio_shack_location_schedules.count + 1 #makes schedule_count look more sane in the view
-      schedule_count = 1
-      for schedule in @location_area.radio_shack_location_schedules do
-        if @location_area.radio_shack_location_schedules.count > 1
-          name = "<strong>Schedule #{schedule_count}</strong><br/>"
-        else
-          name = ''
-        end
-        monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
-        tuesday = schedule.tuesday > 0 ? ('Tu ' + schedule.tuesday.to_s + '<br/>') : ''
-        wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
-        thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
-        friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
-        saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
-        sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
-        @schedule << (
-        name + monday + tuesday + wednesday + thursday + friday + saturday + sunday
-        ).html_safe
-        schedule_count += 1
-        return if schedule_count == count
-      end
-    else
-      @schedule = ['']
-    end
+
   end
 
   def setup_confirm_form_values
@@ -598,6 +570,7 @@ class CandidatesController < ApplicationController
     @training_unavailability_reason_id = params[:training_unavailability_reason_id]
     @comments = params[:comments]
     @location_area = @candidate.location_area
+    @schedule = []
     setup_schedules
   end
 

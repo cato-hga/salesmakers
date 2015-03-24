@@ -120,7 +120,6 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content(location_area.location.city)
     end
 
-
     it 'selects a location' do
       within first('tbody tr') do
         click_on "#{location.channel.name}, #{location.display_name}"
@@ -133,7 +132,10 @@ describe 'selecting a Location for a Candidate' do
     end
 
     it 'shows multiple schedules for the relevant stores' do
-      save_and_open_page
+      within first('tbody tr') do
+        expect(page).not_to have_content('Schedule 1')
+        expect(page).not_to have_content('Schedule 2')
+      end
       expect(page).to have_content('Schedule 1')
       expect(page).to have_content('Schedule 2')
     end
