@@ -42,8 +42,7 @@ describe 'selecting a Location for a Candidate' do
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
-           hourly_rate: 15,
-           radio_shack_location_schedule: schedule
+           hourly_rate: 15
   }
   let!(:location_area_two) {
     create :location_area,
@@ -62,6 +61,10 @@ describe 'selecting a Location for a Candidate' do
   }
 
   let(:schedule) { create :radio_shack_location_schedule }
+
+  before(:each) do
+    location_area.radio_shack_location_schedules << schedule
+  end
 
   it 'recognizes that the location is nearby the candidate' do
     nearby = Location.near(candidate)

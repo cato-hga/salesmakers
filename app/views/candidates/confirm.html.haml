@@ -24,7 +24,7 @@
         %p
           %strong Hourly Rate:
           = number_to_currency(@candidate.location_area.hourly_rate)
-        - unless @schedule.empty?
+        - unless @schedule.blank?
           %p
             %strong Schedule:
             %br/
