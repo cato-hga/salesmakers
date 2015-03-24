@@ -36,6 +36,12 @@ describe 'selecting a Location for a Candidate' do
            latitude: 17.9857925,
            longitude: -66.3914388
   }
+  let(:location_four) {
+    create :location,
+           city: 'Rolla',
+           latitude: 19.9857925,
+           longitude: -65.3914388
+  }
   let!(:location_area) {
     create :location_area,
            location: location,
@@ -52,6 +58,14 @@ describe 'selecting a Location for a Candidate' do
            potential_candidate_count: 1,
            hourly_rate: 15
   }
+  let!(:location_area_three) {
+    create :location_area,
+           location: location_four,
+           area: area,
+           target_head_count: 2,
+           potential_candidate_count: 1,
+           hourly_rate: 15
+  }
   let!(:location_area_outsourced) {
     create :location_area,
            location: location_three,
@@ -61,9 +75,12 @@ describe 'selecting a Location for a Candidate' do
   }
 
   let(:schedule) { create :radio_shack_location_schedule }
+  let(:schedule_two) { create :radio_shack_location_schedule, name: 'A1PT2' }
 
   before(:each) do
     location_area.radio_shack_location_schedules << schedule
+    location_area_three.radio_shack_location_schedules << schedule
+    location_area_three.radio_shack_location_schedules << schedule_two
   end
 
   it 'recognizes that the location is nearby the candidate' do
@@ -115,6 +132,11 @@ describe 'selecting a Location for a Candidate' do
 
     it 'has the schedules for each location listed' do
       expect(page).to have_content 'Schedule'
+    end
+
+    it 'shows multiple schedules for the relevant stores' do
+      expect(page).to have_content('A1PT1')
+      expect(page).to have_content('A1PT2')
     end
 
     it 'does not show the outsourced locations without permission' do
