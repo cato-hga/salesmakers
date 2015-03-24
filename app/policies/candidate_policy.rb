@@ -105,7 +105,11 @@ class CandidatePolicy < ApplicationPolicy
   end
 
   def record_assessment_score?
-    update?
+    record_assessment?
+  end
+
+  def record_assessment?
+    has_permission? 'record_assessment'
   end
 
   def resend_assessment?
