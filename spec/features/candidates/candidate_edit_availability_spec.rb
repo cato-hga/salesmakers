@@ -69,6 +69,49 @@ describe 'Editing Candidates Availabilty' do
         expect(page).to have_content 'updated the availability for'
       end
     end
+
+    describe 'for retroactively adding' do
+      let!(:candidate_two) { create :candidate }
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+        visit candidate_path candidate_two
+        within('.widget.availability') do
+          click_on 'Edit'
+        end
+      end
+      it 'shows the Edit form' do
+        expect(page).to have_content('Edit Candidate Availability')
+        expect(page).to have_content('10-2', count: 7)
+        expect(page).to have_content('2-6', count: 7)
+        expect(page).to have_content('5-9', count: 7)
+      end
+
+      describe 'form submission' do
+        before(:each) do
+          check :candidate_availability_monday_first
+          check :candidate_availability_wednesday_first
+          check :candidate_availability_friday_first
+          click_on 'Save'
+        end
+
+        it 'updates the candidate availability' do
+          candidate_two.reload
+          expect(candidate_two.candidate_availability.monday_first).to be(true)
+          expect(candidate_two.candidate_availability.wednesday_first).to be(true)
+          expect(candidate_two.candidate_availability.friday_first).to be(true)
+          expect(candidate_two.candidate_availability.thursday_first).to be(false)
+          expect(candidate_two.candidate_availability.sunday_first).to be(false)
+        end
+
+        it 'redirects to the candidate show page' do
+          expect(page).to have_content candidate_two.name
+        end
+
+        it 'creates a log entry' do
+          expect(page).to have_content 'updated the availability for'
+        end
+      end
+    end
   end
 
 end

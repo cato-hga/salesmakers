@@ -31,7 +31,9 @@ describe 'Editing Candidates' do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit candidate_path candidate
-      click_on 'Edit'
+      within('#basic_information') do
+        click_on 'Edit'
+      end
     end
 
     it 'shows the Edit form' do
