@@ -43,12 +43,13 @@
           %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
             = @candidate.personality_assessment_score
       - location_area = @candidate.location_area if @candidate.location_area
-      - unless @candidate.passed_personality_assessment? and @candidate.personality_assessment_score.present?
-        - if location_area and (location_area.area.personality_assessment_url or location_area.outsourced?)
-          = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
-            .row.full-width
-              .medium-5.columns= number_field_tag :assessment_score
-              .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+      - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
+        - unless @candidate.passed_personality_assessment? and @candidate.personality_assessment_score.present?
+          - if location_area and (location_area.area.personality_assessment_url or location_area.outsourced?)
+            = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
+              .row.full-width
+                .medium-5.columns= number_field_tag :assessment_score
+                .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
       %p
         = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
   .widget

@@ -12,8 +12,16 @@ class CandidatePolicy < ApplicationPolicy
     end
   end
 
+  def view_all?
+    has_permission? 'view_all'
+  end
+
   def show?
     index?
+  end
+
+  def support_search?
+    view_all?
   end
 
   def time_slots?
@@ -97,7 +105,11 @@ class CandidatePolicy < ApplicationPolicy
   end
 
   def record_assessment_score?
-    update?
+    record_assessment?
+  end
+
+  def record_assessment?
+    has_permission? 'record_assessment'
   end
 
   def resend_assessment?
