@@ -22,12 +22,4 @@ describe LocationArea do
     duplicate = subject.dup
     expect(duplicate).not_to be_valid
   end
-
-  describe 'active and inactive location areas' do
-    it 'pulls only active LocationAreas' do
-      subject.save
-      create :location_area, active: false
-      expect(LocationArea.all.count).to eq(1)
-    end
-  end
 end
