@@ -27,8 +27,9 @@
         - unless @schedule.blank?
           %p
             %strong Schedule:
-            %br/
-            = @schedule
+            %br
+            %br
+            = raw @schedule.join.html_safe
         %p
           %br/
           = link_to 'Change Location', select_location_candidate_path(@candidate, 'true'), class: [:button]

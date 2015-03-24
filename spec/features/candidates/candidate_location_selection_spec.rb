@@ -135,8 +135,9 @@ describe 'selecting a Location for a Candidate' do
     end
 
     it 'shows multiple schedules for the relevant stores' do
-      expect(page).to have_content('A1PT1')
-      expect(page).to have_content('A1PT2')
+      save_and_open_page
+      expect(page).to have_content('Schedule 1')
+      expect(page).to have_content('Schedule 2')
     end
 
     it 'does not show the outsourced locations without permission' do
