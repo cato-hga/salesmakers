@@ -5,7 +5,7 @@ class LocationArea < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :area
-  belongs_to :radio_shack_location_schedule
+  has_and_belongs_to_many :radio_shack_location_schedules
   has_many :candidates
 
 
