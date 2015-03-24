@@ -66,6 +66,8 @@ class AreaUpdater
   def self.setup_sprint_retail_area_types
     @srr = AreaType.find_by name: 'Sprint Retail Region',
                             project: @sprint_retail
+    @srm = AreaType.find_by name: 'Sprint Retail Market',
+                            project: @sprint_retail
     @srt = AreaType.find_by name: 'Sprint Retail Territory',
                             project: @sprint_retail
   end
@@ -171,8 +173,9 @@ class AreaUpdater
     sr_connect.children.each do |srr_connect|
       sync_area srr_connect, @srr, @sprint_retail
       srr_connect.children.each do |srm_connect|
+        sync_area srm_connect, @srm, @sprint_retail, srr_connect
         srm_connect.children.each do |srt_connect|
-          sync_area srt_connect, @srt, @sprint_retail, srr_connect
+          sync_area srt_connect, @srt, @sprint_retail, srm_connect
         end
       end
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324120704) do
+ActiveRecord::Schema.define(version: 20150324171749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -940,6 +940,11 @@ ActiveRecord::Schema.define(version: 20150324120704) do
     t.string "mac", limit: 255
     t.decimal "payout"
     t.string "username", limit: 255
+  end
+
+  create_table "tmp_rates", id: false, force: :cascade do |t|
+    t.decimal "hourly_rate"
+    t.string "store_number"
   end
 
   create_table "tmp_rs", id: false, force: :cascade do |t|

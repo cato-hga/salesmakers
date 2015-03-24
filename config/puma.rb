@@ -1,4 +1,4 @@
-threads 1, 16
+threads 8, 32
 workers 4
 environment ENV['RAILS_ENV'] || 'production'
 bind 'unix:///opt/oneconnect/shared/tmp/sockets/puma.sock'
