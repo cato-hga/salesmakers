@@ -5,7 +5,6 @@ describe 'candidate show page' do
   let!(:candidate) {
     create :candidate,
            location_area: location_area,
-           candidate_availability: available,
            personality_assessment_score: 45,
            personality_assessment_status: :qualified,
            training_availability: training_availabilty }
@@ -24,7 +23,6 @@ describe 'candidate show page' do
   }
   let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate, start_time: (Time.zone.now + 1.day) }
   let!(:interview_answer) { create :interview_answer, candidate: candidate }
-  let(:available) { create :candidate_availability }
   let(:training_availabilty) { create :training_availability }
 
   before do

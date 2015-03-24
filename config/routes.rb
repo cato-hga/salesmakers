@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :dashboard, as: :dashboard
+      get :support_search, as: :support_search
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

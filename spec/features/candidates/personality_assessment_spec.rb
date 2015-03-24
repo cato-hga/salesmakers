@@ -3,10 +3,11 @@ require 'rails_helper'
 describe 'personality assessment functionality' do
   let!(:candidate) { create :candidate, state: 'FL', status: :accepted, personality_assessment_status: :incomplete }
   let!(:recruiter) { create :person, position: position }
-  let(:position) { create :position, permissions: [permission_create, permission_index] }
+  let(:position) { create :position, permissions: [permission_create, permission_index, permission_record_assessment] }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
+  let(:permission_record_assessment) { Permission.create key: 'candidate_record_assessment', description: 'Blah blah blah', permission_group: permission_group }
   let!(:job_offer_detail) { create :job_offer_detail, candidate: candidate }
 
   before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }

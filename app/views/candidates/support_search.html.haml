@@ -1,0 +1,55 @@
+- title 'Candidate Support Search'
+
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, url: support_search_candidates_path, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+    = f.text_field :first_name_cont, placeholder: 'First name'
+    = f.text_field :last_name_cont, placeholder: 'Last name'
+    = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
+    = f.text_field :email_cont, placeholder: 'Email'
+    %br/
+    = f.text_field :location_area_area_name_cont, placeholder: 'Area'
+    - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
+    = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
+    = f.text_field :location_area_location_city_cont, placeholder: 'Location City'
+    = f.text_field :location_area_location_display_name_cont, placeholder: 'Location Name'
+    - selected_status = params['q'] ? params['q']['status_eq'] : nil
+    - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
+    = f.select :status_eq, status_options, prompt: 'Status'
+    = f.submit 'Search', class: [:button, :inline_button]
+  .top-pagination
+    = paginate @candidates
+.widget
+  .inner
+    - headers = header_row ['Name', 'Email', 'Area', 'Location', 'Availability', 'Available for<br>Training?'.html_safe, 'Shirt<br>Size'.html_safe, 'Status', '']
+    - rows = []
+    - for candidate in @candidates do
+      - name = candidate_link candidate
+      - email = email_link candidate.email
+      - area = ''
+      - area = area_link(candidate.location_area.area) if candidate.location_area
+      - location = ''
+      - location_obj = candidate.location_area ? candidate.location_area.location : nil
+      - location += location_obj.city + ', ' if location_obj and location_obj.city
+      - location += location_obj.display_name if location_obj
+      - availability = 'Unknown'
+      - if candidate.candidate_availability
+        - availability = render_availability candidate.candidate_availability
+      - attending_training = ''
+      - if candidate.training_availability
+        - a = candidate.training_availability
+        - attending_training = a.able_to_attend? ? 'Yes' : 'No'
+      - shirt_size = ''
+      - if candidate.shirt_gender and candidate.shirt_size
+        - shirt_size = "#{candidate.shirt_gender} #{candidate.shirt_size}"
+      - status = ''
+      - status = NameCase(candidate.status.humanize) if candidate.status
+      - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
+      - rows << table_row([name, email, area, location, availability, attending_training, shirt_size, status, call_button])
+    = table headers, rows
+
+- content_for :footer do
+  = paginate @candidates

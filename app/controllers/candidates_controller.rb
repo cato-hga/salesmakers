@@ -3,15 +3,25 @@ require 'apis/gateway'
 class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
-  before_action :search_bar
-  before_action :get_candidate, except: [:index, :dashboard, :new, :create]
+  before_action :search_bar, except: [:support_search]
+  before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
   before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
-  layout 'candidates'
+  layout 'candidates', except: [:support_search]
+  layout 'application', only: [:support_search]
 
   def index
-    @search = Candidate.search(params[:q])
+    @candidates = @search.result.page(params[:page])
+  end
+
+  def support_search
+    statuses = Candidate.statuses
+    @search = Candidate.where("status >= 10").search(params[:q])
+    @statuses = []
+    for status in statuses do
+      @statuses << status if status[1] >= 10
+    end
     @candidates = @search.result.page(params[:page])
   end
 
@@ -269,12 +279,22 @@ class CandidatesController < ApplicationController
   end
 
   def edit_availability
-    @candidate_availability = @candidate.candidate_availability
+    if @candidate.candidate_availability
+      @candidate_availability = @candidate.candidate_availability
+    else
+      @candidate_availability = CandidateAvailability.new
+    end
   end
 
   def update_availability
-    @candidate_availability = @candidate.candidate_availability
-    @candidate_availability.update_attributes availability_params
+    if @candidate.candidate_availability
+      @candidate_availability = @candidate.candidate_availability
+      @candidate_availability.update_attributes availability_params
+    else
+      @candidate_availability = CandidateAvailability.new
+      @candidate_availability.attributes = availability_params
+      @candidate_availability.candidate = @candidate
+    end
     if @candidate_availability.save
       flash[:notice] = 'Candidate Availability Updated'
       redirect_to candidate_path @candidate

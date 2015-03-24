@@ -1,5 +1,6 @@
 threads 8, 32
 workers 4
+preload_app!
 environment ENV['RAILS_ENV'] || 'production'
 bind 'unix:///opt/oneconnect/shared/tmp/sockets/puma.sock'
 
