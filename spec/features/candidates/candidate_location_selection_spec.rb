@@ -64,7 +64,8 @@ describe 'selecting a Location for a Candidate' do
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
-           hourly_rate: 15
+           hourly_rate: 15,
+           radio_shack_location_schedules: [schedule, schedule_two]
   }
   let!(:location_area_outsourced) {
     create :location_area,
@@ -98,13 +99,10 @@ describe 'selecting a Location for a Candidate' do
 
   describe 'for authorized users' do
     before do
-      location_area.radio_shack_location_schedules << schedule
-      location_area_three.radio_shack_location_schedules << schedule
-      location_area_three.radio_shack_location_schedules << schedule_two
-      location_area_three.reload
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit select_location_candidate_path candidate, 'false'
     end
+
 
     it 'has the proper title' do
       expect(page).to have_selector('h1', text: "Select Location for #{candidate.display_name}")
@@ -121,6 +119,7 @@ describe 'selecting a Location for a Candidate' do
     it 'shows the city for the location' do
       expect(page).to have_content(location_area.location.city)
     end
+
 
     it 'selects a location' do
       within first('tbody tr') do
