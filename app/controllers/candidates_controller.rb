@@ -283,12 +283,22 @@ class CandidatesController < ApplicationController
   end
 
   def edit_availability
-    @candidate_availability = @candidate.candidate_availability
+    if @candidate.candidate_availability
+      @candidate_availability = @candidate.candidate_availability
+    else
+      @candidate_availability = CandidateAvailability.new
+    end
   end
 
   def update_availability
-    @candidate_availability = @candidate.candidate_availability
-    @candidate_availability.update_attributes availability_params
+    if @candidate.candidate_availability
+      @candidate_availability = @candidate.candidate_availability
+      @candidate_availability.update_attributes availability_params
+    else
+      @candidate_availability = CandidateAvailability.new
+      @candidate_availability.attributes = availability_params
+      @candidate_availability.candidate = @candidate
+    end
     if @candidate_availability.save
       flash[:notice] = 'Candidate Availability Updated'
       redirect_to candidate_path @candidate
