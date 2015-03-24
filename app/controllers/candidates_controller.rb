@@ -549,10 +549,6 @@ class CandidatesController < ApplicationController
     @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
   end
 
-  def setup_schedules
-
-  end
-
   def setup_confirm_form_values
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
     @shirt_gender = params[:shirt_gender]
@@ -571,7 +567,6 @@ class CandidatesController < ApplicationController
     @comments = params[:comments]
     @location_area = @candidate.location_area
     @schedule = []
-    setup_schedules
   end
 
   def set_unable_to_attend_params
