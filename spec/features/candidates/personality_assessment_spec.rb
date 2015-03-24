@@ -47,6 +47,16 @@ describe 'personality assessment functionality' do
         expect(page).to have_content('disqualified')
       end
 
+      it 'dismisses a candidate when the score is too low' do
+        visit candidate_path(candidate)
+        fill_in 'assessment_score', with: '29'
+        click_on 'Record Assessment Score'
+        candidate.reload
+        expect(candidate.status).to eq('rejected')
+        expect(candidate.active).to eq(false)
+        expect(candidate.personality_assessment_status).to eq('disqualified')
+      end
+
       it 'displays an error when the score is not a number' do
         visit candidate_path(candidate)
         fill_in 'assessment_score', with: 'aa'

@@ -608,11 +608,12 @@ class CandidatesController < ApplicationController
   end
 
   def failed_assessment
+    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
     @current_person.log? 'failed_assessment',
                          @candidate
     @current_person.log? 'dismiss',
-                         @candidate
-    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
+                         @candidate,
+                         denial_reason
     if denial_reason
       @candidate.update active: false,
                         status: :rejected,
