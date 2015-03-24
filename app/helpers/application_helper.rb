@@ -133,4 +133,23 @@ module ApplicationHelper
   def phone_display(phone_string)
     '(' + phone_string[0..2] + ') ' + phone_string[3..5] + '-' + phone_string[6..9]
   end
+
+  def render_availability(candidate_availability)
+    render partial: 'shared/candidate_availability', locals: { candidate_availability: candidate_availability }
+  end
+
+  def availability(a, dow, name)
+    fa = a["#{name}_first"] ? 'M' : nil
+    sa = a["#{name}_second"] ? 'A' : nil
+    ta = a["#{name}_third"] ? 'E' : nil
+    return nil unless fa or sa or ta
+    availability = '<div class="row full-width"><div class="small-6 columns">'.html_safe
+    availability += content_tag(:strong, "#{dow}: ")
+    availability += '</div><div class="small-6 columns">'.html_safe
+    availability += fa if fa
+    availability += sa if sa
+    availability += ta if ta
+    availability += "</div></div>".html_safe
+    availability
+  end
 end

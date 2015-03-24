@@ -12,8 +12,16 @@ class CandidatePolicy < ApplicationPolicy
     end
   end
 
+  def view_all?
+    has_permission? 'view_all'
+  end
+
   def show?
     index?
+  end
+
+  def support_search?
+    view_all?
   end
 
   def time_slots?
