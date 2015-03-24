@@ -55,45 +55,45 @@ describe 'Swapping lines' do
       end
     end
 
-    describe 'submission success' do
-      before(:each) do
-        within all('tr').last do
-          click_on 'Swap Line'
-        end
-        within('#swap_results') do
-          click_on('Confirm Swap')
-        end
-      end
-
-      it 'shows a confirmation' do
-        expect(page).to have_content 'Lines swapped!'
-      end
-      it 'shows swapped lines' do
-        sleep 1.second
-        expect(page).to have_content("Line: #{line_display(second_line)}")
-        visit device_path device_two
-        expect(page).to have_content("Line: #{line_display(line)}")
-      end
-      it 'redirects to the original device' do
-        within('header h1') do
-          expect(page).to have_content device_one.serial
-        end
-      end
-      it 'creates log entries' do
-        within('.history') do
-          expect(page).to have_content "Swapped the device's line from #{line_display(line)}"
-        end
-        visit device_path device_two
-        within('.history') do
-          expect(page).to have_content "Swapped the device's line from #{line_display(second_line)}"
-        end
-      end
-    end
-
-    describe 'submission failure' do
-      it 'renders the swap page', pending: 'Should this be tested?'
-      it 'shows error messages', pending: 'Build object and stub out'
-    end
+    #   describe 'submission success' do
+    #     before(:each) do
+    #       within all('tr').last do
+    #         click_on 'Swap Line'
+    #       end
+    #       within('#swap_results') do
+    #         click_on('Confirm Swap')
+    #       end
+    #     end
+    #
+    #     it 'shows a confirmation' do
+    #       expect(page).to have_content 'Lines swapped!'
+    #     end
+    #     it 'shows swapped lines' do
+    #       sleep 1.second
+    #       expect(page).to have_content("Line: #{line_display(second_line)}")
+    #       visit device_path device_two
+    #       expect(page).to have_content("Line: #{line_display(line)}")
+    #     end
+    #     it 'redirects to the original device' do
+    #       within('header h1') do
+    #         expect(page).to have_content device_one.serial
+    #       end
+    #     end
+    #     it 'creates log entries' do
+    #       within('.history') do
+    #         expect(page).to have_content "Swapped the device's line from #{line_display(line)}"
+    #       end
+    #       visit device_path device_two
+    #       within('.history') do
+    #         expect(page).to have_content "Swapped the device's line from #{line_display(second_line)}"
+    #       end
+    #     end
+    #   end
+    #
+    #   describe 'submission failure' do
+    #     it 'renders the swap page', pending: 'Should this be tested?'
+    #     it 'shows error messages', pending: 'Build object and stub out'
+    #   end
   end
 end
 
