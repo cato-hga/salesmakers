@@ -5,6 +5,7 @@ describe 'SMS (support) index' do
     create :candidate,
            location_area: location_area,
            created_by: recruiter,
+           status: :paperwork_completed_by_advocate,
            shirt_gender: 'Male',
            shirt_size: 'L'
   }
@@ -63,7 +64,7 @@ describe 'SMS (support) index' do
   end
 
   it "should have the candidate's status" do
-    expect(page).to have_content("Entered")
+    expect(page).to have_content("Paperwork Completed By Advocate")
   end
 
   it "should have a call button" do
@@ -73,4 +74,5 @@ describe 'SMS (support) index' do
   it "should not have the regular candidate search bar" do
     expect(page).not_to have_selector('#q_created_by_display_name_cont')
   end
+
 end
