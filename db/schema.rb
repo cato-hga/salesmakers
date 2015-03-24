@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150323205812) do
+ActiveRecord::Schema.define(version: 20150324120704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -948,6 +948,19 @@ ActiveRecord::Schema.define(version: 20150323205812) do
     t.decimal "rate"
     t.string "state", limit: 255
     t.string "zip", limit: 255
+  end
+
+  create_table "tmp_sdm", id: false, force: :cascade do |t|
+    t.string "city"
+    t.string "hourly_rate"
+    t.string "market"
+    t.string "outsourcer"
+    t.string "region"
+    t.string "schedule"
+    t.string "state"
+    t.string "store_number"
+    t.string "street_1"
+    t.string "zip"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
