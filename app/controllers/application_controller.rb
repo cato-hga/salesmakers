@@ -94,8 +94,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    #@current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    @current_person = Person.find_by_email 'apolancodelahoz@retaildoneright.com'
+    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
+    #@current_person = Person.find_by_email 'apolancodelahoz@retaildoneright.com'
   end
 
   def set_staging
