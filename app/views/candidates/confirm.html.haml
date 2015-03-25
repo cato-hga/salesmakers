@@ -79,11 +79,11 @@
           %p
             %strong= training_location.name
             %br
-            = training_location.address + ', ' + training_location.room
+            = training_location.address + ', Room: ' + training_location.room
           - if training_location and training_location.latitude and training_location.longitude
             - distance = training_location.geographic_distance(location).round(2)
             %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
-            #location_map
+          -##location_map They'll ask for it later
           - if training_location.virtual
             %p This is a virtual training class.
         - else
@@ -92,32 +92,32 @@
 
   = submit_tag 'Confirm and Save', class: [:button, :success]
 
-- if training_location
-  :javascript
-    var markers = [];
-    markers.push({
-      "lat": #{html_escape(training_location.latitude)},
-      "lng": #{html_escape(training_location.longitude)},
-      "picture": {
-        "url": "/images/store_map_marker.png",
-        "width": 32,
-        "height": 32
-      },
-    });
-    markers.push({
-      "lat": #{html_escape(location.latitude)},
-      "lng": #{html_escape(location.longitude)},
-      "picture": {
-        "url": "/images/sprint_postpaid_logo_32x32.png",
-        "width": 32,
-        "height": 32
-      },
-    });
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {
-      styles: mapStyle()
-    }, internal: {id: 'location_map'}}, function () {
-      handledMarkers = handler.addMarkers(markers);
-      handler.map.centerOn(markers[0]);
-      handler.getMap().setZoom(10);
-    });
+  -#- if training_location
+  -#  :javascript
+  -#    var markers = [];
+  -#    markers.push({
+  -#      "lat": #{html_escape(training_location.latitude)},
+  -#      "lng": #{html_escape(training_location.longitude)},
+  -#      "picture": {
+  -#        "url": "/images/store_map_marker.png",
+  -#        "width": 32,
+  -#        "height": 32
+  -#      },
+  -#    });
+  -#    markers.push({
+  -#      "lat": #{html_escape(location.latitude)},
+  -#      "lng": #{html_escape(location.longitude)},
+  -#      "picture": {
+  -#        "url": "/images/sprint_postpaid_logo_32x32.png",
+  -#        "width": 32,
+  -#        "height": 32
+  -#      },
+  -#    });
+  -#    handler = Gmaps.build('Google');
+  -#    handler.buildMap({ provider: {
+  -#      styles: mapStyle()
+  -#    }, internal: {id: 'location_map'}}, function () {
+  -#      handledMarkers = handler.addMarkers(markers);
+  -#      handler.map.centerOn(markers[0]);
+  -#      handler.getMap().setZoom(10);
+  -#    });
