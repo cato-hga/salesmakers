@@ -82,6 +82,16 @@ describe 'Candidate dashboard' do
            candidate: paperwork_completed_by_advocate_candidate,
            completed_by_advocate: DateTime.now
   }
+  let!(:paperwork_completed_by_hr_candidate) {
+    create :candidate,
+           mobile_phone: '1111111122',
+           status: :paperwork_completed_by_hr
+  }
+  let!(:hr_job_offer_detail) {
+    create :job_offer_detail,
+           candidate: paperwork_completed_by_hr_candidate,
+           completed: DateTime.now
+  }
   let!(:onboarded_candidate) {
     create :candidate,
            mobile_phone: '1111111115',
@@ -90,12 +100,6 @@ describe 'Candidate dashboard' do
   }
   let!(:person) {
     create :person
-  }
-  let!(:rejected_candidate) {
-    create :candidate,
-           mobile_phone: '1111111113',
-           status: :rejected,
-           active: false
   }
 
   before do
@@ -129,7 +133,7 @@ describe 'Candidate dashboard' do
   end
   it 'shows the number of candidates in paperwork_sent status' do
     within '#paperwork_sent' do
-      expect(page).to have_selector('.range_count', text: '3')
+      expect(page).to have_selector('.range_count', text: '4')
       expect(page).to have_selector('.total_count', text: '1')
     end
   end
@@ -145,17 +149,16 @@ describe 'Candidate dashboard' do
       expect(page).to have_selector('.total_count', text: '1')
     end
   end
+  it 'shows the number of candidates in paperwork_completed_by_hr status' do
+    within '#paperwork_completed_by_hr' do
+      expect(page).to have_selector('.range_count', text: '1')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
   it 'shows the number of candidates onboarded' do
     within '#onboarded' do
       expect(page).to have_selector('.range_count', text: '1')
       expect(page).to have_selector('.total_count', text: '1')
     end
   end
-  it 'shows the number of candidates in rejected status' do
-    within '#rejected' do
-      expect(page).to have_selector('.range_count', text: '1')
-      expect(page).to have_selector('.total_count', text: '1')
-    end
-  end
-
 end
