@@ -43,6 +43,11 @@ RSpec.describe Area, :type => :model do
     expect(area).to respond_to(:personality_assessment_url)
   end
 
+  it 'responds to area_candidate_sourcing_group' do
+    area = build :area
+    expect(area).to respond_to(:area_candidate_sourcing_group)
+  end
+
   it 'managers method should return all areas that a person manages' do
     person = create :person
     area = create :area
