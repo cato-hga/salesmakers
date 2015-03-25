@@ -169,6 +169,22 @@ describe 'Scheduling interviews' do
         end
       end
     end
+
+    describe 'rescheduling from the candidate#show page' do
+      let(:scheduled_interview) { create :interview_schedule }
+      let!(:scheduled_candidate) { create :candidate, interview_schedules: [scheduled_interview], status: 'interview_scheduled' }
+
+      before(:each) do
+        visit candidate_path scheduled_candidate
+      end
+
+      it 'has a button for rescheduling' do
+        save_and_open_page
+        expect(page).to have_content 'Reschedule Interview'
+      end
+
+      #Not testing anything else, handling everything else in the controller
+    end
   end
 
 end

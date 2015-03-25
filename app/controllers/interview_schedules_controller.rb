@@ -23,11 +23,13 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def create
+    handle_previous_interviews
     @cloud_room = params[:cloud_room]
     @interview_schedule = InterviewSchedule.new
     get_date_and_time
     assign_schedule_attributes
     if @interview_schedule.save
+      @interview_schedule.update active: true
       schedule_candidate
       cookies.delete :cloud_room
     else
@@ -40,6 +42,7 @@ class InterviewSchedulesController < ApplicationController
   end
 
   def interview_now
+    handle_previous_interviews
     @interview_schedule = InterviewSchedule.new
     @interview_schedule.interview_date = Date.today.in_time_zone
     @interview_schedule.start_time = Time.zone.now
@@ -48,6 +51,7 @@ class InterviewSchedulesController < ApplicationController
     @cloud_room = cookies[:cloud_room]
     if @interview_schedule.save
       @candidate.interview_scheduled!
+      @interview_schedule.update active: true
       @current_person.log? 'interviewed_now',
                            @candidate,
                            @interview_schedule
@@ -82,6 +86,18 @@ class InterviewSchedulesController < ApplicationController
   end
 
   private
+
+  def handle_previous_interviews
+    if @candidate.interview_schedules.any?
+      active_interviews = @candidate.interview_schedules.where(active: true)
+      for interview in active_interviews do
+        interview.update active: false
+        @current_person.log? 'cancel',
+                             interview,
+                             @candidate
+      end
+    end
+  end
 
   def create_taken_time_slots
     adjusted_date = @interview_date.to_time.in_time_zone +

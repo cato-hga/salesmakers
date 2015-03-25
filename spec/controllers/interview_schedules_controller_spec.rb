@@ -79,6 +79,56 @@ describe InterviewSchedulesController do
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
     end
+
+    context 'reschedule success' do
+      let!(:scheduled_candidate) { create :candidate, interview_schedules: [interview], status: 'interview_scheduled' }
+      let(:interview) { create :interview_schedule, active: true }
+      before(:each) do
+        post :create,
+             interview_date: Date.tomorrow.strftime('%Y%m%d'),
+             interview_time: Time.zone.now.strftime('%H%M'),
+             candidate_id: scheduled_candidate.id,
+             person_id: recruiter.id,
+             cloud_room: '33711'
+
+      end
+
+      it 'schedules the candidate' do
+        new_interview = InterviewSchedule.find_by interview_date: Date.tomorrow.strftime('%Y%m%d')
+        scheduled_candidate.reload
+        active_interviews = scheduled_candidate.interview_schedules.where(active: true)
+        expect(active_interviews).to include(new_interview)
+        expect(active_interviews).not_to include(interview)
+      end
+
+      it 'creates a log entry' do
+        expect(LogEntry.all.count).to eq(2)
+      end
+
+      it 'redirects to the candidate show path' do
+        expect(response).to redirect_to(candidate_path(scheduled_candidate))
+      end
+
+      it 'keeps the candidate status' do
+        scheduled_candidate.reload
+        expect(scheduled_candidate.status).to eq('interview_scheduled')
+      end
+
+      it 'sends emails to the recruiter and candidate' do
+        scheduled_candidate.reload
+        expect { perform_enqueued_jobs do
+          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+        end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'deactivates other scheduled interviews' do
+        scheduled_candidate.reload
+        active_interviews = scheduled_candidate.interview_schedules.where(active: true)
+        expect(active_interviews.count).to eq(1)
+      end
+    end
+
     context 'failure' do
       before(:each) do
         expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
