@@ -43,6 +43,8 @@ describe 'Followups' do
         lead
       }
       before(:each) do
+        @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+        allow(Time).to receive(:now).and_return(@time_now)
         CASClient::Frameworks::Rails::Filter.fake(person.email)
         visit comcast_customers_path
       end

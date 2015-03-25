@@ -52,6 +52,8 @@ describe 'Comcast Sale creation' do
   describe 'form submission' do
     let!(:previous_provider) { create :comcast_former_provider }
     before(:each) do
+      @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+      allow(Time).to receive(:now).and_return(@time_now)
       CASClient::Frameworks::Rails::Filter.fake(person.email)
       visit new_comcast_customer_comcast_sale_path comcast_customer.id
     end
@@ -137,6 +139,8 @@ describe 'Comcast Sale creation' do
 
     describe 'from comcast lead page' do
       before(:each) do
+        @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+        allow(Time).to receive(:now).and_return(@time_now)
         CASClient::Frameworks::Rails::Filter.fake(person.email)
         visit comcast_customer_path comcast_customer.id
       end
