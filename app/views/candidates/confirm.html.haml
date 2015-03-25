@@ -83,6 +83,8 @@
             = training_location.address + ', ' + training_location.room
           - if training_location.virtual
             %p This is a virtual training class.
+        - else
+          %p There is not a training location for this location, yet.
 
 
   = submit_tag 'Confirm and Save', class: [:button, :success]
