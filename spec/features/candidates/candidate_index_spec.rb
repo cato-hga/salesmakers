@@ -83,4 +83,13 @@ describe 'candidate index' do
     click_on candidate.name
     expect(page).to have_content(location_area.location.address)
   end
+
+  it 'shows the proper title for a search for candidate source' do
+    source = create :candidate_source
+    select source.name, from: 'q_candidate_source_id_eq'
+    within '.candidate_search' do
+      click_on 'Search'
+    end
+    expect(page).to have_content "#{source.name} Candidates"
+  end
 end
