@@ -166,7 +166,7 @@
         %br
         - if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
           %strong Training Address:
-          = @training_location.address
+          = @training_location.address + ', Room: ' + @training_location.room
           %br
           %br
           - if @training_location and @training_location.latitude and @training_location.longitude
