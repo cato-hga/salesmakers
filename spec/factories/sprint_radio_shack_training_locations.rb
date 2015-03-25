@@ -3,6 +3,7 @@ FactoryGirl.define do
     name 'Rutherford'
     address '201 Rte. 17 North, Rutherford NJ 07070'
     room '302'
+    virtual true
   end
 
 end

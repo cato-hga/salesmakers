@@ -8,8 +8,8 @@ RSpec.describe SprintRadioShackTrainingLocation, :type => :model do
       location.name = nil
       expect(location).not_to be_valid
     end
-    it 'requires an address' do
-      location.address = nil
+    it 'requires a virtual choice' do
+      location.virtual = nil
       expect(location).not_to be_valid
     end
     it 'requires a room' do
