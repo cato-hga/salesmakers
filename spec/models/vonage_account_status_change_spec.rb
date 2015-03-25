@@ -23,6 +23,8 @@ describe VonageAccountStatusChange do
   end
 
   it 'requires the account start date not be in the future' do
+    @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+    allow(Time).to receive(:now).and_return(@time_now)
     subject.account_start_date = Date.tomorrow
     expect(subject).not_to be_valid
   end

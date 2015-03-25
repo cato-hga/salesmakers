@@ -67,6 +67,8 @@ describe GroupMeBotQuery do
     end
 
     it 'pulls the correct day after midnight UTC' do
+      @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+      allow(Time).to receive(:now).and_return(@time_now)
       after_midnight_utc = Time.now.utc.beginning_of_day + 27.hours
       Timecop.freeze(after_midnight_utc)
       query.keywords = ['today']

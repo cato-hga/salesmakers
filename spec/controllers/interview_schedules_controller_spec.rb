@@ -84,13 +84,14 @@ describe InterviewSchedulesController do
       let!(:scheduled_candidate) { create :candidate, interview_schedules: [interview], status: 'interview_scheduled' }
       let(:interview) { create :interview_schedule, active: true }
       before(:each) do
+        @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
+        allow(Time).to receive(:now).and_return(@time_now)
         post :create,
              interview_date: Date.tomorrow.strftime('%Y%m%d'),
              interview_time: Time.zone.now.strftime('%H%M'),
              candidate_id: scheduled_candidate.id,
              person_id: recruiter.id,
              cloud_room: '33711'
-
       end
 
       it 'schedules the candidate' do
