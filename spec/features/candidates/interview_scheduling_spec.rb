@@ -179,7 +179,6 @@ describe 'Scheduling interviews' do
       end
 
       it 'has a button for rescheduling' do
-        save_and_open_page
         expect(page).to have_content 'Reschedule Interview'
       end
 

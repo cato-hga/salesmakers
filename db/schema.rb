@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150324233410) do
+ActiveRecord::Schema.define(version: 20150325125829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 20150324233410) do
   add_index "answers", ["person_id"], name: "index_answers_on_person_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
+  create_table "area_candidate_sourcing_groups", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "group_number"
+    t.string "name", null: false
+    t.integer "project_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "area_types", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -47,6 +55,7 @@ ActiveRecord::Schema.define(version: 20150324233410) do
 
   create_table "areas", force: :cascade do |t|
     t.string "ancestry"
+    t.integer "area_candidate_sourcing_group_id"
     t.integer "area_type_id", null: false
     t.string "connect_salesregion_id"
     t.datetime "created_at"
