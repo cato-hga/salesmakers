@@ -169,11 +169,17 @@
           = @training_location.address + ', Room: ' + @training_location.room
           %br
           %br
+          %p
+            %strong Training Schedule:
+            %br
+            Monday, March 30th - Friday, April 3rd: 8am - 6pm
+            %br
+            Monday, April 6th - Thursday, April 9th: 8am - 6pm
           - if @training_location and @training_location.latitude and @training_location.longitude
             - distance = @training_location.geographic_distance(location).round(2)
             %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
           - if @training_location.virtual
-            %p This is a virtual training class.
+            %p This is a virtual training class. Details to come.
         - target = 0
         - potentials = 0
         - current = 0
