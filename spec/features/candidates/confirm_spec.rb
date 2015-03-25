@@ -9,12 +9,19 @@ describe 'confirming details' do
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
   let!(:reason) { create :training_unavailability_reason }
-
+  let(:training_location) { create :sprint_radio_shack_training_location }
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
     visit confirm_candidate_path(candidate)
     select 'Male', from: 'Gender'
     select 'XL', from: 'Shirt size'
+  end
+
+  it 'contains the candidates training location' do
+    expect(page).to have_content 'Training Location'
+    # expect(page).to have_content training_location.name
+    # expect(page).to have_content training_location.address
+    # expect(page).to have_content training_location.room
   end
 
   describe 'someone available for training' do
@@ -47,11 +54,5 @@ describe 'confirming details' do
     it 'successfully redirects to candidate show' do
       expect(page).to have_content('Please send now manually')
     end
-
-    # it 'updates the training availability' do
-    #   candidate.reload
-    #   expect(candidate.training_availability.able_to_attend).to eq(false)
-    #   expect(candidate.training_availability.training_unavailability_reason).to eq(reason)
-    # end
   end
 end

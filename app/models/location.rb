@@ -14,6 +14,7 @@ class Location < ActiveRecord::Base
   has_many :location_areas
   has_many :comcast_customers
   has_many :comcast_eods
+  has_one :sprint_radio_shack_training_location
 
   def name(show_channel = true)
     output = ''

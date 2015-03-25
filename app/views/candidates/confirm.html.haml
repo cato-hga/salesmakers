@@ -71,4 +71,8 @@
           = select_tag :training_unavailability_reason_id, options_from_collection_for_select(@training_unavailability_reasons, :id, :name, @training_unavailability_reason_id), include_blank: true
           = label_tag :comments
           = text_area_tag :comments, @comments, rows: 5
+    .widget
+      .inner
+        %h3 Training Location
+
   = submit_tag 'Confirm and Save', class: [:button, :success]
