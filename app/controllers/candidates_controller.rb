@@ -17,10 +17,10 @@ class CandidatesController < ApplicationController
 
   def support_search
     statuses = Candidate.statuses
-    @search = Candidate.where("status >= 10").search(params[:q])
+    @search = Candidate.where("status >= 8").search(params[:q])
     @statuses = []
     for status in statuses do
-      @statuses << status if status[1] >= 10
+      @statuses << status if status[1] >= 8
     end
     @candidates = @search.result.page(params[:page])
   end
