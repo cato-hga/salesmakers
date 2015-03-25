@@ -74,5 +74,15 @@
     .widget
       .inner
         %h3 Training Location
+        - training_location = location.sprint_radio_shack_training_location
+        - if training_location
+          %p
+            %strong= training_location.name
+            %br
+            %br
+            = training_location.address + ', ' + training_location.room
+          - if training_location.virtual
+            %p This is a virtual training class.
+
 
   = submit_tag 'Confirm and Save', class: [:button, :success]

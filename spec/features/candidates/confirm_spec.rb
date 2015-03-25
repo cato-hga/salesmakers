@@ -4,7 +4,8 @@ describe 'confirming details' do
   let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission_create, permission_index] }
-  let!(:location_area) { create :location_area }
+  let!(:location_area) { create :location_area, location: location }
+  let(:location) { create :location, sprint_radio_shack_training_location: training_location }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
@@ -19,9 +20,9 @@ describe 'confirming details' do
 
   it 'contains the candidates training location' do
     expect(page).to have_content 'Training Location'
-    # expect(page).to have_content training_location.name
-    # expect(page).to have_content training_location.address
-    # expect(page).to have_content training_location.room
+    expect(page).to have_content training_location.name
+    expect(page).to have_content training_location.address
+    expect(page).to have_content training_location.room
   end
 
   describe 'someone available for training' do

@@ -957,11 +957,6 @@ ActiveRecord::Schema.define(version: 20150325163955) do
     t.datetime "updated_at"
   end
 
-  create_table "tmp_map_locations", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "training_location"
-  end
-
   create_table "tmp_not_deployed", id: false, force: :cascade do |t|
     t.string "serial", limit: 255
   end
