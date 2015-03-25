@@ -14,6 +14,7 @@
   = f.text_field :location_area_area_project_name_cont, placeholder: 'Project'
   = f.text_field :location_area_location_channel_name_cont, placeholder: 'Channel'
   = f.text_field :location_area_location_display_name_cont, placeholder: 'Location'
+  = f.select :candidate_source_id_eq, options_from_collection_for_select(CandidateSource.where(active: true), :id, :name), include_blank: 'Source'
   - selected_assessment_status = params['q'] ? params['q']['personality_assessment_status_eq'] : nil
   - assessment_status_options = options_for_select(Candidate.personality_assessment_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_assessment_status)
   = f.select :personality_assessment_status_eq, assessment_status_options, prompt: 'Assessment Status'
