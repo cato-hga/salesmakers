@@ -66,6 +66,7 @@ namespace :sidekiq do
   end
 end
 
+
 namespace :deploy do
   branch = fetch(:branch)
   stage = fetch(:stage)
