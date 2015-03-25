@@ -6,9 +6,12 @@
 - vonage = false
 - for client in clients do
   - vonage = true if client.name == 'Vonage'
-- if show_details and vonage
+- if show_details
   = content_for :action_buttons do
-    = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
+    - if vonage
+      = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
+    - if ScreeningPolicy.new(@current_person, Screening.new).update?
+      = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs
