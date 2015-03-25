@@ -10,6 +10,7 @@ module AreaAssociationsModelExtension
   def setup_belongs_to_associations
     belongs_to :area_type
     belongs_to :project
+    belongs_to :area_candidate_sourcing_group
   end
 
   def setup_has_many_assocations
