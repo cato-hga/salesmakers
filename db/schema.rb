@@ -924,7 +924,7 @@ ActiveRecord::Schema.define(version: 20150325140529) do
   end
 
   create_table "sprint_radio_shack_training_locations", force: :cascade do |t|
-    t.string "address"
+    t.string "address", null: false
     t.datetime "created_at", null: false
     t.float "latitude"
     t.float "longitude"

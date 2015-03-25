@@ -6,6 +6,7 @@ class CreateSprintRadioShackTrainingLocations < ActiveRecord::Migration
       t.string :room, null: false
       t.float :latitude
       t.float :longitude
+      t.boolean :virtual, null: false, default: false
 
       t.timestamps null: false
     end
