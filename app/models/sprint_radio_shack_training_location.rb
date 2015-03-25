@@ -12,7 +12,6 @@ class SprintRadioShackTrainingLocation < ActiveRecord::Base
     Geocoder::Calculations.distance_between self, coordinates
   end
 
-
   private
 
   def geocode_on_production

@@ -156,7 +156,6 @@ class CandidatesController < ApplicationController
   def confirm
     #just uses get_candidate
     @training_availability = TrainingAvailability.new
-
   end
 
   def record_confirmation
