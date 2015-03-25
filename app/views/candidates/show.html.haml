@@ -10,7 +10,6 @@
   - else
     = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]
 
-- training_location = @candidate.location_area.location.sprint_radio_shack_training_location if @candidate.location_area.location.sprint_radio_shack_training_location
 
 .widgets
   .widget#basic_information
@@ -165,15 +164,15 @@
         = location.address
         %br
         %br
-        - if training_location and @candidate.status == 'accepted'
+        - if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
           %strong Training Address:
-          = training_location.address
+          = @training_location.address
           %br
           %br
-          - if training_location and training_location.latitude and training_location.longitude
-            - distance = training_location.geographic_distance(location).round(2)
+          - if @training_location and @training_location.latitude and @training_location.longitude
+            - distance = @training_location.geographic_distance(location).round(2)
             %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
-          - if training_location.virtual
+          - if @training_location.virtual
             %p This is a virtual training class.
         - target = 0
         - potentials = 0
@@ -224,12 +223,12 @@
       handler.getMap().setZoom(10);
     });
 
-- elsif training_location and (@candidate.status >= 7)
+- if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
   :javascript
     var markers = [];
     markers.push({
-      "lat": #{html_escape(training_location.latitude)},
-      "lng": #{html_escape(training_location.longitude)},
+      "lat": #{html_escape(@training_location.latitude)},
+      "lng": #{html_escape(@training_location.longitude)},
       "picture": {
         "url": "/images/store_map_marker.png",
         "width": 32,

@@ -42,6 +42,8 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
+    @training_location = @candidate.location_area.location.sprint_radio_shack_training_location if @candidate.location_area.location.sprint_radio_shack_training_location
+
   end
 
   def new
