@@ -34,8 +34,8 @@ class CandidatesController < ApplicationController
     set_paperwork_sent
     set_paperwork_completed_by_candidate
     set_paperwork_completed_by_advocate
+    set_paperwork_completed_by_hr
     set_onboarded
-    set_rejected
   end
 
   def show
@@ -530,6 +530,15 @@ class CandidatesController < ApplicationController
               @datetime_start,
               @datetime_end)
     @paperwork_completed_by_advocate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_advocate].to_i, active: true)
+  end
+
+  def set_paperwork_completed_by_hr
+    @paperwork_completed_by_hr_range = Candidate.
+        joins(:job_offer_details).
+        where("job_offer_details.completed >= ? AND job_offer_details.completed <= ?",
+              @datetime_start,
+              @datetime_end)
+    @paperwork_completed_by_hr_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_hr].to_i, active: true)
   end
 
   def set_onboarded

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325163955) do
+ActiveRecord::Schema.define(version: 20150325185423) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -879,6 +879,16 @@ ActiveRecord::Schema.define(version: 20150325163955) do
   end
 
   add_index "sales_performance_ranks", ["rankable_id", "rankable_type"], name: "index_sales_performance_ranks_on_rankable_id_and_rankable_type", using: :btree
+
+  create_table "screenings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "drug_screening", default: 0, null: false
+    t.integer "person_id", null: false
+    t.integer "private_background_check", default: 0, null: false
+    t.integer "public_background_check", default: 0, null: false
+    t.integer "sex_offender_check", default: 0, null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at"

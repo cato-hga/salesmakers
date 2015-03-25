@@ -188,6 +188,7 @@ Rails.application.routes.draw do
   resources :log_entries, only: [:index]
 
   resources :people, except: [:edit, :destroy] do
+    resource :screening, only: [:edit, :update]
     member do
       get :commission, as: :commission
       post :commission

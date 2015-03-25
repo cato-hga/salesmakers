@@ -108,6 +108,20 @@
           .total_count.sm_green= @paperwork_completed_by_advocate_total.count
           .small.centered_text.vertical_space
             Active in Status
+  .widget#paperwork_completed_by_hr
+    .inner
+      %h3 Paperwork Completed by HR
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @paperwork_completed_by_hr_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @paperwork_completed_by_hr_total.count
+          .small.centered_text.vertical_space
+            Active in Status
   .widget#onboarded
     .inner
       %h3 Onboarded
@@ -122,20 +136,6 @@
           .total_count.sm_green= @onboarded_total.count
           .small.centered_text.vertical_space
             Active in Status
-  .widget#rejected
-    .inner
-      %h3 Rejected
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_red= @rejected_range.count
-          .small.centered_text.vertical_space
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_red= @rejected_total.count
-          .small.centered_text.vertical_space
-            Overall Rejections
 
 :javascript
   setTimeout(function() {
