@@ -24,6 +24,7 @@ module PersonAssociationsModelExtension
     has_one :wall, as: :wallable
     has_one :group_me_user
     has_one :candidate
+    has_one :screening
   end
 
   def setup_has_many

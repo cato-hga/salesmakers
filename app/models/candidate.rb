@@ -82,7 +82,9 @@ class Candidate < ActiveRecord::Base
            :paperwork_completed_by_candidate,
            :paperwork_completed_by_advocate,
            :paperwork_completed_by_hr,
-           :onboarded
+           :onboarded,
+           :partially_screened,
+           :fully_screened
        ]
   enum personality_assessment_status: [
            :incomplete,
