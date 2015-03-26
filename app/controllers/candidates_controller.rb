@@ -310,6 +310,21 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def cant_make_training_location
+    reason = TrainingUnavailabilityReason.find_by name: "Can't Make Training Location"
+    @training_availability = TrainingAvailability.new
+    @training_availability.able_to_attend = false
+    @training_availability.candidate = @candidate
+    @training_availability.training_unavailability_reason = reason
+    if @training_availability.save
+      flash[:notice] = "Candidate marked as not being able to make their training location"
+      redirect_to candidate_path(@candidate)
+    else
+      flash[:error] = "Unavailability could not be saved"
+      redirect_to candidate_path(@candidate)
+    end
+  end
+
   private
 
   def availability_params

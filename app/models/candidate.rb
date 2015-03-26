@@ -182,6 +182,10 @@ class Candidate < ActiveRecord::Base
     self.personality_assessment_completed?
   end
 
+  def confirmed?
+    Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
+  end
+
   private
 
   def geocode_on_production

@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       patch :update_availability
       get :edit_candidate_details
       patch :update_candidate_details
+      post :cant_make_training_location
     end
     collection do
       get :dashboard, as: :dashboard
