@@ -17,6 +17,42 @@ describe VonageSale do
            cutoff: DateTime.now + 3.days - 4.weeks
   }
   subject { build :vonage_sale, sale_date: Date.today }
+  let(:disconnected_sale) {
+    create :vonage_sale,
+           mac: 'ABCDEF123456'
+  }
+  let!(:disconnected_status_change) {
+    create :vonage_account_status_change,
+           mac: disconnected_sale.mac,
+           status: :terminated,
+           account_end_date: Date.today - 1.week,
+           termination_reason: 'You suck'
+  }
+  let(:disconnected_after_date_sale) {
+    create :vonage_sale,
+           mac: 'ABCDEF123459'
+  }
+  let!(:disconnected_after_date_status_change) {
+    create :vonage_account_status_change,
+           mac: disconnected_after_date_sale.mac,
+           status: :terminated,
+           account_end_date: Date.today,
+           termination_reason: 'You really suck'
+  }
+  let(:active_sale) {
+    create :vonage_sale,
+           mac: 'ABCDEF123457'
+  }
+  let!(:active_status_change) {
+    create :vonage_account_status_change,
+           mac: active_sale.mac,
+           status: :active,
+           account_end_date: Date.today + 100.years
+  }
+  let!(:no_status_sale) {
+    create :vonage_sale,
+           mac: 'ABCDEF123458'
+  }
 
   it 'is valid with correct attributes' do
     expect(subject).to be_valid
@@ -64,7 +100,7 @@ describe VonageSale do
 
   it 'gets sales for a paycheck' do
     subject.save
-    expect(described_class.for_paycheck(paycheck).count).to eq(1)
+    expect(described_class.for_paycheck(paycheck).count).to eq(5)
     expect(described_class.for_paycheck(old_paycheck).count).to eq(0)
   end
 
@@ -72,4 +108,21 @@ describe VonageSale do
     expect(subject).to respond_to(:connect_order)
   end
 
+  describe 'still active checks' do
+    it 'returns false if disconnected before date' do
+      expect(disconnected_sale.still_active_on?(Date.today - 3.days)).to be_falsey
+    end
+
+    it 'returns true if disconnected after date' do
+      expect(disconnected_after_date_sale.still_active_on?(Date.today - 3.days)).to be_truthy
+    end
+
+    it 'returns true if still active' do
+      expect(active_sale.still_active_on?(Date.today - 3.days)).to be_truthy
+    end
+
+    it 'returns false if no status change' do
+      expect(no_status_sale.still_active_on?(Date.today - 3.days)).to be_falsey
+    end
+  end
 end

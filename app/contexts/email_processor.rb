@@ -9,15 +9,9 @@ class EmailProcessor
 
   def process
     for attachment in email.attachments do
-      acceptor(attachment)
-    end
-  end
-
-  def acceptor(attachment)
-    return unless attachment
-    tempfile = create_tempfile(attachment)
-    if tempfile.path.downcase.include?('uqube')
-      VonageAccountStatusChangesImporter.new(tempfile)
+      next unless attachment
+      tempfile = create_tempfile(attachment)
+      EmailAttachmentAcceptorJob.perform_later File.absolute_path(tempfile.path)
     end
   end
 

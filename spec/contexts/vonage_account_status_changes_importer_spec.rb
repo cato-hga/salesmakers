@@ -6,7 +6,7 @@ describe VonageAccountStatusChangesImporter do
   let(:file) {
     File.new(Rails.root.join('spec', 'fixtures', 'UQube Import for FTP.xlsx'))
   }
-  let(:importer) { described_class.new(file) }
+  let(:importer) { described_class.new(File.absolute_path(file.path)) }
 
   context 'initialization' do
     it 'raises no errors with one argument' do

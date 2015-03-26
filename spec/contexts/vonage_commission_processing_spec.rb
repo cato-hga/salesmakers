@@ -38,6 +38,31 @@ describe VonageCommissionProcessing do
            sale_date: old_paycheck.commission_start + 1.day,
            mac: 'FEDCBA654321'
   }
+  let(:rev_share_vonage_sale) {
+    create :vonage_sale,
+           person: vonage_sale.person,
+           sale_date: paycheck.commission_end - 64.days,
+           mac: 'FEDFED123123'
+  }
+  let!(:rev_share_active_status) {
+    create :vonage_account_status_change,
+           mac: rev_share_vonage_sale.mac,
+           account_start_date: paycheck.commission_start - 62.days,
+           account_end_date: paycheck.commission_start + 100.years,
+           status: :active
+  }
+  let(:rev_share_disconnected_sale) {
+    create :vonage_sale,
+           person: vonage_sale.person,
+           sale_date: paycheck.commission_end - 94.days,
+           mac: 'FEDFED321321'
+  }
+  let!(:rev_share_disconnected_status) {
+    create :vonage_account_status_change,
+           mac: rev_share_disconnected_sale.mac,
+           account_start_date: paycheck.commission_start - 62.days,
+           account_end_date: paycheck.commission_start - 22.days
+  }
   let(:vonage_retail) { create :project, name: 'Vonage Retail' }
   let!(:vonage_events) { create :project, name: 'Vonage Events' }
   let(:area) { create :area, project: vonage_retail }
@@ -111,6 +136,11 @@ describe VonageCommissionProcessing do
       processor.process
     end
 
+    it 'generates revenue sharing payouts' do
+      expect(processor).to receive(:generate_revenue_sharing_payouts)
+      processor.process
+    end
+
     it 'sets an array of People that had VonageSales for the period' do
       expect(processor).to receive(:set_people_with_sales).exactly(2).times
       processor.process
@@ -157,6 +187,33 @@ describe VonageCommissionProcessing do
     end
   end
 
+  context 'revenue sharing payout generation' do
+    it 'generates payouts for each milestone' do
+      expect(processor).to receive(:generate_payouts_for_milestone).exactly(4).times
+      processor.process
+    end
+
+    it 'gets the VonageSales for each milestone' do
+      expect(VonageSale).to receive(:for_date_range).exactly(4).times
+      processor.process
+    end
+
+    it 'processes sales for revenue sharing' do
+      expect(processor).to receive(:process_revenue_sharing_payout_for_sales).exactly(4).times
+      processor.process
+    end
+
+    it 'processes the payout for a sale that meets the criteria' do
+      expect(processor).to receive(:process_revenue_sharing_payout_for_sale)
+      processor.process
+    end
+
+    it 'makes the revenue sharing payout' do
+      expect(processor).to receive(:make_revenue_sharing_payout)
+      processor.process
+    end
+  end
+
   context 'changing manager payouts' do
     before { person_area.update manages: true }
 
@@ -176,16 +233,16 @@ describe VonageCommissionProcessing do
     end
 
     it 'changes the payout amount for a Vonage manager' do
-      expect(processor).to receive(:change_payout_amount_for_manager)
+      expect(processor).to receive(:change_payout_amount_for_manager).exactly(:twice)
       processor.process
     end
 
-    it 'should have two payouts totaling $30' do
+    it 'should have two payouts totaling $32.50' do
       processor.process
       sale_payouts = VonageSalePayout.all
       payout_total = 0.00
       sale_payouts.each { |payout| payout_total += payout.payout }
-      expect(payout_total).to eq(30.00)
+      expect(payout_total).to eq(32.50)
     end
   end
 
@@ -199,7 +256,7 @@ describe VonageCommissionProcessing do
       create :vonage_sale_payout, vonage_paycheck: paycheck
       expect {
         processor.process
-      }.not_to change(VonageSalePayout, :count)
+      }.to change(VonageSalePayout, :count).from(2).to(3)
     end
   end
 
@@ -211,7 +268,7 @@ describe VonageCommissionProcessing do
 
     it 'saves the payouts' do
       processor.process
-      expect(VonageSalePayout.count).to eq(2)
+      expect(VonageSalePayout.count).to eq(3)
     end
   end
 

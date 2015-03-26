@@ -15,6 +15,7 @@ class VonageSale < ActiveRecord::Base
 
   has_many :vonage_sale_payouts
   has_one :vonage_refund
+  has_many :vonage_account_status_changes, primary_key: 'mac', foreign_key: 'mac'
 
   scope :for_paycheck, ->(paycheck) {
     if paycheck
@@ -24,4 +25,17 @@ class VonageSale < ActiveRecord::Base
       none
     end
   }
+
+  scope :for_date_range, ->(start_date, end_date) {
+    where('sale_date >= ? AND sale_date <= ?',
+          start_date, end_date)
+  }
+
+  def still_active_on?(date)
+    changes = self.vonage_account_status_changes
+    return false if changes.empty?
+    changes_before_date = changes.where("account_end_date <= ?", date)
+    return true if changes_before_date.empty?
+    false
+  end
 end
