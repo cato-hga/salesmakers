@@ -27,7 +27,7 @@ describe 'SMS (support) index' do
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
-    visit support_search_candidates_path
+    visit support_search_candidates_path(enable_filter: 'false')
   end
 
   it 'should have the correct title' do
@@ -73,6 +73,79 @@ describe 'SMS (support) index' do
 
   it "should not have the regular candidate search bar" do
     expect(page).not_to have_selector('#q_created_by_display_name_cont')
+  end
+
+  it 'has a button for the SalesMakers Support Filter' do
+    expect(page).to have_button 'Enable Support Filter'
+  end
+
+  describe 'the SalesMakers Support Filter' do
+    let!(:non_filtered_candidate) { create :candidate,
+                                           first_name: 'Test 2',
+                                           location_area: location_area,
+                                           created_by: recruiter,
+                                           status: :paperwork_completed_by_candidate,
+                                           shirt_gender: 'Male',
+                                           shirt_size: 'L'
+    }
+    let!(:other_non_filtered_candidate) { create :candidate,
+                                                 first_name: 'Test 3',
+                                                 location_area: location_area,
+                                                 created_by: recruiter,
+                                                 status: :paperwork_sent,
+                                                 shirt_gender: 'Male',
+                                                 shirt_size: 'L'
+    }
+    let!(:filtered_candidate) { create :candidate,
+                                       first_name: 'Test 4',
+                                       location_area: location_area,
+                                       created_by: recruiter,
+                                       status: :paperwork_completed_by_hr,
+                                       shirt_gender: 'Male',
+                                       shirt_size: 'L'
+    }
+    let!(:other_filtered_candidate) { create :candidate,
+                                             first_name: 'Test 5',
+                                             location_area: location_area,
+                                             created_by: recruiter,
+                                             status: :fully_screened,
+                                             shirt_gender: 'Male',
+                                             shirt_size: 'L'
+    }
+
+    it 'shows the non filtered candidates on the normal view' do
+      expect(page).to have_content(non_filtered_candidate.name)
+      expect(page).to have_content(other_non_filtered_candidate.name)
+      expect(page).to have_content(candidate.name)
+      expect(page).to have_content(filtered_candidate.name)
+      expect(page).to have_content(other_filtered_candidate.name)
+    end
+
+    it 'filters out candidates without candidate paperwork completed by advocate or above' do
+      click_on 'Enable Support Filter'
+      expect(page).not_to have_content(non_filtered_candidate.name)
+      expect(page).not_to have_content(other_non_filtered_candidate.name)
+      expect(page).to have_content(candidate.name)
+      expect(page).to have_content(filtered_candidate.name)
+      expect(page).to have_content(other_filtered_candidate.name)
+    end
+
+    it 'changes to a disable button' do
+      click_on 'Enable Support Filter'
+      expect(page).to have_button 'Disable Support Filter'
+    end
+
+    it 'the disable button readds candidates otherwise filtered' do
+      click_on 'Enable Support Filter'
+      expect(page).not_to have_content(non_filtered_candidate.name)
+      expect(page).not_to have_content(other_non_filtered_candidate.name)
+      expect(page).to have_content(candidate.name)
+      expect(page).to have_content(filtered_candidate.name)
+      expect(page).to have_content(other_filtered_candidate.name)
+      click_on 'Disable Support Filter'
+      expect(page).to have_content(non_filtered_candidate.name)
+      expect(page).to have_content(other_non_filtered_candidate.name)
+    end
   end
 
 end

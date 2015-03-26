@@ -1,4 +1,9 @@
 - title 'Candidate Support Search'
+- content_for :action_buttons do
+  - if params[:enable_filter] == 'true'
+    = button_to 'Disable Support Filter', support_search_filter_candidates_path(enable_filter: 'false'), class: [:inline_button, :button, :support_filter]
+  - else
+    = button_to 'Enable Support Filter', support_search_filter_candidates_path(enable_filter: 'true'), class: [:inline_button, :button, :support_filter]
 
 - content_for :header do
   = link_to icon('magnifying-glass'), '#', id: 'show_search'

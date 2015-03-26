@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     collection do
       get :dashboard, as: :dashboard
       get :support_search, as: :support_search
+      post 'support_search/:enable_filter', action: :support_search, as: :support_search_filter
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
