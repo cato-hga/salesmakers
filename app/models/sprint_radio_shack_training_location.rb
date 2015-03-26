@@ -17,5 +17,6 @@ class SprintRadioShackTrainingLocation < ActiveRecord::Base
   def geocode_on_production
     return unless Rails.env.production?
     self.geocode
+    sleep 0.21
   end
 end
