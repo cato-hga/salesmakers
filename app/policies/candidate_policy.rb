@@ -123,4 +123,8 @@ class CandidatePolicy < ApplicationPolicy
   def dashboard?
     has_permission? 'view_all'
   end
+
+  def cant_make_training_location?
+    create?
+  end
 end

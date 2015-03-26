@@ -11,7 +11,9 @@ describe 'candidate show page' do
   
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission] }
-  let!(:location_area) { create :location_area }
+  let!(:location_area) { create :location_area, location: location }
+  let(:location) { create :location, sprint_radio_shack_training_location: training_location }
+  let(:training_location) { create :sprint_radio_shack_training_location, latitude: 40, longitude: 50 }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
   let(:permission) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
   let!(:candidate_contact) {
@@ -44,14 +46,6 @@ describe 'candidate show page' do
 
   it 'should show the contact log' do
     expect(page).to have_content(candidate_contact.notes)
-  end
-
-  it 'should show the location address' do
-    expect(page).to have_content(location_area.location.address)
-  end
-
-  it 'should show the "Change Location" button' do
-    expect(page).to have_selector('a', text: 'Change Location')
   end
 
   it 'shows the scheduled interview time' do
