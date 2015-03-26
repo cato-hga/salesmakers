@@ -16,6 +16,8 @@ class CandidatesController < ApplicationController
   end
 
   def support_search
+    region = AreaType.where name: 'Sprint Postpaid Region'
+    @regions = Area.where area_type: region
     if params[:enable_filter] == 'true'
       statuses = Candidate.statuses
       @search = Candidate.where("status >= 10").search(params[:q])

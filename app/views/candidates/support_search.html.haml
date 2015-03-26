@@ -16,6 +16,9 @@
     = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
     = f.text_field :email_cont, placeholder: 'Email'
     %br/
+    - selected_region = params['q'] ? params['q']['region_eq'] : nil
+    - region_options = options_from_collection_for_select(@regions, 'id', 'name', selected_region)
+    = f.select :area_eq, region_options, prompt: 'Region'
     = f.text_field :location_area_area_name_cont, placeholder: 'Area'
     - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
     = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
