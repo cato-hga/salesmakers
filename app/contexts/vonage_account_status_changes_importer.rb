@@ -1,6 +1,6 @@
 class VonageAccountStatusChangesImporter
   def initialize(file)
-    @file = file
+    @file = File.new(file, "rw")
     begin_processing
     self
   end
