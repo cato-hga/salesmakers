@@ -61,6 +61,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    CFPropertyList (2.2.8)
     abstract_type (0.0.7)
     actionmailer (4.2.0)
       actionpack (= 4.2.0)
@@ -227,6 +228,8 @@ GEM
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
     execjs (2.2.2)
+    facter (2.4.1)
+      CFPropertyList (~> 2.2.6)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -660,6 +663,7 @@ DEPENDENCIES
   dragonfly (= 1.0.7)
   emoji (= 1.0.1)
   exception_notification (= 4.0.1)
+  facter (= 2.4.1)
   factory_girl_rails (= 4.5.0)
   faker (= 1.4.3)
   fastimage!

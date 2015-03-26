@@ -99,6 +99,7 @@ production:
   database: oneconnect_production
   username: oneconnect
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
+  pool: <%= Facter.value('processors')['count'] %>
 
 #rbd_connect_test:
 #  adapter: postgresql

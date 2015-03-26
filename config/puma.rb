@@ -1,5 +1,13 @@
-threads 8, 32
-workers 4
+require 'facter'
+cpus = Facter.value('processors')['count']
+
+if cpus and cpus > 4
+  threads cpus, cpus
+  workers cpus
+else
+  threads 1, 16
+  workers 4
+end
 preload_app!
 environment ENV['RAILS_ENV'] || 'production'
 bind 'unix:///opt/oneconnect/shared/tmp/sockets/puma.sock'
