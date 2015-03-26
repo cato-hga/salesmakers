@@ -20,6 +20,10 @@ class Area < ActiveRecord::Base
     Location.where("id IN (#{subtree_location_areas.map(&:location_id).join(',')})")
   end
 
+  def string_id
+    "#{id.to_s}"
+  end
+
   def full_name
     "#{self.project.name} - #{self.name}"
   end

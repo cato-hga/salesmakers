@@ -13,6 +13,8 @@
     = f.text_field :email_cont, placeholder: 'Email'
     %br/
     - project = Project.find_by_name 'Sprint Postpaid'
+    - selected_region = params['q'] ? params['q']['area_name_eq'] : nil
+    = f.select :location_area_area_ancestry_eq, options_from_collection_for_select(@regions, :string_id, 'name', selected_region), include_blank: 'Region'
     - selected_area = params['q'] ? params['q']['area_name_eq'] : nil
     = f.select :location_area_area_id_eq, options_from_collection_for_select(Area.where(project: project), 'id', 'name', selected_area), include_blank: 'Area'
     - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
