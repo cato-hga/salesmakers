@@ -62,6 +62,7 @@ gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size
 gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
+gem 'facter', '2.4.1' # Get number of CPUs to automatically set puma workers
 
 group :development do
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development

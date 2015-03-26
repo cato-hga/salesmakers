@@ -22,7 +22,7 @@ default: &default
   password: a55isTant
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 16
+  pool: <%= Facter.value('processors')['count'] %>
 
 development:
   <<: *default
