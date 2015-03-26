@@ -62,6 +62,11 @@ describe 'Candidate location information' do
         click_button "Candidate can't make training due to distance?"
         expect(page).to have_content "Candidate marked as not being able to make their training location"
       end
+
+      it 'doesnt show the button again' do
+        click_button "Candidate can't make training due to distance?"
+        expect(page).not_to have_button "Candidate can't make training due to distance?"
+      end
     end
   end
 end
