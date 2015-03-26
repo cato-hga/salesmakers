@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325221552) do
+ActiveRecord::Schema.define(version: 20150326143755) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1163,6 +1163,10 @@ ActiveRecord::Schema.define(version: 20150325221552) do
 
   create_table "vonage_sale_payouts", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.boolean "day_122", default: false, null: false
+    t.boolean "day_152", default: false, null: false
+    t.boolean "day_62", default: false, null: false
+    t.boolean "day_92", default: false, null: false
     t.decimal "payout", null: false
     t.integer "person_id", null: false
     t.datetime "updated_at", null: false

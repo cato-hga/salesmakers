@@ -35,6 +35,22 @@ describe VonageSalePayout do
     expect(subject).not_to be_valid
   end
 
+  it 'responds to day_62?' do
+    expect(subject).to respond_to(:day_62?)
+  end
+
+  it 'responds to day_92?' do
+    expect(subject).to respond_to(:day_92?)
+  end
+
+  it 'responds to day_122?' do
+    expect(subject).to respond_to(:day_122?)
+  end
+
+  it 'responds to day_152?' do
+    expect(subject).to respond_to(:day_152?)
+  end
+
   it 'does not allow a duplicate VonageSale and Person combination' do
     subject.save
     duplicate = build :vonage_sale_payout,
