@@ -22,7 +22,7 @@ default: &default
   password: a55isTant
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= Facter.value('processors')['count'] %>
+  pool: 16
 
 development:
   <<: *default
@@ -99,6 +99,7 @@ production:
   database: oneconnect_production
   username: oneconnect
   password: <%= ENV['RECONNECT_DATABASE_PASSWORD'] %>
+  pool: <%= Facter.value('processors')['count'] %>
 
 #rbd_connect_test:
 #  adapter: postgresql
