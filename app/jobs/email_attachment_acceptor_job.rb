@@ -3,7 +3,7 @@ class EmailAttachmentAcceptorJob < ActiveJob::Base
 
   def perform(file)
     if file.downcase.include?('uqube')
-      VonageAccountStatusChangesImporter.new(tempfile)
+      VonageAccountStatusChangesImporter.new(file)
     end
   end
 end
