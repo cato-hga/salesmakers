@@ -34,7 +34,10 @@ class VonageSale < ActiveRecord::Base
   def still_active_on?(date)
     changes = self.vonage_account_status_changes
     return false if changes.empty?
-    changes_before_date = changes.where("account_end_date <= ?", date)
+    changes_before_date = changes.
+        where("account_end_date <= ? OR (account_end_date IS NULL AND status > 0 AND date_trunc('day', created_at) <= ?)",
+              date,
+              date)
     return true if changes_before_date.empty?
     false
   end
