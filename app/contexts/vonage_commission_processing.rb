@@ -18,6 +18,7 @@ class VonageCommissionProcessing
     determine_weeks
     split_sales_into_weeks
     generate_payouts_for_weeks
+    generate_revenue_sharing_payouts
     self
   end
 
@@ -33,6 +34,58 @@ class VonageCommissionProcessing
       next unless @payouts
       @all_payouts = @all_payouts.concat(@payouts).compact
     end
+  end
+
+  def generate_revenue_sharing_payouts
+    @revenue_sharing_payouts = []
+    generate_payouts_for_milestone(62, 2.50, 10)
+    generate_payouts_for_milestone(92, 2.50, 3)
+    generate_payouts_for_milestone(122, 2.50, 2)
+    generate_payouts_for_milestone(152, 2.50, 10)
+    @all_payouts = @all_payouts.concat(@revenue_sharing_payouts).compact
+  end
+
+  def generate_payouts_for_milestone(days, retail_payout_amount, pilot_payout_amount)
+    sales = VonageSale.for_date_range(@paycheck.commission_start - days.days,
+                                      @paycheck.commission_end - days.days)
+    process_revenue_sharing_payout_for_sales(sales, days, retail_payout_amount, pilot_payout_amount)
+  end
+
+  def process_revenue_sharing_payout_for_sales(sales, days, retail_payout_amount, pilot_payout_amount)
+    return unless sales
+    for sale in sales do
+      next unless sale.still_active_on?(sale.sale_date + days.days - 1.day)
+      process_revenue_sharing_payout_for_sale sale, days, retail_payout_amount, pilot_payout_amount
+    end
+  end
+
+  def process_revenue_sharing_payout_for_sale(sale, days, retail_payout_amount, pilot_payout_amount)
+    payout = make_revenue_sharing_payout(sale, retail_payout_amount, pilot_payout_amount)
+    return unless payout
+    case days
+      when 62
+        payout.day_62 = true
+      when 92
+        payout.day_92 = true
+      when 122
+        payout.day_122 = true
+      when 152
+        payout.day_152 = true
+    end
+    @revenue_sharing_payouts << payout if payout
+  end
+
+
+  def make_revenue_sharing_payout(sale, retail_payout_amount, pilot_payout_amount)
+    person_areas = sale.person.person_areas
+    pilot = false
+    if not person_areas.empty? and person_areas.first.area.name.downcase.include?('pilot ')
+      pilot = true
+    end
+    VonageSalePayout.new person: sale.person,
+                         vonage_sale: sale,
+                         payout: pilot ? pilot_payout_amount : retail_payout_amount,
+                         vonage_paycheck: @paycheck
   end
 
   def clear_existing_payouts
@@ -99,8 +152,8 @@ class VonageCommissionProcessing
 
   def create_negative_balance(negative_hash)
     balance = VonagePaycheckNegativeBalance.create vonage_paycheck: @paycheck,
-                                         balance: negative_hash[:net_last_paycheck],
-                                         person: negative_hash[:person]
+                                                   balance: negative_hash[:net_last_paycheck],
+                                                   person: negative_hash[:person]
     self
   end
 
@@ -121,7 +174,7 @@ class VonageCommissionProcessing
     @week_sales = []
     for week in @weeks do
       @week_sales << @all_sales.where('sale_date >= ? AND sale_date <= ?',
-                                week[0], week[1])
+                                      week[0], week[1])
 
     end
     self
@@ -208,6 +261,7 @@ class VonageCommissionProcessing
   end
 
   def change_payout_amount_for_manager(payout)
+    return if payout.day_62 or payout.day_92 or payout.day_122 or payout.day_152
     payout.payout = 20.00
     self
   end
