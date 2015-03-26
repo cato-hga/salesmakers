@@ -1,9 +1,4 @@
 - title 'Candidate Support Search'
-- content_for :action_buttons do
-  - if params[:enable_filter] == 'true'
-    = button_to 'Disable Support Filter', support_search_filter_candidates_path(enable_filter: 'false'), class: [:inline_button, :button, :support_filter]
-  - else
-    = button_to 'Enable Support Filter', support_search_filter_candidates_path(enable_filter: 'true'), class: [:inline_button, :button, :support_filter]
 
 - content_for :header do
   = link_to icon('magnifying-glass'), '#', id: 'show_search'
@@ -11,6 +6,7 @@
     = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
     = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+    = f.select :status_gteq, options_for_select([['Enable', 10], ['Disable', 8]]), include_blank: 'Support Filter'
     = f.text_field :first_name_cont, placeholder: 'First name'
     = f.text_field :last_name_cont, placeholder: 'Last name'
     = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
