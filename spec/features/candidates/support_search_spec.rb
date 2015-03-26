@@ -27,7 +27,7 @@ describe 'SMS (support) index' do
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
-    visit support_search_candidates_path(enable_filter: 'false')
+    visit support_search_candidates_path
   end
 
   it 'should have the correct title' do
@@ -114,6 +114,7 @@ describe 'SMS (support) index' do
     }
 
     it 'shows the non filtered candidates on the normal view' do
+      visit support_search_candidates_path(enable_filter: 'false')
       expect(page).to have_content(non_filtered_candidate.name)
       expect(page).to have_content(other_non_filtered_candidate.name)
       expect(page).to have_content(candidate.name)
