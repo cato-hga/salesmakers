@@ -27,6 +27,26 @@ class CandidatesController < ApplicationController
     @candidates = @search.result.page(params[:page])
   end
 
+  def welcome_call
+    @welcome_call = SprintPreTrainingWelcomeCall.new
+    @training_unavailability_reasons = TrainingUnavailabilityReason.all
+  end
+
+  def record_welcome_call
+    @training_unavailability_reasons = TrainingUnavailabilityReason.all
+    @training_availability = TrainingAvailability.find_by candidate: @candidate
+    @welcome_call = SprintPreTrainingWelcomeCall.new welcome_call_params
+    @welcome_call.candidate = @candidate
+    if @welcome_call.save
+      @welcome_call.completed!
+      flash[:notice] = 'Welcome Call Completed'
+      @current_person.log? 'welcome_call_completed',
+                           @candidate
+      redirect_to @candidate
+    end
+
+  end
+
   def dashboard
     set_datetime_range
     set_entered
@@ -652,5 +672,18 @@ class CandidatesController < ApplicationController
     end
     flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
     redirect_to candidate_path(@candidate)
+  end
+
+  def welcome_call_params
+    params.permit(:still_able_to_attend,
+                  :reason,
+                  :comment,
+                  :group_me_reviewed,
+                  :group_me_confirmed,
+                  :cloud_reviewed,
+                  :cloud_confirmed,
+                  :epay_reviewed,
+                  :epay_confirmed
+    )
   end
 end

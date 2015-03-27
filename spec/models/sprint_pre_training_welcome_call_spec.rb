@@ -37,4 +37,5 @@ RSpec.describe SprintPreTrainingWelcomeCall, :type => :model do
       expect(call).not_to be_valid
     end
   end
+
 end

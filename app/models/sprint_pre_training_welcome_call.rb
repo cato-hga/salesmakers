@@ -11,6 +11,9 @@ class SprintPreTrainingWelcomeCall < ActiveRecord::Base
 
   belongs_to :candidate
 
+  enum status: [
+           :pending,
+           :started,
+           :completed
+       ]
 end
-
-# , inclusion: {in: [true, false]}

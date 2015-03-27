@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327161015) do
+ActiveRecord::Schema.define(version: 20150327163021) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -939,11 +939,11 @@ ActiveRecord::Schema.define(version: 20150327161015) do
     t.boolean "cloud_confirmed", default: false, null: false
     t.boolean "cloud_reviewed", default: false, null: false
     t.text "comment"
-    t.boolean "completed", default: false, null: false
     t.boolean "epay_confirmed", default: false, null: false
     t.boolean "epay_reviewed", default: false, null: false
     t.boolean "group_me_confirmed", default: false, null: false
     t.boolean "group_me_reviewed", default: false, null: false
+    t.integer "status", default: 0, null: false
     t.boolean "still_able_to_attend", default: false, null: false
   end
 

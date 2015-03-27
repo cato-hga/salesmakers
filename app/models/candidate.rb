@@ -186,6 +186,10 @@ class Candidate < ActiveRecord::Base
     Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
   end
 
+  def welcome_call?
+    Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_completed_by_advocate]
+  end
+
   private
 
   def geocode_on_production

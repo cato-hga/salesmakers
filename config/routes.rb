@@ -46,6 +46,8 @@ Rails.application.routes.draw do
       get :edit_candidate_details
       patch :update_candidate_details
       post :cant_make_training_location
+      get :welcome_call
+      patch :record_welcome_call
     end
     collection do
       get :dashboard, as: :dashboard
