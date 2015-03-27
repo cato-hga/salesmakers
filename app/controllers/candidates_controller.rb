@@ -28,7 +28,12 @@ class CandidatesController < ApplicationController
   end
 
   def welcome_call
-    @welcome_call = SprintPreTrainingWelcomeCall.new
+    if @candidate.sprint_pre_training_welcome_call
+      @welcome_call = @candidate.sprint_pre_training_welcome_call
+    else
+      @welcome_call = SprintPreTrainingWelcomeCall.new
+    end
+
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
     @training_availability = @candidate.training_availability
   end
@@ -36,6 +41,9 @@ class CandidatesController < ApplicationController
   def record_welcome_call
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
     @training_availability = @candidate.training_availability
+    if @candidate.sprint_pre_training_welcome_call
+      @candidate.sprint_pre_training_welcome_call.delete
+    end
     @welcome_call = SprintPreTrainingWelcomeCall.new
     @welcome_call.still_able_to_attend = params[:still_able_to_attend]
     @welcome_call.comment = params[:comment]
@@ -62,8 +70,8 @@ class CandidatesController < ApplicationController
                              @candidate
         @welcome_call.completed!
       end
-    elsif @welcome_call.save and (@welcome_call.group_me_reviewed and
-        @welcome_call.group_me_confirmed and
+    elsif @welcome_call.save and (@welcome_call.group_me_reviewed? and
+        @welcome_call.group_me_confirmed? and
         @welcome_call.cloud_reviewed and
         @welcome_call.cloud_confirmed and
         @welcome_call.epay_reviewed and

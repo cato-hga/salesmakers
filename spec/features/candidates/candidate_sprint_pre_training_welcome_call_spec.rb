@@ -85,6 +85,7 @@ describe 'Sprint PreTraining Welcome calls' do
       end
     end
   end
+
   context 'when not available for training' do
     let!(:reason) { create :training_unavailability_reason }
     before(:each) do

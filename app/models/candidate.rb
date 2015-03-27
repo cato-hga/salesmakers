@@ -189,6 +189,7 @@ class Candidate < ActiveRecord::Base
 
   def welcome_call?
     return false if self.sprint_pre_training_welcome_call and self.sprint_pre_training_welcome_call.completed?
+    self.sprint_pre_training_welcome_call and (self.sprint_pre_training_welcome_call.pending? or self.sprint_pre_training_welcome_call.started?)
     Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_completed_by_advocate]
   end
 
