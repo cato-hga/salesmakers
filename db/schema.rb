@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150326190311) do
+ActiveRecord::Schema.define(version: 20150327124704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -488,6 +488,7 @@ ActiveRecord::Schema.define(version: 20150326190311) do
     t.datetime "created_at", null: false
     t.string "hours_looking_to_work", null: false
     t.text "ideal_position", null: false
+    t.text "last_two_positions", null: false
     t.text "personality_characteristic", null: false
     t.text "self_motivated_characteristic", null: false
     t.datetime "updated_at", null: false
@@ -967,40 +968,9 @@ ActiveRecord::Schema.define(version: 20150326190311) do
     t.datetime "updated_at"
   end
 
-  create_table "tmp_not_deployed", id: false, force: :cascade do |t|
-    t.string "serial", limit: 255
-  end
-
-  create_table "tmp_payouts", id: false, force: :cascade do |t|
-    t.string "mac", limit: 255
-    t.decimal "payout"
-    t.string "username", limit: 255
-  end
-
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"
-  end
-
-  create_table "tmp_rs", id: false, force: :cascade do |t|
-    t.string "address", limit: 255
-    t.string "city", limit: 255
-    t.decimal "rate"
-    t.string "state", limit: 255
-    t.string "zip", limit: 255
-  end
-
-  create_table "tmp_sdm", id: false, force: :cascade do |t|
-    t.string "city"
-    t.string "hourly_rate"
-    t.string "market"
-    t.string "outsourcer"
-    t.string "region"
-    t.string "schedule"
-    t.string "state"
-    t.string "store_number"
-    t.string "street_1"
-    t.string "zip"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
