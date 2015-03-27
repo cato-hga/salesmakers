@@ -60,7 +60,7 @@ class DocusignConnectController < ApplicationController
       job_offer_detail.update completed: hr_signed_time,
                               completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
-      candidate.paperwork_completed_by_hr!
+      candidate.paperwork_completed_by_hr! unless candidate.onboarded?
     elsif advocate_signed_time
       job_offer_detail.update completed: nil,
                               completed_by_advocate: advocate_signed_time,
