@@ -127,6 +127,7 @@ class Candidate < ActiveRecord::Base
   has_many :candidate_contacts
   has_one :candidate_availability
   has_one :training_availability
+  has_one :sprint_pre_training_welcome_call
 
   default_scope { order(:first_name, :last_name) }
 
@@ -184,6 +185,12 @@ class Candidate < ActiveRecord::Base
 
   def confirmed?
     Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
+  end
+
+  def welcome_call?
+    return false if self.sprint_pre_training_welcome_call and self.sprint_pre_training_welcome_call.completed?
+    self.sprint_pre_training_welcome_call and (self.sprint_pre_training_welcome_call.pending? or self.sprint_pre_training_welcome_call.started?)
+    Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_completed_by_advocate]
   end
 
   private

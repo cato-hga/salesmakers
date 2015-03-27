@@ -127,4 +127,12 @@ class CandidatePolicy < ApplicationPolicy
   def cant_make_training_location?
     create?
   end
+
+  def welcome_call?
+    create?
+  end
+
+  def record_welcome_call?
+    create?
+  end
 end
