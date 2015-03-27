@@ -145,6 +145,11 @@
             - link_to 'Confirm Details and Send Paperwork', confirm_candidate_path(@candidate), class: :button
           - else
             - ''
+        - when 'confirmed'
+          - if @candidate.passed_personality_assessment?
+            - link_to 'Send or Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+          - else
+            - ''
         - when 'paperwork_sent'
           - if @candidate.training_availability == nil
             - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
