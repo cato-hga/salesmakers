@@ -18,8 +18,9 @@
       %h3 Training Attendance
       %p
         Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
+      = hidden_field_tag :training_availability_id, @candidate.training_availability.id
       = label_tag :still_able_to_attend, 'Is the candidate still available for training?'
-      = select_tag :still_able_to_attend, options_for_select([['Yes', true], ['No', false]], @still_able_to_attend), include_blank: true
+      = select_tag :still_able_to_attend, options_for_select([['Yes', true], ['No', false]], @training_availability.able_to_attend)
       #unable_to_attend(style="display:none;")
         = label_tag :training_unavailability_reason_id, 'Why not?'
         = select_tag :training_unavailability_reason_id, options_from_collection_for_select(@training_unavailability_reasons, :id, :name, @training_unavailability_reason_id), include_blank: true

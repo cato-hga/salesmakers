@@ -30,21 +30,57 @@ class CandidatesController < ApplicationController
   def welcome_call
     @welcome_call = SprintPreTrainingWelcomeCall.new
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
+    @training_availability = @candidate.training_availability
   end
 
   def record_welcome_call
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
-    @training_availability = TrainingAvailability.find_by candidate: @candidate
-    @welcome_call = SprintPreTrainingWelcomeCall.new welcome_call_params
+    @training_availability = @candidate.training_availability
+    @welcome_call = SprintPreTrainingWelcomeCall.new
+    @welcome_call.still_able_to_attend = params[:still_able_to_attend]
+    @welcome_call.comment = params[:comment]
+    @welcome_call.group_me_reviewed = params[:group_me_reviewed] if params[:group_me_reviewed]
+    @welcome_call.group_me_confirmed = params[:group_me_confirmed] if params[:group_me_confirmed]
+    @welcome_call.cloud_reviewed = params[:cloud_reviewed] if params[:cloud_reviewed]
+    @welcome_call.cloud_confirmed = params[:cloud_confirmed] if params[:cloud_confirmed]
+    @welcome_call.epay_reviewed = params[:epay_reviewed] if params[:epay_reviewed]
+    @welcome_call.epay_confirmed = params[:epay_confirmed] if params[:epay_confirmed]
     @welcome_call.candidate = @candidate
-    if @welcome_call.save
-      @welcome_call.completed!
+    if @welcome_call.save and @welcome_call.still_able_to_attend == false
+      if params[:training_unavailability_reason_id].blank?
+        flash[:error] = 'A reason must be selected'
+        render :welcome_call and return
+      else
+        @candidate.training_availability.delete
+        reason = TrainingUnavailabilityReason.find_by_id params[:training_unavailability_reason_id]
+        TrainingAvailability.create able_to_attend: false,
+                                    candidate: @candidate,
+                                    comments: @welcome_call.comment,
+                                    training_unavailability_reason: reason
+        flash[:notice] = 'Welcome Call Completed'
+        @current_person.log? 'welcome_call_completed',
+                             @candidate
+        @welcome_call.completed!
+      end
+    elsif @welcome_call.save and (@welcome_call.group_me_reviewed and
+        @welcome_call.group_me_confirmed and
+        @welcome_call.cloud_reviewed and
+        @welcome_call.cloud_confirmed and
+        @welcome_call.epay_reviewed and
+        @welcome_call.epay_confirmed)
       flash[:notice] = 'Welcome Call Completed'
+      @welcome_call.completed!
       @current_person.log? 'welcome_call_completed',
                            @candidate
-      redirect_to @candidate
+    elsif @welcome_call.save
+      @welcome_call.started!
+      flash[:notice] = 'Welcome call updated'
+      @current_person.log? 'welcome_call_started',
+                           @candidate
+    else
+      render :welcome_call and return
     end
-
+    redirect_to @candidate
   end
 
   def dashboard
@@ -674,16 +710,4 @@ class CandidatesController < ApplicationController
     redirect_to candidate_path(@candidate)
   end
 
-  def welcome_call_params
-    params.permit(:still_able_to_attend,
-                  :reason,
-                  :comment,
-                  :group_me_reviewed,
-                  :group_me_confirmed,
-                  :cloud_reviewed,
-                  :cloud_confirmed,
-                  :epay_reviewed,
-                  :epay_confirmed
-    )
-  end
 end
