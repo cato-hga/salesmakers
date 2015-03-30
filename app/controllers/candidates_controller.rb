@@ -211,9 +211,15 @@ class CandidatesController < ApplicationController
         previous_location_area.update offer_extended_count: previous_location_area.offer_extended_count - 1
       end
     end
+
     @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
     @candidate.location_selected! if @candidate.status == 'prescreened'
     flash[:notice] = 'Location chosen successfully.'
+    if @location_area.outsourced?
+      @candidate.accepted!
+      @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
+      redirect_to confirm_candidate_path(@candidate) and return
+    end
     if @back_to_confirm
       redirect_to confirm_candidate_path(@candidate)
     else

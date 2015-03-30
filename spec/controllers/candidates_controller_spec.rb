@@ -251,70 +251,150 @@ describe CandidatesController do
     let!(:candidate) { create :candidate, status: :prescreened }
     let(:location) { create :location }
     let(:area) { create :area }
-    let!(:location_area) { create :location_area, location: location, area: area }
     let!(:second_location_area) { create :location_area, area: area, offer_extended_count: 1 }
 
-    subject {
-      get :set_location_area,
-          id: candidate.id,
-          location_area_id: location_area.id,
-          back_to_confirm: 'false'
-    }
+    context 'for non-outsourced locations' do
+      let!(:location_area) { create :location_area, location: location, area: area, outsourced: false }
+      subject {
+        get :set_location_area,
+            id: candidate.id,
+            location_area_id: location_area.id,
+            back_to_confirm: 'false'
+      }
 
-    it 'redirects to interview schedule' do
-      subject
-      expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
-    end
+      it 'redirects to interview schedule' do
+        subject
+        expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
+      end
 
-    it 'sets the location_area_id on the candidate' do
-      expect {
+      it 'sets the location_area_id on the candidate' do
+        expect {
+          subject
+          candidate.reload
+        }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+      end
+
+      it 'updates the potential_candidate_count on the LocationArea' do
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :potential_candidate_count).from(0).to(1)
+      end
+
+      it 'updates the offer_extended_count on the LocationArea if necessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :accepted
+          subject
+          second_location_area.reload
+        }.to change(second_location_area, :offer_extended_count).from(1).to(0)
+      end
+
+      it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :prescreened
+          subject
+          second_location_area.reload
+        }.not_to change(second_location_area, :offer_extended_count)
+      end
+
+      it 'updates the candidate status' do
         subject
         candidate.reload
-      }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+        expect(candidate.status).to eq('location_selected')
+      end
+
+      it 'sends the candidate the personality assessment URL' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
     end
 
-    it 'updates the potential_candidate_count on the LocationArea' do
-      expect {
+    context 'for outsourced locations' do
+      let!(:location_area) { create :location_area, location: location, area: area, outsourced: true }
+      subject {
+        get :set_location_area,
+            id: candidate.id,
+            location_area_id: location_area.id,
+            back_to_confirm: 'false'
+      }
+
+      it 'redirects to confirmation' do
         subject
-        location_area.reload
-      }.to change(location_area, :potential_candidate_count).from(0).to(1)
-    end
+        expect(response).to redirect_to(confirm_candidate_path(candidate))
+      end
 
-    it 'updates the offer_extended_count on the LocationArea if necessary' do
-      expect {
-        candidate.update location_area: second_location_area,
-                         status: :accepted
+      it 'sets the location_area_id on the candidate' do
+        expect {
+          subject
+          candidate.reload
+        }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+      end
+
+      it 'updates the potential_candidate_count on the LocationArea' do
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :potential_candidate_count).from(0).to(1)
+      end
+
+      it 'updates the offer_extended_count on the LocationArea if necessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :accepted
+          subject
+          second_location_area.reload
+        }.to change(second_location_area, :offer_extended_count).from(1).to(0)
+      end
+
+      it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :prescreened
+          subject
+          second_location_area.reload
+        }.not_to change(second_location_area, :offer_extended_count)
+      end
+
+      it 'sends the candidate the personality assessment URL', pending: 'Dont know if they need the personality assessment' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'creates a log entry', pending: 'Dont know if they need the personality assessment' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+
+      it 'skips to the confirmation page' do
         subject
-        second_location_area.reload
-      }.to change(second_location_area, :offer_extended_count).from(1).to(0)
-    end
+        expect(response).to redirect_to(confirm_candidate_path(candidate))
+      end
 
-    it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
-      expect {
-        candidate.update location_area: second_location_area,
-                         status: :prescreened
+      it 'updates the candidate status' do
         subject
-        second_location_area.reload
-      }.not_to change(second_location_area, :offer_extended_count)
-    end
+        candidate.reload
+        expect(candidate.status).to eq('accepted')
+      end
 
-    it 'updates the candidate status' do
-      subject
-      candidate.reload
-      expect(candidate.status).to eq('location_selected')
-    end
-
-    it 'sends the candidate the personality assessment URL' do
-      expect {
-        subject
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
-    end
-
-    it 'creates a log entry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
+      it 'updates the offer_extended_count of the LocationArea' do
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :offer_extended_count).from(0).to(1)
+      end
     end
   end
 
