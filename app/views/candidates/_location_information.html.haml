@@ -6,6 +6,9 @@
     %p
       %strong Area:
       = area_link(location_area.area)
+    %p
+      %strong Pay Rate:
+      = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : 'N/A'
     %strong Store Address:
     = location.address
     %br
