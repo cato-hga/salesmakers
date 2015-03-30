@@ -178,7 +178,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def passed_personality_assessment?
-    return true if self.personality_assessment_status != 'incomplete'
+    return false if self.personality_assessment_status == 'disqualified'
     location_area = self.location_area || return
     return true unless location_area.area.personality_assessment_url
     self.personality_assessment_completed?
