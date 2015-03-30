@@ -40,12 +40,12 @@ describe 'Candidate location information' do
   end
 
   context 'for candidates past confirmation' do
-    it 'shows an option for confirmed candidates with training coords' do
+    it 'shows an option for confirmed candidates with training coords', pending: 'Taken out, at least temporarily' do
       visit candidate_path paperwork_sent_candidate
       expect(page).to have_button("Candidate can't make training due to distance?")
     end
 
-    describe 'when a candidate cannot make training due to location' do
+    describe 'when a candidate cannot make training due to location', pending: 'Taken out, at least temporarily' do
       let!(:cant_make_location) { create :training_unavailability_reason, name: "Can't Make Training Location" }
       it 'registers a training unavailability reason' do
         click_button "Candidate can't make training due to distance?"
