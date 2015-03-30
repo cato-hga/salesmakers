@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327163021) do
+ActiveRecord::Schema.define(version: 20150330131339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -982,6 +982,13 @@ ActiveRecord::Schema.define(version: 20150327163021) do
 
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
+    t.string "store_number"
+  end
+
+  create_table "tmp_tl", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "location_name"
+    t.string "room"
     t.string "store_number"
   end
 
