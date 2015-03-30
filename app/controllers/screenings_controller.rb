@@ -15,7 +15,7 @@ class ScreeningsController < ApplicationController
     @screening.drug_screening = screening_params[:drug_screening].to_i
     @screening.person = @person
     if @screening.none_selected?
-      flash[:error] = 'You must selected that at least one phase has been initiated.'
+      flash[:error] = 'You must have selected that at least one phase has been initiated.'
       redirect_to edit_person_screening_path(@person) and return
     end
     if @screening.save

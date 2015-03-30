@@ -102,6 +102,8 @@ class CandidatesController < ApplicationController
     set_paperwork_completed_by_advocate
     set_paperwork_completed_by_hr
     set_onboarded
+    set_partially_screened
+    set_fully_screened
   end
 
   def show
@@ -645,6 +647,26 @@ class CandidatesController < ApplicationController
         @datetime_end
     )
     @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
+  end
+
+  def set_partially_screened
+    @partially_screened_range = Candidate.where(
+        "status = ? AND updated_at >= ? AND updated_at <= ?",
+        Candidate.statuses[:partially_screened].to_i,
+        @datetime_start,
+        @datetime_end
+    )
+    @partially_screened_total = Candidate.where(status: Candidate.statuses[:partially_screened].to_i, active: true)
+  end
+
+  def set_fully_screened
+    @fully_screened_range = Candidate.where(
+        "status = ? AND updated_at >= ? AND updated_at <= ?",
+        Candidate.statuses[:fully_screened].to_i,
+        @datetime_start,
+        @datetime_end
+    )
+    @fully_screened_total = Candidate.where(status: Candidate.statuses[:fully_screened].to_i, active: true)
   end
 
   def setup_confirm_form_values
