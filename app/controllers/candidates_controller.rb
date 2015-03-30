@@ -722,6 +722,15 @@ class CandidatesController < ApplicationController
                          @candidate
     @current_person.log? 'dismiss',
                          @candidate
+    if @candidate.interview_schedules.any?
+      active_interviews = @candidate.interview_schedules.where(active: true)
+      for interview in active_interviews do
+        interview.update active: false
+        @current_person.log? 'cancel',
+                             interview,
+                             @candidate
+      end
+    end
     if denial_reason
       @candidate.update active: false,
                         status: :rejected,
