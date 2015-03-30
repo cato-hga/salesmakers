@@ -1,0 +1,43 @@
+- answers = @candidate.interview_answers.last
+.widget
+  .inner
+    %h3 Candidate Interview Answers
+    %p
+      %strong Work History:
+      = answers.work_history
+    %p
+      %strong Why In Market:
+      = answers.why_in_market
+    %p
+      %strong Ideal Position:
+      = answers.ideal_position
+    %p
+      %strong Good At:
+      = answers.what_are_you_good_at
+    %p
+      %strong NOT Good At:
+      = answers.what_are_you_not_good_at
+    %p
+      %strong Willingness:
+      = answers.willingness_characteristic
+    %p
+      %strong Personality:
+      = answers.personality_characteristic
+    %p
+      %strong Self Motivated:
+      = answers.self_motivated_characteristic
+    %p
+      %strong Previous Compensation (1):
+      = answers.compensation_last_job_one
+    %p
+      %strong Previous Compensation (2):
+      = answers.compensation_last_job_two.present? ? answers.compensation_last_job_two : 'N/A'
+    %p
+      %strong Previous Compensation (3):
+      = answers.compensation_last_job_three.present? ? answers.compensation_last_job_three : 'N/A'
+    %p
+      %strong Pay Rate Sought:
+      = answers.compensation_seeking
+    %p
+      %strong Hours Per Week Sought:
+      = answers.hours_looking_to_work

@@ -172,6 +172,10 @@
   - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
     = render 'candidate_details'
 
+  - unless @candidate.interview_answers.empty?
+    = render 'interview_answers'
+
+
 .widget
   .inner
     %h3 Communication Log
