@@ -50,7 +50,8 @@ RSpec.describe InterviewAnswersController, :type => :controller do
                  compensation_last_job_two: 'Comp 2',
                  compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
-                 hours_looking_to_work: 'Hours looking to work'
+                 hours_looking_to_work: 'Hours looking to work',
+                 last_two_positions: 'Last two positions'
              }
       end
 
@@ -59,10 +60,15 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         answer = InterviewAnswer.first
         expect(answer.candidate).to eq(candidate)
       end
+
+      it 'assigns the correct attributes' do
+        subject
+        answer = InterviewAnswer.first
+        expect(answer.last_two_positions).to eq('Last two positions')
+      end
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
       end
-
       it 'updates the candidate status' do
         subject
         candidate.reload
@@ -103,6 +109,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
                  compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
                  hours_looking_to_work: 'Hours looking to work',
+                 last_two_positions: 'Last two positions',
                  candidate: {
                      candidate_denial_reason_id: denial_reason.id
                  }
@@ -113,6 +120,11 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         expect { subject }.to change(InterviewAnswer, :count).by(1)
         answer = InterviewAnswer.first
         expect(answer.candidate).to eq(candidate)
+      end
+      it 'assigns the correct attributes' do
+        subject
+        answer = InterviewAnswer.first
+        expect(answer.last_two_positions).to eq('Last two positions')
       end
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)

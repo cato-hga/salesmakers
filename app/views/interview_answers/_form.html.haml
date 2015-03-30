@@ -10,6 +10,8 @@
     = form_for [@candidate, @interview_answer] do |f|
       = f.label :work_history, "Candidate's work history:"
       = f.text_field :work_history
+      = f.label :last_two_positions, "Specifically: What was the candidate's last two positions?"
+      = f.text_field :last_two_positions
       = f.label :why_in_market, 'Why is candidate in the market?'
       = f.text_field :why_in_market
       = f.label :ideal_position, "Candidate's ideal position and responsibilities"
