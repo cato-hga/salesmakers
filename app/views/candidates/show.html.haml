@@ -7,6 +7,8 @@
     - if @candidate.location_area and @candidate.personality_assessment_status == 'incomplete'
       - unless @candidate.location_area.outsourced?
         = link_to 'Resend Assessment', resend_assessment_candidate_path(@candidate), class: [:button, :inline_button]
+    - if @candidate.welcome_call?
+      = link_to 'Welcome Call', welcome_call_candidate_path(@candidate), class: [:button, :inline_button]
   - else
     = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]
 
@@ -55,7 +57,7 @@
             = @candidate.personality_assessment_score
       - location_area = @candidate.location_area if @candidate.location_area
       - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-        - unless @candidate.passed_personality_assessment? and @candidate.personality_assessment_score.present?
+        - unless @candidate.personality_assessment_score.present?
           - if location_area and (location_area.area.personality_assessment_url or location_area.outsourced?)
             = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
               .row.full-width
@@ -108,19 +110,19 @@
       - status_int = Candidate.statuses[@candidate.status]
       %p
         %strong Paperwork Completed by Candidate:
-        - if status_int < 9
+        - if status_int < 9 and not @candidate.person
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
       %p
         %strong Paperwork Completed by Advocate:
-        - if status_int < 10
+        - if status_int < 10 and not @candidate.person
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
       %p
         %strong Paperwork Completed by HR:
-        - if status_int < 11
+        - if status_int < 11 and not @candidate.person
           %span.sm_red INCOMPLETE
         - else
           %span.sm_green COMPLETE
@@ -145,6 +147,11 @@
             - link_to 'Confirm Details and Send Paperwork', confirm_candidate_path(@candidate), class: :button
           - else
             - ''
+        - when 'confirmed'
+          - if @candidate.passed_personality_assessment?
+            - link_to 'Send or Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+          - else
+            - ''
         - when 'paperwork_sent'
           - if @candidate.training_availability == nil
             - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
@@ -164,6 +171,10 @@
   = render 'availability'
   - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
     = render 'candidate_details'
+
+  - unless @candidate.interview_answers.empty?
+    = render 'interview_answers'
+
 
 .widget
   .inner

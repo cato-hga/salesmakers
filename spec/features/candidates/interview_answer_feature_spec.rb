@@ -38,6 +38,7 @@ describe 'Interview answers' do
       expect(page).to have_content(candidate.first_name)
       expect(page).to have_content(candidate.last_name)
       expect(page).to have_content("Candidate's work history")
+      expect(page).to have_content("Specifically: What was the candidate's last two positions?")
       expect(page).to have_content('Why is candidate in the market')
       expect(page).to have_content("Candidate's ideal position and responsibilities")
       expect(page).to have_content('What is the candidate good at')
@@ -116,6 +117,7 @@ describe 'Interview answers' do
           fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
           fill_in :interview_answer_compensation_seeking, with: 'Seeking comp'
           fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
+          fill_in :interview_answer_last_two_positions, with: 'Last two positions'
         end
         context 'and job extended' do
           before(:each) do

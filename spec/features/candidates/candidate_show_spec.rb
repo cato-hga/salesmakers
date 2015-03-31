@@ -32,6 +32,7 @@ describe 'candidate show page' do
     visit candidate_path(candidate)
   end
 
+
   it 'has a dismissal button' do
     expect(page).to have_content 'Dismiss Candidate'
   end
@@ -74,6 +75,10 @@ describe 'candidate show page' do
 
   it 'shows the candidates details' do
     expect(page).to have_content('Candidate Details')
+  end
+
+  it 'shows the candidates interview answers' do
+    expect(page).to have_content('Candidate Interview Answers')
   end
 
   it 'has an edit button for details' do

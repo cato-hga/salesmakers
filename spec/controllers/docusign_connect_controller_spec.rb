@@ -95,7 +95,10 @@ describe DocusignConnectController do
   end
 
   describe 'when HR completes the paperwork' do
+
     before do
+      job_offer_detail.candidate.onboarded!
+      job_offer_detail.reload
       post :incoming, hr_completion_xml, format: :xml
       job_offer_detail.reload
     end
@@ -109,7 +112,8 @@ describe DocusignConnectController do
     end
 
     it 'sets the candidate status to paperwork_completed_by_hr' do
-      expect(job_offer_detail.candidate.paperwork_completed_by_hr?).to be_truthy
+      expect(job_offer_detail.candidate.paperwork_completed_by_hr?).to be_falsey
+      expect(job_offer_detail.candidate.onboarded?).to be_truthy
     end
   end
 end

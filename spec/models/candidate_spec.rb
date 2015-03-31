@@ -79,6 +79,13 @@ describe Candidate do
         candidate.personality_assessment_completed = true
         expect(candidate.passed_personality_assessment?).to be_truthy
       end
+
+      it 'does not show that the candidate passed the assessment when disqualified' do
+        candidate.personality_assessment_completed = true
+        candidate.personality_assessment_status = 'disqualified'
+        expect(candidate.passed_personality_assessment?).to be_falsey
+      end
+
     end
 
     describe 'when there is no location_area on the candidate' do

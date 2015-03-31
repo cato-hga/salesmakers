@@ -73,6 +73,7 @@ class InterviewAnswersController < ApplicationController
                                              :compensation_seeking,
                                              :hours_looking_to_work,
                                              :extend_offer,
+                                             :last_two_positions,
                                              candidate_attributes: [:candidate_denial_reason_id]
   end
 

@@ -98,6 +98,16 @@ describe 'Candidate dashboard' do
            person: person,
            status: :onboarded
   }
+  let!(:partially_screened_candidate) {
+    create :candidate,
+           person: person,
+           status: :partially_screened
+  }
+  let!(:fully_screened_candidate) {
+    create :candidate,
+           person: person,
+           status: :fully_screened
+  }
   let!(:person) {
     create :person
   }
@@ -109,7 +119,7 @@ describe 'Candidate dashboard' do
 
   it 'shows the number of candidates in entered status' do
     within '#entered' do
-      expect(page).to have_selector('.range_count', text: '11')
+      expect(page).to have_selector('.range_count', text: '13')
       expect(page).to have_selector('.total_count', text: '4')
     end
   end
@@ -157,6 +167,18 @@ describe 'Candidate dashboard' do
   end
   it 'shows the number of candidates onboarded' do
     within '#onboarded' do
+      expect(page).to have_selector('.range_count', text: '3')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates partially screened' do
+    within '#partially_screened' do
+      expect(page).to have_selector('.range_count', text: '1')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates fully screened' do
+    within '#fully_screened' do
       expect(page).to have_selector('.range_count', text: '1')
       expect(page).to have_selector('.total_count', text: '1')
     end

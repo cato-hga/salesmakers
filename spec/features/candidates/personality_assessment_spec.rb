@@ -85,6 +85,15 @@ describe 'personality assessment functionality' do
         expect(page).not_to have_selector('input[value="Record Assessment Score"]')
       end
     end
+
+    describe 'when the assessment is failed' do
+      before { candidate.update personality_assessment_completed: true, personality_assessment_score: 11, personality_assessment_status: :disqualified }
+
+      it 'does not show the form for assessment score' do
+        visit candidate_path(candidate)
+        expect(page).not_to have_selector('input[value="Record Assessment Score"]')
+      end
+    end
   end
 
   context 'when a personality assessment completion score has not been recorded, but the candidate was marked as completed' do

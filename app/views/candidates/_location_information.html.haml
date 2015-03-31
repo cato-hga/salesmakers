@@ -6,28 +6,31 @@
     %p
       %strong Area:
       = area_link(location_area.area)
+    %p
+      %strong Pay Rate:
+      = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : 'N/A'
     %strong Store Address:
     = location.address
     %br
     %br
-    - if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
-      %strong Training Address:
-      = @training_location.address + ', Room: ' + @training_location.room
-      %br
-      %br
-      %p
-        %strong Training Schedule:
-        %br
-        Monday, March 30th - Friday, April 3rd: 8am - 6pm
-        %br
-        Monday, April 6th - Thursday, April 9th: 8am - 6pm
-      - if @training_location and @training_location.latitude and @training_location.longitude
-        - distance = @training_location.geographic_distance(location).round(2)
-        %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
-        - if @candidate.confirmed? and not @candidate.training_availability.present?
-          = button_to "Candidate can't make training due to distance?", cant_make_training_location_candidate_path(@candidate), data: { confirm: 'This will mark the candidates as unable to make their training. Are you sure?' }, class: [:button]
-      - if @training_location.virtual
-        %p This is a virtual training class. Details to come.
+    -#- if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
+    -#  %strong Training Address:
+    -#  = @training_location.address + ', Room: ' + @training_location.room
+    -#  %br
+    -#  %br
+    -#  %p
+    -#    %strong Training Schedule:
+    -#    %br
+    -#    Monday, March 30th - Friday, April 3rd: 8am - 6pm
+    -#    %br
+    -#    Monday, April 6th - Thursday, April 9th: 8am - 6pm
+    -#  - if @training_location and @training_location.latitude and @training_location.longitude
+    -#    - distance = @training_location.geographic_distance(location).round(2)
+    -#    %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
+    -#    - if @candidate.confirmed? and not @candidate.training_availability.present?
+    -#      = button_to "Candidate can't make training due to distance?", cant_make_training_location_candidate_path(@candidate), data: { confirm: 'This will mark the candidates as unable to make their training. Are you sure?' }, class: [:button]
+    -#  - if @training_location.virtual
+    -#    %p This is a virtual training class. Details to come.
     - target = 0
     - potentials = 0
     - current = 0

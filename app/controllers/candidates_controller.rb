@@ -19,12 +19,76 @@ class CandidatesController < ApplicationController
     region = AreaType.where name: 'Sprint Postpaid Region'
     @regions = Area.where area_type: region
     statuses = Candidate.statuses
-    @search = Candidate.where("status >= 8").search(params[:q])
+    @search = Candidate.where("status >= 10").search(params[:q])
     @statuses = []
     for status in statuses do
-      @statuses << status if status[1] >= 8
+      @statuses << status if status[1] >= 10
     end
     @candidates = @search.result.page(params[:page])
+  end
+
+  def welcome_call
+    if @candidate.sprint_pre_training_welcome_call
+      @welcome_call = @candidate.sprint_pre_training_welcome_call
+    else
+      @welcome_call = SprintPreTrainingWelcomeCall.new
+    end
+
+    @training_unavailability_reasons = TrainingUnavailabilityReason.all
+    @training_availability = @candidate.training_availability
+  end
+
+  def record_welcome_call
+    @training_unavailability_reasons = TrainingUnavailabilityReason.all
+    @training_availability = @candidate.training_availability
+    if @candidate.sprint_pre_training_welcome_call
+      @candidate.sprint_pre_training_welcome_call.delete
+    end
+    @welcome_call = SprintPreTrainingWelcomeCall.new
+    @welcome_call.still_able_to_attend = params[:still_able_to_attend]
+    @welcome_call.comment = params[:comment]
+    @welcome_call.group_me_reviewed = params[:group_me_reviewed] if params[:group_me_reviewed]
+    @welcome_call.group_me_confirmed = params[:group_me_confirmed] if params[:group_me_confirmed]
+    @welcome_call.cloud_reviewed = params[:cloud_reviewed] if params[:cloud_reviewed]
+    @welcome_call.cloud_confirmed = params[:cloud_confirmed] if params[:cloud_confirmed]
+    @welcome_call.epay_reviewed = params[:epay_reviewed] if params[:epay_reviewed]
+    @welcome_call.epay_confirmed = params[:epay_confirmed] if params[:epay_confirmed]
+    @welcome_call.candidate = @candidate
+    if @welcome_call.save and @welcome_call.still_able_to_attend == false
+      if params[:training_unavailability_reason_id].blank?
+        flash[:error] = 'A reason must be selected'
+        render :welcome_call and return
+      else
+        @candidate.training_availability.delete
+        reason = TrainingUnavailabilityReason.find_by_id params[:training_unavailability_reason_id]
+        TrainingAvailability.create able_to_attend: false,
+                                    candidate: @candidate,
+                                    comments: @welcome_call.comment,
+                                    training_unavailability_reason: reason
+        flash[:notice] = 'Welcome Call Completed'
+        @current_person.log? 'welcome_call_completed',
+                             @candidate
+        @welcome_call.completed!
+      end
+    elsif @welcome_call.save and (@welcome_call.group_me_reviewed? and
+        @welcome_call.group_me_confirmed? and
+        @welcome_call.cloud_reviewed and
+        @welcome_call.cloud_confirmed and
+        @welcome_call.epay_reviewed and
+        @welcome_call.epay_confirmed)
+      flash[:notice] = 'Welcome Call Completed'
+      @welcome_call.completed!
+      @current_person.log? 'welcome_call_completed',
+                           @candidate
+    elsif @welcome_call.save
+      @welcome_call.started!
+      flash[:notice] = 'Welcome call updated'
+      @current_person.log? 'welcome_call_started',
+                           @candidate
+    else
+      render :welcome_call and return
+    end
+    redirect_to @candidate
   end
 
   def dashboard
@@ -38,6 +102,8 @@ class CandidatesController < ApplicationController
     set_paperwork_completed_by_advocate
     set_paperwork_completed_by_hr
     set_onboarded
+    set_partially_screened
+    set_fully_screened
   end
 
   def show
@@ -224,7 +290,7 @@ class CandidatesController < ApplicationController
 
   def send_paperwork
     geocode_if_necessary
-    if Rails.env.staging?
+    if Rails.env.staging? or Rails.env.development?
       envelope_response = 'STAGING'
     else
       envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
@@ -583,6 +649,26 @@ class CandidatesController < ApplicationController
     @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
   end
 
+  def set_partially_screened
+    @partially_screened_range = Candidate.where(
+        "status = ? AND updated_at >= ? AND updated_at <= ?",
+        Candidate.statuses[:partially_screened].to_i,
+        @datetime_start,
+        @datetime_end
+    )
+    @partially_screened_total = Candidate.where(status: Candidate.statuses[:partially_screened].to_i, active: true)
+  end
+
+  def set_fully_screened
+    @fully_screened_range = Candidate.where(
+        "status = ? AND updated_at >= ? AND updated_at <= ?",
+        Candidate.statuses[:fully_screened].to_i,
+        @datetime_start,
+        @datetime_end
+    )
+    @fully_screened_total = Candidate.where(status: Candidate.statuses[:fully_screened].to_i, active: true)
+  end
+
   def setup_confirm_form_values
     @training_unavailability_reasons = TrainingUnavailabilityReason.all
     @shirt_gender = params[:shirt_gender]
@@ -653,4 +739,5 @@ class CandidatesController < ApplicationController
     flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
     redirect_to candidate_path(@candidate)
   end
+
 end

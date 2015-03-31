@@ -6,7 +6,8 @@
     = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
     = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
-    = f.select :status_gteq, options_for_select([['Enable', 10], ['Disable', 8]]), include_blank: 'Support Filter'
+    -#- selected_filter = params['q'] ? params['q']['status_gteq'] : nil
+    -#= f.select :status_gteq, options_for_select([['Enable', 10], ['Disable', 8]], selected_filter), include_blank: 'Support Filter'
     = f.text_field :first_name_cont, placeholder: 'First name'
     = f.text_field :last_name_cont, placeholder: 'Last name'
     = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'

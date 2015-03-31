@@ -39,6 +39,7 @@ class Candidate < ActiveRecord::Base
       "Oklahoma" => "OK",
       "Oregon" => "OR",
       "Pennsylvania" => "PA",
+      "Puerto Rico" => "PR",
       "Rhode Island" => "RI",
       "South Carolina" => "SC",
       "South Dakota" => "SD",
@@ -127,6 +128,7 @@ class Candidate < ActiveRecord::Base
   has_many :candidate_contacts
   has_one :candidate_availability
   has_one :training_availability
+  has_one :sprint_pre_training_welcome_call
 
   default_scope { order(:first_name, :last_name) }
 
@@ -176,7 +178,8 @@ class Candidate < ActiveRecord::Base
   end
 
   def passed_personality_assessment?
-    return true if self.personality_assessment_status != 'incomplete'
+    return false if self.personality_assessment_status == 'disqualified'
+    return true if self.personality_assessment_status == 'qualified'
     location_area = self.location_area || return
     return true unless location_area.area.personality_assessment_url
     self.personality_assessment_completed?
@@ -184,6 +187,12 @@ class Candidate < ActiveRecord::Base
 
   def confirmed?
     Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
+  end
+
+  def welcome_call?
+    return false if self.sprint_pre_training_welcome_call and self.sprint_pre_training_welcome_call.completed?
+    self.sprint_pre_training_welcome_call and (self.sprint_pre_training_welcome_call.pending? or self.sprint_pre_training_welcome_call.started?)
+    Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_completed_by_advocate]
   end
 
   private
