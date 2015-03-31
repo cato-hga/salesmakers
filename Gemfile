@@ -39,6 +39,7 @@ gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploa
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a flat ruby file.
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form
+gem 'postmark', '1.5.0' # API wrapper for Postmark
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'spring-commands-rspec', '1.0.4' # Was 1.0.2 01/21/2015 - Spring RSpec additions
 gem 'chronic', '0.10.2' # Natural language date/time parse

@@ -1,0 +1,13 @@
+%p
+  The email address
+  = mail_to @email_address
+  = succeed '.' do
+    with the subject
+    %strong
+      %em= @bounced_subject
+    has bounced back
+    - if @candidate
+      for candidate
+      = link_to @candidate.name, candidate_url(@candidate)
+%p
+  Please contact the person by phone and update the email address.
