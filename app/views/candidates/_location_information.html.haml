@@ -9,6 +9,9 @@
     %p
       %strong Pay Rate:
       = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : 'N/A'
+    %p
+      %strong Store #:
+      = location.store_number if location.store_number
     %strong Store Address:
     = location.address
     %br
