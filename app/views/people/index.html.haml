@@ -83,5 +83,5 @@
   = table header, rows
 
 - content_for :footer do
-  .left= csv_link csv_people_path(params.merge(format: :csv)), @search.result.count
+  .left= csv_link csv_people_path(controller: :people, action: :index), @search.result.count
   = paginate @people
