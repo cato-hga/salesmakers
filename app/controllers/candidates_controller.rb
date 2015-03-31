@@ -256,41 +256,6 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def confirm
-    #just uses get_candidate
-    @training_availability = TrainingAvailability.new
-  end
-
-  def record_confirmation
-    @training_availability = TrainingAvailability.new
-    if @shirt_gender.blank? or @shirt_size.blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :confirm and return
-    end
-    @training_availability.able_to_attend = @able_to_attend
-    @training_availability.candidate = @candidate
-    set_unable_to_attend_params unless @able_to_attend
-    if @training_availability.save
-      @candidate.shirt_size = params[:shirt_size]
-      @candidate.shirt_gender = params[:shirt_gender]
-      @candidate.save
-      @current_person.log? 'confirmed',
-                           @candidate
-      @candidate.confirmed!
-      if @candidate.active? and @candidate.job_offer_details.any?
-        flash[:notice] = 'Confirmation recorded'
-        redirect_to candidate_path @candidate
-      elsif @candidate.active? and @candidate.passed_personality_assessment?
-        redirect_to send_paperwork_candidate_path(@candidate)
-      else
-        flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
-        redirect_to candidate_path(@candidate)
-      end
-    else
-      render :confirm
-    end
-  end
-
   def edit_candidate_details
     #get candidate
     @training_availability = @candidate.training_availability

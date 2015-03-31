@@ -6,6 +6,10 @@ class TrainingAvailability < ActiveRecord::Base
   belongs_to :training_unavailability_reason
   belongs_to :candidate
 
+  def self.policy_class
+    CandidatePolicy
+  end
+
   private
 
   def unavailable_fields
