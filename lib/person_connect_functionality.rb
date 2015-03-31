@@ -60,7 +60,7 @@ module PersonConnectFunctionality
         sprint: (project_name == 'Sprint'),
         sprint_postpaid: (project_name == 'Sprint Postpaid'),
         comcast: (project_name == 'Comcast'),
-        comcast: (project_name == 'DirecTV')
+        directv: (project_name == 'DirecTV')
     }
   end
 
