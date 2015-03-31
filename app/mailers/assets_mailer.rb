@@ -2,6 +2,7 @@ class AssetsMailer < ApplicationMailer
   default from: 'assetreturns@salesmakersinc.com'
 
   def recoup_mailer(device, person, notes)
+    return unless device and person
     @device = device
     @notes = notes
     @person_name = person.display_name
