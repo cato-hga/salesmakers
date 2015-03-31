@@ -981,6 +981,11 @@ ActiveRecord::Schema.define(version: 20150330182721) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_candidates", id: false, force: :cascade do |t|
+    t.integer "cid"
+    t.string "state"
+  end
+
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"

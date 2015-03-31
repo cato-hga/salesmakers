@@ -87,7 +87,6 @@ class VonageAccountStatusChangesImporter
       generate_refund(vonage_account_status_change)
       true
     else
-      puts vonage_account_status_change.errors.full_messages.join(', ')
       false
     end
   end
