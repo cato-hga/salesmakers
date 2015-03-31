@@ -154,7 +154,7 @@
           - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
         - when 'accepted'
           - if @candidate.job_offer_details == []
-            - link_to 'Confirm Details and Send Paperwork', confirm_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
           - else
             - ''
         - when 'confirmed'
