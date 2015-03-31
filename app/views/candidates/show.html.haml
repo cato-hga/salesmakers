@@ -57,7 +57,7 @@
             = @candidate.personality_assessment_score
       - location_area = @candidate.location_area if @candidate.location_area
       - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-        - unless @candidate.passed_personality_assessment? and @candidate.personality_assessment_score.present?
+        - unless @candidate.personality_assessment_score.present?
           - if location_area and (location_area.area.personality_assessment_url or location_area.outsourced?)
             = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
               .row.full-width
@@ -171,6 +171,10 @@
   = render 'availability'
   - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
     = render 'candidate_details'
+
+  - unless @candidate.interview_answers.empty?
+    = render 'interview_answers'
+
 
 .widget
   .inner

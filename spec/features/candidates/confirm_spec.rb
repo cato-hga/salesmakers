@@ -18,7 +18,7 @@ describe 'confirming details' do
     select 'XL', from: 'Shirt size'
   end
 
-  it 'contains the candidates training location' do
+  it 'contains the candidates training location', pending: 'taken out temporarily' do
     expect(page).to have_content 'Training Location'
     expect(page).to have_content training_location.name
     expect(page).to have_content training_location.address

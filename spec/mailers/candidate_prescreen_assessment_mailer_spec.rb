@@ -20,4 +20,18 @@ describe CandidatePrescreenAssessmentMailer do
       expect(mail.body).to include(link)
     end
   end
+
+  describe 'failed_assessment_mailer' do
+    let(:candidate) { create :candidate }
+    let(:mail) { CandidatePrescreenAssessmentMailer.failed_assessment_mailer(candidate) }
+    it 'has the correct from address' do
+      expect(mail.from).to include('personalityassessment@salesmakersinc.com')
+    end
+    it 'has the correct subject' do
+      expect(mail.subject).to include('Sprint Personality Assessment Notification')
+    end
+    it 'sends an email to the candidate' do
+      expect(mail.to).to include(candidate.email)
+    end
+  end
 end

@@ -1,6 +1,9 @@
 - if params['q'] and not params['q']['candidate_source_id_eq'].blank?
   - candidate_source = CandidateSource.find params['q']['candidate_source_id_eq']
   - title "#{candidate_source.name} Candidates"
+- if params['q'] and not params['q']['location_area_area_id_eq'].blank?
+  - area = Area.find params['q']['location_area_area_id_eq']
+  - title "#{area.name} Candidates"
 - content_for :action_buttons do
   - new_button new_candidate_path
 - content_for :header do

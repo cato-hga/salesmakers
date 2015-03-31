@@ -136,6 +136,34 @@
           .total_count.sm_green= @onboarded_total.count
           .small.centered_text.vertical_space
             Active in Status
+  .widget#partially_screened
+    .inner
+      %h3 Partially Screened
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @partially_screened_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @partially_screened_total.count
+          .small.centered_text.vertical_space
+            Active in Status
+  .widget#fully_screened
+    .inner
+      %h3 Fully Screened
+      .row.full-width
+        .large-6.columns
+          .range_count.sm_green= @fully_screened_range.count
+          .small.centered_text.vertical_space
+            = date_start
+            \-
+            = date_end
+        .large-6.columns
+          .total_count.sm_green= @fully_screened_total.count
+          .small.centered_text.vertical_space
+            Active in Status
 
 :javascript
   setTimeout(function() {
