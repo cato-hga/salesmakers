@@ -5,5 +5,5 @@
     = paginate @comcast_sales
     = render partial: 'comcast_sales/installations_table', locals: { sales: @comcast_sales }
 - content_for :footer do
-  .left= csv_link csv_comcast_sales_path(params.merge(format: :csv)), @search.result.count
+  .left= csv_link csv_comcast_sales_path(controller: :comcast_sales, action: :index), @search.result.count
   = paginate @comcast_sales

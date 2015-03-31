@@ -663,6 +663,9 @@ describe CandidatesController do
 
   describe 'PUT record_assessment_score' do
     let(:candidate) { create :candidate, status: :accepted }
+    let!(:interview_schedule_one) { create :interview_schedule, candidate: candidate }
+    let!(:interview_schedule_two) { create :interview_schedule, candidate: candidate }
+
     let!(:failed_denial_reason) {
       create :candidate_denial_reason,
              name: "Personality assessment score does not qualify for employment",
@@ -682,7 +685,7 @@ describe CandidatesController do
       it 'creates a log entry' do
         expect {
           subject
-        }.to change(LogEntry, :count).by(2)
+        }.to change(LogEntry, :count).by(4) #Creating log entries for interview cancelling
       end
 
       it "sets the candidate's denial reason" do
@@ -714,6 +717,26 @@ describe CandidatesController do
         expect {
           subject
         }.to change(candidate, :personality_assessment_status).to('disqualified')
+      end
+
+      it 'sends an email to the candidate' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'cancels any scheduled interviews' do
+        expect {
+          subject
+          interview_schedule_one.reload
+        }.to change(interview_schedule_one, :active).to false
+        expect {
+          subject
+          interview_schedule_two.reload
+        }.to change(interview_schedule_two, :active).to false
       end
     end
 
@@ -843,7 +866,6 @@ describe CandidatesController do
 
   describe 'PATCH update_candidate_details' do
     let!(:candidate) { create :candidate,
-                              training_availability: available,
                               shirt_size: 'M',
                               shirt_gender: 'Female',
                               training_availability: available

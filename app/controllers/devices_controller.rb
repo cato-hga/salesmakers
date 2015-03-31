@@ -99,8 +99,7 @@ class DevicesController < ApplicationController
       flash[:notice] = 'Lines swapped!'
       redirect_to @device
     else
-      puts @device.errors.full_messages
-      puts @second_device.errors.full_messages
+      render :line_swap_results
     end
   end
 

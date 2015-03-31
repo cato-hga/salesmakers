@@ -30,9 +30,9 @@ Rails.application.routes.draw do
       end
     end
     member do
-      get 'select_location/:back_to_confirm', to: :select_location, as: :select_location
-      get 'set_location_area/:location_area_id/:back_to_confirm', to: :set_location_area, as: :set_location_area
-      get :send_paperwork, to: :send_paperwork, as: :send_paperwork
+      get 'select_location/:back_to_confirm', action: :select_location, as: :select_location
+      get 'set_location_area/:location_area_id/:back_to_confirm', action: :set_location_area, as: :set_location_area
+      get :send_paperwork, action: :send_paperwork, as: :send_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
       get :confirm, as: :confirm
@@ -57,7 +57,7 @@ Rails.application.routes.draw do
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
       collection do
-        get 'new_call', to: :new_call, as: :new_call
+        get 'new_call', action: :new_call, as: :new_call
         put :save_call_results, as: :save_call_results
       end
     end

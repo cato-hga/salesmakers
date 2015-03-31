@@ -24,9 +24,7 @@ class ConnectOrder < RealConnectModel
 
   scope :today, -> {
     beginning_date_time = Date.today.beginning_of_day.apply_eastern_offset + 3.hours
-    puts beginning_date_time
     end_date_time = Date.today.end_of_day.apply_eastern_offset + 3.hours
-    puts end_date_time
     where('dateordered >= ?', beginning_date_time).where('dateordered < ?', end_date_time)
   }
 
