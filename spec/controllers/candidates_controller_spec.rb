@@ -735,7 +735,7 @@ describe CandidatesController do
         }.to change(interview_schedule_one, :active).to false
         expect {
           subject
-          interview_schedule_one.reload
+          interview_schedule_two.reload
         }.to change(interview_schedule_two, :active).to false
       end
     end

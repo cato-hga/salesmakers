@@ -731,6 +731,7 @@ class CandidatesController < ApplicationController
                              @candidate
       end
     end
+    CandidatePrescreenAssessmentMailer.failed_assessment_mailer(@candidate).deliver_later
     if denial_reason
       @candidate.update active: false,
                         status: :rejected,
