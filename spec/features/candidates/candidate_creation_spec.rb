@@ -12,6 +12,7 @@ describe 'Candidate creation' do
   let(:location) { create :location }
   let!(:project) { create :project, name: 'Comcast Retail' }
   let!(:source) { create :candidate_source }
+  let!(:outsourced) { create :candidate_source, name: 'Outsourced' }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -58,6 +59,28 @@ describe 'Candidate creation' do
         end
       end
       context 'with valid data' do
+
+        context 'for outsourced employees' do
+          before(:each) do
+            within '#content' do
+              fill_in 'First name', with: 'Test'
+              fill_in 'Last name', with: 'Candidate'
+              fill_in 'Mobile phone', with: '727-498-5180'
+              fill_in 'Email address', with: 'test@test.com'
+              fill_in 'Zip Code', with: '33701'
+              select outsourced.name, from: 'Candidate source'
+              click_on 'Save and start Prescreen'
+            end
+          end
+
+          it 'displays a flash message' do
+            expect(page).to have_content 'Outsourced candidate saved!'
+          end
+          it 'redirects to the prescreen questions page' do
+            expect(page).to have_content 'Select Location for'
+          end
+        end
+
         context 'and starting prescreen' do
           before(:each) do
             within '#content' do

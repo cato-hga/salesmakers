@@ -161,6 +161,47 @@ describe CandidatesController do
       end
     end
 
+    context 'success, outsourced' do
+      let!(:outsourced) { create :candidate_source, name: 'Outsourced' }
+      subject {
+        post :create,
+             candidate: {
+                 first_name: 'Test',
+                 last_name: 'Candidate',
+                 mobile_phone: '7274985180',
+                 email: 'test@test.com',
+                 zip: '33701',
+                 candidate_source_id: outsourced.id
+             },
+             start_prescreen: 'true'
+      }
+      it 'creates a candidate' do
+        expect { subject }.to change(Candidate, :count).by(1)
+      end
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+      it 'sets the candidate as entered' do
+        subject
+        expect(Candidate.first.entered?).to be_truthy
+      end
+      it 'redirects to select location' do
+        subject
+        candidate = Candidate.first
+        expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
+      end
+      it 'saves the candidates recruiter/person' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.created_by).to eq(recruiter)
+      end
+      it 'saves the candidates source' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.candidate_source).to eq(outsourced)
+      end
+    end
+
     context 'failure' do
       subject {
         post :create,

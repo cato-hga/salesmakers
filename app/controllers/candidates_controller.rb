@@ -127,11 +127,25 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     @projects = Project.all
     @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
+    outsourced = CandidateSource.find_by name: 'Outsourced'
     @prescreen = params[:start_prescreen] == 'true' ? true : false
-    if @candidate.save and @prescreen
+    if @candidate_source == outsourced
+      handle_outsourced
+    elsif @candidate.save and @prescreen
       create_and_prescreen
     elsif @candidate.save
       create_without_prescreen
+    else
+      render :new
+    end
+  end
+
+  def handle_outsourced
+    if @candidate.save
+      @current_person.log? 'create',
+                           @candidate
+      flash[:notice] = 'Outsourced candidate saved!'
+      redirect_to select_location_candidate_path(@candidate, 'false')
     else
       render :new
     end
