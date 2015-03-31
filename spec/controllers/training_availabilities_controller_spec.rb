@@ -181,7 +181,8 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
     let!(:candidate) { create :candidate,
                               shirt_size: 'M',
                               shirt_gender: 'Female',
-                              training_availability: available
+                              training_availability: available,
+                              location_area: location_area
 
     }
     let!(:reason) { create :training_unavailability_reason }

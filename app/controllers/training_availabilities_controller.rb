@@ -2,20 +2,15 @@ class TrainingAvailabilitiesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :search_bar
-  before_action :get_candidate
+  before_action :setup_params
   layout 'candidates'
 
   def new
-    @training_availability = TrainingAvailability.new
-    @location_area = @candidate.location_area
-    @location = @location_area.location
-    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
-    @unavailability_reasons = TrainingUnavailabilityReason.all
-    @comments = @candidate.training_availability if @candidate.training_availability
+
   end
 
   def create
-    @training_availability = TrainingAvailability.new
+    @training_availability = TrainingAvailability.new training_availability_params
     if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
       flash[:error] = 'You must select a shirt gender and size to proceed.'
       render :new and return
@@ -48,16 +43,10 @@ class TrainingAvailabilitiesController < ApplicationController
   end
 
   def edit
-    @training_availability = @candidate.training_availability
-    @location_area = @candidate.location_area
-    @location = @location_area.location
-    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
-    @unavailability_reasons = TrainingUnavailabilityReason.all
-    @comments = @candidate.training_availability if @candidate.training_availability
+
   end
 
   def update
-    @training_availability = @candidate.training_availability
     if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
       flash[:error] = 'You must select a shirt gender and size to proceed.'
       render :edit and return
@@ -83,12 +72,37 @@ class TrainingAvailabilitiesController < ApplicationController
 
   private
 
+  def setup_params
+    @candidate = Candidate.find params[:candidate_id]
+    if @candidate.training_availability
+      @training_availability = @candidate.training_availability
+      @comments = @candidate.training_availability.comments
+    else
+      @training_availability = TrainingAvailability.new
+      @comments = ''
+    end
+    @location_area = @candidate.location_area
+    @location = @location_area.location
+    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
+    @unavailability_reasons = TrainingUnavailabilityReason.all
+  end
+
+  def training_availability_params
+    params.require(:training_availability).permit(:able_to_attend,
+                                                  :training_unavailability_reason_id,
+                                                  :comments,
+                                                  candidate_attributes: [
+                                                      :shirt_size,
+                                                      :shirt_gender
+                                                  ]
+
+    )
+  end
   def do_authorization
     authorize Candidate.new
   end
 
   def get_candidate
-    @candidate = Candidate.find params[:candidate_id]
   end
 
   def search_bar
