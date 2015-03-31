@@ -866,7 +866,6 @@ describe CandidatesController do
 
   describe 'PATCH update_candidate_details' do
     let!(:candidate) { create :candidate,
-                              training_availability: available,
                               shirt_size: 'M',
                               shirt_gender: 'Female',
                               training_availability: available
