@@ -1,0 +1,99 @@
+- title 'Confirm Details'
+- content_for :action_buttons do
+  - if @candidate.active?
+    = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
+
+
+- if @training_availability.errors.any?
+  - @training_availability.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+
+.widgets
+  - if @location
+    .widget
+      .inner
+        %h3 Current Location
+        %p
+          The currently selected location is
+          %strong= @location.address
+        %p
+          %strong Area:
+          = area_link @candidate.location_area.area
+        %p
+          %strong Hourly Rate:
+          = number_to_currency(@candidate.location_area.hourly_rate)
+
+        - if @location_area and @location_area.radio_shack_location_schedules.any?
+          - @schedule = []
+          - schedule_count = 0
+          - for schedule in @location_area.radio_shack_location_schedules do
+            - if @location_area.radio_shack_location_schedules.count > 1
+              - name = "<strong>Schedule #{(schedule_count + 1)}</strong><br/>"
+            - else
+              - name = ''
+            - monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
+            - tuesday = schedule.tuesday > 0 ? ('Tu ' + schedule.tuesday.to_s + '<br/>') : ''
+            - wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
+            - thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
+            - friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
+            - saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
+            - sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
+            - @schedule << (
+            - name + monday + tuesday + wednesday + thursday + friday + saturday + sunday
+            - ).html_safe
+            - schedule_count += 1
+        - unless @schedule.blank?
+          %p
+            %strong Store Schedule(s):
+            %br
+              = raw [@schedule].join.html_safe
+        %p
+          %br/
+          = link_to 'Change Location', select_location_candidate_path(@candidate, 'true'), class: [:button]
+
+  = form_for [@candidate, @training_availability] do |f|
+    .widget
+      .inner
+        %h3 Shirt Information
+        = f.fields_for @candidate do |candidate|
+          = candidate.label :shirt_gender, 'Gender'
+          = candidate.select :shirt_gender, options_for_select([['Male', 'Male'], ['Female', 'Female']], @shirt_gender), include_blank: true
+          = candidate.label :shirt_size
+          = candidate.select :shirt_size, options_for_select([['S', 'S'], ['M', 'M'], ['L', 'L'], ['XL', 'XL'], ['2XL', '2XL'], ['3XL', '3XL'], ['4XL', '4XL']], @shirt_size), include_blank: true
+    .widget
+      .inner
+        %h3 Training Attendance
+        %p
+          Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
+        = f.label :able_to_attend, 'Is the candidate able to attend the training?'
+        = f.select :able_to_attend, options_for_select([['Yes', true], ['No', false]], @able_to_attend), include_blank: true
+        #unable_to_attend(style="display:none;")
+          = f.label :training_unavailability_reason_id, 'Why not?'
+          = f.select :training_unavailability_reason_id, options_from_collection_for_select(@unavailability_reasons, :id, :name), include_blank: true
+          = f.label :comments
+          = f.text_area :comments, rows: 5
+    -#.widget
+    -#  .inner
+    -#    %h3 Training Location
+    -#    - if training_location
+    -#      %p
+    -#        %strong= training_location.name
+    -#        %br
+    -#        = training_location.address + ', Room: ' + training_location.room
+    -#      %p
+    -#        %strong Training Schedule:
+    -#        %br
+    -#        Monday, March 30th - Friday, April 3rd: 8am - 6pm
+    -#        %br
+    -#        Monday, April 6th - Thursday, April 9th: 8am - 6pm
+    -#      - if training_location and training_location.latitude and training_location.longitude
+    -#        - distance = training_location.geographic_distance(location).round(2)
+    -#        %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
+    -#      - if training_location.virtual
+    -#        %p This is a virtual training class. Details to come.
+    -#    - else
+    -#      %p There is not a training location in our system for this location, yet.
+
+
+    = f.submit 'Confirm and Save', class: [:button, :success]

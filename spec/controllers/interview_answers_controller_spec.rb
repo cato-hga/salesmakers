@@ -86,7 +86,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
 
       it 'redirects to confirmation page' do
         subject
-        expect(response).to redirect_to(confirm_candidate_path(candidate))
+        expect(response).to redirect_to(new_candidate_training_availability_path(candidate))
       end
     end
 

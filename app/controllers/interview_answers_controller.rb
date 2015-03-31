@@ -40,7 +40,7 @@ class InterviewAnswersController < ApplicationController
       location_area.update offer_extended_count: location_area.offer_extended_count + 1
     end
     flash[:notice] = 'Interview answers saved.'
-    redirect_to confirm_candidate_path(@candidate)
+    redirect_to new_candidate_training_availability_path(@candidate)
   end
 
   def do_not_extend_offer

@@ -35,8 +35,10 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
         post :create,
              candidate_id: candidate.id,
              training_availability: {
-                 shirt_gender: 'Male',
-                 shirt_size: 'L',
+                 candidate: {
+                     shirt_gender: 'Male',
+                     shirt_size: 'L'
+                 },
                  able_to_attend: 'true'
              }
       end
@@ -89,8 +91,10 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
         post :create,
              candidate_id: candidate.id,
              training_availability: {
-                 shirt_gender: 'Male',
-                 shirt_size: 'L',
+                 candidate: {
+                     shirt_gender: 'Male',
+                     shirt_size: 'L'
+                 },
                  able_to_attend: 'false',
                  training_unavailability_reason_id: reason.id,
                  comments: 'Test'
@@ -131,8 +135,10 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
         post :create,
              candidate_id: candidate_with_paper.id,
              training_availability: {
-                 shirt_gender: 'Male',
-                 shirt_size: 'L',
+                 candidate: {
+                     shirt_gender: 'Male',
+                     shirt_size: 'L'
+                 },
                  able_to_attend: 'true'
              }
       end

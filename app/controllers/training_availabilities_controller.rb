@@ -6,11 +6,16 @@ class TrainingAvailabilitiesController < ApplicationController
 
   def new
     @training_availability = TrainingAvailability.new
+    @location_area = @candidate.location_area
+    @location = @location_area.location
+    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
+    @unavailability_reasons = TrainingUnavailabilityReason.all
+    @comments = @candidate.training_availability if @candidate.training_availability
   end
 
   def create
     @training_availability = TrainingAvailability.new
-    if params[:training_availability][:shirt_gender].blank? or params[:training_availability][:shirt_size].blank?
+    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
       flash[:error] = 'You must select a shirt gender and size to proceed.'
       render :new and return
     end
@@ -18,11 +23,11 @@ class TrainingAvailabilitiesController < ApplicationController
     @training_availability.candidate = @candidate
     unless params[:training_availability][:able_to_attend] == 'true'
       @training_availability.training_unavailability_reason_id = params[:training_availability][:training_unavailability_reason_id]
-      @training_availability.comments = params[:training_availability][:comments]
+      @training_availability.comments = params[:training_availability][:comments] if params[:training_availability][:comments]
     end
     if @training_availability.save
-      @candidate.shirt_size = params[:training_availability][:shirt_size]
-      @candidate.shirt_gender = params[:training_availability][:shirt_gender]
+      @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
+      @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
       @candidate.save
       @current_person.log? 'confirmed',
                            @candidate
