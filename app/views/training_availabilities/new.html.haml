@@ -52,48 +52,4 @@
           %br/
           = link_to 'Change Location', select_location_candidate_path(@candidate, 'true'), class: [:button]
 
-  = form_for [@candidate, @training_availability] do |f|
-    .widget
-      .inner
-        %h3 Shirt Information
-        = f.fields_for @candidate do |candidate|
-          = candidate.label :shirt_gender, 'Gender'
-          = candidate.select :shirt_gender, options_for_select([['Male', 'Male'], ['Female', 'Female']], @shirt_gender), include_blank: true
-          = candidate.label :shirt_size
-          = candidate.select :shirt_size, options_for_select([['S', 'S'], ['M', 'M'], ['L', 'L'], ['XL', 'XL'], ['2XL', '2XL'], ['3XL', '3XL'], ['4XL', '4XL']], @shirt_size), include_blank: true
-    .widget
-      .inner
-        %h3 Training Attendance
-        %p
-          Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
-        = f.label :able_to_attend, 'Is the candidate able to attend the training?'
-        = f.select :able_to_attend, options_for_select([['Yes', true], ['No', false]], @able_to_attend), include_blank: true
-        #unable_to_attend(style="display:none;")
-          = f.label :training_unavailability_reason_id, 'Why not?'
-          = f.select :training_unavailability_reason_id, options_from_collection_for_select(@unavailability_reasons, :id, :name), include_blank: true
-          = f.label :comments
-          = f.text_area :comments, rows: 5
-    -#.widget
-    -#  .inner
-    -#    %h3 Training Location
-    -#    - if training_location
-    -#      %p
-    -#        %strong= training_location.name
-    -#        %br
-    -#        = training_location.address + ', Room: ' + training_location.room
-    -#      %p
-    -#        %strong Training Schedule:
-    -#        %br
-    -#        Monday, March 30th - Friday, April 3rd: 8am - 6pm
-    -#        %br
-    -#        Monday, April 6th - Thursday, April 9th: 8am - 6pm
-    -#      - if training_location and training_location.latitude and training_location.longitude
-    -#        - distance = training_location.geographic_distance(location).round(2)
-    -#        %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
-    -#      - if training_location.virtual
-    -#        %p This is a virtual training class. Details to come.
-    -#    - else
-    -#      %p There is not a training location in our system for this location, yet.
-
-
-    = f.submit 'Confirm and Save', class: [:button, :success]
+  = render 'form'

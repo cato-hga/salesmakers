@@ -256,33 +256,6 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def edit_candidate_details
-    #get candidate
-    @training_availability = @candidate.training_availability
-  end
-
-  def update_candidate_details
-    @training_availability = @candidate.training_availability
-    if @shirt_gender.blank? or @shirt_size.blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :edit_candidate_details and return
-    end
-    @training_availability.able_to_attend = @able_to_attend
-    @training_availability.candidate = @candidate
-    set_unable_to_attend_params unless @able_to_attend
-    @candidate.shirt_size = params[:shirt_size]
-    @candidate.shirt_gender = params[:shirt_gender]
-    if @training_availability.save and @candidate.save
-      @current_person.log? 'update',
-                           @candidate
-      flash[:notice] = 'Candidate updated'
-      redirect_to candidate_path @candidate
-    else
-      flash[:error] = 'Candidate could not be updated'
-      render :edit_candidate_details
-    end
-  end
-
   def send_paperwork
     geocode_if_necessary
     if Rails.env.staging? or Rails.env.development?
