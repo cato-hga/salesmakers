@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       post :cant_make_training_location
       get :welcome_call
       patch :record_welcome_call
+      put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
     end
     collection do
       get :dashboard, as: :dashboard

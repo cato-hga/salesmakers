@@ -4,6 +4,8 @@ class CandidateLocation
                 :city,
                 :state,
                 :zip,
+                :store_number,
+                :display_name,
                 :latitude,
                 :longitude,
                 :channel_name,
@@ -17,6 +19,8 @@ class CandidateLocation
     self.city = location.city
     self.state = location.state
     self.zip = location.zip
+    self.store_number = location.store_number
+    self.display_name = location.display_name
     self.latitude = location.latitude
     self.longitude = location.longitude
     self.channel_name = location.channel.name

@@ -120,6 +120,7 @@ class Candidate < ActiveRecord::Base
   belongs_to :candidate_source
   belongs_to :candidate_denial_reason
   belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
+  belongs_to :sprint_radio_shack_training_session
 
   has_many :prescreen_answers
   has_many :interview_schedules

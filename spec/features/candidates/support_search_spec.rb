@@ -7,7 +7,8 @@ describe 'SMS (support) index' do
            created_by: recruiter,
            status: :paperwork_completed_by_advocate,
            shirt_gender: 'Male',
-           shirt_size: 'L'
+           shirt_size: 'L',
+           sprint_radio_shack_training_session: sprint_radio_shack_training_session
   }
   let!(:candidate_availability) {
     create :candidate_availability,
@@ -24,6 +25,7 @@ describe 'SMS (support) index' do
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_view_all) { Permission.create key: 'candidate_view_all', description: 'Blah blah blah', permission_group: permission_group }
   let!(:training_availability) { create :training_availability, candidate: candidate }
+  let!(:sprint_radio_shack_training_session) { create :sprint_radio_shack_training_session }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -145,5 +147,11 @@ describe 'SMS (support) index' do
   #     expect(page).to have_content(other_non_filtered_candidate.name)
   #   end
   # end
+
+  it 'shows the training session' do
+    within '#content' do
+      expect(page).to have_content(sprint_radio_shack_training_session.name)
+    end
+  end
 
 end

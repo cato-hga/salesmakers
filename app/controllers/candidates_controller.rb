@@ -115,6 +115,10 @@ class CandidatesController < ApplicationController
     else
       @training_location = nil
     end
+    @sprint_radio_shack_training_sessions = SprintRadioShackTrainingSession.all
+    @sprint_radio_shack_training_session = @candidate.sprint_radio_shack_training_session ?
+        @candidate.sprint_radio_shack_training_session :
+        SprintRadioShackTrainingSession.new
   end
 
   def new
@@ -391,7 +395,21 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def set_sprint_radio_shack_training_session
+    @sprint_radio_shack_training_session_id = sprint_radio_shack_training_session_params[:id]
+    if @candidate.update sprint_radio_shack_training_session_id: @sprint_radio_shack_training_session_id
+      flash[:notice] = 'Saved training session'
+    else
+      flash[:error] = 'Could not save training session'
+    end
+    redirect_to candidate_path(@candidate)
+  end
+
   private
+
+  def sprint_radio_shack_training_session_params
+    params.require(:sprint_radio_shack_training_session).permit :id
+  end
 
   def availability_params
     params.require(:candidate_availability).permit(
