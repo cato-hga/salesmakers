@@ -981,16 +981,40 @@ ActiveRecord::Schema.define(version: 20150330182721) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_not_deployed", id: false, force: :cascade do |t|
+    t.string "serial", limit: 255
+  end
+
+  create_table "tmp_payouts", id: false, force: :cascade do |t|
+    t.string "mac", limit: 255
+    t.decimal "payout"
+    t.string "username", limit: 255
+  end
+
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"
   end
 
-  create_table "tmp_tl", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "location_name"
-    t.string "room"
+  create_table "tmp_rs", id: false, force: :cascade do |t|
+    t.string "address", limit: 255
+    t.string "city", limit: 255
+    t.decimal "rate"
+    t.string "state", limit: 255
+    t.string "zip", limit: 255
+  end
+
+  create_table "tmp_sdm", id: false, force: :cascade do |t|
+    t.string "city"
+    t.string "hourly_rate"
+    t.string "market"
+    t.string "outsourcer"
+    t.string "region"
+    t.string "schedule"
+    t.string "state"
     t.string "store_number"
+    t.string "street_1"
+    t.string "zip"
   end
 
   create_table "training_availabilities", force: :cascade do |t|

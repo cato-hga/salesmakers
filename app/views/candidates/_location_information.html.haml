@@ -46,9 +46,10 @@
     %p
       = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
 
+:javascript
+  var markers = [];
 - if @candidate.location_area
   :javascript
-    var markers = [];
     markers.push({
       "lat": #{html_escape(location.latitude)},
       "lng": #{html_escape(location.longitude)},
@@ -70,7 +71,6 @@
 
 - if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
   :javascript
-    var markers = [];
     markers.push({
       "lat": #{html_escape(@training_location.latitude)},
       "lng": #{html_escape(@training_location.longitude)},
@@ -80,7 +80,7 @@
         "height": 32
       },
     });
-    markers.push({
+    /* markers.push({
       "lat": #{html_escape(location.latitude)},
       "lng": #{html_escape(location.longitude)},
       "picture": {
@@ -88,7 +88,7 @@
         "width": 32,
         "height": 32
       },
-    });
+    }); */
     markers.push({
       "lat": #{html_escape(@candidate.latitude)},
       "lng": #{html_escape(@candidate.longitude)},
