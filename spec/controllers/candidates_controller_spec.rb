@@ -702,54 +702,6 @@ describe CandidatesController do
     end
   end
 
-  describe 'GET edit_candidate_details' do
-    let(:candidate) { create :candidate }
-    before(:each) do
-      allow(controller).to receive(:policy).and_return double(edit_candidate_details?: true)
-    end
-    it 'returns a success status' do
-      get :edit_candidate_details, id: candidate.id
-      expect(response).to be_success
-      expect(response).to render_template(:edit_candidate_details)
-    end
-  end
-
-  describe 'PATCH update_candidate_details' do
-    let!(:candidate) { create :candidate,
-                              shirt_size: 'M',
-                              shirt_gender: 'Female',
-                              training_availability: available
-
-    }
-    let!(:reason) { create :training_unavailability_reason }
-    let(:available) { create :training_availability, able_to_attend: false, training_unavailability_reason: reason }
-    subject do
-      allow(controller).to receive(:policy).and_return double(update_candidate_details?: true)
-      patch :update_candidate_details,
-            id: candidate.id,
-            shirt_size: 'L',
-            shirt_gender: 'Male',
-            able_to_attend: 'true'
-      candidate.reload
-    end
-    it 'updates the candidates details' do
-      expect(candidate.shirt_size).to eq('M')
-      expect(candidate.shirt_gender).to eq('Female')
-      expect(candidate.training_availability.able_to_attend).to eq(false)
-      subject
-      expect(candidate.shirt_size).to eq('L')
-      expect(candidate.shirt_gender).to eq('Male')
-      expect(candidate.training_availability.able_to_attend).to eq(true)
-    end
-    it 'redirects to candidate#show' do
-      subject
-      expect(response).to redirect_to(candidate_path(candidate))
-    end
-    it 'creates a log entry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
-    end
-  end
-
   describe 'POST cant_make_training_location' do
     let(:candidate) { create :candidate }
     let!(:cant_make_location) { create :training_unavailability_reason, name: "Can't Make Training Location" }

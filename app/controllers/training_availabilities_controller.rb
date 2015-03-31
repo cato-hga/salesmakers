@@ -3,6 +3,7 @@ class TrainingAvailabilitiesController < ApplicationController
   before_action :do_authorization
   before_action :search_bar
   before_action :get_candidate
+  layout 'candidates'
 
   def new
     @training_availability = TrainingAvailability.new
@@ -43,6 +44,40 @@ class TrainingAvailabilitiesController < ApplicationController
       end
     else
       render :new
+    end
+  end
+
+  def edit
+    @training_availability = @candidate.training_availability
+    @location_area = @candidate.location_area
+    @location = @location_area.location
+    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
+    @unavailability_reasons = TrainingUnavailabilityReason.all
+    @comments = @candidate.training_availability if @candidate.training_availability
+  end
+
+  def update
+    @training_availability = @candidate.training_availability
+    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :edit and return
+    end
+    @training_availability.able_to_attend = params[:training_availability][:able_to_attend]
+    @training_availability.candidate = @candidate
+    unless params[:training_availability][:able_to_attend] == 'true'
+      @training_availability.training_unavailability_reason_id = params[:training_availability][:training_unavailability_reason_id]
+      @training_availability.comments = params[:training_availability][:comments] if params[:training_availability][:comments]
+    end
+    @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
+    @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
+    if @training_availability.save and @candidate.save
+      @current_person.log? 'update',
+                           @candidate
+      flash[:notice] = 'Candidate updated'
+      redirect_to candidate_path @candidate
+    else
+      flash[:error] = 'Candidate could not be updated'
+      render :edit
     end
   end
 

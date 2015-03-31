@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
     resources :candidate_availabilities, only: [:new, :create]
-    resources :training_availabilities, only: [:new, :create]
+    resources :training_availabilities, only: [:new, :create, :edit, :update]
     resources :interview_schedules, only: [:new, :create, :destroy] do
       collection do
         post :time_slots, as: 'time_slots'
@@ -44,8 +44,6 @@ Rails.application.routes.draw do
       patch :reactivate
       get :edit_availability
       patch :update_availability
-      get :edit_candidate_details
-      patch :update_candidate_details
       post :cant_make_training_location
       get :welcome_call
       patch :record_welcome_call

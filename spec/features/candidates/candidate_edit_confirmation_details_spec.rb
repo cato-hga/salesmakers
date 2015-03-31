@@ -4,7 +4,8 @@ describe 'edit candidate details' do
   let!(:candidate) { create :candidate,
                             shirt_size: 'M',
                             shirt_gender: 'Female',
-                            training_availability: available
+                            training_availability: available,
+                            location_area: location_area
 
   }
   let!(:recruiter) { create :person, position: position }
@@ -13,7 +14,8 @@ describe 'edit candidate details' do
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
   let!(:reason) { create :training_unavailability_reason }
-  let(:available) { create :training_availability, able_to_attend: false, training_unavailability_reason: reason }
+  let!(:available) { create :training_availability, able_to_attend: false, training_unavailability_reason: reason }
+  let(:location_area) { create :location_area }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -30,9 +32,9 @@ describe 'edit candidate details' do
 
   describe 'form submission' do
     subject do
-      select 'Male', from: :shirt_gender
-      select 'L', from: :shirt_size
-      select 'Yes', from: :able_to_attend
+      select 'Male', from: 'Gender'
+      select 'L', from: 'Shirt size'
+      select 'Yes', from: 'Is the candidate able to attend the training?'
       click_on 'Update Details'
       candidate.reload
     end
@@ -59,5 +61,4 @@ describe 'edit candidate details' do
       expect(page).to have_content 'Candidate updated'
     end
   end
-
 end
