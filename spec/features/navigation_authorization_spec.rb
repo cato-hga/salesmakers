@@ -168,7 +168,7 @@ describe 'Navigation Authorization' do
         comcast_employee.person_areas << comcast_person_area
         comcast_position.permissions << comcast_permissions
         CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
-        page.driver.resize_window 640, 480
+        page.current_window.resize_to '640', '480'
         visit root_path
       end
       it 'contains links to the sales page' do
@@ -213,7 +213,7 @@ describe 'Navigation Authorization' do
                                                description: 'Test Description' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
-        page.driver.resize_window 640, 480
+        page.current_window.resize_to '640', '480'
         visit root_path
       end
 
@@ -269,7 +269,7 @@ describe 'Navigation Authorization' do
 
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
-        page.driver.resize_window 640, 480
+        page.current_window.resize_to '640', '480'
         visit root_path
       end
       it 'does contain links to the Admin section' do
