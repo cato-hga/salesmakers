@@ -12,10 +12,7 @@ class TrainingAvailabilitiesController < ApplicationController
   def create
     @training_availability = TrainingAvailability.new training_availability_params
     @training_availability.candidate = @candidate
-    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :new and return
-    end
+    check_for_blank_shirt_info
     @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
     @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
     if @training_availability.save and @candidate.save
@@ -27,30 +24,12 @@ class TrainingAvailabilitiesController < ApplicationController
     end
   end
 
-  def confirm_and_redirect
-    @current_person.log? 'confirmed',
-                         @candidate
-    @candidate.confirmed!
-    if @candidate.active? and @candidate.job_offer_details.any?
-      flash[:notice] = 'Confirmation recorded'
-      redirect_to candidate_path @candidate
-    elsif @candidate.active? and @candidate.passed_personality_assessment?
-      redirect_to send_paperwork_candidate_path(@candidate)
-    else
-      flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
-      redirect_to candidate_path(@candidate)
-    end
-  end
-
   def edit
 
   end
 
   def update
-    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :edit and return
-    end
+    check_for_blank_shirt_info
     @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
     @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
     if @training_availability.update training_availability_params and @candidate.save
@@ -101,6 +80,28 @@ class TrainingAvailabilitiesController < ApplicationController
 
   def search_bar
     @search = Candidate.search(params[:q])
+  end
+
+  def confirm_and_redirect
+    @current_person.log? 'confirmed',
+                         @candidate
+    @candidate.confirmed!
+    if @candidate.active? and @candidate.job_offer_details.any?
+      flash[:notice] = 'Confirmation recorded'
+      redirect_to candidate_path @candidate
+    elsif @candidate.active? and @candidate.passed_personality_assessment?
+      redirect_to send_paperwork_candidate_path(@candidate)
+    else
+      flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
+      redirect_to candidate_path(@candidate)
+    end
+  end
+
+  def check_for_blank_shirt_info
+    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :edit and return
+    end
   end
 
 end
