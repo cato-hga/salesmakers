@@ -26,6 +26,8 @@ describe API::V1::LocationsController do
 
   before do
     allow(Geocoder).to receive(:search).and_return(result)
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials("dualbrain",
+                                                                                                       "l3f7h3m15ph3r3")
   end
 
   describe 'with a correct zip' do
