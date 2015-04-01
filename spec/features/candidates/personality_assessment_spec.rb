@@ -94,6 +94,17 @@ describe 'personality assessment functionality' do
         expect(page).not_to have_selector('input[value="Record Assessment Score"]')
       end
     end
+
+    describe 'for confirmed candidates' do
+      it 'sends paperwork' do
+        candidate.update status: :confirmed
+        candidate.reload
+        visit candidate_path(candidate)
+        fill_in 'assessment_score', with: '99'
+        click_on 'Record Assessment Score'
+        expect(page).to have_content 'Paperwork sent successfully.'
+      end
+    end
   end
 
   context 'when a personality assessment completion score has not been recorded, but the candidate was marked as completed' do
