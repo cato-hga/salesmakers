@@ -37,17 +37,17 @@ describe ApplicationHelper do
   end
 
   describe 'link display methods' do
-    it 'displays a link to an area', pending: 'Upon adding area functionality' do
-      area = create :area
-      expected_selector = 'a[href$="' +
-          helper.client_project_area_path(area.project.client,
-                                          area.project,
-                                          area) +
-          '"]'
-      link_markup = helper.area_link area
-      expect(link_markup).to have_selector(expected_selector)
-      expect(link_markup).to have_content(area.name)
-    end
+    # it 'displays a link to an area', pending: 'Upon adding area functionality' do
+    #   area = create :area
+    #   expected_selector = 'a[href$="' +
+    #       helper.client_project_area_path(area.project.client,
+    #                                       area.project,
+    #                                       area) +
+    #       '"]'
+    #   link_markup = helper.area_link area
+    #   expect(link_markup).to have_selector(expected_selector)
+    #   expect(link_markup).to have_content(area.name)
+    # end
 
     it 'displays a link to a department' do
       department = create :department
@@ -59,15 +59,15 @@ describe ApplicationHelper do
       expect(link_markup).to have_content(department.name)
     end
 
-    it 'displays a link to a project', pending: 'Upon adding project functionality' do
-      project = create :project
-      expected_selector = 'a[href$="' +
-          helper.client_project_path(project.client, project) +
-          '"]'
-      link_markup = helper.project_link project
-      expect(link_markup).to have_selector(expected_selector)
-      expect(link_markup).to have_content(project.name)
-    end
+    # it 'displays a link to a project', pending: 'Upon adding project functionality' do
+    #   project = create :project
+    #   expected_selector = 'a[href$="' +
+    #       helper.client_project_path(project.client, project) +
+    #       '"]'
+    #   link_markup = helper.project_link project
+    #   expect(link_markup).to have_selector(expected_selector)
+    #   expect(link_markup).to have_content(project.name)
+    # end
 
     it "displays a link to a phone number" do
       phone_number = '8005551212'
@@ -352,13 +352,6 @@ describe ApplicationHelper do
       output = helper.friendly_datetime(datetime)
       expect(output).to eq(datetime.strftime('%m/%d/%Y %l:%M%P %Z'))
     end
-  end
-
-  it 'displays a sales chart for last month',
-     pending: 'groupdate gem is complaining' do
-    day_sales_counts = DaySalesCount.none
-    markup = past_month_sales_chart day_sales_counts
-    expect(markup).to have_selector('.chart_container')
   end
 
   describe 'ranking display' do

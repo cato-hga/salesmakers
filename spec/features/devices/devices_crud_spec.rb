@@ -31,9 +31,6 @@ describe 'Devices CRUD actions' do
       expect(page).to have_content(device.serial)
     end
 
-    # it 'does not have written off devices, by default' do
-    #   expect(page).not_to have_content(written_off_device.serial)
-    # end
   end
 
   describe 'GET show' do
@@ -114,18 +111,6 @@ describe 'Devices CRUD actions' do
           end
         end
       end
-      it 'should have the name of who the asset is deployed to'
-      it 'should have the name of who deployed the asset'
-    end
-
-    context 'for devices with a line attached' do
-      it 'should have the devices line'
-      it 'should have the devices line_state'
-      it 'should have the devices provider image'
-    end
-
-    context 'for devices without a line attached' do
-      it 'should display "None" for the line'
     end
   end
 end

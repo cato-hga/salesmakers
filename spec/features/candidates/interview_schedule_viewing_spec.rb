@@ -54,12 +54,4 @@ describe 'viewing Candidate interview schedules' do
     #   expect(page).not_to have_button 'Cancel Interview'
     # end
   end
-
-  context 'for those with candidate_view_all permission' do
-    let(:permission_view_all) { create :permission, key: 'candidate_view_all' }
-
-    before { recruiter.position.permissions << permission_view_all }
-
-    specify 'can view all candidate schedules for all recruiters'
-  end
 end
