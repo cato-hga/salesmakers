@@ -375,9 +375,9 @@ describe CandidatesController do
             back_to_confirm: 'false'
       }
 
-      it 'redirects to confirmation' do
+      it 'redirects to training availability' do
         subject
-        expect(response).to redirect_to(confirm_candidate_path(candidate))
+        expect(response).to redirect_to(new_candidate_training_availability_path(candidate))
       end
 
       it 'sets the location_area_id on the candidate' do
@@ -428,7 +428,7 @@ describe CandidatesController do
 
       it 'skips to the confirmation page' do
         subject
-        expect(response).to redirect_to(confirm_candidate_path(candidate))
+        expect(response).to redirect_to(new_candidate_training_availability_path(candidate))
       end
 
       it 'updates the candidate status' do
