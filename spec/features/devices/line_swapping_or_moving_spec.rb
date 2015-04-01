@@ -89,11 +89,6 @@ describe 'Swapping lines' do
         end
       end
     end
-
-    describe 'submission failure' do
-      it 'renders the swap page', pending: 'Should this be tested?'
-      it 'shows error messages', pending: 'Build object and stub out'
-    end
   end
 end
 
@@ -169,13 +164,5 @@ describe 'Moving lines' do
         end
       end
     end
-
-
-    describe 'submission failure' do
-      it 'renders the swap page', pending: 'Should this be tested?'
-      it 'shows error messages', pending: 'Build object and skip validation'
-    end
   end
-
-
 end

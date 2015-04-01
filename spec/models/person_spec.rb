@@ -648,10 +648,6 @@ RSpec.describe Person, :type => :model do
     end
   end
 
-  describe '#termination_date_invalid?' do
-    it 'should return true if (what?)'
-  end
-
   describe '#terminated?' do
     let!(:employment) { create :employment, person: person, end: Time.now }
     it 'should return true if the first employee record has an end' do

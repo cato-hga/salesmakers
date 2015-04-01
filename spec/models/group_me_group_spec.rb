@@ -7,11 +7,6 @@ RSpec.describe GroupMeGroup, :type => :model do
   it { should belong_to(:area) }
   it { should have_many(:group_me_posts) }
 
-
-  describe '.update_group' do
-    it 'should generate group_json and pass off to .update_group_via_json'
-  end
-
   describe '.update_group_via_json', :vcr do
 
     let(:group_me_group) { create :group_me_group }
@@ -64,9 +59,6 @@ RSpec.describe GroupMeGroup, :type => :model do
 #     end
 #   end
 #
-  describe '.update_groups' do
-    it 'should update multiple groups'
-  end
 
 #   describe '.update_bots' do
 #     pending
