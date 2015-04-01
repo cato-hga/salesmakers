@@ -13,13 +13,13 @@
       %p
         Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
       = f.label :able_to_attend, 'Is the candidate able to attend the training?'
-      = f.select :able_to_attend, options_for_select([['Yes', true], ['No', false]],  (@training_availability.able_to_attend if @training_availability.able_to_attend.present?)), include_blank: true
+      = f.select :able_to_attend, options_for_select([['Yes', true], ['No', false]],  (@training_availability.able_to_attend if @training_availability)), include_blank: true
       #unable_to_attend(style="display:none;")
         = f.label :training_unavailability_reason_id, 'Why not?'
         = f.select :training_unavailability_reason_id, options_from_collection_for_select(@unavailability_reasons, :id, :name), include_blank: true
         = f.label :comments
-        = f.text_area :comments, value: (@training_availability.comments if @training_availability.comments), rows: 5
-  - if action_name == 'edit' or action_name == 'update'
-    = f.submit 'Update Details', class: [:button, :success ]
-  - else
-    = f.submit 'Confirm and Save', class: [:button, :success]
+        = f.text_area :comments, value: @comments, rows: 5
+      - if action_name == 'edit' or action_name == 'update'
+        = f.submit 'Update Details', class: [:button, :success ]
+      - else
+        = f.submit 'Confirm and Save', class: [:button, :success]
