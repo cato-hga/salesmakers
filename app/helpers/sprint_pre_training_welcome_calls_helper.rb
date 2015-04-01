@@ -1,0 +1,2 @@
+module SprintPreTrainingWelcomeCallsHelper
+end

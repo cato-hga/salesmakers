@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :prescreen_answers, only: [:new, :create]
     resources :candidate_availabilities, only: [:new, :create]
     resources :training_availabilities, only: [:new, :create, :edit, :update]
+    resources :sprint_pre_training_welcome_calls, only: [:new, :create, :edit, :update]
     resources :interview_schedules, only: [:new, :create, :destroy] do
       collection do
         post :time_slots, as: 'time_slots'
@@ -45,8 +46,6 @@ Rails.application.routes.draw do
       get :edit_availability
       patch :update_availability
       post :cant_make_training_location
-      get :welcome_call
-      patch :record_welcome_call
       put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
     end
     collection do
