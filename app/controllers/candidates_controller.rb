@@ -236,12 +236,12 @@ class CandidatesController < ApplicationController
       @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
       @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
       flash[:notice] = 'Location chosen successfully.'
-      redirect_to confirm_candidate_path(@candidate) and return
+      redirect_to new_candidate_training_availability_path(@candidate) and return
     end
     @candidate.location_selected! if @candidate.status == 'entered'
     if @back_to_confirm
       flash[:notice] = 'Location chosen successfully.'
-      redirect_to confirm_candidate_path(@candidate)
+      redirect_to (new_candidate_training_availability_path(@candidate))
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
       @current_person.log? 'sent_assessment',

@@ -201,7 +201,7 @@ describe 'selecting a Location for a Candidate' do
       within(' tr td.outsourced_row:nth-of-type(5)') do
         click_on location_area_outsourced.location.channel.name
       end
-      expect(page).to have_content 'Confirm Details'
+      expect(current_path).to eq(new_candidate_training_availability_path(candidate))
     end
   end
 end
