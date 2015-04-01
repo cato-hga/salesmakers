@@ -73,7 +73,7 @@ describe 'Candidate creation' do
           it 'displays a flash message' do
             expect(page).to have_content 'Candidate saved!'
           end
-          it 'redirects to the prescreen questions page' do
+          it 'redirects to the location selection page' do
             expect(page).to have_content 'Select Location for '
           end
         end

@@ -103,7 +103,7 @@ describe PrescreenAnswersController do
       end
     end
 
-    it 'does not the potential_candidate_count on the LocationArea' do
+    it 'updates the potential_candidate_count on the LocationArea' do
       expect {
         subject
         location_area.reload

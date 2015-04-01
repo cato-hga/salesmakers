@@ -33,7 +33,7 @@ class PrescreenAnswersController < ApplicationController
           redirect_to new_candidate_interview_schedule_path(@candidate)
         else
           flash[:notice] = 'Answers and Availability saved'
-          flash[:notice] = 'You were redirected to the candidate profile page because a location has not been selected. Please select a candidate location using the progress links below'
+          flash[:notice] = 'You were redirected to the candidate profile page because a location has not been selected yet'
           redirect_to candidate_path(@candidate)
         end
       else
