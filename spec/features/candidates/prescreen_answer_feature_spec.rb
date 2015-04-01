@@ -1,12 +1,16 @@
 require 'rails_helper'
 describe 'Prescreen answers' do
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
+  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
+  let(:permission_index) { Permission.new key: 'candidate_index',
+                                          permission_group: permission_group,
+                                          description: 'Test Description' }
   let(:candidate) { create :candidate }
+  let(:location_area) { create :location_area }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -24,6 +28,8 @@ describe 'Prescreen answers' do
   describe 'for authorized users' do
 
     before(:each) do
+      candidate.update location_area: location_area
+      candidate.reload
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit new_candidate_prescreen_answer_path candidate
     end
@@ -85,7 +91,9 @@ describe 'Prescreen answers' do
           expect(page).to have_content 'Answers and Availability saved'
         end
         it 'redirects to the select location page' do
-          expect(page).to have_content 'Select Location'
+          within('header h1') do
+            expect(page).to have_content 'Interview Scheduler'
+          end
         end
         it 'sets the direction of the call' do
           expect(CandidateContact.first.inbound?).to be_truthy
@@ -93,6 +101,11 @@ describe 'Prescreen answers' do
         it 'saves the candidates availability' do
           candidate.reload
           expect(candidate.candidate_availability).not_to be_nil
+        end
+
+        it 'updates the candidates status' do
+          candidate.reload
+          expect(candidate.status).to eq('prescreened')
         end
       end
 
@@ -126,6 +139,29 @@ describe 'Prescreen answers' do
           candidate.reload
           expect(candidate.prescreen_answers.count).to be(0)
         end
+      end
+    end
+
+    describe 'from the candidate#show page, without a location area' do
+      let(:location_less_candidate) { create :candidate }
+      it 'redirects back to the candidate show' do
+        CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+        visit candidate_path(location_less_candidate)
+        within('.prescreen') do
+          click_on 'INCOMPLETE'
+        end
+        expect(current_path).to eq(new_candidate_prescreen_answer_path(location_less_candidate))
+        check :prescreen_answer_worked_for_sprint
+        check :prescreen_answer_of_age_to_work
+        check :prescreen_answer_high_school_diploma
+        check :prescreen_answer_eligible_smart_phone
+        check :prescreen_answer_can_work_weekends
+        check :prescreen_answer_reliable_transportation
+        check :prescreen_answer_ok_to_screen
+        check :candidate_availability_monday_first
+        select 'Inbound', from: 'Is this call inbound or outbound?'
+        click_on 'Save Answers'
+        expect(current_path).to eq(candidate_path(location_less_candidate))
       end
     end
   end

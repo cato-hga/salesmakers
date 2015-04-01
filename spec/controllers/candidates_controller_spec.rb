@@ -75,7 +75,7 @@ describe CandidatesController do
     before(:each) do
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
-    context 'success, going to prescreen' do
+    context 'success, going to select_location' do
       subject {
         post :create,
              candidate: {
@@ -86,7 +86,7 @@ describe CandidatesController do
                  zip: '33701',
                  candidate_source_id: source.id
              },
-             start_prescreen: 'true'
+             select_location: 'true'
       }
       it 'creates a candidate' do
         expect { subject }.to change(Candidate, :count).by(1)
@@ -98,10 +98,10 @@ describe CandidatesController do
         subject
         expect(Candidate.first.entered?).to be_truthy
       end
-      it 'redirects to prescreen_questions#new' do
+      it 'redirects to select location' do
         subject
         candidate = Candidate.first
-        expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
+        expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
       end
       it 'saves the candidates recruiter/person' do
         subject
@@ -292,9 +292,10 @@ describe CandidatesController do
   end
 
   describe 'GET set_location_area' do
-    let!(:candidate) { create :candidate, status: :prescreened }
+    let!(:candidate) { create :candidate, status: :entered }
     let(:location) { create :location }
     let(:area) { create :area }
+    let!(:location_area) { create :location_area, location: location, area: area }
     let!(:second_location_area) { create :location_area, area: area, offer_extended_count: 1 }
 
     context 'for non-outsourced locations' do
@@ -306,25 +307,25 @@ describe CandidatesController do
             back_to_confirm: 'false'
       }
 
-      it 'redirects to interview schedule' do
+      it 'redirects to prescreen' do
         subject
-        expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
+        expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
       end
-
+  
       it 'sets the location_area_id on the candidate' do
         expect {
           subject
           candidate.reload
         }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
       end
-
+  
       it 'updates the potential_candidate_count on the LocationArea' do
         expect {
           subject
           location_area.reload
         }.to change(location_area, :potential_candidate_count).from(0).to(1)
       end
-
+  
       it 'updates the offer_extended_count on the LocationArea if necessary' do
         expect {
           candidate.update location_area: second_location_area,
@@ -333,7 +334,7 @@ describe CandidatesController do
           second_location_area.reload
         }.to change(second_location_area, :offer_extended_count).from(1).to(0)
       end
-
+  
       it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
         expect {
           candidate.update location_area: second_location_area,
@@ -342,13 +343,13 @@ describe CandidatesController do
           second_location_area.reload
         }.not_to change(second_location_area, :offer_extended_count)
       end
-
+  
       it 'updates the candidate status' do
         subject
         candidate.reload
         expect(candidate.status).to eq('location_selected')
       end
-
+  
       it 'sends the candidate the personality assessment URL' do
         expect {
           subject
@@ -357,7 +358,7 @@ describe CandidatesController do
           end
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
-
+  
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end

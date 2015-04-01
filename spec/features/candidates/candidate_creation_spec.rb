@@ -42,7 +42,7 @@ describe 'Candidate creation' do
         expect(page).to have_content('Email address')
         expect(page).to have_content('Zip Code')
         expect(page).to have_content('Candidate source')
-        expect(page).to have_button 'Save and start Prescreen'
+        expect(page).to have_button 'Save and Select Location'
         expect(page).to have_content 'Save, left voicemail'
       end
     end
@@ -50,7 +50,7 @@ describe 'Candidate creation' do
     describe 'form submission' do
       context 'with invalid data' do
         it 'shows all relevant error messages' do
-          click_on 'Save and start Prescreen'
+          click_on 'Save and Select Location'
           expect(page).to have_content "First name can't be blank"
           expect(page).to have_content "Last name can't be blank"
           expect(page).to have_content "Mobile phone can't be blank"
@@ -59,6 +59,9 @@ describe 'Candidate creation' do
         end
       end
       context 'with valid data' do
+        
+        
+        context 'and choosing location' do
 
         context 'for outsourced employees' do
           before(:each) do
@@ -69,7 +72,7 @@ describe 'Candidate creation' do
               fill_in 'Email address', with: 'test@test.com'
               fill_in 'Zip Code', with: '33701'
               select outsourced.name, from: 'Candidate source'
-              click_on 'Save and start Prescreen'
+              click_on 'Save and Select Location'
             end
           end
 
@@ -81,7 +84,7 @@ describe 'Candidate creation' do
           end
         end
 
-        context 'and starting prescreen' do
+        context 'and selecting location' do
           before(:each) do
             within '#content' do
               fill_in 'First name', with: 'Test'
@@ -90,14 +93,14 @@ describe 'Candidate creation' do
               fill_in 'Email address', with: 'test@test.com'
               fill_in 'Zip Code', with: '33701'
               select source.name, from: 'Candidate source'
-              click_on 'Save and start Prescreen'
+              click_on 'Save and Select Location'
             end
           end
           it 'displays a flash message' do
             expect(page).to have_content 'Candidate saved!'
           end
-          it 'redirects to the prescreen questions page' do
-            expect(page).to have_content 'Prescreen Answers'
+          it 'redirects to the location selection page' do
+            expect(page).to have_content 'Select Location for '
           end
         end
 
@@ -110,8 +113,8 @@ describe 'Candidate creation' do
               fill_in 'Email address', with: 'test@test.com'
               fill_in 'Zip Code', with: '33701'
               select source.name, from: 'Candidate source'
-              find(:xpath, "//input[@id='start_prescreen']").set false
-              click_on 'Save and start Prescreen'
+              find(:xpath, "//input[@id='select_location']").set false
+              click_on 'Save and Select Location'
             end
           end
           it 'displays a flash message' do
@@ -120,7 +123,7 @@ describe 'Candidate creation' do
           it 'redirects to the candidate index' do
             expect(page).to have_content 'Candidates'
             within('header h1') do
-              expect(page).not_to have_content 'Prescreen Answers'
+              expect(page).not_to have_content 'Select Location for'
             end
           end
           it "creates an outbound contact log, with a note 'Left Voicemail'" do

@@ -7,6 +7,7 @@ class PrescreenAnswersController < ApplicationController
     @candidate = Candidate.find params[:candidate_id]
     @call_initiated = DateTime.now.to_i
     @candidate_availability = CandidateAvailability.new
+    @location_area = @candidate.location_area
   end
 
   def create
@@ -25,8 +26,16 @@ class PrescreenAnswersController < ApplicationController
     if @candidate_availability.save
       if @prescreen_answer.save
         set_prescreened(call_initiated)
-        flash[:notice] = 'Answers and Availability saved'
-        redirect_to select_location_candidate_path(@candidate, 'false')
+        if @candidate.location_selected?
+          @location_area = @candidate.location_area
+          @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
+          flash[:notice] = 'Answers and Availability saved'
+          redirect_to new_candidate_interview_schedule_path(@candidate)
+        else
+          flash[:notice] = 'Answers and Availability saved'
+          flash[:notice] = 'You were redirected to the candidate profile page because a location has not been selected yet'
+          redirect_to candidate_path(@candidate)
+        end
       else
         flash[:error] = 'Candidate did not pass prescreening'
         @candidate.rejected!
