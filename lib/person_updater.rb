@@ -10,6 +10,7 @@ class PersonUpdater
 
   def update
     return unless @connect_user and @person and @updater
+    update_employment
     update_position
     update_person_areas
     update_contact_info
@@ -19,6 +20,16 @@ class PersonUpdater
   end
 
   private
+
+  def update_employment
+    if @connect_user.isactive? and not @person.active?
+      return if @person.employments.empty?
+      @person.employments.find_or_create_by start: @connect_user.updated.to_date
+      @person.update active: true
+    elsif @person.active? and not @connect_user.isactive?
+      @person.separate_from_connect
+    end
+  end
 
   def update_position
     new_position = Position.return_from_connect_user @connect_user
