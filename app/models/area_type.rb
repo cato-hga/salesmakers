@@ -50,7 +50,7 @@ class AreaType < ActiveRecord::Base
         nil,
         nil,
         AreaType.find_by(name: 'Sprint Retail Region'),
-        nil,
+        AreaType.find_by(name: 'Sprint Retail Market'),
         AreaType.find_by(name: 'Sprint Retail Territory'),
     ]
   end
