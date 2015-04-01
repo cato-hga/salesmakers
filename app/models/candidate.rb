@@ -183,7 +183,8 @@ class Candidate < ActiveRecord::Base
     return false if self.personality_assessment_status == 'disqualified'
     return true if self.personality_assessment_status == 'qualified'
     location_area = self.location_area || return
-    return true unless location_area.area.personality_assessment_url
+    return true if not location_area.area.personality_assessment_url and
+        not location_area.outsourced?
     self.personality_assessment_completed?
   end
 
