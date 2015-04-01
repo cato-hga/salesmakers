@@ -258,7 +258,7 @@ class CandidatesController < ApplicationController
 
   def send_paperwork
     geocode_if_necessary
-    if Rails.env.staging? or Rails.env.development?
+    if Rails.env.staging? or Rails.env.development? or Rails.env.test?
       envelope_response = 'STAGING'
     else
       envelope_response = DocusignTemplate.send_nhp @candidate, @current_person

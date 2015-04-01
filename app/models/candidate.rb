@@ -188,7 +188,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def confirmed?
-    Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
+    Candidate.statuses[self.status] >= Candidate.statuses[:confirmed]
   end
 
   def prescreened?
