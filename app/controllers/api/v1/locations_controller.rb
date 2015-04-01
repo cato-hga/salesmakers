@@ -1,4 +1,5 @@
 class API::V1::LocationsController < API::BaseController
+  http_basic_authenticate_with name: 'dualbrain', password: 'l3f7h3m15ph3r3'
 
   def nearby_zip
     zip = params[:zip]
