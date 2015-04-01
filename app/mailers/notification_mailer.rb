@@ -48,6 +48,26 @@ class NotificationMailer < ApplicationMailer
          subject: subject
   end
 
+  def email_bounceback(bounce)
+    return if not bounce or bounce.empty?
+    return if bounce[:type] and bounce[:type] != 'HardBounce'
+    @email_address = bounce[:email] || return
+    @bounced_subject = bounce[:subject] || return
+    @candidate = Candidate.find_by email: @email_address
+    as = Position.find_by name: 'Advocate Supervisor'
+    ad = Position.find_by name: 'Advocate Director'
+    recipients = []
+    recipients << as.people.map { |p| p.email } if as
+    recipients << ad.people.map { |p| p.email } if ad
+    recruiter = nil
+    recruiter = @candidate.person.email if @candidate and @candidate.person
+    recipients << recruiter
+    recipients = recipients.flatten.compact.uniq || return
+    mail to: recipients,
+         from: 'notifications@salesmakersinc.com',
+         subject: 'Email Bounceback'
+  end
+
   def simple_mail(to_email, subject, content, html = false)
     content_type = 'text/plain'
     content_type = 'text/html' if html

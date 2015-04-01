@@ -68,16 +68,17 @@
   .widget
     .inner
       %h3 Progress
-      %p
+      %p.prescreen
         %strong Prescreening:
-        - if @candidate.prescreen_answers.empty?
-          %span.sm_red INCOMPLETE
+        - unless @candidate.prescreened?
+          %span= link_to 'INCOMPLETE', new_candidate_prescreen_answer_path(@candidate), class: [:sm_red, :candidate_incomplete]
         - else
           %span.sm_green COMPLETE
-      %p
+
+      %p.location_selection
         %strong Location Selection:
-        - unless @candidate.location_area
-          %span.sm_red INCOMPLETE
+        - unless @candidate.location_selected?
+          %span= link_to 'INCOMPLETE', select_location_candidate_path(@candidate, 'false'), class: [:sm_red, :candidate_incomplete]
         - else
           %span.sm_green COMPLETE
       %p
@@ -135,11 +136,20 @@
       - action = ''.html_safe
       - action = case @candidate.status
         - when 'entered'
-          - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+          - if @candidate.location_selected?
+            - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+          - else
+            - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
         - when 'prescreened'
-          - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
+          - if @candidate.location_selected?
+            - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+          - else
+            - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
         - when 'location_selected'
-          - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+          - if @candidate.prescreened?
+            - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+          - else
+            - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
         - when 'interview_scheduled'
           - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
         - when 'accepted'
@@ -166,6 +176,15 @@
           - else
             - ''
       = action if @candidate.active?
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
+    .widget
+      .inner
+        %h3 Training Session
+        = form_for @sprint_radio_shack_training_session, url: set_sprint_radio_shack_training_session_candidate_path(@candidate), method: :put do |f|
+          - selected_id = @sprint_radio_shack_training_session ? @sprint_radio_shack_training_session.id : nil
+          = f.label :id, 'Session'
+          = f.select :id, options_from_collection_for_select(@sprint_radio_shack_training_sessions, :id, :name, selected_id), include_blank: true
+          = f.submit 'Save', class: [:button]
   - if @candidate.location_area
     = render 'location_information'
   = render 'availability'

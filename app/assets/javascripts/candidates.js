@@ -8,7 +8,7 @@
 
 $(function () {
     $('form#new_candidate #submit_leave_voicemail').click(function () {
-        $('form#new_candidate #start_prescreen').val('false');
+        $('form#new_candidate #select_location').val('false');
         $('form#new_candidate').submit();
     });
 

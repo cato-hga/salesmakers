@@ -127,6 +127,23 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content('successfully')
     end
 
+    it 'redirects to the prescreen if the candidate is not prescreened already' do
+      within first('tbody tr') do
+        click_on "#{location.channel.name}, #{location.display_name}"
+      end
+      within('header h1') do
+        expect(page).to have_content 'Prescreen Answers'
+      end
+    end
+
+    it 'changes the status for a candidate' do
+      within first('tbody tr') do
+        click_on "#{location.channel.name}, #{location.display_name}"
+      end
+      candidate.reload
+      expect(candidate.location_selected?).to eq(true)
+    end
+
     it 'has the schedules for each location listed' do
       expect(page).to have_content 'Schedule'
     end
@@ -143,6 +160,30 @@ describe 'selecting a Location for a Candidate' do
     it 'does not show the outsourced locations without permission' do
       expect(page).not_to have_content(location_three.city)
     end
+
+    describe 'for candidates that are already prescreened' do
+      let(:prescreen_answer) { create :prescreen_answer }
+      before(:each) do
+        prescreen_answer.update candidate: candidate
+        prescreen_answer.reload
+        candidate.reload
+      end
+      it 'changes the potential candidate count' do
+        expect {
+          within first('tbody tr') do
+            click_on "#{location.channel.name}, #{location.display_name}"
+          end
+          candidate.reload
+          location_area.reload
+        }.to change(location_area, :potential_candidate_count).by(1)
+      end
+      it 'redirects to candidate show' do
+        within first('tbody tr') do
+          click_on "#{location.channel.name}, #{location.display_name}"
+        end
+        expect(current_path).to eq(candidate_path(candidate))
+      end
+    end
   end
 
   describe 'for those with permission to view outsourced doors' do
@@ -154,6 +195,13 @@ describe 'selecting a Location for a Candidate' do
 
     it 'shows the locations' do
       expect(page).to have_content(location_three.city)
+    end
+
+    it 'skips the prescreen and interview' do
+      within(' tr td.outsourced_row:nth-of-type(5)') do
+        click_on location_area_outsourced.location.channel.name
+      end
+      expect(page).to have_content 'Confirm Details'
     end
   end
 end

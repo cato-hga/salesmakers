@@ -10,10 +10,10 @@ class Position < ActiveRecord::Base
 
   #:nocov:
   def self.return_from_connect_user(connect_user)
-    return position_with_name('Advocate') if connect_user.username and
-        connect_user.username.include?('hireretailpros.com')
     hardcoded_position = get_hardcoded_position(connect_user)
     return hardcoded_position if hardcoded_position
+    return position_with_name('Advocate') if connect_user.username and
+        connect_user.username.include?('hireretailpros.com')
     project_name = get_project_name(connect_user)
     event = event?(connect_user)
     leader = connect_user.leader?

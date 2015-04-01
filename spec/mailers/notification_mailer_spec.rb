@@ -71,4 +71,45 @@ describe NotificationMailer do
       end
     end
   end
+
+  describe '#email_bounceback' do
+    let(:bounce) {
+      {
+          :id => 816949422,
+          :type => "HardBounce",
+          :type_code => 1,
+          :name => "Hard bounce",
+          :message_id => "12345678-1234-1234-1234-123456789012",
+          :description => "The server was unable to deliver your message (ex: unknown user, mailbox not found).",
+          :details => "smtp;554 delivery error: dd This user doesn't have a yahoo.com account (foo@bar.com) [0] - mta.bar.com",
+          :email => "foo@bar.com",
+          :bounced_at => "2015-03-31T11:02:45.3592038-04:00",
+          :dump_available => true,
+          :inactive => true,
+          :can_activate => true,
+          :subject => "Your Email Subject Here"
+      }
+    }
+    let(:candidate) { create :candidate, email: 'foo@bar.com', person: recruiter }
+    let(:recruiter) { create :person }
+    let(:mail) { NotificationMailer.email_bounceback(bounce) }
+
+    it 'sends from notifications@salesmakersinc.com' do
+      expect(mail.from).to include('notifications@salesmakersinc.com')
+    end
+    it 'mails the to_persons email address' do
+      candidate
+      expect(mail.to).to include(recruiter.email)
+    end
+    it 'contains "Email Bounceback" in the subject' do
+      expect(mail.subject).to include('Email Bounceback')
+    end
+    it 'contains the candidate name in the body if there is a candidate' do
+      candidate
+      expect(mail.body).to include(candidate.name)
+    end
+    it 'works without a candidate attached' do
+      expect(mail.body).to include("foo@bar.com")
+    end
+  end
 end
