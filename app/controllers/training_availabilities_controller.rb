@@ -74,7 +74,7 @@ class TrainingAvailabilitiesController < ApplicationController
 
   def setup_params
     @candidate = Candidate.find params[:candidate_id]
-    if @candidate.training_availability
+    if @candidate.training_availability.present?
       @training_availability = @candidate.training_availability
       @comments = @candidate.training_availability.comments
     else
