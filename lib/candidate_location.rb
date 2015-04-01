@@ -25,7 +25,7 @@ class CandidateLocation
     self.longitude = location.longitude
     self.channel_name = location.channel.name
     self.project_name = location_area.area.project.name
-    self.mail_to = 'not_yet@available.com'
+    self.mail_to = location_area.area.email
   end
 
   def self.from_locations(locations, project_id = nil)
