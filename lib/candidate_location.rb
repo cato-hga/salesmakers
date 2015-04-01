@@ -27,4 +27,17 @@ class CandidateLocation
     self.project_name = location_area.area.project.name
     self.mail_to = 'not_yet@available.com'
   end
+
+  def self.from_locations(locations, project_id = nil)
+    candidate_locations = []
+    for location in locations do
+      location_areas = location.location_areas
+      for location_area in location_areas do
+        next if location_area.target_head_count < 1
+        next if project_id and location_area.area.project_id != project_id
+        candidate_locations << CandidateLocation.new(location_area)
+      end
+    end
+    candidate_locations.flatten.compact.uniq
+  end
 end
