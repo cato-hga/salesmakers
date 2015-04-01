@@ -7,7 +7,8 @@ describe PrescreenAnswersController do
   let(:permission_create) { Permission.new key: 'candidate_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
-  let(:candidate) { create :candidate }
+  let!(:candidate) { create :candidate, location_area: location_area }
+  let(:location_area) { create :location_area }
 
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -82,9 +83,9 @@ describe PrescreenAnswersController do
       expect(candidate.status).to eq('prescreened')
     end
 
-    it 'redirects to the location selection screen' do
+    it 'redirects to the prescreen' do
       subject
-      expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
+      expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
     end
 
     it 'creates a candidate availability record' do
@@ -101,6 +102,14 @@ describe PrescreenAnswersController do
         expect(response).to render_template(:new)
       end
     end
+
+    it 'does not the potential_candidate_count on the LocationArea' do
+      expect {
+        subject
+        location_area.reload
+      }.to change(location_area, :potential_candidate_count).from(0).to(1)
+    end
+
 
     context 'when a candidate fails the prescreen, with availability' do
       before(:each) do

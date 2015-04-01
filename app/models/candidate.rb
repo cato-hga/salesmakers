@@ -190,6 +190,17 @@ class Candidate < ActiveRecord::Base
     Candidate.statuses[self.status] > Candidate.statuses[:confirmed]
   end
 
+  def prescreened?
+    return true if self.prescreen_answers.any?
+    Candidate.statuses[self.status] == Candidate.statuses[:prescreened]
+  end
+
+  def location_selected?
+    return true if self.location_area.present?
+    Candidate.statuses[self.status] == Candidate.statuses[:location_selected]
+  end
+
+
   def welcome_call?
     return false if self.sprint_pre_training_welcome_call and self.sprint_pre_training_welcome_call.completed?
     self.sprint_pre_training_welcome_call and (self.sprint_pre_training_welcome_call.pending? or self.sprint_pre_training_welcome_call.started?)

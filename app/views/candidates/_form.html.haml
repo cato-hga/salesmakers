@@ -26,8 +26,8 @@
       = f.label :candidate_source_id, 'Candidate source'
       = f.select :candidate_source_id, sources, include_blank: true
       - if action_name == 'new'
-        = hidden_field_tag 'start_prescreen', 'true'
-        = f.submit 'Save and start Prescreen', class: :button
+        = hidden_field_tag 'select_location', 'true'
+        = f.submit 'Save and Select Location', class: :button
         %a.button(href="#" id="submit_leave_voicemail") Save, left voicemail
       - else
         = f.submit 'Save Candidate', class: :button

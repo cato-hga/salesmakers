@@ -68,16 +68,17 @@
   .widget
     .inner
       %h3 Progress
-      %p
+      %p.prescreen
         %strong Prescreening:
-        - if @candidate.prescreen_answers.empty?
-          %span.sm_red INCOMPLETE
+        - unless @candidate.prescreened?
+          %span= link_to 'INCOMPLETE', new_candidate_prescreen_answer_path(@candidate), class: [:sm_red, :candidate_incomplete]
         - else
           %span.sm_green COMPLETE
-      %p
+
+      %p.location_selection
         %strong Location Selection:
-        - unless @candidate.location_area
-          %span.sm_red INCOMPLETE
+        - unless @candidate.location_selected?
+          %span= link_to 'INCOMPLETE', select_location_candidate_path(@candidate, 'false'), class: [:sm_red, :candidate_incomplete]
         - else
           %span.sm_green COMPLETE
       %p
