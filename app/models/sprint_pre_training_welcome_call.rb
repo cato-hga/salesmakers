@@ -10,10 +10,16 @@ class SprintPreTrainingWelcomeCall < ActiveRecord::Base
   validates :still_able_to_attend, inclusion: {in: [true, false]}
 
   belongs_to :candidate
+  has_one :training_availability, through: :candidate
+  accepts_nested_attributes_for :candidate
 
   enum status: [
            :pending,
            :started,
            :completed
        ]
+
+  def self.policy_class
+    CandidatePolicy
+  end
 end
