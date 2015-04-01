@@ -56,7 +56,7 @@ class Candidate < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude do |obj, results|
     if geo = results.first
       if geo and geo.state_code and geo.state_code.length > 2
-        obj.state = state_abbreviations[geo.state_code]
+        obj.state = geo.country == 'Puerto Rico' ? 'PR' : state_abbreviations[geo.state_code]
       else
         obj.state = geo.state_code
       end
@@ -120,6 +120,7 @@ class Candidate < ActiveRecord::Base
   belongs_to :candidate_source
   belongs_to :candidate_denial_reason
   belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
+  belongs_to :sprint_radio_shack_training_session
 
   has_many :prescreen_answers
   has_many :interview_schedules

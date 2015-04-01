@@ -135,4 +135,8 @@ class CandidatePolicy < ApplicationPolicy
   def record_welcome_call?
     create?
   end
+
+  def set_sprint_radio_shack_training_session?
+    view_all?
+  end
 end

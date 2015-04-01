@@ -167,6 +167,15 @@
           - else
             - ''
       = action if @candidate.active?
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
+    .widget
+      .inner
+        %h3 Training Session
+        = form_for @sprint_radio_shack_training_session, url: set_sprint_radio_shack_training_session_candidate_path(@candidate), method: :put do |f|
+          - selected_id = @sprint_radio_shack_training_session ? @sprint_radio_shack_training_session.id : nil
+          = f.label :id, 'Session'
+          = f.select :id, options_from_collection_for_select(@sprint_radio_shack_training_sessions, :id, :name, selected_id), include_blank: true
+          = f.submit 'Save', class: [:button]
   - if @candidate.location_area
     = render 'location_information'
   = render 'availability'

@@ -86,4 +86,22 @@ describe 'candidate show page' do
       expect(page).to have_content ('Edit')
     end
   end
+
+  it 'does not show the training session form for those without permission' do
+    expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
+  end
+
+  it 'allows the training session to be set for those with permission' do
+    view_all = create :permission, key: 'candidate_view_all'
+    training_session = create :sprint_radio_shack_training_session
+    recruiter.position.permissions << view_all
+    recruiter.reload
+    visit candidate_path(candidate)
+    within '#new_sprint_radio_shack_training_session' do
+      select training_session.name, from: 'sprint_radio_shack_training_session_id'
+      click_on 'Save'
+    end
+    candidate.reload
+    expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+  end
 end
