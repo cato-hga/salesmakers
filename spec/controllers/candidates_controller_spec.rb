@@ -311,21 +311,23 @@ describe CandidatesController do
         subject
         expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
       end
-  
+
       it 'sets the location_area_id on the candidate' do
         expect {
           subject
           candidate.reload
         }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
       end
-  
-      it 'updates the potential_candidate_count on the LocationArea' do
+
+      it 'updates the potential_candidate_count on the LocationArea if the candidate is prescreened' do
         expect {
+          candidate.update status: :prescreened
+          candidate.reload
           subject
           location_area.reload
         }.to change(location_area, :potential_candidate_count).from(0).to(1)
       end
-  
+
       it 'updates the offer_extended_count on the LocationArea if necessary' do
         expect {
           candidate.update location_area: second_location_area,
@@ -334,7 +336,7 @@ describe CandidatesController do
           second_location_area.reload
         }.to change(second_location_area, :offer_extended_count).from(1).to(0)
       end
-  
+
       it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
         expect {
           candidate.update location_area: second_location_area,
@@ -343,13 +345,13 @@ describe CandidatesController do
           second_location_area.reload
         }.not_to change(second_location_area, :offer_extended_count)
       end
-  
+
       it 'updates the candidate status' do
         subject
         candidate.reload
         expect(candidate.status).to eq('location_selected')
       end
-  
+
       it 'sends the candidate the personality assessment URL' do
         expect {
           subject
@@ -358,7 +360,7 @@ describe CandidatesController do
           end
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
-  
+
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
@@ -386,6 +388,7 @@ describe CandidatesController do
       end
 
       it 'updates the potential_candidate_count on the LocationArea' do
+        allow(candidate).to receive(:prescreened?).and_return(true)
         expect {
           subject
           location_area.reload
@@ -410,17 +413,17 @@ describe CandidatesController do
         }.not_to change(second_location_area, :offer_extended_count)
       end
 
-      it 'sends the candidate the personality assessment URL', pending: 'Dont know if they need the personality assessment' do
+      it 'does not send the candidate the personality assessment URL' do
         expect {
           subject
           perform_enqueued_jobs do
             ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
           end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        }.to raise_error(NoMethodError)
       end
 
-      it 'creates a log entry', pending: 'Dont know if they need the personality assessment' do
-        expect { subject }.to change(LogEntry, :count).by(1)
+      it 'does not creates a log entry' do
+        expect { subject }.not_to change(LogEntry, :count)
       end
 
       it 'skips to the confirmation page' do

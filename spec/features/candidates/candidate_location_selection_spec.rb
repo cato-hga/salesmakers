@@ -197,7 +197,7 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content(location_three.city)
     end
 
-    it 'skips the interview when an outsourced door is chosen' do
+    it 'skips the prescreen and interview' do
       within(' tr td.outsourced_row:nth-of-type(5)') do
         click_on location_area_outsourced.location.channel.name
       end

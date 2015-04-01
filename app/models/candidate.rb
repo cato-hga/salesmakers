@@ -193,6 +193,7 @@ class Candidate < ActiveRecord::Base
 
   def prescreened?
     return true if self.prescreen_answers.any?
+    return true if self.location_area and self.location_area.outsourced?
     Candidate.statuses[self.status] == Candidate.statuses[:prescreened]
   end
 

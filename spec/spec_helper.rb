@@ -21,6 +21,7 @@ require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'factory_girl_rails'
 require 'vcr'
+require 'sidekiq/testing'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!

@@ -58,11 +58,8 @@ describe 'Candidate creation' do
           expect(page).to have_content "Zip is the wrong length"
         end
       end
-      context 'with valid data' do
-        
-        
-        context 'and choosing location' do
 
+      context 'with valid data' do
         context 'for outsourced employees' do
           before(:each) do
             within '#content' do

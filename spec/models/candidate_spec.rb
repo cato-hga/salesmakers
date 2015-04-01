@@ -130,6 +130,7 @@ describe Candidate do
   describe '#prescreened?' do
     let(:prescreen_candidate) { create :candidate }
     let(:prescreen_answers) { create :prescreen_answer }
+    let(:outsourced_location) { create :location_area, outsourced: true }
     it 'returns true if there are prescreen answers for a candidate' do
       prescreen_answers.update candidate: prescreen_candidate
       prescreen_answers.reload
@@ -138,6 +139,11 @@ describe Candidate do
     end
     it 'returns true if the candidates status is set to prescreened' do
       prescreen_candidate.update status: :prescreened
+      prescreen_candidate.reload
+      expect(prescreen_candidate.prescreened?).to eq(true)
+    end
+    it 'returns true if the candidate is outsourced' do
+      prescreen_candidate.update location_area: outsourced_location
       prescreen_candidate.reload
       expect(prescreen_candidate.prescreened?).to eq(true)
     end
