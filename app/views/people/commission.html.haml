@@ -21,7 +21,15 @@
       - payouts_total += payout.payout
       - sale = payout.vonage_sale
       - date = short_date(sale.sale_date)
-      - mac = sale.mac
+      - mac = sale.mac.html_safe
+      - if payout.day_62?
+        - mac += ' <strong>DAY 62</strong>'.html_safe
+      - elsif payout.day_92?
+        - mac += ' <strong>DAY 92</strong>'.html_safe
+      - elsif payout.day_122?
+        - mac += ' <strong>DAY 122</strong>'.html_safe
+      - elsif payout.day_152?
+        - mac += ' <strong>DAY 152</strong>'.html_safe
       - location = sale.location.name
       - customer = "#{sale.customer_first_name} #{sale.customer_last_name}"
       - customer = NameCase(customer)

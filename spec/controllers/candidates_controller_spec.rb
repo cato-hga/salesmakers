@@ -25,6 +25,9 @@ describe CandidatesController do
                                              permission_group: permission_group,
                                              description: 'Test Description' }
   let(:location_area) { create :location_area, location: location }
+  let!(:sprint_radio_shack_training_session) {
+    create :sprint_radio_shack_training_session
+  }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
 
@@ -1215,5 +1218,30 @@ describe CandidatesController do
       end
     end
 
+  end
+
+  describe 'PUT set_sprint_radio_shack_training_session' do
+    let!(:candidate) { create :candidate }
+
+    subject do
+      put :set_sprint_radio_shack_training_session,
+          id: candidate.id,
+          sprint_radio_shack_training_session: {
+              id: sprint_radio_shack_training_session.id
+          }
+    end
+
+    it 'should be a redirect to the candidate show page' do
+      subject
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'saves the SprintRadioShackTrainingSession' do
+      expect {
+        subject
+        candidate.reload
+      }.to change(candidate, :sprint_radio_shack_training_session_id).
+               from(nil).to(sprint_radio_shack_training_session.id)
+    end
   end
 end

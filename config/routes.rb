@@ -48,6 +48,7 @@ Rails.application.routes.draw do
       post :cant_make_training_location
       get :welcome_call
       patch :record_welcome_call
+      put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
     end
     collection do
       get :dashboard, as: :dashboard
@@ -228,6 +229,7 @@ Rails.application.routes.draw do
       get 'people/onboard/:connect_user_id', to: 'people#onboard', as: 'api_onboard'
       get 'people/separate/:connect_user_id', to: 'people#separate', as: 'api_separate'
       get 'people/update/:connect_user_id', to: 'people#update', as: 'api_update'
+      get 'locations/:zip', to: 'locations#nearby_zip', as: 'api_locations_nearby_zip'
     end
   end
 

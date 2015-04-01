@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150330182721) do
+ActiveRecord::Schema.define(version: 20150331210837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20150330182721) do
     t.integer "personality_assessment_status", default: 0, null: false
     t.string "shirt_gender"
     t.string "shirt_size"
+    t.integer "sprint_radio_shack_training_session_id"
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
@@ -959,6 +960,12 @@ ActiveRecord::Schema.define(version: 20150330182721) do
     t.boolean "virtual", default: false, null: false
   end
 
+  create_table "sprint_radio_shack_training_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "technology_service_providers", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -979,23 +986,6 @@ ActiveRecord::Schema.define(version: 20150330182721) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
-  end
-
-  create_table "tmp_candidates", id: false, force: :cascade do |t|
-    t.integer "cid"
-    t.string "state"
-  end
-
-  create_table "tmp_rates", id: false, force: :cascade do |t|
-    t.decimal "hourly_rate"
-    t.string "store_number"
-  end
-
-  create_table "tmp_tl", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "location_name"
-    t.string "room"
-    t.string "store_number"
   end
 
   create_table "training_availabilities", force: :cascade do |t|

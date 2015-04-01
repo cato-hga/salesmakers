@@ -57,6 +57,10 @@ describe Candidate do
     it 'responds to personality_assessment_score' do
       expect(candidate).to respond_to(:personality_assessment_score)
     end
+
+    it 'responds to sprint_radio_shack_training_session' do
+      expect(candidate).to respond_to(:sprint_radio_shack_training_session)
+    end
   end
 
   describe 'personality assessment requirements' do

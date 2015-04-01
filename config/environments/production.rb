@@ -1,5 +1,27 @@
 require 'exception_notification/rails'
-require 'exception_notification/sidekiq'
+require 'sidekiq'
+
+module ExceptionNotification
+  class Sidekiq
+    def call(worker, msg, queue)
+      begin
+        yield
+      rescue Exception => exception
+        unless exception.is_a?(Postmark::InvalidMessageError) and
+            exception.to_s.include?('You tried to send to a recipient that has been marked as inactive')
+          ExceptionNotifier.notify_exception(exception, :data => { :sidekiq => msg })
+        end
+        raise exception
+      end
+    end
+  end
+end
+
+::Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add ::ExceptionNotification::Sidekiq
+  end
+end
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
