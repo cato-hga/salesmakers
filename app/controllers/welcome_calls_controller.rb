@@ -1,0 +1,3 @@
+class WelcomeCallsController < ApplicationController
+
+end
