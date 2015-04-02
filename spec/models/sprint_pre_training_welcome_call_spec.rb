@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SprintPreTrainingWelcomeCall, :type => :model do
+  let(:call) { build :sprint_pre_training_welcome_call }
 
   describe 'validations' do
-    let(:call) { build :sprint_pre_training_welcome_call }
     it 'requires a candidate' do
       call.candidate = nil
       expect(call).not_to be_valid
@@ -38,4 +38,17 @@ RSpec.describe SprintPreTrainingWelcomeCall, :type => :model do
     end
   end
 
+  describe '#confirmed?' do
+    it 'returns true if all confirms and reviews are true' do
+      call.cloud_reviewed = false
+      expect(call.complete?).to eq(false)
+      call.cloud_reviewed = true
+      call.cloud_confirmed = true
+      call.group_me_reviewed = true
+      call.group_me_confirmed = true
+      call.epay_reviewed = true
+      call.epay_confirmed = true
+      expect(call.complete?).to eq(true)
+    end
+  end
 end

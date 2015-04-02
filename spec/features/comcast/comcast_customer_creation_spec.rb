@@ -66,19 +66,6 @@ describe 'Comcast Customer Creation' do
       end
     end
 
-    context 'with invalid data' do
-      it 'retains information in the fields', pending: 'YEA NOT NOW' do
-        fill_in 'First name', with: 'Test'
-        fill_in 'Last name', with: 'User'
-        fill_in 'Comments', with: 'Test comment!'
-        click_on 'Enter Sale'
-        expect(page).to have_content('Mobile phone is required')
-        expect(page).to have_content('Test')
-        expect(page).to have_content('User')
-        expect(page).to have_content('Test comment!')
-      end
-    end
-
     describe 'with valid data' do
 
       describe 'and choosing to enter a sale' do

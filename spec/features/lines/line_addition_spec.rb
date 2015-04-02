@@ -80,9 +80,5 @@ describe 'Line Addition' do
         end
       end
     end
-
-    describe 'row deletion' do
-      it 'deletes the row'
-    end
   end
 end

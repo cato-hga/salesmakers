@@ -40,13 +40,13 @@ describe 'Sprint PreTraining Welcome calls' do
     before(:each) do
       click_on 'Welcome Call'
       select 'Yes', from: 'Is the candidate still available for training?'
-      check :group_me_reviewed
-      check :group_me_confirmed
-      check :cloud_reviewed
-      check :cloud_confirmed
-      check :epay_reviewed
-      check :epay_confirmed
-      fill_in 'Comment', with: 'Test'
+      check :sprint_pre_training_welcome_call_group_me_reviewed
+      check :sprint_pre_training_welcome_call_group_me_confirmed
+      check :sprint_pre_training_welcome_call_cloud_reviewed
+      check :sprint_pre_training_welcome_call_cloud_confirmed
+      check :sprint_pre_training_welcome_call_epay_reviewed
+      check :sprint_pre_training_welcome_call_epay_confirmed
+      fill_in :sprint_pre_training_welcome_call_training_availability_comment, with: 'Test'
       click_on 'Save'
     end
     it 'does not update the training availability for the candidate' do
@@ -138,9 +138,9 @@ describe 'Sprint PreTraining Welcome calls' do
     before(:each) do
       click_on 'Welcome Call'
       select 'Yes', from: 'Is the candidate still available for training?'
-      check :group_me_reviewed
-      check :epay_reviewed
-      check :cloud_reviewed
+      check :sprint_pre_training_welcome_call_group_me_reviewed
+      check :sprint_pre_training_welcome_call_epay_reviewed
+      check :sprint_pre_training_welcome_call_cloud_reviewed
       fill_in 'Comment', with: 'Test'
       click_on 'Save'
     end
@@ -164,6 +164,7 @@ describe 'Sprint PreTraining Welcome calls' do
         expect(page).to have_content 'Welcome Call'
       end
     end
+
     it 'sets the welcome_call_started_status' do
       welcome_call = SprintPreTrainingWelcomeCall.first
       expect(welcome_call.status).to eq('started')

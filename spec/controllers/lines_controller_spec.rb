@@ -55,7 +55,6 @@ describe LinesController do
       it 'should redirect to lines#index' do
         expect(subject).to redirect_to(lines_path)
       end
-      it 'should assign the Active line_state'
     end
 
     context 'failure' do

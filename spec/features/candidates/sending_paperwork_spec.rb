@@ -28,7 +28,7 @@ describe 'sending Docusign paperwork' do
     expect {
       visit send_paperwork_candidate_path(candidate)
     }.to change(JobOfferDetail, :count).by(1)
-    expect(page).to have_content('Could not send')
+    expect(page).to have_content('Paperwork sent successfully.')
     expect(page).to have_content(candidate.name)
   end
 

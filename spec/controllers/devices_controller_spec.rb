@@ -78,10 +78,6 @@ describe DevicesController do
       end
     end
 
-    context 'multiple devices success' do
-      it 'assigns the correct line to the correct device'
-    end
-
     context 'devices with secondary identifiers' do
 
       let!(:device_model) { create :device_model }

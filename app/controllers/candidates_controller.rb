@@ -5,7 +5,6 @@ class CandidatesController < ApplicationController
   before_action :do_authorization
   before_action :search_bar, except: [:support_search]
   before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
-  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   layout 'candidates', except: [:support_search]
@@ -25,70 +24,6 @@ class CandidatesController < ApplicationController
       @statuses << status if status[1] >= 10
     end
     @candidates = @search.result.page(params[:page])
-  end
-
-  def welcome_call
-    if @candidate.sprint_pre_training_welcome_call
-      @welcome_call = @candidate.sprint_pre_training_welcome_call
-    else
-      @welcome_call = SprintPreTrainingWelcomeCall.new
-    end
-
-    @training_unavailability_reasons = TrainingUnavailabilityReason.all
-    @training_availability = @candidate.training_availability
-  end
-
-  def record_welcome_call
-    @training_unavailability_reasons = TrainingUnavailabilityReason.all
-    @training_availability = @candidate.training_availability
-    if @candidate.sprint_pre_training_welcome_call
-      @candidate.sprint_pre_training_welcome_call.delete
-    end
-    @welcome_call = SprintPreTrainingWelcomeCall.new
-    @welcome_call.still_able_to_attend = params[:still_able_to_attend]
-    @welcome_call.comment = params[:comment]
-    @welcome_call.group_me_reviewed = params[:group_me_reviewed] if params[:group_me_reviewed]
-    @welcome_call.group_me_confirmed = params[:group_me_confirmed] if params[:group_me_confirmed]
-    @welcome_call.cloud_reviewed = params[:cloud_reviewed] if params[:cloud_reviewed]
-    @welcome_call.cloud_confirmed = params[:cloud_confirmed] if params[:cloud_confirmed]
-    @welcome_call.epay_reviewed = params[:epay_reviewed] if params[:epay_reviewed]
-    @welcome_call.epay_confirmed = params[:epay_confirmed] if params[:epay_confirmed]
-    @welcome_call.candidate = @candidate
-    if @welcome_call.save and @welcome_call.still_able_to_attend == false
-      if params[:training_unavailability_reason_id].blank?
-        flash[:error] = 'A reason must be selected'
-        render :welcome_call and return
-      else
-        @candidate.training_availability.delete
-        reason = TrainingUnavailabilityReason.find_by_id params[:training_unavailability_reason_id]
-        TrainingAvailability.create able_to_attend: false,
-                                    candidate: @candidate,
-                                    comments: @welcome_call.comment,
-                                    training_unavailability_reason: reason
-        flash[:notice] = 'Welcome Call Completed'
-        @current_person.log? 'welcome_call_completed',
-                             @candidate
-        @welcome_call.completed!
-      end
-    elsif @welcome_call.save and (@welcome_call.group_me_reviewed? and
-        @welcome_call.group_me_confirmed? and
-        @welcome_call.cloud_reviewed and
-        @welcome_call.cloud_confirmed and
-        @welcome_call.epay_reviewed and
-        @welcome_call.epay_confirmed)
-      flash[:notice] = 'Welcome Call Completed'
-      @welcome_call.completed!
-      @current_person.log? 'welcome_call_completed',
-                           @candidate
-    elsif @welcome_call.save
-      @welcome_call.started!
-      flash[:notice] = 'Welcome call updated'
-      @current_person.log? 'welcome_call_started',
-                           @candidate
-    else
-      render :welcome_call and return
-    end
-    redirect_to @candidate
   end
 
   def dashboard
@@ -224,15 +159,15 @@ class CandidatesController < ApplicationController
   def set_location_area
     @location_area = LocationArea.find params[:location_area_id]
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-    previous_location_area = @candidate.location_area
+    @previous_location_area = @candidate.location_area
     unless @candidate.update(location_area: @location_area)
       flash[:error] = @candidate.errors.full_messages.join(', ')
       redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s) and return
     end
-    if previous_location_area
-      previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
+    if @previous_location_area
+      @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
       if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
-        previous_location_area.update offer_extended_count: previous_location_area.offer_extended_count - 1
+        @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
       end
     end
     if @location_area.outsourced?
@@ -240,12 +175,12 @@ class CandidatesController < ApplicationController
       @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
       @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
       flash[:notice] = 'Location chosen successfully.'
-      redirect_to confirm_candidate_path(@candidate) and return
+      redirect_to new_candidate_training_availability_path(@candidate) and return
     end
     @candidate.location_selected! if @candidate.status == 'entered'
     if @back_to_confirm
       flash[:notice] = 'Location chosen successfully.'
-      redirect_to confirm_candidate_path(@candidate)
+      redirect_to (new_candidate_training_availability_path(@candidate))
     else
       CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
       @current_person.log? 'sent_assessment',
@@ -260,71 +195,9 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def confirm
-    #just uses get_candidate
-    @training_availability = TrainingAvailability.new
-  end
-
-  def record_confirmation
-    @training_availability = TrainingAvailability.new
-    if @shirt_gender.blank? or @shirt_size.blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :confirm and return
-    end
-    @training_availability.able_to_attend = @able_to_attend
-    @training_availability.candidate = @candidate
-    set_unable_to_attend_params unless @able_to_attend
-    if @training_availability.save
-      @candidate.shirt_size = params[:shirt_size]
-      @candidate.shirt_gender = params[:shirt_gender]
-      @candidate.save
-      @current_person.log? 'confirmed',
-                           @candidate
-      @candidate.confirmed!
-      if @candidate.active? and @candidate.job_offer_details.any?
-        flash[:notice] = 'Confirmation recorded'
-        redirect_to candidate_path @candidate
-      elsif @candidate.active? and @candidate.passed_personality_assessment?
-        redirect_to send_paperwork_candidate_path(@candidate)
-      else
-        flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
-        redirect_to candidate_path(@candidate)
-      end
-    else
-      render :confirm
-    end
-  end
-
-  def edit_candidate_details
-    #get candidate
-    @training_availability = @candidate.training_availability
-  end
-
-  def update_candidate_details
-    @training_availability = @candidate.training_availability
-    if @shirt_gender.blank? or @shirt_size.blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :edit_candidate_details and return
-    end
-    @training_availability.able_to_attend = @able_to_attend
-    @training_availability.candidate = @candidate
-    set_unable_to_attend_params unless @able_to_attend
-    @candidate.shirt_size = params[:shirt_size]
-    @candidate.shirt_gender = params[:shirt_gender]
-    if @training_availability.save and @candidate.save
-      @current_person.log? 'update',
-                           @candidate
-      flash[:notice] = 'Candidate updated'
-      redirect_to candidate_path @candidate
-    else
-      flash[:error] = 'Candidate could not be updated'
-      render :edit_candidate_details
-    end
-  end
-
   def send_paperwork
     geocode_if_necessary
-    if Rails.env.staging? or Rails.env.development?
+    if Rails.env.staging? or Rails.env.development? or Rails.env.test?
       envelope_response = 'STAGING'
     else
       envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
@@ -783,31 +656,6 @@ class CandidatesController < ApplicationController
         @datetime_end
     )
     @fully_screened_total = Candidate.where(status: Candidate.statuses[:fully_screened].to_i, active: true)
-  end
-
-  def setup_confirm_form_values
-    @training_unavailability_reasons = TrainingUnavailabilityReason.all
-    @shirt_gender = params[:shirt_gender]
-    @shirt_size = params[:shirt_size]
-    @shirt_size = params[:shirt_size]
-    @able_to_attend = if params[:able_to_attend] and not params[:able_to_attend].empty?
-                        if params[:able_to_attend] == 'false'
-                          false
-                        else
-                          true
-                        end
-                      else
-                        nil
-                      end
-    @training_unavailability_reason_id = params[:training_unavailability_reason_id]
-    @comments = params[:comments]
-    @location_area = @candidate.location_area
-    @schedule = []
-  end
-
-  def set_unable_to_attend_params
-    @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
-    @training_availability.comments = @comments
   end
 
   def geocode_if_necessary
