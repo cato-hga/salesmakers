@@ -15,27 +15,8 @@ class SprintPreTrainingWelcomeCallsController < ApplicationController
     @welcome_call.comment = params[:sprint_pre_training_welcome_call][:training_availability][:comment] if params[:sprint_pre_training_welcome_call][:training_availability][:comment]
     @welcome_call.still_able_to_attend = params[:sprint_pre_training_welcome_call][:still_able_to_attend] if params[:sprint_pre_training_welcome_call][:still_able_to_attend]
     if @welcome_call.save and @welcome_call.still_able_to_attend == false
-      if params[:sprint_pre_training_welcome_call][:training_availability][:training_unavailability_reason_id].blank?
-        flash[:error] = 'A reason must be selected'
-        render :new and return
-      else
-        @training_availability.delete
-        reason = TrainingUnavailabilityReason.find_by_id params[:sprint_pre_training_welcome_call][:training_availability][:training_unavailability_reason_id]
-        TrainingAvailability.create able_to_attend: false,
-                                    candidate: @candidate,
-                                    comments: @welcome_call.comment,
-                                    training_unavailability_reason: reason
-        flash[:notice] = 'Welcome Call Completed'
-        @current_person.log? 'welcome_call_completed',
-                             @candidate
-        @welcome_call.completed!
-      end
-    elsif @welcome_call.save and (@welcome_call.group_me_reviewed? and
-        @welcome_call.group_me_confirmed? and
-        @welcome_call.cloud_reviewed and
-        @welcome_call.cloud_confirmed and
-        @welcome_call.epay_reviewed and
-        @welcome_call.epay_confirmed)
+      not_able_to_attend
+    elsif @welcome_call.save and @welcome_call.complete?
       flash[:notice] = 'Welcome Call Completed'
       @welcome_call.completed!
       @current_person.log? 'welcome_call_completed',
@@ -53,6 +34,25 @@ class SprintPreTrainingWelcomeCallsController < ApplicationController
   end
 
   private
+
+  def not_able_to_attend
+    if params[:sprint_pre_training_welcome_call][:training_availability][:training_unavailability_reason_id].blank?
+      flash[:error] = 'A reason must be selected'
+      puts 'here'
+      render :new and return
+    else
+      @training_availability.delete
+      reason = TrainingUnavailabilityReason.find_by_id params[:sprint_pre_training_welcome_call][:training_availability][:training_unavailability_reason_id]
+      TrainingAvailability.create able_to_attend: false,
+                                  candidate: @candidate,
+                                  comments: @welcome_call.comment,
+                                  training_unavailability_reason: reason
+      flash[:notice] = 'Welcome Call Completed'
+      @current_person.log? 'welcome_call_completed',
+                           @candidate
+      @welcome_call.completed!
+    end
+  end
 
   def do_authorization
     authorize Candidate.new

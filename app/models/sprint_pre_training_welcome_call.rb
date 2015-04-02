@@ -22,4 +22,13 @@ class SprintPreTrainingWelcomeCall < ActiveRecord::Base
   def self.policy_class
     CandidatePolicy
   end
+
+  def complete?
+    self.group_me_reviewed? and
+        self.group_me_confirmed? and
+        self.cloud_reviewed and
+        self.cloud_confirmed and
+        self.epay_reviewed and
+        self.epay_confirmed
+  end
 end
