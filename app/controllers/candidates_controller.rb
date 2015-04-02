@@ -150,7 +150,7 @@ class CandidatesController < ApplicationController
   end
 
   def select_location
-    all_location_areas = get_all_location_areas
+    all_location_areas = LocationArea.get_all_location_areas(@candidate, @current_person)
     @location_area_search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@location_area_search.result)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
@@ -418,20 +418,6 @@ class CandidatesController < ApplicationController
     authorize Candidate.new
   end
 
-  def get_all_location_areas
-    all_locations = Location.
-        joins(:location_areas).
-        where('location_areas.target_head_count > 0')
-    return LocationArea.none if all_locations.count(:all) < 1
-    all_locations = Location.where("locations.id IN (#{all_locations.map(&:id).join(',')})")
-    locations = all_locations.near(@candidate, 30)
-    if not locations or locations.count(:all) < 5
-      locations = all_locations.near(@candidate, 500).first(5)
-    end
-    return LocationArea.none if locations.empty?
-    location_areas = locations.map { |l| l.location_areas }.flatten
-    LocationAreaPolicy::Scope.new(@current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
-  end
 
   def get_staffable_projects
     Project.
