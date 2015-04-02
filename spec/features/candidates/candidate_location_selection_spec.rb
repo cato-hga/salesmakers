@@ -204,4 +204,18 @@ describe 'selecting a Location for a Candidate' do
       expect(current_path).to eq(new_candidate_training_availability_path(candidate))
     end
   end
+
+  describe '"full" locations' do
+    it 'are not allowed to be selected' do
+      location_area.offer_extended_count = 3
+      location_area.save
+      location_area.reload
+      CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+      visit select_location_candidate_path candidate, 'false'
+      save_and_open_page
+      within first('tbody tr') do
+        expect(page).not_to have_css(:a)
+      end
+    end
+  end
 end
