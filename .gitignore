@@ -20,8 +20,11 @@
 /.idea/*.ids
 */.idea/workspace.xml
 **/.idea/workspace.xml
-**.idea*runConfigurations**
 .idea/workspace.xml
+*/.idea/misc.xml
+**/.idea/misc.xml
+.idea/misc.xml
+**.idea*runConfigurations**
 .idea*
 .idea*.generators
 /.idea/reconnect.iml
