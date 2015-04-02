@@ -95,7 +95,7 @@ describe 'Candidate dashboard' do
   let!(:onboarded_candidate) {
     create :candidate,
            mobile_phone: '1111111115',
-           person: person,
+           person: onboarded_person,
            status: :onboarded
   }
   let!(:partially_screened_candidate) {
@@ -108,13 +108,15 @@ describe 'Candidate dashboard' do
            person: person,
            sex_offender_check: :sex_offender_check_passed,
            public_background_check: :public_background_check_passed,
-           private_background_check: :private_background_check_passed,
-           drug_screening: :drug_screening_passed
+           private_background_check: :private_background_check_passed
   }
   let!(:fully_screened_candidate) {
     create :candidate,
            person: person,
            status: :fully_screened
+  }
+  let!(:onboarded_person) {
+    create :person
   }
   let!(:person) {
     create :person
@@ -199,8 +201,8 @@ describe 'Candidate dashboard' do
   end
   it 'shows the number of candidates that passed the drug screening' do
     within '#passed_drug_screening' do
-      expect(page).to have_selector('.range_count', text: '1')
-      expect(page).to have_selector('.total_count', text: '1')
+      expect(page).to have_selector('.range_count', text: '0')
+      expect(page).to have_selector('.total_count', text: '0')
     end
   end
   it 'shows the number of candidates partially screened' do
