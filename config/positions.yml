@@ -104,17 +104,17 @@ Corporate:
       not_leader: Human Resources Administrator
   recruit:
     4:
-      leader: Human Resources Director
-      not_leader: Human Resources Administrator
+      leader: Advocate Supervisor
+      not_leader: Advocate
     3:
-      leader: Human Resources Director
-      not_leader: Human Resources Administrator
+      leader: Advocate Supervisor
+      not_leader: Advocate
     2:
-      leader: Human Resources Director
-      not_leader: Human Resources Administrator
+      leader: Advocate Director
+      not_leader: Advocate
     1:
-      leader: Human Resources Director
-      not_leader: Human Resources Administrator
+      leader: Advocate Director
+      not_leader: Advocate
   advocate:
     4:
       leader: Advocate Supervisor
