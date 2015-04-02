@@ -5,7 +5,6 @@ class CandidatesController < ApplicationController
   before_action :do_authorization
   before_action :search_bar, except: [:support_search]
   before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
-  #before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   layout 'candidates', except: [:support_search]
@@ -156,17 +155,36 @@ class CandidatesController < ApplicationController
   def set_location_area
     @location_area = LocationArea.find params[:location_area_id]
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-    previous_location_area = @candidate.location_area
+    @previous_location_area = @candidate.location_area
     unless @candidate.update(location_area: @location_area)
       flash[:error] = @candidate.errors.full_messages.join(', ')
       redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s) and return
     end
-    if previous_location_area
-      previous_location_area.update potential_candidate_count: previous_location_area.potential_candidate_count - 1
-      if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
-        previous_location_area.update offer_extended_count: previous_location_area.offer_extended_count - 1
-      end
+    check_and_handle_previous_location_area
+    check_and_handle_outsourced
+    @candidate.location_selected! if @candidate.status == 'entered'
+    if @back_to_confirm
+      flash[:notice] = 'Location chosen successfully.'
+      redirect_to (new_candidate_training_availability_path(@candidate))
+    else
+      send_assessment_and_update_location
     end
+  end
+
+  def send_assessment_and_update_location
+    CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
+    @current_person.log? 'sent_assessment',
+                         @candidate
+    if @candidate.prescreened?
+      @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
+      flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
+      redirect_to candidate_path(@candidate) and return
+    end
+    flash[:notice] = 'Location chosen successfully.'
+    redirect_to new_candidate_prescreen_answer_path(@candidate)
+  end
+
+  def check_and_handle_outsourced
     if @location_area.outsourced?
       @candidate.accepted!
       @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
@@ -174,21 +192,14 @@ class CandidatesController < ApplicationController
       flash[:notice] = 'Location chosen successfully.'
       redirect_to new_candidate_training_availability_path(@candidate) and return
     end
-    @candidate.location_selected! if @candidate.status == 'entered'
-    if @back_to_confirm
-      flash[:notice] = 'Location chosen successfully.'
-      redirect_to (new_candidate_training_availability_path(@candidate))
-    else
-      CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
-      @current_person.log? 'sent_assessment',
-                           @candidate
-      if @candidate.prescreened?
-        @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-        flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
-        redirect_to candidate_path(@candidate) and return
+  end
+
+  def check_and_handle_previous_location_area
+    if @previous_location_area
+      @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
+      if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
+        @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
       end
-      flash[:notice] = 'Location chosen successfully.'
-      redirect_to new_candidate_prescreen_answer_path(@candidate)
     end
   end
 
