@@ -103,6 +103,14 @@ describe 'Candidate dashboard' do
            person: person,
            status: :partially_screened
   }
+  let!(:screening) {
+    create :screening,
+           person: person,
+           sex_offender_check: :sex_offender_check_passed,
+           public_background_check: :public_background_check_passed,
+           private_background_check: :private_background_check_passed,
+           drug_screening: :drug_screening_passed
+  }
   let!(:fully_screened_candidate) {
     create :candidate,
            person: person,
@@ -168,6 +176,30 @@ describe 'Candidate dashboard' do
   it 'shows the number of candidates onboarded' do
     within '#onboarded' do
       expect(page).to have_selector('.range_count', text: '3')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates that passed the sex offender check' do
+    within '#passed_sex_offender_check' do
+      expect(page).to have_selector('.range_count', text: '1')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates that passed the public background check' do
+    within '#passed_public_background_check' do
+      expect(page).to have_selector('.range_count', text: '1')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates that passed the private background check' do
+    within '#passed_private_background_check' do
+      expect(page).to have_selector('.range_count', text: '1')
+      expect(page).to have_selector('.total_count', text: '1')
+    end
+  end
+  it 'shows the number of candidates that passed the drug screening' do
+    within '#passed_drug_screening' do
+      expect(page).to have_selector('.range_count', text: '1')
       expect(page).to have_selector('.total_count', text: '1')
     end
   end
