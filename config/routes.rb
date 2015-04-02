@@ -227,7 +227,7 @@ Rails.application.routes.draw do
       get 'people/onboard/:connect_user_id', to: 'people#onboard', as: 'api_onboard'
       get 'people/separate/:connect_user_id', to: 'people#separate', as: 'api_separate'
       get 'people/update/:connect_user_id', to: 'people#update', as: 'api_update'
-      get 'locations/:zip', to: 'locations#nearby_zip', as: 'api_locations_nearby_zip'
+      get 'projects/:project_id/locations/:zip', to: 'locations#nearby_zip_for_project', as: 'api_locations_nearby_zip_for_project'
     end
   end
 

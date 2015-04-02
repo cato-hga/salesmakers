@@ -11,6 +11,19 @@ describe API::V1::LocationsController do
            latitude: 17.9857925,
            longitude: -66.3914388
   }
+  let(:outside_project) { create :project }
+  let(:outside_area) { create :area, project: outside_project }
+  let!(:other_project_location_area) {
+    create :location_area,
+           area: outside_area,
+           location: other_project_location,
+           target_head_count: 2
+  }
+  let(:other_project_location) {
+    create :location,
+           latitude: 17.9857925,
+           longitude: -66.3914388
+  }
   let(:result) {
     [
         OpenStruct.new(data: {
@@ -31,7 +44,12 @@ describe API::V1::LocationsController do
   end
 
   describe 'with a correct zip' do
-    before { get :nearby_zip, zip: '33701', format: :json }
+    before do
+      get :nearby_zip_for_project,
+          zip: '33701',
+          project_id: location_area.area.project_id,
+          format: :json
+    end
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -43,7 +61,12 @@ describe API::V1::LocationsController do
   end
 
   describe 'without a correct zip' do
-    before { get :nearby_zip, zip: '223', format: :json }
+    before do
+      get :nearby_zip_for_project,
+          zip: '223',
+          project_id: location_area.area.project_id,
+          format: :json
+    end
 
     it 'does not return a success status' do
       expect(response).not_to be_success
