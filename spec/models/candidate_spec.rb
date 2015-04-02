@@ -126,4 +126,45 @@ describe Candidate do
       expect(second_candidate).not_to be_valid
     end
   end
+
+  describe '#prescreened?' do
+    let(:prescreen_candidate) { create :candidate }
+    let(:prescreen_answers) { create :prescreen_answer }
+    let(:outsourced_location) { create :location_area, outsourced: true }
+    it 'returns true if there are prescreen answers for a candidate' do
+      prescreen_answers.update candidate: prescreen_candidate
+      prescreen_answers.reload
+      prescreen_candidate.reload
+      expect(prescreen_candidate.prescreened?).to eq(true)
+    end
+    it 'returns true if the candidates status is set to prescreened' do
+      prescreen_candidate.update status: :prescreened
+      prescreen_candidate.reload
+      expect(prescreen_candidate.prescreened?).to eq(true)
+    end
+    it 'returns true if the candidate is outsourced' do
+      prescreen_candidate.update location_area: outsourced_location
+      prescreen_candidate.reload
+      expect(prescreen_candidate.prescreened?).to eq(true)
+    end
+  end
+
+  describe '#location_selected' do
+    let(:location_candidate) { create :candidate }
+    let(:location_area) { create :location_area }
+
+    it 'returns true if the candidate has a location area' do
+      location_candidate.update location_area: location_area
+      location_candidate.reload
+      expect(location_candidate.location_selected?).to eq(true)
+    end
+
+    it 'returns true if the candidates status is location_selected' do
+      location_candidate.update status: :location_selected
+      location_candidate.reload
+      expect(location_candidate.location_selected?).to eq(true)
+    end
+  end
+
+
 end

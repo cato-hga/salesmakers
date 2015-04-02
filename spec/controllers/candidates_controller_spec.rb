@@ -75,7 +75,7 @@ describe CandidatesController do
     before(:each) do
       allow(controller).to receive(:policy).and_return double(create?: true)
     end
-    context 'success, going to prescreen' do
+    context 'success, going to select_location' do
       subject {
         post :create,
              candidate: {
@@ -86,7 +86,7 @@ describe CandidatesController do
                  zip: '33701',
                  candidate_source_id: source.id
              },
-             start_prescreen: 'true'
+             select_location: 'true'
       }
       it 'creates a candidate' do
         expect { subject }.to change(Candidate, :count).by(1)
@@ -98,10 +98,10 @@ describe CandidatesController do
         subject
         expect(Candidate.first.entered?).to be_truthy
       end
-      it 'redirects to prescreen_questions#new' do
+      it 'redirects to select location' do
         subject
         candidate = Candidate.first
-        expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
+        expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
       end
       it 'saves the candidates recruiter/person' do
         subject
@@ -161,6 +161,47 @@ describe CandidatesController do
       it 'sets the candidate contact datetime correctly' do
         subject
         expect(CandidateContact.first.created_at.to_i).to eq(call_initiated.to_i)
+      end
+    end
+
+    context 'success, outsourced' do
+      let!(:outsourced) { create :candidate_source, name: 'Outsourced' }
+      subject {
+        post :create,
+             candidate: {
+                 first_name: 'Test',
+                 last_name: 'Candidate',
+                 mobile_phone: '7274985180',
+                 email: 'test@test.com',
+                 zip: '33701',
+                 candidate_source_id: outsourced.id
+             },
+             start_prescreen: 'true'
+      }
+      it 'creates a candidate' do
+        expect { subject }.to change(Candidate, :count).by(1)
+      end
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
+      it 'sets the candidate as entered' do
+        subject
+        expect(Candidate.first.entered?).to be_truthy
+      end
+      it 'redirects to select location' do
+        subject
+        candidate = Candidate.first
+        expect(response).to redirect_to(select_location_candidate_path(candidate, 'false'))
+      end
+      it 'saves the candidates recruiter/person' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.created_by).to eq(recruiter)
+      end
+      it 'saves the candidates source' do
+        subject
+        candidate = Candidate.first
+        expect(candidate.candidate_source).to eq(outsourced)
       end
     end
 
@@ -251,73 +292,157 @@ describe CandidatesController do
   end
 
   describe 'GET set_location_area' do
-    let!(:candidate) { create :candidate, status: :prescreened }
+    let!(:candidate) { create :candidate, status: :entered }
     let(:location) { create :location }
     let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
     let!(:second_location_area) { create :location_area, area: area, offer_extended_count: 1 }
 
-    subject {
-      get :set_location_area,
-          id: candidate.id,
-          location_area_id: location_area.id,
-          back_to_confirm: 'false'
-    }
+    context 'for non-outsourced locations' do
+      let!(:location_area) { create :location_area, location: location, area: area, outsourced: false }
+      subject {
+        get :set_location_area,
+            id: candidate.id,
+            location_area_id: location_area.id,
+            back_to_confirm: 'false'
+      }
 
-    it 'redirects to interview schedule' do
-      subject
-      expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
-    end
+      it 'redirects to prescreen' do
+        subject
+        expect(response).to redirect_to(new_candidate_prescreen_answer_path(candidate))
+      end
 
-    it 'sets the location_area_id on the candidate' do
-      expect {
+      it 'sets the location_area_id on the candidate' do
+        expect {
+          subject
+          candidate.reload
+        }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+      end
+
+      it 'updates the potential_candidate_count on the LocationArea if the candidate is prescreened' do
+        expect {
+          candidate.update status: :prescreened
+          candidate.reload
+          subject
+          location_area.reload
+        }.to change(location_area, :potential_candidate_count).from(0).to(1)
+      end
+
+      it 'updates the offer_extended_count on the LocationArea if necessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :accepted
+          subject
+          second_location_area.reload
+        }.to change(second_location_area, :offer_extended_count).from(1).to(0)
+      end
+
+      it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :prescreened
+          subject
+          second_location_area.reload
+        }.not_to change(second_location_area, :offer_extended_count)
+      end
+
+      it 'updates the candidate status' do
         subject
         candidate.reload
-      }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+        expect(candidate.status).to eq('location_selected')
+      end
+
+      it 'sends the candidate the personality assessment URL' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
+
+      it 'creates a log entry' do
+        expect { subject }.to change(LogEntry, :count).by(1)
+      end
     end
 
-    it 'updates the potential_candidate_count on the LocationArea' do
-      expect {
+    context 'for outsourced locations' do
+      let!(:location_area) { create :location_area, location: location, area: area, outsourced: true }
+      subject {
+        get :set_location_area,
+            id: candidate.id,
+            location_area_id: location_area.id,
+            back_to_confirm: 'false'
+      }
+
+      it 'redirects to confirmation' do
         subject
-        location_area.reload
-      }.to change(location_area, :potential_candidate_count).from(0).to(1)
-    end
+        expect(response).to redirect_to(confirm_candidate_path(candidate))
+      end
 
-    it 'updates the offer_extended_count on the LocationArea if necessary' do
-      expect {
-        candidate.update location_area: second_location_area,
-                         status: :accepted
+      it 'sets the location_area_id on the candidate' do
+        expect {
+          subject
+          candidate.reload
+        }.to change(candidate, :location_area_id).from(nil).to(location_area.id)
+      end
+
+      it 'updates the potential_candidate_count on the LocationArea' do
+        allow(candidate).to receive(:prescreened?).and_return(true)
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :potential_candidate_count).from(0).to(1)
+      end
+
+      it 'updates the offer_extended_count on the LocationArea if necessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :accepted
+          subject
+          second_location_area.reload
+        }.to change(second_location_area, :offer_extended_count).from(1).to(0)
+      end
+
+      it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+        expect {
+          candidate.update location_area: second_location_area,
+                           status: :prescreened
+          subject
+          second_location_area.reload
+        }.not_to change(second_location_area, :offer_extended_count)
+      end
+
+      it 'does not send the candidate the personality assessment URL' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to raise_error(NoMethodError)
+      end
+
+      it 'does not creates a log entry' do
+        expect { subject }.not_to change(LogEntry, :count)
+      end
+
+      it 'skips to the confirmation page' do
         subject
-        second_location_area.reload
-      }.to change(second_location_area, :offer_extended_count).from(1).to(0)
-    end
+        expect(response).to redirect_to(confirm_candidate_path(candidate))
+      end
 
-    it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
-      expect {
-        candidate.update location_area: second_location_area,
-                         status: :prescreened
+      it 'updates the candidate status' do
         subject
-        second_location_area.reload
-      }.not_to change(second_location_area, :offer_extended_count)
-    end
+        candidate.reload
+        expect(candidate.status).to eq('accepted')
+      end
 
-    it 'updates the candidate status' do
-      subject
-      candidate.reload
-      expect(candidate.status).to eq('location_selected')
-    end
-
-    it 'sends the candidate the personality assessment URL' do
-      expect {
-        subject
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
-    end
-
-    it 'creates a log entry' do
-      expect { subject }.to change(LogEntry, :count).by(1)
+      it 'updates the offer_extended_count of the LocationArea' do
+        expect {
+          subject
+          location_area.reload
+        }.to change(location_area, :offer_extended_count).from(0).to(1)
+      end
     end
   end
 
