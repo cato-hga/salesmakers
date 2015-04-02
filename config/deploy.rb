@@ -1,6 +1,12 @@
 # config valid only for Capistrano 3.3.5
 lock '3.3.5'
 
+Airbrussh.configure do |config|
+  config.color = :auto
+  config.truncate = :auto
+  config.banner = :auto
+end
+
 set :application, 'oneconnect'
 set :repo_url, 'git@bitbucket.org:salesmakers/salesmakers.git'
 
