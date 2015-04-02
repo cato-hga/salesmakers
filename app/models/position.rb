@@ -97,6 +97,7 @@ class Position < ActiveRecord::Base
     area_name = self.clean_area_name connect_user_region
     andc = area_name.downcase
     return find_hq_position_from_department('specialists', fast_type, leader) if andc.include? 'specialists'
+    return find_hq_position_from_department('smsupport', fast_type, leader) if andc.include? 'salesmakers support'
     return find_hq_position_from_department('recruit', fast_type, leader) if andc.include? 'recruit'
     return find_hq_position_from_department('advocate', fast_type, leader) if andc.include? 'advocate'
     return find_hq_position_from_department('human', fast_type, leader) if andc.include? 'human'

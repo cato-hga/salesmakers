@@ -22,12 +22,12 @@ class PersonUpdater
   private
 
   def update_employment
-    if @connect_user.isactive? and not @person.active?
+    if @connect_user.isactive == 'Y' and not @person.active?
       return if @person.employments.empty?
       @person.employments.find_or_create_by start: @connect_user.updated.to_date
       @person.update active: true
-    elsif @person.active? and not @connect_user.isactive?
-      @person.separate_from_connect
+    elsif @person.active? and @connect_user.isactive == 'N'
+      @person.separate_from_connect true
     end
   end
 
