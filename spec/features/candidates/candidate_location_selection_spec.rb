@@ -212,7 +212,6 @@ describe 'selecting a Location for a Candidate' do
       location_area.reload
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit select_location_candidate_path candidate, 'false'
-      save_and_open_page
       within first('tbody tr') do
         expect(page).not_to have_css(:a)
       end
