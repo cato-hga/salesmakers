@@ -160,26 +160,22 @@ class CandidatesController < ApplicationController
     @location_area = LocationArea.find params[:location_area_id]
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
     @previous_location_area = @candidate.location_area
-    unless @candidate.update(location_area: @location_area)
-      candidate_not_updated and return
-    end
-    if @previous_location_area
-      candidate_has_previous_location_area
-    end
-    if @location_area.outsourced?
-      candidate_location_outsourced and return
-    end
-    @candidate.location_selected! if @candidate.status == 'entered'
-    if @back_to_confirm
-      back_to_confirmation and return
+    if @candidate.update location_area: @location_area
+      if @previous_location_area
+        candidate_has_previous_location_area
+      end
+      if @location_area.outsourced?
+        candidate_location_outsourced and return
+      end
+      if @back_to_confirm
+        back_to_confirmation and return
+      else
+        candidate_location_completion
+      end
     else
-      candidate_location_completion
+      flash[:error] = @candidate.errors.full_messages.join(', ')
+      redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s)
     end
-  end
-
-  def candidate_not_updated
-    flash[:error] = @candidate.errors.full_messages.join(', ')
-    redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s)
   end
 
   def candidate_has_previous_location_area
@@ -215,6 +211,7 @@ class CandidatesController < ApplicationController
     if @candidate.prescreened?
       candidate_is_prescreened and return
     else
+      @candidate.location_selected! if @candidate.status == 'entered'
       flash[:notice] = 'Location chosen successfully.'
       redirect_to new_candidate_prescreen_answer_path(@candidate)
     end
