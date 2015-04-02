@@ -102,6 +102,19 @@ Corporate:
     1:
       leader: Human Resources Director
       not_leader: Human Resources Administrator
+  smsupport:
+    4:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    3:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    2:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    1:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
   recruit:
     4:
       leader: Advocate Supervisor
