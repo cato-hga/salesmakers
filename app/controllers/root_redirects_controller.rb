@@ -1,5 +1,8 @@
 class RootRedirectsController < ApplicationController
   def incoming_redirect
+    unless @current_person
+      render file: 'public/403.html', status: :forbidden and return
+    end
     department = @current_person.position.department
     if department.name == 'Information Technology'
       redirect_to devices_path and return
