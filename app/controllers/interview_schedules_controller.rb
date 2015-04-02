@@ -89,13 +89,7 @@ class InterviewSchedulesController < ApplicationController
 
   def handle_previous_interviews
     if @candidate.interview_schedules.any?
-      active_interviews = @candidate.interview_schedules.where(active: true)
-      for interview in active_interviews do
-        interview.update active: false
-        @current_person.log? 'cancel',
-                             interview,
-                             @candidate
-      end
+      InterviewSchedule.cancel_all_interviews(@candidate, @current_person)
     end
   end
 
