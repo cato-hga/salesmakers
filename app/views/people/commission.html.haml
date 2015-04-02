@@ -50,6 +50,7 @@
     - refunds_rows = Array.new
     - for refund in @refunds do
       - payout = refund.payout
+      - next unless payout
       - refunds_total += -1 * payout.payout
       - change = refund.vonage_account_status_change
       - date = short_date(refund.refund_date)
