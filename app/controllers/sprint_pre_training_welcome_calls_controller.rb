@@ -21,16 +21,17 @@ class SprintPreTrainingWelcomeCallsController < ApplicationController
       @welcome_call.completed!
       @current_person.log? 'welcome_call_completed',
                            @candidate
+      redirect_to @candidate and return
     elsif @welcome_call.save
       @welcome_call.started!
       flash[:notice] = 'Welcome call updated'
       @current_person.log? 'welcome_call_started',
                            @candidate
+      redirect_to @candidate and return
     else
       flash[:error] = 'Welcome call could not be updated'
       render :new and return
     end
-    redirect_to @candidate
   end
 
   private
@@ -38,7 +39,6 @@ class SprintPreTrainingWelcomeCallsController < ApplicationController
   def not_able_to_attend
     if params[:sprint_pre_training_welcome_call][:training_availability][:training_unavailability_reason_id].blank?
       flash[:error] = 'A reason must be selected'
-      puts 'here'
       render :new and return
     else
       @training_availability.delete
@@ -51,6 +51,7 @@ class SprintPreTrainingWelcomeCallsController < ApplicationController
       @current_person.log? 'welcome_call_completed',
                            @candidate
       @welcome_call.completed!
+      redirect_to @candidate and return
     end
   end
 

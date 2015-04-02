@@ -33,7 +33,7 @@ describe 'confirming details' do
     }
 
     it 'successfully redirects to candidate show' do
-      expect(page).to have_content('Please send now manually')
+      expect(page).to have_content('Paperwork sent successfully.')
     end
 
     it 'updates the candidate' do
@@ -53,7 +53,7 @@ describe 'confirming details' do
       select reason.name, from: 'training_availability[training_unavailability_reason_id]'
       #fill_in 'Comments', with: 'Test'
       click_on 'Confirm and Save'
-      expect(page).to have_content('Please send now manually')
+      expect(page).to have_content('Paperwork sent successfully.')
       Capybara.ignore_hidden_elements = true
     end
   end

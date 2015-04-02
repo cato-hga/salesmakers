@@ -5,7 +5,7 @@ class CandidatesController < ApplicationController
   before_action :do_authorization
   before_action :search_bar, except: [:support_search]
   before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
-  before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
+  #before_action :setup_confirm_form_values, only: [:confirm, :record_confirmation, :edit_candidate_details, :update_candidate_details]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   layout 'candidates', except: [:support_search]
@@ -585,31 +585,6 @@ class CandidatesController < ApplicationController
         @datetime_end
     )
     @fully_screened_total = Candidate.where(status: Candidate.statuses[:fully_screened].to_i, active: true)
-  end
-
-  def setup_confirm_form_values
-    @training_unavailability_reasons = TrainingUnavailabilityReason.all
-    @shirt_gender = params[:shirt_gender]
-    @shirt_size = params[:shirt_size]
-    @shirt_size = params[:shirt_size]
-    @able_to_attend = if params[:able_to_attend] and not params[:able_to_attend].empty?
-                        if params[:able_to_attend] == 'false'
-                          false
-                        else
-                          true
-                        end
-                      else
-                        nil
-                      end
-    @training_unavailability_reason_id = params[:training_unavailability_reason_id]
-    @comments = params[:comments]
-    @location_area = @candidate.location_area
-    @schedule = []
-  end
-
-  def set_unable_to_attend_params
-    @training_availability.training_unavailability_reason_id = @training_unavailability_reason_id
-    @training_availability.comments = @comments
   end
 
   def geocode_if_necessary
