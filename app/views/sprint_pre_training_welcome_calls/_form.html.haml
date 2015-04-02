@@ -12,7 +12,7 @@
     .inner
       %h3 Training Attendance
       %p
-        Training for this position starts on Monday, 3/30/2015 from 8am-6pm.
+        Training for this position is from Monday through Friday, approx 9am to 6pm, for two weeks. Exact dates, times and locations are currently TBD.
         = f.label :still_able_to_attend, 'Is the candidate still available for training?'
         = f.select :still_able_to_attend, options_for_select([['Yes', true], ['No', false]], @training_availability.able_to_attend)
         = f.fields_for :training_availability do |train|
