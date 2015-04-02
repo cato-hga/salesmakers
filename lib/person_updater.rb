@@ -27,7 +27,7 @@ class PersonUpdater
       @person.employments.find_or_create_by start: @connect_user.updated.to_date
       @person.update active: true
     elsif @person.active? and @connect_user.isactive == 'N'
-      @person.separate_from_connect
+      @person.separate_from_connect true
     end
   end
 
