@@ -1,6 +1,8 @@
 module CandidateDashboard
   extend ActiveSupport::Concern
 
+  protected
+
   def set_datetime_range
     @datetime_start = (DateTime.now.in_time_zone +
         Time.zone.utc_offset +
