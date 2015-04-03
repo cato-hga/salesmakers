@@ -14,7 +14,6 @@ set :deploy_to, '/opt/oneconnect'
 set :scm, :git
 set :keep_releases, 5
 
-set :format, :pretty
 set :log_level, :debug
 set :pty, false
 
