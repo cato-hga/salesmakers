@@ -210,6 +210,13 @@ class Candidate < ActiveRecord::Base
     Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_completed_by_advocate]
   end
 
+  def outsourced?
+    outsource_source = CandidateSource.find_by name: 'Outsourced'
+    return true if self.candidate_source == outsource_source
+    return true if self.location_area and self.location_area.outsourced == true
+    false
+  end
+
   private
 
   def geocode_on_production

@@ -133,18 +133,14 @@ describe Candidate do
     let(:outsourced_location) { create :location_area, outsourced: true }
     it 'returns true if there are prescreen answers for a candidate' do
       prescreen_answers.update candidate: prescreen_candidate
-      prescreen_answers.reload
-      prescreen_candidate.reload
       expect(prescreen_candidate.prescreened?).to eq(true)
     end
     it 'returns true if the candidates status is set to prescreened' do
       prescreen_candidate.update status: :prescreened
-      prescreen_candidate.reload
       expect(prescreen_candidate.prescreened?).to eq(true)
     end
     it 'returns true if the candidate is outsourced' do
       prescreen_candidate.update location_area: outsourced_location
-      prescreen_candidate.reload
       expect(prescreen_candidate.prescreened?).to eq(true)
     end
   end
@@ -155,16 +151,30 @@ describe Candidate do
 
     it 'returns true if the candidate has a location area' do
       location_candidate.update location_area: location_area
-      location_candidate.reload
       expect(location_candidate.location_selected?).to eq(true)
     end
 
     it 'returns true if the candidates status is location_selected' do
       location_candidate.update status: :location_selected
-      location_candidate.reload
       expect(location_candidate.location_selected?).to eq(true)
     end
   end
 
-
+  describe '#outsourced?' do
+    let(:outsource_candidate) { create :candidate }
+    let(:source) { create :candidate_source, name: 'Outsourced' }
+    let(:location_area) { create :location_area }
+    it 'returns true if the candidate has a candidate source of "outsourced"' do
+      expect(outsource_candidate.outsourced?).to eq(false)
+      outsource_candidate.candidate_source = source
+      expect(outsource_candidate.outsourced?).to eq(true)
+    end
+    it 'returns true if a candidate has a location area and if the location area is outsourced' do
+      expect(outsource_candidate.outsourced?).to eq(false)
+      outsource_candidate.location_area = location_area
+      expect(outsource_candidate.outsourced?).to eq(false)
+      location_area.outsourced = true
+      expect(outsource_candidate.outsourced?).to eq(true)
+    end
+  end
 end

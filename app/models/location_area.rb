@@ -1,7 +1,7 @@
 class LocationArea < ActiveRecord::Base
   validates :location, presence: true
-  validates :area, presence: true, uniqueness: { scope: :location,
-                                                 message: 'is already assigned that location' }
+  validates :area, presence: true, uniqueness: {scope: :location,
+                                                message: 'is already assigned that location'}
 
   belongs_to :location
   belongs_to :area
@@ -13,6 +13,11 @@ class LocationArea < ActiveRecord::Base
 
   def self.for_project_and_location(project, location)
     location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
+  end
+
+  def head_count_full?
+    return true if (self.target_head_count - (self.offer_extended_count + self.current_head_count)) <= -1
+    false
   end
 
   def self.get_all_location_areas(candidate, current_person)
