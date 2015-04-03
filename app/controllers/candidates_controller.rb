@@ -28,21 +28,43 @@ class CandidatesController < ApplicationController
 
   def dashboard
     set_datetime_range
-    set_entered
-    set_prescreened
-    set_interview_scheduled
-    set_accepted
-    set_paperwork_sent
-    set_paperwork_completed_by_candidate
-    set_paperwork_completed_by_advocate
-    set_paperwork_completed_by_hr
-    set_onboarded
-    set_passed_sex_offender_check
-    set_passed_public_background_check
-    set_passed_private_background_check
-    set_passed_drug_screening
-    set_partially_screened
-    set_fully_screened
+    statuses = [
+        entered: {
+            name: 'entered',
+            database_string: 'created_at',
+            active_search: false
+        },
+        prescreened: {
+            name: 'prescreened',
+            database_string: 'prescreen_answers.created_at',
+            active_search: false
+        },
+        interview_scheduled: {
+            name: 'interview_scheduled',
+            database_string: 'interview_schedules.created_at',
+            active_search: false
+        }
+    ]
+    for status in statuses do
+      instance_variable_set :"@#{status[:name]}_range", Candidate.joins(status[:database_string].to_sym).where("'#{status[:database_string]}' >= ? AND '#{status[:database_string]}' <= ? '#{status[:active_search] ? 'AND candidates.active = true' : ''}' ", @datetime_start, @datetime_end)
+      instance_variable_set :"@#{status}_total", Candidate.where(status: Candidate.statuses[status.to_sym].to_i, active: true)
+    end
+
+    # set_entered
+    # set_prescreened
+    # set_interview_scheduled
+    # set_accepted
+    # set_paperwork_sent
+    # set_paperwork_completed_by_candidate
+    # set_paperwork_completed_by_advocate
+    # set_paperwork_completed_by_hr
+    # set_onboarded
+    # set_passed_sex_offender_check
+    # set_passed_public_background_check
+    # set_passed_private_background_check
+    # set_passed_drug_screening
+    # set_partially_screened
+    # set_fully_screened
   end
 
   def show
@@ -486,32 +508,33 @@ class CandidatesController < ApplicationController
         end_of_day
   end
 
-  def set_entered
-    @entered_range = Candidate.where(
-        "created_at >= ? AND created_at <= ?",
-        @datetime_start,
-        @datetime_end
-    )
-    @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
-  end
+  #
+  # def set_entered
+  #   @entered_range = Candidate.where(
+  #       "created_at >= ? AND created_at <= ?",
+  #       @datetime_start,
+  #       @datetime_end
+  #   )
+  #   @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
+  # end
 
-  def set_prescreened
-    @prescreened_range = Candidate.
-        joins(:prescreen_answers).
-        where("prescreen_answers.created_at >= ? AND prescreen_answers.created_at <= ?",
-              @datetime_start,
-              @datetime_end)
-    @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
-  end
-
-  def set_interview_scheduled
-    @interview_scheduled_range = Candidate.
-        joins(:interview_schedules).
-        where("interview_schedules.created_at >= ? AND interview_schedules.created_at <= ?",
-              @datetime_start,
-              @datetime_end)
-    @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
-  end
+  # def set_prescreened
+  #   @prescreened_range = Candidate.
+  #       joins(:prescreen_answers).
+  #       where("prescreen_answers.created_at >= ? AND prescreen_answers.created_at <= ?",
+  #             @datetime_start,
+  #             @datetime_end)
+  #   @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
+  # end
+  #
+  # def set_interview_scheduled
+  #   @interview_scheduled_range = Candidate.
+  #       joins(:interview_schedules).
+  #       where("interview_schedules.created_at >= ? AND interview_schedules.created_at <= ?",
+  #             @datetime_start,
+  #             @datetime_end)
+  #   @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
+  # end
 
   def set_accepted
     @accepted_range = Candidate.

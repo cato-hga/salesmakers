@@ -52,174 +52,174 @@
           .total_count.sm_green= @interview_scheduled_total.count
           .small.centered_text
             Active in Status
-  .widget#accepted
-    .inner
-      %h5 Accepted
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_red= @accepted_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_red= @accepted_total.count
-          .small.centered_text
-            Active in Status
-  .widget#paperwork_sent
-    .inner
-      %h5 Paperwork Sent
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_red= @paperwork_sent_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_red= @paperwork_sent_total.count
-          .small.centered_text
-            Active in Status
-  .widget#paperwork_completed_by_candidate
-    .inner
-      %h5 Paperwork Completed by Candidate
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_red= @paperwork_completed_by_candidate_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_red= @paperwork_completed_by_candidate_total.count
-          .small.centered_text
-            Active in Status
-  .widget#paperwork_completed_by_advocate
-    .inner
-      %h5 Paperwork Completed by Advocate
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @paperwork_completed_by_advocate_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @paperwork_completed_by_advocate_total.count
-          .small.centered_text
-            Active in Status
-  .widget#paperwork_completed_by_hr
-    .inner
-      %h5 Paperwork Completed by HR
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @paperwork_completed_by_hr_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @paperwork_completed_by_hr_total.count
-          .small.centered_text
-            Active in Status
-  .widget#onboarded
-    .inner
-      %h5 Onboarded
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @onboarded_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @onboarded_total.count
-          .small.centered_text
-            Active in Status
-  .widget#passed_sex_offender_check
-    .inner
-      %h5 Passed Sex Offender Check
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @passed_sex_offender_check_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @passed_sex_offender_check_total.count
-          .small.centered_text
-            Passed and Partially Screened
-  .widget#passed_public_background_check
-    .inner
-      %h5 Passed Public Background Check
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @passed_public_background_check_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @passed_public_background_check_total.count
-          .small.centered_text
-            Passed and Partially Screened
-  .widget#passed_private_background_check
-    .inner
-      %h5 Passed Private Background Check
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @passed_private_background_check_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @passed_private_background_check_total.count
-          .small.centered_text
-            Passed and Partially Screened
-  .widget#passed_drug_screening
-    .inner
-      %h5 Passed Drug Screening
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @passed_drug_screening_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @passed_drug_screening_total.count
-          .small.centered_text
-            Passed and Partially Screened
-  .widget#partially_screened
-    .inner
-      %h5 Partially Screened
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @partially_screened_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @partially_screened_total.count
-          .small.centered_text
-            Active in Status
-  .widget#fully_screened
-    .inner
-      %h5 Fully Screened
-      .row.full-width
-        .large-6.columns
-          .range_count.sm_green= @fully_screened_range.count
-          .small.centered_text
-            = date_start
-            \-
-            = date_end
-        .large-6.columns
-          .total_count.sm_green= @fully_screened_total.count
-          .small.centered_text
-            Active in Status
+  -#.widget#accepted
+  -#  .inner
+  -#    %h5 Accepted
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_red= @accepted_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_red= @accepted_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#paperwork_sent
+  -#  .inner
+  -#    %h5 Paperwork Sent
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_red= @paperwork_sent_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_red= @paperwork_sent_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#paperwork_completed_by_candidate
+  -#  .inner
+  -#    %h5 Paperwork Completed by Candidate
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_red= @paperwork_completed_by_candidate_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_red= @paperwork_completed_by_candidate_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#paperwork_completed_by_advocate
+  -#  .inner
+  -#    %h5 Paperwork Completed by Advocate
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @paperwork_completed_by_advocate_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @paperwork_completed_by_advocate_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#paperwork_completed_by_hr
+  -#  .inner
+  -#    %h5 Paperwork Completed by HR
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @paperwork_completed_by_hr_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @paperwork_completed_by_hr_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#onboarded
+  -#  .inner
+  -#    %h5 Onboarded
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @onboarded_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @onboarded_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#passed_sex_offender_check
+  -#  .inner
+  -#    %h5 Passed Sex Offender Check
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @passed_sex_offender_check_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @passed_sex_offender_check_total.count
+  -#        .small.centered_text
+  -#          Passed and Partially Screened
+  -#.widget#passed_public_background_check
+  -#  .inner
+  -#    %h5 Passed Public Background Check
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @passed_public_background_check_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @passed_public_background_check_total.count
+  -#        .small.centered_text
+  -#          Passed and Partially Screened
+  -#.widget#passed_private_background_check
+  -#  .inner
+  -#    %h5 Passed Private Background Check
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @passed_private_background_check_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @passed_private_background_check_total.count
+  -#        .small.centered_text
+  -#          Passed and Partially Screened
+  -#.widget#passed_drug_screening
+  -#  .inner
+  -#    %h5 Passed Drug Screening
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @passed_drug_screening_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @passed_drug_screening_total.count
+  -#        .small.centered_text
+  -#          Passed and Partially Screened
+  -#.widget#partially_screened
+  -#  .inner
+  -#    %h5 Partially Screened
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @partially_screened_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @partially_screened_total.count
+  -#        .small.centered_text
+  -#          Active in Status
+  -#.widget#fully_screened
+  -#  .inner
+  -#    %h5 Fully Screened
+  -#    .row.full-width
+  -#      .large-6.columns
+  -#        .range_count.sm_green= @fully_screened_range.count
+  -#        .small.centered_text
+  -#          = date_start
+  -#          \-
+  -#          = date_end
+  -#      .large-6.columns
+  -#        .total_count.sm_green= @fully_screened_total.count
+  -#        .small.centered_text
+  -#          Active in Status
 
 :javascript
   setTimeout(function() {
