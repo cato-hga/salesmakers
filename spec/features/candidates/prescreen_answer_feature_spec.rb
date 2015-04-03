@@ -98,6 +98,9 @@ describe 'Prescreen answers' do
         it 'sets the direction of the call' do
           expect(CandidateContact.first.inbound?).to be_truthy
         end
+        it 'sets the correct contact info' do
+          expect(CandidateContact.first.notes).to eq('Candidate prescreened successfully.')
+        end
         it 'saves the candidates availability' do
           candidate.reload
           expect(candidate.candidate_availability).not_to be_nil
