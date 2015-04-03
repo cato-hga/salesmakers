@@ -150,7 +150,7 @@ class CandidatesController < ApplicationController
   end
 
   def select_location
-    all_location_areas = get_all_location_areas
+    all_location_areas = LocationArea.get_all_location_areas(@candidate, @current_person)
     @location_area_search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@location_area_search.result)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
@@ -160,36 +160,58 @@ class CandidatesController < ApplicationController
     @location_area = LocationArea.find params[:location_area_id]
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
     @previous_location_area = @candidate.location_area
-    unless @candidate.update(location_area: @location_area)
-      flash[:error] = @candidate.errors.full_messages.join(', ')
-      redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s) and return
-    end
-    if @previous_location_area
-      @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
-      if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
-        @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
+    if @candidate.update location_area: @location_area
+      if @previous_location_area
+        candidate_has_previous_location_area
       end
-    end
-    if @location_area.outsourced?
-      @candidate.accepted!
-      @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-      @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
-      flash[:notice] = 'Location chosen successfully.'
-      redirect_to new_candidate_training_availability_path(@candidate) and return
-    end
-    @candidate.location_selected! if @candidate.status == 'entered'
-    if @back_to_confirm
-      flash[:notice] = 'Location chosen successfully.'
-      redirect_to (new_candidate_training_availability_path(@candidate))
+      if @location_area.outsourced?
+        candidate_location_outsourced and return
+      end
+      if @back_to_confirm
+        back_to_confirmation and return
+      else
+        candidate_location_completion
+      end
     else
-      CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
-      @current_person.log? 'sent_assessment',
-                           @candidate
-      if @candidate.prescreened?
-        @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-        flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
-        redirect_to candidate_path(@candidate) and return
-      end
+      flash[:error] = @candidate.errors.full_messages.join(', ')
+      redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s)
+    end
+  end
+
+  def candidate_has_previous_location_area
+    @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
+    if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
+      @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
+    end
+  end
+
+  def candidate_location_outsourced
+    @candidate.accepted!
+    @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
+    @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
+    flash[:notice] = 'Location chosen successfully.'
+    redirect_to new_candidate_training_availability_path(@candidate)
+  end
+
+  def candidate_is_prescreened
+    @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
+    flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
+    redirect_to candidate_path(@candidate)
+  end
+
+  def back_to_confirm
+    flash[:notice] = 'Location chosen successfully.'
+    redirect_to (new_candidate_training_availability_path(@candidate))
+  end
+
+  def candidate_location_completion
+    CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
+    @current_person.log? 'sent_assessment',
+                         @candidate
+    if @candidate.prescreened?
+      candidate_is_prescreened and return
+    else
+      @candidate.location_selected! if @candidate.status == 'entered'
       flash[:notice] = 'Location chosen successfully.'
       redirect_to new_candidate_prescreen_answer_path(@candidate)
     end
@@ -417,22 +439,7 @@ class CandidatesController < ApplicationController
   def do_authorization
     authorize Candidate.new
   end
-
-  def get_all_location_areas
-    all_locations = Location.
-        joins(:location_areas).
-        where('location_areas.target_head_count > 0')
-    return LocationArea.none if all_locations.count(:all) < 1
-    all_locations = Location.where("locations.id IN (#{all_locations.map(&:id).join(',')})")
-    locations = all_locations.near(@candidate, 30)
-    if not locations or locations.count(:all) < 5
-      locations = all_locations.near(@candidate, 500).first(5)
-    end
-    return LocationArea.none if locations.empty?
-    location_areas = locations.map { |l| l.location_areas }.flatten
-    LocationAreaPolicy::Scope.new(@current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
-  end
-
+  
   def get_staffable_projects
     Project.
         joins(:areas).
@@ -687,13 +694,7 @@ class CandidatesController < ApplicationController
     @current_person.log? 'dismiss',
                          @candidate
     if @candidate.interview_schedules.any?
-      active_interviews = @candidate.interview_schedules.where(active: true)
-      for interview in active_interviews do
-        interview.update active: false
-        @current_person.log? 'cancel',
-                             interview,
-                             @candidate
-      end
+      InterviewSchedule.cancel_all_interviews(@candidate, @current_person)
     end
     CandidatePrescreenAssessmentMailer.failed_assessment_mailer(@candidate).deliver_later
     if denial_reason
