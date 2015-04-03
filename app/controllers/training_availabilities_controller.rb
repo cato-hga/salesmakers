@@ -88,12 +88,12 @@ class TrainingAvailabilitiesController < ApplicationController
     @candidate.confirmed!
     if @candidate.active? and @candidate.job_offer_details.any?
       flash[:notice] = 'Confirmation recorded'
-      redirect_to candidate_path @candidate
+      redirect_to candidate_path @candidate and return
     elsif @candidate.active? and @candidate.passed_personality_assessment?
-      redirect_to send_paperwork_candidate_path(@candidate)
+      redirect_to send_paperwork_candidate_path(@candidate) and return
     else
       flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
-      redirect_to candidate_path(@candidate)
+      redirect_to candidate_path(@candidate) and return
     end
   end
 
