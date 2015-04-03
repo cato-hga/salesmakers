@@ -121,6 +121,7 @@ class Candidate < ActiveRecord::Base
   belongs_to :candidate_denial_reason
   belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
   belongs_to :sprint_radio_shack_training_session
+  belongs_to :potential_area, class_name: 'Area', foreign_key: 'potential_area_id'
 
   has_many :prescreen_answers
   has_many :interview_schedules
@@ -215,6 +216,16 @@ class Candidate < ActiveRecord::Base
     return true if self.candidate_source == outsource_source
     return true if self.location_area and self.location_area.outsourced == true
     false
+  end
+
+  def assign_potential_territory(ordered_location_areas)
+    return nil if ordered_location_areas == []
+    if ordered_location_areas.second.location.geographic_distance(self) < ordered_location_areas.first.location.geographic_distance(self)
+      raise "Dont pass this method an unordered location array!" and return
+    end
+    closest_location_area = ordered_location_areas.first
+    closest_area = closest_location_area.area
+    self.update potential_area: closest_area
   end
 
   private

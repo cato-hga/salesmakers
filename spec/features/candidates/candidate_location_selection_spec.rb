@@ -127,6 +127,11 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content('successfully')
     end
 
+    it 'assigns a potential area to the candidate just in case' do
+      candidate.reload
+      expect(candidate.potential_area).to eq(area)
+    end
+
     it 'redirects to the prescreen if the candidate is not prescreened already' do
       within first('tbody tr') do
         click_on "#{location.channel.name}, #{location.display_name}"

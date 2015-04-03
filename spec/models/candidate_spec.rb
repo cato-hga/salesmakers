@@ -177,4 +177,32 @@ describe Candidate do
       expect(outsource_candidate.outsourced?).to eq(true)
     end
   end
+
+  describe '.assign_potential_territories' do
+    let(:candidate) { create :candidate, longitude: 5, latitude: 5 }
+    let(:far_away_area) { create :area, name: 'Far Away Territory' }
+    let(:far_away_location) { create :location, longitude: 99, latitude: 99 }
+    let(:far_away_location_area) { create :location_area, location: far_away_location, area: far_away_area }
+    let(:close_location) { create :location, longitude: 6, latitude: 6 }
+    let(:close_area) { create :area, name: 'Close Area' }
+    let(:close_location_area) { create :location_area, location: close_location, area: close_area }
+
+    let(:location_areas) { [] }
+    it 'sets the closest area as the candidates potential area' do
+      location_areas << close_location_area
+      location_areas << far_away_location_area
+      candidate.assign_potential_territory(location_areas)
+      candidate.reload
+      expect(candidate.potential_area).to eq(close_area)
+    end
+
+    it 'handles a blank array' do
+      expect(candidate.assign_potential_territory(location_areas)).to be_nil
+    end
+    it 'raises an exception with unordered arrays' do
+      location_areas << far_away_location_area
+      location_areas << close_location_area
+      expect { candidate.assign_potential_territory(location_areas) }.to raise_error
+    end
+  end
 end

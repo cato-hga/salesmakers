@@ -142,6 +142,7 @@ class CandidatesController < ApplicationController
     all_location_areas = LocationArea.get_all_location_areas(@candidate, @current_person)
     @location_area_search = all_location_areas.search(params[:q])
     @location_areas = order_by_distance(@location_area_search.result)
+    @candidate.assign_potential_territory(@location_areas)
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
   end
 
