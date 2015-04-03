@@ -220,7 +220,7 @@ class Candidate < ActiveRecord::Base
 
   def assign_potential_territory(ordered_location_areas)
     return nil if ordered_location_areas == []
-    if ordered_location_areas.second.location.geographic_distance(self) < ordered_location_areas.first.location.geographic_distance(self)
+    if ordered_location_areas.second and (ordered_location_areas.second.location.geographic_distance(self) < ordered_location_areas.first.location.geographic_distance(self))
       raise "Dont pass this method an unordered location array!" and return
     end
     closest_location_area = ordered_location_areas.first
