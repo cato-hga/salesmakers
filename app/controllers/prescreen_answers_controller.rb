@@ -12,9 +12,12 @@ class PrescreenAnswersController < ApplicationController
   end
 
   def create
+    if @inbound.blank?
+      flash[:error] = 'You must select whether the call is inbound or outbound.'
+      render :new and return
+    end
     @prescreen_answer = PrescreenAnswer.new prescreen_answer_params
     @call_initiated = Time.at(params[:call_initiated].to_i)
-    check_and_handle_blank_call_direction
     @prescreen_answer.candidate = @candidate
     @candidate_availability.attributes = availability_params
     @candidate_availability.candidate = @candidate
@@ -31,6 +34,7 @@ class PrescreenAnswersController < ApplicationController
 
   def setup_params
     @candidate = Candidate.find params[:candidate_id]
+    @inbound = params[:inbound]
     @candidate_availability = CandidateAvailability.new
   end
 
@@ -44,14 +48,6 @@ class PrescreenAnswersController < ApplicationController
       @candidate.update active: false
       create_prescreen_contact(@call_initiated, false)
       redirect_to new_candidate_path
-    end
-  end
-
-  def check_and_handle_blank_call_direction
-    @inbound = params[:inbound]
-    if @inbound.blank?
-      flash[:error] = 'You must select whether the call is inbound or outbound.'
-      render :new and return
     end
   end
 
