@@ -52,15 +52,7 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
-    if @candidate.location_area and @candidate.location_area.location and @candidate.location_area.location.sprint_radio_shack_training_location
-      @training_location = @candidate.location_area.location.sprint_radio_shack_training_location
-    else
-      @training_location = nil
-    end
-    @sprint_radio_shack_training_sessions = SprintRadioShackTrainingSession.all
-    @sprint_radio_shack_training_session = @candidate.sprint_radio_shack_training_session ?
-        @candidate.sprint_radio_shack_training_session :
-        SprintRadioShackTrainingSession.new
+    setup_sprint_params
   end
 
   def new
@@ -154,17 +146,7 @@ class CandidatesController < ApplicationController
     @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
     @previous_location_area = @candidate.location_area
     if @candidate.update location_area: @location_area
-      if @previous_location_area
-        candidate_has_previous_location_area
-      end
-      if @location_area.outsourced?
-        candidate_location_outsourced and return
-      end
-      if @back_to_confirm
-        back_to_confirmation and return
-      else
-        candidate_location_completion
-      end
+      handle_location_area
     else
       flash[:error] = @candidate.errors.full_messages.join(', ')
       redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s)
@@ -285,6 +267,32 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def setup_sprint_params
+    if @candidate.location_area and @candidate.location_area.location and @candidate.location_area.location.sprint_radio_shack_training_location
+      @training_location = @candidate.location_area.location.sprint_radio_shack_training_location
+    else
+      @training_location = nil
+    end
+    @sprint_radio_shack_training_sessions = SprintRadioShackTrainingSession.all
+    @sprint_radio_shack_training_session = @candidate.sprint_radio_shack_training_session ?
+        @candidate.sprint_radio_shack_training_session :
+        SprintRadioShackTrainingSession.new
+  end
+
+  def handle_location_area
+    if @previous_location_area
+      candidate_has_previous_location_area
+    end
+    if @location_area.outsourced?
+      candidate_location_outsourced and return
+    end
+    if @back_to_confirm
+      back_to_confirmation and return
+    else
+      candidate_location_completion
+    end
+  end
 
   def handle_outsourced
     if @candidate.save

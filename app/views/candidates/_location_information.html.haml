@@ -16,24 +16,6 @@
     = location.address
     %br
     %br
-    -#- if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
-    -#  %strong Training Address:
-    -#  = @training_location.address + ', Room: ' + @training_location.room
-    -#  %br
-    -#  %br
-    -#  %p
-    -#    %strong Training Schedule:
-    -#    %br
-    -#    Monday, March 30th - Friday, April 3rd: 8am - 6pm
-    -#    %br
-    -#    Monday, April 6th - Thursday, April 9th: 8am - 6pm
-    -#  - if @training_location and @training_location.latitude and @training_location.longitude
-    -#    - distance = @training_location.geographic_distance(location).round(2)
-    -#    %p= 'Approx. distance from store: ' + "#{distance} miles".html_safe
-    -#    - if @candidate.confirmed? and not @candidate.training_availability.present?
-    -#      = button_to "Candidate can't make training due to distance?", cant_make_training_location_candidate_path(@candidate), data: { confirm: 'This will mark the candidates as unable to make their training. Are you sure?' }, class: [:button]
-    -#  - if @training_location.virtual
-    -#    %p This is a virtual training class. Details to come.
     - target = 0
     - potentials = 0
     - current = 0
@@ -62,44 +44,6 @@
         "height": 32
       },
       "infowindow": '#{info_window}'
-    });
-    handler = Gmaps.build('Google');
-    handler.buildMap({ provider: {
-      styles: mapStyle()
-    }, internal: {id: 'location_map'}}, function () {
-      handledMarkers = handler.addMarkers(markers);
-      handler.map.centerOn(markers[0]);
-      handler.getMap().setZoom(10);
-    });
-
-- if @training_location and not (@candidate.status == 'interviewed_scheduled' or @candidate.status == 'interviewed' or @candidate.status == 'rejected ')
-  :javascript
-    markers.push({
-      "lat": #{html_escape(@training_location.latitude)},
-      "lng": #{html_escape(@training_location.longitude)},
-      "picture": {
-        "url": "/images/store_map_marker.png",
-        "width": 32,
-        "height": 32
-      },
-    });
-    /* markers.push({
-      "lat": #{html_escape(location.latitude)},
-      "lng": #{html_escape(location.longitude)},
-      "picture": {
-        "url": "/images/sprint_postpaid_logo_32x32.png",
-        "width": 32,
-        "height": 32
-      },
-    }); */
-    markers.push({
-      "lat": #{html_escape(@candidate.latitude)},
-      "lng": #{html_escape(@candidate.longitude)},
-      "picture": {
-        "url": "/images/person_32x32.png",
-        "width": 32,
-        "height": 32
-      },
     });
     handler = Gmaps.build('Google');
     handler.buildMap({ provider: {
