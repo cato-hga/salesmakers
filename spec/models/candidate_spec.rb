@@ -16,6 +16,12 @@ describe Candidate do
       candidate.mobile_phone = nil
       expect(candidate).not_to be_valid
     end
+    it 'requires a mobile phone exactly 10 digits in length' do
+      candidate.mobile_phone = '80055512121'
+      expect(candidate).not_to be_valid
+      candidate.mobile_phone = '800555121'
+      expect(candidate).not_to be_valid
+    end
     it 'requires an email address' do
       candidate.email = nil
       expect(candidate).not_to be_valid

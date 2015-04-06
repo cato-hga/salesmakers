@@ -472,16 +472,26 @@ describe CandidatesController do
 
   describe 'GET new_sms_message' do
     let(:candidate) { create :candidate }
-    before(:each) do
+    subject do
       get :new_sms_message, id: candidate.id
     end
 
     it 'returns a success status' do
+      subject
       expect(response).to be_success
     end
 
     it 'renders the new_sms_message template' do
+      subject
       expect(response).to render_template(:new_sms_message)
+    end
+
+    it 'errors when the phone is not 10 digits in length' do
+      candidate.mobile_phone = '800555121'
+      candidate.save validate: false
+      request.env['HTTP_REFERER'] = 'https://google.com'
+      subject
+      expect(response).to redirect_to(:back)
     end
   end
 

@@ -175,6 +175,11 @@ class CandidatesController < ApplicationController
   end
 
   def new_sms_message
+    if @candidate.mobile_phone.length != 10
+      flash[:error] = "Sorry, but the candidate's phone number is not " +
+          "10 digits long. Please correct the phone number to send text messages"
+      redirect_to :back and return
+    end
     @messages = CandidateSMSMessage.all
   end
 
