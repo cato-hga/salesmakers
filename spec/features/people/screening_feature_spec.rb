@@ -81,4 +81,42 @@ describe 'employee screenings' do
     end
   end
 
+  context 'for updating a current screening' do
+    let!(:screen) { create :screening, person: person, sex_offender_check: 1, public_background_check: 1, private_background_check: 1, drug_screening: 1 }
+    it 'updates correctly' do
+      expect(Screening.count).to eq(1)
+      expect(person.screening.sex_offender_check).to eq('sex_offender_check_failed')
+      expect(person.screening.public_background_check).to eq('public_background_check_failed')
+      expect(person.screening.private_background_check).to eq('private_background_check_initiated')
+      expect(person.screening.drug_screening).to eq('drug_screening_sent')
+      CASClient::Frameworks::Rails::Filter.fake(hr_person.email)
+      visit person_path(person)
+      click_on 'Edit Screening'
+      select 'Sex Offender Check Passed', from: 'Sex offender check'
+      select 'Public Background Check Passed', from: 'Public background check'
+      select 'Private Background Check Passed', from: 'Private background check'
+      select 'Drug Screening Passed', from: 'Drug screening'
+      click_on 'Save'
+      expect(Screening.count).to eq(1)
+      person.reload
+      expect(person.screening.sex_offender_check).to eq('sex_offender_check_passed')
+      expect(person.screening.public_background_check).to eq('public_background_check_passed')
+      expect(person.screening.private_background_check).to eq('private_background_check_passed')
+      expect(person.screening.drug_screening).to eq('drug_screening_passed')
+      visit person_path(person)
+      click_on 'Edit Screening'
+      select 'Sex Offender Check Failed', from: 'Sex offender check'
+      select 'Public Background Check Failed', from: 'Public background check'
+      select 'Private Background Check Failed', from: 'Private background check'
+      select 'Drug Screening Failed', from: 'Drug screening'
+      click_on 'Save'
+      person.reload
+      person.screening.reload
+      expect(person.screening.sex_offender_check).to eq('sex_offender_check_failed')
+      expect(person.screening.public_background_check).to eq('public_background_check_failed')
+      expect(person.screening.private_background_check).to eq('private_background_check_failed')
+      expect(person.screening.drug_screening).to eq('drug_screening_failed')
+    end
+  end
+
 end

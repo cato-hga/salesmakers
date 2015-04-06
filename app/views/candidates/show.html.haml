@@ -58,11 +58,10 @@
       - location_area = @candidate.location_area if @candidate.location_area
       - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
         - unless @candidate.personality_assessment_score.present?
-          - if location_area and (location_area.area.personality_assessment_url or location_area.outsourced?)
-            = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
-              .row.full-width
-                .medium-5.columns= number_field_tag :assessment_score
-                .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+          = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
+            .row.full-width
+              .medium-5.columns= number_field_tag :assessment_score
+              .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
       %p
         = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
   .widget
@@ -133,6 +132,12 @@
           %span.sm_green COMPLETE
         - else
           %span.sm_red INCOMPLETE
+      %p
+        %strong Screening:
+        - if @candidate.person and @candidate.person.screening and @candidate.person.screening.complete?
+          %span.sm_green COMPLETE
+        - else
+          %span.sm_red INCOMPLETE
       - action = ''.html_safe
       - action = case @candidate.status
         - when 'entered'
@@ -164,7 +169,7 @@
             - ''
         - when 'paperwork_sent'
           - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
           - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
             - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
               - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
@@ -172,7 +177,7 @@
             - ''
         - else
           - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
           - else
             - ''
       = action if @candidate.active?

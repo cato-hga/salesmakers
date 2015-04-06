@@ -8,12 +8,18 @@ class ScreeningsController < ApplicationController
   end
 
   def update
+    screens = Screening.where(person_id: @person.id)
+    if screens
+      for screen in screens do
+        screen.delete
+      end
+    end
     @screening = Screening.new
-    @screening.sex_offender_check = screening_params[:sex_offender_check].to_i
-    @screening.public_background_check = screening_params[:public_background_check].to_i
-    @screening.private_background_check = screening_params[:private_background_check].to_i
-    @screening.drug_screening = screening_params[:drug_screening].to_i
-    @screening.person = @person
+    @screening.update sex_offender_check: screening_params[:sex_offender_check].to_i,
+                      public_background_check: screening_params[:public_background_check].to_i,
+                      private_background_check: screening_params[:private_background_check].to_i,
+                      drug_screening: screening_params[:drug_screening].to_i,
+                      person: @person
     if @screening.none_selected?
       flash[:error] = 'You must have selected that at least one phase has been initiated.'
       redirect_to edit_person_screening_path(@person) and return
@@ -26,6 +32,7 @@ class ScreeningsController < ApplicationController
       flash[:notice] = 'Screening results saved.'
       redirect_to people_path
     else
+      puts @screening.errors.full_messages.join(',')
       render :edit
     end
   end
