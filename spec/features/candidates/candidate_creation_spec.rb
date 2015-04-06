@@ -53,7 +53,7 @@ describe 'Candidate creation' do
           click_on 'Save and Select Location'
           expect(page).to have_content "First name can't be blank"
           expect(page).to have_content "Last name can't be blank"
-          expect(page).to have_content "Mobile phone can't be blank"
+          expect(page).to have_content "Mobile phone is the wrong length"
           expect(page).to have_content "Email can't be blank"
           expect(page).to have_content "Zip is the wrong length"
         end
