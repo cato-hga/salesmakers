@@ -106,7 +106,9 @@ class Candidate < ActiveRecord::Base
   validates :first_name, presence: true, length: {minimum: 2}
   validates :last_name, presence: true, length: {minimum: 2}
   validate :strip_phone_number
-  validates :mobile_phone, length: { is: 10 }, uniqueness: true
+  validates :mobile_phone, uniqueness: true
+  validates :mobile_phone, length: { is: 10 },
+            if: Proc.new { |c| c.new_record? }
   validates :email,
             presence: true,
             format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' },

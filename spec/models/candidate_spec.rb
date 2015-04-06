@@ -22,6 +22,11 @@ describe Candidate do
       candidate.mobile_phone = '800555121'
       expect(candidate).not_to be_valid
     end
+    it 'does not validate mobile phone length for existing records' do
+      candidate.mobile_phone = '800555121'
+      candidate.save validate: false
+      expect(candidate).to be_valid
+    end
     it 'requires an email address' do
       candidate.email = nil
       expect(candidate).not_to be_valid
