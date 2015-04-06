@@ -19,6 +19,7 @@ class API::V1::PeopleController < API::BaseController
   end
 
   def separate
+    return unless get_person
     updater = get_updater
     unless get_person.separate_from_connect
       respond_with Person.new
