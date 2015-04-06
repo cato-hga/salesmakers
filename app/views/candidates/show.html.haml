@@ -132,6 +132,12 @@
           %span.sm_green COMPLETE
         - else
           %span.sm_red INCOMPLETE
+      %p
+        %strong Screening:
+        - if @candidate.person.screening and @candidate.person.screening.complete?
+          %span.sm_green COMPLETE
+        - else
+          %span.sm_red INCOMPLETE
       - action = ''.html_safe
       - action = case @candidate.status
         - when 'entered'
