@@ -12,19 +12,6 @@ describe 'personality assessment functionality' do
 
   before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }
 
-  context 'when the assessment is not required' do
-    let(:location_area_no_url) { create :location_area }
-
-    before do
-      candidate.update location_area: location_area_no_url
-    end
-
-    it 'does not show the link to the assessment completion' do
-      visit candidate_path(candidate)
-      expect(page).not_to have_selector('input[value="Record Assessment Score"]')
-    end
-  end
-
   context 'when the assessment is required' do
     let(:area) { create :area,
                         personality_assessment_url: 'https://google.com'
