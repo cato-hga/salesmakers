@@ -4,14 +4,9 @@ module CandidateDashboard
   protected
 
   def set_datetime_range
-    @datetime_start = (DateTime.now.in_time_zone +
-        Time.zone.utc_offset +
-        (DateTime.now.in_time_zone.dst? ? 3600 : 0)).
-        beginning_of_day
-    @datetime_end = (DateTime.now.in_time_zone +
-        Time.zone.utc_offset +
-        (DateTime.now.in_time_zone.dst? ? 3600 : 0)).
-        end_of_day
+    datetime_range = DateTime.now.in_time_zone + Time.zone.utc_offset + (DateTime.now.in_time_zone.dst? ? 3600 : 0)
+    @datetime_start = datetime_range.beginning_of_day
+    @datetime_end = datetime_range.end_of_day
   end
 
   def set_entered
