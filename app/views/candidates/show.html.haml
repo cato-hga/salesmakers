@@ -163,7 +163,7 @@
             - ''
         - when 'paperwork_sent'
           - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
           - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
             - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
               - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
@@ -171,7 +171,7 @@
             - ''
         - else
           - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', confirm_candidate_path(@candidate), class: :button
+            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
           - else
             - ''
       = action if @candidate.active?
