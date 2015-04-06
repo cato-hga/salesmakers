@@ -12,6 +12,7 @@ class API::V1::PeopleController < API::BaseController
                     connect_user.created
       PersonUpdaterJob.perform_later connect_user.id
       get_person.reload
+      connect_user.text_blueforce_credentials
       respond_with get_person
     else
       respond_with Person.new

@@ -1,3 +1,5 @@
+require 'apis/gateway'
+
 class ConnectUser < ConnectModel
   self.table_name = :ad_user
   self.primary_key = :ad_user_id
@@ -20,6 +22,9 @@ class ConnectUser < ConnectModel
           foreign_key: 'c_bpartner_id',
           primary_key: 'c_bpartner_id'
   has_many :connect_terminations,
+           foreign_key: 'ad_user_id',
+           primary_key: 'ad_user_id'
+  has_many :connect_user_mappings,
            foreign_key: 'ad_user_id',
            primary_key: 'ad_user_id'
 
@@ -106,6 +111,18 @@ class ConnectUser < ConnectModel
       phone_number = phone2_attribute if /\A[2-9][0-9]{2}[1-9][0-9]{6}\z/.match(phone2_attribute)
     end
     phone_number
+  end
+
+  def text_blueforce_credentials
+    return unless self.connect_user_mappings and self.connect_user_mappings.blueforce_usernames
+    username = self.connect_user_mappings.blueforce_usernames.first unless self.connect_user_mappings.blueforce_usernames.empty?
+    password = self.connect_user_mappings.blueforce_passwords.first unless self.connect_user_mappings.blueforce_passwords.empty?
+    message_one = "Welcome to SalesMakers! Here is your username and password for ePay Blueforce. Use this to clock in and record your hours."
+    message_two = "Username: #{username.mapping}, Password: #{password.mapping}"
+    gateway = Gateway.new '+18133441170'
+    gateway.send_text self.person.mobile_phone, message_one
+    sleep 0.1
+    gateway.send_text self.person.mobile_phone, message_two
   end
 
   #:nocov:
