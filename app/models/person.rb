@@ -8,6 +8,7 @@ class Person < ActiveRecord::Base
 
   before_validation :generate_display_name
 
+  has_paper_trail
   nilify_blanks
 
   def self.setup_validations

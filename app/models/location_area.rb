@@ -8,6 +8,7 @@ class LocationArea < ActiveRecord::Base
   has_and_belongs_to_many :radio_shack_location_schedules
   has_many :candidates
 
+  has_paper_trail
 
   #default_scope { where(active: true) }
 

@@ -6,6 +6,15 @@ GIT
       activesupport
 
 GIT
+  remote: https://github.com/airblade/paper_trail.git
+  revision: 8a0eab193d5631d92ab1a616d86d3fbc7dd6ca9e
+  specs:
+    paper_trail (4.0.0.beta3)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+      request_store (~> 1.1.0)
+
+GIT
   remote: https://github.com/amatsuda/kaminari.git
   revision: 0c354253a352150d3f2b7f7527066a8a9f64ff6d
   specs:
@@ -483,6 +492,7 @@ GEM
     remotipart (1.2.1)
     render_csv (2.0.0)
       rails (>= 3.0)
+    request_store (1.1.0)
     require_all (1.3.2)
     responders (2.0.2)
       railties (>= 4.2.0.alpha, < 5)
@@ -693,6 +703,7 @@ DEPENDENCIES
   namecase (= 1.1.0)
   newrelic_rpm (= 3.9.9.275)
   nilify_blanks (= 1.2.0)
+  paper_trail!
   parallel_tests (= 1.3.5)
   pg (= 0.18.1)
   postmark (= 1.5.0)

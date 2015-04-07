@@ -2,9 +2,11 @@ class Area < ActiveRecord::Base
   extend AreaAssociationsModelExtension
   include AreaScopesModelExtension
 
+
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
 
+  has_paper_trail
   has_ancestry
 
   setup_assocations

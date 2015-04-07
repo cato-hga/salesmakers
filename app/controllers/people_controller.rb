@@ -213,7 +213,7 @@ class PeopleController < ProtectedController
 
   def onboard(parameters)
     tries ||= 3
-    self.class.post '', {
+    response = self.class.post '', {
                           body: parameters,
                           basic_auth: {
                               username: 'retailingw@retaildoneright.com',
@@ -227,6 +227,7 @@ class PeopleController < ProtectedController
     else
       logger.info "Net Read timed out 3 times!"
     end
+    response
   end
 
   def get_error_message(hash)
