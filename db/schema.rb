@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403171036) do
+ActiveRecord::Schema.define(version: 20150407132602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -768,6 +768,7 @@ ActiveRecord::Schema.define(version: 20150403171036) do
     t.boolean "ok_to_screen", default: false, null: false
     t.boolean "reliable_transportation", default: false, null: false
     t.datetime "updated_at", null: false
+    t.boolean "visible_tattoos", default: false, null: false
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
   end
@@ -998,6 +999,12 @@ ActiveRecord::Schema.define(version: 20150403171036) do
   create_table "tmp_em", id: false, force: :cascade do |t|
     t.string "email"
     t.string "username"
+  end
+
+  create_table "tmp_it", id: false, force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "mobile_phone"
   end
 
   create_table "tmp_rates", id: false, force: :cascade do |t|

@@ -48,7 +48,8 @@ describe PrescreenAnswersController do
               reliable_transportation: true,
               eligible_smart_phone: true,
               worked_for_sprint: true,
-              ok_to_screen: true
+              ok_to_screen: true,
+              visible_tattoos: true
           },
           candidate_availability: {
               monday_first: true

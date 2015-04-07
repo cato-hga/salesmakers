@@ -43,6 +43,7 @@ describe 'Prescreen answers' do
       expect(page).to have_content('Candidate can work weekends and is OK with 20-24 hours')
       expect(page).to have_content('Candidate has access to reliable transportation')
       expect(page).to have_content('Candidate gave permission for background check and drug screen')
+      expect(page).to have_content('Candidate does not have any visible tattoos')
       expect(page).to have_content('Is this call inbound or outbound?')
       expect(page).to have_button 'Save Answers'
       within('.availability') do
@@ -82,6 +83,7 @@ describe 'Prescreen answers' do
           check :prescreen_answer_can_work_weekends
           check :prescreen_answer_reliable_transportation
           check :prescreen_answer_ok_to_screen
+          check :prescreen_answer_visible_tattoos
           check :candidate_availability_monday_first
           select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
@@ -161,6 +163,7 @@ describe 'Prescreen answers' do
         check :prescreen_answer_can_work_weekends
         check :prescreen_answer_reliable_transportation
         check :prescreen_answer_ok_to_screen
+        check :prescreen_answer_visible_tattoos
         check :candidate_availability_monday_first
         select 'Inbound', from: 'Is this call inbound or outbound?'
         click_on 'Save Answers'

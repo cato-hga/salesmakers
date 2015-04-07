@@ -10,5 +10,6 @@ FactoryGirl.define do
     worked_for_sprint true
     high_school_diploma true
     ok_to_screen true
+    visible_tattoos true
   end
 end

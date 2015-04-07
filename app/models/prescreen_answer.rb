@@ -8,6 +8,7 @@ class PrescreenAnswer < ActiveRecord::Base
   validates :reliable_transportation, presence: true
   validates :worked_for_sprint, presence: true
   validates :high_school_diploma, presence: true
+  validates :visible_tattoos, presence: true
 
   belongs_to :candidate
 end

@@ -25,6 +25,8 @@ describe PrescreenAnswer do
       expect(answer).not_to be_valid
       answer.ok_to_screen = nil
       expect(answer).not_to be_valid
+      answer.visible_tattoos = nil
+      expect(answer).not_to be_valid
     end
   end
 end

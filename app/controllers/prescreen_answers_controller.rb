@@ -73,7 +73,8 @@ class PrescreenAnswersController < ApplicationController
                                              :reliable_transportation,
                                              :worked_for_sprint,
                                              :eligible_smart_phone,
-                                             :ok_to_screen
+                                             :ok_to_screen,
+                                             :visible_tattoos
     )
   end
 
