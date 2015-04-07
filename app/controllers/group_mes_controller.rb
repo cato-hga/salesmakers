@@ -3,6 +3,7 @@ require 'json'
 
 class GroupMesController < ApplicationController
   skip_before_action CASClient::Frameworks::Rails::Filter, only: :incoming_bot_message
+  skip_before_action :set_current_user, only: :incoming_bot_message
   protect_from_forgery except: :incoming_bot_message
   before_action :setup_groupme, except: :incoming_bot_message
   layout false

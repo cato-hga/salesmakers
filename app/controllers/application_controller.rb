@@ -97,6 +97,14 @@ class ApplicationController < ActionController::Base
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
     #@current_person = Person.find_by_email 'apolancodelahoz@retaildoneright.com'
+    if not @current_person and not Rails.env.test?
+      st = self.session[:cas_last_valid_ticket]
+      CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st
+      self.reset_session
+      render(:file => File.join(Rails.root, 'public/good_cas_bad_person.html'), :status => 403, :layout => false) and return false
+    else
+      @current_person
+    end
   end
 
   def set_staging
