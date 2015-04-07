@@ -1,6 +1,7 @@
 class GroupMeGroupPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
+      return scope.none unless self.person and self.person.position
       if self.person.position.hq? and self.person.position.all_field_visibility?
         return scope.all
       end
