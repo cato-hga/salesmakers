@@ -36,10 +36,10 @@ class TrainingAvailabilitiesController < ApplicationController
       @current_person.log? 'update',
                            @candidate
       flash[:notice] = 'Candidate updated'
-      redirect_to candidate_path @candidate
+      redirect_to candidate_path @candidate and return
     else
       flash[:error] = 'Candidate could not be updated'
-      render :edit
+      render :edit and return
     end
   end
 
