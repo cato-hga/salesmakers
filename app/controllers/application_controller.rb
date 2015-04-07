@@ -25,7 +25,8 @@ class ApplicationController < ActionController::Base
 
   def additional_exception_data
     request.env["exception_notifier.exception_data"] = {
-        current_person: @current_person
+        current_person: @current_person,
+        candidate: @candidate
     }
   end
 
