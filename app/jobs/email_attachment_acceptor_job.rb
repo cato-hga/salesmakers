@@ -4,6 +4,8 @@ class EmailAttachmentAcceptorJob < ActiveJob::Base
   def perform(file)
     if file.downcase.include?('uqube')
       VonageAccountStatusChangesImporter.new(file)
+    elsif file.downcase.include?('candidate_score')
+      SprintPersonalityAssessmentProcessing.new(file)
     end
   end
 end

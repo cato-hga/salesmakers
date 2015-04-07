@@ -51,6 +51,7 @@ gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
 gem 'browser-timezone-rails', '0.0.8' #using the timezone of a user
 gem 'roo', git: 'https://github.com/roo-rb/roo.git' # Working with spreadsheets
+gem 'roo-xls', git: 'https://github.com/roo-rb/roo-xls.git' # .XLS extension support for Roo. Apparently no version on github
 gem 'spreadsheet', '1.0.1' # Extra functionality for Roo
 gem 'griddler', '1.1.0' # Incoming email parsing
 gem 'griddler-postmark', '1.0.0' # Adapter for griddler for postmark
