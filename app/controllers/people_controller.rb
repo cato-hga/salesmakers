@@ -212,20 +212,24 @@ class PeopleController < ProtectedController
   end
 
   def onboard(parameters)
-    tries ||= 3
-    response = self.class.post '', {
-                          body: parameters,
-                          basic_auth: {
-                              username: 'retailingw@retaildoneright.com',
-                              password: 'rbdC0nn3c7'
-                          }
-                      }
-  rescue Net::ReadTimeout => e
-    tries -= 1
-    if tries > 0
-      retry
-    else
-      logger.info "Net Read timed out 3 times!"
+    response = nil
+    begin
+      tries ||= 3
+      response = self.class.post '', {
+                                       body: parameters,
+                                       basic_auth: {
+                                           username: 'retailingw@retaildoneright.com',
+                                           password: 'rbdC0nn3c7'
+                                       }
+                                   }
+      response
+    rescue Net::ReadTimeout => e
+      tries -= 1
+      if tries > 0
+        retry
+      else
+        logger.info "Net Read timed out 3 times!"
+      end
     end
     response
   end
