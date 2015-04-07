@@ -1,0 +1,9 @@
+<% if @candidate %>
+    * @candidate.id: <%= @candidate.id %>
+    * @candidate.name: <%= @candidate.name %>
+    * @candidate.email: <%= @candidate.email %>
+    * @candidate.phone: <%= @candidate.mobile_phone %>
+    * @candidate.status: <%= @candidate.status %>
+<% else %>
+    @candidate has not been set.
+<% end %>
