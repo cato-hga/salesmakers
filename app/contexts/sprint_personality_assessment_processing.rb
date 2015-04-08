@@ -55,7 +55,7 @@ class SprintPersonalityAssessmentProcessing
     person = Person.find_by email: 'retailingw@retaildoneright.com'
     @unmatched_candidates = []
     for score in @candidate_scores do
-      @candidate = Candidate.find_by email: score[:candidate_email]
+      @candidate = Candidate.find_by email: score[:candidate_email].downcase
       unless @candidate
         @unmatched_candidates << score
         next
@@ -74,7 +74,7 @@ class SprintPersonalityAssessmentProcessing
       score = candidate[:score] * 100
       UnmatchedCandidate.create last_name: candidate[:last_name],
                                 first_name: candidate[:first_name],
-                                email: candidate[:candidate_email],
+                                email: candidate[:candidate_email].downcase,
                                 score: score
     end
   end
