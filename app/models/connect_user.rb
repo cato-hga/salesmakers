@@ -119,17 +119,29 @@ class ConnectUser < ConnectModel
     password = self.connect_user_mappings.blueforce_passwords.first unless self.connect_user_mappings.blueforce_passwords.empty?
     return nil unless username and password
     message_one = "Welcome to SalesMakers! Here is your username and password for EPAY Blueforce. Use this to clock in and record your hours."
-    message_two = "Username: #{username.mapping}, Password: #{password.mapping}"
+    message_two = "Company/Corp ID: RBDS, Username: #{username.mapping}, Password: #{password.mapping}"
     message_three = "Click here for the EPAY Android app: http://bit.ly/1GEpt7E"
     message_four = "Click here for the EPAY IOS app: http://apple.co/1acglus"
-    gateway = Gateway.new
-    gateway.send_text self.person.mobile_phone, message_one
-    sleep 0.1
-    gateway.send_text self.person.mobile_phone, message_two
-    sleep 0.1
-    gateway.send_text self.person.mobile_phone, message_three
-    sleep 0.1
-    gateway.send_text self.person.mobile_phone, message_four
+    gateway = Gateway.new '+17277776336'
+    person = Person.return_from_connect_user self
+    from_person = Person.find_by display_name: 'System Administrator'
+    if person and from_person
+      gateway.send_text_to_person person, message_one, from_person
+      sleep 0.1
+      gateway.send_text_to_person person, message_two, from_person
+      sleep 0.1
+      gateway.send_text_to_person person, message_three, from_person
+      sleep 0.1
+      gateway.send_text_to_person person, message_four, from_person
+    else
+      gateway.send_text self.person.mobile_phone, message_one
+      sleep 0.1
+      gateway.send_text self.person.mobile_phone, message_two
+      sleep 0.1
+      gateway.send_text self.person.mobile_phone, message_three
+      sleep 0.1
+      gateway.send_text self.person.mobile_phone, message_four
+    end
   end
 
   #:nocov:
