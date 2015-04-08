@@ -31,15 +31,7 @@ class CandidatesController < ApplicationController
 
   def dashboard
     set_datetime_range
-    set_entered
-    set_prescreened
-    set_interview_scheduled
-    set_accepted
-    set_paperwork_sent
-    set_paperwork_completed_by_candidate
-    set_paperwork_completed_by_advocate
-    set_paperwork_completed_by_hr
-    set_onboarded
+    set_dashboard_variables
     set_passed_sex_offender_check
     set_passed_public_background_check
     set_passed_private_background_check
