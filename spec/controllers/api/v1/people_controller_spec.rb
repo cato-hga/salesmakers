@@ -12,7 +12,6 @@ describe API::V1::PeopleController, type: :controller do
       allow(controller).to receive(:get_person) { new_emp }
       allow(controller).to receive(:connect_user) { connect_user }
       allow(new_emp).to receive(:import_employment_from_connect) { true }
-      expect(connect_user).to receive(:text_blueforce_credentials) { nil }
       get :onboard,
           connect_user_id: '0AA3EE8FCDCF402ABCEB6280D1FC4C8D',
           format: :json
