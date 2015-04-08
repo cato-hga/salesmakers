@@ -12,6 +12,7 @@ gem 'responders', '2.0.2' # Required by rails 4.2.0 for respond_to
 
 # ------ Our gems below this line --------
 
+gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'chartkick', '1.3.2' # Was 1.2.5 01/21/2015 - Easy Google Charts creation in Rails
 gem 'haml-rails', '0.7.0' # Was 0.5.3 01/21/2015 - HAML template engine
 gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git' # CAS client for Ruby
@@ -64,7 +65,6 @@ gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 gem 'facter', '2.4.1' # Get number of CPUs to automatically set puma workers
-gem 'paper_trail', '3.0.7' # Versioning
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
