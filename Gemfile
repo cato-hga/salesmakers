@@ -64,7 +64,7 @@ gem 'bitly', git: 'https://github.com/philnash/bitly.git' # bit.ly API wrapper
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 gem 'facter', '2.4.1' # Get number of CPUs to automatically set puma workers
-gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
+gem 'paper_trail', '3.0.7' # Versioning
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
