@@ -38,9 +38,6 @@ module CandidateDashboard
         [
             :onboarded, :person, 'people.created_at', nil
         ],
-        [
-            :sex_offender_check_passed, 'INNER JOIN people ON people.id = candidates.person_id LEFT OUTER JOIN screenings ON screenings.person_id = people.id',
-        ]
     ]
     for status in status_info do
       if status[1].present? and status[2].present?
