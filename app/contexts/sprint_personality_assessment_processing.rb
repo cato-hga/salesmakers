@@ -27,7 +27,7 @@ class SprintPersonalityAssessmentProcessing
     current_person.log? 'passed_assessment',
                         candidate
     candidate.update personality_assessment_completed: true,
-                     personality_assessment_score: score,
+                     personality_assessment_score: score.round(2),
                      personality_assessment_status: :qualified
   end
 
@@ -45,7 +45,7 @@ class SprintPersonalityAssessmentProcessing
                      status: :rejected,
                      candidate_denial_reason: denial_reason,
                      personality_assessment_completed: true,
-                     personality_assessment_score: score,
+                     personality_assessment_score: score.round(2),
                      personality_assessment_status: :disqualified
   end
 
