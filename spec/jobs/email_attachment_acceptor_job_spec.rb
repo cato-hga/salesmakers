@@ -10,12 +10,12 @@ describe EmailAttachmentAcceptorJob do
   describe '#perform' do
     it 'recognizes uqube files' do
       expect(VonageAccountStatusChange).to receive(:new)
-      expect { EmailAttachmentAcceptorJob.perform_later File.absolute_path(uqube.path) }.to raise_error(NoMethodError)
+      expect { EmailAttachmentAcceptorJob.perform_now File.absolute_path(uqube.path) }.to raise_error(NoMethodError)
     end
 
     it 'recognizes personality assessment files' do
       expect(SprintPersonalityAssessmentProcessing).to receive(:new)
-      EmailAttachmentAcceptorJob.perform_later File.absolute_path(personality.path)
+      EmailAttachmentAcceptorJob.perform_now File.absolute_path(personality.path)
     end
   end
 end

@@ -101,10 +101,7 @@ describe SprintPersonalityAssessmentProcessing do
     }.to change(ActionMailer::Base.deliveries, :count).by(1)
   end
 
-  it 'generates a list of unmatched candidates and their scores' do
-    processor
-
-  end
+  it 'generates a list of unmatched candidates and their scores'
   it 'emails that list'
 
   it 'creates a log entry for passing and failing'
