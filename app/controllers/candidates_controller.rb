@@ -67,6 +67,7 @@ class CandidatesController < ApplicationController
     @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
     outsourced = CandidateSource.find_by name: 'Outsourced'
     @select_location = params[:select_location] == 'true' ? true : false
+    check_and_handle_unmatched_candidates
     if @candidate_source == outsourced
       handle_outsourced
     elsif @candidate.save and @select_location
@@ -272,6 +273,17 @@ class CandidatesController < ApplicationController
   end
 
   private
+
+  def check_and_handle_unmatched_candidates
+    unmatched_candidate = UnmatchedCandidate.find_by email: @candidate.email
+    return unless unmatched_candidate
+    person = Person.find_by email: 'retailingw@retaildoneright.com'
+    if unmatched_candidate.score < 31
+      SprintPersonalityAssessmentProcessing.failed_assessment @candidate, unmatched_candidate.score, person
+    else
+      SprintPersonalityAssessmentProcessing.passed_assessment @candidate, unmatched_candidate.score, person
+    end
+  end
 
   def setup_sprint_params
     if @candidate.location_area and @candidate.location_area.location and @candidate.location_area.location.sprint_radio_shack_training_location

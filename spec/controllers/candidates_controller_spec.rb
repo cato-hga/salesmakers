@@ -205,6 +205,34 @@ describe CandidatesController do
       end
     end
 
+    context 'success, when the candidate shows as an unmatched candidate' do
+      let!(:unmatched_passing_candidate) { create :unmatched_candidate,
+                                                  email: 'unmatched@test.com',
+                                                  score: 82.23 }
+      let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
+      before(:each) do
+        post :create,
+             candidate: {
+                 first_name: 'Test',
+                 last_name: 'Candidate',
+                 mobile_phone: '7274985180',
+                 email: 'unmatched@test.com',
+                 zip: '33701',
+                 candidate_source_id: source.id
+             },
+             start_prescreen: 'true'
+      end
+
+      it 'assigns the score for the candidate upon creation' do
+        candidate = Candidate.find_by email: 'unmatched@test.com'
+        candidate.reload
+        expect(candidate.passed_personality_assessment?).to eq(true)
+        expect(candidate.personality_assessment_completed).to eq(true)
+        expect(candidate.personality_assessment_score).to eq(82.23)
+        expect(candidate.personality_assessment_status).to eq("qualified")
+      end
+    end
+
     context 'failure' do
       subject {
         post :create,
