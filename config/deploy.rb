@@ -51,6 +51,7 @@ namespace :staging do
   task :sync do
     on roles(:app), in: :sequence, wait: 5 do
       invoke 'puma:stop'
+      invoke 'sidekiq:stop'
     end
     on roles(:app), in: :sequence do
       execute 'sudo service postgresql restart'
@@ -59,6 +60,7 @@ namespace :staging do
       execute 'createdb -U oneconnect -O oneconnect oneconnect_production'
       execute 'pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
       invoke 'puma:start'
+      invoke 'sidekiq:start'
     end
   end
 end
