@@ -94,6 +94,7 @@ class Gateway
     from_candidate = lookup_object_by_number Candidate, from_number
     reply_to_message = lookup_reply_to_object from_person
     reply_to_message = lookup_reply_to_object from_candidate unless reply_to_message
+    Rails.logger.debug reply_to_message.inspect
     from_person_id = from_person ? from_person.id : nil
     from_candidate_id = from_candidate ? from_candidate.id : nil
     to_person = reply_to_message ? reply_to_message.from_person : nil
@@ -166,10 +167,12 @@ class Gateway
 
   def lookup_reply_to_object(object)
     return nil unless object
+    administrator = Person.find_by display_name: 'System Administrator'
     messages = SMSMessage.where(
-        'created_at > ? AND to_' + object.class.name.underscore + '_id = ?',
+        'created_at > ? AND to_' + object.class.name.underscore + '_id = ? AND NOT from_person_id = ?',
         Time.zone.now - 1.day,
-        object.id
+        object.id,
+        administrator.id
     ).order(created_at: :desc).limit(1)
     messages.count > 0 ? messages.first : nil
   end

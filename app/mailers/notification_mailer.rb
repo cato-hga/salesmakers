@@ -24,12 +24,17 @@ class NotificationMailer < ApplicationMailer
     else
       @last_24_hours = nil
     end
-    positions = Position.where twilio_number: '+1' + sms_message.to_num
-    return if positions.count < 1
-    people = Person.where position: positions
-    return if people.count < 1
     emails = Array.new
-    people.each { |p| emails << p.email }
+    if sms_message.to_num.include? '7277776336'
+      emails << 'hr@retaildoneright.com'
+    else
+      positions = Position.where twilio_number: '+1' + sms_message.to_num
+      return if positions.count < 1
+      people = Person.where position: positions
+      return if people.count < 1
+      people.each { |p| emails << p.email }
+    end
+    logger.debug emails.inspect
     return if emails.count < 1
     if sms_message.from_person
       subject = 'New SMS Thread Started by ' + sms_message.from_person.display_name
