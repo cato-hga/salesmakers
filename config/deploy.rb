@@ -54,10 +54,10 @@ namespace :staging do
     end
     on roles(:app), in: :sequence do
       execute 'sudo service postgresql restart'
-      execute 'pg_dump -Fc -h 10.211.32.28 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
-      execute 'dropdb -U oneconnect oneconnect_production'
-      execute 'createdb -U oneconnect -O oneconnect oneconnect_production'
-      execute 'pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
+      execute 'sudo pg_dump -Fc -h 10.211.32.28 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
+      execute 'sudo dropdb -U oneconnect oneconnect_production'
+      execute 'sudo createdb -U oneconnect -O oneconnect oneconnect_production'
+      execute 'sudo pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
       invoke 'puma:start'
     end
   end
