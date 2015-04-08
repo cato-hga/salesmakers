@@ -12,9 +12,7 @@ class API::V1::PeopleController < API::BaseController
                     connect_user.created
       PersonUpdaterJob.perform_later connect_user.id
       get_person.reload
-      if connect_user.connect_user_mappings and connect_user.connect_user_mappings.blueforce_usernames.first.mapping.present?
-        connect_user.text_blueforce_credentials
-      end
+      connect_user.text_blueforce_credentials
       respond_with get_person
     else
       respond_with Person.new

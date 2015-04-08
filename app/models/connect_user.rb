@@ -114,6 +114,7 @@ class ConnectUser < ConnectModel
   end
 
   def text_blueforce_credentials
+    return unless connect_user.connect_user_mappings and connect_user.connect_user_mappings.blueforce_usernames.first.mapping.present?
     username = self.connect_user_mappings.blueforce_usernames.first unless self.connect_user_mappings.blueforce_usernames.empty?
     password = self.connect_user_mappings.blueforce_passwords.first unless self.connect_user_mappings.blueforce_passwords.empty?
     return unless username and password
