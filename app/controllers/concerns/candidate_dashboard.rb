@@ -9,96 +9,64 @@ module CandidateDashboard
     @datetime_end = datetime_range.end_of_day
   end
 
-  def set_entered
-    @entered_range = Candidate.where(
-        "created_at >= ? AND created_at <= ?",
-        @datetime_start,
-        @datetime_end
-    )
-    @entered_total = Candidate.where(status: Candidate.statuses[:entered].to_i, active: true)
-  end
-
-  def set_prescreened
-    @prescreened_range = Candidate.
-        joins(:prescreen_answers).
-        where("prescreen_answers.created_at >= ? AND prescreen_answers.created_at <= ?",
-              @datetime_start,
-              @datetime_end)
-    @prescreened_total = Candidate.where(status: Candidate.statuses[:prescreened].to_i, active: true)
-  end
-
-  def set_interview_scheduled
-    @interview_scheduled_range = Candidate.
-        joins(:interview_schedules).
-        where("interview_schedules.created_at >= ? AND interview_schedules.created_at <= ?",
-              @datetime_start,
-              @datetime_end)
-    @interview_scheduled_total = Candidate.where(status: Candidate.statuses[:interview_scheduled].to_i, active: true)
-  end
-
-  def set_accepted
-    @accepted_range = Candidate.
-        joins(:interview_answers).
-        where("interview_answers.created_at >= ? AND interview_answers.created_at <= ? AND candidates.active = true",
-              @datetime_start,
-              @datetime_end)
-    @accepted_total = Candidate.where(status: Candidate.statuses[:accepted].to_i, active: true)
-  end
-
-  def set_paperwork_sent
-    @paperwork_sent_range = Candidate.
-        joins(:job_offer_details).
-        where("job_offer_details.sent >= ? AND job_offer_details.sent <= ?",
-              @datetime_start,
-              @datetime_end)
-    @paperwork_sent_total = Candidate.where(status: Candidate.statuses[:paperwork_sent].to_i, active: true)
-  end
-
-  def set_paperwork_completed_by_candidate
-    @paperwork_completed_by_candidate_range = Candidate.
-        joins(:job_offer_details).
-        where("job_offer_details.completed_by_candidate >= ? AND job_offer_details.completed_by_candidate <= ?",
-              @datetime_start,
-              @datetime_end)
-    @paperwork_completed_by_candidate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_candidate].to_i, active: true)
-  end
-
-  def set_paperwork_completed_by_advocate
-    @paperwork_completed_by_advocate_range = Candidate.
-        joins(:job_offer_details).
-        where("job_offer_details.completed_by_advocate >= ? AND job_offer_details.completed_by_advocate <= ?",
-              @datetime_start,
-              @datetime_end)
-    @paperwork_completed_by_advocate_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_advocate].to_i, active: true)
-  end
-
-  def set_paperwork_completed_by_hr
-    @paperwork_completed_by_hr_range = Candidate.
-        joins(:job_offer_details).
-        where("job_offer_details.completed >= ? AND job_offer_details.completed <= ?",
-              @datetime_start,
-              @datetime_end)
-    @paperwork_completed_by_hr_total = Candidate.where(status: Candidate.statuses[:paperwork_completed_by_hr].to_i, active: true)
-  end
-
-  def set_onboarded
-    @onboarded_range = Candidate.
-        joins(:person).
-        where(
-            "people.created_at >= ? AND people.created_at <= ?",
+  def set_dashboard_variables
+    status_info = [
+        [
+            :entered, nil, nil, nil
+        ],
+        [
+            :prescreened, :prescreen_answers, 'prescreen_answers.created_at', nil
+        ],
+        [
+            :interview_scheduled, :interview_schedules, 'interview_schedules.created_at', nil
+        ],
+        [
+            :accepted, :interview_answers, 'interview_answers.created_at', 'candidates.active = true'
+        ],
+        [
+            :paperwork_sent, :job_offer_details, 'job_offer_details.sent', nil
+        ],
+        [
+            :paperwork_completed_by_candidate, :job_offer_details, 'job_offer_details.completed_by_candidate', nil
+        ],
+        [
+            :paperwork_completed_by_advocate, :job_offer_details, 'job_offer_details.completed_by_advocate', nil
+        ],
+        [
+            :paperwork_completed_by_hr, :job_offer_details, 'job_offer_details.completed', nil
+        ],
+        [
+            :onboarded, :person, 'people.created_at', nil
+        ],
+    ]
+    for status in status_info do
+      if status[1].present? and status[2].present?
+        range_info = Candidate.
+            joins(status[1]).
+            where("#{status[2]} >= ? AND #{status[2]} <= ?",
+                  @datetime_start,
+                  @datetime_end
+            )
+      elsif status[3].present?
+        range_info = Candidate.
+            joins(:interview_answers).
+            where("#{status[2]} >= ? AND #{status[2]} <= ? AND #{status[3]}",
+                  @datetime_start,
+                  @datetime_end)
+      else
+        range_info = Candidate.where(
+            "created_at >= ? AND created_at <= ?",
             @datetime_start,
             @datetime_end
         )
-    @onboarded_total = Candidate.where(status: Candidate.statuses[:onboarded].to_i, active: true)
-  end
+      end
+      total_info = Candidate.where(status: Candidate.statuses[status[0]].to_i, active: true)
+      instance_variable_set "@#{status[0].to_s}_range", range_info
+      instance_variable_set "@#{status[0].to_s}_total", total_info
+      instance_variable_get "@#{status[0].to_s}_range"
+      instance_variable_get "@#{status[0].to_s}_total"
+    end
 
-  def set_rejected
-    @rejected_range = Candidate.where(
-        "active = false AND updated_at >= ? AND updated_at <= ?",
-        @datetime_start,
-        @datetime_end
-    )
-    @rejected_total = Candidate.where(status: Candidate.statuses[:rejected].to_i)
   end
 
   def set_partially_screened
