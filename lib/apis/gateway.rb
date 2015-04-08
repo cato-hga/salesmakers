@@ -168,11 +168,12 @@ class Gateway
   def lookup_reply_to_object(object)
     return nil unless object
     administrator = Person.find_by display_name: 'System Administrator'
+    administrator_id = administrator ? administrator.id : 0
     messages = SMSMessage.where(
         'created_at > ? AND to_' + object.class.name.underscore + '_id = ? AND NOT from_person_id = ?',
         Time.zone.now - 1.day,
         object.id,
-        administrator.id
+        administrator_id
     ).order(created_at: :desc).limit(1)
     messages.count > 0 ? messages.first : nil
   end

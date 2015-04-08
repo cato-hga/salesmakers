@@ -119,7 +119,7 @@ class ConnectUser < ConnectModel
     password = self.connect_user_mappings.blueforce_passwords.first unless self.connect_user_mappings.blueforce_passwords.empty?
     return nil unless username and password
     message_one = "Welcome to SalesMakers! Here is your username and password for EPAY Blueforce. Use this to clock in and record your hours."
-    message_two = "Username: #{username.mapping}, Password: #{password.mapping}"
+    message_two = "Company/Corp ID: RBDS, Username: #{username.mapping}, Password: #{password.mapping}"
     message_three = "Click here for the EPAY Android app: http://bit.ly/1GEpt7E"
     message_four = "Click here for the EPAY IOS app: http://apple.co/1acglus"
     gateway = Gateway.new '+17277776336'
