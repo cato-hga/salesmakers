@@ -13,9 +13,9 @@ class SprintPersonalityAssessmentProcessing
   end
 
   def set_spreadsheet
-    roo_spreadsheet = Roo::Spreadsheet.open(@file.path, extension: :xlsx)
+    roo_spreadsheet = Roo::Spreadsheet.open(@file.path, extension: :xls)
     candidate_scores = []
-    roo_spreadsheet.each(candidate_email: /Email/, score: /Percentile/) do |hash|
+    roo_spreadsheet.each(candidate_email: /Email/, score: /Percentile/, first_name: /First Name/, last_name: /Last Name/) do |hash|
       candidate_scores << hash
     end
     candidate_scores.shift

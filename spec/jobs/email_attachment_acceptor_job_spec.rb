@@ -16,7 +16,6 @@ describe EmailAttachmentAcceptorJob do
     it 'recognizes personality assessment files' do
       expect(SprintPersonalityAssessmentProcessing).to receive(:new)
       EmailAttachmentAcceptorJob.perform_later File.absolute_path(personality.path)
-      #expect{EmailAttachmentAcceptorJob.perform_later File.absolute_path(personality.path)}.to raise_error(NoMethodError)
     end
   end
 end
