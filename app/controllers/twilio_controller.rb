@@ -6,7 +6,8 @@ class TwilioController < ApplicationController
   before_action :set_gateway
   after_action :set_header
   skip_before_action :verify_authenticity_token
-  skip_before_action CASClient::Frameworks::Rails::Filter
+  skip_before_action CASClient::Frameworks::Rails::Filter,
+                     :set_current_user
 
   def incoming_voice
     from = incoming_voice_params[:From]

@@ -4,10 +4,10 @@ class ConnectUserMapping < ConnectModel
 
 
   scope :blueforce_usernames, -> {
-    where data_source: 'blueforceUsername'
+    where "data_source = 'blueforceUsername' AND char_length(mapping) > 0"
   }
   scope :blueforce_passwords, -> {
-    where data_source: 'blueforcePassword'
+    where "data_source = 'blueforcePassword' AND char_length(mapping) > 0"
   }
 
   def self.employee_ids

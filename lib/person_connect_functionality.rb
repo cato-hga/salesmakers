@@ -197,5 +197,14 @@ module PersonConnectFunctionality
         person.update eid: eid.mapping.to_i
       end
     end
+
+    def update_eids_from_connect_blueforce_usernames
+      username_mappings = ConnectUserMapping.blueforce_usernames
+      for username_mapping in username_mappings do
+        person = Person.find_by_connect_user_id username_mapping.ad_user_id
+        next if not person or person.eid
+        person.update eid: username_mapping.mapping.gsub(/[^0-9]/, '').to_i
+      end
+    end
   end
 end

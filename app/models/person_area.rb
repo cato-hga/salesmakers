@@ -5,6 +5,8 @@ class PersonArea < ActiveRecord::Base
   belongs_to :person
   belongs_to :area
 
+  has_paper_trail
+
   delegate :project, to: :area
   delegate :client, to: :area
 

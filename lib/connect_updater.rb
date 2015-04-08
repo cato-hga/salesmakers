@@ -6,6 +6,7 @@ class ConnectUpdater
     PersonAddress.update_from_connect minutes
     Location.update_from_connect minutes
     Person.update_eids_from_connect
+    Person.update_eids_from_connect_blueforce_usernames
   end
 
   def self.update_shifts(duration)

@@ -5,6 +5,8 @@ class Location < ActiveRecord::Base
                      location.street_1.present? and location.street_1_changed?
                    }
 
+  has_paper_trail
+
   validates :store_number, presence: true
   validates :city, length: { minimum: 2 }
   validates :state, inclusion: { in: ::UnitedStates }
