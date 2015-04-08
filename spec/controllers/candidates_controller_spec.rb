@@ -653,6 +653,7 @@ describe CandidatesController do
     let(:candidate) { create :candidate, status: :accepted }
     let!(:interview_schedule_one) { create :interview_schedule, candidate: candidate }
     let!(:interview_schedule_two) { create :interview_schedule, candidate: candidate }
+    let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
 
     let!(:failed_denial_reason) {
       create :candidate_denial_reason,

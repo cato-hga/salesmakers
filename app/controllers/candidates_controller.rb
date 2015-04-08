@@ -472,11 +472,7 @@ class CandidatesController < ApplicationController
   end
 
   def passed_assessment
-    @current_person.log? 'passed_assessment',
-                         @candidate
-    @candidate.update personality_assessment_completed: true,
-                      personality_assessment_score: @score,
-                      personality_assessment_status: :qualified
+    SprintPersonalityAssessmentProcessing.passed_assessment(@candidate, @score, @current_person)
     if @candidate.confirmed?
       redirect_to send_paperwork_candidate_path(@candidate)
     else
@@ -487,29 +483,7 @@ class CandidatesController < ApplicationController
   end
 
   def failed_assessment
-    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
-    @current_person.log? 'failed_assessment',
-                         @candidate
-    @current_person.log? 'dismiss',
-                         @candidate
-    if @candidate.interview_schedules.any?
-      InterviewSchedule.cancel_all_interviews(@candidate, @current_person)
-    end
-    CandidatePrescreenAssessmentMailer.failed_assessment_mailer(@candidate).deliver_later
-    if denial_reason
-      @candidate.update active: false,
-                        status: :rejected,
-                        candidate_denial_reason: denial_reason,
-                        personality_assessment_completed: true,
-                        personality_assessment_score: @score,
-                        personality_assessment_status: :disqualified
-    else
-      @candidate.update active: false,
-                        status: :rejected,
-                        personality_assessment_completed: true,
-                        personality_assessment_score: @score,
-                        personality_assessment_status: :disqualified
-    end
+    SprintPersonalityAssessmentProcessing.failed_assessment(@candidate, @score, @current_person)
     flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
     redirect_to candidate_path(@candidate)
   end

@@ -15,6 +15,7 @@ describe SprintPersonalityAssessmentProcessing do
                                    personality_assessment_score: nil,
                                    personality_assessment_status: :incomplete,
                                    personality_assessment_completed: false }
+  let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
   let!(:personality) {
     File.new(Rails.root.join('spec', 'fixtures', '20150406_-_20150406_Candidate_Score_-_Jobside_(No_EEO)_SalesMakers_Inc_(_SAL33701FL_)_S2P_United_States_S2P_US.xlsx'))
   }
@@ -76,4 +77,6 @@ describe SprintPersonalityAssessmentProcessing do
   it 'generates a list of unmatched candidates and their scores'
   it 'emails that list'
 
+  it 'creates a log entry for passing and failing'
+  it 'deletes interviews scheduled for an employee'
 end
