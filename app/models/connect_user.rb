@@ -114,10 +114,10 @@ class ConnectUser < ConnectModel
   end
 
   def text_blueforce_credentials
-    return unless self.connect_user_mappings and self.connect_user_mappings.blueforce_usernames.first.mapping.present?
+    return nil unless self.connect_user_mappings and self.connect_user_mappings.blueforce_usernames.first.mapping.present?
     username = self.connect_user_mappings.blueforce_usernames.first unless self.connect_user_mappings.blueforce_usernames.empty?
     password = self.connect_user_mappings.blueforce_passwords.first unless self.connect_user_mappings.blueforce_passwords.empty?
-    return unless username and password
+    return nil unless username and password
     message_one = "Welcome to SalesMakers! Here is your username and password for EPAY Blueforce. Use this to clock in and record your hours."
     message_two = "Username: #{username.mapping}, Password: #{password.mapping}"
     message_three = "Click here for the EPAY Android app: http://bit.ly/1GEpt7E"
