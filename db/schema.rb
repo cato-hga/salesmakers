@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407132602) do
+ActiveRecord::Schema.define(version: 20150408184219) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1084,6 +1084,15 @@ ActiveRecord::Schema.define(version: 20150407132602) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "unmatched_candidates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.float "score", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "uploaded_images", force: :cascade do |t|
     t.string "caption"
     t.datetime "created_at"
@@ -1107,6 +1116,28 @@ ActiveRecord::Schema.define(version: 20150407132602) do
   end
 
   add_index "uploaded_videos", ["person_id"], name: "index_uploaded_videos_on_person_id", using: :btree
+
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "foreign_key_id"
+    t.string "foreign_key_name", null: false
+    t.integer "version_id"
+  end
+
+  add_index "version_associations", ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key", using: :btree
+  add_index "version_associations", ["version_id"], name: "index_version_associations_on_version_id", using: :btree
+
+  create_table "versions", force: :cascade do |t|
+    t.datetime "created_at"
+    t.string "event", null: false
+    t.integer "item_id", null: false
+    t.string "item_type", null: false
+    t.text "object"
+    t.integer "transaction_id"
+    t.string "whodunnit"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
 
   create_table "vonage_account_status_changes", force: :cascade do |t|
     t.date "account_end_date"

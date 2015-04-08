@@ -22,6 +22,7 @@ describe SprintPersonalityAssessmentProcessing do
                                     personality_assessment_score: nil,
                                     personality_assessment_status: :incomplete,
                                     personality_assessment_completed: false }
+  let!(:interview) { create :interview_schedule, candidate: failing_candidate, active: true }
   let!(:personality) {
     File.new(Rails.root.join('spec', 'fixtures', '20150406_-_20150406_Candidate_Score_-_Jobside_(No_EEO)_SalesMakers_Inc_(_SAL33701FL_)_S2P_United_States_S2P_US.xls'))
   }
@@ -101,9 +102,17 @@ describe SprintPersonalityAssessmentProcessing do
     }.to change(ActionMailer::Base.deliveries, :count).by(1)
   end
 
-  it 'generates a list of unmatched candidates and their scores'
-  it 'emails that list'
+  it 'generates instances of unmatched candidates and their scores' do
+    expect { processor }.to change(UnmatchedCandidate, :count).by(2)
+  end
 
-  it 'creates a log entry for passing and failing'
-  it 'deletes interviews scheduled for an employee'
+  it 'creates a log entry for passing and failing' do
+    expect { processor }.to change(LogEntry, :count).by(6)
+  end
+  it 'deletes interviews scheduled for an employee' do
+    expect {
+      processor
+      interview.reload
+    }.to change(interview, :active).to(false)
+  end
 end

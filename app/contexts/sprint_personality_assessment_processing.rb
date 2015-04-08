@@ -14,22 +14,13 @@ class SprintPersonalityAssessmentProcessing
 
   def set_spreadsheet
     roo_spreadsheet = Roo::Spreadsheet.open(@file.path, extension: :xls)
-    candidate_scores = []
+    @candidate_scores = []
     roo_spreadsheet.each(candidate_email: /Email/, score: /Percentile/, first_name: /First Name/, last_name: /Last Name/) do |hash|
-      candidate_scores << hash
+      @candidate_scores << hash
     end
-    candidate_scores.shift
-    person = Person.find_by email: 'retailingw@retaildoneright.com'
-    for score in candidate_scores do
-      @candidate = Candidate.find_by email: score[:candidate_email]
-      next unless @candidate
-      @corrected_score = score[:score] * 100
-      if @corrected_score < 31
-        SprintPersonalityAssessmentProcessing.failed_assessment @candidate, @corrected_score, person
-      else
-        SprintPersonalityAssessmentProcessing.passed_assessment @candidate, @corrected_score, person
-      end
-    end
+    @candidate_scores.shift
+    iterate_over_scores
+    create_unmatched_candidates
   end
 
   def self.passed_assessment(candidate, score, current_person)
@@ -56,5 +47,35 @@ class SprintPersonalityAssessmentProcessing
                      personality_assessment_completed: true,
                      personality_assessment_score: score,
                      personality_assessment_status: :disqualified
+  end
+
+  private
+
+  def iterate_over_scores
+    person = Person.find_by email: 'retailingw@retaildoneright.com'
+    @unmatched_candidates = []
+    for score in @candidate_scores do
+      @candidate = Candidate.find_by email: score[:candidate_email]
+      unless @candidate
+        @unmatched_candidates << score
+        next
+      end
+      @corrected_score = score[:score] * 100
+      if @corrected_score < 31
+        SprintPersonalityAssessmentProcessing.failed_assessment @candidate, @corrected_score, person
+      else
+        SprintPersonalityAssessmentProcessing.passed_assessment @candidate, @corrected_score, person
+      end
+    end
+  end
+
+  def create_unmatched_candidates
+    for candidate in @unmatched_candidates
+      score = candidate[:score] * 100
+      UnmatchedCandidate.create last_name: candidate[:last_name],
+                                first_name: candidate[:first_name],
+                                email: candidate[:candidate_email],
+                                score: score
+    end
   end
 end
