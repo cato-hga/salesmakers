@@ -369,6 +369,7 @@ describe ApplicationHelper do
   it 'shows a link to send an SMS to a person' do
     person = Person.first
     @visible_people = Person.all
+    @current_person = it_tech
     output = helper.person_link person
     expect(output).to have_selector('a.send_contact')
   end

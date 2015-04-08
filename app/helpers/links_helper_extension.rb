@@ -70,14 +70,19 @@ module LinksHelperExtension
   def person_link(person, classes = nil)
     classes = tack_on_inactive_class(person, classes)
     link = link_to person.display_name, person_url(person), class: classes
-    if person.mobile_phone and
-        not person.mobile_phone.include? '8005551212' and
-        person.show_details? @visible_people and
-        @current_person and
-        @current_person.position.hq?
+    if can_send_text?(person)
       link = link + contact_link(person)
     end
     link
+  end
+
+  def can_send_text?(person)
+    person.mobile_phone and
+        not person.mobile_phone.include? '8005551212' and
+        person.show_details? @visible_people and
+        @current_person and
+        @current_person.position and
+        @current_person.position.hq?
   end
 
   def contact_link(person)
