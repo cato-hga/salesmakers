@@ -54,7 +54,9 @@ describe 'SMS messaging' do
 
     it 'sends an SMS message', :vcr do
       visit people_path
-      find('a.send_contact').click
+      within all('tr').last do
+        find('a.send_contact').click
+      end
       fill_in 'contact_message', with: message
       click_on 'Send'
       visit person_path(person)
@@ -78,5 +80,4 @@ describe 'SMS messaging' do
       expect(page).to have_selector('.within_length.bad', text: '-1')
     end
   end
-
 end
