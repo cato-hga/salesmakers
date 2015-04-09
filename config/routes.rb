@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     resources :candidate_availabilities, only: [:new, :create]
     resources :training_availabilities, only: [:new, :create, :edit, :update]
     resources :sprint_pre_training_welcome_calls, only: [:new, :create, :edit, :update]
+    resources :candidate_drug_tests, only: [:new, :create, :edit, :update]
     resources :interview_schedules, only: [:new, :create, :destroy] do
       collection do
         post :time_slots, as: 'time_slots'
