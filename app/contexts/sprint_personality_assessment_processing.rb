@@ -29,6 +29,25 @@ class SprintPersonalityAssessmentProcessing
     candidate.update personality_assessment_completed: true,
                      personality_assessment_score: score.round(2),
                      personality_assessment_status: :qualified
+    unless candidate.state
+      candidate.geocode
+      candidate.reverse_geocode
+      candidate.save
+    end
+    if candidate.job_offer_details and candidate.confirmed?
+      if Rails.env.staging? or Rails.env.development? or Rails.env.test?
+        envelope_response = 'STAGING'
+      else
+        envelope_response = DocusignTemplate.send_nhp candidate, current_person
+      end
+      job_offer_details = JobOfferDetail.new candidate: candidate,
+                                             sent: DateTime.now
+      if envelope_response
+        job_offer_details.envelope_guid = envelope_response
+      end
+      job_offer_details.save
+      candidate.paperwork_sent!
+    end
   end
 
   def self.failed_assessment(candidate, score, current_person)
@@ -79,4 +98,5 @@ class SprintPersonalityAssessmentProcessing
                                 score: score
     end
   end
+
 end

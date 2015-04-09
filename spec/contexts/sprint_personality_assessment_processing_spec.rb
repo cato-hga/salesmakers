@@ -4,7 +4,7 @@ require_relative '../../app/contexts/sprint_personality_assessment_processing'
 describe SprintPersonalityAssessmentProcessing do
   include ActiveJob::TestHelper
 
-
+  let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
   let!(:personality) {
     File.new(Rails.root.join('spec', 'fixtures', '20150406_-_20150406_Candidate_Score_-_Jobside_(No_EEO)_SalesMakers_Inc_(_SAL33701FL_)_S2P_United_States_S2P_US.xls'))
   }
@@ -24,7 +24,6 @@ describe SprintPersonalityAssessmentProcessing do
                                       personality_assessment_score: nil,
                                       personality_assessment_status: :incomplete,
                                       personality_assessment_completed: false }
-    let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
     let!(:skipped_candidate) { create :candidate, email: 'test4@test.com',
                                       personality_assessment_score: nil,
                                       personality_assessment_status: :incomplete,
@@ -140,32 +139,63 @@ describe SprintPersonalityAssessmentProcessing do
     let!(:candidate_with_paperwork) { create :candidate, email: 'test5@test.com',
                                              personality_assessment_score: 80,
                                              personality_assessment_status: :qualified,
-                                             personality_assessment_completed: true }
+                                             personality_assessment_completed: true,
+                                             state: 'FL',
+                                             status: :confirmed }
     let!(:passing_candidate_no_paperwork) { create :candidate, email: 'test1@test.com',
                                                    personality_assessment_score: nil,
                                                    personality_assessment_status: :incomplete,
-                                                   personality_assessment_completed: false }
+                                                   personality_assessment_completed: false,
+                                                   state: 'FL',
+                                                   status: :confirmed }
+    let!(:passing_candidate_unconfirmed) { create :candidate, email: 'test3@test.com',
+                                                  personality_assessment_score: nil,
+                                                  personality_assessment_status: :incomplete,
+                                                  personality_assessment_completed: false,
+                                                  state: 'FL',
+                                                  status: :accepted }
     let!(:failing_candidate_no_paperwork) { create :candidate, email: 'test2@test.com',
                                                    personality_assessment_score: nil,
                                                    personality_assessment_status: :incomplete,
-                                                   personality_assessment_completed: false }
-    let!(:job_offer) { create :job_offer_detail, candidate: candidate_with_paperwork }
+                                                   personality_assessment_completed: false,
+                                                   state: 'FL' }
+    let!(:job_offer_two) { create :job_offer_detail, candidate: candidate_with_paperwork }
 
     it 'sends paperwork if the candidate is candidate is confirmed and passes the assessment' do
       expect {
         processor
-        candidate_with_paperwork.reload
-        passing_candidate_no_paperwork.reload
       }.to change(JobOfferDetail, :count).by(1)
+    end
+    it 'changes status' do
+      processor
+      candidate_with_paperwork.reload
+      passing_candidate_no_paperwork.reload
+      failing_candidate_no_paperwork.reload
+      expect(passing_candidate_no_paperwork.status).to eq("paperwork_sent")
+    end
+    it 'assigns the job offer' do
+      processor
+      candidate_with_paperwork.reload
+      passing_candidate_no_paperwork.reload
+      failing_candidate_no_paperwork.reload
+      offer = JobOfferDetail.last
+      expect(offer.candidate).to eq(passing_candidate_no_paperwork)
     end
     it 'does not send paperwork if the candidate fails, and is confirmed' do
       expect {
         processor
-        candidate_with_paperwork.reload
-        passing_candidate_no_paperwork.reload
       }.to change(JobOfferDetail, :count).by(1)
     end
-    it 'does not send paperwork twice'
+    it 'does not send paperwork twice' do
+      expect {
+        processor
+      }.to change(JobOfferDetail, :count).by(1)
+    end
+    it 'does not send paperwork to unconfirmed candidates' do
+      expect {
+        processor
+      }.to change(JobOfferDetail, :count).by(1)
+    end
   end
 
 end
