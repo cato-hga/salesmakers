@@ -2,7 +2,7 @@
   .inner
     = form_for [@candidate, @candidate_drug_test] do |f|
       = f.label :scheduled, 'Candidate has scheduled a drug test'
-      = select_tag :scheduled, options_for_select([['Yes', true], ['No', false]]), include_blank: true
+      = f.select :scheduled, options_for_select([['Yes', true], ['No', false]]), include_blank: true
       = f.label :test_date
       = f.text_field :test_date, placeholder:  "Example: 'monday at 2pm', 03/15/2015 at 10am, monday at 2:00pm"
       = f.text_area :comments, rows: 5

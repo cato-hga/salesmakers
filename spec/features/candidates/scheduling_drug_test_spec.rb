@@ -44,9 +44,8 @@ describe 'Scheduling a candidate for a drug test' do
     context 'updating a candidate who has not scheduled their drug test' do
       before(:each) do
         click_on 'Drug Test Scheduling'
-        select 'No', from: :scheduled
+        select 'No', from: :candidate_drug_test_scheduled
         click_on 'Save'
-        drug_test = CandidateDrugTest.first
       end
       it 'creates a CanidateDrugTest' do
         expect(CandidateDrugTest.count).to eq(1)
@@ -68,9 +67,8 @@ describe 'Scheduling a candidate for a drug test' do
       before(:each) do
         click_on 'Drug Test Scheduling'
         select 'Yes', from: :scheduled
-        fill_in :test_date, with: 'monday 12:10pm'
+        fill_in :candidate_drug_test_test_date, with: 'monday 12:10pm'
         click_on 'Save'
-        drug_test = CandidateDrugTest.first
       end
 
       it 'creates a log entry' do
@@ -82,12 +80,16 @@ describe 'Scheduling a candidate for a drug test' do
       end
     end
 
-    context 'submission failure' do
-
-    end
-
-    context 'invalid date' do
-
+    context 'submission failure (invalid date)' do
+      it 'shows all error messages' do
+        click_on 'Drug Test Scheduling'
+        select 'Yes', from: :scheduled
+        fill_in :candidate_drug_test_test_date, with: 'totallynotrightdate'
+        click_on 'Save'
+        expect(page).to have_content 'New Candidate Drug Test Scheduling'
+        expect(page).to have_content 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
+        expect(CandidateDrugTest.count).to eq(0)
+      end
     end
   end
 end
