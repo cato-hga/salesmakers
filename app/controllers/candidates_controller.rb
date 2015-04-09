@@ -59,6 +59,7 @@ class CandidatesController < ApplicationController
     @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
     outsourced = CandidateSource.find_by name: 'Outsourced'
     @select_location = params[:select_location] == 'true' ? true : false
+    check_and_handle_unmatched_candidates
     if @candidate_source == outsourced
       handle_outsourced
     elsif @candidate.save and @select_location
@@ -265,6 +266,17 @@ class CandidatesController < ApplicationController
 
   private
 
+  def check_and_handle_unmatched_candidates
+    unmatched_candidate = UnmatchedCandidate.find_by email: @candidate.email
+    return unless unmatched_candidate
+    person = Person.find_by email: 'retailingw@retaildoneright.com'
+    if unmatched_candidate.score < 31
+      SprintPersonalityAssessmentProcessing.failed_assessment @candidate, unmatched_candidate.score, person
+    else
+      SprintPersonalityAssessmentProcessing.passed_assessment @candidate, unmatched_candidate.score, person
+    end
+  end
+
   def setup_sprint_params
     if @candidate.location_area and @candidate.location_area.location and @candidate.location_area.location.sprint_radio_shack_training_location
       @training_location = @candidate.location_area.location.sprint_radio_shack_training_location
@@ -464,11 +476,7 @@ class CandidatesController < ApplicationController
   end
 
   def passed_assessment
-    @current_person.log? 'passed_assessment',
-                         @candidate
-    @candidate.update personality_assessment_completed: true,
-                      personality_assessment_score: @score,
-                      personality_assessment_status: :qualified
+    SprintPersonalityAssessmentProcessing.passed_assessment(@candidate, @score, @current_person)
     if @candidate.confirmed?
       redirect_to send_paperwork_candidate_path(@candidate)
     else
@@ -479,29 +487,7 @@ class CandidatesController < ApplicationController
   end
 
   def failed_assessment
-    denial_reason = CandidateDenialReason.find_by name: "Personality assessment score does not qualify for employment"
-    @current_person.log? 'failed_assessment',
-                         @candidate
-    @current_person.log? 'dismiss',
-                         @candidate
-    if @candidate.interview_schedules.any?
-      InterviewSchedule.cancel_all_interviews(@candidate, @current_person)
-    end
-    CandidatePrescreenAssessmentMailer.failed_assessment_mailer(@candidate).deliver_later
-    if denial_reason
-      @candidate.update active: false,
-                        status: :rejected,
-                        candidate_denial_reason: denial_reason,
-                        personality_assessment_completed: true,
-                        personality_assessment_score: @score,
-                        personality_assessment_status: :disqualified
-    else
-      @candidate.update active: false,
-                        status: :rejected,
-                        personality_assessment_completed: true,
-                        personality_assessment_score: @score,
-                        personality_assessment_status: :disqualified
-    end
+    SprintPersonalityAssessmentProcessing.failed_assessment(@candidate, @score, @current_person)
     flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
     redirect_to candidate_path(@candidate)
   end

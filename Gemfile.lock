@@ -46,6 +46,15 @@ GIT
       oauth2 (>= 0.5.0, < 2.0)
 
 GIT
+  remote: https://github.com/roo-rb/roo-xls.git
+  revision: f12153239bf789b520def2bb315d9a2d6b5d1008
+  specs:
+    roo-xls (0.0.1)
+      nokogiri
+      roo (>= 2.0.0)
+      spreadsheet (> 0.9.0)
+
+GIT
   remote: https://github.com/roo-rb/roo.git
   revision: 707ed1524dd4506e553c6528a674add910598395
   specs:
@@ -719,6 +728,7 @@ DEPENDENCIES
   render_csv (= 2.0.0)
   responders (= 2.0.2)
   roo!
+  roo-xls!
   rspec-rails (= 3.1.0)
   rubycas-client!
   sass-rails (= 5.0.1)
