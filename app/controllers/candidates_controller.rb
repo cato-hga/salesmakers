@@ -267,6 +267,7 @@ class CandidatesController < ApplicationController
   private
 
   def check_and_handle_unmatched_candidates
+    return unless @candidate.save
     unmatched_candidate = UnmatchedCandidate.find_by email: @candidate.email
     return unless unmatched_candidate
     person = Person.find_by email: 'retailingw@retaildoneright.com'
