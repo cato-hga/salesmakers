@@ -32,6 +32,7 @@ describe SprintPersonalityAssessmentProcessing do
                                          personality_assessment_score: 80,
                                          personality_assessment_status: :qualified,
                                          personality_assessment_completed: true }
+    let!(:rejected_candidate) { create :candidate, email: 'test6@test.com', active: false }
     let!(:job_offer) { create :job_offer_detail, candidate: candidate_with_score }
     let!(:interview) { create :interview_schedule, candidate: failing_candidate, active: true }
 
@@ -52,6 +53,13 @@ describe SprintPersonalityAssessmentProcessing do
       expect(nomatch_candidate.passed_personality_assessment?).to eq(nil)
       expect(skipped_candidate.passed_personality_assessment?).to eq(false)
       expect(candidate_with_score.passed_personality_assessment?).to eq(true)
+    end
+
+    it 'does not update inactive candidates' do
+      expect(rejected_candidate.personality_assessment_score).to eq(nil)
+      processor
+      rejected_candidate.reload
+      expect(rejected_candidate.personality_assessment_score).to eq(nil)
     end
 
     it 'updates the assessment completion for matched candidates' do
