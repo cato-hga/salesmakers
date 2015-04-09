@@ -23,6 +23,10 @@ describe LocationArea do
     expect(duplicate).not_to be_valid
   end
 
+  it 'responds to launch group number' do
+    expect(subject).to respond_to(:launch_group)
+  end
+
   describe '#head_count_full?' do
     it 'returns true if a location areas open head count is -1 or lower' do
       subject.target_head_count = 3
