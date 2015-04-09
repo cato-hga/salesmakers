@@ -79,7 +79,7 @@ class SprintPersonalityAssessmentProcessing
         @unmatched_candidates << score
         next
       end
-      next if @candidate.personality_assessment_score.present?
+      next if @candidate.personality_assessment_score.present? or (@candidate and @candidate.active == false)
       @corrected_score = score[:score] * 100
       if @corrected_score < 31
         SprintPersonalityAssessmentProcessing.failed_assessment @candidate, @corrected_score, person
