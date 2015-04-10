@@ -8,7 +8,5 @@
         = link_to 'Resend Assessment', resend_assessment_candidate_path(@candidate), class: [:button, :inline_button]
     - if @candidate.welcome_call?
       = link_to 'Welcome Call', new_candidate_sprint_pre_training_welcome_call_path(@candidate), class: [:button, :inline_button]
-    - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
-      = link_to 'Drug Test Scheduling', new_candidate_candidate_drug_test_path(@candidate), class: [:button, :inline_button]
-  - else
+    - else
     = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]

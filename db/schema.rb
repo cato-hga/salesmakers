@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409180459) do
+ActiveRecord::Schema.define(version: 20150409220556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -588,6 +588,7 @@ ActiveRecord::Schema.define(version: 20150409180459) do
     t.datetime "created_at", null: false
     t.integer "current_head_count", default: 0, null: false
     t.float "hourly_rate"
+    t.integer "launch_group"
     t.integer "location_id", null: false
     t.integer "offer_extended_count", default: 0, null: false
     t.boolean "outsourced", default: false, null: false
@@ -604,10 +605,12 @@ ActiveRecord::Schema.define(version: 20150409180459) do
   create_table "locations", force: :cascade do |t|
     t.integer "channel_id", null: false
     t.string "city", null: false
+    t.string "cost_center"
     t.datetime "created_at", null: false
     t.string "display_name"
     t.float "latitude"
     t.float "longitude"
+    t.string "mail_stop"
     t.integer "sprint_radio_shack_training_location_id"
     t.string "state", null: false
     t.string "store_number", null: false
@@ -1014,6 +1017,15 @@ ActiveRecord::Schema.define(version: 20150409180459) do
     t.string "first_name"
     t.string "last_name"
     t.string "mobile_phone"
+  end
+
+  create_table "tmp_lg", id: false, force: :cascade do |t|
+    t.string "cost_center"
+    t.string "mail_stop"
+    t.decimal "pay_rate"
+    t.string "schedule"
+    t.string "store_number"
+    t.integer "target_head_count"
   end
 
   create_table "tmp_rates", id: false, force: :cascade do |t|
