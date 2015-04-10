@@ -1,7 +1,7 @@
 class GroupMeGroupPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
     def resolve
-      return scope.none unless has_positon?
+      return scope.none unless has_position?
       return scope.all if has_all_visibility?
       management_person_areas = self.person.person_areas.where(manages: true)
       return scope.none if management_person_areas.empty?
