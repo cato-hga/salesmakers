@@ -111,6 +111,44 @@ describe PrescreenAnswersController do
       }.to change(location_area, :potential_candidate_count).from(0).to(1)
     end
 
+    context 'with an existing prescreen...for some reason' do
+      let!(:existing_answer) { create :prescreen_answer, candidate: candidate }
+      let!(:call_initiated) { DateTime.now - 5.minutes }
+      let(:prescreen_hash) {
+        {
+            candidate_id: candidate.id,
+            prescreen_answer: {
+                worked_for_salesmakers: true,
+                of_age_to_work: true,
+                high_school_diploma: true,
+                can_work_weekends: true,
+                reliable_transportation: true,
+                eligible_smart_phone: true,
+                worked_for_sprint: true,
+                ok_to_screen: true,
+                visible_tattoos: true
+            },
+            candidate_availability: {
+                monday_first: true
+            },
+            call_initiated: call_initiated.to_i
+        }
+      }
+
+      subject do
+        post :create,
+             prescreen_hash.merge(inbound: true)
+      end
+
+      it 'deletes the old prescreen answer before creating' do
+        expect(PrescreenAnswer.all.count).to eq(1)
+        expect(candidate.prescreen_answers).to include(existing_answer)
+        subject
+        expect(PrescreenAnswer.all.count).to eq(1)
+        expect(candidate.prescreen_answers).not_to include(existing_answer)
+      end
+    end
+
 
     context 'when a candidate fails the prescreen, with availability' do
       before(:each) do

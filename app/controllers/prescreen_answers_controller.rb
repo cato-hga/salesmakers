@@ -13,6 +13,9 @@ class PrescreenAnswersController < ApplicationController
 
   def create
     @candidate = Candidate.find params[:candidate_id]
+    if @candidate.prescreen_answers.any?
+      @candidate.prescreen_answers.destroy_all
+    end
     @prescreen_answer = PrescreenAnswer.new prescreen_answer_params
     if @inbound.blank?
       flash[:error] = 'You must select whether the call is inbound or outbound.'
