@@ -157,7 +157,6 @@ class Candidate < ActiveRecord::Base
   def active=(is_active)
     return if self[:active] == is_active
     self[:active] = is_active
-    previous_status = self.status
     if is_active == false
       self.set_inactive
     else
@@ -166,6 +165,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def set_inactive
+    previous_status = self.status
     self.status = :rejected
     return if self.location_area.nil?
     self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
@@ -174,6 +174,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def set_active
+    previous_status = self.status
     return if self.location_area.nil?
     self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
     return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
