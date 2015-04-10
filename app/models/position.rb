@@ -14,11 +14,10 @@ class Position < ActiveRecord::Base
     return hardcoded_position if hardcoded_position
     return position_with_name('Advocate') if connect_user.username and
         connect_user.username.include?('hireretailpros.com')
-    project_name = get_project_name(connect_user)
-    event = event?(connect_user)
-    leader = connect_user.leader?
-    fast_type = connect_user.fast_type
-    position = find_position(project_name, fast_type, event, leader)
+    position = find_position get_project_name(connect_user),
+                             connect_user.fast_type,
+                             event?(connect_user),
+                             connect_user.leader?
     position = position_with_name(find_hq_position(connect_user, fast_type, leader)) if project_name == 'Corporate'
     position = position_with_name('Unclassified Field Employee') unless position
     return position_with_name('Unclassified Field Employee') if unclassified_field?(project_name, connect_user) and not position
@@ -96,15 +95,21 @@ class Position < ActiveRecord::Base
     connect_user_region = connect_user.region
     area_name = self.clean_area_name connect_user_region
     andc = area_name.downcase
-    return find_hq_position_from_department('specialists', fast_type, leader) if andc.include? 'specialists'
-    return find_hq_position_from_department('smsupport', fast_type, leader) if andc.include? 'salesmakers support'
-    return find_hq_position_from_department('recruit', fast_type, leader) if andc.include? 'recruit'
-    return find_hq_position_from_department('advocate', fast_type, leader) if andc.include? 'advocate'
-    return find_hq_position_from_department('human', fast_type, leader) if andc.include? 'human'
-    return find_hq_position_from_department('training', fast_type, leader) if andc.include? 'training'
-    return find_hq_position_from_department('technology', fast_type, leader) if andc.include? 'technology'
-    return find_hq_position_from_department('operations', fast_type, leader) if andc.include? 'operations'
-    return find_hq_position_from_department('accounting', fast_type, leader) if andc.include? 'accounting'
+    lookup_table = {
+        'specialists' => 'specialists',
+        'salesmakers support' => 'smsupport',
+        'recruit' => 'recruit',
+        'advocate' => 'advocate',
+        'human' => 'human',
+        'training' => 'training',
+        'technology' => 'technology',
+        'operations' => 'operations',
+        'accounting' => 'accounting'
+
+    }
+    for lookup in lookup_table do
+      return find_hq_position_from_department(lookup[1], fast_type, leader) if andc.include? lookup[0]
+    end
     nil
   end
 
