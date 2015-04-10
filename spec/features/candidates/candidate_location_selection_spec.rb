@@ -203,7 +203,7 @@ describe 'selecting a Location for a Candidate' do
     end
 
     it 'skips the prescreen and interview' do
-      within(' tr td.outsourced_row:nth-of-type(5)') do
+      within(' tr td.outsourced_row:nth-of-type(6)') do
         click_on location_area_outsourced.location.channel.name
       end
       expect(current_path).to eq(new_candidate_training_availability_path(candidate))

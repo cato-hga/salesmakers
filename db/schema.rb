@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150409133426) do
+ActiveRecord::Schema.define(version: 20150409220556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -579,6 +579,7 @@ ActiveRecord::Schema.define(version: 20150409133426) do
     t.datetime "created_at", null: false
     t.integer "current_head_count", default: 0, null: false
     t.float "hourly_rate"
+    t.integer "launch_group"
     t.integer "location_id", null: false
     t.integer "offer_extended_count", default: 0, null: false
     t.boolean "outsourced", default: false, null: false
@@ -595,10 +596,12 @@ ActiveRecord::Schema.define(version: 20150409133426) do
   create_table "locations", force: :cascade do |t|
     t.integer "channel_id", null: false
     t.string "city", null: false
+    t.string "cost_center"
     t.datetime "created_at", null: false
     t.string "display_name"
     t.float "latitude"
     t.float "longitude"
+    t.string "mail_stop"
     t.integer "sprint_radio_shack_training_location_id"
     t.string "state", null: false
     t.string "store_number", null: false
@@ -1001,12 +1004,6 @@ ActiveRecord::Schema.define(version: 20150409133426) do
     t.string "username"
   end
 
-  create_table "tmp_it", id: false, force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "mobile_phone"
-  end
-
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"
@@ -1146,6 +1143,38 @@ ActiveRecord::Schema.define(version: 20150409133426) do
     t.string "mac", null: false
     t.integer "status", null: false
     t.string "termination_reason"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vonage_billable_hours_bonus_payouts", force: :cascade do |t|
+    t.integer "area_id", null: false
+    t.string "bonus_name", default: "Billable Hours", null: false
+    t.datetime "created_at", null: false
+    t.date "end_date", null: false
+    t.float "payout", default: 0.0, null: false
+    t.float "per_hour", default: 0.0, null: false
+    t.integer "shift_id", null: false
+    t.date "start_date", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vonage_hours_goal_id", null: false
+    t.integer "vonage_paycheck_id", null: false
+  end
+
+  create_table "vonage_bonus_payouts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "payable_id", null: false
+    t.string "payable_type", null: false
+    t.integer "person_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "vonage_paycheck_id", null: false
+  end
+
+  create_table "vonage_hours_goals", force: :cascade do |t|
+    t.integer "area_id", null: false
+    t.datetime "created_at", null: false
+    t.date "end_date", null: false
+    t.float "goal", default: 0.0, null: false
+    t.date "start_date", null: false
     t.datetime "updated_at", null: false
   end
 

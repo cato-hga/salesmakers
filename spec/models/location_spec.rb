@@ -42,6 +42,14 @@ describe Location do
     expect(subject).to respond_to(:longitude)
   end
 
+  it 'responds to cost_center' do
+    expect(subject).to respond_to(:cost_center)
+  end
+
+  it 'responds to mail_stop' do
+    expect(subject).to respond_to(:mail_stop)
+  end
+
   describe 'LocationAreas' do
     let(:project) { create :project }
     let(:second_project) { create :project }
@@ -62,4 +70,5 @@ describe Location do
     expect(subject).to respond_to(:latitude)
     expect(subject).to respond_to(:longitude)
   end
+
 end

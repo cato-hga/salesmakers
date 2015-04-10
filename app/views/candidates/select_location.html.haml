@@ -48,7 +48,8 @@
         - info_window += "<strong>Hourly Rate: #{number_to_currency(location_area.hourly_rate)}</strong><br><br>".html_safe
       - info_window += "<strong>Open: #{open}</strong><br><br>".html_safe
       - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
-      - marker = location_area.outsourced? ? '/images/red-x.png' : "/images/#{location_area.area.project.name.gsub(' ', '').underscore}_logo_32x32.png"
+      - launch_group = location_area.launch_group ? location_area.launch_group.to_s : ''
+      - marker = location_area.outsourced? ? '/images/red-x.png' : "/images/#{location_area.area.project.name.gsub(' ', '').underscore}#{launch_group}_logo_32x32.png"
       :javascript
          markers.push({
           "lat": #{html_escape(location.latitude)},
