@@ -90,6 +90,38 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       end
     end
 
+    context 'for candidates with an old interview' do
+      let!(:previous_interview) { create :interview_answer, candidate: candidate }
+      subject do
+        post :create,
+             candidate_id: candidate.id,
+             interview_answer: {
+                 work_history: 'Work History',
+                 why_in_market: 'Why in market',
+                 ideal_position: 'Ideal position',
+                 what_are_you_good_at: 'What are you good at',
+                 what_are_you_not_good_at: 'What are you not good at',
+                 willingness_characteristic: 'Willing',
+                 personality_characteristic: 'Willing',
+                 self_motivated_characteristic: 'Willing',
+                 compensation_last_job_one: 'Comp 1',
+                 compensation_last_job_two: 'Comp 2',
+                 compensation_last_job_three: 'Comp 3',
+                 compensation_seeking: 'Seeking comp',
+                 hours_looking_to_work: 'Hours looking to work',
+                 last_two_positions: 'Last two positions'
+             }
+      end
+
+      it 'if necessary, deletes old interview information' do
+        expect(InterviewAnswer.count).to eq(1)
+        expect(candidate.interview_answers).to include(previous_interview)
+        subject
+        expect(InterviewAnswer.count).to eq(1)
+        expect(candidate.interview_answers).not_to include(previous_interview)
+      end
+    end
+
     context 'success for candidates not extended a job offer' do
       subject do
         post :create,

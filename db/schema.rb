@@ -128,6 +128,15 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "candidate_drug_tests", force: :cascade do |t|
+    t.integer "candidate_id"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.boolean "scheduled", default: false, null: false
+    t.datetime "test_date"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "candidate_scheduling_dismissals", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.text "comment", null: false
@@ -1004,6 +1013,21 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.string "username"
   end
 
+  create_table "tmp_it", id: false, force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "mobile_phone"
+  end
+
+  create_table "tmp_lg", id: false, force: :cascade do |t|
+    t.string "cost_center"
+    t.string "mail_stop"
+    t.decimal "pay_rate"
+    t.string "schedule"
+    t.string "store_number"
+    t.integer "target_head_count"
+  end
+
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"
@@ -1143,38 +1167,6 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.string "mac", null: false
     t.integer "status", null: false
     t.string "termination_reason"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "vonage_billable_hours_bonus_payouts", force: :cascade do |t|
-    t.integer "area_id", null: false
-    t.string "bonus_name", default: "Billable Hours", null: false
-    t.datetime "created_at", null: false
-    t.date "end_date", null: false
-    t.float "payout", default: 0.0, null: false
-    t.float "per_hour", default: 0.0, null: false
-    t.integer "shift_id", null: false
-    t.date "start_date", null: false
-    t.datetime "updated_at", null: false
-    t.integer "vonage_hours_goal_id", null: false
-    t.integer "vonage_paycheck_id", null: false
-  end
-
-  create_table "vonage_bonus_payouts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "payable_id", null: false
-    t.string "payable_type", null: false
-    t.integer "person_id", null: false
-    t.datetime "updated_at", null: false
-    t.integer "vonage_paycheck_id", null: false
-  end
-
-  create_table "vonage_hours_goals", force: :cascade do |t|
-    t.integer "area_id", null: false
-    t.datetime "created_at", null: false
-    t.date "end_date", null: false
-    t.float "goal", default: 0.0, null: false
-    t.date "start_date", null: false
     t.datetime "updated_at", null: false
   end
 
