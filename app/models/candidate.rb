@@ -63,6 +63,8 @@ class Candidate < ActiveRecord::Base
     end
   end
 
+  has_paper_trail
+
   nilify_blanks
   extend NonAlphaNumericRansacker
 
