@@ -1,5 +1,6 @@
 - title @candidate.name
-= render 'candidate_show_action_buttons'
+- content_for :action_buttons do
+  = render 'candidate_show_action_buttons'
 
 .widgets
   .widget#basic_information

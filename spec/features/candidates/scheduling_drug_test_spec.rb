@@ -36,14 +36,14 @@ describe 'Scheduling a candidate for a drug test' do
     end
 
     it 'contains the button for drug test scheduling' do
-      within('header h1') do
-        expect(page).to have_content 'Drug Test Scheduling'
+      within('.drug_test_not_scheduled') do
+        expect(page).to have_content 'Edit Test Scheduling'
       end
     end
 
     context 'updating a candidate who has not scheduled their drug test' do
       before(:each) do
-        click_on 'Drug Test Scheduling'
+        click_on 'Edit Test Scheduling'
         select 'No', from: :candidate_drug_test_scheduled
         click_on 'Save'
       end
@@ -63,9 +63,9 @@ describe 'Scheduling a candidate for a drug test' do
       end
     end
 
-    context 'updating a candidate who has scheduld their drug test' do
+    context 'updating a candidate who has scheduled their drug test' do
       before(:each) do
-        click_on 'Drug Test Scheduling'
+        click_on 'Edit Test Scheduling'
         select 'Yes', from: :scheduled
         fill_in :candidate_drug_test_test_date, with: 'monday 12:10pm'
         click_on 'Save'
@@ -82,7 +82,7 @@ describe 'Scheduling a candidate for a drug test' do
 
     context 'submission failure (invalid date)' do
       it 'shows all error messages' do
-        click_on 'Drug Test Scheduling'
+        click_on 'Edit Test Scheduling'
         select 'Yes', from: :scheduled
         fill_in :candidate_drug_test_test_date, with: 'totallynotrightdate'
         click_on 'Save'

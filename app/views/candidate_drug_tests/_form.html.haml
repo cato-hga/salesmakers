@@ -5,6 +5,7 @@
       = f.select :scheduled, options_for_select([['Yes', true], ['No', false]]), include_blank: true
       = f.label :test_date
       = f.text_field :test_date, placeholder:  "Example: 'monday at 2pm', 03/15/2015 at 10am, monday at 2:00pm"
+      = f.label :comments
       = f.text_area :comments, rows: 5
       - if action_name == 'edit' or action_name == 'update'
         = f.submit 'Update Details', class: [:button ]
