@@ -133,6 +133,7 @@ class Candidate < ActiveRecord::Base
   has_one :candidate_availability
   has_one :training_availability
   has_one :sprint_pre_training_welcome_call
+  has_one :candidate_drug_test
 
   default_scope { order(:first_name, :last_name) }
 

@@ -1,17 +1,6 @@
 - title @candidate.name
 - content_for :action_buttons do
-  - if @candidate.active?
-    = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
-    - if @candidate.status == 'interview_scheduled'
-      = link_to 'Reschedule Interview', new_candidate_interview_schedule_path(@candidate), class: [:button, :inline_button], data: { confirm: 'Scheduling another interview for this candidate will remove all previous interviews. Are you sure?' }
-    - if @candidate.location_area and @candidate.personality_assessment_status == 'incomplete'
-      - unless @candidate.location_area.outsourced?
-        = link_to 'Resend Assessment', resend_assessment_candidate_path(@candidate), class: [:button, :inline_button]
-    - if @candidate.welcome_call?
-      = link_to 'Welcome Call', new_candidate_sprint_pre_training_welcome_call_path(@candidate), class: [:button, :inline_button]
-  - else
-    = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]
-
+  = render 'candidate_show_action_buttons'
 
 .widgets
   .widget#basic_information
@@ -62,6 +51,16 @@
             .row.full-width
               .medium-5.columns= number_field_tag :assessment_score
               .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+      - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
+        - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
+          %p
+            %strong Drug Test Scheduled for:
+            %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
+            %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate), class: :sm_red
+        - else
+          %p
+            %strong Drug Test Not Scheduled:
+            %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate), class: :sm_red
       %p
         = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
   .widget

@@ -128,6 +128,15 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "candidate_drug_tests", force: :cascade do |t|
+    t.integer "candidate_id"
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.boolean "scheduled", default: false, null: false
+    t.datetime "test_date"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "candidate_scheduling_dismissals", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.text "comment", null: false
@@ -1004,6 +1013,12 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.string "username"
   end
 
+  create_table "tmp_it", id: false, force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "mobile_phone"
+  end
+
   create_table "tmp_rates", id: false, force: :cascade do |t|
     t.decimal "hourly_rate"
     t.string "store_number"
@@ -1177,7 +1192,6 @@ ActiveRecord::Schema.define(version: 20150409220556) do
     t.date "start_date", null: false
     t.datetime "updated_at", null: false
   end
-
   create_table "vonage_paycheck_negative_balances", force: :cascade do |t|
     t.decimal "balance", null: false
     t.datetime "created_at", null: false

@@ -27,6 +27,7 @@
     - selected_status = params['q'] ? params['q']['status_eq'] : nil
     - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
     = f.select :status_eq, status_options, prompt: 'Status'
+    = f.select :candidate_drug_test_scheduled_eq, [['Scheduled', true],['Not Scheduled', false]], include_blank: 'Drug Test Status'
     = hidden_field_tag :enable_filter, params[:enable_filter]
     = f.submit 'Search', class: [:button, :inline_button]
   .top-pagination
