@@ -9,6 +9,7 @@ class InterviewAnswersController < ApplicationController
   end
 
   def create
+    handle_previous_interviews
     @denial_reasons = CandidateDenialReason.where active: true
     @interview_answer = InterviewAnswer.new interview_answer_params
     @interview_answer.candidate = @candidate
@@ -27,6 +28,12 @@ class InterviewAnswersController < ApplicationController
   end
 
   private
+
+  def handle_previous_interviews
+    if @candidate.interview_answers.any?
+      @candidate.interview_answers.destroy_all
+    end
+  end
 
   def extend_job_offer
     @candidate.accepted!
