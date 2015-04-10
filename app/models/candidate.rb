@@ -159,17 +159,26 @@ class Candidate < ActiveRecord::Base
     self[:active] = is_active
     previous_status = self.status
     if is_active == false
-      self.status = :rejected
-      return if self.location_area.nil?
-      self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
-      return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-      self.location_area.update offer_extended_count: self.location_area.offer_extended_count - 1
+      self.set_inactive
     else
-      return if self.location_area.nil?
-      self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
-      return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-      self.location_area.update offer_extended_count: self.location_area.offer_extended_count + 1
+      self.set_active
     end
+  end
+
+  def set_inactive
+    self.status = :rejected
+    return if self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
+    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
+    self.location_area.update offer_extended_count: self.location_area.offer_extended_count - 1
+  end
+
+  def set_active
+    return if self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
+    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
+    self.location_area.update offer_extended_count: self.location_area.offer_extended_count + 1
+    self.candidate_denial_reason = nil
   end
 
   def person=(person)
