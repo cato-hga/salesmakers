@@ -6,24 +6,24 @@ describe CandidatesController do
   let(:position) {
     create :position,
            name: 'Advocate',
-           permissions: [
-               permission_create,
-               permission_index,
-               permission_view_all
-           ],
+           # permissions: [
+           #     permission_create,
+           #     permission_index,
+           #     permission_view_all
+           # ],
            hq: true,
            all_field_visibility: true
   }
-  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
-  let(:permission_index) { Permission.new key: 'candidate_index',
-                                          permission_group: permission_group,
-                                          description: 'Test Description' }
-  let(:permission_view_all) { Permission.new key: 'candidate_view_all',
-                                             permission_group: permission_group,
-                                             description: 'Test Description' }
+  # let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+  # let(:permission_create) { Permission.new key: 'candidate_create',
+  #                                          permission_group: permission_group,
+  #                                          description: 'Test Description' }
+  # let(:permission_index) { Permission.new key: 'candidate_index',
+  #                                         permission_group: permission_group,
+  #                                         description: 'Test Description' }
+  # let(:permission_view_all) { Permission.new key: 'candidate_view_all',
+  #                                            permission_group: permission_group,
+  #                                            description: 'Test Description' }
   let(:location_area) { create :location_area, location: location }
   let!(:sprint_radio_shack_training_session) {
     create :sprint_radio_shack_training_session
@@ -36,7 +36,9 @@ describe CandidatesController do
   end
 
   describe 'GET index' do
-    before { get :index }
+    before {
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -48,7 +50,9 @@ describe CandidatesController do
   end
 
   describe 'GET support_search' do
-    before { get :support_search }
+    before {
+      allow(controller).to receive(:policy).and_return double(support_search?: true)
+      get :support_search }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -117,6 +121,7 @@ describe CandidatesController do
 
     context 'success, left voicemail' do
       let!(:call_initiated) { DateTime.now - 5.minutes }
+      before { allow(controller).to receive(:policy).and_return double(create?: true) }
       subject {
         post :create,
              candidate: {
@@ -166,6 +171,7 @@ describe CandidatesController do
 
     context 'success, outsourced' do
       let!(:outsourced) { create :candidate_source, name: 'Outsourced' }
+      before { allow(controller).to receive(:policy).and_return double(create?: true) }
       subject {
         post :create,
              candidate: {
@@ -211,6 +217,7 @@ describe CandidatesController do
                                                   score: 82.23 }
       let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
       before(:each) do
+        allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              candidate: {
                  first_name: 'Test',
@@ -234,6 +241,7 @@ describe CandidatesController do
     end
 
     context 'failure' do
+      before { allow(controller).to receive(:policy).and_return double(create?: true) }
       subject {
         post :create,
              candidate: {
@@ -264,6 +272,7 @@ describe CandidatesController do
 
   describe 'PATCH update' do
     let(:candidate) { create :candidate }
+    before { allow(controller).to receive(:policy).and_return double(update?: true) }
     context 'success' do
       subject do
         patch :update,
@@ -308,7 +317,9 @@ describe CandidatesController do
   describe 'GET select_location' do
     let(:candidate) { create :candidate }
 
-    before { get :select_location, id: candidate.id, back_to_confirm: 'false' }
+    before {
+      allow(controller).to receive(:policy).and_return double(select_location?: true)
+      get :select_location, id: candidate.id, back_to_confirm: 'false' }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -325,7 +336,7 @@ describe CandidatesController do
     let(:area) { create :area }
     let!(:location_area) { create :location_area, location: location, area: area }
     let!(:second_location_area) { create :location_area, area: area, offer_extended_count: 1 }
-
+    before { allow(controller).to receive(:policy).and_return double(set_location_area?: true) }
     context 'for non-outsourced locations' do
       let!(:location_area) { create :location_area, location: location, area: area, outsourced: false }
       subject {
@@ -486,7 +497,9 @@ describe CandidatesController do
              document_type: 0
     }
 
-    before { get :send_paperwork, id: candidate.id }
+    before {
+      allow(controller).to receive(:policy).and_return double(send_paperwork?: true)
+      get :send_paperwork, id: candidate.id }
 
     it 'redirects to the candidate show page', :vcr do
       expect(response).to redirect_to(candidate_path(candidate))
@@ -500,6 +513,7 @@ describe CandidatesController do
 
   describe 'GET new_sms_message' do
     let(:candidate) { create :candidate }
+    before { allow(controller).to receive(:policy).and_return double(new_sms_message?: true) }
     subject do
       get :new_sms_message, id: candidate.id
     end
@@ -526,7 +540,7 @@ describe CandidatesController do
   describe 'POST create_sms_message', vcr: true do
     let(:message) { 'Test message' }
     let!(:candidate) { create :candidate }
-
+    before { allow(controller).to receive(:policy).and_return double(create_sms_message?: true) }
     subject { post :create_sms_message, id: candidate.id, contact_message: message }
 
     it 'creates a log entry' do
@@ -554,6 +568,7 @@ describe CandidatesController do
   end
 
   describe 'PATCH reactivate' do
+    before { allow(controller).to receive(:policy).and_return double(reactivate?: true) }
     context 'success' do
       let!(:candidate) { create :candidate, active: false, location_area: location_area }
       subject do
@@ -634,6 +649,7 @@ describe CandidatesController do
   describe 'GET dismiss' do
     let(:candidate) { create :candidate }
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(dismiss?: true)
       get :dismiss,
           id: candidate.id
     end
@@ -802,6 +818,7 @@ describe CandidatesController do
 
   describe 'GET dashboard' do
     before do
+      allow(controller).to receive(:policy).and_return double(dashboard?: true)
       get :dashboard
     end
 
@@ -852,7 +869,7 @@ describe CandidatesController do
 
   describe 'PUT set_sprint_radio_shack_training_session' do
     let!(:candidate) { create :candidate }
-
+    before { allow(controller).to receive(:policy).and_return double(set_sprint_radio_shack_training_session?: true) }
     subject do
       put :set_sprint_radio_shack_training_session,
           id: candidate.id,

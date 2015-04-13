@@ -10,6 +10,10 @@ class InterviewSchedule < ActiveRecord::Base
 
   default_scope { joins(:person).order('people.display_name') }
 
+  def self.policy_class
+    CandidatePolicy
+  end
+
   def self.cancel_all_interviews(candidate, person)
     active_interviews = candidate.interview_schedules.where(active: true)
     for interview in active_interviews do

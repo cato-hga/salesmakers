@@ -3,14 +3,7 @@ require 'rails_helper'
 describe InterviewSchedulesController do
   include ActiveJob::TestHelper
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
-  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
-  let(:permission_index) { Permission.new key: 'candidate_index',
-                                          permission_group: permission_group,
-                                          description: 'Test Description' }
+  let(:position) { create :position, name: 'Advocate' }
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
   end
@@ -19,7 +12,10 @@ describe InterviewSchedulesController do
   let(:interview_schedule) { build :interview_schedule }
 
   describe 'GET index' do
-    before { get :index, schedule_date: Date.today.to_s }
+    before {
+      allow(controller).to receive(:policy).and_return double(index?: true)
+      get :index, schedule_date: Date.today.to_s
+    }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -32,6 +28,7 @@ describe InterviewSchedulesController do
 
   describe 'GET new' do
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(new?: true)
       get :new,
           candidate_id: candidate.id
     end
@@ -46,6 +43,7 @@ describe InterviewSchedulesController do
   describe 'POST create' do
     context 'success' do
       before(:each) do
+        allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              interview_date: Date.today.strftime('%Y%m%d'),
              interview_time: Time.zone.now.strftime('%H%M'),
@@ -86,6 +84,7 @@ describe InterviewSchedulesController do
       before(:each) do
         @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
         allow(Time).to receive(:now).and_return(@time_now)
+        allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              interview_date: Date.tomorrow.strftime('%Y%m%d'),
              interview_time: Time.zone.now.strftime('%H%M'),
@@ -134,6 +133,7 @@ describe InterviewSchedulesController do
       before(:each) do
         expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
         expect(interview_schedule).to receive(:save).and_return false
+        allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              interview_date: Date.today.strftime('%Y%m%d'),
              interview_time: Time.zone.now.strftime('%H%M'),
@@ -155,6 +155,7 @@ describe InterviewSchedulesController do
   describe 'GET interview_now' do
     context 'success' do
       before(:each) do
+        allow(controller).to receive(:policy).and_return double(interview_now?: true)
         get :interview_now,
             candidate_id: candidate.id
       end
@@ -185,6 +186,7 @@ describe InterviewSchedulesController do
       before(:each) do
         expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)
         expect(interview_schedule).to receive(:save).and_return false
+        allow(controller).to receive(:policy).and_return double(interview_now?: true)
         get :interview_now,
             candidate_id: candidate.id
       end
@@ -202,6 +204,7 @@ describe InterviewSchedulesController do
   describe 'GET schedule' do
     before(:each) do
       expect(controller).to receive(:create)
+      allow(controller).to receive(:policy).and_return double(schedule?: true)
       get :schedule,
           candidate_id: candidate.id,
           interview_date: Date.today.strftime('%Y%m%d'),
@@ -214,6 +217,7 @@ describe InterviewSchedulesController do
 
   describe 'POST time_slots' do
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(time_slots?: true)
       post :time_slots,
            candidate_id: candidate.id,
            interview_date: Date.today,
@@ -230,6 +234,7 @@ describe InterviewSchedulesController do
   describe 'DELETE destroy' do
     before(:each) do
       interview_schedule.save
+      allow(controller).to receive(:policy).and_return double(destroy?: true)
       delete :destroy,
              id: interview_schedule.id,
              candidate_id: candidate.id

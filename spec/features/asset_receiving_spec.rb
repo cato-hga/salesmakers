@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Asset Receiving' do
   let!(:creator) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
+  let(:position) { create :it_tech_position, permissions: [permission_update, permission_create, permission_index, permission_new] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:description) { 'TestDescription' }
   let(:permission_update) { Permission.new key: 'device_update', permission_group: permission_group, description: description }
@@ -14,11 +14,6 @@ RSpec.describe 'Asset Receiving' do
   end
 
   context 'end-to-end operations' do
-    before(:each) do
-      creator.position.permissions << permission_new
-      creator.position.permissions << permission_create
-      creator.position.permissions << permission_index
-    end
     let!(:device_model) { create :device_model }
     let!(:service_provider) { create :technology_service_provider }
     let(:line_identifier) { '5555555555' }
