@@ -72,25 +72,6 @@ describe PeopleController do
     end
   end
 
-  describe 'GET sales' do
-    let!(:person) { create :it_tech_person, position: position }
-    let(:position) { create :it_tech_position }
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake(person.email)
-      allow(controller).to receive(:policy).and_return double(sales?: true)
-    end
-    it 'returns a success status' do
-      get :sales, id: person.id
-      expect(response).to be_success
-      expect(response).to render_template(:sales)
-    end
-
-    it 'passes the correct person to the view' do
-      get :sales, id: person.id
-      expect(assigns(:person)).to eq(person)
-    end
-  end
-
   # describe 'PUT update' do
   #   let(:new_phone) { '8135544444' }
   #   let!(:person) { create :it_tech_person }

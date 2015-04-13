@@ -18,12 +18,4 @@ class AreasController < ProtectedController
     # end
     # @wall_posts = @wall.wall_posts
   end
-
-  def sales
-    @area = policy_scope(Area).find params[:id]
-    unless @area
-      flash[:error] = 'You do not have permission to view sales for that area.'
-      redirect_to :back
-    end
-  end
 end

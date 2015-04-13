@@ -27,18 +27,4 @@ describe ClientsController do
       expect(assigns(:client)).to eq(client)
     end
   end
-
-  describe 'GET sales' do
-
-    it 'returns a success status' do
-      get :sales, id: client.id
-      expect(response).to be_success
-      expect(response).to render_template(:sales)
-    end
-
-    it 'passes the correct client to the view' do
-      get :sales, id: client.id
-      expect(assigns(:client)).to eq(client)
-    end
-  end
 end

@@ -12,12 +12,4 @@ class ClientsController < ProtectedController
     @client = Client.find params[:id]
     authorize @client
   end
-
-  def sales
-    @client = policy_scope(Client).find params[:id]
-    unless @client
-      flash[:error] = 'You do not have permission to view sales for that client.'
-      redirect_to :back
-    end
-  end
 end

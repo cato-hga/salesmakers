@@ -1,4 +1,6 @@
 class ComcastSalesController < ApplicationController
+  include ComcastCSVExtension
+
   before_action :setup_comcast_customer, except: [:index, :csv]
   before_action :setup_time_slots, except: [:index, :csv]
   before_action :setup_former_providers, except: [:index, :csv]
@@ -8,28 +10,6 @@ class ComcastSalesController < ApplicationController
     @search = policy_scope(ComcastSale).search(params[:q])
     @comcast_sales = @search.result.page(params[:page])
     authorize ComcastSale.new
-  end
-
-  def csv
-    @search = policy_scope(ComcastSale).search(params[:q])
-    @comcast_sales = @search.result
-    respond_to do |format|
-      format.html { redirect_to comcast_sales_path }
-      format.csv do
-        render csv: @comcast_sales,
-               filename: "comcast_sales_#{date_time_string}",
-               except: [
-                   :id,
-                   :comcast_customer_id,
-                   :created_at
-               ],
-               add_methods: [
-                   :comcast_customer_name,
-                   :comcast_customer_mobile_phone,
-                   :comcast_customer_other_phone
-               ]
-      end
-    end
   end
 
   def new

@@ -93,10 +93,6 @@ class PeopleController < ProtectedController
     end
   end
 
-  def sales
-
-  end
-
   def new_sms_message
     @person = Person.find params[:id]
   end
