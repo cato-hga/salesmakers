@@ -84,6 +84,7 @@ group :development do
   gem 'parallel_tests', '1.3.5' # Parallel testing
   gem 'seed_dump', '3.2.2' # Dump database records to seeds
   gem 'fix-db-schema-conflicts', '1.0.1' #This should fix our issues with silly schema.rb changes
+  gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
 end
 
 group :test do
