@@ -14,11 +14,12 @@ class Position < ActiveRecord::Base
     return hardcoded_position if hardcoded_position
     return position_with_name('Advocate') if connect_user.username and
         connect_user.username.include?('hireretailpros.com')
-    position = find_position get_project_name(connect_user),
+    project_name = get_project_name(connect_user)
+    position = find_position project_name,
                              connect_user.fast_type,
                              event?(connect_user),
                              connect_user.leader?
-    position = position_with_name(find_hq_position(connect_user, fast_type, leader)) if get_project_name(connect_user) == 'Corporate'
+    position = position_with_name(find_hq_position(connect_user, fast_type, leader)) if project_name == 'Corporate'
     position = position_with_name('Unclassified Field Employee') unless position
     return position_with_name('Unclassified Field Employee') if unclassified_field?(project_name, connect_user) and not position
     return position_with_name('Unclassified HQ Employee') if unclassified_corporate?(project_name, connect_user) and not position
