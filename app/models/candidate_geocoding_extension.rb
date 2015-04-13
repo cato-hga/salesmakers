@@ -18,35 +18,6 @@ module CandidateGeocodingExtension
   public
 
   module ClassMethods
-    def setup_geocoding
-      self.instance_variable_set :@state_abbreviations, {
-                                                                "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ",
-                                                                "Arkansas" => "AR", "California" => "CA",
-                                                                "Colorado" => "CO", "Connecticut" => "CT",
-                                                                "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
-                                                                "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL",
-                                                                "Indiana" => "IN", "Iowa" => "IA",
-                                                                "Kansas" => "KS", "Kentucky" => "KY", "Louisiana" => "LA",
-                                                                "Maine" => "ME", "Maryland" => "MD",
-                                                                "Massachusetts" => "MA", "Michigan" => "MI",
-                                                                "Minnesota" => "MN", "Mississippi" => "MS",
-                                                                "Missouri" => "MO",
-                                                                "Montana" => "MT", "Nebraska" => "NE", "Nevada" => "NV",
-                                                                "New Hampshire" => "NH", "New Jersey" => "NJ",
-                                                                "New Mexico" => "NM", "New York" => "NY",
-                                                                "North Carolina" => "NC", "North Dakota" => "ND",
-                                                                "Ohio" => "OH",
-                                                                "Oklahoma" => "OK", "Oregon" => "OR",
-                                                                "Pennsylvania" => "PA", "Puerto Rico" => "PR",
-                                                                "Rhode Island" => "RI",
-                                                                "South Carolina" => "SC", "South Dakota" => "SD",
-                                                                "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT",
-                                                                "Vermont" => "VT", "Virginia" => "VA", "Washington" => "WA",
-                                                                "West Virginia" => "WV", "Wisconsin" => "WI",
-                                                                "Wyoming" => "WY"
-                                                            }
-    end
-
     def geocoding_validations
       geocoded_by :zip
       reverse_geocoded_by :latitude, :longitude, &reverse_geocode_strategy
@@ -63,10 +34,34 @@ module CandidateGeocodingExtension
 
     def reverse_geocode_strategy
       lambda do |obj, results|
-        setup_geocoding unless @state_abbreviations
         if geo = results.first
           if geo and geo.state_code and geo.state_code.length > 2
-            obj.state = geo.country == 'Puerto Rico' ? 'PR' : @state_abbreviations[geo.state_code]
+            obj.state = geo.country == 'Puerto Rico' ? 'PR' : {
+                "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ",
+                "Arkansas" => "AR", "California" => "CA",
+                "Colorado" => "CO", "Connecticut" => "CT",
+                "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
+                "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL",
+                "Indiana" => "IN", "Iowa" => "IA",
+                "Kansas" => "KS", "Kentucky" => "KY", "Louisiana" => "LA",
+                "Maine" => "ME", "Maryland" => "MD",
+                "Massachusetts" => "MA", "Michigan" => "MI",
+                "Minnesota" => "MN", "Mississippi" => "MS",
+                "Missouri" => "MO",
+                "Montana" => "MT", "Nebraska" => "NE", "Nevada" => "NV",
+                "New Hampshire" => "NH", "New Jersey" => "NJ",
+                "New Mexico" => "NM", "New York" => "NY",
+                "North Carolina" => "NC", "North Dakota" => "ND",
+                "Ohio" => "OH",
+                "Oklahoma" => "OK", "Oregon" => "OR",
+                "Pennsylvania" => "PA", "Puerto Rico" => "PR",
+                "Rhode Island" => "RI",
+                "South Carolina" => "SC", "South Dakota" => "SD",
+                "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT",
+                "Vermont" => "VT", "Virginia" => "VA", "Washington" => "WA",
+                "West Virginia" => "WV", "Wisconsin" => "WI",
+                "Wyoming" => "WY"
+            }[geo.state_code]
           else
             obj.state = geo.state_code
           end

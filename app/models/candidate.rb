@@ -32,7 +32,6 @@ class Candidate < ActiveRecord::Base
 
   has_paper_trail
   nilify_blanks
-  setup_geocoding
   geocoding_validations
   attribute_validations
   setup_assocations
