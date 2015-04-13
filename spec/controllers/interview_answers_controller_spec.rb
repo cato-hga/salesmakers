@@ -92,6 +92,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
 
     context 'for candidates with an old interview' do
       let!(:previous_interview) { create :interview_answer, candidate: candidate }
+      let!(:log_entry) { create :log_entry, trackable: previous_interview }
       subject do
         post :create,
              candidate_id: candidate.id,
@@ -119,6 +120,12 @@ RSpec.describe InterviewAnswersController, :type => :controller do
         subject
         expect(InterviewAnswer.count).to eq(1)
         expect(candidate.interview_answers).not_to include(previous_interview)
+      end
+
+      it 'if necessary, deletes associated log entries to the interview answer set' do
+        expect(LogEntry.count).to eq(1)
+        subject
+        expect(LogEntry.count).to eq(2)
       end
     end
 

@@ -31,6 +31,10 @@ class InterviewAnswersController < ApplicationController
 
   def handle_previous_interviews
     if @candidate.interview_answers.any?
+      for interview in @candidate.interview_answers do
+        logs = LogEntry.where trackable: interview
+        logs.destroy_all
+      end
       @candidate.interview_answers.destroy_all
     end
   end
