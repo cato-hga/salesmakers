@@ -31,7 +31,6 @@ class PrescreenAnswersController < ApplicationController
       flash[:error] = 'At least one availability checkbox must be selected'
       render :new
     end
-
   end
 
   private

@@ -814,48 +814,6 @@ describe CandidatesController do
     end
   end
 
-  describe 'GET edit_availability' do
-    let(:candidate) { create :candidate }
-    before(:each) do
-      allow(controller).to receive(:policy).and_return double(edit_availability?: true)
-    end
-    it 'returns a success status' do
-      get :edit_availability, id: candidate.id
-      expect(response).to be_success
-      expect(response).to render_template(:edit_availability)
-    end
-  end
-
-  describe 'PATCH update_availability' do
-    let(:candidate) { create :candidate, candidate_availability: available }
-    let(:available) { create :candidate_availability, sunday_first: true }
-    before(:each) do
-      patch :update_availability,
-            id: candidate.id,
-            candidate_availability: {
-                monday_first: true,
-                monday_second: false,
-                monday_third: true
-            }
-      candidate.reload
-    end
-
-    it 'updates the candidates availability' do
-      expect(candidate.candidate_availability.monday_first).to eq(true)
-      expect(candidate.candidate_availability.monday_first).to eq(true)
-      expect(candidate.candidate_availability.monday_third).to eq(true)
-      expect(candidate.candidate_availability.monday_second).to eq(false)
-    end
-
-    it 'renders the candidate show page' do
-      expect(response).to redirect_to candidate_path candidate
-    end
-
-    it 'creates a log entry' do
-      expect(LogEntry.count).to be(1)
-    end
-  end
-
   describe 'GET resend_assessment' do
     let(:candidate) { create :candidate, state: 'FL', location_area: location_area }
     let(:location_area) { create :location_area }

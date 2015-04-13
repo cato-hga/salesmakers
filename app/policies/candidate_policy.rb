@@ -76,14 +76,6 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
-  def edit_availability?
-    create?
-  end
-
-  def update_availability?
-    create?
-  end
-
   def edit_candidate_details?
     create?
   end

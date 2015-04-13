@@ -2,8 +2,8 @@
   .inner
     %h3
       Availability
-      = edit_button edit_availability_candidate_path(@candidate)
     - if @candidate.candidate_availability
+      = edit_button edit_candidate_candidate_availability_path(@candidate, @candidate_availability)
       - available = @candidate.candidate_availability
       - if available.monday_first and available.monday_second and available.monday_third
         %p= 'Monday: All Day'
@@ -54,3 +54,5 @@
       -else
         %p= 'Sunday: ' + (available.sunday_first ? '10-2' : '') + ' ' + (available.sunday_second ? '2-6' : '') + ' ' + (available.sunday_third ? '5-9' : '')
       %p= 'Comment: ' + (available.comment ? available.comment : 'N/A')
+    - else
+      = new_button new_candidate_candidate_availability_path(@candidate)

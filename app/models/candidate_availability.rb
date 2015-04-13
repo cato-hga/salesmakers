@@ -25,6 +25,10 @@ class AvailabilityValidator < ActiveModel::Validator
       return
     end
   end
+
+  def self.policy_class
+    CandidatePolicy
+  end
 end
 
 class CandidateAvailability < ActiveRecord::Base

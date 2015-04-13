@@ -44,6 +44,7 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.find params[:id]
     @candidate_contacts = @candidate.candidate_contacts
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
+    @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
     setup_sprint_params
   end
 
@@ -212,31 +213,6 @@ class CandidatesController < ApplicationController
                          @candidate
     flash[:notice] = 'Personality assessment email resent.'
     redirect_to @candidate
-  end
-
-  def edit_availability
-    if @candidate.candidate_availability
-      @candidate_availability = @candidate.candidate_availability
-    else
-      @candidate_availability = CandidateAvailability.new
-    end
-  end
-
-  def update_availability
-    if @candidate.candidate_availability
-      @candidate_availability = @candidate.candidate_availability
-      @candidate_availability.update_attributes availability_params
-    else
-      @candidate_availability = CandidateAvailability.new
-      @candidate_availability.attributes = availability_params
-      @candidate_availability.candidate = @candidate
-    end
-    if @candidate_availability.save
-      flash[:notice] = 'Candidate Availability Updated'
-      redirect_to candidate_path @candidate
-      @current_person.log? 'update_availability',
-                           @candidate
-    end
   end
 
   def cant_make_training_location

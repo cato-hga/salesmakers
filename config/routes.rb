@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
-    resources :candidate_availabilities, only: [:new, :create]
+    resources :candidate_availabilities, only: [:new, :create, :edit, :update]
     resources :training_availabilities, only: [:new, :create, :edit, :update]
     resources :sprint_pre_training_welcome_calls, only: [:new, :create, :edit, :update]
     resources :candidate_drug_tests, only: [:new, :create]
@@ -44,8 +44,6 @@ Rails.application.routes.draw do
       get :resend_assessment, as: :resend_assessment
       get :dismiss
       patch :reactivate
-      get :edit_availability
-      patch :update_availability
       post :cant_make_training_location
       put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
     end

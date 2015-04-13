@@ -7,8 +7,9 @@ describe 'candidate show page' do
            location_area: location_area,
            personality_assessment_score: 45,
            personality_assessment_status: :qualified,
-           training_availability: training_availabilty }
-  
+           training_availability: training_availability,
+           candidate_availability: candidate_availability }
+
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission] }
   let!(:location_area) { create :location_area, location: location }
@@ -25,7 +26,8 @@ describe 'candidate show page' do
   }
   let!(:interview) { create :interview_schedule, person: recruiter, candidate: candidate, start_time: (Time.zone.now + 1.day) }
   let!(:interview_answer) { create :interview_answer, candidate: candidate }
-  let(:training_availabilty) { create :training_availability }
+  let(:training_availability) { create :training_availability }
+  let(:candidate_availability) { create :candidate_availability }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)

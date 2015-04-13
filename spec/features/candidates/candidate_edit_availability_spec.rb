@@ -19,7 +19,7 @@ describe 'Editing Candidates Availabilty' do
 
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-      visit edit_availability_candidate_path candidate
+      visit edit_candidate_candidate_availability_path(candidate, available)
     end
 
     it "shows the 'You are not authorized' page" do
@@ -76,11 +76,11 @@ describe 'Editing Candidates Availabilty' do
         CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
         visit candidate_path candidate_two
         within('.widget.availability') do
-          click_on 'Edit'
+          click_on 'New'
         end
       end
-      it 'shows the Edit form' do
-        expect(page).to have_content('Edit Candidate Availability')
+      it 'shows the New form' do
+        expect(page).to have_content('New Candidate Availability')
         expect(page).to have_content('10-2', count: 7)
         expect(page).to have_content('2-6', count: 7)
         expect(page).to have_content('5-9', count: 7)
