@@ -1,4 +1,4 @@
-- if controller_name == 'candidates' and @messages
+- if controller_name == 'candidates' and @messages and not CandidatePolicy.new(@current_person, Candidate.new).view_all?
   = form_tag path do
     = label_tag 'contact_message', 'Message'
     = select_tag 'contact_message', options_from_collection_for_select(@messages, 'text', 'text'), include_blank: true
