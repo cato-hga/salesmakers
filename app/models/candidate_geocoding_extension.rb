@@ -19,7 +19,7 @@ module CandidateGeocodingExtension
 
   module ClassMethods
     def setup_geocoding
-      self.class.instance_variable_set :@state_abbreviations, {
+      self.instance_variable_set :@state_abbreviations, {
                                                                 "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ",
                                                                 "Arkansas" => "AR", "California" => "CA",
                                                                 "Colorado" => "CO", "Connecticut" => "CT",
@@ -62,8 +62,8 @@ module CandidateGeocodingExtension
     end
 
     def reverse_geocode_strategy
-      setup_geocoding unless @state_abbreviations
       lambda do |obj, results|
+        setup_geocoding unless @state_abbreviations
         if geo = results.first
           if geo and geo.state_code and geo.state_code.length > 2
             obj.state = geo.country == 'Puerto Rico' ? 'PR' : @state_abbreviations[geo.state_code]
