@@ -14,7 +14,8 @@ class Position < ActiveRecord::Base
     return hardcoded_position if hardcoded_position
     return position_with_name('Advocate') if connect_user.username and
         connect_user.username.include?('hireretailpros.com')
-    position = find_position get_project_name(connect_user),
+    project_name = get_project_name(connect_user)
+    position = find_position project_name,
                              connect_user.fast_type,
                              event?(connect_user),
                              connect_user.leader?
