@@ -5,7 +5,7 @@ require_relative 'sprint_group_me_bot_help'
 require_relative 'sprint_group_me_bot_sales_query'
 require_relative 'sprint_group_me_bot_hpa_query'
 
-class SprintGroupMeBotCallback
+class SprintGroupMeBotCallback < SprintGroupMeBotQuery
   include GroupMeBotQuery
   include SprintGroupMeBotHelp
 
@@ -110,8 +110,8 @@ class SprintGroupMeBotCallback
         'month',
         'yesterday',
         'today',
-        'red',
-        'blue',
+        'east',
+        'west',
         'bland',
         'moulison',
         'miller',

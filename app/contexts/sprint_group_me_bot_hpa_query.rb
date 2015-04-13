@@ -22,10 +22,10 @@ module SprintGroupMeBotHPAQuery
         "r.name LIKE 'Sprint %' "
   end
 
-  def region_where_clause(region_name)
+  def parameter_where_clause(parameter_name, parameter_value)
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
         every_where_clause +
-        "region.name = '#{region_name}' AND " +
+        "#{parameter_name} = '#{parameter_value}' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
@@ -33,64 +33,39 @@ module SprintGroupMeBotHPAQuery
         "r.name LIKE 'Sprint %' "
   end
 
-  def director_where_clause(director_name)
-    "WHERE r.name ILIKE '%#{query_string}%' AND " +
-        every_where_clause +
-        "r.description ILIKE '#{director_name}' AND " +
-        "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
-        "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
-        "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
-        "t.site_name NOT ILIKE '%advocate%' AND " +
-        "r.name LIKE 'Sprint %' "
-  end
-
-  def from_and_joins
-    from_and_joins_string = 'from rsprint_timesheet t ' +
-        'left outer join ad_user u ' +
-        'on u.ad_user_id = t.ad_user_id ' +
-        'left outer join c_bpartner_location l ' +
-        'on l.c_bpartner_location_id = t.c_bpartner_location_id ' +
-        'left outer join c_salesregion r ' +
-        'on (r.c_salesregion_id = l.c_salesregion_id ' +
-        'and l.c_salesregion_id is not null) ' +
-        'or (r.salesrep_id = u.supervisor_id ' +
-        "and r.value LIKE '%-4' " +
-        'and l.c_salesregion_id is null) ' +
-        'left outer join ad_user tl ' +
-        'on tl.ad_user_id = r.salesrep_id ' +
-        'left outer join ad_user asm ' +
-        'on asm.ad_user_id = tl.supervisor_id ' +
-        'left outer join ad_user rm ' +
-        'on rm.ad_user_id = asm.supervisor_id ' +
-        'left outer join c_salesregion region ' +
-        'on region.salesrep_id = rm.ad_user_id ' +
-        'left outer join (select ' +
-        'rsprint_sales.ad_user_id as ad_user_id, ' +
-        'count(rsprint_sales_id) as sales ' +
-        'from rsprint_sales ' +
-        'where ' +
-        "rsprint_sales.date_sold >= cast('#{self.start_date}' as timestamp) AND " +
-        "rsprint_sales.date_sold < cast('#{self.end_date}' as timestamp) AND " +
-        "rsprint_sales.activated_in_store = 'Yes' " +
-        'group by ad_user_id ' +
-        'order by ad_user_id) sales ' +
-        'on sales.ad_user_id = u.ad_user_id '
-    if self.has_keyword?('red')
-      from_and_joins_string += self.region_where_clause('Sprint Red Region')
-    elsif self.has_keyword?('blue')
-      from_and_joins_string += self.region_where_clause('Sprint Blue Region')
-    elsif self.has_keyword?('bland')
-      from_and_joins_string += self.director_where_clause('bland')
-    elsif self.has_keyword?('moulison')
-      from_and_joins_string += self.director_where_clause('moulison')
-    elsif self.has_keyword?('miller')
-      from_and_joins_string += self.director_where_clause('miller')
-    elsif self.has_keyword?('willison')
-      from_and_joins_string += self.director_where_clause('willison')
-    else
-      from_and_joins_string += self.where_clause
-    end
-    from_and_joins_string
+  def every_from_and_join
+    <<EOF
+        from rsprint_timesheet t 
+        left outer join ad_user u 
+        on u.ad_user_id = t.ad_user_id 
+        left outer join c_bpartner_location l 
+        on l.c_bpartner_location_id = t.c_bpartner_location_id 
+        left outer join c_salesregion r 
+        on (r.c_salesregion_id = l.c_salesregion_id 
+        and l.c_salesregion_id is not null) 
+        or (r.salesrep_id = u.supervisor_id 
+        and r.value LIKE '%-4'
+        and l.c_salesregion_id is null) 
+        left outer join ad_user tl 
+        on tl.ad_user_id = r.salesrep_id 
+        left outer join ad_user asm 
+        on asm.ad_user_id = tl.supervisor_id 
+        left outer join ad_user rm 
+        on rm.ad_user_id = asm.supervisor_id 
+        left outer join c_salesregion region 
+        on region.salesrep_id = rm.ad_user_id 
+        left outer join (select 
+        rsprint_sales.ad_user_id as ad_user_id, 
+        count(rsprint_sales_id) as sales 
+        from rsprint_sales 
+        where 
+        rsprint_sales.date_sold >= cast('#{self.start_date}' as timestamp) AND 
+        rsprint_sales.date_sold < cast('#{self.end_date}' as timestamp) AND 
+        rsprint_sales.activated_in_store = 'Yes' 
+        group by ad_user_id 
+        order by ad_user_id) sales 
+        on sales.ad_user_id = u.ad_user_id 
+EOF
   end
 
   def rep_query
@@ -129,23 +104,23 @@ module SprintGroupMeBotHPAQuery
   def generate_messages(results)
     return [] unless results and results.count > 0
     char_count = 0
-    result_strings = []
-    result_string = ''
+    hpa_strings = []
+    hpa_string = ''
     total = 0
     message_count = 0
     for result in results do
       message_count += 1
-      single_result = "[##{message_count.to_s}] #{result['name']}: #{result['hpa'].to_f.round(2).to_s}\n"
+      hpa_result = "[##{message_count.to_s}] #{result['name']}: #{result['hpa'].to_f.round(2).to_s}\n"
       total += result['hpa'].to_f.round(2)
-      if result_string.length + single_result.length > 390
-        result_strings << result_string; result_string = single_result
+      if hpa_string.length + hpa_result.length > 390
+        hpa_strings << hpa_string; hpa_string = hpa_result
       else
-        result_string += single_result
+        hpa_string += hpa_result
       end
     end
     average = total / message_count
-    result_string += "\n***AVERAGE: #{average.round(2)}"
-    result_strings << result_string
-    result_strings
+    hpa_string += "\n***AVERAGE: #{average.round(2)}"
+    hpa_strings << hpa_string
+    hpa_strings
   end
 end
