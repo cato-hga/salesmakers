@@ -9,6 +9,11 @@ module CandidateValidationsAndAssocationsExtension
     self.email = self.email.downcase if self.email
   end
 
+  def trim_names
+    first_name.strip! if first_name
+    last_name.strip! if last_name
+  end
+
   module ClassMethods
     def attribute_validations
       validates :first_name, presence: true, length: { minimum: 2 }
@@ -25,6 +30,7 @@ module CandidateValidationsAndAssocationsExtension
       validates :candidate_source_id, presence: true
       validates :created_by, presence: true
 
+      before_validation :trim_names
       after_validation :proper_casing
     end
 
