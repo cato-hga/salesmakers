@@ -21,6 +21,7 @@ class SprintPersonalityAssessmentProcessing
     @candidate_scores.shift
     iterate_over_scores
     create_unmatched_candidates
+    send_confirmation
   end
 
   def self.passed_assessment(candidate, score, current_person)
@@ -99,4 +100,10 @@ class SprintPersonalityAssessmentProcessing
     end
   end
 
+  def send_confirmation
+    NotificationMailer.simple_mail('personalityassessmentconfirmation@salesmakersinc.com',
+                                   'Sprint Personality Assessment Upload Successful',
+                                   'The latest upload of Sprint Personality Assessment results were completed successfully'
+    ).deliver_later
+  end
 end
