@@ -53,4 +53,5 @@ describe ComcastGroupMeBotCallback do
       expect(callback.keywords.count).to eq(3)
     end
   end
+
 end

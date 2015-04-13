@@ -32,10 +32,10 @@ class CandidatesController < ApplicationController
   def dashboard
     set_datetime_range
     set_dashboard_variables
-    set_passed_sex_offender_check
-    set_passed_public_background_check
-    set_passed_private_background_check
-    set_passed_drug_screening
+    set_screening_check('sex_offender_check')
+    set_screening_check('public_background_check')
+    set_screening_check('private_background_check')
+    set_screening_check('drug_screening')
     set_partially_screened
     set_fully_screened
   end

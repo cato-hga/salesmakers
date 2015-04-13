@@ -1,8 +1,10 @@
 require 'apis/groupme'
 require 'group_me_bot_query'
+require_relative 'group_me_bot_sales_messages'
 
 class ComcastGroupMeBotCallback
   include GroupMeBotQuery
+  include GroupMeBotSalesMessages
 
   attr_accessor :query_string,
                 :keywords
@@ -26,7 +28,7 @@ class ComcastGroupMeBotCallback
       message = ['Schedule your new SalesMaker for training at http://bit.ly/1w3AGqG !']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
     else
-      messages = self.generate_sales_messages(@results)
+      messages = self.generate_messages(@results)
       GroupMe.new_global.post_messages_with_bot(messages, bot_id, @chart_url)
     end
   end

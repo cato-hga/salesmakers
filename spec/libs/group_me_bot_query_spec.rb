@@ -97,10 +97,12 @@ describe GroupMeBotQuery do
 end
 
 class TestGroupMeBotCallback
+  include GroupMeBotSalesMessages
+
   attr_accessor :keywords,
                 :query_string
 
   def messages(results)
-    self.generate_sales_messages(results)
+    self.generate_messages(results)
   end
 end

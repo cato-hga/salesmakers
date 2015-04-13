@@ -1,69 +1,6 @@
 class Candidate < ActiveRecord::Base
-  geocoded_by :zip
-  state_abbreviations = {
-      "Alabama" => "AL",
-      "Alaska" => "AK",
-      "Arizona" => "AZ",
-      "Arkansas" => "AR",
-      "California" => "CA",
-      "Colorado" => "CO",
-      "Connecticut" => "CT",
-      "Delaware" => "DE",
-      "Florida" => "FL",
-      "Georgia" => "GA",
-      "Hawaii" => "HI",
-      "Idaho" => "ID",
-      "Illinois" => "IL",
-      "Indiana" => "IN",
-      "Iowa" => "IA",
-      "Kansas" => "KS",
-      "Kentucky" => "KY",
-      "Louisiana" => "LA",
-      "Maine" => "ME",
-      "Maryland" => "MD",
-      "Massachusetts" => "MA",
-      "Michigan" => "MI",
-      "Minnesota" => "MN",
-      "Mississippi" => "MS",
-      "Missouri" => "MO",
-      "Montana" => "MT",
-      "Nebraska" => "NE",
-      "Nevada" => "NV",
-      "New Hampshire" => "NH",
-      "New Jersey" => "NJ",
-      "New Mexico" => "NM",
-      "New York" => "NY",
-      "North Carolina" => "NC",
-      "North Dakota" => "ND",
-      "Ohio" => "OH",
-      "Oklahoma" => "OK",
-      "Oregon" => "OR",
-      "Pennsylvania" => "PA",
-      "Puerto Rico" => "PR",
-      "Rhode Island" => "RI",
-      "South Carolina" => "SC",
-      "South Dakota" => "SD",
-      "Tennessee" => "TN",
-      "Texas" => "TX",
-      "Utah" => "UT",
-      "Vermont" => "VT",
-      "Virginia" => "VA",
-      "Washington" => "WA",
-      "West Virginia" => "WV",
-      "Wisconsin" => "WI",
-      "Wyoming" => "WY"
-  }
-  reverse_geocoded_by :latitude, :longitude do |obj, results|
-    if geo = results.first
-      if geo and geo.state_code and geo.state_code.length > 2
-        obj.state = geo.country == 'Puerto Rico' ? 'PR' : state_abbreviations[geo.state_code]
-      else
-        obj.state = geo.state_code
-      end
-    end
-  end
-
-  nilify_blanks
+  include CandidateGeocodingExtension
+  include CandidateValidationsAndAssocationsExtension
   extend NonAlphaNumericRansacker
 
   # NOTE: YOU CANNOT ADD A STATUS IN THE MIDDLE WITHOUT CORRECTING THE STATUSES AFTER IT. ENUM IS NOTHING
@@ -93,51 +30,15 @@ class Candidate < ActiveRecord::Base
            :qualified
        ]
 
-  after_validation :reverse_geocode_on_production,
-                   if: ->(candidate) {
-                     candidate.latitude.present? and candidate.latitude_changed?
-                   }
-  after_validation :geocode_on_production,
-                   if: ->(candidate) {
-                     candidate.zip.present? and candidate.zip_changed?
-                   }
-  after_validation :proper_casing
-
-  validates :first_name, presence: true, length: {minimum: 2}
-  validates :last_name, presence: true, length: {minimum: 2}
-  validate :strip_phone_number
-  validates :mobile_phone, uniqueness: true
-  validates :mobile_phone, length: { is: 10 },
-            if: Proc.new { |c| c.new_record? }
-  validates :email,
-            presence: true,
-            format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' },
-            uniqueness: { case_sensitive: false }
-  validates :zip, length: { is: 5 }
-  validates :candidate_source_id, presence: true
-  validates :created_by, presence: true
-
-  belongs_to :location_area
-  belongs_to :person
-  belongs_to :candidate_source
-  belongs_to :candidate_denial_reason
-  belongs_to :created_by, class_name: 'Person', foreign_key: 'created_by'
-  belongs_to :sprint_radio_shack_training_session
-  belongs_to :potential_area, class_name: 'Area', foreign_key: 'potential_area_id'
-
-  has_many :prescreen_answers
-  has_many :interview_schedules
-  has_many :interview_answers
-  has_many :job_offer_details
-  has_many :candidate_contacts
-  has_one :candidate_availability
-  has_one :training_availability
-  has_one :sprint_pre_training_welcome_call
-  has_one :candidate_drug_test
+  has_paper_trail
+  nilify_blanks
+  setup_geocoding
+  geocoding_validations
+  attribute_validations
+  setup_assocations
+  stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
   default_scope { order(:first_name, :last_name) }
-
-  stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
   def strip_phone_number
     self.mobile_phone = mobile_phone.strip.gsub /[^0-9]/, '' if mobile_phone.present?
@@ -155,19 +56,29 @@ class Candidate < ActiveRecord::Base
   def active=(is_active)
     return if self[:active] == is_active
     self[:active] = is_active
-    previous_status = self.status
     if is_active == false
-      self.status = :rejected
-      return if self.location_area.nil?
-      self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
-      return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-      self.location_area.update offer_extended_count: self.location_area.offer_extended_count - 1
+      self.set_inactive
     else
-      return if self.location_area.nil?
-      self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
-      return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-      self.location_area.update offer_extended_count: self.location_area.offer_extended_count + 1
+      self.set_active
     end
+  end
+
+  def set_inactive
+    previous_status = self.status
+    self.status = :rejected
+    return if self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
+    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
+    self.location_area.update offer_extended_count: self.location_area.offer_extended_count - 1
+  end
+
+  def set_active
+    previous_status = self.status
+    return if self.location_area.nil?
+    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
+    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
+    self.location_area.update offer_extended_count: self.location_area.offer_extended_count + 1
+    self.candidate_denial_reason = nil
   end
 
   def person=(person)
@@ -231,21 +142,4 @@ class Candidate < ActiveRecord::Base
     self.update potential_area: closest_area
   end
 
-  private
-
-  def geocode_on_production
-    return unless Rails.env.production? or Rails.env.staging?
-    self.geocode
-  end
-
-  def reverse_geocode_on_production
-    return unless Rails.env.production?
-    self.reverse_geocode
-  end
-
-  def proper_casing
-    self.first_name = NameCase(self.first_name) if self.first_name
-    self.last_name = NameCase(self.last_name) if self.last_name
-    self.email = self.email.downcase if self.email
-  end
 end
