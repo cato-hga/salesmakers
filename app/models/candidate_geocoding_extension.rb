@@ -19,32 +19,32 @@ module CandidateGeocodingExtension
 
   module ClassMethods
     def setup_geocoding
-      self.class.class_variable_set :@@state_abbreviations, {
-                                                              "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ",
-                                                              "Arkansas" => "AR", "California" => "CA",
-                                                              "Colorado" => "CO", "Connecticut" => "CT",
-                                                              "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
-                                                              "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL",
-                                                              "Indiana" => "IN", "Iowa" => "IA",
-                                                              "Kansas" => "KS", "Kentucky" => "KY", "Louisiana" => "LA",
-                                                              "Maine" => "ME", "Maryland" => "MD",
-                                                              "Massachusetts" => "MA", "Michigan" => "MI",
-                                                              "Minnesota" => "MN", "Mississippi" => "MS",
-                                                              "Missouri" => "MO",
-                                                              "Montana" => "MT", "Nebraska" => "NE", "Nevada" => "NV",
-                                                              "New Hampshire" => "NH", "New Jersey" => "NJ",
-                                                              "New Mexico" => "NM", "New York" => "NY",
-                                                              "North Carolina" => "NC", "North Dakota" => "ND",
-                                                              "Ohio" => "OH",
-                                                              "Oklahoma" => "OK", "Oregon" => "OR",
-                                                              "Pennsylvania" => "PA", "Puerto Rico" => "PR",
-                                                              "Rhode Island" => "RI",
-                                                              "South Carolina" => "SC", "South Dakota" => "SD",
-                                                              "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT",
-                                                              "Vermont" => "VT", "Virginia" => "VA", "Washington" => "WA",
-                                                              "West Virginia" => "WV", "Wisconsin" => "WI",
-                                                              "Wyoming" => "WY"
-                                                          }
+      self.class.instance_variable_set :@state_abbreviations, {
+                                                                "Alabama" => "AL", "Alaska" => "AK", "Arizona" => "AZ",
+                                                                "Arkansas" => "AR", "California" => "CA",
+                                                                "Colorado" => "CO", "Connecticut" => "CT",
+                                                                "Delaware" => "DE", "Florida" => "FL", "Georgia" => "GA",
+                                                                "Hawaii" => "HI", "Idaho" => "ID", "Illinois" => "IL",
+                                                                "Indiana" => "IN", "Iowa" => "IA",
+                                                                "Kansas" => "KS", "Kentucky" => "KY", "Louisiana" => "LA",
+                                                                "Maine" => "ME", "Maryland" => "MD",
+                                                                "Massachusetts" => "MA", "Michigan" => "MI",
+                                                                "Minnesota" => "MN", "Mississippi" => "MS",
+                                                                "Missouri" => "MO",
+                                                                "Montana" => "MT", "Nebraska" => "NE", "Nevada" => "NV",
+                                                                "New Hampshire" => "NH", "New Jersey" => "NJ",
+                                                                "New Mexico" => "NM", "New York" => "NY",
+                                                                "North Carolina" => "NC", "North Dakota" => "ND",
+                                                                "Ohio" => "OH",
+                                                                "Oklahoma" => "OK", "Oregon" => "OR",
+                                                                "Pennsylvania" => "PA", "Puerto Rico" => "PR",
+                                                                "Rhode Island" => "RI",
+                                                                "South Carolina" => "SC", "South Dakota" => "SD",
+                                                                "Tennessee" => "TN", "Texas" => "TX", "Utah" => "UT",
+                                                                "Vermont" => "VT", "Virginia" => "VA", "Washington" => "WA",
+                                                                "West Virginia" => "WV", "Wisconsin" => "WI",
+                                                                "Wyoming" => "WY"
+                                                            }
     end
 
     def geocoding_validations
@@ -62,11 +62,11 @@ module CandidateGeocodingExtension
     end
 
     def reverse_geocode_strategy
-      setup_geocoding unless @@state_abbreviations
+      setup_geocoding unless @state_abbreviations
       lambda do |obj, results|
         if geo = results.first
           if geo and geo.state_code and geo.state_code.length > 2
-            obj.state = geo.country == 'Puerto Rico' ? 'PR' : @@state_abbreviations[geo.state_code]
+            obj.state = geo.country == 'Puerto Rico' ? 'PR' : @state_abbreviations[geo.state_code]
           else
             obj.state = geo.state_code
           end
