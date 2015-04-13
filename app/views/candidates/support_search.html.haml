@@ -20,6 +20,7 @@
     %br/
     - selected_training_session = params['q'] ? params['q']['sprint_radio_shack_training_session_id_eq'] : nil
     = f.select :sprint_radio_shack_training_session_id_eq, options_from_collection_for_select(SprintRadioShackTrainingSession.all, :id, :name, selected_training_session), include_blank: 'Training Session'
+    = f.select :sprint_radio_shack_training_session_id_null, [['Show All', false],['Show Only Unscheduled', true]], include_blank: 'Training Scheduled?'
     - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
     = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
     = f.text_field :location_area_location_city_cont, placeholder: 'Location City'
