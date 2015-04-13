@@ -3,6 +3,15 @@ require 'rails_helper'
 describe Candidate do
   let(:candidate) { build :candidate, mobile_phone: '7164158131', personality_assessment_status: :incomplete }
 
+  it 'trims the names' do
+    candidate.first_name = ' Foo '
+    candidate.last_name = ' Bar '
+    candidate.save
+    candidate.reload
+    expect(candidate.first_name).to eq('Foo')
+    expect(candidate.last_name).to eq('Bar')
+  end
+
   describe 'validations' do
     it 'requires a first name at least 2 characters long' do
       candidate.first_name = 'a'
