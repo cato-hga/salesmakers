@@ -12,11 +12,14 @@ class TrainingAvailabilitiesController < ApplicationController
   def create
     @training_availability = TrainingAvailability.new training_availability_params
     @training_availability.candidate = @candidate
-    check_for_blank_shirt_info
+    if blank_shirt_info?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :edit and return
+    end
     @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
     @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
     if @training_availability.save and @candidate.save
-      confirm_and_redirect
+      confirm_and_redirect and return
     else
       puts @training_availability.errors.full_messages.join(',')
       flash[:error] = 'Candidate could not be saved'
@@ -29,7 +32,10 @@ class TrainingAvailabilitiesController < ApplicationController
   end
 
   def update
-    check_for_blank_shirt_info
+    if blank_shirt_info?
+      flash[:error] = 'You must select a shirt gender and size to proceed.'
+      render :edit and return
+    end
     @candidate.shirt_size = params[:training_availability][:candidate][:shirt_size]
     @candidate.shirt_gender = params[:training_availability][:candidate][:shirt_gender]
     if @training_availability.update training_availability_params and @candidate.save
@@ -93,15 +99,12 @@ class TrainingAvailabilitiesController < ApplicationController
       redirect_to send_paperwork_candidate_path(@candidate) and return
     else
       flash[:notice] = 'Confirmation recorded. Paperwork will be sent when personality assessment is passed.'
-      redirect_to candidate_path(@candidate) and return
+      redirect_to candidate_path(@candidate)
     end
   end
 
-  def check_for_blank_shirt_info
-    if params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
-      flash[:error] = 'You must select a shirt gender and size to proceed.'
-      render :edit and return
-    end
+  def blank_shirt_info?
+    params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
   end
 
 end
