@@ -75,8 +75,7 @@ module GroupMeBotQuery
 
   def mtd
     if has_keyword?('mtd')
-      self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_month.to_date
-      self.end_date = Time.now.utc.apply_pacific_offset.to_date + 1.day
+      period_to_date 'month'
     end
   end
 
@@ -89,41 +88,42 @@ module GroupMeBotQuery
 
   def wtd
     if has_keyword?('wtd')
-      self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date
-      self.end_date = Time.now.utc.apply_pacific_offset.to_date + 1.day
+      period_to_date 'week'
     end
+  end
+
+  def period_to_date(beginning_of_period)
+    self.start_date = Time.now.utc.apply_pacific_offset.send("beginning_of_#{beginning_of_period}".to_sym).to_date
+    self.end_date = Time.now.utc.apply_pacific_offset.to_date + 1.day
   end
 
   def weekend
+    subtract = has_keyword?('last') ? 1.week : 0
     if has_keyword?('weekend')
-      self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 4.days
-      self.end_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 1.week
-      if has_keyword?('last')
-        self.start_date -= 1.week
-        self.end_date -= 1.week
-      end
+      self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 4.days - subtract
+      self.end_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 1.week - subtract
     end
   end
+end
 
-  def week
-    if has_keyword?('week')
-      self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date
-      self.end_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 1.week
-      if has_keyword?('last')
-        self.start_date -= 1.week
-        self.end_date -= 1.week
-      end
+def week
+  if has_keyword?('week')
+    self.start_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date
+    self.end_date = Time.now.utc.apply_pacific_offset.beginning_of_week.to_date + 1.week
+    if has_keyword?('last')
+      self.start_date -= 1.week
+      self.end_date -= 1.week
     end
   end
+end
 
-  def month
-    if has_keyword?('month')
-      self.start_date = Time.now.apply_pacific_offset.beginning_of_month.to_date
-      self.end_date = Time.now.apply_pacific_offset.end_of_month.to_date + 1.day
-      if has_keyword?('last')
-        self.start_date -= 1.month
-        self.end_date -= 1.month
-      end
+def month
+  if has_keyword?('month')
+    self.start_date = Time.now.apply_pacific_offset.beginning_of_month.to_date
+    self.end_date = Time.now.apply_pacific_offset.end_of_month.to_date + 1.day
+    if has_keyword?('last')
+      self.start_date -= 1.month
+      self.end_date -= 1.month
     end
   end
 end
