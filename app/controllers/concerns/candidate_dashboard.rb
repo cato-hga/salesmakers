@@ -12,7 +12,7 @@ module CandidateDashboard
   def status_info
     [
         [
-            :entered, nil, nil, nil
+            :entered, nil, 'candidates.created_at', nil
         ],
         [
             :prescreened, :prescreen_answers, 'prescreen_answers.created_at', nil
@@ -43,26 +43,7 @@ module CandidateDashboard
 
   def set_dashboard_variables
     for status in status_info do
-      if status[1].present? and status[2].present?
-        range_info = Candidate.
-            joins(status[1]).
-            where("#{status[2]} >= ? AND #{status[2]} <= ?",
-                  @datetime_start,
-                  @datetime_end
-            )
-      elsif status[3].present?
-        range_info = Candidate.
-            joins(:interview_answers).
-            where("#{status[2]} >= ? AND #{status[2]} <= ? AND #{status[3]}",
-                  @datetime_start,
-                  @datetime_end)
-      else
-        range_info = Candidate.where(
-            "created_at >= ? AND created_at <= ?",
-            @datetime_start,
-            @datetime_end
-        )
-      end
+      range_info = range_scope status[2], status[1], status[3]
       total_info = Candidate.where(status: Candidate.statuses[status[0]].to_i, active: true)
       instance_variable_set "@#{status[0].to_s}_range", range_info
       instance_variable_set "@#{status[0].to_s}_total", total_info
@@ -72,14 +53,26 @@ module CandidateDashboard
 
   end
 
-  def set_partially_screened
-    @partially_screened_range = Candidate.where(
-        "status = ? AND updated_at >= ? AND updated_at <= ?",
-        Candidate.statuses[:partially_screened].to_i,
-        @datetime_start,
-        @datetime_end
-    )
-    @partially_screened_total = Candidate.where(status: Candidate.statuses[:partially_screened].to_i, active: true)
+  def range_scope(column, join_table = nil, extra_condition = nil)
+    where_string = "#{column} >= CAST('#{@datetime_start.to_s}' AS TIMESTAMP) " +
+        "AND #{column} <= CAST('#{@datetime_end.to_s}' AS TIMESTAMP)"
+    where_string += " AND #{extra_condition}" if extra_condition
+    range_scope = Candidate
+    range_scope = range_scope.joins(join_table) if join_table
+    range_scope.where(where_string)
+  end
+
+  def set_screened(status_string)
+    self.instance_variable_set "@#{status_string}_range".to_sym,
+                               Candidate.where(
+                                   "status = ? AND updated_at >= ? AND updated_at <= ?",
+                                   Candidate.statuses[status_string.to_sym].to_i,
+                                   @datetime_start,
+                                   @datetime_end
+                               )
+    self.instance_variable_set "@#{status_string}_total".to_sym,
+                               Candidate.where(status: Candidate.statuses[status_string.to_sym].to_i,
+                                               active: true)
   end
 
   def set_screening_check(type)
@@ -97,15 +90,5 @@ module CandidateDashboard
                                                            Candidate.statuses[:partially_screened].to_i,
                                                            Screening.send("#{type}s")["#{type}_passed".to_sym].to_i
                                                      )
-  end
-
-  def set_fully_screened
-    @fully_screened_range = Candidate.where(
-        "status = ? AND updated_at >= ? AND updated_at <= ?",
-        Candidate.statuses[:fully_screened].to_i,
-        @datetime_start,
-        @datetime_end
-    )
-    @fully_screened_total = Candidate.where(status: Candidate.statuses[:fully_screened].to_i, active: true)
   end
 end

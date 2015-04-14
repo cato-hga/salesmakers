@@ -44,8 +44,8 @@ class CandidatesController < ApplicationController
     set_screening_check('public_background_check')
     set_screening_check('private_background_check')
     set_screening_check('drug_screening')
-    set_partially_screened
-    set_fully_screened
+    set_screened('partially_screened')
+    set_screened('fully_screened')
   end
 
   def show
