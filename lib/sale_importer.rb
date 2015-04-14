@@ -41,10 +41,10 @@ class SaleImporter
       sold = get_sale_date(order)
       next if sold < @start_date or sold > @end_date
       initialize_hashes(sold) unless @days.include? sold
-      process_area(sold, order)
-      process_person(sold, order)
-      process_project(sold, order)
-      process_client(sold, order)
+      process_area sold, order
+      process_object sold, order, get_details(order)[:person]
+      process_object sold, order, get_details(order)[:project]
+      process_object sold, order, get_details(order)[:client]
     end
     process_days
   end
@@ -70,37 +70,21 @@ class SaleImporter
     if area
       areas = area.path
       for path_area in areas do
-        @days[sold]['areas'][path_area] = 0 unless @days[sold]['areas'].include? path_area
-        @days[sold]['areas'][path_area] += 1
+        increment_object_sale_count sold, 'areas', path_area
       end
     end
   end
 
-  def process_person(sold, order)
-    person = order.person
-    if person
-      @days[sold]['people'][person] = 0 unless @days[sold]['people'].include? person
-      @days[sold]['people'][person] += 1
+  def process_object(sold, order, obj)
+    if obj
+      table_name = obj.model_name.name.pluralize.downcase
+      increment_object_sale_count sold, table_name, obj
     end
   end
 
-  def process_project(sold, order)
-    area = order.area
-    project = area ? area.project : nil
-    if project
-      @days[sold]['projects'][project] = 0 unless @days[sold]['projects'].include? project
-      @days[sold]['projects'][project] += 1
-    end
-  end
-
-  def process_client(sold, order)
-    area = order.area
-    project = area ? area.project : nil
-    client = project ? project.client : nil
-    if client
-      @days[sold]['clients'][client] = 0 unless @days[sold]['clients'].include? client
-      @days[sold]['clients'][client] += 1
-    end
+  def increment_object_sale_count sold, table_name, obj
+    @days[sold][table_name][obj] = 0 unless @days[sold][table_name].include? obj
+    @days[sold][table_name][obj] += 1
   end
 
   def process_days
@@ -119,6 +103,18 @@ class SaleImporter
       day_sales.updated_at = Time.now
       day_sales.save
     end
+  end
+
+  def get_details(order)
+    area = order.area
+    project = area ? area.project : nil
+    client = project ? project.client : nil
+    {
+        person: order.person,
+        area: order.area,
+        project: project,
+        client: client
+    }
   end
   #:nocov:
 end
