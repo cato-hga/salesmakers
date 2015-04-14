@@ -85,7 +85,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: 'newcenter.salesmakersinc.com' }
-  config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.new('PRODUCTION')
+  config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.hash('PRODUCTION')
 end
 
 Rails.application.routes.default_url_options[:host] = 'newcenter.salesmakersinc.com'

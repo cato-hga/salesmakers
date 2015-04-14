@@ -2,7 +2,7 @@ require 'exception_notification/rails'
 require 'sidekiq'
 
 class ExceptionNotificationOptions
-  def initialize environment_tag
+  def self.hash environment_tag
     {
         email: {
             email_prefix: "[#{environment_tag}] ",
