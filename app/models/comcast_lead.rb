@@ -1,43 +1,19 @@
-class ComcastLead < ActiveRecord::Base
-  validates :comcast_customer, presence: true
-  validate :one_service_selected
-  validate :no_past_follow_up_by_date
-  validate :must_be_ok_to_call_and_text
+require 'comcast/sales_and_leads'
+require 'comcast/lead_validations_and_associations'
+require 'comcast/lead_scopes'
 
-  belongs_to :comcast_customer
+class ComcastLead < ActiveRecord::Base
+  include Comcast::SalesAndLeads
+  extend Comcast::LeadScopes
+  extend Comcast::LeadValidationsAndAssociations
+
+  setup_validations
+  setup_scopes
+  belongs_to_associations
 
   delegate :name, to: :comcast_customer
   delegate :mobile_phone, to: :comcast_customer
   delegate :other_phone, to: :comcast_customer
-
-  default_scope {
-    joins(:comcast_customer).
-        order('comcast_customers.first_name, comcast_customers.last_name')
-
-  }
-
-  scope :person, ->(person_id) {
-    where('comcast_customers.person_id = ?', person_id)
-  }
-
-  scope :overdue, -> {
-    where(active: true).
-        where('follow_up_by < ?', Date.current).
-        order(:follow_up_by)
-  }
-
-  scope :upcoming, -> {
-    where(active: true).
-        where('follow_up_by >= ? AND follow_up_by <= ?',
-              Date.current,
-              Date.current + 1.week).order(:follow_up_by)
-  }
-
-  scope :not_upcoming_or_overdue, -> {
-    where(active: true).
-        where('follow_up_by > ? OR follow_up_by IS NULL',
-              Date.current + 1.week)
-  }
 
   def self.policy_class
     ComcastCustomerPolicy
@@ -68,14 +44,6 @@ class ComcastLead < ActiveRecord::Base
   end
 
   private
-
-  def one_service_selected
-    unless self.tv? or self.internet? or self.phone? or self.security?
-      [:tv, :internet, :phone, :security].each do |product|
-        errors.add(product, 'or at least one other product must be selected')
-      end
-    end
-  end
 
   def no_past_follow_up_by_date
     return unless self.follow_up_by

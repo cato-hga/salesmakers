@@ -1,4 +1,4 @@
-module ComcastSaleScopes
+module Comcast::SaleScopes
   def set_scopes
     default_scope {
       joins(:person, :comcast_install_appointment).
