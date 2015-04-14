@@ -1,4 +1,12 @@
 require 'apis/gateway'
+require 'candidates/assessments.rb'
+require 'candidates/available_locations.rb'
+require 'candidates/locations.rb'
+require 'candidates/paperwork.rb'
+require 'candidates/sms_messages.rb'
+require 'candidates/status.rb'
+require 'candidates/training.rb'
+
 
 class CandidatesController < ApplicationController
   include CandidateDashboard
@@ -89,270 +97,18 @@ class CandidatesController < ApplicationController
     end
   end
 
-  def dismiss
-    @denial_reasons = CandidateDenialReason.where active: true
-  end
-
-  def reactivate
-    if @candidate.update active: true
-      reset_candidate_status
-      @current_person.log? 'reactivate',
-                           @candidate
-      flash[:notice] = 'Candidate reactivated'
-      redirect_to candidate_path @candidate
-    else
-      flash[:error] = 'Candidate could not be reactivated'
-      render :show
-    end
-  end
-
-  def destroy
-    @selected_reason = params[:candidate][:candidate_denial_reason_id]
-    @denial_reason = CandidateDenialReason.find_by id: @selected_reason
-    if @selected_reason.blank?
-      flash[:error] = 'Candidate denial reason can not be blank'
-      render :dismiss and return
-    end
-    @interviews = InterviewSchedule.where(candidate_id: @candidate.id)
-    if @interviews.any?
-      for interview in @interviews
-        interview.update active: false
-      end
-    end
-    @candidate.update active: false, candidate_denial_reason: @denial_reason
-    @current_person.log? 'dismiss',
-                         @candidate,
-                         @denial_reason
-    flash[:notice] = 'Candidate dismissed'
-    redirect_to candidates_path
-  end
-
-  def select_location
-    all_location_areas = LocationArea.get_all_location_areas(@candidate, @current_person)
-    @location_area_search = all_location_areas.search(params[:q])
-    @location_areas = order_by_distance(@location_area_search.result)
-    @candidate.assign_potential_territory(@location_areas)
-    @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-  end
-
-  def set_location_area
-    @location_area = LocationArea.find params[:location_area_id]
-    @back_to_confirm = params[:back_to_confirm] == 'true' ? true : false
-    @previous_location_area = @candidate.location_area
-    if @candidate.update location_area: @location_area
-      handle_location_area
-    else
-      flash[:error] = @candidate.errors.full_messages.join(', ')
-      redirect_to select_location_candidate_path(@candidate, @back_to_confirm.to_s)
-    end
-  end
-
-  def send_paperwork
-    geocode_if_necessary
-    if Rails.env.staging? or Rails.env.development? or Rails.env.test?
-      envelope_response = 'STAGING'
-    else
-      envelope_response = DocusignTemplate.send_nhp @candidate, @current_person
-    end
-    @candidate.job_offer_details.destroy_all
-    job_offer_details = JobOfferDetail.new candidate: @candidate,
-                                           sent: DateTime.now
-    if envelope_response
-      job_offer_details.envelope_guid = envelope_response
-      flash[:notice] = 'Paperwork sent successfully.'
-    else
-      flash[:error] = 'Could not send paperwork automatically. Please send now manually.'
-    end
-    job_offer_details.save
-    @candidate.paperwork_sent!
-    redirect_to @candidate
-  end
-
-  def new_sms_message
-    if @candidate.mobile_phone.length != 10
-      flash[:error] = "Sorry, but the candidate's phone number is not " +
-          "10 digits long. Please correct the phone number to send text messages"
-      redirect_to :back and return
-    end
-    @messages = CandidateSMSMessage.all
-  end
-
-  def create_sms_message
-    message = sms_message_params[:contact_message]
-    gateway = Gateway.new '+18133441170'
-    gateway.send_text_to_candidate @candidate, message, @current_person
-    flash[:notice] = 'Message successfully sent.'
-    redirect_to candidate_path(@candidate)
-  end
-
-  def record_assessment_score
-    begin
-      @score = Float params[:assessment_score]
-    rescue
-      flash[:error] = 'Score must be a number'
-      redirect_to candidate_path(@candidate) and return
-    end
-    if @score > 100
-      flash[:error] = 'Score cannot be greater than 100. Please try again.'
-      redirect_to candidate_path(@candidate) and return
-    end
-    if @score < 31
-      failed_assessment
-    else
-      passed_assessment
-    end
-  end
-
-  def resend_assessment
-    unless @candidate.location_area
-      flash[:error] = 'You cannot resend the assessment because there is no location selected for the candidate.'
-      redirect_to @candidate and return
-    end
-    CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @candidate.location_area.area).deliver_later
-    @current_person.log? 'sent_assessment',
-                         @candidate
-    flash[:notice] = 'Personality assessment email resent.'
-    redirect_to @candidate
-  end
-
-  def cant_make_training_location
-    reason = TrainingUnavailabilityReason.find_by name: "Can't Make Training Location"
-    @training_availability = TrainingAvailability.new
-    @training_availability.able_to_attend = false
-    @training_availability.candidate = @candidate
-    @training_availability.training_unavailability_reason = reason
-    if @training_availability.save
-      flash[:notice] = "Candidate marked as not being able to make their training location"
-      redirect_to candidate_path(@candidate)
-    else
-      flash[:error] = "Unavailability could not be saved"
-      redirect_to candidate_path(@candidate)
-    end
-  end
-
-  def set_sprint_radio_shack_training_session
-    @sprint_radio_shack_training_session_id = sprint_radio_shack_training_session_params[:id]
-    if @candidate.update sprint_radio_shack_training_session_id: @sprint_radio_shack_training_session_id
-      flash[:notice] = 'Saved training session'
-    else
-      flash[:error] = 'Could not save training session'
-    end
-    redirect_to candidate_path(@candidate)
-  end
+  include Candidates::Assessments
+  include Candidates::AvailableLocations
+  include Candidates::Locations
+  include Candidates::Paperwork
+  include Candidates::SMSMessages
+  include Candidates::Status
+  include Candidates::Training
 
   private
 
-  def check_and_handle_unmatched_candidates
-    return unless @candidate.save
-    unmatched_candidate = UnmatchedCandidate.find_by email: @candidate.email
-    return unless unmatched_candidate
-    person = Person.find_by email: 'retailingw@retaildoneright.com'
-    if unmatched_candidate.score < 31
-      SprintPersonalityAssessmentProcessing.failed_assessment @candidate, unmatched_candidate.score, person
-    else
-      SprintPersonalityAssessmentProcessing.passed_assessment @candidate, unmatched_candidate.score, person
-    end
-  end
-
-  def setup_sprint_params
-    if @candidate.location_area and @candidate.location_area.location and @candidate.location_area.location.sprint_radio_shack_training_location
-      @training_location = @candidate.location_area.location.sprint_radio_shack_training_location
-    else
-      @training_location = nil
-    end
-    @sprint_radio_shack_training_sessions = SprintRadioShackTrainingSession.all
-    @sprint_radio_shack_training_session = @candidate.sprint_radio_shack_training_session ?
-        @candidate.sprint_radio_shack_training_session :
-        SprintRadioShackTrainingSession.new
-  end
-
-  def handle_location_area
-    if @previous_location_area
-      candidate_has_previous_location_area
-    end
-    if @location_area.outsourced?
-      candidate_location_outsourced and return
-    end
-    if @back_to_confirm
-      back_to_confirmation and return
-    else
-      candidate_location_completion
-    end
-  end
-
-  def handle_outsourced
-    if @candidate.save
-      @current_person.log? 'create',
-                           @candidate
-      flash[:notice] = 'Outsourced candidate saved!'
-      redirect_to select_location_candidate_path(@candidate, 'false')
-    else
-      render :new
-    end
-  end
-
-  def candidate_has_previous_location_area
-    @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
-    if Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
-      @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
-    end
-  end
-
-  def candidate_location_outsourced
-    @candidate.accepted!
-    @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-    @location_area.update offer_extended_count: @location_area.offer_extended_count + 1
-    flash[:notice] = 'Location chosen successfully.'
-    redirect_to new_candidate_training_availability_path(@candidate)
-  end
-
-  def candidate_is_prescreened
-    @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
-    flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
-    redirect_to candidate_path(@candidate)
-  end
-
-  def back_to_confirm
-    flash[:notice] = 'Location chosen successfully.'
-    redirect_to (new_candidate_training_availability_path(@candidate))
-  end
-
-  def candidate_location_completion
-    CandidatePrescreenAssessmentMailer.assessment_mailer(@candidate, @location_area.area).deliver_later
-    @current_person.log? 'sent_assessment',
-                         @candidate
-    if @candidate.prescreened?
-      candidate_is_prescreened and return
-    else
-      @candidate.location_selected! if @candidate.status == 'entered'
-      flash[:notice] = 'Location chosen successfully.'
-      redirect_to new_candidate_prescreen_answer_path(@candidate)
-    end
-  end
-
-  def sprint_radio_shack_training_session_params
-    params.require(:sprint_radio_shack_training_session).permit :id
-  end
-
   def search_bar
     @search = Candidate.search(params[:q])
-  end
-
-  def reset_candidate_status
-    @candidate.entered!
-    if @candidate.job_offer_details.any?
-      @candidate.paperwork_sent!
-    elsif @candidate.interview_answers.any?
-      @candidate.interviewed!
-    elsif @candidate.interview_schedules.any?
-      @candidate.interview_scheduled!
-    elsif @candidate.location_area.present?
-      @candidate.location_selected!
-    elsif @candidate.prescreen_answers.any?
-      @candidate.prescreened!
-    else
-      @candidate.entered!
-    end
   end
 
   def create_and_select_location
@@ -403,10 +159,6 @@ class CandidatesController < ApplicationController
     )
   end
 
-  def sms_message_params
-    params.permit :contact_message
-  end
-
   def do_authorization
     authorize Candidate.new
   end
@@ -418,55 +170,10 @@ class CandidatesController < ApplicationController
         where('location_areas.target_head_count > 0')
   end
 
-  def get_project_location_areas(project)
-    project_locations = Project.locations(project)
-    locations = project_locations.near(@candidate, 30)
-    if not locations or locations.count(:all) < 5
-      locations = project_locations.near(@candidate, 500).first(5)
-    end
-    LocationArea.
-        where(location: locations).
-        joins(:area).
-        where("areas.project_id = ?", project.id)
-  end
-
-  def get_location_areas(location)
-    location.
-        location_areas.
-        joins(:area).
-        where('areas.project_id = ?', @candidate.project_id)
-  end
-
-  def order_by_distance(location_areas)
-    return [] if location_areas.empty? or not @candidate
-    location_areas.sort do |x, y|
-      x.location.geographic_distance(@candidate) <=>
-          y.location.geographic_distance(@candidate)
-    end
-  end
-
   def geocode_if_necessary
     return if @candidate.state
     @candidate.geocode
     @candidate.reverse_geocode
     @candidate.save
   end
-
-  def passed_assessment
-    SprintPersonalityAssessmentProcessing.passed_assessment(@candidate, @score, @current_person)
-    if @candidate.confirmed?
-      redirect_to send_paperwork_candidate_path(@candidate)
-    else
-      flash[:notice] = 'Marked candidate as having qualified for employment per the personality assessment score. ' +
-          'Paperwork will be sent after details are confirmed.'
-      redirect_to candidate_path(@candidate)
-    end
-  end
-
-  def failed_assessment
-    SprintPersonalityAssessmentProcessing.failed_assessment(@candidate, @score, @current_person)
-    flash[:notice] = 'Marked candidate as having been disqualified for employment per the personality assessment score.'
-    redirect_to candidate_path(@candidate)
-  end
-
 end
