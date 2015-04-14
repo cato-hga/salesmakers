@@ -1,4 +1,3 @@
-require 'exception_notification/rails'
 require 'exception_notification_options'
 
 Rails.application.configure do
