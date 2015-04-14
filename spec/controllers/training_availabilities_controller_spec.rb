@@ -2,11 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TrainingAvailabilitiesController, :type => :controller do
 
-  let!(:recruiter) { create :person, position: position }
-  let(:position) { create :position, permissions: [permission_create, permission_index] }
-  let(:permission_group) { PermissionGroup.create name: 'Candidates' }
-  let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
-  let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
+  let!(:recruiter) { create :person }
   let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
   let!(:location_area) { create :location_area }
   let!(:reason) { create :training_unavailability_reason }
@@ -16,7 +12,10 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
   end
 
   describe 'GET new' do
-    before { get :new, candidate_id: candidate.id }
+    before {
+      allow(controller).to receive(:policy).and_return double(new?: true)
+      get :new, candidate_id: candidate.id
+    }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -28,7 +27,10 @@ RSpec.describe TrainingAvailabilitiesController, :type => :controller do
   end
 
   describe 'POST create' do
+    before {
+      allow(controller).to receive(:policy).and_return double(create?: true)
 
+    }
     context 'when available to train' do
       subject do
         post :create,

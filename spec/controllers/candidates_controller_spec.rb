@@ -2,28 +2,7 @@ require 'rails_helper'
 
 describe CandidatesController do
   include ActiveJob::TestHelper
-  let(:recruiter) { create :person, position: position }
-  let(:position) {
-    create :position,
-           name: 'Advocate',
-           # permissions: [
-           #     permission_create,
-           #     permission_index,
-           #     permission_view_all
-           # ],
-           hq: true,
-           all_field_visibility: true
-  }
-  # let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  # let(:permission_create) { Permission.new key: 'candidate_create',
-  #                                          permission_group: permission_group,
-  #                                          description: 'Test Description' }
-  # let(:permission_index) { Permission.new key: 'candidate_index',
-  #                                         permission_group: permission_group,
-  #                                         description: 'Test Description' }
-  # let(:permission_view_all) { Permission.new key: 'candidate_view_all',
-  #                                            permission_group: permission_group,
-  #                                            description: 'Test Description' }
+  let(:recruiter) { create :person }
   let(:location_area) { create :location_area, location: location }
   let!(:sprint_radio_shack_training_session) {
     create :sprint_radio_shack_training_session
@@ -121,7 +100,6 @@ describe CandidatesController do
 
     context 'success, left voicemail' do
       let!(:call_initiated) { DateTime.now - 5.minutes }
-      before { allow(controller).to receive(:policy).and_return double(create?: true) }
       subject {
         post :create,
              candidate: {
@@ -130,7 +108,7 @@ describe CandidatesController do
                  mobile_phone: '7274985180',
                  email: 'test@test.com',
                  zip: '33701',
-                 location_area_id: position.id,
+                 location_area_id: location_area.id,
                  candidate_source_id: source.id
              },
              start_prescreen: 'false',
@@ -171,7 +149,6 @@ describe CandidatesController do
 
     context 'success, outsourced' do
       let!(:outsourced) { create :candidate_source, name: 'Outsourced' }
-      before { allow(controller).to receive(:policy).and_return double(create?: true) }
       subject {
         post :create,
              candidate: {
@@ -217,7 +194,6 @@ describe CandidatesController do
                                                   score: 82.23 }
       let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
       before(:each) do
-        allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              candidate: {
                  first_name: 'Test',
@@ -697,7 +673,7 @@ describe CandidatesController do
     let(:candidate) { create :candidate, status: :accepted }
     let!(:interview_schedule_one) { create :interview_schedule, candidate: candidate }
     let!(:interview_schedule_two) { create :interview_schedule, candidate: candidate }
-    let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
+    let!(:administrator) { double("Person", email: 'retailingw@retaildoneright.com') }
 
     let!(:failed_denial_reason) {
       create :candidate_denial_reason,

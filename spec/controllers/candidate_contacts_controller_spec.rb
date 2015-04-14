@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 describe CandidateContactsController do
-  let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
-  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
+  let(:recruiter) { create :person }
   let!(:candidate) { create :candidate }
   let(:note) { 'Because I feel like it' }
 
@@ -24,6 +19,7 @@ describe CandidateContactsController do
 
   describe 'POST create' do
     before do
+      allow(controller).to receive(:policy).and_return double(create?: true)
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       post :create,
            candidate_id: candidate.id,
@@ -51,6 +47,7 @@ describe CandidateContactsController do
     let!(:candidate_contact) { create :candidate_contact, candidate: candidate }
 
     before do
+      allow(controller).to receive(:policy).and_return double(save_call_results?: true)
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       put :save_call_results,
           candidate_id: candidate.id,

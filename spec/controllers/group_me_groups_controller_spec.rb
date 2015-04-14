@@ -2,17 +2,18 @@ require 'rails_helper'
 
 describe GroupMeGroupsController do
   let(:person) { create :person }
-  let(:permission) { create :permission, key: 'group_me_group_post' }
   let(:group_me_group) { create :group_me_group, group_num: '8936279' }
   let!(:second_group_me_group) { create :group_me_group, group_num: '12548729' }
 
   before do
-    person.position.permissions << permission
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   describe 'GET new_post' do
-    before { get :new_post }
+    before {
+      allow(controller).to receive(:policy).and_return double(new_post?: true)
+      get :new_post
+    }
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -24,6 +25,10 @@ describe GroupMeGroupsController do
   end
 
   describe 'POST post' do
+    before {
+      allow(controller).to receive(:policy).and_return double(post?: true)
+
+    }
     let(:not_image_file) {
       fixture_file_upload(Rails.root.join('spec', 'fixtures', 'UQube Import for FTP.xlsx'))
     }

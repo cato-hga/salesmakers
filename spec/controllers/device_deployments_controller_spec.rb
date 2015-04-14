@@ -4,14 +4,14 @@ describe DeviceDeploymentsController do
   include ActiveJob::TestHelper
 
   let(:device) { create :device }
-  let!(:person) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
+  let!(:person) { create :it_tech_person }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
 
   describe 'GET select_user' do
     it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(select_user: true)
       get :select_user, { device_id: device}
       expect(response).to be_success
     end
@@ -19,6 +19,7 @@ describe DeviceDeploymentsController do
 
   describe 'GET new' do
     it 'should render the new template' do
+      allow(controller).to receive(:policy).and_return double(new?: true)
       get :new,
           person_id: person.id,
           device_id: device.id
@@ -27,6 +28,9 @@ describe DeviceDeploymentsController do
   end
 
   describe 'POST create' do
+    before {
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    }
     context 'success' do
       subject do
         post :create,
@@ -114,6 +118,7 @@ describe DeviceDeploymentsController do
 
     describe 'GET recoup_notes' do
       before do
+        allow(controller).to receive(:policy).and_return double(recoup_notes?: true)
         get :recoup_notes, device_id: deployed_device.id
       end
 
@@ -127,6 +132,9 @@ describe DeviceDeploymentsController do
     end
 
     describe 'POST recoup' do
+      before {
+        allow(controller).to receive(:policy).and_return double(recoup?: true)
+      }
       context 'success' do
         subject do
           post :recoup, device_id: deployed_device.id, notes: notes
