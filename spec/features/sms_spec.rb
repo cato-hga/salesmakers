@@ -80,4 +80,5 @@ describe 'SMS messaging' do
       expect(page).to have_selector('.within_length.bad', text: '-1')
     end
   end
+
 end
