@@ -6,9 +6,9 @@ class AssetShippingNotifier
 
   def initialize
     @fedex = ActiveShipping::FedEx.new login: 'RBDOperations',
-                       password: '13F2491742jjiRzQiQvgsQ2fJ',
-                       key: 'SgOmSL16OlhWHwfY',
-                       account: '289194053'
+                                       password: '13F2491742jjiRzQiQvgsQ2fJ',
+                                       key: 'SgOmSL16OlhWHwfY',
+                                       account: '289194053'
     @groupme = GroupMe.new_global
   end
 
@@ -27,24 +27,10 @@ class AssetShippingNotifier
     tracking_info = hal_mti.tracking_info
     tracking_number = hal_mti.connect_asset_movement.tracking
     return unless tracking_info.params
-    pickup_location = pickup_location tracking_info
-    return unless pickup_location
     asset_type = asset_type hal_mti.connect_asset_movement
     return unless asset_type
-    track_reply = tracking_info.params['TrackReply']
-    message = "#{person.display_name} has a package "
-    message += "with tracking ##{tracking_number} "
-    message += "containing a #{asset_type} that is now "
-    message += "awaiting pickup"
-    if pickup_location
-      message += " at #{pickup_location}."
-    else
-      last_shipment_event = tracking_info.shipment_events.last
-      shipped_to_city = last_shipment_event.location.city
-      shipped_to_state = last_shipment_event.location.state
-      return unless shipped_to_city and shipped_to_state
-      message += " at the FedEx office in #{shipped_to_city}, #{shipped_to_state}."
-    end
+    message = get_message person, tracking_number, asset_type, tracking_info
+    return unless message
     @groupme.send_message group_me_group_num,
                           message
   end
@@ -108,12 +94,12 @@ class AssetShippingNotifier
 
   def pickup_location(tracking_info)
     return nil unless tracking_info and
-        tracking_info.params and
-        tracking_info.params['TrackReply'] and
-        tracking_info.params['TrackReply']['TrackDetails'] and
-        tracking_info.params['TrackReply']['TrackDetails']['Events'] and
-        tracking_info.params['TrackReply']['TrackDetails']['Events'][0] and
-        tracking_info.params['TrackReply']['TrackDetails']['Events'][0]['Address']
+        tracking_info.params.
+            andand['TrackReply'].
+            andand['TrackDetails'].
+            andand['Events'].
+            andand[0].
+            andand['Address']
     format_address tracking_info.params['TrackReply']['TrackDetails']['Events'][0]['Address']
   end
 
@@ -121,6 +107,26 @@ class AssetShippingNotifier
     return nil unless address['StreetLines']
     formatted = address['StreetLines'].strip
     formatted += ", #{address['City']}, #{address['StateOrProvinceCode']} #{address['PostalCode']}"
+  end
+
+  private
+
+  def get_message person, tracking_number, asset_type, tracking_info
+    pickup_location = pickup_location tracking_info
+    message = "#{person.display_name} has a package " +
+        "with tracking ##{tracking_number} " +
+        "containing a #{asset_type} that is now " +
+        "awaiting pickup"
+    if pickup_location
+      message += " at #{pickup_location}."
+    else
+      last_shipment_event = tracking_info.shipment_events.last
+      shipped_to_city = last_shipment_event.location.city
+      shipped_to_state = last_shipment_event.location.state
+      return unless shipped_to_city and shipped_to_state
+      message += " at the FedEx office in #{shipped_to_city}, #{shipped_to_state}."
+    end
+    message
   end
 
 end
