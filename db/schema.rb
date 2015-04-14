@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413184303) do
+ActiveRecord::Schema.define(version: 20150414131716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,27 +135,6 @@ ActiveRecord::Schema.define(version: 20150413184303) do
     t.boolean "scheduled", default: false, null: false
     t.datetime "test_date"
     t.datetime "updated_at", null: false
-  end
-
-  create_table "candidate_scheduling_dismissals", force: :cascade do |t|
-    t.integer "candidate_id", null: false
-    t.text "comment", null: false
-    t.datetime "created_at", null: false
-    t.boolean "friday_am"
-    t.boolean "friday_pm"
-    t.datetime "monday_am"
-    t.boolean "monday_pm"
-    t.boolean "saturday_am"
-    t.boolean "saturday_pm"
-    t.boolean "sunday_am"
-    t.boolean "sunday_pm"
-    t.boolean "thursday_am"
-    t.boolean "thursday_pm"
-    t.boolean "tuesday_am"
-    t.boolean "tuesday_pm"
-    t.datetime "updated_at", null: false
-    t.boolean "wednesday_am"
-    t.boolean "wednesday_pm"
   end
 
   create_table "candidate_sms_messages", force: :cascade do |t|

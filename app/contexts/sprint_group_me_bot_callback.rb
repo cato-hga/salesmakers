@@ -1,5 +1,6 @@
 require 'apis/groupme'
 require 'group_me_bot_query'
+require_relative 'sprint_group_me_bot_query'
 require_relative 'group_me_bot_sales_messages'
 require_relative 'sprint_group_me_bot_help'
 require_relative 'sprint_group_me_bot_sales_query'
