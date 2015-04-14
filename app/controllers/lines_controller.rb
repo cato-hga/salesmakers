@@ -1,4 +1,8 @@
+require 'devices_and_lines/state_handler'
+
 class LinesController < ApplicationController
+  include DevicesAndLines::StateHandler
+
   before_action :search_bar
   before_action :set_line_and_line_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
@@ -56,19 +60,7 @@ class LinesController < ApplicationController
   end
   
   def remove_state
-    if @line and @line_state
-      deleted = @line.line_states.delete @line_state
-      if deleted
-        @current_person.log? 'remove_state',
-                             @line,
-                             @line_state
-        flash[:notice] = 'State removed from line'
-        redirect_to line_path(@line)
-      end
-    else
-      flash[:error] = 'Could not find that line or line state'
-      redirect_to line_path(@line)
-    end
+    remove_object_state
   end
 
   def add_state
@@ -118,16 +110,7 @@ class LinesController < ApplicationController
   end
 
   def set_line_and_line_state
-    @line = Line.find state_params[:id]
-    if state_params[:line_state_id].blank?
-      flash[:error] = 'You did not select a state to add'
-      redirect_to line_path(@line) and return
-    end
-    @line_state = LineState.find state_params[:line_state_id]
-    if @line_state.locked?
-      flash[:error] = 'You cannot add or remove built-in line states'
-      redirect_to line_path(@line) and return
-    end
+    set_object_and_state 'line'
   end
 
   def line_params
@@ -141,5 +124,4 @@ class LinesController < ApplicationController
   def swap_params
     params.permit serial: [], line: []
   end
-  
 end

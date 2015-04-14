@@ -1,4 +1,8 @@
+require 'devices_and_lines/state_handler'
+
 module DeviceStateChangesControllerExtension
+  include DevicesAndLines::StateHandler
+
   def write_off
     @device = Device.find params[:id]
     written_off = DeviceState.find_by name: 'Written Off'
@@ -74,19 +78,7 @@ module DeviceStateChangesControllerExtension
   end
 
   def remove_state
-    if @device and @device_state
-      deleted = @device.device_states.delete @device_state
-      if deleted
-        @current_person.log? 'remove_state',
-                             @device,
-                             @device_state
-        flash[:notice] = 'State removed from device'
-        redirect_to device_path(@device)
-      end
-    else
-      flash[:error] = 'Could not find that device or device state'
-      redirect_to device_path(@device)
-    end
+    remove_object_state
   end
 
   def add_state
@@ -110,16 +102,7 @@ module DeviceStateChangesControllerExtension
   private
 
   def set_device_and_device_state
-    @device = Device.find state_params[:id]
-    if state_params[:device_state_id].blank?
-      flash[:error] = 'You did not select a state to add'
-      redirect_to device_path(@device) and return
-    end
-    @device_state = DeviceState.find state_params[:device_state_id]
-    if @device_state.locked?
-      flash[:error] = 'You cannot add or remove built-in device states'
-      redirect_to device_path(@device) and return
-    end
+    set_object_and_state 'device'
   end
 
   def report_lost_stolen(device)
