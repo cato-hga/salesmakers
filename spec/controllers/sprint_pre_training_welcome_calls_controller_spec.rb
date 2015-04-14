@@ -2,11 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SprintPreTrainingWelcomeCallsController, :type => :controller do
 
-  let!(:recruiter) { create :person, position: position }
-  let(:position) { create :position, permissions: [permission, permission_two] }
-  let(:permission_group) { PermissionGroup.create name: 'Candidates' }
-  let(:permission) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
-  let(:permission_two) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
+  let!(:recruiter) { create :person }
 
   describe 'GET new' do
     let(:candidate) { create :candidate }
@@ -24,6 +20,7 @@ RSpec.describe SprintPreTrainingWelcomeCallsController, :type => :controller do
     let!(:candidate) { create :candidate, training_availability: training_availability }
     let(:training_availability) { create :training_availability }
     before do
+      allow(controller).to receive(:policy).and_return double(create?: true)
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
     end
     context 'when still available for training, and download at the same time' do

@@ -2,14 +2,13 @@ require 'rails_helper'
 
 describe InterviewSchedulesController do
   include ActiveJob::TestHelper
-  let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate' }
+  let!(:recruiter) { create :person }
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
   end
 
-  let(:candidate) { create :candidate }
-  let(:interview_schedule) { build :interview_schedule }
+  let!(:candidate) { create :candidate }
+  let!(:interview_schedule) { build :interview_schedule }
 
   describe 'GET index' do
     before {

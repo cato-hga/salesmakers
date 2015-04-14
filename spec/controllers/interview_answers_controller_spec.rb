@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe InterviewAnswersController, :type => :controller do
-  let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
-  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
+  let(:recruiter) { create :person }
   let(:candidate) { create :candidate }
   let!(:denial_reason) { create :candidate_denial_reason }
 
@@ -16,6 +11,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
 
   describe 'GET new' do
     before(:each) do
+      allow(controller).to receive(:policy).and_return double(new?: true)
       get :new,
           candidate_id: candidate.id
     end
@@ -30,6 +26,9 @@ RSpec.describe InterviewAnswersController, :type => :controller do
   end
 
   describe 'POST create' do
+    before {
+      allow(controller).to receive(:policy).and_return double(create?: true)
+    }
     context 'success for candidates with job offers' do
       let(:area) { create :area, personality_assessment_url: 'https://google.com' }
       let(:location_area) { create :location_area, area: area }

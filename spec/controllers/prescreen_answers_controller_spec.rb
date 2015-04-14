@@ -1,12 +1,7 @@
 require 'rails_helper'
 
 describe PrescreenAnswersController do
-  let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create] }
-  let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
+  let(:recruiter) { create :person }
   let!(:candidate) { create :candidate, location_area: location_area }
   let(:location_area) { create :location_area }
 
@@ -36,6 +31,10 @@ describe PrescreenAnswersController do
 
 
   describe 'POST create' do
+    before {
+      allow(controller).to receive(:policy).and_return double(create?: true)
+
+    }
     let!(:call_initiated) { DateTime.now - 5.minutes }
     let(:prescreen_hash) {
       {
