@@ -19,7 +19,7 @@ class Position < ActiveRecord::Base
                              connect_user.fast_type,
                              event?(connect_user),
                              connect_user.leader?
-    position = position_with_name(find_hq_position(connect_user, fast_type, leader)) if project_name == 'Corporate'
+    position = position_with_name(find_hq_position(connect_user, connect_user.fast_type, connect_user.leader?)) if project_name == 'Corporate'
     position = position_with_name('Unclassified Field Employee') unless position
     return position_with_name('Unclassified Field Employee') if unclassified_field?(project_name, connect_user) and not position
     return position_with_name('Unclassified HQ Employee') if unclassified_corporate?(project_name, connect_user) and not position
