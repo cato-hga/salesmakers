@@ -5,6 +5,9 @@ class Person < ActiveRecord::Base
   extend PersonAssociationsModelExtension
   include PersonConnectFunctionality
   include PersonToPersonVisibilityModelExtension
+  include PersonNameModelExtension
+  include PersonPositionModelExtension
+  include PersonEmploymentModelExtension
 
   before_validation :generate_display_name
 
@@ -28,36 +31,6 @@ class Person < ActiveRecord::Base
 
   default_scope { order :display_name }
 
-  def display_name
-    unless self[:display_name] and self[:display_name].length > 0
-      return ''
-    end
-    NameCase(self[:display_name])
-  end
-
-  def department
-    return nil unless self.position
-    self.position.department
-  end
-
-  def name
-    self.display_name
-  end
-
-  def termination_date_invalid?
-    begin
-      not self.employments.empty? and
-          self.employments.first.end and
-          self.employments.first.end.strftime('%Y').to_i < 2008
-    rescue
-      return false
-    end
-  end
-
-  def terminated?
-    self.employments.count > 0 and self.employments.first.end
-  end
-
   def mobile_phone?
     self.mobile_phone and self.mobile_phone != '8005551212'
   end
@@ -72,53 +45,6 @@ class Person < ActiveRecord::Base
 
   def show_details?(people)
     people and people.include?(self)
-  end
-
-  def hire_date
-    if self.employments.count > 0
-      self.employments.first.start
-    else
-      nil
-    end
-  end
-
-  def term_date
-    if self.termination_date_invalid?
-      nil
-    elsif self.terminated?
-      self.employments.first.end
-    else
-      nil
-    end
-  end
-
-  def position_name
-    if self.position
-      self.position.name
-    else
-      nil
-    end
-  end
-
-  def supervisor_name
-    if self.supervisor
-      self.supervisor.display_name
-    else
-      nil
-    end
-  end
-
-  def separate(separated_at = Time.now, auto = false)
-    if self.update(active: false, updated_at: separated_at)
-      return if auto
-      take_down_candidate_count
-      if self.devices.any?
-        AssetsMailer.separated_with_assets_mailer(self).deliver_later
-        AssetsMailer.asset_return_mailer(self).deliver_later
-      else
-        AssetsMailer.separated_without_assets_mailer(self).deliver_later
-      end
-    end
   end
 
   def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
@@ -162,14 +88,6 @@ class Person < ActiveRecord::Base
     all_locations.flatten.uniq
   end
 
-  def hq?
-    self.position and self.position.hq?
-  end
-
-  def field?
-    self.position and self.position.field?
-  end
-
   def physical_address
     PersonAddress.get_physical(self)
   end
@@ -178,31 +96,12 @@ class Person < ActiveRecord::Base
     address = PersonAddress.find_by person: self, physical: false
   end
 
-  def clients
-    self.person_areas.each.map(&:client)
-  end
-
-  def projects
-    self.person_areas.each.map(&:project)
-  end
-
-  def manager_or_hq?
-    return true if self.hq?
-    manager = false
-    self.person_areas.each { |pa| pa.manages? ? manager = true : next }
-    manager
-  end
-
   private
 
   def generate_display_name
     return unless first_name and last_name
     self.display_name = self.first_name + ' ' + self.last_name if self.display_name.blank?
   end
-
-  # def create_profile
-  #   Profile.find_or_create_by person: self
-  # end
 
   def get_ids_from_sms_messages(from_messages, to_messages)
     to_ids = join_sms_message_ids(to_messages)

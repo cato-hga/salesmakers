@@ -19,7 +19,6 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
   end
 
-
   describe 'uniqueness validations' do
     let(:second_person) { create :person }
 
