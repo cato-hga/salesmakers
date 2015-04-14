@@ -1,5 +1,4 @@
 class SaleImporter
-
   #:nocov:
   def initialize(start_date = (Time.zone.now - 1.month).to_date, end_date = Time.zone.now.to_date)
     @start_date = start_date
@@ -37,62 +36,89 @@ class SaleImporter
   end
 
   def import_orders(orders)
-    days = Hash.new
+    @days = Hash.new
     for order in orders do
-      if order.is_a? ConnectOrder
-        sold = (order.dateordered - 3.hours).to_date
-      else
-        sold = (order.date_sold).to_date
-      end
+      sold = get_sale_date(order)
       next if sold < @start_date or sold > @end_date
-      unless days.include? sold
-        days[sold] = Hash.new
-        days[sold]['areas'] = Hash.new
-        days[sold]['people'] = Hash.new
-        days[sold]['projects'] = Hash.new
-        days[sold]['clients'] = Hash.new
-      end
-      area = nil
-      person = nil
-      project = nil
-      client = nil
-      area = order.area
-      person = order.person
-      project = area ? area.project : nil
-      client = project ? project.client : nil
-      if area
-        areas = area.path
-        for path_area in areas do
-          days[sold]['areas'][path_area] = 0 unless days[sold]['areas'].include? path_area
-          days[sold]['areas'][path_area] += 1
-        end
-      end
-      if person
-        days[sold]['people'][person] = 0 unless days[sold]['people'].include? person
-        days[sold]['people'][person] += 1
-      end
-      if project
-        days[sold]['projects'][project] = 0 unless days[sold]['projects'].include? project
-        days[sold]['projects'][project] += 1
-      end
-      if client
-        days[sold]['clients'][client] = 0 unless days[sold]['clients'].include? client
-        days[sold]['clients'][client] += 1
-      end
+      initialize_hashes(sold) unless @days.include? sold
+      process_area(sold, order)
+      process_person(sold, order)
+      process_project(sold, order)
+      process_client(sold, order)
     end
+    process_days
+  end
 
-    for day in days.keys
-      for saleable_key in days[day].keys do
-        for o in days[day][saleable_key].keys do
-          day_sales = DaySalesCount.find_or_initialize_by saleable: o,
-                                                          day: day
-          day_sales.sales = days[day][saleable_key][o]
-          day_sales.updated_at = Time.now
-          day_sales.save
-        end
+  def get_sale_date(order)
+    if order.is_a? ConnectOrder
+      (order.dateordered - 3.hours).to_date
+    else
+      (order.date_sold).to_date
+    end
+  end
+
+  def initialize_hashes(sold)
+    @days[sold] = Hash.new
+    @days[sold]['areas'] = Hash.new
+    @days[sold]['people'] = Hash.new
+    @days[sold]['projects'] = Hash.new
+    @days[sold]['clients'] = Hash.new
+  end
+
+  def process_area(sold, order)
+    area = order.area
+    if area
+      areas = area.path
+      for path_area in areas do
+        @days[sold]['areas'][path_area] = 0 unless @days[sold]['areas'].include? path_area
+        @days[sold]['areas'][path_area] += 1
       end
     end
   end
 
+  def process_person(sold, order)
+    person = order.person
+    if person
+      @days[sold]['people'][person] = 0 unless @days[sold]['people'].include? person
+      @days[sold]['people'][person] += 1
+    end
+  end
+
+  def process_project(sold, order)
+    area = order.area
+    project = area ? area.project : nil
+    if project
+      @days[sold]['projects'][project] = 0 unless @days[sold]['projects'].include? project
+      @days[sold]['projects'][project] += 1
+    end
+  end
+
+  def process_client(sold, order)
+    area = order.area
+    project = area ? area.project : nil
+    client = project ? project.client : nil
+    if client
+      @days[sold]['clients'][client] = 0 unless @days[sold]['clients'].include? client
+      @days[sold]['clients'][client] += 1
+    end
+  end
+
+  def process_days
+    @days.keys.each { |day| process_day day }
+  end
+
+  def process_day day
+    @days[day].keys.each { |saleable_key| process_orders_for_day day, saleable_key }
+  end
+
+  def process_orders_for_day(day, saleable_key)
+    for o in @days[day][saleable_key].keys do
+      day_sales = DaySalesCount.find_or_initialize_by saleable: o,
+                                                      day: day
+      day_sales.sales = @days[day][saleable_key][o]
+      day_sales.updated_at = Time.now
+      day_sales.save
+    end
+  end
   #:nocov:
 end
