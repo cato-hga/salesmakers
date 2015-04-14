@@ -1,4 +1,5 @@
 require 'apis/groupme'
+require 'apis/group_me_emoji_filter'
 require 'nokogiri'
 
 module ApplicationHelper

@@ -13,11 +13,11 @@ class SalesPerformanceRank < ActiveRecord::Base
   end
 
   def self.rank_people_sales
-    PerformanceRanker.rank_people_sales
+    PerformanceRanker.rank_sales('Person')
   end
 
   def self.rank_areas_sales
-    PerformanceRanker.rank_areas_sales
+    PerformanceRanker.rank_sales('Area')
   end
 
 end

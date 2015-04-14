@@ -1,5 +1,9 @@
+require 'apis/authorized_api'
+
 class Mojo
   include HTTParty
+  include AuthorizedAPI
+
   base_uri 'http://support.rbdconnect.com/api'
   format :json
 
@@ -7,6 +11,12 @@ class Mojo
 
   def initialize
     @access_key = 'be673c9221173ec77d4b8bcd33909d2331eccf6e'
+  end
+
+  def authorization_hash
+    {
+        access_key: @access_key
+    }
   end
 
   def get_ticket(ticket_id)
@@ -34,11 +44,4 @@ class Mojo
     tickets = doGet('/tickets/search/', { query: query, sf: 'updated_on', r: 1  })
     tickets
   end
-
-  def doGet(path, query = nil)
-    query_hash = { access_key: @access_key }
-    query_hash = query_hash.merge query if query
-    self.class.get path, { query: query_hash, headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json'} }
-  end
-
 end

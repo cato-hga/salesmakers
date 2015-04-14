@@ -1,20 +1,24 @@
 class PerformanceRanker
 
-  def self.rank_people_sales
+  def self.rank_sales(class_name)
     for project in Project.all do
       ((Date.today - 1.month)..(Date.today)).each do |day|
-        day_people_sales = query_people_sales(project, day, day)
-        process_rankings day_people_sales, day, :day_rank, 'Person'
-        week_people_sales = query_people_sales(project, day.beginning_of_week, day)
-        process_rankings week_people_sales, day, :week_rank, 'Person'
-        month_people_sales = query_people_sales(project, day.beginning_of_month, day)
-        process_rankings month_people_sales, day, :month_rank, 'Person'
+        day_sales = query_sales class_name.downcase, project, day, day
+        process_rankings day_sales, day, :day_rank, class_name
+        week_sales = query_sales class_name.downcase, project, day.beginning_of_week, day
+        process_rankings week_sales, day, :week_rank, class_name
+        month_sales = query_sales class_name.downcase, project, day.beginning_of_month, day
+        process_rankings month_sales, day, :month_rank, class_name
       end
     end
   end
 
-  def self.query_people_sales(project, start_date, end_date)
-    ActiveRecord::Base.connection.execute %{
+  def self.query_sales(type, project, start_date, end_date)
+    ActiveRecord::Base.connection.execute self.send("#{type}_query", project, start_date, end_date)
+  end
+
+  def self.person_query(project, start_date, end_date)
+    %{
             SELECT
 
             day_sales_counts.saleable_id AS id,
@@ -41,21 +45,8 @@ class PerformanceRanker
     }
   end
 
-  def self.rank_areas_sales
-    for project in Project.all do
-      ((Date.today - 1.month)..(Date.today)).each do |day|
-        day_areas_sales = query_area_sales(project, day, day)
-        process_rankings day_areas_sales, day, :day_rank, 'Area'
-        week_areas_sales = query_area_sales(project, day.beginning_of_week, day)
-        process_rankings week_areas_sales, day, :week_rank, 'Area'
-        month_areas_sales = query_area_sales(project, day.beginning_of_month, day)
-        process_rankings month_areas_sales, day, :month_rank, 'Area'
-      end
-    end
-  end
-
-  def self.query_area_sales(project, start_date, end_date)
-    ActiveRecord::Base.connection.execute %{
+  def self.area_query(project, start_date, end_date)
+    %{
             SELECT
 
             day_sales_counts.saleable_id as id,
