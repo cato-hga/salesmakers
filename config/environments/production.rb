@@ -1,27 +1,5 @@
 require 'exception_notification/rails'
-require 'sidekiq'
-
-module ExceptionNotification
-  class Sidekiq
-    def call(worker, msg, queue)
-      begin
-        yield
-      rescue Exception => exception
-        unless exception.is_a?(Postmark::InvalidMessageError) and
-            exception.to_s.include?('You tried to send to a recipient that has been marked as inactive')
-          ExceptionNotifier.notify_exception(exception, :data => { :sidekiq => msg })
-        end
-        raise exception
-      end
-    end
-  end
-end
-
-::Sidekiq.configure_server do |config|
-  config.server_middleware do |chain|
-    chain.add ::ExceptionNotification::Sidekiq
-  end
-end
+require 'exception_notification_options'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -108,13 +86,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: 'newcenter.salesmakersinc.com' }
-  config.middleware.use ExceptionNotification::Rack,
-      email: {
-          email_prefix: '[SC2.0] ',
-          sender_address: 'development@retaildoneright.com',
-          exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com},
-          sections: %w{request person session environment backtrace}
-      }
+  config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.new('PRODUCTION')
 end
 
 Rails.application.routes.default_url_options[:host] = 'newcenter.salesmakersinc.com'
