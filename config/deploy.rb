@@ -183,9 +183,6 @@ namespace :deploy do
   after :finishing, :cleanup
   after :finishing, :restart
   after :finishing, :start_inspeqtor
-  after :finishing, :solr_restart do
-    invoke 'solr:restart'
-  end
 end
 
 after 'deploy:reverted', 'sidekiq:restart'
