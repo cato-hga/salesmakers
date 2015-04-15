@@ -3,7 +3,8 @@ production:
     hostname: localhost
     port: 8983
     log_level: WARNING
-    path: /solr/production
+    path: /opt/oneconnect/shared/solr/data
+    solr_home: solr
     # read_timeout: 2
     # open_timeout: 0.5
 
@@ -12,7 +13,8 @@ staging:
     hostname: localhost
     port: 8983
     log_level: WARNING
-    path: /solr/staging
+    path: /opt/oneconnect/shared/solr/data
+    solr_home: solr
     # read_timeout: 2
     # open_timeout: 0.5
 
@@ -22,6 +24,7 @@ development:
     port: 8982
     log_level: INFO
     path: /solr/development
+    solr_home: solr
 
 test:
   solr:
@@ -29,4 +32,5 @@ test:
     port: 8981
     log_level: WARNING
     path: /solr/test
+    solr_home: solr
     
