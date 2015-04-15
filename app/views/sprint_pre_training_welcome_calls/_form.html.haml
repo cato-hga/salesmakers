@@ -14,7 +14,7 @@
       %p
         Training for this position is from Monday through Friday, approx 9am to 6pm, for two weeks. Exact dates, times and locations are currently TBD.
         = f.label :still_able_to_attend, 'Is the candidate still available for training?'
-        = f.select :still_able_to_attend, options_for_select([['Yes', true], ['No', false]], @training_availability.able_to_attend)
+        = f.select :still_able_to_attend, options_for_select([['Yes', true], ['No', false]], (@training_availability.able_to_attend if @training_availability))
         = f.fields_for :training_availability do |train|
           #unable_to_attend(style="display:none;")
             = train.label :training_unavailability_reason_id, 'Why not?'
