@@ -98,9 +98,12 @@ namespace :deploy do
     end
   end
 
-  desc 'Setup Solr directories'
-  task :setup_solr_data_dir do
-    run "mkdir -p #{shared_path}/solr/data"
+  before :updated, :setup_solr_data_dir do
+    on roles(:app) do
+      unless test "[ -d #{shared_path}/solr/data ]"
+        execute :mkdir, "-p #{shared_path}/solr/data"
+      end
+    end
   end
 
   desc 'Initial Deploy'
@@ -142,21 +145,48 @@ namespace :deploy do
 end
 
 namespace :solr do
-  desc "start solr"
-  task :start, :roles => :app, :except => { :no_release => true } do
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr start --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+
+  %w[start stop].each do |command|
+    desc "#{command} solr"
+    task command do
+      on roles(:app) do
+        solr_pid = "#{shared_path}/pids/sunspot-solr.pid"
+        if command == "start" or (test "[ -f #{solr_pid} ]" and test "kill -0 $( cat #{solr_pid} )")
+          within current_path do
+            with rails_env: fetch(:rails_env, 'production') do
+              execute :bundle, 'exec', 'sunspot-solr', command, "--port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+            end
+          end
+        end
+      end
+    end
   end
-  desc "stop solr"
-  task :stop, :roles => :app, :except => { :no_release => true } do
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr stop --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+
+  desc "restart solr"
+  task :restart do
+    invoke 'solr:stop'
+    invoke 'solr:start'
   end
-  desc "reindex the whole database"
-  task :reindex, :roles => :app do
-    stop
-    run "rm -rf #{shared_path}/solr/data"
-    start
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+
+  after 'deploy:finished', 'solr:restart'
+
+  desc "reindex the whole solr database"
+  task :reindex do
+    invoke 'solr:stop'
+    on roles(:app) do
+      execute :rm, "-rf #{shared_path}/solr/data"
+    end
+    invoke 'solr:start'
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env, 'production') do
+          info "Reindexing Solr database"
+          execute :bundle, 'exec', :rake, 'sunspot:solr:reindex[,,true]'
+        end
+      end
+    end
   end
+
 end
 
 after 'deploy:reverted', 'sidekiq:restart'
