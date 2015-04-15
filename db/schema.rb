@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414133923) do
+ActiveRecord::Schema.define(version: 20150415133032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -641,10 +641,12 @@ ActiveRecord::Schema.define(version: 20150414133923) do
     t.datetime "last_seen"
     t.string "mobile_phone"
     t.string "office_phone"
+    t.boolean "passed_asset_hours_requirement", default: false, null: false
     t.string "personal_email"
     t.integer "position_id"
     t.integer "supervisor_id"
     t.datetime "updated_at"
+    t.integer "vonage_tablet_approval_status", default: 0, null: false
   end
 
   add_index "people", ["connect_user_id"], name: "index_people_on_connect_user_id", using: :btree
@@ -1027,6 +1029,14 @@ ActiveRecord::Schema.define(version: 20150414133923) do
     t.string "location_name"
     t.string "room"
     t.string "store_number"
+  end
+
+  create_table "tmp_updates", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "cost_center"
+    t.string "mailstop"
+    t.string "store_name"
+    t.string "store_num"
   end
 
   create_table "training_availabilities", force: :cascade do |t|

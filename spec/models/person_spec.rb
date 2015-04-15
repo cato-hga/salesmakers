@@ -716,4 +716,41 @@ RSpec.describe Person, :type => :model do
       }.to change(location_area, :current_head_count).from(1).to(0)
     end
   end
+
+  describe '.skip_for_assets?' do
+    let(:person) { create :person, passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
+    let!(:person_area) { create :person_area, area: area, person: person }
+    let(:area) { create :area, project: von_project }
+    let(:von_project) { create :project, name: 'Vonage Retail' }
+    let(:other_project) { create :project, name: 'Other Retail' }
+    it 'returns true if the person has passed asset hours requirement' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update passed_asset_hours_requirement: true
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person has been denied for an asset' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update vonage_tablet_approval_status: 1
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person has been approved for an asset' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update vonage_tablet_approval_status: 2
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person is not a Vonage employee' do
+      expect(person.skip_for_assets?).to eq(false)
+      area.update project: other_project
+      area.reload
+      person_area.reload
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+  end
 end

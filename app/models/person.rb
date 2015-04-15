@@ -31,6 +31,12 @@ class Person < ActiveRecord::Base
 
   default_scope { order :display_name }
 
+  enum vonage_table_approval_status: [
+           :no_decision,
+           :denied,
+           :approved
+       ]
+
   def mobile_phone?
     self.mobile_phone and self.mobile_phone != '8005551212'
   end
@@ -94,6 +100,18 @@ class Person < ActiveRecord::Base
 
   def mailing_address
     address = PersonAddress.find_by person: self, physical: false
+  end
+
+  def skip_for_assets?
+    return true if self.passed_asset_hours_requirement
+    return true if self.vonage_tablet_approval_status > 0
+    person_areas = self.person_areas
+    for person_area in person_areas do
+      @skip = true unless person_area.area.project.name.include? 'Vonage'
+      break if @skip
+    end
+    return true if @skip
+    false
   end
 
   private
