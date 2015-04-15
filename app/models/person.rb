@@ -15,11 +15,11 @@ class Person < ActiveRecord::Base
   nilify_blanks
 
   def self.setup_validations
-    validates :first_name, length: { minimum: 2 }
-    validates :last_name, length: { minimum: 2 }
-    validates :display_name, length: { minimum: 5 }
-    validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
-    validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
+    validates :first_name, length: {minimum: 2}
+    validates :last_name, length: {minimum: 2}
+    validates :display_name, length: {minimum: 5}
+    validates :email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, uniqueness: true
+    validates :personal_email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, allow_blank: true
     validates :connect_user_id, uniqueness: true, allow_nil: true
     validates_with PhoneNumberValidator
   end
@@ -114,7 +114,30 @@ class Person < ActiveRecord::Base
     false
   end
 
+  def get_supervisors
+    return [self.supervisor] if self.supervisor
+    supervisors = []
+    if self.person_areas
+      for person_area in person_areas do
+        supervisors.concat get_person_area_supervisors(person_area)
+      end
+    end
+    supervisors
+  end
+
   private
+
+  def get_person_area_supervisors(person_area)
+    area = person_area.area
+    while area.present?
+      manager_person_areas = area.person_areas.where(manages: true)
+      unless manager_person_areas.empty?
+        return manager_person_areas.map { |p| p.person }
+      end
+      area = area.parent
+    end
+    []
+  end
 
   def generate_display_name
     return unless first_name and last_name

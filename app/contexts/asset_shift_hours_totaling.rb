@@ -21,5 +21,6 @@ class AssetShiftHoursTotaling
 
   def email_managers(people)
 
+
   end
 end
