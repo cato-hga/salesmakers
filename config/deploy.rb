@@ -190,5 +190,4 @@ namespace :solr do
 end
 
 after 'deploy:reverted', 'sidekiq:restart'
-after 'deploy:setup', 'deploy:setup_solr_data_dir'
 after 'deploy:published', 'sidekiq:restart'
