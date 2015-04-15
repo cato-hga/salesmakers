@@ -16,5 +16,10 @@ class AssetShiftHoursTotaling
         person.update passed_asset_hours_requirement: true
       end
     end
+    email_managers(people)
+  end
+
+  def email_managers(people)
+
   end
 end
