@@ -30,5 +30,5 @@ coverage/*
 /open-uri*
 public/sales_charts/*.png
 public/uploads/*
-solr/pids/**
 solr/**/data
+*.pid
