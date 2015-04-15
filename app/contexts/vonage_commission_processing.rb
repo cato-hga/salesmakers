@@ -1,9 +1,9 @@
-require 'vonage_commission_processing/determine_sales'
-require 'vonage_commission_processing/determine_brackets'
-require 'vonage_commission_processing/generate_payouts'
-require 'vonage_commission_processing/managers'
-require 'vonage_commission_processing/revenue_sharing'
-require 'vonage_commission_processing/negative_balances'
+require_relative 'vonage_commission_processing/determine_sales'
+require_relative 'vonage_commission_processing/determine_brackets'
+require_relative 'vonage_commission_processing/generate_payouts'
+require_relative 'vonage_commission_processing/managers'
+require_relative 'vonage_commission_processing/revenue_sharing'
+require_relative 'vonage_commission_processing/negative_balances'
 
 class VonageCommissionProcessing
   include DetermineSales

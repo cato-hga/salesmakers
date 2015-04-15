@@ -32,50 +32,66 @@ describe 'candidate index' do
 
   it 'searches for first names' do
     fill_in 'q_first_name_cont', with: candidate.first_name[3]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
 
   it 'searches for last names' do
     fill_in 'q_last_name_cont', with: candidate.last_name[3]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for mobile numbers' do
     fill_in 'q_mobile_phone_number_cont', with: candidate.mobile_phone[3]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for email' do
     fill_in 'q_email_cont', with: candidate.email[5]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for ZIP codes' do
     fill_in 'q_zip_cont', with: candidate.zip
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for projects' do
     fill_in 'q_location_area_area_project_name_cont', with: location_area.area.project.name[4]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for channels' do
     fill_in 'q_location_area_location_channel_name_cont', with: location_area.location.channel.name[3]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 
   it 'searches for locations' do
     fill_in 'q_location_area_location_display_name_cont', with: location_area.location.display_name[3]
-    find('input[value="Search"]').click
+    within '#main_container' do
+      find('input[value="Search"]').click
+    end
     expect(page).to have_content(candidate.name)
   end
 

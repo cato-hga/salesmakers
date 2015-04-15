@@ -165,6 +165,8 @@ Rails.application.routes.draw do
 
   post 'docusign_connect', to: 'docusign_connect#incoming'
 
+  get 'global_search', to: 'global_search#results', as: :global_search
+
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups

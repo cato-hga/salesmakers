@@ -14,6 +14,10 @@ class Line < ActiveRecord::Base
 
   stripping_ransacker(:unstripped_identifier, :identifier)
 
+  searchable do
+    text :identifier, boost: 5.0
+  end
+
   def active?
     active_state = LineState.find_or_initialize_by name: 'Active'
     self.line_states.include? active_state

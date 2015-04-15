@@ -67,6 +67,7 @@ gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 gem 'facter', '2.4.1' # Get number of CPUs to automatically set puma workers
 gem 'andand', '1.3.3' # Navigate nested hashes without getting NoMethodErrors
+gem 'sunspot_rails', '2.2.0' # Full text search
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
@@ -86,6 +87,7 @@ group :development do
   gem 'seed_dump', '3.2.2' # Dump database records to seeds
   gem 'fix-db-schema-conflicts', '1.0.1' #This should fix our issues with silly schema.rb changes
   gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
+  gem 'sunspot_solr', '2.2.0' # Full text search
 end
 
 group :test do

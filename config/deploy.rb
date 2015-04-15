@@ -18,7 +18,7 @@ set :log_level, :debug
 set :pty, false
 
 set :linked_files, %w{config/database.yml config/nginx.conf config/staging_nginx.conf}
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/sales_charts}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/sales_charts solr/data}
 
 app_name = 'oneconnect'
 user = 'deploy'
@@ -98,6 +98,11 @@ namespace :deploy do
     end
   end
 
+  desc 'Setup Solr directories'
+  task :setup_solr_data_dir do
+    run "mkdir -p #{shared_path}/solr/data"
+  end
+
   desc 'Initial Deploy'
   task :initial do
     on roles(:app) do
@@ -136,5 +141,24 @@ namespace :deploy do
   after :finishing, :start_inspeqtor
 end
 
+namespace :solr do
+  desc "start solr"
+  task :start, :roles => :app, :except => { :no_release => true } do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr start --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  end
+  desc "stop solr"
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr stop --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  end
+  desc "reindex the whole database"
+  task :reindex, :roles => :app do
+    stop
+    run "rm -rf #{shared_path}/solr/data"
+    start
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+  end
+end
+
 after 'deploy:reverted', 'sidekiq:restart'
+after 'deploy:setup', 'deploy:setup_solr_data_dir'
 after 'deploy:published', 'sidekiq:restart'

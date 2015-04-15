@@ -37,6 +37,13 @@ class Candidate < ActiveRecord::Base
   setup_assocations
   stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
+  searchable do
+    text :first_name, boost: 1.5
+    text :last_name, boost: 2.5
+    text :email, boost: 4.5
+    text :mobile_phone, boost: 4.5
+  end
+
   default_scope { order(:first_name, :last_name) }
 
   def strip_phone_number

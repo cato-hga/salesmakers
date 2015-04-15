@@ -1,0 +1,128 @@
+- title "Searching '#{params[:global_search]}'"
+
+- unless @people || @candidates || @devices || @lines
+  .widget
+    .inner
+      No results.
+- else
+  - unless @people.empty?
+    .widget
+      .inner
+        %h3 People
+        = paginate @people_query.hits
+        - h_eid = 'EID'
+        - h_hired = 'Hired'
+        - h_termed = 'Term\'d'
+        - h_name = 'Name'
+        - h_email = 'Email'
+        - h_phone = 'Phone'
+        - h_position = 'Position'
+        - h_supervisor = 'Supervisor'
+        - h_areas = 'Area(s)'
+        - headers = Array.new
+        - if @current_person.hq?
+          - headers << [h_eid, h_hired, h_termed]
+        - headers << [h_name,h_email,h_phone,h_position,h_supervisor,h_areas]
+        - header = header_row headers.flatten
+        - rows = Array.new
+        - for person in @people do
+          - show_details = person.show_details? @visible_people
+          - blocked = content_tag(:div, '-', class: :blocked)
+          - classes = person.active? ? '' : 'inactive'
+          - hire_date = person.hire_date
+          - if hire_date
+            - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+          - else
+            - hired = ''
+          - employments = person.employments
+          - if person.termination_date_invalid?
+            - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
+          - elsif person.terminated?
+            - termed = show_details ? link_to(person.term_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+          - else
+            - termed = ''
+          - if person.eid
+            - eid = show_details ? link_to(person.eid, person, class: classes) : blocked
+          - else
+            - eid = ''
+          - display_name = person_link person, classes
+          - email = mail_to person.email, person.email, class: classes
+          - if person.office_phone
+            - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
+          - elsif person.mobile_phone
+            - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, classes)
+            - phone = show_details ? phone : blocked
+          - elsif person.home_phone
+            - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
+            - phone = show_details ? phone : blocked
+          - else
+            - phone = ''
+          - if phone.include? '(800) 555-1212'
+            - phone = ''
+          - position_name = person.position_name
+          - position_link = position_name ? link_to(position_name, person, class: classes) : ''
+          - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
+          - area = person_area_links person, classes
+          - row = Array.new
+          - if @current_person.hq?
+            - row << [eid, hired, termed]
+          - row << [display_name, email, phone, position_link, supervisor, area]
+          - rows << table_row(row.flatten)
+        = table header, rows
+        = paginate @people_query.hits
+  - unless @candidates.empty?
+    .widget
+      .inner
+        %h3 Candidates
+        = paginate @candidates_query.hits
+        = render 'candidates/table'
+        = paginate @candidates_query.hits
+  - unless @devices.empty?
+    .widget
+      .inner
+        %h3 Devices
+        = paginate @devices_query.hits
+        - h_identifier = 'Identifier'
+        - h_serial = 'Serial'
+        - h_assignee = 'Assignee'
+        - h_deploy_date = 'Deploy Date'
+        - h_line = 'Line'
+        - h_manufacturer = 'Manufacturer'
+        - h_model = 'Model'
+        - h_states = 'State(s)'
+        - header = header_row [h_identifier, h_serial, h_assignee, h_deploy_date, h_line, h_manufacturer, h_model, h_states]
+        - rows = Array.new
+        - for device in @devices do
+          - identifier = link_to device.identifier, device
+          - serial = link_to device.serial, device
+          - assigned_to = (device.person) ? person_link(device.person) : ''
+          - deploy_date = (device.deployed?) ? link_to(device.deploy_date_string, device) : ''
+          - line_object = device.line
+          - line = line_object ? line_link(line_object) : ''
+          - manufacturer = device.manufacturer_name
+          - model_object = device.device_model
+          - model = model_object.name
+          - states = device_state_links device
+          - rows << table_row([identifier,serial,assigned_to,deploy_date,line,manufacturer,model,states])
+        = table header, rows
+        = paginate @devices_query.hits
+  - unless @lines.empty?
+    .widget
+      .inner
+        %h3 Lines
+        = paginate @lines_query.hits
+        - header = header_row ['Provider','Identifier','Device','Contract End Date','State(s)']
+        - rows = Array.new
+        - for line in @lines do
+          - service_provider = line.technology_service_provider
+          - provider = link_to service_provider.name, '#'
+          - identifier =  line_link line
+          - device_link = line.device ? device_link(line.device) : ''
+          - if line.contract_end_date == Date.parse('01/01/1901')
+            - contract_end_date = ''
+          - else
+            - contract_end_date = link_to short_date(line.contract_end_date), line
+          - states = line_state_links line
+          - rows << table_row([provider,identifier,device_link,contract_end_date,states])
+        = table header, rows
+        = paginate @lines_query.hits

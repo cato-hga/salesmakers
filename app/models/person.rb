@@ -26,6 +26,16 @@ class Person < ActiveRecord::Base
 
   stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
+  searchable do
+    text :display_name, boost: 4.0
+    text :eid, boost: 4.5
+    text :email, boost: 5.5
+    text :home_phone, boost: 4.0
+    text :mobile_phone, boost: 4.0
+    text :office_phone, boost: 4.0
+    text :personal_email, boost: 5.0
+  end
+
   default_scope { order :display_name }
 
   def display_name
