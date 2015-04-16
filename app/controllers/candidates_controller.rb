@@ -58,7 +58,7 @@ class CandidatesController < ApplicationController
       @candidate_total_hours = @candidate_shifts.sum(:hours).round(2)
       @candidate_hours_last_week = @candidate_shifts.where('date > ? ', Date.today - 7.days).sum(:hours).round(2)
       @last_shift_date = @candidate_shifts.last.date.strftime('%b %e')
-      @last_shift_location = @candidate_shifts.last.location ? @candidate.last.location.display_name : 'No Location Attached To Shift'
+      @last_shift_location = @candidate_shifts.last.location ? @candidate_shifts.last.location.display_name : 'No Location Attached To Shift'
     end
     setup_sprint_params
   end
