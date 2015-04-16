@@ -102,7 +102,12 @@ Rails.application.routes.draw do
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
 
   resources :departments, only: [:index, :show] do
-    resources :positions, only: [:index]
+    resources :positions, only: [:index] do
+      member do
+        get :edit_permissions, as: :edit_permissions
+        put :update_permissions, as: :update_permissions
+      end
+    end
   end
 
   resources :devices do

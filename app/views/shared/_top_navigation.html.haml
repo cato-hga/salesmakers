@@ -70,6 +70,9 @@
                               = link_to 'Area Types', client_project_area_types_path(project.client, project)
                           %li
                             = link_to 'Areas', client_project_areas_path(project.client, project)
+                - if DepartmentPolicy.new(current_person, Department.new).index?
+                  %li.divider
+                  %li= link_to 'Departments', departments_path
                 %li.divider
                 - if ChangelogEntryPolicy.new(current_person, ChangelogEntry.new).manage?
                   %li= link_to('Changelog', changelog_entries_path)

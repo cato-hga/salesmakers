@@ -4,4 +4,12 @@ class PositionPolicy < ApplicationPolicy
       scope
     end
   end
+
+  def edit_permissions?
+    edit?
+  end
+
+  def update_permissions?
+    edit_permissions?
+  end
 end
