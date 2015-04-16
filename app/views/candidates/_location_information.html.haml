@@ -28,9 +28,9 @@
     - info_window += "#{location.address}<br><br>".html_safe
     - info_window += "<strong>Open: #{open}</strong>".html_safe
     #location_map
-    - unless Candidate.statuses[@candidate.status] >= Candidate.statuses[:onboarded]
-      %p
-        = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
+    -# unless Candidate.statuses[@candidate.status] >= Candidate.statuses[:onboarded]
+    %p
+      = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
 
 :javascript
   var markers = [];
