@@ -35,77 +35,77 @@ describe 'candidate show page' do
   end
 
 
-  # it 'has a dismissal button' do
-  #   expect(page).to have_content 'Dismiss Candidate'
-  # end
-  #
-  # it 'should have the proper page title' do
-  #   expect(page).to have_selector('h1', text: candidate.name)
-  # end
-  #
-  # it 'should show states of completion' do
-  #   expect(page).to have_content('INCOMPLETE')
-  # end
-  #
-  # it 'should show the contact log' do
-  #   expect(page).to have_content(candidate_contact.notes)
-  # end
-  #
-  # it 'shows the scheduled interview time' do
-  #   expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
-  # end
-  #
-  # it 'shows the personality assessment score' do
-  #   expect(page).to have_content('45')
-  # end
-  #
-  # it 'shows the personality assessment status' do
-  #   within '#basic_information' do
-  #     expect(page).to have_selector('.sm_green', text: 'Qualified')
-  #   end
-  # end
-  #
-  # it 'shows the candidate availability' do
-  #   expect(page).to have_content('Availability')
-  # end
-  #
-  # it 'has an edit button for candidate availability' do
-  #   within('.widget.availability') do
-  #     expect(page).to have_content ('Edit')
-  #   end
-  # end
-  #
-  # it 'shows the candidates details' do
-  #   expect(page).to have_content('Candidate Details')
-  # end
-  #
-  # it 'shows the candidates interview answers' do
-  #   expect(page).to have_content('Candidate Interview Answers')
-  # end
-  #
-  # it 'has an edit button for details' do
-  #   within('.widget.candidate_details') do
-  #     expect(page).to have_content ('Edit')
-  #   end
-  # end
-  #
-  # it 'does not show the training session form for those without permission' do
-  #   expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
-  # end
-  #
-  # it 'allows the training session to be set for those with permission' do
-  #   view_all = create :permission, key: 'candidate_view_all'
-  #   training_session = create :sprint_radio_shack_training_session
-  #   recruiter.position.permissions << view_all
-  #   recruiter.reload
-  #   visit candidate_path(candidate)
-  #   within '#new_sprint_radio_shack_training_session' do
-  #     select training_session.name, from: 'sprint_radio_shack_training_session_id'
-  #     click_on 'Save'
-  #   end
-  #   candidate.reload
-  #   expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
-  # end
+  it 'has a dismissal button' do
+    expect(page).to have_content 'Dismiss Candidate'
+  end
+
+  it 'should have the proper page title' do
+    expect(page).to have_selector('h1', text: candidate.name)
+  end
+
+  it 'should show states of completion' do
+    expect(page).to have_content('INCOMPLETE')
+  end
+
+  it 'should show the contact log' do
+    expect(page).to have_content(candidate_contact.notes)
+  end
+
+  it 'shows the scheduled interview time' do
+    expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
+  end
+
+  it 'shows the personality assessment score' do
+    expect(page).to have_content('45')
+  end
+
+  it 'shows the personality assessment status' do
+    within '#basic_information' do
+      expect(page).to have_selector('.sm_green', text: 'Qualified')
+    end
+  end
+
+  it 'shows the candidate availability' do
+    expect(page).to have_content('Availability')
+  end
+
+  it 'has an edit button for candidate availability' do
+    within('.widget.availability') do
+      expect(page).to have_content ('Edit')
+    end
+  end
+
+  it 'shows the candidates details' do
+    expect(page).to have_content('Candidate Details')
+  end
+
+  it 'shows the candidates interview answers' do
+    expect(page).to have_content('Candidate Interview Answers')
+  end
+
+  it 'has an edit button for details' do
+    within('.widget.candidate_details') do
+      expect(page).to have_content ('Edit')
+    end
+  end
+
+  it 'does not show the training session form for those without permission' do
+    expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
+  end
+
+  it 'allows the training session to be set for those with permission' do
+    view_all = create :permission, key: 'candidate_view_all'
+    training_session = create :sprint_radio_shack_training_session
+    recruiter.position.permissions << view_all
+    recruiter.reload
+    visit candidate_path(candidate)
+    within '#new_sprint_radio_shack_training_session' do
+      select training_session.name, from: 'sprint_radio_shack_training_session_id'
+      click_on 'Save'
+    end
+    candidate.reload
+    expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+  end
 
   context 'hours widget' do
     let!(:person) { create :person }
