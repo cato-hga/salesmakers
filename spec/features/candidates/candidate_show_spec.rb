@@ -106,4 +106,28 @@ describe 'candidate show page' do
     candidate.reload
     expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
   end
+
+  context 'hours widget' do
+    let!(:person) { create :person }
+    let!(:working_candidate) { create :candidate, person: person }
+    let!(:location) { create :location }
+    let!(:last_location) { create :location, display_name: 'The Latest Location' }
+    let!(:first_shift) { create :shift, person: person, date: Date.today - 8.days, hours: 8, location: location }
+    let!(:second_shift) { create :shift, person: person, date: Date.today - 6.days, hours: 5, location: location }
+    let!(:third_shift) { create :shift, person: person, date: Date.today - 2.days, hours: 6, location: last_location }
+    it 'doesnt show the hours widget if the candiate does not have a person' do
+      #inheriting the visit
+      expect(page).not_to have_css('#candidate_hours')
+    end
+    it 'shows the total hours, last shift, and location for candidates' do
+      visit candidate_path(working_candidate)
+      within('#candidate_hours') do
+        expect(page).to have_content 'Total Hours: 19.0'
+        expect(page).to have_content 'Hours This Week: 11.0'
+        expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%b %e')}"
+        expect(page).to have_content "Last Shift Location: #{third_shift.location.display_name}"
+      end
+
+    end
+  end
 end
