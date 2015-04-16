@@ -53,6 +53,13 @@ class CandidatesController < ApplicationController
     @candidate_contacts = @candidate.candidate_contacts
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
     @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
+    @candidate_shifts = Shift.where(person: @candidate.person) if @candidate.person
+    if @candidate.person and @candidate_shifts.present?
+      @candidate_total_hours = @candidate_shifts.sum(:hours).round(2)
+      @candidate_hours_last_week = @candidate_shifts.where('date > ? ', Date.today - 7.days).sum(:hours).round(2)
+      @last_shift_date = @candidate_shifts.last.date.strftime('%b %e')
+      @last_shift_location = @candidate_shifts.last.location.display_name
+    end
     setup_sprint_params
   end
 
