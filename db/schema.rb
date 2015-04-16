@@ -641,12 +641,10 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.datetime "last_seen"
     t.string "mobile_phone"
     t.string "office_phone"
-    t.boolean "passed_asset_hours_requirement", default: false, null: false
     t.string "personal_email"
     t.integer "position_id"
     t.integer "supervisor_id"
     t.datetime "updated_at"
-    t.integer "vonage_tablet_approval_status", default: 0, null: false
   end
 
   add_index "people", ["connect_user_id"], name: "index_people_on_connect_user_id", using: :btree
