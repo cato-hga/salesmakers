@@ -124,10 +124,9 @@ describe 'candidate show page' do
       within('#candidate_hours') do
         expect(page).to have_content 'Total Hours: 19.0'
         expect(page).to have_content 'Hours This Week: 11.0'
-        expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%b %e')}"
-        expect(page).to have_content "Last Shift Location: #{third_shift.location.display_name}"
+        expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%A, %b %e')}"
+        expect(page).to have_content "Last Shift Location: ##{third_shift.location.store_number}, #{third_shift.location.street_1}, #{third_shift.location.city}, #{third_shift.location.state}"
       end
-
     end
   end
 end
