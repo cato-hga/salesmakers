@@ -50,7 +50,7 @@
   - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? "#{location.channel.name}, #{location.display_name}" : link_to("#{location.channel.name}, #{location.display_name}", path, class: link_classes)
   - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.store_number : link_to(location.store_number, path, class: link_classes)
   - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''
-  - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all)? location.address : link_to(location.address, path, class: link_classes)
+  - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.address : link_to(location.address, path, class: link_classes)
   - classes = location_area.outsourced? ? [:outsourced_row] : nil
   - rows << table_row(["#{count.to_s}.", project, launch_group, distance, city, location_name, store_number, location_schedule,  hourly_rate, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s], classes)
 = table headers, rows
