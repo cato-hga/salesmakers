@@ -191,6 +191,8 @@
           = f.submit 'Save', class: [:button]
   - if @candidate.location_area
     = render 'location_information'
+  - if @candidate.person and @candidate_shifts.present?
+    = render 'candidate_hours'
   = render 'availability'
   - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
     = render 'candidate_details'
