@@ -79,7 +79,7 @@ class Candidate < ActiveRecord::Base
   end
 
   def person=(person)
-    previous_status_integer = Candidate.statuses[person.status]
+    previous_status_integer = Candidate.statuses[self.status]
     return unless person
     self.status = :onboarded
     self[:person_id] = person.id
