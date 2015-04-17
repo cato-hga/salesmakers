@@ -44,13 +44,20 @@ module Candidates::Locations
     end
   end
 
+  def has_been_onboarded?(candidate)
+    Candidate.statuses[candidate.status] >= Candidate.statuses['onboarded']
+  end
+
+  def has_been_accepted?(candidate)
+    Candidate.statuses[candidate.status] >= Candidate.statuses['accepted']
+  end
+
   def candidate_has_previous_location_area
-    if Candidate.statuses[@candidate.status] >= Candidate.statuses['onboarded']
+    if has_been_onboarded?(@candidate)
       @previous_location_area.update current_head_count: @previous_location_area.current_head_count - 1
       return
-    elsif Candidate.statuses[@candidate.status] >= Candidate.statuses['accepted']
-      @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1
     end
+    @previous_location_area.update offer_extended_count: @previous_location_area.offer_extended_count - 1 if has_been_accepted?(@candidate)
     @previous_location_area.update potential_candidate_count: @previous_location_area.potential_candidate_count - 1
   end
 
