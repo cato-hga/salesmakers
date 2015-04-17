@@ -5,6 +5,7 @@ FactoryGirl.define do
     store_number 'CCWM4690'
     city 'St. Petersburg'
     state 'FL'
+    street_1 '555 34th St N'
     channel
   end
 

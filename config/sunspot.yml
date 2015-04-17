@@ -23,7 +23,7 @@ development:
     hostname: localhost
     port: 8982
     log_level: INFO
-    path: /solr/data
+    path: /solr/development
     solr_home: solr
 
 test:
