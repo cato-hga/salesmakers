@@ -51,6 +51,33 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
+  def self.send_nos(person, sender)
+    project = person.person_areas.first.project
+    template = DocusignTemplate.find_by(project: project, document_type: DocusignTemplate.document_types[:nos]) || return
+    client = DocusignRest::Client.new
+    created_envelope = client.create_envelope_from_template(
+        status: 'created',
+        email: {
+            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
+        },
+        template_id: template.template_guid,
+        signers: [
+            {
+                name: sender.display_name,
+                email: sender.email,
+                role_name: 'Manager'
+            },
+            {
+                name: sender.supervisor.display_name,
+                email: sender.supervisor.display_name,
+                role_name: 'Regional Manager'
+            }
+        ]
+    )
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
   def self.send_envelope(envelope_id)
     client = DocusignRest::Client.new
     content_type = { 'Content-Type' => 'application/json' }

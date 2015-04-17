@@ -32,7 +32,7 @@ describe DocusignTemplate do
     expect(subject).not_to be_valid
   end
 
-  describe 'Docusign sending' do
+  describe 'Docusign sending, NHP' do
     let!(:docusign_template) {
       create :docusign_template,
              template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
@@ -55,4 +55,26 @@ describe DocusignTemplate do
     end
   end
 
+  describe 'Docusign sending, NOS' do
+    let!(:docusign_template) {
+      create :docusign_template,
+             template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
+             project: person_area.area.project,
+             document_type: 2
+    }
+    let(:manager) { create :person,
+                           display_name: 'Test Manager',
+                           email: 'developers@salesmakersinc.com'
+    }
+    let(:person) { create :person }
+
+    let!(:person_area) { create :person_area, person: person, area: area }
+    let(:area) { create :area, project: project }
+    let(:project) { create :project }
+
+    it 'sends an NOS', :vcr do
+      envelope_response = DocusignTemplate.send_nos person, manager
+      expect(envelope_response.length).to be > 0
+    end
+  end
 end
