@@ -79,12 +79,17 @@ class Candidate < ActiveRecord::Base
   end
 
   def person=(person)
+    previous_status_integer = Candidate.statuses[person.status]
     return unless person
     self.status = :onboarded
     self[:person_id] = person.id
     location_area = self.location_area || return
+    offer_extended_count = location_area.offer_extended_count
+    offer_extended_count -= 1 if previous_status_integer >= Candidate.statuses['accepted'] and
+        previous_status_integer < Candidate.statuses['onboarded']
     location_area.update potential_candidate_count: location_area.potential_candidate_count - 1,
-                         current_head_count: location_area.current_head_count + 1
+                         current_head_count: location_area.current_head_count + 1,
+                         offer_extended_count: offer_extended_count
   end
 
   def location_area=(location_area)
