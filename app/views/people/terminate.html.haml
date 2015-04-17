@@ -1,0 +1,14 @@
+- title "Terminate #{@person.name}"
+
+.widget
+  .inner
+    = form_for @nos do |f|
+      = f.label :termination_date
+      = f.text :termination_date
+      = f.label :last_day_worked
+      = f.text :last_day_worked
+      = f.label :separation_reason
+      = f.text :separation_reason
+      = f.label :remarks
+      = f.text_area :remarks
+      = f.submit 'Send NOS'

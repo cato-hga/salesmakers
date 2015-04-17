@@ -132,6 +132,11 @@ class PeopleController < ProtectedController
     render nothing: true
   end
 
+  def terminate
+    authorize Person.new
+    @person = policy_scope(Person).find params[:id]
+  end
+
   private
 
   def person_params

@@ -12,6 +12,8 @@
       = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
     - if ScreeningPolicy.new(@current_person, Screening.new).update?
       = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
+    - if PersonPolicy.new(@current_person, Person.new).terminate? and @current_person.managed_team_members.include? @person
+      = link_to 'Terminate/NOS Person', terminate_person_path(@person), id: '#nos_button', class: [:button, :inline_button]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs
