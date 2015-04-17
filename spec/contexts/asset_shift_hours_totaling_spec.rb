@@ -1,4 +1,4 @@
-require 'asset_shift_hours_totaling'
+require_relative '../../app/contexts/asset_shift_hours_totaling'
 
 describe AssetShiftHoursTotaling do
 
