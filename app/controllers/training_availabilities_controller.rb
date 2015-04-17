@@ -61,8 +61,8 @@ class TrainingAvailabilitiesController < ApplicationController
       @comments = ''
     end
     @location_area = @candidate.location_area
-    @location = @location_area.location
-    @training_location = @location.sprint_radio_shack_training_location if @location.sprint_radio_shack_training_location
+    @location = @location_area.location if @location_area
+    @training_location = @location.sprint_radio_shack_training_location if @location && @location.sprint_radio_shack_training_location
     @unavailability_reasons = TrainingUnavailabilityReason.all
   end
 
@@ -106,5 +106,4 @@ class TrainingAvailabilitiesController < ApplicationController
   def blank_shirt_info?
     params[:training_availability][:candidate][:shirt_gender].blank? or params[:training_availability][:candidate][:shirt_size].blank?
   end
-
 end

@@ -56,8 +56,6 @@ class PrescreenAnswersController < ApplicationController
 
   def check_and_handle_location
     if @candidate.location_selected?
-      @location_area = @candidate.location_area
-      @location_area.update potential_candidate_count: @location_area.potential_candidate_count + 1
       flash[:notice] = 'Answers and Availability saved'
       redirect_to new_candidate_interview_schedule_path(@candidate)
     else

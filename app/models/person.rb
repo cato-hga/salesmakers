@@ -129,11 +129,7 @@ class Person < ActiveRecord::Base
 
   def take_down_candidate_count
     candidate = Candidate.find_by person: self
-    return unless candidate and candidate.location_area
-    location_area = candidate.location_area
-    new_count = location_area.current_head_count - 1
-    return if new_count < 0
-    location_area.update current_head_count: new_count
+    candidate.update active: false if candidate
   end
 
 end
