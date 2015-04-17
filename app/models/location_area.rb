@@ -36,21 +36,12 @@ class LocationArea < ActiveRecord::Base
     LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
   end
 
-  def decrement_counts(candidate_status_integer)
+  def change_counts candidate_status_integer, change_by
     accepted_status_integer = Candidate.statuses['accepted']
     onboarded_status_integer = Candidate.statuses['onboarded']
-    self.update potential_candidate_count: self.potential_candidate_count - 1 if candidate_status_integer < onboarded_status_integer
-    self.update offer_extended_count: self.offer_extended_count - 1 if candidate_status_integer < onboarded_status_integer and
+    self.update potential_candidate_count: self.potential_candidate_count + change_by if candidate_status_integer < onboarded_status_integer
+    self.update offer_extended_count: self.offer_extended_count + change_by if candidate_status_integer < onboarded_status_integer and
         candidate_status_integer >= accepted_status_integer
-    self.update current_head_count: self.current_head_count - 1 if candidate_status_integer >= onboarded_status_integer
-  end
-
-  def increment_counts(candidate_status_integer)
-    accepted_status_integer = Candidate.statuses['accepted']
-    onboarded_status_integer = Candidate.statuses['onboarded']
-    self.update potential_candidate_count: self.potential_candidate_count + 1 if candidate_status_integer < onboarded_status_integer
-    self.update offer_extended_count: self.offer_extended_count + 1 if candidate_status_integer < onboarded_status_integer and
-        candidate_status_integer >= accepted_status_integer
-    self.update current_head_count: self.current_head_count + 1 if candidate_status_integer >= onboarded_status_integer
+    self.update current_head_count: self.current_head_count + change_by if candidate_status_integer >= onboarded_status_integer
   end
 end

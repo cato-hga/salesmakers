@@ -105,9 +105,9 @@ class Candidate < ActiveRecord::Base
     return if previous_location_area and previous_location_area.id == location_area_id
     self[:location_area_id] = location_area_id
     status_integer = Candidate.statuses[self.status]
-    previous_location_area.decrement_counts(status_integer) if previous_location_area
+    previous_location_area.change_counts(status_integer, -1) if previous_location_area
     location_area = LocationArea.find location_area_id if location_area_id
-    location_area.increment_counts(status_integer) if location_area
+    location_area.change_counts(status_integer, 1) if location_area
   end
 
   def related_log_entries
