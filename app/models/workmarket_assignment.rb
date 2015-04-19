@@ -22,9 +22,9 @@ class WorkmarketAssignment < ActiveRecord::Base
   private
 
   def namecase
-    self.worker_name = NameCase(self.worker_name)
-    self.worker_first_name = NameCase(self.worker_first_name)
-    self.worker_last_name = NameCase(self.worker_last_name)
+    self.worker_name = NameCase(self.worker_name) if self.worker_name
+    self.worker_first_name = NameCase(self.worker_first_name) if self.worker_first_name
+    self.worker_last_name = NameCase(self.worker_last_name) if self.worker_last_name
   end
 
 end
