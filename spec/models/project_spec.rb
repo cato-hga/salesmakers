@@ -10,6 +10,10 @@ RSpec.describe Project, :type => :model do
   it { should have_many :area_types }
   it { should have_many :areas }
 
+  it 'responds to workmarket_project_num' do
+    expect(Project.new).to respond_to(:workmarket_project_num)
+  end
+
   describe 'active_people method' do
     let(:area) { create :area }
     let(:project) { area.project }
@@ -117,5 +121,4 @@ RSpec.describe Project, :type => :model do
       end
     end
   end
-
 end
