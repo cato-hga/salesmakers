@@ -51,7 +51,7 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
-  def self.send_nos(person, sender)
+  def self.send_nos(person, sender, manager, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
     project = person.person_areas.first.project
     template = DocusignTemplate.find_by(project: project, document_type: DocusignTemplate.document_types[:nos]) || return
     client = DocusignRest::Client.new
@@ -65,11 +65,48 @@ class DocusignTemplate < ActiveRecord::Base
             {
                 name: sender.display_name,
                 email: sender.email,
-                role_name: 'Manager'
+                role_name: 'Manager',
+                text_tabs: [
+                    {
+                        label: 'Employee Name',
+                        name: 'Employee Name',
+                        value: "#{person.display_name}"
+                    },
+                    {
+                        label: "Last Day Worked",
+                        name: "Last Day Worked",
+                        value: "#{last_day_worked.strftime('%m-%d-%y')}"
+                    },
+                    {
+                        label: 'Termination Date',
+                        name: 'Termination Date',
+                        value: "#{termination_date.strftime('%m-%d-%y')}"
+                    },
+                    {
+                        label: 'Remarks',
+                        name: 'Remarks',
+                        value: "#{remarks}"
+                    },
+                    {
+                        label: 'Location',
+                        name: 'Location',
+                        value: retail ? 'Retail' : 'Event'
+                    },
+                    {
+                        label: 'Eligible for Rehire',
+                        name: 'Eligible for Rehire',
+                        value: rehire ? 'YES' : 'NO'
+                    },
+                    {
+                        label: 'Separation Reason',
+                        name: 'Separation Reason',
+                        value: separation_reason
+                    }
+                ],
             },
             {
-                name: sender.supervisor.display_name,
-                email: sender.supervisor.display_name,
+                name: manager.display_name,
+                email: manager.email,
                 role_name: 'Regional Manager'
             }
         ]
@@ -97,5 +134,4 @@ class DocusignTemplate < ActiveRecord::Base
       nil
     end
   end
-
 end
