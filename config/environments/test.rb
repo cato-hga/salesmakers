@@ -43,4 +43,6 @@ Rails.application.configure do
 
   # Run tests at random
   config.active_support.test_order = :random
+
+  config.middleware.use RackSessionAccess::Middleware
 end

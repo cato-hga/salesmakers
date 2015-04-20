@@ -103,6 +103,7 @@ group :test do
   gem 'codeclimate-test-reporter', '0.4.5', require: nil #codeclimate test coverage
   gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
   gem 'timecop', '0.7.3' # Alter times in testing
+  gem 'rack_session_access', '0.1.1' # Ability to access session hash from tests
 end
 
 group :production do

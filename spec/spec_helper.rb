@@ -23,6 +23,7 @@ require 'factory_girl_rails'
 require 'vcr'
 require 'sidekiq/testing'
 require 'sunspot/rails/spec_helper'
+require 'rack_session_access/capybara'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!

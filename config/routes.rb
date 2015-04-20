@@ -82,6 +82,15 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :client_representatives do
+    collection do
+      get :new_session, as: :new_session
+      post :create_session, as: :create_session
+      get :welcome, as: :welcome
+      delete :destroy_session, as: :destroy_session
+    end
+  end
+
   resources :comcast_customers, except: [:edit, :update, :destroy] do
     resources :comcast_sales, only: [:new, :create]
     resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy]

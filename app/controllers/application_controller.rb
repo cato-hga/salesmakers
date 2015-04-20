@@ -1,11 +1,6 @@
-class ApplicationController < ActionController::Base
-  #include SentientController
-  include Pundit
-
+class ApplicationController < BaseApplicationController
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
-                :additional_exception_data,
-                :set_staging,
                 :check_active,
                 :get_projects,
                 #:setup_default_walls,
@@ -15,20 +10,8 @@ class ApplicationController < ActionController::Base
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-
-  rescue_from Pundit::NotAuthorizedError, with: :permission_denied
 
   protected
-
-  def additional_exception_data
-    request.env["exception_notifier.exception_data"] = {
-        current_person: @current_person,
-        candidate: @candidate
-    }
-  end
 
   def setup_new_publishables
     @text_post = TextPost.new
@@ -42,10 +25,6 @@ class ApplicationController < ActionController::Base
     return unless current_person_has_position?
     @wall = @current_person.default_wall
     @walls = Wall.postable(@current_person).includes(:wallable)
-  end
-
-  def date_time_string
-    Time.zone.now.strftime('%Y-%m-%d_%H-%M')
   end
 
   private
@@ -108,10 +87,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_staging
-    @staging = Rails.env == 'staging'
-  end
-
   def current_user
     @current_person
   end
@@ -129,8 +104,4 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
   helper_method :current_theme
-
-  def permission_denied
-    render file: File.join(Rails.root, 'public/403.html'), status: 403, layout: false
-  end
 end
