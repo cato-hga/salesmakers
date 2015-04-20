@@ -33,6 +33,7 @@ end
 every 30.minutes do
   runner 'ConnectUpdater.update(30)'
   runner 'VonageCommissionProcessing.new.process'
+  runner 'WorkmarketImport.new.execute'
 end
 
 every :hour do
