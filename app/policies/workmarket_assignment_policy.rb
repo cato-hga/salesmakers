@@ -5,6 +5,10 @@ class WorkmarketAssignmentPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    has_permission? 'show'
+  end
+
   def view_all?
     has_permission? 'view_all'
   end

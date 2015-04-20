@@ -9,4 +9,9 @@ class ClientAccess::WorkmarketAssignmentsController < ClientApplicationControlle
     authorize WorkmarketAssignment.new
   end
 
+  def show
+    @assignment = WorkmarketAssignment.find params[:id]
+    authorize WorkmarketAssignment.new
+  end
+
 end

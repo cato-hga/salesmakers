@@ -1,0 +1,66 @@
+- title @assignment.title
+- view_all = WorkmarketAssignmentPolicy.new(current_client_rep, WorkmarketAssignment.new).view_all?
+
+.widgets
+  .widget
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Started:
+        = friendly_datetime @assignment.started
+        %br/
+        %strong Ended:
+        = friendly_datetime @assignment.ended
+      %p
+        %strong Project:
+        = @assignment.project.name
+      %p
+        %strong Worker's Full Name:
+        = @assignment.worker_name
+        %br/
+        %strong Worker's First Name:
+        = @assignment.worker_first_name
+        %br/
+        %strong Worker's Last Name:
+        = @assignment.worker_last_name
+      - if view_all
+        %br/
+        %strong Worker's Email Address:
+        = mail_to @assignment.worker_email
+        %p
+          %strong Cost:
+          = number_to_currency @assignment.cost
+      %p
+        %strong Location Name:
+        = @assignment.workmarket_location.name
+        %br/
+        %strong Location Number:
+        = @assignment.workmarket_location.location_number
+  .widget
+    .inner
+      %h3 Questions &amp; Answers
+      - for field in @assignment.workmarket_fields do
+        %p
+          %strong= field.name.html_safe
+          %br/
+          %em= field.value.html_safe
+  - non_image_attachments = []
+  - image_attachments = []
+  - for attachment in @assignment.workmarket_attachments do
+    - if /\A.*(jpeg|jpg|gif|png)\Z/.match(attachment.filename).nil?
+      - non_image_attachments << attachment
+    - else
+      - image_attachments << attachment
+  - unless non_image_attachments.empty?
+    .widget
+      .inner
+        %h3 Non-Image Attachments
+        - for attachment in non_image_attachments do
+          %p
+            = link_to attachment.filename, "https://www.workmarket.com#{attachment.url}", target: '_blank'
+  - for attachment in image_attachments do
+    .widget
+      .inner
+        = link_to image_tag("https://www.workmarket.com#{attachment.url}"), "https://www.workmarket.com#{attachment.url}", data: { lightbox: attachment.url }, class: [:no_loading_indicator]
+        %p
+          = attachment.filename

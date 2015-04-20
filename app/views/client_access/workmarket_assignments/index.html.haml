@@ -34,7 +34,7 @@
       - started = friendly_datetime assignment.started
       - ended = friendly_datetime assignment.ended
       - project = assignment.project.name
-      - title = link_to assignment.title, '#'
+      - title = link_to assignment.title, client_access_worker_assignment_path(assignment)
       - worker = assignment.worker_name
       - worker_email = mail_to assignment.worker_email
       - location = assignment.workmarket_location ? assignment.workmarket_location.name : ''
