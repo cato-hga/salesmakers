@@ -209,6 +209,7 @@ Rails.application.routes.draw do
           to: 'people#update_changelog_entry_id',
           as: :update_changelog_entry_id
       get :terminate
+      post :send_nos
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search

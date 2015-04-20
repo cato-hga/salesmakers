@@ -21,7 +21,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - "*"
+      - '*'
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -129,7 +129,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - "*"
+      - '*'
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -272,4 +272,127 @@ http_interactions:
         Bullard","location_number":""}]}'
     http_version: 
   recorded_at: Sun, 19 Apr 2015 21:48:04 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/crm/locations/list?access_token=ZVtjrQ26UYiqCzuOi7BC&client_id=26665
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 20 Apr 2015 18:41:25 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.201,"timestamp":1429555285},"response":[{"id":2935317,"name":"1010209","location_number":null},{"id":3026441,"name":"1010348","location_number":""},{"id":3026445,"name":"1010348","location_number":""},{"id":2935353,"name":"1010348","location_number":null},{"id":2935349,"name":"1010419","location_number":null},{"id":2935237,"name":"1010801","location_number":null},{"id":2935245,"name":"1010911","location_number":null},{"id":2935241,"name":"1011001","location_number":null},{"id":2935233,"name":"1011301","location_number":null},{"id":2935309,"name":"1011501","location_number":null},{"id":2935381,"name":"1011601","location_number":null},{"id":2935385,"name":"1011726","location_number":null},{"id":2935229,"name":"1011801","location_number":null},{"id":2935373,"name":"1011901","location_number":null},{"id":2935297,"name":"1012001","location_number":null},{"id":3014401,"name":"1012303","location_number":""},{"id":2935365,"name":"1012303","location_number":null},{"id":2935285,"name":"1030137","location_number":null},{"id":2935361,"name":"1030205","location_number":null},{"id":2935305,"name":"1030404","location_number":null},{"id":2935377,"name":"1030502","location_number":null},{"id":2935473,"name":"1030705","location_number":null},{"id":2935445,"name":"1030905","location_number":null},{"id":2935453,"name":"1031003","location_number":null},{"id":2935449,"name":"1031126","location_number":null},{"id":2935441,"name":"1031211","location_number":null},{"id":2935405,"name":"1031605","location_number":null},{"id":2935397,"name":"1031705","location_number":null},{"id":2935401,"name":"1031905","location_number":null},{"id":2935209,"name":"1032125","location_number":null},{"id":2935281,"name":"1032215","location_number":null},{"id":2935429,"name":"1032216","location_number":null},{"id":2935433,"name":"1032240","location_number":null},{"id":2935437,"name":"1032254","location_number":null},{"id":2935425,"name":"1032405","location_number":null},{"id":2935421,"name":"1032462","location_number":null},{"id":2935409,"name":"1032513","location_number":null},{"id":2935333,"name":"1032546","location_number":null},{"id":2969721,"name":"1032605","location_number":""},{"id":2969297,"name":"1032605","location_number":""},{"id":2935413,"name":"1032653","location_number":null},{"id":2935417,"name":"1032711","location_number":null},{"id":2969353,"name":"1032749","location_number":""},{"id":2935289,"name":"1040303","location_number":null},{"id":2935201,"name":"1040404","location_number":null},{"id":2935217,"name":"1040711","location_number":null},{"id":2969425,"name":"1041302","location_number":""},{"id":2935205,"name":"1041716","location_number":null},{"id":2935249,"name":"1042309","location_number":null},{"id":2935313,"name":"1042401","location_number":null},{"id":2935465,"name":"1043701","location_number":null},{"id":2935469,"name":"1044343","location_number":null},{"id":2935221,"name":"1044601","location_number":null},{"id":2969445,"name":"1047521","location_number":""},{"id":3021545,"name":"1047521","location_number":""},{"id":2935293,"name":"1061502","location_number":null},{"id":2935393,"name":"1061602","location_number":null},{"id":2935269,"name":"1063109","location_number":null},{"id":2935261,"name":"1063302","location_number":null},{"id":2935265,"name":"1063410","location_number":null},{"id":2935193,"name":"1064102","location_number":null},{"id":2935389,"name":"1066010","location_number":null},{"id":2935225,"name":"1066221","location_number":null},{"id":2969617,"name":"1067100","location_number":""},{"id":2935461,"name":"1068412","location_number":null},{"id":2935257,"name":"1068560","location_number":null},{"id":2935253,"name":"1068635","location_number":null},{"id":2935321,"name":"1068702","location_number":null},{"id":2935273,"name":"1069205","location_number":null},{"id":2935197,"name":"1069401","location_number":null},{"id":2935369,"name":"1071010","location_number":null},{"id":2957349,"name":"1072010","location_number":""},{"id":2935457,"name":"1072010","location_number":null},{"id":2935301,"name":"1072410","location_number":null},{"id":2969645,"name":"1073110","location_number":""},{"id":2935213,"name":"1075010","location_number":null},{"id":2935357,"name":"1075416","location_number":null},{"id":2935341,"name":"1076210","location_number":null},{"id":2935337,"name":"1076313","location_number":null},{"id":2935345,"name":"1077006","location_number":null},{"id":2935277,"name":"1078110","location_number":null},{"id":2969693,"name":"1078210","location_number":""},{"id":2935325,"name":"1079010","location_number":null},{"id":2935329,"name":"1079105","location_number":null},{"id":3022849,"name":"1079210","location_number":""},{"id":2969065,"name":"1079210","location_number":""},{"id":2969069,"name":"1079210","location_number":""},{"id":3044893,"name":"AAFES
+        - BARKSDALE AFB LA","location_number":"1010348"},{"id":3071589,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601"},{"id":3071605,"name":"AAFES -
+        BROOKLYN NY","location_number":"1044601"},{"id":3071609,"name":"AAFES - BROOKLYN
+        NY","location_number":"1044601"},{"id":3060445,"name":"AAFES - BROOKLYN NY","location_number":"1044601"},{"id":3044833,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601"},{"id":3044845,"name":"AAFES -
+        CARLISLE PA","location_number":"1047521"},{"id":3045069,"name":"AAFES - CHARLESTON
+        AFB SC","location_number":"1030705"},{"id":3044985,"name":"AAFES - COLO SPRINGS
+        CO","location_number":"1079010"},{"id":3045033,"name":"AAFES - COLUMBUS AFB
+        COLUMBUS MS","location_number":"1032605"},{"id":3070521,"name":"AAFES - CORAOPOLIS
+        PA","location_number":"1072410"},{"id":3044841,"name":"AAFES - CORAOPOLIS
+        PA","location_number":"1072410"},{"id":3044965,"name":"AAFES - DAVIS MONTHAN
+        AFB AZ","location_number":"1068635"},{"id":3044969,"name":"AAFES - DAVIS MONTHAN
+        AFB AZ","location_number":"1068560"},{"id":3045077,"name":"AAFES - DYESS AFB
+        TX","location_number":"1011601"},{"id":3044973,"name":"AAFES - EDWARDS AFB
+        CA","location_number":"1063302"},{"id":3044813,"name":"AAFES - EGLIN AFB FL","location_number":"1032513"},{"id":3051357,"name":"AAFES
+        - EL SEGUNDO CA","location_number":"1064102"},{"id":3044789,"name":"AAFES
+        - EL SEGUNDO CA","location_number":"1064102"},{"id":3045093,"name":"AAFES
+        - FAIRCHILD AFB WA","location_number":"1061602"},{"id":3045097,"name":"AAFES
+        - FE WARREN AFB CHEYENNE WY","location_number":"1078210"},{"id":3044989,"name":"AAFES
+        - FORT CARSON CO","location_number":"1079105"},{"id":3044949,"name":"AAFES
+        - FORT WAINWRIGHT AK","location_number":"1067100"},{"id":3071577,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716"},{"id":3044805,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716"},{"id":3044825,"name":"AAFES
+        - FT BENNING GA","location_number":"1031211"},{"id":3066789,"name":"AAFES
+        - FT BRAGG NC","location_number":"1030137"},{"id":3045045,"name":"AAFES -
+        FT BRAGG NC","location_number":"1040303"},{"id":3044829,"name":"AAFES - FT
+        BRAGG NC","location_number":"1030137"},{"id":3045057,"name":"AAFES - FT DRUM
+        NY","location_number":"1043701"},{"id":3044993,"name":"AAFES - FT GORDON GA","location_number":"1030905"},{"id":3044849,"name":"AAFES
+        - FT HOOD TX","location_number":"1011301"},{"id":3044961,"name":"AAFES - FT
+        HUACHUCA AZ","location_number":"1068702"},{"id":3044977,"name":"AAFES - FT
+        IRWIN CA","location_number":"1063410"},{"id":3045013,"name":"AAFES - FT KNOX
+        KY","location_number":"1072010"},{"id":3045005,"name":"AAFES - FT LEAVENWORTH
+        KS","location_number":"1076210"},{"id":3045029,"name":"AAFES - FT LEONARD
+        WOOD MO","location_number":"1075416"},{"id":3045049,"name":"AAFES - FT LEWIS
+        WA","location_number":"1061502"},{"id":3045017,"name":"AAFES - FT POLK LA","location_number":"1010419"},{"id":3045001,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313"},{"id":3044785,"name":"AAFES -
+        FT RUCKER AL","location_number":"1031705"},{"id":3045065,"name":"AAFES - FT
+        SILL OK","location_number":"1011901"},{"id":3044997,"name":"AAFES - FT STEWART
+        GA","location_number":"1031126"},{"id":3045037,"name":"AAFES - GULFPORT ANG
+        GULFPORT MS","location_number":"1032749"},{"id":3045021,"name":"AAFES - HANSCOM
+        AFB MA","location_number":"1043003"},{"id":3045089,"name":"AAFES - HILL AFB
+        UT","location_number":"1066010"},{"id":3044817,"name":"AAFES - HURLBURT FIELD
+        FL","location_number":"1032546"},{"id":3071573,"name":"AAFES - LACKLAND AFB
+        TX","location_number":"1011001"},{"id":3044853,"name":"AAFES - LACKLAND AFB
+        TX","location_number":"1011001"},{"id":3071661,"name":"AAFES - LANGLEY AFB
+        VA","location_number":"1042309"},{"id":3071685,"name":"AAFES - LANGLEY AFB
+        VA","location_number":"1042309"},{"id":3044861,"name":"AAFES - LANGLEY AFB
+        VA","location_number":"1042309"},{"id":3045041,"name":"AAFES - MAFB MT","location_number":"1068412"},{"id":3044957,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605"},{"id":3045053,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504"},{"id":3044877,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401"},{"id":3059593,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401"},{"id":3071657,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401"},{"id":3044793,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401"},{"id":3045009,"name":"AAFES
+        - MCCONNEL AFB KS","location_number":"1077006"},{"id":3071673,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221"},{"id":3044837,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221"},{"id":3070517,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215"},{"id":3044809,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215"},{"id":3071681,"name":"AAFES
+        - RANDOLPH AFB TX","location_number":"1010911"},{"id":3044857,"name":"AAFES
+        - RANDOLPH AFB TX","location_number":"1010911"},{"id":3044953,"name":"AAFES
+        - REDSTONE ARSENAL AL","location_number":"1031905"},{"id":3045025,"name":"AAFES
+        - SELFRIDGE ANGB SELFRIDGE MI","location_number":"1073110"},{"id":3045085,"name":"AAFES
+        - SHEPPARD AFB TX","location_number":"1011726"},{"id":3045073,"name":"AAFES
+        - SUMTER SC","location_number":"1030502"},{"id":3044981,"name":"AAFES - TRAVIS
+        AFB CA","location_number":"1069205"},{"id":3044821,"name":"AAFES - TYNDALL
+        AFB FL","location_number":"1032405"},{"id":3070677,"name":"AAFES - TYNDALL
+        AFB FL","location_number":"1032405"},{"id":3044797,"name":"AAFES - USAFA BX
+        COLORADO SPRINGS CO","location_number":"1079210"},{"id":3070525,"name":"AAFES
+        - WACO TX","location_number":"1011501"},{"id":3045081,"name":"AAFES - WACO
+        TX","location_number":"1011501"},{"id":3044801,"name":"AAFES - WASHINGTON
+        DC","location_number":"1040404"},{"id":3045061,"name":"AAFES - WPAFB OH","location_number":"1071010"},{"id":3044597,"name":"AAFES-AURORA
+        CO","location_number":"1078110"},{"id":3044621,"name":"AAFES-FT BLISS TX","location_number":"1011801"},{"id":3044637,"name":"AAFES-FT
+        JACKSON SC","location_number":"1030404"},{"id":3044633,"name":"AAFES-FT SAM
+        HOUSTON TX","location_number":"1010801"},{"id":3044605,"name":"AAFES-FT. GEORGE
+        G. MEADE MD","location_number":"1040712"},{"id":3044609,"name":"AAFES-GOLDSBORO
+        NC","location_number":"1030205"},{"id":3044629,"name":"AAFES-KIRTLAND AFB
+        NM","location_number":"1012303"},{"id":3044641,"name":"AAFES-LITTLEROCK AFB
+        AR","location_number":"1010209"},{"id":3044593,"name":"AAFES-MACDILL AFB FL","location_number":"1032125"},{"id":3044625,"name":"AAFES-RIVERSIDE
+        CA","location_number":"1063109"},{"id":3044617,"name":"AAFES-ROBINS AFB GA","location_number":"1031003"},{"id":3044601,"name":"AAFES-SCOTT
+        AFB IL","location_number":"1075010"},{"id":3044613,"name":"AAFES-TINKER AFB
+        OK","location_number":"1012001"},{"id":3046897,"name":"AAFES-TINKER AFB OK","location_number":"1012001"},{"id":3048405,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302"},{"id":3048005,"name":"AAFES, FT
+        LEE VA","location_number":"1042401"},{"id":3028121,"name":"AAFES, HANSCOM
+        AFB MA","location_number":"1043003"},{"id":3030597,"name":"AAFES, MCCHORD
+        AFB","location_number":"1061504"},{"id":3028157,"name":"AAFES, MCGUIRE AFB
+        NJ","location_number":"1046002"},{"id":3040149,"name":"David Ginn","location_number":""},{"id":3035653,"name":"Ryan
+        Bullard","location_number":""},{"id":3031337,"name":"Ryan Bullard","location_number":""},{"id":3035853,"name":"Ryan
+        Bullard","location_number":""},{"id":3031285,"name":"Ryan Bullard","location_number":""},{"id":3031293,"name":"Ryan
+        Bullard","location_number":""}]}'
+    http_version: 
+  recorded_at: Mon, 20 Apr 2015 18:41:25 GMT
 recorded_with: VCR 2.9.3

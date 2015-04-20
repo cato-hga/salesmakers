@@ -21,7 +21,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - "*"
+      - '*'
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -135,7 +135,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - "*"
+      - '*'
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -359,4 +359,158 @@ http_interactions:
         - Store said they would do it for me","required":true,"value":"Yes"},{"id":25465,"name":"Territory","default":"","required":false,"value":"CA-Sacramento"}]}],"parts":null,"pending_offers":[],"declined_resources":[],"questions":[]}}'
     http_version: 
   recorded_at: Sun, 19 Apr 2015 21:36:23 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/assignments/list?access_token=LYBMAHIIMRWJnsMBotIf&start=0&status=paymentPending
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 20 Apr 2015 18:41:24 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '6855'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.108,"timestamp":1429555284},"response":{"total_results":10,"count":10,"start":0,"limit":25,"data":[{"id":"4816176699","project_id":932253,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429372800,"scheduled_end":1429394400,"city":"WASHINGTON","state":"DC","postal_code":"20032","location_id":"1040404","spend_limit":"94.5","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"94.5","resource_company_name":"Sole
+        Proprietor","resource_user_number":"1796601","resource_full_name":"nandi charles","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"5006487423","project_id":942949,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop - NY","scheduled_start":1429372800,"scheduled_end":1429394400,"city":"BROOKLYN","state":"NY","postal_code":"11252","location_id":"1044601","spend_limit":"90.88","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"90.88","resource_company_name":"Sole
+        Proprietor","resource_user_number":"27791111","resource_full_name":"Reggie
+        Resino","last_modified_on":1429473283,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"8404101312","project_id":932177,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429372800,"scheduled_end":1429394400,"city":"MACDILL
+        AFB","state":"FL","postal_code":"33608","location_id":"1032125","spend_limit":"91.28","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"91.28","resource_company_name":"Sole
+        Proprietor","resource_user_number":"2044105","resource_full_name":"Timothy
+        Spencer","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"7943973390","project_id":932189,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429372800,"scheduled_end":1429394400,"city":"FT.
+        GEORGE G. MEADE","state":"MD","postal_code":"20755","location_id":"1040712","spend_limit":"90.14","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"90.14","resource_company_name":"Sole
+        Proprietor","resource_user_number":"13503101","resource_full_name":"Gale Richards","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"3103706946","project_id":932301,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429376400,"scheduled_end":1429398000,"city":"FT
+        HOOD","state":"TX","postal_code":"76544","location_id":"1011301","spend_limit":"88.19","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"88.19","resource_company_name":"Sole
+        Proprietor","resource_user_number":"65352914","resource_full_name":"Hector
+        Lozano","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"8948844945","project_id":932185,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429376400,"scheduled_end":1429398000,"city":"SCOTT
+        AFB","state":"IL","postal_code":"62225","location_id":"1075010","spend_limit":"91.88","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"91.88","resource_company_name":"Sole
+        Proprietor","resource_user_number":"13153047","resource_full_name":"Nathan
+        Cravens","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"2082403049","project_id":932217,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429376400,"scheduled_end":1429398000,"city":"FT
+        SAM HOUSTON","state":"TX","postal_code":"78234","location_id":"1010801","spend_limit":"84.0","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"30.0","resource_company_name":"Sole
+        Proprietor","resource_user_number":"63399541","resource_full_name":"Lena Rudolph","last_modified_on":1429408172,"modifier_first_name":"E","modifier_last_name":"Hillyer"},{"id":"4036084798","project_id":932205,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429380000,"scheduled_end":1429401600,"city":"FT
+        BLISS","state":"TX","postal_code":"79906","location_id":"1011801","spend_limit":"97.66","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"97.66","resource_company_name":"Sole
+        Proprietor","resource_user_number":"54821184","resource_full_name":"Patricia
+        Torres","last_modified_on":1429417752,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"5787877550","project_id":932241,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429383600,"scheduled_end":1429405200,"city":"EL
+        SEGUNDO","state":"CA","postal_code":"90245","location_id":"1064102","spend_limit":"90.14","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"90.14","resource_company_name":"Sole
+        Proprietor","resource_user_number":"56017049","resource_full_name":"Darina
+        Parker","last_modified_on":1429413759,"modifier_first_name":"D","modifier_last_name":"Ginn"},{"id":"7570091574","project_id":942969,"title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429383600,"scheduled_end":1429405200,"city":"MCCLELLAN
+        AFB","state":"CA","postal_code":"95652","location_id":"1069401","spend_limit":"95.94","modified_status":"Payment
+        Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
+        Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"95.94","resource_company_name":"Sole
+        Proprietor","resource_user_number":"81231858","resource_full_name":"gilbert
+        escalante","last_modified_on":1429515898,"modifier_first_name":"g","modifier_last_name":"escalante"}]}}'
+    http_version: 
+  recorded_at: Mon, 20 Apr 2015 18:41:24 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/assignments/list?access_token=LYBMAHIIMRWJnsMBotIf&start=0&status=paid
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 20 Apr 2015 18:41:24 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '169'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.08,"timestamp":1429555284},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
+    http_version: 
+  recorded_at: Mon, 20 Apr 2015 18:41:24 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/assignments/list?access_token=LYBMAHIIMRWJnsMBotIf&start=0&status=refunded
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 20 Apr 2015 18:41:25 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '170'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.085,"timestamp":1429555284},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
+    http_version: 
+  recorded_at: Mon, 20 Apr 2015 18:41:25 GMT
 recorded_with: VCR 2.9.3
