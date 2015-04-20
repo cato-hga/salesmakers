@@ -30,6 +30,14 @@ class Candidate < ActiveRecord::Base
            :qualified
        ]
 
+  enum training_session_status: [
+           :pending,
+           :candidate_confirmed,
+           :sprint_confirmed,
+           :in_class,
+           :completed
+       ]
+
   has_paper_trail
   nilify_blanks
   geocoding_validations
