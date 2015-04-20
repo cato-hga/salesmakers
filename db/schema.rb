@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416131721) do
+ActiveRecord::Schema.define(version: 20150419202623) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
+    t.integer "training_session_status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "zip", null: false
   end
@@ -823,6 +824,7 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.datetime "created_at"
     t.string "name", null: false
     t.datetime "updated_at"
+    t.string "workmarket_project_num"
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
@@ -1273,4 +1275,45 @@ ActiveRecord::Schema.define(version: 20150416131721) do
   end
 
   add_index "walls", ["wallable_id", "wallable_type"], name: "index_walls_on_wallable_id_and_wallable_type", using: :btree
+
+  create_table "workmarket_assignments", force: :cascade do |t|
+    t.float "cost", null: false
+    t.datetime "created_at", null: false
+    t.datetime "ended", null: false
+    t.text "json", null: false
+    t.integer "project_id", null: false
+    t.datetime "started", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "worker_email", null: false
+    t.string "worker_first_name"
+    t.string "worker_last_name"
+    t.string "worker_name", null: false
+    t.string "workmarket_assignment_num", null: false
+    t.string "workmarket_location_num", null: false
+  end
+
+  create_table "workmarket_attachments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.integer "workmarket_assignment_id", null: false
+  end
+
+  create_table "workmarket_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "value", null: false
+    t.integer "workmarket_assignment_id", null: false
+  end
+
+  create_table "workmarket_locations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "location_number"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "workmarket_location_num", null: false
+  end
 end

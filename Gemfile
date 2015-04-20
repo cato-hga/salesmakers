@@ -69,6 +69,7 @@ gem 'facter', '2.4.1' # Get number of CPUs to automatically set puma workers
 gem 'andand', '1.3.3' # Navigate nested hashes without getting NoMethodErrors
 gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
+gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

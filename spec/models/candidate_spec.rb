@@ -85,10 +85,10 @@ describe Candidate do
 
   describe 'personality assessment requirements' do
     let(:area) {
-      build_stubbed :area,
+      create :area,
                     personality_assessment_url: 'https://google.com'
     }
-    let(:location_area) { build_stubbed :location_area, area: area }
+    let(:location_area) { create :location_area, area: area }
 
     describe 'when a personality assessment URL is present on the area' do
       before do
@@ -120,7 +120,7 @@ describe Candidate do
 
     describe 'when there is no personality assessment URL on the area' do
       before do
-        second_location_area = build_stubbed :location_area
+        second_location_area = create :location_area
         candidate.location_area = second_location_area
       end
 
@@ -191,9 +191,10 @@ describe Candidate do
     end
     it 'returns true if a candidate has a location area and if the location area is outsourced' do
       expect(outsource_candidate.outsourced?).to eq(false)
-      outsource_candidate.location_area = location_area
+      outsource_candidate.update location_area: location_area
       expect(outsource_candidate.outsourced?).to eq(false)
-      location_area.outsourced = true
+      outsource_candidate.candidate_source = source
+      location_area.update outsourced: true
       expect(outsource_candidate.outsourced?).to eq(true)
     end
   end

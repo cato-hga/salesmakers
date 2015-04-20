@@ -697,8 +697,8 @@ RSpec.describe Person, :type => :model do
 
   describe 'separation' do
     let(:to_separate) { create :person }
-    let!(:candidate) { create :candidate, person: to_separate, location_area: location_area }
-    let(:location_area) { create :location_area, current_head_count: 1 }
+    let!(:candidate) { create :candidate, person: to_separate, status: :onboarded, location_area: location_area }
+    let(:location_area) { create :location_area }
 
     subject { to_separate.separate }
 
@@ -710,6 +710,7 @@ RSpec.describe Person, :type => :model do
     end
 
     it 'changes a location_area current_head_count' do
+      location_area.reload
       expect {
         subject
         location_area.reload

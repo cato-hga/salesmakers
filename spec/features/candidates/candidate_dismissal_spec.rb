@@ -62,7 +62,7 @@ describe 'Candidate dismissal' do
         end
         it 'reduces the potential candidate count' do
           location_area.reload
-          expect(location_area.potential_candidate_count).to eq(0)
+          expect(location_area.potential_candidate_count).to eq(1)
         end
       end
       context 'form submission failure' do
@@ -82,4 +82,5 @@ describe 'Candidate dismissal' do
       end
     end
   end
+
 end
