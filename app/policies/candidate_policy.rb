@@ -123,4 +123,8 @@ class CandidatePolicy < ApplicationPolicy
   def set_sprint_radio_shack_training_session?
     view_all?
   end
+
+  def set_training_session_status?
+    view_all?
+  end
 end

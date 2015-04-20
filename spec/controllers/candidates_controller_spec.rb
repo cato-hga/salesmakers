@@ -901,4 +901,27 @@ describe CandidatesController do
                from(nil).to(sprint_radio_shack_training_session.id)
     end
   end
+
+  describe 'PUT set_training_session_status' do
+    let!(:candidate) { create :candidate }
+    before { allow(controller).to receive(:policy).and_return double(set_training_session_status?: true) }
+    subject do
+      put :set_training_session_status,
+          id: candidate.id,
+          training_session_status: 'candidate_confirmed'
+    end
+
+    it 'should be a redirect to the candidate show page' do
+      subject
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'saves the SprintRadioShackTrainingSession' do
+      expect {
+        subject
+        candidate.reload
+      }.to change(candidate, :training_session_status).
+               from('pending').to('candidate_confirmed')
+    end
+  end
 end

@@ -93,18 +93,32 @@ describe 'candidate show page' do
     expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
   end
 
-  it 'allows the training session to be set for those with permission' do
-    view_all = create :permission, key: 'candidate_view_all'
-    training_session = create :sprint_radio_shack_training_session
-    recruiter.position.permissions << view_all
-    recruiter.reload
-    visit candidate_path(candidate)
-    within '#new_sprint_radio_shack_training_session' do
-      select training_session.name, from: 'sprint_radio_shack_training_session_id'
-      click_on 'Save'
+  context 'training sessions' do
+    let(:view_all) { view_all = create :permission, key: 'candidate_view_all' }
+    let!(:training_session) { create :sprint_radio_shack_training_session }
+    let!(:status) { 'Candidate Confirmed' }
+    before(:each) do
+      recruiter.position.permissions << view_all
+      recruiter.reload
+      visit candidate_path(candidate)
     end
-    candidate.reload
-    expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+    it 'allows the training session to be set for those with permission' do
+      within '#new_sprint_radio_shack_training_session' do
+        select training_session.name, from: 'sprint_radio_shack_training_session_id'
+        click_on 'Save'
+      end
+      candidate.reload
+      expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+    end
+
+    it 'allows the training session status to be set for those with permission' do
+      within '#training_status' do
+        select status, from: 'training_session_status'
+        click_on 'Save'
+        candidate.reload
+        expect(candidate.training_session_status).to eq('candidate_confirmed')
+      end
+    end
   end
 
   context 'hours widget' do
