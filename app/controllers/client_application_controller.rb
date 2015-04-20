@@ -19,4 +19,8 @@ class ClientApplicationController < BaseApplicationController
     return if current_client_rep
     redirect_to new_session_client_representatives_path
   end
+
+  def current_user
+    current_client_rep
+  end
 end

@@ -45,12 +45,16 @@ class ApplicationPolicy
   protected
 
   def has_permission?(permission_name)
+    permissioned_object = if @user and @user.is_a?(Person)
+                            @user.position
+                          elsif @user and @user.is_a?(ClientRepresentative)
+                            @user
+                          end || return
     key = @record.class.name.underscore + '_' + permission_name
-    return false unless @user and @user.position
     permissions = Permission.where(key: key)
     return false if permissions.empty?
     for permission in permissions do
-      return true if @user.position.permissions.include?(permission)
+      return true if permissioned_object.permissions.include?(permission)
     end
     false
   end

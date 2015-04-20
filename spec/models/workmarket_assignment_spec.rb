@@ -65,4 +65,9 @@ describe WorkmarketAssignment do
     subject.workmarket_location_num = nil
     expect(subject).not_to be_valid
   end
+
+  it 'retrieves a list of client assignments' do
+    subject.save
+    expect(WorkmarketAssignment.for_client(subject.project.client).count).to eq(1)
+  end
 end

@@ -64,6 +64,10 @@ Rails.application.routes.draw do
 
   resources :changelog_entries, only: [:index, :new, :create]
 
+  namespace :client_access do
+    resources :worker_assignments, controller: 'workmarket_assignments'
+  end
+
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
