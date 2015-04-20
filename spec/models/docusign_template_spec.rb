@@ -64,9 +64,9 @@ describe DocusignTemplate do
     }
     let!(:manager) { create :person,
                            display_name: 'Test Manager',
-                           email: 'developers@salesmakersinc.com'
+                            email: 'smiles@retaildoneright.com'
     }
-    let!(:regional) { create :person, display_name: 'Test Regional', email: 'smiles@salesmakersinc.com' }
+    let!(:regional) { create :person, display_name: 'Test Regional', email: 'developers@salesmakersinc.com' }
     let(:person) { create :person }
 
     let!(:person_area) { create :person_area, person: person, area: area }

@@ -70,37 +70,44 @@ class DocusignTemplate < ActiveRecord::Base
                     {
                         label: 'Employee Name',
                         name: 'Employee Name',
-                        value: "#{person.display_name}"
+                        value: "#{person.display_name}",
+                        locked: true
                     },
                     {
                         label: "Last Day Worked",
                         name: "Last Day Worked",
-                        value: "#{last_day_worked.strftime('%m-%d-%y')}"
+                        value: "#{last_day_worked.strftime('%m-%d-%y')}",
+                        locked: true
                     },
                     {
                         label: 'Termination Date',
                         name: 'Termination Date',
-                        value: "#{termination_date.strftime('%m-%d-%y')}"
+                        value: "#{termination_date.strftime('%m-%d-%y')}",
+                        locked: true
                     },
                     {
                         label: 'Remarks',
                         name: 'Remarks',
-                        value: "#{remarks}"
+                        value: "#{remarks}",
+                        locked: true
                     },
                     {
                         label: 'Location',
                         name: 'Location',
-                        value: retail ? 'Retail' : 'Event'
+                        value: retail ? 'Retail' : 'Event',
+                        locked: true
                     },
                     {
                         label: 'Eligible for Rehire',
                         name: 'Eligible for Rehire',
-                        value: rehire ? 'YES' : 'NO'
+                        value: rehire ? 'YES' : 'NO',
+                        locked: true
                     },
                     {
                         label: 'Separation Reason',
                         name: 'Separation Reason',
-                        value: separation_reason
+                        value: separation_reason,
+                        locked: true
                     }
                 ],
             },

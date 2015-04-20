@@ -41,11 +41,11 @@ describe "Terminating a Person" do
       visit person_path terminating_employee
     end
 
-    it 'sends a person to the NOS confirmation/data entry page', pending: 'Unit testing docusign part' do
+    it 'sends a person to the NOS confirmation/data entry page' do
       click_on 'Terminate/NOS Person'
       expect(current_path).to eq(terminate_person_path(terminating_employee))
     end
-    it 'makes the user enter the termination date, last day worked, separation reason, and any remarks', pending: 'Unit testing docusign part' do
+    it 'makes the user enter the termination date, last day worked, separation reason, and any remarks' do
       click_on 'Terminate/NOS Person'
     end
     it 'generates and sends the NOS'
