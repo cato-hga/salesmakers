@@ -21,6 +21,7 @@ class WorkmarketAPI
   end
 
   def authorization_hash
+    return @authorization_hash if @authorization_hash
     response = self.class.post '/authorization/request', {
                                                            headers: {
                                                                'Content-Type' => 'application/x-www-form-urlencoded',
@@ -31,14 +32,21 @@ class WorkmarketAPI
                                                                'secret' => @secret
                                                            }
                                                        }
-    { access_token: response.andand['response'].andand['access_token'] }
+    @authorization_hash = { access_token: response.andand['response'].andand['access_token'] }
   end
 
   def get_completed_assignments
+    statuses = ['complete', 'paymentPending', 'paid', 'refunded']
+    assignments = []
+    statuses.each { |s| assignments.concat get_assignments(s) }
+    assignments
+  end
+
+  def get_assignments status
     assignments = []
     start = 0
     loop do
-      batch = get_assignment_list_batch start
+      batch = get_assignment_list_batch status, start
       start += batch.length
       assignments.concat batch
       break if batch.length < 25
@@ -109,8 +117,8 @@ class WorkmarketAPI
 
   private
 
-  def get_assignment_list_batch start = 0
-    response = doGet '/assignments/list', { status: 'complete', start: start }
+  def get_assignment_list_batch status, start = 0
+    response = doGet '/assignments/list', { status: status, start: start }
     WorkmarketListedAssignmentMapping.extract_collection get_data(response).andand['data'].to_json, :read
   end
 
