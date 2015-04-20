@@ -62,38 +62,52 @@ class Candidate < ActiveRecord::Base
   def active=(is_active)
     return if self[:active] == is_active
     self[:active] = is_active
-    if is_active == false
-      self.set_inactive
-    else
+    if is_active
       self.set_active
+    else
+      self.set_inactive
     end
   end
 
   def set_inactive
-    previous_status = self.status
+    self.location_area = nil
     self.status = :rejected
-    return if self.location_area.nil?
-    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count - 1
-    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-    self.location_area.update offer_extended_count: self.location_area.offer_extended_count - 1
   end
 
   def set_active
-    previous_status = self.status
-    return if self.location_area.nil?
-    self.location_area.update potential_candidate_count: self.location_area.potential_candidate_count + 1
-    return unless Candidate.statuses[previous_status] >= Candidate.statuses['accepted']
-    self.location_area.update offer_extended_count: self.location_area.offer_extended_count + 1
     self.candidate_denial_reason = nil
   end
 
   def person=(person)
+    previous_status_integer = Candidate.statuses[self.status]
     return unless person
     self.status = :onboarded
     self[:person_id] = person.id
     location_area = self.location_area || return
+    offer_extended_count = location_area.offer_extended_count
+    offer_extended_count -= 1 if previous_status_integer >= Candidate.statuses['accepted'] and
+        previous_status_integer < Candidate.statuses['onboarded']
     location_area.update potential_candidate_count: location_area.potential_candidate_count - 1,
-                         current_head_count: location_area.current_head_count + 1
+                         current_head_count: location_area.current_head_count + 1,
+                         offer_extended_count: offer_extended_count
+  end
+
+  def location_area=(location_area)
+    if location_area
+      self.location_area_id = location_area.id
+    else
+      self.location_area_id = nil
+    end
+  end
+
+  def location_area_id=(location_area_id)
+    previous_location_area = self.location_area
+    return if previous_location_area and previous_location_area.id == location_area_id
+    self[:location_area_id] = location_area_id
+    status_integer = Candidate.statuses[self.status]
+    previous_location_area.change_counts(status_integer, -1) if previous_location_area
+    location_area = LocationArea.find location_area_id if location_area_id
+    location_area.change_counts(status_integer, 1) if location_area
   end
 
   def related_log_entries
@@ -147,5 +161,4 @@ class Candidate < ActiveRecord::Base
     closest_area = closest_location_area.area
     self.update potential_area: closest_area
   end
-
 end

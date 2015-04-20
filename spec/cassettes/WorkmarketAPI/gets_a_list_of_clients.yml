@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.workmarket.com/api/v1/authorization/request
+    body:
+      encoding: UTF-8
+      string: token=0Ft3BIzVFhfFOP1dFXmq&secret=n5P0ZNrjpIyuUw7KIBdNW7ENT0TmdAQevTQbk7Ow
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, x-http-method-override
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '1800'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Sun, 19 Apr 2015 21:45:10 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.068,"timestamp":1429479910},"response":{"access_token":"aup60AMW1QSYtReJVBTU"}}'
+    http_version: 
+  recorded_at: Sun, 19 Apr 2015 21:45:12 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/crm/clients/list?access_token=aup60AMW1QSYtReJVBTU
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Sun, 19 Apr 2015 21:45:11 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.137,"timestamp":1429479910},"response":[{"id":26665,"name":"AAFES","customer_id":"101"},{"id":26661,"name":"Bed
+        Bath and Beyond","customer_id":"100"}]}'
+    http_version: 
+  recorded_at: Sun, 19 Apr 2015 21:45:12 GMT
+recorded_with: VCR 2.9.3

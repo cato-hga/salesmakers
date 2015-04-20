@@ -70,6 +70,5 @@ describe ScreeningsController do
         expect(person.screening.drug_screening).to eq('drug_screening_passed')
       end
     end
-
   end
 end

@@ -12,9 +12,11 @@ class Position < ActiveRecord::Base
   def self.return_from_connect_user(connect_user)
     hardcoded_position = get_hardcoded_position(connect_user)
     return hardcoded_position if hardcoded_position
+    project_name = get_project_name(connect_user)
+    position = position_with_name(find_hq_position(connect_user, connect_user.fast_type, connect_user.leader?)) if project_name == 'Corporate'
+    return position if position
     return position_with_name('Advocate') if connect_user.username and
         connect_user.username.include?('hireretailpros.com')
-    project_name = get_project_name(connect_user)
     position = find_position project_name,
                              connect_user.fast_type,
                              event?(connect_user),
