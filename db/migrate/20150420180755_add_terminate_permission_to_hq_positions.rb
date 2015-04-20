@@ -9,8 +9,9 @@ class AddTerminatePermissionToHqPositions < ActiveRecord::Migration
     hr_dir = Position.find_by name: 'Human Resources Director'
     hr_admin = Position.find_by name: 'Human Resources Administrator'
     ssd = Position.find_by name: 'Senior Software Developer'
+    sd = Position.find_by name: 'Software Developer'
 
-    positions = [hr_dir, hr_admin, ssd]
+    positions = [hr_dir, hr_admin, ssd, sd]
     for position in positions
       position.permissions << terminate
       position.save
