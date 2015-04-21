@@ -5,7 +5,10 @@ describe 'assignments index' do
   let!(:project) { create :project, client: client_rep.client }
   let!(:permission) { create :permission, key: 'workmarket_assignment_index' }
   let!(:assignment) { create :workmarket_assignment, project: project }
-  let!(:attachment) { create :workmarket_attachment, workmarket_assignment: assignment }
+  let!(:attachment) {
+    create :workmarket_attachment,
+           workmarket_assignment: assignment
+  }
   let!(:field) { create :workmarket_field, workmarket_assignment: assignment }
   let!(:location) { create :workmarket_location, workmarket_location_num: assignment.workmarket_location_num }
 

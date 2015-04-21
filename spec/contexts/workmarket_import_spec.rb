@@ -42,9 +42,15 @@ describe WorkmarketImport do
     }.to change(WorkmarketAttachment, :count).by_at_least(1)
   end
 
+  it 'saves the attachments', :vcr do
+    import.execute
+    expect(File.exist?('public/uploads/020986f0-4aca-4af3-bc50-af58d921e9ab/image.jpg')).to be_truthy
+  end
+
   it 'saves custom fields', :vcr do
     expect {
       import.execute
     }.to change(WorkmarketField, :count).by_at_least(1)
   end
+
 end

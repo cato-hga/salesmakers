@@ -23,10 +23,11 @@
         %br/
         %strong Worker's Last Name:
         = @assignment.worker_last_name
+        - if view_all
+          %br/
+          %strong Worker's Email Address:
+          = mail_to @assignment.worker_email
       - if view_all
-        %br/
-        %strong Worker's Email Address:
-        = mail_to @assignment.worker_email
         %p
           %strong Cost:
           = number_to_currency @assignment.cost
@@ -57,10 +58,10 @@
         %h3 Non-Image Attachments
         - for attachment in non_image_attachments do
           %p
-            = link_to attachment.filename, "https://www.workmarket.com#{attachment.url}", target: '_blank'
+            = link_to attachment.filename, "/uploads/#{attachment.guid}/#{URI::encode(attachment.filename)}", target: '_blank'
   - for attachment in image_attachments do
     .widget
       .inner
-        = link_to image_tag("https://www.workmarket.com#{attachment.url}"), "https://www.workmarket.com#{attachment.url}", data: { lightbox: attachment.url }, class: [:no_loading_indicator]
+        = link_to image_tag("/uploads/#{attachment.guid}/#{URI::encode(attachment.filename)}"), "/uploads/#{attachment.guid}/#{URI::encode(attachment.filename)}", data: { lightbox: attachment.url }, class: [:no_loading_indicator]
         %p
           = attachment.filename

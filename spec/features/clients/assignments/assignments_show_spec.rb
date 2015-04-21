@@ -5,7 +5,10 @@ describe 'assignments index' do
   let!(:project) { create :project, client: client_rep.client }
   let!(:permission) { create :permission, key: 'workmarket_assignment_show' }
   let!(:assignment) { create :workmarket_assignment, project: project }
-  let!(:attachment) { create :workmarket_attachment, workmarket_assignment: assignment }
+  let!(:attachment) {
+    create :workmarket_attachment,
+           workmarket_assignment: assignment
+  }
   let!(:field) { create :workmarket_field, workmarket_assignment: assignment }
   let!(:location) { create :workmarket_location, workmarket_location_num: assignment.workmarket_location_num }
 
@@ -52,7 +55,7 @@ describe 'assignments index' do
     end
 
     it 'shows the attachments' do
-      expect(page).to have_selector("img[src='https://www.workmarket.com#{attachment.url}']")
+      expect(page).to have_selector("img[src$='#{URI::encode(attachment.filename)}']")
     end
 
     it 'shows the attachment filenames' do
@@ -74,4 +77,5 @@ describe 'assignments index' do
       expect(page).to have_selector('a', text: assignment.worker_email)
     end
   end
+
 end
