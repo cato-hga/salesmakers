@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421011352) do
+ActiveRecord::Schema.define(version: 20150421190124) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -974,6 +974,27 @@ ActiveRecord::Schema.define(version: 20150421011352) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sprint_sales", force: :cascade do |t|
+    t.string "carrier_name", null: false
+    t.text "comments"
+    t.string "connect_sprint_sale_id"
+    t.datetime "created_at", null: false
+    t.string "handset_model_name", null: false
+    t.integer "location_id", null: false
+    t.string "meid", null: false
+    t.string "mobile_phone", null: false
+    t.integer "person_id", null: false
+    t.boolean "phone_activated_in_store", default: false, null: false
+    t.string "picture_with_customer", null: false
+    t.string "rate_plan_name", null: false
+    t.string "reason_not_activated_in_store"
+    t.date "sale_date", null: false
+    t.float "top_up_card_amount"
+    t.boolean "top_up_card_purchased", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "upgrade", default: false, null: false
   end
 
   create_table "technology_service_providers", force: :cascade do |t|
