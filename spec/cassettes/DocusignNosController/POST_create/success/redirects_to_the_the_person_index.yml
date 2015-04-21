@@ -40,21 +40,21 @@ http_interactions:
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '989'
+      - '985'
       Date:
-      - Tue, 21 Apr 2015 18:38:20 GMT
+      - Tue, 21 Apr 2015 18:43:11 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"9f1f78ea-f9d4-4ce3-920b-5c0cf2571d74\",\r\n
-        \ \"uri\": \"/envelopes/9f1f78ea-f9d4-4ce3-920b-5c0cf2571d74\",\r\n  \"statusDateTime\":
-        \"2015-04-21T18:38:20.3430000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"551cca74-42ef-4bb2-8138-ad15cedd4ffe\",\r\n
+        \ \"uri\": \"/envelopes/551cca74-42ef-4bb2-8138-ad15cedd4ffe\",\r\n  \"statusDateTime\":
+        \"2015-04-21T18:43:11.1130000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Tue, 21 Apr 2015 18:38:21 GMT
+  recorded_at: Tue, 21 Apr 2015 18:43:11 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/9f1f78ea-f9d4-4ce3-920b-5c0cf2571d74
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/551cca74-42ef-4bb2-8138-ad15cedd4ffe
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -81,12 +81,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 21 Apr 2015 18:38:21 GMT
+      - Tue, 21 Apr 2015 18:43:12 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Tue, 21 Apr 2015 18:38:22 GMT
+  recorded_at: Tue, 21 Apr 2015 18:43:13 GMT
 recorded_with: VCR 2.9.3

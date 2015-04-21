@@ -64,5 +64,32 @@ describe DocusignNosController do
       end
     end
 
+    context 'failure' do
+      subject {
+        allow_any_instance_of(DocusignTemplate).to receive(:send_nos).and_return(nil)
+        allow_any_instance_of(DocusignNos).to receive(:save).and_return(false)
+        post :create,
+             person_id: person.id,
+             docusign_nos: {
+                 eligible_to_rehire: nil,
+                 termination_date: Date.today.to_s,
+                 last_day_worked: Date.yesterday.to_s,
+                 employment_end_reason_id: reason.id,
+                 remarks: 'Test remarks'
+             }
+      }
+      it 'does not create a DocusignNOS object', :vcr do
+        expect { subject }.not_to change(DocusignNos, :count)
+      end
+      it 'does not deactivate the person', :vcr do
+        subject
+        person.reload
+        expect(person.active).to eq(true)
+      end
+      it 'renders the new template', :vcr do
+        subject
+        expect(response).to redirect_to person_path(person)
+      end
+    end
   end
 end

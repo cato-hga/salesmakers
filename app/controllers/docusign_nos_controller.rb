@@ -30,6 +30,9 @@ class DocusignNosController < ApplicationController
     )
     if response
       @nos.envelope_guid = response
+    else
+      flash[:notice] = 'NOS could not be sent. Please send manually'
+      redirect_to @person and return
     end
     if @nos.save
       flash[:notice] = 'NOS form sent. Please sign off to complete!'
@@ -38,7 +41,8 @@ class DocusignNosController < ApplicationController
                            @person
       redirect_to people_path
     else
-      puts @nos.errors.full_messages
+      flash[:notice] = 'NOS could not be sent. Please send manually'
+      redirect_to @person
     end
   end
 
