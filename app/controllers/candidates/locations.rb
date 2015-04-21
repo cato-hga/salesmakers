@@ -24,10 +24,10 @@ module Candidates::Locations
 
   def handle_location_area
     if @location_area.outsourced?
-      candidate_location_outsourced and return
+      candidate_location_outsourced
     end
     if @back_to_confirm
-      back_to_confirmation and return
+      back_to_confirm
     else
       candidate_location_completion
     end
