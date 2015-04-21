@@ -76,7 +76,7 @@ describe DocusignTemplate do
     let(:remark) { 'This is a test remark that will go over a string length and into a text area length' }
 
     it 'sends an NOS', :vcr do
-      envelope_response = DocusignTemplate.send_nos(person, manager, regional, DateTime.now, DateTime.now, reason, false, false, remark)
+      envelope_response = DocusignTemplate.send_nos(person, regional, DateTime.now, DateTime.now, reason, false, false, remark)
       expect(envelope_response.length).to be > 0
     end
   end

@@ -10,7 +10,8 @@ describe "Terminating a Person" do
   let(:permission_terminate) { Permission.new key: 'person_terminate',
                                               permission_group: permission_group,
                                               description: 'Test Description' }
-  let(:correct_area) { create :area }
+  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:correct_area) { create :area, project: project }
   let(:other_area) { create :area }
   let!(:terminating_employee_person_area) { create :person_area, person: terminating_employee, manages: false, area: correct_area }
   let!(:correct_person_area) { create :person_area, person: correct_manager, manages: true, area: correct_area }
@@ -45,9 +46,15 @@ describe "Terminating a Person" do
       click_on 'Terminate/NOS Person'
       expect(current_path).to eq(terminate_person_path(terminating_employee))
     end
-    it 'makes the user enter the termination date, last day worked, separation reason, and any remarks' do
+    it 'makes the user enter the termination date, last day worked, separation reason, eligible for rehire, and any remarks' do
       click_on 'Terminate/NOS Person'
+      click_on 'Send NOS'
+      expect(page).to have_content 'The rehire eligibility of the employee must be selected'
+      expect(page).to have_content 'A Separation Reason must be selected'
+      expect(page).to have_content 'The date entered could not be used. Please double check and try to send again'
+      expect(current_path).to eq(terminate_person_path(terminating_employee))
     end
+
     it 'generates and sends the NOS'
     it 'creates an object with the envelope guid tracked'
     it 'creates log entries (person as referencable, trackable is generated object)'

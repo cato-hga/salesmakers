@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150420184745) do
+ActiveRecord::Schema.define(version: 20150421130513) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -198,6 +198,20 @@ ActiveRecord::Schema.define(version: 20150420184745) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "client_representatives", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "name", null: false
+    t.string "password_digest", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_representatives_permissions", id: false, force: :cascade do |t|
+    t.integer "client_representative_id"
+    t.integer "permission_id"
+  end
+
   create_table "clients", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -373,6 +387,18 @@ ActiveRecord::Schema.define(version: 20150420184745) do
   add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
+
+  create_table "docusign_nos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "eligible_to_rehire", default: false, null: false
+    t.string "envelope_guid", null: false
+    t.date "last_day_worked", null: false
+    t.integer "person_id", null: false
+    t.text "remarks"
+    t.integer "separation_reason_id", null: false
+    t.date "termination_date", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "docusign_templates", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -996,6 +1022,11 @@ ActiveRecord::Schema.define(version: 20150420184745) do
     t.string "assessment"
   end
 
+  create_table "tmp_all_sprint", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "store_num"
+  end
+
   create_table "tmp_candidates", id: false, force: :cascade do |t|
     t.integer "cid"
     t.string "state"
@@ -1303,6 +1334,7 @@ ActiveRecord::Schema.define(version: 20150420184745) do
   create_table "workmarket_attachments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "filename", null: false
+    t.string "guid", null: false
     t.datetime "updated_at", null: false
     t.string "url", null: false
     t.integer "workmarket_assignment_id", null: false

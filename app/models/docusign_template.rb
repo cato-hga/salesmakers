@@ -51,7 +51,7 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
-  def self.send_nos(person, sender, manager, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
+  def self.send_nos(person, sender, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
     project = person.person_areas.first.project
     template = DocusignTemplate.find_by(project: project, document_type: DocusignTemplate.document_types[:nos]) || return
     client = DocusignRest::Client.new
@@ -110,11 +110,6 @@ class DocusignTemplate < ActiveRecord::Base
                         locked: true
                     }
                 ],
-            },
-            {
-                name: manager.display_name,
-                email: manager.email,
-                role_name: 'Regional Manager'
             }
         ]
     )

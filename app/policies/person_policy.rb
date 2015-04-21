@@ -12,4 +12,8 @@ class PersonPolicy < ApplicationPolicy
   def terminate?
     has_permission? 'terminate'
   end
+
+  def send_nos?
+    has_permission? 'terminate'
+  end
 end
