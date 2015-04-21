@@ -87,6 +87,7 @@ describe 'changelog entry display' do
       within '#changelog' do
         find('a', text: 'Dismiss').click
       end
+      sleep 2
       visit root_path
       expect(page).not_to have_content(feature_four.heading)
     end
