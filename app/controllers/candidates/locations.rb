@@ -24,7 +24,7 @@ module Candidates::Locations
 
   def handle_location_area
     if @location_area.outsourced?
-      candidate_location_outsourced
+      candidate_location_outsourced and return
     end
     if @back_to_confirm
       back_to_confirm
