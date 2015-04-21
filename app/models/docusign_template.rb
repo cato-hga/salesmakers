@@ -53,9 +53,10 @@ class DocusignTemplate < ActiveRecord::Base
 
   def self.send_nos(person, sender, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
     project = person.person_areas.first.project
-    template = DocusignTemplate.find_by(project: project, document_type: DocusignTemplate.document_types[:nos]) || return
+    retail = retail == 'Retail' ? true : false
+    template = DocusignTemplate.find_by(state: 'FL', project: project, document_type: DocusignTemplate.document_types[:nos]) || return
     client = DocusignRest::Client.new
-    created_envelope = client.create_envelope_from_template(
+    hash = {
         status: 'created',
         email: {
             subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
@@ -94,25 +95,26 @@ class DocusignTemplate < ActiveRecord::Base
                     {
                         label: 'Location',
                         name: 'Location',
-                        value: retail ? 'Retail' : 'Event',
+                        value: retail,
                         locked: true
                     },
                     {
                         label: 'Eligible for Rehire',
                         name: 'Eligible for Rehire',
-                        value: rehire ? 'YES' : 'NO',
+                        value: rehire,
                         locked: true
                     },
                     {
                         label: 'Separation Reason',
                         name: 'Separation Reason',
-                        value: separation_reason,
+                        value: separation_reason.name,
                         locked: true
                     }
-                ],
+                ]
             }
         ]
-    )
+    }
+    created_envelope = client.create_envelope_from_template(hash)
     return unless created_envelope['envelopeId']
     send_envelope(created_envelope['envelopeId'])
   end

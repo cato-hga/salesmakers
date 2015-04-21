@@ -132,46 +132,7 @@ class PeopleController < ProtectedController
     render nothing: true
   end
 
-  def terminate
-    authorize Person.new
-    @person = policy_scope(Person).find params[:id]
-  end
-
-  def send_nos
-    puts params.inspect
-    authorize Person.new
-    @person = policy_scope(Person).find params[:id]
-    @eligible = send_nos_params[:eligible_for_rehire]
-    @termination_date = Chronic.parse send_nos_params[:termination_date]
-    @last_day_worked = Chronic.parse send_nos_params[:last_day_worked]
-    @separation_reason = send_nos_params[:separation_reason]
-    @remarks = send_nos_params[:remarks]
-    if @eligible.blank? or @last_day_worked.blank? or @termination_date.blank? or @separation_reason.blank?
-      if @eligible.blank?
-        flash[:error] = 'The rehire eligibility of the employee must be selected'
-      end
-      if @termination_date == nil or @last_day_worked == nil
-        flash[:error] = 'The date entered could not be used. Please double check and try to send again'
-      end
-      if @separation_reason.blank?
-        flash[:error] = 'A Separation Reason must be selected'
-      end
-      render :terminate and return
-    end
-  end
-
   private
-
-  def send_nos_params
-    params.permit(
-        :eligible_for_rehire,
-        :termination_date,
-        :id,
-        :last_day_worked,
-        :separation_reason,
-        :remarks
-    )
-  end
 
   def person_params
     if @person == @current_person

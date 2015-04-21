@@ -72,7 +72,7 @@ describe DocusignTemplate do
     let!(:person_area) { create :person_area, person: person, area: area }
     let(:area) { create :area, project: project }
     let(:project) { create :project }
-    let(:reason) { 'M103 Sleeping on the Job' }
+    let(:reason) { create :employment_end_reason, name: 'M103 Sleeping on the Job', active: true }
     let(:remark) { 'This is a test remark that will go over a string length and into a text area length' }
 
     it 'sends an NOS', :vcr do

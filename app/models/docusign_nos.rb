@@ -9,4 +9,5 @@ class DocusignNos < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :employment_end_reason
+
 end
