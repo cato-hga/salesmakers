@@ -146,6 +146,7 @@ GEM
       redcarpet (~> 3.1)
       rinku (~> 1.5.0)
     awesome_print (1.6.1)
+    bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -443,6 +444,9 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rack_session_access (0.1.1)
+      builder (>= 2.0.0)
+      rack (>= 1.0.0)
     rails (4.2.0)
       actionmailer (= 4.2.0)
       actionpack (= 4.2.0)
@@ -677,6 +681,7 @@ DEPENDENCIES
   attribute_normalizer (= 1.2.0)
   auto_html (= 1.6.4)
   awesome_print (= 1.6.1)
+  bcrypt (= 3.1.10)
   better_errors (= 2.1.1)
   binding_of_caller (= 0.7.2)
   bitly!
@@ -736,6 +741,7 @@ DEPENDENCIES
   puma (= 2.11.0)
   pundit!
   rack-cache (= 1.2)
+  rack_session_access (= 0.1.1)
   rails (= 4.2.0)
   rails_best_practices (= 1.15.4)
   ransack (= 1.6.2)

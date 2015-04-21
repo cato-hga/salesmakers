@@ -1,0 +1,10 @@
+- title 'Client Representative Login'
+
+.widget
+  .inner
+    = form_for :session, url: create_session_client_representatives_path do |f|
+      = f.label :email, 'Email address'
+      = f.email_field :email
+      = f.label :password
+      = f.password_field :password
+      = f.submit 'Log in', class: [:button]

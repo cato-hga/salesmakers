@@ -83,7 +83,18 @@ class WorkmarketImport
   def import_attachments json
     attachments = @api.get_attachments json
     return if attachments.nil?
-    attachments.each { |a| a.save }
+    attachments.each do |a|
+      a.save
+      FileUtils.mkdir_p 'public/uploads/' + a.guid
+      File.open("public/uploads/#{a.guid}/#{a.filename}", 'wb') do |f|
+        f.write(Base64.decode64(get_attachment_base64(a.guid)))
+      end
+    end
+  end
+
+  def get_attachment_base64 guid
+    return if guid.nil?
+    @api.get_attachment_base64 guid
   end
 
   def import_fields json

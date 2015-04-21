@@ -1,0 +1,20 @@
+- title 'Welcome'
+
+.widget
+  .inner
+    %h3
+      = current_client_rep.client.name
+      Client Access
+    %p
+      Welcome to your client access interface for SalesMakers, Inc.
+    %p
+      You've been granted access to specific resources, which you should
+      find in the menu at the top of the screen. If you are on a mobile
+      device, you can find the menu by tapping the button at the top
+      left of your screen.
+    %p
+      If you would like to request training, ask a specific question, or
+      offer feedback, we'd love to hear from you. Please contact your
+      SalesMakers, Inc. project manager or email
+      = succeed '.' do
+        = mail_to 'developers@salesmakersinc.com'

@@ -43,6 +43,7 @@ $(function(){
 		not('.nested_areas_icon').
 		not('a:not([href])').
 		not('a[data-attachment]').
+		not('.no_loading_indicator').
 		on('click', function() {
 			$('#page_load').show();
 	});

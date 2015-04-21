@@ -19,6 +19,13 @@ class WorkmarketAssignment < ActiveRecord::Base
   has_many :workmarket_attachments
   has_many :workmarket_fields
 
+  default_scope { order started: :desc, ended: :desc, title: :asc }
+
+  scope :for_client, ->(client) {
+    return if client.nil?
+    where(project: client.projects)
+  }
+
   private
 
   def namecase

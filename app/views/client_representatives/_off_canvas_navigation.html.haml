@@ -1,0 +1,18 @@
+%nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
+  %section.left-small
+    %a.left-off-canvas-toggle.menu-icon
+      %span
+  %section.middle.tab-bar-section
+    %h1.title SalesCenter
+%aside.left-off-canvas-menu
+  %ul.off-canvas-list
+    %li
+      %label Menu
+    %li
+      = link_to 'Home', welcome_client_representatives_path
+  - if current_client_rep
+    %ul.off-canvas-list
+      %li
+        %label= current_client_rep.email
+      %li
+        = link_to icon('x') + ' Sign Out', destroy_session_client_representatives_path, method: :delete

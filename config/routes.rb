@@ -65,6 +65,10 @@ Rails.application.routes.draw do
 
   resources :changelog_entries, only: [:index, :new, :create]
 
+  namespace :client_access do
+    resources :worker_assignments, controller: 'workmarket_assignments', only: [:index, :show]
+  end
+
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
@@ -80,6 +84,15 @@ Rails.application.routes.draw do
     end
     member do
       get :sales, as: :sales
+    end
+  end
+
+  resources :client_representatives do
+    collection do
+      get :new_session, as: :new_session
+      post :create_session, as: :create_session
+      get :welcome, as: :welcome
+      delete :destroy_session, as: :destroy_session
     end
   end
 

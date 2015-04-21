@@ -88,6 +88,12 @@ class WorkmarketAPI
     attachments.each { |a| a.workmarket_assignment = workmarket_assignment }
   end
 
+  def get_attachment_base64 uuid
+    return if uuid.nil?
+    response = doGet '/assignments/attachments/get', { uuid: uuid }
+    get_data(response).andand['attachment']
+  end
+
   def get_custom_fields assignment_json
     return if assignment_json.nil?
     custom_fields_json = assignment_json.

@@ -70,6 +70,7 @@ gem 'andand', '1.3.3' # Navigate nested hashes without getting NoMethodErrors
 gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
+gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
@@ -102,6 +103,7 @@ group :test do
   gem 'codeclimate-test-reporter', '0.4.5', require: nil #codeclimate test coverage
   gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
   gem 'timecop', '0.7.3' # Alter times in testing
+  gem 'rack_session_access', '0.1.1' # Ability to access session hash from tests
 end
 
 group :production do

@@ -21,7 +21,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - '*'
+      - "*"
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -135,7 +135,7 @@ http_interactions:
       Access-Control-Allow-Methods:
       - GET, POST, PUT, DELETE
       Access-Control-Allow-Origin:
-      - '*'
+      - "*"
       Access-Control-Max-Age:
       - '1800'
       Content-Type:
@@ -378,7 +378,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 20 Apr 2015 18:41:24 GMT
+      - Mon, 20 Apr 2015 15:21:14 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
@@ -389,7 +389,7 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.108,"timestamp":1429555284},"response":{"total_results":10,"count":10,"start":0,"limit":25,"data":[{"id":"4816176699","project_id":932253,"title":"Sales
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.189,"timestamp":1429543274},"response":{"total_results":10,"count":10,"start":0,"limit":25,"data":[{"id":"4816176699","project_id":932253,"title":"Sales
         Makers - Retail Assisted Sales - Representing DripDrop","scheduled_start":1429372800,"scheduled_end":1429394400,"city":"WASHINGTON","state":"DC","postal_code":"20032","location_id":"1040404","spend_limit":"94.5","modified_status":"Payment
         Pending","status":"paymentPending","substatuses":[],"labels":[],"internal_owner":"Elisabeth
         Hillyer","client":"AAFES","client_id":26665,"paid_date":null,"total_cost":"94.5","resource_company_name":"Sole
@@ -446,7 +446,7 @@ http_interactions:
         Proprietor","resource_user_number":"81231858","resource_full_name":"gilbert
         escalante","last_modified_on":1429515898,"modifier_first_name":"g","modifier_last_name":"escalante"}]}}'
     http_version: 
-  recorded_at: Mon, 20 Apr 2015 18:41:24 GMT
+  recorded_at: Mon, 20 Apr 2015 15:21:15 GMT
 - request:
     method: get
     uri: https://www.workmarket.com/api/v1/assignments/list?access_token=LYBMAHIIMRWJnsMBotIf&start=0&status=paid
@@ -466,20 +466,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 20 Apr 2015 18:41:24 GMT
+      - Mon, 20 Apr 2015 15:21:15 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '169'
+      - '170'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.08,"timestamp":1429555284},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.122,"timestamp":1429543275},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
     http_version: 
-  recorded_at: Mon, 20 Apr 2015 18:41:24 GMT
+  recorded_at: Mon, 20 Apr 2015 15:21:15 GMT
 - request:
     method: get
     uri: https://www.workmarket.com/api/v1/assignments/list?access_token=LYBMAHIIMRWJnsMBotIf&start=0&status=refunded
@@ -499,7 +499,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 20 Apr 2015 18:41:25 GMT
+      - Mon, 20 Apr 2015 15:21:15 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
@@ -510,7 +510,7 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.085,"timestamp":1429555284},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.053,"timestamp":1429543275},"response":{"total_results":0,"count":0,"start":0,"limit":25,"data":[]}}'
     http_version: 
-  recorded_at: Mon, 20 Apr 2015 18:41:25 GMT
+  recorded_at: Mon, 20 Apr 2015 15:21:16 GMT
 recorded_with: VCR 2.9.3

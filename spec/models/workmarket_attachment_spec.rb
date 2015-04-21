@@ -17,4 +17,9 @@ describe WorkmarketAttachment do
     subject.url = nil
     expect(subject).not_to be_valid
   end
+
+  it 'requires a guid' do
+    subject.guid = nil
+    expect(subject).not_to be_valid
+  end
 end
