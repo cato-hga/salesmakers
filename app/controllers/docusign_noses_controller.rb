@@ -13,23 +13,28 @@ class DocusignNosesController < ApplicationController
     @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
     @eligible = docusign_nos_params[:eligible_to_rehire]
     @nos = DocusignNos.new docusign_nos_params
-
+    @nos.termination_date = @termination_date
+    @nos.last_day_worked = @last_day_worked
     if @termination_date.blank? or @last_day_worked.blank? or @separation_reason.blank? or @eligible == ''
       check_and_handle_errors
       render :new and return
     end
     @nos.person = @person
-    retail = @person.person_areas.first.area.project.name.include?('Retail') ? true : false
-    response = DocusignTemplate.send_nos(
-        @person,
-        @current_person,
-        @last_day_worked,
-        @termination_date,
-        @separation_reason,
-        @eligible,
-        retail,
-        docusign_nos_params[:remarks],
-    )
+    retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
+    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
+      response = 'STAGING'
+    else
+      response = DocusignTemplate.send_nos(
+          @person,
+          @current_person,
+          @last_day_worked,
+          @termination_date,
+          @separation_reason,
+          @eligible,
+          retail,
+          docusign_nos_params[:remarks],
+      )
+    end
     if response
       @nos.envelope_guid = response
     else
@@ -43,7 +48,7 @@ class DocusignNosesController < ApplicationController
                            @person
       redirect_to people_path
     else
-      flash[:error] = 'NOS could not be sent. Please send manually'
+      flash[:error] = 'NOS sent, but there was an uncaught error. Double check NOS and send again if necessary'
       redirect_to @person
     end
   end

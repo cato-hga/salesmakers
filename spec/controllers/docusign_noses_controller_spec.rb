@@ -25,6 +25,7 @@ describe DocusignNosesController do
     let!(:reason) { EmploymentEndReason.create name: 'Test Reason', active: true }
     before {
       CASClient::Frameworks::Rails::Filter.fake(manager.email)
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
       allow(controller).to receive(:policy).and_return double(terminate?: true)
     }
 
@@ -34,8 +35,8 @@ describe DocusignNosesController do
              person_id: person.id,
              docusign_nos: {
                  eligible_to_rehire: false,
-                 termination_date: Date.today.to_s,
-                 last_day_worked: Date.yesterday.to_s,
+                 termination_date: 'today',
+                 last_day_worked: 'today',
                  employment_end_reason_id: reason.id,
                  remarks: 'Test remarks'
              }
@@ -72,8 +73,8 @@ describe DocusignNosesController do
              person_id: person.id,
              docusign_nos: {
                  eligible_to_rehire: '',
-                 termination_date: Date.today.to_s,
-                 last_day_worked: Date.yesterday.to_s,
+                 termination_date: 'today',
+                 last_day_worked: 'today',
                  employment_end_reason_id: reason.id,
                  remarks: 'Test remarks'
              }

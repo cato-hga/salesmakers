@@ -18,6 +18,7 @@ describe "Terminating a Person" do
   let!(:terminating_employee_person_area) { create :person_area, person: terminating_employee, manages: false, area: correct_area }
   let!(:correct_person_area) { create :person_area, person: correct_manager, manages: true, area: correct_area }
   let!(:other_manager_person_area) { create :person_area, person: other_manager, manages: true, area: other_area }
+  let!(:reason) { create :employment_end_reason }
 
   context 'via the NOS screen, for unauthorized users' do
 
@@ -55,13 +56,30 @@ describe "Terminating a Person" do
       expect(page).to have_content 'Termination date entered could not be used or is blank. Please double check and try again'
       expect(page).to have_content 'Last day worked entered could not be used or is blank. Please double check and try again'
     end
-    it 'generates and sends the NOS'
-    it 'creates an object with the envelope guid tracked'
-    it 'creates log entries (person as referencable, trackable is generated object)'
-    it 'sends the correct NOS for the project'
-    it 'sends the correct NOS for the state, if necessary'
-    it 'does not deactivate the person or take any action'
-    it 'keeps track of the generated time, and alerts if the person is still active after a few days of the NOS being generated'
+
+    context 'successful sending' do
+      before(:each) do
+        click_on 'Terminate/NOS Person'
+        fill_in :docusign_nos_termination_date, with: 'today'
+        fill_in :docusign_nos_last_day_worked, with: 'today'
+        select reason.name, from: :docusign_nos_employment_end_reason_id
+        select "No", from: :docusign_nos_eligible_to_rehire
+        click_on 'Send NOS'
+      end
+      it 'generates and sends the NOS'
+      it 'creates an object with the envelope guid tracked', :vcr do
+        expect(page).to have_content 'NOS form sent'
+      end
+      it 'creates log entries (person as referencable, trackable is generated object)', :vcr do
+        visit person_path terminating_employee
+        expect(page).to have_content 'initiated a Notice of Separation'
+      end
+      it 'does not deactivate the person or take any action', :vcr do
+        terminating_employee.reload
+        expect(terminating_employee.active).to eq(true)
+      end
+      it 'keeps track of the generated time, and alerts if the person is still active after a few days of the NOS being generated'
+    end
   end
 
   context 'once HR signs the NOS' do

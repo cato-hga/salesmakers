@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422152137) do
+ActiveRecord::Schema.define(version: 20150422172724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -393,10 +393,10 @@ ActiveRecord::Schema.define(version: 20150422152137) do
     t.boolean "eligible_to_rehire", default: false, null: false
     t.integer "employment_end_reason_id", null: false
     t.string "envelope_guid", null: false
-    t.date "last_day_worked", null: false
+    t.datetime "last_day_worked", null: false
     t.integer "person_id", null: false
     t.text "remarks"
-    t.date "termination_date", null: false
+    t.datetime "termination_date", null: false
     t.datetime "updated_at", null: false
   end
 
