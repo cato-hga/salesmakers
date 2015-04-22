@@ -1,5 +1,7 @@
 - title "Terminate #{@person.display_name}"
-
+- if @nos.errors.any?
+  - @nos.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
 
 .widget
   .inner

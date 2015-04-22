@@ -22,7 +22,7 @@ describe DocusignNosesController do
   end
 
   describe 'POST create' do
-    let(:reason) { EmploymentEndReason.create name: 'Test Reason', active: true }
+    let!(:reason) { EmploymentEndReason.create name: 'Test Reason', active: true }
     before {
       CASClient::Frameworks::Rails::Filter.fake(manager.email)
       allow(controller).to receive(:policy).and_return double(terminate?: true)
@@ -88,7 +88,7 @@ describe DocusignNosesController do
       end
       it 'renders the new template', :vcr do
         subject
-        expect(response).to redirect_to person_path(person)
+        expect(response).to render_template(:new)
       end
     end
   end
