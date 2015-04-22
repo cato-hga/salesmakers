@@ -27,6 +27,15 @@ describe SprintSale do
     expect(subject).not_to be_valid
   end
 
+  it 'requires that MEID be 4 or 18 characters' do
+    subject.meid = 'SWAS'
+    expect(subject).to be_valid
+    subject.meid = 'SWASH'
+    expect(subject).not_to be_valid
+    subject.meid = '123456789012345678'
+    expect(subject).to be_valid
+  end
+
   it 'requires a carrier name' do
     subject.carrier_name = nil
     expect(subject).not_to be_valid
