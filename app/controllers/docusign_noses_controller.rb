@@ -8,52 +8,76 @@ class DocusignNosesController < ApplicationController
   end
 
   def create
-    @termination_date = Chronic.parse docusign_nos_params[:termination_date]
-    @last_day_worked = Chronic.parse docusign_nos_params[:last_day_worked]
-    @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
-    @eligible = docusign_nos_params[:eligible_to_rehire]
+    get_special_params
     @nos = DocusignNos.new docusign_nos_params
+    verify_data; return if performed?
+    assign_special_params
+    get_nos_response
+    handle_response; return if performed?
+    handle_nos_saving; return if performed?
+  end
+
+  private
+
+  def assign_special_params
     @nos.termination_date = @termination_date
     @nos.last_day_worked = @last_day_worked
-    if @termination_date.blank? or @last_day_worked.blank? or @separation_reason.blank? or @eligible == ''
-      check_and_handle_errors
-      render :new and return
-    end
     @nos.person = @person
-    retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
-    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
-      response = 'STAGING'
+  end
+
+  def handle_response
+    if @response
+      @nos.envelope_guid = @response
     else
-      response = DocusignTemplate.send_nos(
+      flash[:error] = 'NOS could not be sent. Please send manually'
+      redirect_to @person and return
+    end
+  end
+
+  def handle_nos_saving
+    if @nos.save
+      flash[:notice] = 'NOS form sent. Please sign off to complete!'
+      @current_person.log? 'sent_nos',
+                           @nos,
+                           @person
+      redirect_to people_path and return
+    else
+      flash[:error] = 'NOS sent, but there was an uncaught error. Double check NOS and send again if necessary'
+      redirect_to @person and return
+    end
+  end
+
+  def get_nos_response
+    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
+      @response = 'STAGING'
+    else
+      @response = DocusignTemplate.send_nos(
           @person,
           @current_person,
           @last_day_worked,
           @termination_date,
           @separation_reason,
           @eligible,
-          retail,
+          @retail,
           docusign_nos_params[:remarks],
       )
     end
-    if response
-      @nos.envelope_guid = response
-    else
-      flash[:error] = 'NOS could not be sent. Please send manually'
-      redirect_to @person and return
-    end
-    if @nos.save
-      flash[:notice] = 'NOS form sent. Please sign off to complete!'
-      @current_person.log? 'sent_nos',
-                           @nos,
-                           @person
-      redirect_to people_path
-    else
-      flash[:error] = 'NOS sent, but there was an uncaught error. Double check NOS and send again if necessary'
-      redirect_to @person
-    end
   end
 
-  private
+  def get_special_params
+    @termination_date = Chronic.parse docusign_nos_params[:termination_date]
+    @last_day_worked = Chronic.parse docusign_nos_params[:last_day_worked]
+    @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
+    @eligible = docusign_nos_params[:eligible_to_rehire]
+    @retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
+  end
+
+  def verify_data
+    if @termination_date.blank? or @last_day_worked.blank? or @separation_reason.blank? or @eligible == ''
+      check_and_handle_errors
+      render :new and return
+    end
+  end
 
   def check_and_handle_errors
     if @termination_date.blank?
