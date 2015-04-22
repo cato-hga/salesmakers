@@ -3,14 +3,12 @@ class SprintSale < ActiveRecord::Base
   validates :person, presence: true
   validates :location, presence: true
   validates :meid, length: { is: 18 }
-  validates :mobile_phone, length: { is: 10 }
   validates :carrier_name, length: { minimum: 1 }
   validates :handset_model_name, length: { minimum: 1 }
   validates :rate_plan_name, length: { minimum: 1 }
   validates :upgrade, inclusion: { in: [true, false ] }
   validates :top_up_card_purchased, inclusion: { in: [true, false ] }
   validates :phone_activated_in_store, inclusion: { in: [true, false ] }
-  validates :picture_with_customer, length: { minimum: 2 }
 
   belongs_to :person
   belongs_to :location
