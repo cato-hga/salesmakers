@@ -47,13 +47,13 @@ describe "Terminating a Person" do
       click_on 'Terminate/NOS Person'
       expect(current_path).to eq(new_person_docusign_nos_path(terminating_employee))
     end
-    it 'makes the user enter the termination date, last day worked, separation reason, eligible for rehire, and any remarks', :pending do
+    it 'makes the user enter the termination date, last day worked, separation reason, eligible for rehire, and any remarks' do
       click_on 'Terminate/NOS Person'
       click_on 'Send NOS'
-      expect(page).to have_content 'The rehire eligibility of the employee must be selected'
-      expect(page).to have_content 'A Separation Reason must be selected'
-      expect(page).to have_content 'The date entered could not be used. Please double check and try to send again'
-      expect(current_path).to eq(new_person_docusign_nos_path(terminating_employee))
+      expect(page).to have_content 'Eligible to rehire must be selected'
+      expect(page).to have_content 'Separation reason must be selected'
+      expect(page).to have_content 'Termination date entered could not be used or is blank. Please double check and try again'
+      expect(page).to have_content 'Last day worked entered could not be used or is blank. Please double check and try again'
     end
     it 'generates and sends the NOS'
     it 'creates an object with the envelope guid tracked'

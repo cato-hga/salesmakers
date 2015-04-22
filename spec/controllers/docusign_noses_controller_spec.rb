@@ -71,7 +71,7 @@ describe DocusignNosesController do
         post :create,
              person_id: person.id,
              docusign_nos: {
-                 eligible_to_rehire: nil,
+                 eligible_to_rehire: '',
                  termination_date: Date.today.to_s,
                  last_day_worked: Date.yesterday.to_s,
                  employment_end_reason_id: reason.id,

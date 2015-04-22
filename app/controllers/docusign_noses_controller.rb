@@ -13,9 +13,9 @@ class DocusignNosesController < ApplicationController
     @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
     @eligible = docusign_nos_params[:eligible_to_rehire]
     @nos = DocusignNos.new docusign_nos_params
-    if @termination_date.blank? or @last_day_worked.blank? or @separation_reason.blank? or @eligible.nil?
+
+    if @termination_date.blank? or @last_day_worked.blank? or @separation_reason.blank? or @eligible == ''
       check_and_handle_errors
-      puts @nos.errors.full_messages
       render :new and return
     end
     @nos.person = @person
@@ -60,7 +60,7 @@ class DocusignNosesController < ApplicationController
     if @separation_reason.blank?
       @nos.errors.add :separation_reason, ' must be selected'
     end
-    if @eligible.nil?
+    if @eligible == ''
       @nos.errors.add :eligible_to_rehire, ' must be selected'
     end
   end
