@@ -12,6 +12,8 @@
       = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
     - if ScreeningPolicy.new(@current_person, Screening.new).update?
       = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
+    - if @person.candidate
+      = link_to 'Candidate Profile', candidate_path(@person.candidate), class: [:button, :inline_button ]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs
