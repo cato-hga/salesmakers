@@ -17,13 +17,19 @@ class DocusignConnectController < ApplicationController
   def incoming
     data = Hash.from_xml request.raw_post
     envelope_id = get_envelope_id(data) || (render nothing: true, status: :unprocessable_entity and return)
+    if JobOfferDetail.where(envelope_guid: envelope_id)
+      nhp(data, envelope_id); return if performed?
+    end
+  end
+
+  def nhp(data, envelope_id)
     candidate_signed_time = get_signed_time(data, 0) || (render nothing: true, status: :unprocessable_entity and return)
     advocate_signed_time = get_signed_time(data, 1)
     hr_signed_time = get_signed_time(data, 2)
     Rails.logger.debug "HR: #{hr_signed_time}"
     Rails.logger.debug "Advocate: #{advocate_signed_time}"
     Rails.logger.debug "Candidate: #{candidate_signed_time}"
-    mark_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
+    mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     render nothing: true
   end
 
@@ -53,7 +59,7 @@ class DocusignConnectController < ApplicationController
     Time.parse "#{signed} #{time_zone_offset}"
   end
 
-  def mark_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
+  def mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     job_offer_detail = get_job_offer_detail(envelope_id) || return
     candidate = job_offer_detail.candidate || return
     if hr_signed_time
