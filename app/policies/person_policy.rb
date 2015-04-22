@@ -10,10 +10,8 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def terminate?
-    has_permission? 'terminate'
-  end
-
-  def send_nos?
-    has_permission? 'terminate'
+    return true if @user.managed_team_members.include? @record
+    return true if has_permission? 'terminate'
+    false
   end
 end

@@ -1,6 +1,6 @@
 class DocusignNosesController < ApplicationController
-  before_action :do_authorization
   before_action :get_person
+  before_action :do_authorization
   after_action :verify_authorized
 
   def new
@@ -49,7 +49,7 @@ class DocusignNosesController < ApplicationController
   private
 
   def do_authorization
-    authorize DocusignNos.new
+    authorize @person, :terminate?
   end
 
   def get_person

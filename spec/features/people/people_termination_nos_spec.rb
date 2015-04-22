@@ -29,9 +29,8 @@ describe "Terminating a Person" do
     end
 
     specify 'if somehow accessed by url, does not allow access' do
-      expect {
-        visit terminate_person_path terminating_employee
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      visit new_person_docusign_nos_path terminating_employee
+      expect(page).to have_content 'Your'
     end
   end
 
@@ -44,7 +43,7 @@ describe "Terminating a Person" do
 
     it 'sends a person to the NOS confirmation/data entry page' do
       click_on 'Terminate/NOS Person'
-      expect(current_path).to eq(terminate_person_path(terminating_employee))
+      expect(current_path).to eq(new_person_docusign_nos_path(terminating_employee))
     end
     it 'makes the user enter the termination date, last day worked, separation reason, eligible for rehire, and any remarks' do
       click_on 'Terminate/NOS Person'
@@ -52,9 +51,8 @@ describe "Terminating a Person" do
       expect(page).to have_content 'The rehire eligibility of the employee must be selected'
       expect(page).to have_content 'A Separation Reason must be selected'
       expect(page).to have_content 'The date entered could not be used. Please double check and try to send again'
-      expect(current_path).to eq(terminate_person_path(terminating_employee))
+      expect(current_path).to eq(new_person_docusign_nos_path(terminating_employee))
     end
-
     it 'generates and sends the NOS'
     it 'creates an object with the envelope guid tracked'
     it 'creates log entries (person as referencable, trackable is generated object)'
