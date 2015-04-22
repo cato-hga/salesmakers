@@ -1,4 +1,6 @@
 class SprintSale < ActiveRecord::Base
+  include SaleAreaAndLocationAreaExtension
+
   validates :sale_date, presence: true
   validates :person, presence: true
   validates :location, presence: true
@@ -14,4 +16,8 @@ class SprintSale < ActiveRecord::Base
   belongs_to :location
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
+
+  def location_area
+    self.location_area_for_sale 'Sprint'
+  end
 end

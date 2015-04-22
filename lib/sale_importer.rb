@@ -15,46 +15,36 @@ class SaleImporter
   private
 
   def import_vonage
-    orders = ConnectOrder.where("dateordered >= ? AND dateordered < ? AND documentno LIKE '%+'",
-                                @start_date.to_time.apply_eastern_offset +
-                                    3.hours,
-                                @end_date.to_time.apply_eastern_offset +
-                                    1.day +
-                                    3.hours).
-        includes(:connect_user,
-                 connect_business_partner_location: :connect_business_partner_location)
-    import_orders orders
+    sales = VonageSale.where("sale_date >= ? AND sale_date <= ?",
+                                @start_date,
+                                @end_date).
+        includes(:person,
+                 :location)
+    import_sales sales
   end
 
   def import_sprint
-    orders = ConnectSprintSale.where("date_sold >= ? AND date_sold < ?",
-                                     @start_date.to_time.apply_eastern_offset,
-                                     @end_date.to_time.apply_eastern_offset + 1.day).
-        includes(:connect_user,
-                 :connect_business_partner_location)
-    import_orders orders
+    sales = SprintSale.where("sale_date >= ? AND sale_date <= ?",
+                              @start_date,
+                              @end_date).
+        includes(:person,
+                 :location)
+    import_sales sales
   end
 
-  def import_orders(orders)
+  def import_sales(sales)
     @days = Hash.new
-    for order in orders do
-      sold = get_sale_date(order)
+    for sale in sales do
+      sold = sale.sale_date
       next if sold < @start_date or sold > @end_date
       initialize_hashes(sold) unless @days.include? sold
-      process_area sold, order
-      process_object sold, order, get_details(order)[:person]
-      process_object sold, order, get_details(order)[:project]
-      process_object sold, order, get_details(order)[:client]
+      process_area sold, sale
+      process_object sold, get_details(sale)[:person]
+      process_object sold, get_details(sale)[:project]
+      process_object sold, get_details(sale)[:client]
+      process_object sold, get_details(sale)[:location_area]
     end
     process_days
-  end
-
-  def get_sale_date(order)
-    if order.is_a? ConnectOrder
-      (order.dateordered - 3.hours).to_date
-    else
-      (order.date_sold).to_date
-    end
   end
 
   def initialize_hashes(sold)
@@ -63,6 +53,7 @@ class SaleImporter
     @days[sold]['people'] = Hash.new
     @days[sold]['projects'] = Hash.new
     @days[sold]['clients'] = Hash.new
+    @days[sold]['location_areas'] = Hash.new
   end
 
   def process_area(sold, order)
@@ -75,7 +66,8 @@ class SaleImporter
     end
   end
 
-  def process_object(sold, order, obj)
+  def process_object(sold, obj)
+    return unless obj
     if obj
       table_name = obj.model_name.name.pluralize.downcase
       increment_object_sale_count sold, table_name, obj
@@ -92,10 +84,10 @@ class SaleImporter
   end
 
   def process_day day
-    @days[day].keys.each { |saleable_key| process_orders_for_day day, saleable_key }
+    @days[day].keys.each { |saleable_key| process_sales_for_day day, saleable_key }
   end
 
-  def process_orders_for_day(day, saleable_key)
+  def process_sales_for_day(day, saleable_key)
     for o in @days[day][saleable_key].keys do
       day_sales = DaySalesCount.find_or_initialize_by saleable: o,
                                                       day: day
@@ -105,15 +97,17 @@ class SaleImporter
     end
   end
 
-  def get_details(order)
-    area = order.area
+  def get_details(sale)
+    area = sale.area
     project = area ? area.project : nil
     client = project ? project.client : nil
+    location_area = sale.location_area
     {
-        person: order.person,
-        area: order.area,
+        person: sale.person,
+        area: sale.area,
         project: project,
-        client: client
+        client: client,
+        location: location_area
     }
   end
   #:nocov:
