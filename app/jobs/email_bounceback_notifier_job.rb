@@ -7,7 +7,14 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
     bounces = client.bounces.first(minutes * 4)
     for bounce in bounces do
       if bounce[:bounced_at] and bounce[:bounced_at].to_datetime >= after_datetime
-        NotificationMailer.email_bounceback(bounce).deliver_now
+        attempts = 1
+        begin
+          NotificationMailer.email_bounceback(bounce).deliver_now
+        rescue Postmark::TimeoutError => ex
+          Rails.logger.error "Error: #{ex}"
+          sleep 5
+          retry if (attempts += 1) <= 3
+        end
       end
     end
   end
