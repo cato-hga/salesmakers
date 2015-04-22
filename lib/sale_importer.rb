@@ -1,6 +1,7 @@
 class SaleImporter
   #:nocov:
   def initialize(start_date = (Time.zone.now - 1.month).to_date, end_date = Time.zone.now.to_date)
+    started = Time.now
     @start_date = start_date
     @end_date = end_date
     import_vonage
@@ -8,7 +9,7 @@ class SaleImporter
     DaySalesCount.where('day >= ? AND day <= ? AND updated_at < ?',
                         @start_date,
                         @end_date,
-                        Time.now - 15.minutes).destroy_all
+                        started).destroy_all
 
   end
 
@@ -39,10 +40,10 @@ class SaleImporter
       next if sold < @start_date or sold > @end_date
       initialize_hashes(sold) unless @days.include? sold
       process_area sold, sale
-      process_object sold, get_details(sale)[:person]
-      process_object sold, get_details(sale)[:project]
-      process_object sold, get_details(sale)[:client]
-      process_object sold, get_details(sale)[:location_area]
+      process_object sold, sale, get_details(sale)[:person]
+      process_object sold, sale, get_details(sale)[:project]
+      process_object sold, sale, get_details(sale)[:client]
+      process_object sold, sale, get_details(sale)[:location_area]
     end
     process_days
   end
@@ -56,27 +57,39 @@ class SaleImporter
     @days[sold]['location_areas'] = Hash.new
   end
 
-  def process_area(sold, order)
-    area = order.area
+  def process_area(sold, sale)
+    area = sale.area
+    activated = activation? sale
+    new_account = new_account? sale
     if area
       areas = area.path
       for path_area in areas do
-        increment_object_sale_count sold, 'areas', path_area
+        increment_object_sale_count sold, 'areas', path_area, activated, new_account
       end
     end
   end
 
-  def process_object(sold, obj)
+  def process_object(sold, sale, obj)
     return unless obj
+    activated = activation? sale
+    new_account = new_account? sale
     if obj
       table_name = obj.model_name.name.pluralize.downcase
-      increment_object_sale_count sold, table_name, obj
+      increment_object_sale_count sold, table_name, obj, activated, new_account
     end
   end
 
-  def increment_object_sale_count sold, table_name, obj
-    @days[sold][table_name][obj] = 0 unless @days[sold][table_name].include? obj
-    @days[sold][table_name][obj] += 1
+  def increment_object_sale_count sold, table_name, obj, activated = false, new_account = false
+    unless @days[sold][table_name].include? obj
+      @days[sold][table_name][obj] = {
+          sales: 0,
+          activations: 0,
+          new_accounts: 0
+      }
+    end
+    @days[sold][table_name][obj][:sales] += 1
+    @days[sold][table_name][obj][:activations] += 1 if activated
+    @days[sold][table_name][obj][:new_accounts] += 1 if new_account
   end
 
   def process_days
@@ -91,7 +104,9 @@ class SaleImporter
     for o in @days[day][saleable_key].keys do
       day_sales = DaySalesCount.find_or_initialize_by saleable: o,
                                                       day: day
-      day_sales.sales = @days[day][saleable_key][o]
+      day_sales.sales = @days[day][saleable_key][o][:sales]
+      day_sales.activations = @days[day][saleable_key][o][:activations]
+      day_sales.new_accounts = @days[day][saleable_key][o][:new_accounts]
       day_sales.updated_at = Time.now
       day_sales.save
     end
@@ -109,6 +124,22 @@ class SaleImporter
         client: client,
         location: location_area
     }
+  end
+
+  def activation?(sale)
+    if sale.attributes.keys.include?('phone_activated_in_store')
+      sale.phone_activated_in_store?
+    else
+      false
+    end
+  end
+
+  def new_account?(sale)
+    if sale.attributes.keys.include?('upgrade')
+      sale.upgrade? ? false : true
+    else
+      true
+    end
   end
   #:nocov:
 end
