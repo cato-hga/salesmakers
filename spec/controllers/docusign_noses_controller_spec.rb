@@ -14,7 +14,7 @@ describe DocusignNosesController do
                            project: project }
   describe 'GET new' do
     it 'returns a success status' do
-      allow(controller).to receive(:policy).and_return double(new?: true)
+      allow(controller).to receive(:policy).and_return double(terminate?: true)
       get :new, person_id: person.id
       expect(response).to be_success
       expect(response).to render_template(:new)
@@ -25,7 +25,7 @@ describe DocusignNosesController do
     let(:reason) { EmploymentEndReason.create name: 'Test Reason', active: true }
     before {
       CASClient::Frameworks::Rails::Filter.fake(manager.email)
-      allow(controller).to receive(:policy).and_return double(create?: true)
+      allow(controller).to receive(:policy).and_return double(terminate?: true)
     }
 
     context 'success' do
