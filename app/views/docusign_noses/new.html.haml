@@ -1,0 +1,21 @@
+- title "Terminate #{@person.display_name}"
+
+
+.widget
+  .inner
+    .warning
+      THIS WILL ONLY GENERATE THE NOS FOR YOU AND DELIVER IT FOR YOU TO SIGN. YOU MUST SIGN OFF ON THE DOCUMENT TO COMPLETE THIS TERMINATION
+    = form_for [@nos, @person] do |f|
+      .large-6.columns
+        = f.label :termination_date
+        = f.text :termination_date, nil, placeholder: "Use MM/DD/YYYY or terms like 'today', 'yesterday', 'next monday' etc"
+        = f.label :last_day_worked
+        = f.text :last_day_worked, nil, placeholder:  "Use MM/DD/YYYY or terms like 'today', 'yesterday', 'next monday' etc"
+      .large-6.columns
+        = f.label :eligible_for_rehire
+        = f.select :eligible_for_rehire, options_for_select([['Yes', true],['No', false]]), include_blank: true
+        = f.label :separation_reason
+        = f.select :separation_reason, options_from_collection_for_select(EmploymentEndReason.all, :id, :name), include_blank: true
+      = f.label :remarks
+      = f.text_area :remarks
+      = f.submit 'Send NOS', class: [:button]

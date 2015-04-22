@@ -1,4 +1,4 @@
-class DocusignNosController < ApplicationController
+class DocusignNosesController < ApplicationController
   before_action :do_authorization
   before_action :get_person
   after_action :verify_authorized

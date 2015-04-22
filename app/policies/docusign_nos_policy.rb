@@ -6,10 +6,14 @@ class DocusignNosPolicy < ApplicationPolicy
   end
 
   def new?
-    has_permission? 'terminate'
+    terminate = Permission.find_by key: 'person_terminate'
+    return true if @user.position.permissions.include?(terminate)
+    false
   end
 
   def create?
-    has_permission? 'terminate'
+    terminate = Permission.find_by key: 'person_terminate'
+    return true if @user.position.permissions.include?(terminate)
+    false
   end
 end

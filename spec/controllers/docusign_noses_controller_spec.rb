@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe DocusignNosController do
+describe DocusignNosesController do
 
   let(:manager) { create :person, display_name: 'Manager' }
   let(:person) { create :person }
