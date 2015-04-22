@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150421190124) do
+ActiveRecord::Schema.define(version: 20150422124222) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -984,10 +984,10 @@ ActiveRecord::Schema.define(version: 20150421190124) do
     t.string "handset_model_name", null: false
     t.integer "location_id", null: false
     t.string "meid", null: false
-    t.string "mobile_phone", null: false
+    t.string "mobile_phone"
     t.integer "person_id", null: false
     t.boolean "phone_activated_in_store", default: false, null: false
-    t.string "picture_with_customer", null: false
+    t.string "picture_with_customer"
     t.string "rate_plan_name", null: false
     t.string "reason_not_activated_in_store"
     t.date "sale_date", null: false

@@ -27,11 +27,6 @@ describe SprintSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a mobile phone number' do
-    subject.mobile_phone = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires a carrier name' do
     subject.carrier_name = nil
     expect(subject).not_to be_valid
@@ -68,11 +63,6 @@ describe SprintSale do
 
   it 'responds to reason_not_activated_in_store' do
     expect(subject).to respond_to(:reason_not_activated_in_store)
-  end
-
-  it 'requires a picture with customer value' do
-    subject.picture_with_customer = nil
-    expect(subject).not_to be_valid
   end
 
   it 'responds to comments' do
