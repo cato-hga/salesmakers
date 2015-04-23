@@ -33,17 +33,6 @@ module Candidates::Locations
     end
   end
 
-  def handle_outsourced
-    if @candidate.save
-      @current_person.log? 'create',
-                           @candidate
-      flash[:notice] = 'Outsourced candidate saved!'
-      redirect_to select_location_candidate_path(@candidate, 'false')
-    else
-      render :new
-    end
-  end
-
   def has_been_onboarded?(candidate)
     Candidate.statuses[candidate.status] >= Candidate.statuses['onboarded']
   end

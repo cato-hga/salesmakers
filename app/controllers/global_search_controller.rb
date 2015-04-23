@@ -6,7 +6,9 @@ class GlobalSearchController < ApplicationController
       object = Object.const_get(item_class)
       policy = item_class + 'Policy'
       policy_object = Object.const_get(policy)
-      return [] unless policy_object.new(@current_person, object.new).index?
+      unless policy == 'PersonPolicy'
+        return [] unless policy_object.new(@current_person, object.new).index?
+      end
       query = object.solr_search do
         fulltext params[:global_search]
         paginate :page => params[:page], :per_page => 20

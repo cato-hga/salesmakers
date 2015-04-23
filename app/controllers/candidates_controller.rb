@@ -65,10 +65,7 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     get_create_variables
     check_and_handle_unmatched_candidates
-    if @candidate_source == @outsourced
-      handle_outsourced; return if performed?
-    end
-    if @select_location
+    if @select_location or @candidate.candidate_source == @outsourced
       create_and_select_location; return if performed?
     end
     if @candidate.save
@@ -136,9 +133,13 @@ class CandidatesController < ApplicationController
 
   def create_and_select_location
     if @candidate.save
+      if @candidate_source == @outsourced
+        flash[:notice] = 'Outsourced candidate saved!'
+      else
+        flash[:notice] = 'Candidate saved!'
+      end
       @current_person.log? 'create',
                            @candidate
-      flash[:notice] = 'Candidate saved!'
       redirect_to select_location_candidate_path(@candidate, 'false')
     else
       render :new
