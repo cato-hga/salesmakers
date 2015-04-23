@@ -22,10 +22,14 @@ class AssetShiftHoursTotaling
   def email_managers(people)
     for person in people do
       supervisors = person.get_supervisors
-      for supervisor in supervisors do
-        mailer = AssetsMailer.asset_approval_mailer(supervisor)
-        mailer.deliver_later
+      if supervisors == []
+        AssetsMailer.no_supervisors_for_asset_approval_mailer.deliver_later
+      else
+        for supervisor in supervisors do
+          AssetsMailer.asset_approval_mailer(supervisor).deliver_later
+        end
       end
     end
   end
+
 end

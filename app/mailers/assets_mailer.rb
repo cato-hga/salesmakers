@@ -107,6 +107,13 @@ class AssetsMailer < ApplicationMailer
     )
   end
 
+  def no_supervisors_for_asset_approval_mailer
+    mail(from: 'notifications@salesmakersinc.com',
+         to: 'it@retaildoneright.com',
+         subject: "[SalesMakers] New Employees without Supervisors to approve assets"
+    )
+  end
+
   private
 
   def set_lost_stolen_or_found_variables device
