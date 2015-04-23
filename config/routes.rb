@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'asset_approvals/approval', to: 'asset_approvals#approval'
+  patch 'asset_approvals/approve/:person_id', to: 'asset_approvals#approve'
+  patch 'asset_approvals/deny/:person_id', to: 'asset_approvals#deny'
+
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
     resources :candidate_availabilities, only: [:new, :create, :edit, :update]

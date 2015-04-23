@@ -41,7 +41,7 @@ class Person < ActiveRecord::Base
 
   default_scope { order :display_name }
 
-  enum vonage_table_approval_status: [
+  enum vonage_tablet_approval_status: [
            :no_decision,
            :denied,
            :approved
@@ -114,7 +114,7 @@ class Person < ActiveRecord::Base
 
   def skip_for_assets?
     return true if self.passed_asset_hours_requirement
-    return true if self.vonage_tablet_approval_status > 0
+    return true if Person.vonage_tablet_approval_statuses[self.vonage_tablet_approval_status] > 0
     person_areas = self.person_areas
     for person_area in person_areas do
       @skip = true unless person_area.area.project.name.include? 'Vonage'
@@ -133,6 +133,23 @@ class Person < ActiveRecord::Base
       end
     end
     supervisors
+  end
+
+  def self.no_tablets_from_collection(people_collection)
+    @devices = Device.
+        joins(:device_model).
+        where('device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ?', 'Evo View 4G', '%Tab%', '%Ellipsis%', '%Optik%')
+    people_without_assets = []
+    for person in people_collection do
+      tablet = false
+      for device in person.devices
+        tablet = true if @devices.include? device
+      end
+      unless tablet
+        people_without_assets << person
+      end
+    end
+    people_without_assets
   end
 
   private

@@ -733,14 +733,14 @@ RSpec.describe Person, :type => :model do
 
     it 'returns true if the person has been denied for an asset' do
       expect(person.skip_for_assets?).to eq(false)
-      person.update vonage_tablet_approval_status: 1
+      person.update vonage_tablet_approval_status: :denied
       person.reload
       expect(person.skip_for_assets?).to eq(true)
     end
 
     it 'returns true if the person has been approved for an asset' do
       expect(person.skip_for_assets?).to eq(false)
-      person.update vonage_tablet_approval_status: 2
+      person.update vonage_tablet_approval_status: :approved
       person.reload
       expect(person.skip_for_assets?).to eq(true)
     end
@@ -784,6 +784,24 @@ RSpec.describe Person, :type => :model do
       market_supervisor_area.update manages: false
       market_supervisor_area.reload
       expect(person.get_supervisors).to eq([regional_supervisor]) #making sure that the market supervisor isn't returned
+    end
+  end
+
+  describe '#no_tablets_from_collection' do
+    let!(:person_with_tablet) { create :person, display_name: 'Tablet' }
+    let!(:tablet) { create :device, device_model: tablet_model, person: person_with_tablet }
+    let!(:tablet_model) { create :device_model, name: 'GalaxyTab' }
+    let!(:person_with_laptop) { create :person, display_name: 'Laptop' }
+    let!(:laptop_model) { create :device_model, name: 'Laptop Model' }
+    let!(:laptop) { create :device, device_model: laptop_model, person: person_with_laptop }
+    let!(:person_without_assets) { create :person, display_name: 'Nothing' }
+
+    it 'returns a list of employees without tablets' do
+      collection = [person_without_assets, person_with_tablet, person_with_laptop]
+      no_tablets = Person.no_tablets_from_collection(collection)
+      expect(no_tablets).not_to include(person_with_tablet)
+      expect(no_tablets).to include(person_with_laptop)
+      expect(no_tablets).to include(person_without_assets)
     end
   end
 end
