@@ -1047,6 +1047,11 @@ ActiveRecord::Schema.define(version: 20150422172724) do
     t.string "assessment"
   end
 
+  create_table "tmp_all_sprint", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "store_num"
+  end
+
   create_table "tmp_candidates", id: false, force: :cascade do |t|
     t.integer "cid"
     t.string "state"
