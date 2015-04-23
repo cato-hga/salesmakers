@@ -234,6 +234,12 @@ Rails.application.routes.draw do
 
   post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
 
+  resources :sprint_sales, only: [:index] do
+    collection do
+      get :scoreboard, as: :scoreboard
+    end
+  end
+
   resources :training_class_types
 
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'

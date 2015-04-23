@@ -1,0 +1,64 @@
+- title 'Sprint Sales Scoreboard'
+
+
+.widget
+  .inner
+    = form_tag nil, method: :get do
+      .row.full-width
+        .large-3.columns
+          = select_tag 'project_id', options_from_collection_for_select(Project.where(client: Client.find_by(name: 'Sprint')), :id, :name, @project.id), include_blank: 'All Projects'
+        .large-3.columns
+          = text_field_tag 'start_date', @range.first.strftime('%m/%d/%Y'), placeholder: 'Start Date'
+        .large-3.columns
+          = text_field_tag 'end_date', @range.last.strftime('%m/%d/%Y'), placeholder: 'End Date'
+        .large-3.columns
+          .large-10.columns
+            = select_tag 'depth', options_for_select([['SalesMakers', '6'], ['Locations', '5'], ['Territories', '4'], ['Markets', '3']], @depth)
+          .large-2.columns
+            = submit_tag 'Go', class: [:button, :full_width]
+.widget
+  .inner
+    - headers = ['Project', 'Region', 'Market']
+    - if @show_territories
+      - headers << 'Territory'
+    - if @show_locations
+      - headers << 'Location'
+    - elsif @show_bottom_level
+      - headers << 'SalesMaker'
+    - headers.concat ['Sales', 'Activations', 'New Accounts']
+    - header = header_row headers
+    - rows = []
+    - sales_total = 0
+    - activations_total = 0
+    - new_accounts_total = 0
+    - unless @day_sales_counts.nil? or @day_sales_counts.count == 0
+      - for dsc in @day_sales_counts do
+        - project = dsc['project']
+        - region = dsc['region']
+        - market = dsc['market']
+        - market_sd = dsc['market_sd'] ? person_link(Person.find(dsc['market_sd_id'])) : nil
+        - market = "#{market.html_safe} (#{market_sd.html_safe})".html_safe if market and market_sd
+        - if @show_territories
+          - territory = dsc['territory']
+        - if @show_bottom_level
+          - bottom_level = dsc['bottom_level'].html_safe
+          - bottom_level += "&nbsp;".html_safe + link_to(icon('magnifying-glass'), person_path(dsc['bottom_level_id'])) if @depth == 6
+        - row_values = [project, region, market]
+        - if @show_territories
+          - row_values << territory
+        - if @show_bottom_level
+          - row_values << bottom_level
+        - sales_total += dsc['sales'].to_i
+        - activations_total += dsc['activations'].to_i
+        - new_accounts_total += dsc['new_accounts'].to_i
+        - row_values.concat [dsc['sales'].to_s, dsc['activations'].to_s, dsc['new_accounts'].to_s]
+        - rows << row_values
+      - total_row = []
+      - (rows.last.length-4).times {total_row << nil}
+      - total_row.concat ['GRAND TOTAL', sales_total, activations_total, new_accounts_total]
+      - rows = generate_subtotal_rows(rows, :to_i, 3)
+      - table_rows = rows.map{|r| r && r.length >= 5 && r[-5] && r[-5].include?('[TOTAL] ') ? table_row(r, [:subtotal_row]) : table_row(r)}
+      - table_rows << table_row(total_row, [:grand_total])
+      = table header, table_rows
+    - else
+      No results to show.

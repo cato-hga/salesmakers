@@ -7,6 +7,7 @@ class LocationArea < ActiveRecord::Base
   belongs_to :area
   has_and_belongs_to_many :radio_shack_location_schedules
   has_many :candidates
+  has_many :day_sales_counts, as: :saleable
 
   has_paper_trail
 

@@ -49,12 +49,90 @@ class DaySalesCount < ActiveRecord::Base
     scope :this_year, -> { for_period 'year' }
   end
 
+  def self.reps_scope
+    scope :for_reps, ->(person, project = nil) {
+      none unless person
+      reps = Person.visible(person)
+      if project
+        areas = Area.where project: project
+        person_areas = PersonArea.where area: areas, person: reps
+        people = person_areas.map {|pa| pa.person}
+      end
+      where(saleable: people)
+    }
+  end
+
+  def self.location_areas_scope
+    scope :for_location_areas, ->(person, project = nil) {
+      none unless person
+      areas = Area.visible(person, true)
+      none if areas.empty?
+      areas = areas.where(project: project) if project
+      location_areas = []
+      for area in areas do
+        location_areas.concat area.location_areas
+      end
+      where(saleable: location_areas.flatten.uniq)
+    }
+  end
+
+  def self.areas_scope
+    scope :for_areas, ->(person, project = nil) {
+      none unless person
+      areas = Area.visible person, true
+      none if areas.empty?
+      areas = areas.where(project: project) if project
+      where(saleable: areas)
+    }
+  end
+
+  def self.projects_scope
+    scope :for_projects, -> {
+      all
+    }
+  end
+
+  def self.clients_scope
+    scope :for_clients, -> {
+      all
+    }
+  end
+
+  def self.depth_scopes
+    reps_scope
+    location_areas_scope
+    areas_scope
+    projects_scope
+    clients_scope
+
+    scope :for_depth, ->(person, depth = 6, project = nil) {
+      none unless person
+      case depth
+        when 6
+          for_reps person, project
+        when 5
+          for_location_areas person, project
+        when 4
+          for_areas person, project
+        when 3
+          for_areas person, project
+        when 2
+          for_areas person, project
+        when 1
+          for_projects person
+        else
+          none
+      end
+    }
+  end
+
   validations_and_assocations
   range_scopes
   day_scopes
   week_scopes
   month_scopes
   year_scopes
+  depth_scopes
 
   def self.import
     SaleImporter.new
