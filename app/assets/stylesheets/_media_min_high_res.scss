@@ -21,9 +21,14 @@
 		text-align: right;
 		z-index: 99;
 
-		input[type = text], select, textarea {
+		input[type = text], textarea {
 			width: 10em;
 			display: inline-block;
+		}
+
+		select {
+			width: auto;
+			padding-right: 1em;
 		}
 	}
 

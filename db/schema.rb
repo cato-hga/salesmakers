@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416131721) do
+ActiveRecord::Schema.define(version: 20150422172724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
+    t.integer "training_session_status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "zip", null: false
   end
@@ -195,6 +196,20 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "client_representatives", force: :cascade do |t|
+    t.integer "client_id", null: false
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "name", null: false
+    t.string "password_digest", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_representatives_permissions", id: false, force: :cascade do |t|
+    t.integer "client_representative_id"
+    t.integer "permission_id"
   end
 
   create_table "clients", force: :cascade do |t|
@@ -298,8 +313,10 @@ ActiveRecord::Schema.define(version: 20150416131721) do
   end
 
   create_table "day_sales_counts", force: :cascade do |t|
+    t.integer "activations", default: 0, null: false
     t.datetime "created_at"
     t.date "day", null: false
+    t.integer "new_accounts", default: 0, null: false
     t.integer "saleable_id", null: false
     t.string "saleable_type", null: false
     t.integer "sales", default: 0, null: false
@@ -373,6 +390,18 @@ ActiveRecord::Schema.define(version: 20150416131721) do
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
+  create_table "docusign_noses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "eligible_to_rehire", default: false, null: false
+    t.integer "employment_end_reason_id", null: false
+    t.string "envelope_guid", null: false
+    t.datetime "last_day_worked", null: false
+    t.integer "person_id", null: false
+    t.text "remarks"
+    t.datetime "termination_date", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "docusign_templates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "document_type", default: 0, null: false
@@ -398,6 +427,13 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.string "to_email", null: false
     t.integer "to_person_id"
     t.datetime "updated_at"
+  end
+
+  create_table "employment_end_reasons", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employments", force: :cascade do |t|
@@ -825,6 +861,7 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.datetime "created_at"
     t.string "name", null: false
     t.datetime "updated_at"
+    t.string "workmarket_project_num"
   end
 
   add_index "projects", ["client_id"], name: "index_projects_on_client_id", using: :btree
@@ -962,6 +999,27 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sprint_sales", force: :cascade do |t|
+    t.string "carrier_name", null: false
+    t.text "comments"
+    t.string "connect_sprint_sale_id"
+    t.datetime "created_at", null: false
+    t.string "handset_model_name", null: false
+    t.integer "location_id", null: false
+    t.string "meid", null: false
+    t.string "mobile_phone"
+    t.integer "person_id", null: false
+    t.boolean "phone_activated_in_store", default: false, null: false
+    t.string "picture_with_customer"
+    t.string "rate_plan_name", null: false
+    t.string "reason_not_activated_in_store"
+    t.date "sale_date", null: false
+    t.float "top_up_card_amount"
+    t.boolean "top_up_card_purchased", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.boolean "upgrade", default: false, null: false
+  end
+
   create_table "technology_service_providers", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -1029,6 +1087,14 @@ ActiveRecord::Schema.define(version: 20150416131721) do
     t.string "location_name"
     t.string "room"
     t.string "store_number"
+  end
+
+  create_table "tmp_updates", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "cost_center"
+    t.string "mailstop"
+    t.string "store_name"
+    t.string "store_num"
   end
 
   create_table "tmp_updates", id: false, force: :cascade do |t|
@@ -1275,4 +1341,46 @@ ActiveRecord::Schema.define(version: 20150416131721) do
   end
 
   add_index "walls", ["wallable_id", "wallable_type"], name: "index_walls_on_wallable_id_and_wallable_type", using: :btree
+
+  create_table "workmarket_assignments", force: :cascade do |t|
+    t.float "cost", null: false
+    t.datetime "created_at", null: false
+    t.datetime "ended", null: false
+    t.text "json", null: false
+    t.integer "project_id", null: false
+    t.datetime "started", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.string "worker_email", null: false
+    t.string "worker_first_name"
+    t.string "worker_last_name"
+    t.string "worker_name", null: false
+    t.string "workmarket_assignment_num", null: false
+    t.string "workmarket_location_num", null: false
+  end
+
+  create_table "workmarket_attachments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "guid", null: false
+    t.datetime "updated_at", null: false
+    t.string "url", null: false
+    t.integer "workmarket_assignment_id", null: false
+  end
+
+  create_table "workmarket_fields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "value", null: false
+    t.integer "workmarket_assignment_id", null: false
+  end
+
+  create_table "workmarket_locations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "location_number"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "workmarket_location_num", null: false
+  end
 end

@@ -22,6 +22,8 @@ require 'support/pundit_matcher'
 require 'factory_girl_rails'
 require 'vcr'
 require 'sidekiq/testing'
+require 'sunspot/rails/spec_helper'
+require 'rack_session_access/capybara'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
@@ -34,10 +36,17 @@ RSpec.configure do |config|
     #FactoryGirl.lint
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
     CASClient::Frameworks::Rails::Filter.fake("retailingw@retaildoneright.com")
+    unless example.metadata[:skip_solr_mocking]
+      ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
+    end
   end
-  config.after(:each) do
+
+  config.after(:each) do |example|
+    unless example.metadata[:skip_solr_mocking]
+      ::Sunspot.session = ::Sunspot.session.original_session
+    end
     DatabaseRewinder.clean
   end
 end
@@ -48,5 +57,5 @@ VCR.configure do |c|
   c.configure_rspec_metadata!
   c.ignore_hosts '127.0.0.1', 'localhost', 'codeclimate.com'
   #c.debug_logger = $stderr #Uncomment this for VCR debugging
-  c.default_cassette_options = {:record => :new_episodes}
+  c.default_cassette_options = { :record => :new_episodes }
 end

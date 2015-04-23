@@ -35,4 +35,13 @@ class LocationArea < ActiveRecord::Base
     location_areas = locations.map { |l| l.location_areas }.flatten
     LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
   end
+
+  def change_counts candidate_status_integer, change_by
+    accepted_status_integer = Candidate.statuses['accepted']
+    onboarded_status_integer = Candidate.statuses['onboarded']
+    self.update potential_candidate_count: self.potential_candidate_count + change_by if candidate_status_integer < onboarded_status_integer
+    self.update offer_extended_count: self.offer_extended_count + change_by if candidate_status_integer < onboarded_status_integer and
+        candidate_status_integer >= accepted_status_integer
+    self.update current_head_count: self.current_head_count + change_by if candidate_status_integer >= onboarded_status_integer
+  end
 end

@@ -93,17 +93,54 @@ describe 'candidate show page' do
     expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
   end
 
-  it 'allows the training session to be set for those with permission' do
-    view_all = create :permission, key: 'candidate_view_all'
-    training_session = create :sprint_radio_shack_training_session
-    recruiter.position.permissions << view_all
-    recruiter.reload
-    visit candidate_path(candidate)
-    within '#new_sprint_radio_shack_training_session' do
-      select training_session.name, from: 'sprint_radio_shack_training_session_id'
-      click_on 'Save'
+  context 'training sessions' do
+    let(:view_all) { view_all = create :permission, key: 'candidate_view_all' }
+    let!(:training_session) { create :sprint_radio_shack_training_session }
+    let!(:status) { 'Candidate Confirmed' }
+    before(:each) do
+      recruiter.position.permissions << view_all
+      recruiter.reload
+      visit candidate_path(candidate)
     end
-    candidate.reload
-    expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+    it 'allows the training session to be set for those with permission' do
+      within '#new_sprint_radio_shack_training_session' do
+        select training_session.name, from: 'sprint_radio_shack_training_session_id'
+        click_on 'Save'
+      end
+      candidate.reload
+      expect(candidate.sprint_radio_shack_training_session.name).to eq(training_session.name)
+    end
+
+    it 'allows the training session status to be set for those with permission' do
+      within '#training_status' do
+        select status, from: 'training_session_status'
+        click_on 'Save'
+        candidate.reload
+        expect(candidate.training_session_status).to eq('candidate_confirmed')
+      end
+    end
+  end
+
+  context 'hours widget' do
+    let!(:person) { create :person }
+    let!(:working_candidate) { create :candidate, person: person }
+    let!(:location) { create :location }
+    let!(:last_location) { create :location, display_name: 'The Latest Location' }
+    let!(:first_shift) { create :shift, person: person, date: Date.today - 8.days, hours: 8, location: location }
+    let!(:second_shift) { create :shift, person: person, date: Date.today - 6.days, hours: 5, location: location }
+    let!(:third_shift) { create :shift, person: person, date: Date.today - 2.days, hours: 6, location: last_location }
+    it 'doesnt show the hours widget if the candiate does not have a person' do
+      #inheriting the visit
+      expect(page).not_to have_css('#candidate_hours')
+    end
+    it 'shows the total hours, last shift, and location for candidates' do
+      visit candidate_path(working_candidate)
+      within('#candidate_hours') do
+        expect(page).to have_content 'Total Hours: 19.0'
+        expect(page).to have_content 'Hours This Week: 11.0'
+        expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%A, %b %e')}"
+        expect(page).to have_content "Last Shift Location: ##{third_shift.location.store_number}, #{third_shift.location.street_1}, #{third_shift.location.city}, #{third_shift.location.state}"
+      end
+    end
   end
 end

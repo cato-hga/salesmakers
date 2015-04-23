@@ -1,7 +1,18 @@
 module CandidateDashboard
   extend ActiveSupport::Concern
 
-  protected
+  def dashboard
+    set_datetime_range
+    set_dashboard_variables
+    set_screening_check('sex_offender_check')
+    set_screening_check('public_background_check')
+    set_screening_check('private_background_check')
+    set_screening_check('drug_screening')
+    set_screened('partially_screened')
+    set_screened('fully_screened')
+  end
+
+  private
 
   def set_datetime_range
     datetime_range = DateTime.now.in_time_zone + Time.zone.utc_offset + (DateTime.now.in_time_zone.dst? ? 3600 : 0)

@@ -34,8 +34,8 @@ module PersonEmploymentModelExtension
 
   def separate(separated_at = Time.now, auto = false)
     if self.update(active: false, updated_at: separated_at)
-      return if auto
       take_down_candidate_count
+      return if auto
       if self.devices.any?
         AssetsMailer.separated_with_assets_mailer(self).deliver_later
         AssetsMailer.asset_return_mailer(self).deliver_later

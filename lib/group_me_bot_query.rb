@@ -57,7 +57,11 @@ module GroupMeBotQuery
                        data: data,
                        size: '400x200',
                        filename: "public/#{path}"
+    full_path = Rails.root.join('public', path).to_s
     chart.file
+    FileUtils.ln_s full_path, "#{full_path}.avatar"
+    FileUtils.ln_s full_path, "#{full_path}.preview"
+    FileUtils.ln_s full_path, "#{full_path}.large"
     path
   end
 

@@ -29,6 +29,16 @@ class Person < ActiveRecord::Base
 
   stripping_ransacker(:mobile_phone_number, :mobile_phone)
 
+  searchable do
+    text :display_name, boost: 4.0
+    text :eid, boost: 4.5
+    text :email, boost: 5.5
+    text :home_phone, boost: 4.0
+    text :mobile_phone, boost: 4.0
+    text :office_phone, boost: 4.0
+    text :personal_email, boost: 5.0
+  end
+
   default_scope { order :display_name }
 
   enum vonage_table_approval_status: [
@@ -160,11 +170,7 @@ class Person < ActiveRecord::Base
 
   def take_down_candidate_count
     candidate = Candidate.find_by person: self
-    return unless candidate and candidate.location_area
-    location_area = candidate.location_area
-    new_count = location_area.current_head_count - 1
-    return if new_count < 0
-    location_area.update current_head_count: new_count
+    candidate.update active: false if candidate
   end
 
 end

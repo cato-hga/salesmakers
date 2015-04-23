@@ -24,6 +24,16 @@ module Candidates::Training
     redirect_to candidate_path(@candidate)
   end
 
+  def set_training_session_status
+    @training_session_status = params[:training_session_status]
+    if @candidate.update training_session_status: @training_session_status
+      flash[:notice] = 'Saved training session status'
+    else
+      flash[:error] = 'Could not save training session status'
+    end
+    redirect_to candidate_path(@candidate)
+  end
+
   private
 
   def sprint_radio_shack_training_session_params

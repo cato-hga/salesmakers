@@ -315,6 +315,12 @@ describe CandidatesController do
     before { allow(controller).to receive(:policy).and_return double(set_location_area?: true) }
     context 'for non-outsourced locations' do
       let!(:location_area) { create :location_area, location: location, area: area, outsourced: false }
+      let!(:location_area_two) {
+        create :location_area,
+               target_head_count: 2,
+               current_head_count: 1,
+               potential_candidate_count: 1
+      }
       subject {
         get :set_location_area,
             id: candidate.id,
@@ -335,27 +341,63 @@ describe CandidatesController do
       end
 
       it 'updates the potential_candidate_count on the LocationArea if the candidate is prescreened' do
+        candidate.update status: :prescreened, location_area: location_area_two
         expect {
-          candidate.update status: :prescreened
           candidate.reload
           subject
           location_area.reload
         }.to change(location_area, :potential_candidate_count).from(0).to(1)
       end
 
-      it 'updates the offer_extended_count on the LocationArea if necessary' do
+      it 'does not update the potential_candidate_count on the LocationArea if the candidate is past onboarding' do
+        candidate.update status: :onboarded
         expect {
-          candidate.update location_area: second_location_area,
-                           status: :accepted
+          candidate.reload
+          subject
+          location_area.reload
+        }.not_to change(location_area, :potential_candidate_count)
+      end
+
+      it 'updates the potential_candidate_count on the previous LocationArea' do
+        candidate.update location_area: location_area_two
+        location_area_two.reload
+        expect {
+          subject
+          location_area_two.reload
+        }.to change(location_area_two, :potential_candidate_count).from(2).to(1)
+      end
+
+      it 'updates the current_head_count on the LocationArea if the candidate is past onboarding' do
+        candidate.update status: :onboarded
+        expect {
+          candidate.reload
+          subject
+          location_area.reload
+        }.to change(location_area, :current_head_count).from(0).to(1)
+      end
+
+      it 'updates the current_head_count on the previous LocationArea' do
+        candidate.update status: :onboarded, location_area: location_area_two
+        location_area_two.reload
+        expect {
+          subject
+          location_area_two.reload
+        }.to change(location_area_two, :current_head_count).from(2).to(1)
+      end
+
+      it 'updates the offer_extended_count on the LocationArea if necessary' do
+        candidate.update location_area: second_location_area,
+                         status: :accepted
+        expect {
           subject
           second_location_area.reload
         }.to change(second_location_area, :offer_extended_count).from(1).to(0)
       end
 
       it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
+        candidate.update location_area: second_location_area,
+                         status: :prescreened
         expect {
-          candidate.update location_area: second_location_area,
-                           status: :prescreened
           subject
           second_location_area.reload
         }.not_to change(second_location_area, :offer_extended_count)
@@ -379,6 +421,7 @@ describe CandidatesController do
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(1)
       end
+
     end
 
     context 'for outsourced locations' do
@@ -411,21 +454,12 @@ describe CandidatesController do
       end
 
       it 'updates the offer_extended_count on the LocationArea if necessary' do
+        candidate.update location_area: second_location_area,
+                         status: :accepted
         expect {
-          candidate.update location_area: second_location_area,
-                           status: :accepted
           subject
           second_location_area.reload
         }.to change(second_location_area, :offer_extended_count).from(1).to(0)
-      end
-
-      it 'does not update the offer_extended_count on the LocationArea if unnecessary' do
-        expect {
-          candidate.update location_area: second_location_area,
-                           status: :prescreened
-          subject
-          second_location_area.reload
-        }.not_to change(second_location_area, :offer_extended_count)
       end
 
       it 'does not send the candidate the personality assessment URL' do
@@ -865,6 +899,29 @@ describe CandidatesController do
         candidate.reload
       }.to change(candidate, :sprint_radio_shack_training_session_id).
                from(nil).to(sprint_radio_shack_training_session.id)
+    end
+  end
+
+  describe 'PUT set_training_session_status' do
+    let!(:candidate) { create :candidate }
+    before { allow(controller).to receive(:policy).and_return double(set_training_session_status?: true) }
+    subject do
+      put :set_training_session_status,
+          id: candidate.id,
+          training_session_status: 'candidate_confirmed'
+    end
+
+    it 'should be a redirect to the candidate show page' do
+      subject
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'saves the SprintRadioShackTrainingSession' do
+      expect {
+        subject
+        candidate.reload
+      }.to change(candidate, :training_session_status).
+               from('pending').to('candidate_confirmed')
     end
   end
 end

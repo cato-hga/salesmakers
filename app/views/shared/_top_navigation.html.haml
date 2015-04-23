@@ -70,11 +70,22 @@
                               = link_to 'Area Types', client_project_area_types_path(project.client, project)
                           %li
                             = link_to 'Areas', client_project_areas_path(project.client, project)
+                - if DepartmentPolicy.new(current_person, Department.new).index?
+                  %li.divider
+                  %li= link_to 'Departments', departments_path
                 %li.divider
                 - if ChangelogEntryPolicy.new(current_person, ChangelogEntry.new).manage?
                   %li= link_to('Changelog', changelog_entries_path)
                 %li= link_to('Log', log_entries_path)
       .right
+        = form_tag global_search_path, method: :get, class: [:inline_block, :left] do
+          .row
+            .large-12.columns
+              .row.collapse
+                .small-9.columns
+                  = text_field_tag :global_search, @global_search, placeholder: 'Search'
+                .small-3.columns
+                  = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
         %ul.left
           %li.has-dropdown#joyride-profile
             = link_to current_person.email, '#'

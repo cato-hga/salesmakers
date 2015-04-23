@@ -1,4 +1,6 @@
 class VonageSale < ActiveRecord::Base
+  include SaleAreaAndLocationAreaExtension
+
   validates :sale_date, presence: true
   validates :person, presence: true
   validates :confirmation_number, length: { is: 10 }
@@ -40,5 +42,9 @@ class VonageSale < ActiveRecord::Base
               date)
     return true if changes_before_date.empty?
     false
+  end
+
+  def location_area
+    self.location_area_for_sale 'Vonage'
   end
 end

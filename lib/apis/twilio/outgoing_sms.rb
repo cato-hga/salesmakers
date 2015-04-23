@@ -1,6 +1,7 @@
 module Twilio
   module OutgoingSMS
     def send_text(number, text)
+      return nil if number.include?('5551212')
       formatted_number = format_number number
       @client.account.messages.create to: formatted_number,
                                       from: @from,
@@ -9,7 +10,7 @@ module Twilio
 
     def send_text_to_person(person, text, sender)
       phone = person.mobile_phone
-      return nil unless phone
+      return nil if not phone or phone.include?('5551212')
       formatted_number = format_number phone
       response = @client.account.messages.create to: formatted_number,
                                                  from: @from,

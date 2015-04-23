@@ -153,4 +153,8 @@ module ApplicationHelper
     availability += "</div></div>".html_safe
     availability
   end
+
+  def current_client_rep
+    controller.current_client_rep
+  end
 end

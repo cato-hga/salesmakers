@@ -1,11 +1,13 @@
 - title @department.name + ' Positions'
-- content_for :action_buttons do
-  = new_button new_department_position_path(@department)
+
 %section
   - header = header_row ['Name','Leader?','All Field Visibility?','All Corporate Visibility?']
   - rows = Array.new
   - for position in @positions do
-    - position_name = link_to position.name, department_positions_path
+    - if PositionPolicy.new(@current_person, Position.new).update?
+      - position_name = link_to position.name, edit_permissions_department_position_path(position.department, position)
+    - else
+      - position_name = position.name
     - leadership = position.leadership? ? 'Yes' : 'No'
     - all_field = position.all_field_visibility? ? 'Yes' : 'No'
     - all_corporate_visibility = position.all_corporate_visibility? ? 'Yes' : 'No'

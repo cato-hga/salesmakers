@@ -1,0 +1,13 @@
+- title "Editing Permissions for #{@position.name.pluralize}"
+
+.widgets
+  = form_tag update_permissions_department_position_path(@position.department, @position), method: :put do
+    - for permission_group in @permission_groups do
+      .widget
+        .inner
+          %h3= permission_group.name
+          - for permission in permission_group.permissions do
+            = check_box_tag "permissions[]", permission.id, (@position.permissions.include?(permission) ? true : false)
+            = label_tag "permissions[]", permission.description
+            %br/
+          = submit_tag 'Save', class: [:button]

@@ -46,6 +46,7 @@ Rails.application.routes.draw do
       patch :reactivate
       post :cant_make_training_location
       put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
+      put :set_training_session_status
     end
     collection do
       get :dashboard, as: :dashboard
@@ -64,6 +65,10 @@ Rails.application.routes.draw do
 
   resources :changelog_entries, only: [:index, :new, :create]
 
+  namespace :client_access do
+    resources :worker_assignments, controller: 'workmarket_assignments', only: [:index, :show]
+  end
+
   resources :clients, only: [:index, :show] do
     resources :projects, only: [:show] do
       resources :area_types, only: [:index]
@@ -79,6 +84,15 @@ Rails.application.routes.draw do
     end
     member do
       get :sales, as: :sales
+    end
+  end
+
+  resources :client_representatives do
+    collection do
+      get :new_session, as: :new_session
+      post :create_session, as: :create_session
+      get :welcome, as: :welcome
+      delete :destroy_session, as: :destroy_session
     end
   end
 
@@ -102,7 +116,12 @@ Rails.application.routes.draw do
   post 'comcast_group_me_bots/message', to: 'comcast_group_me_bots#message'
 
   resources :departments, only: [:index, :show] do
-    resources :positions, only: [:index]
+    resources :positions, only: [:index] do
+      member do
+        get :edit_permissions, as: :edit_permissions
+        put :update_permissions, as: :update_permissions
+      end
+    end
   end
 
   resources :devices do
@@ -164,6 +183,8 @@ Rails.application.routes.draw do
   resources :device_states, except: [:show]
 
   post 'docusign_connect', to: 'docusign_connect#incoming'
+
+  get 'global_search', to: 'global_search#results', as: :global_search
 
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups

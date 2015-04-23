@@ -1,0 +1,43 @@
+require 'etl/connect_sprint_sales_source'
+require 'etl/sprint_sales_destination'
+
+source ConnectSprintSalesSource, 6.minutes
+
+def get_location c_bpartner_location_id
+  return unless c_bpartner_location_id
+  c_bpl = ConnectBusinessPartnerLocation.find c_bpartner_location_id || return
+  location = Location.return_from_connect_business_partner_location c_bpl
+  location ? location.id : nil
+end
+
+def get_person ad_user_id
+  person = Person.find_by connect_user_id: ad_user_id
+  person ? person.id : nil
+end
+
+transform do |row|
+  puts row, ''
+  sale = Hash.new
+  sale[:carrier_name] = row['carrier']
+  sale[:comments] = row['comments']
+  sale[:connect_sprint_sale_id] = row['rsprint_sales_id']
+  sale[:created_at] = row['created'].remove_eastern_offset
+  sale[:handset_model_name] = row['model']
+  sale[:location_id] = get_location row['c_bpartner_location_id']
+  sale[:meid] = row['meid']
+  sale[:mobile_phone] = row['mobile_phone']
+  sale[:person_id] = get_person row['ad_user_id']
+  sale[:phone_activated_in_store] = row['activated_in_store'] == 'Yes'
+  sale[:picture_with_customer] = row['picture']
+  sale[:rate_plan_name] = row['rate_plan']
+  sale[:reason_not_activated_in_store] = row['reason_not_activated']
+  sale[:sale_date] = row['date_sold'].remove_eastern_offset.to_date
+  sale[:top_up_card_amount] = row['top_up_card_amount']
+  sale[:top_up_card_purchased] = row['top_up_card_purchased'] == 'Yes'
+  sale[:updated_at] = row['updated'].remove_eastern_offset
+  sale[:upgrade] = row['upgrade'] == 'Y'
+
+  sale
+end
+
+destination SprintSalesDestination

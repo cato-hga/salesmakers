@@ -19,6 +19,11 @@ class Device < ActiveRecord::Base
   stripping_ransacker(:unstripped_identifier, :identifier, true)
   stripping_ransacker(:unstripped_serial, :serial, true)
 
+  searchable do
+    text :identifier, boost: 5.0
+    text :serial, boost: 5.0
+  end
+
   def repairing?
     repairing = DeviceState.find_or_initialize_by name: 'Repairing'
     self.device_states.include? repairing
