@@ -50,18 +50,8 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find params[:id]
-    @candidate_contacts = @candidate.candidate_contacts
-    @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
-    @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
-    @candidate_shifts = Shift.where(person: @candidate.person) if @candidate.person
-    if @candidate.person and @candidate_shifts.present?
-      @candidate_total_hours = @candidate_shifts.sum(:hours).round(2)
-      @candidate_hours_last_week = @candidate_shifts.where('date > ? ', Date.today - 7.days).sum(:hours).round(2)
-      @last_shift_date = @candidate_shifts.last.date.strftime('%A, %b %e')
-      @last_shift_location = @candidate_shifts.last.location ?
-          "##{@candidate_shifts.last.location.store_number}, #{@candidate_shifts.last.location.street_1}, #{@candidate_shifts.last.location.city}, #{@candidate_shifts.last.location.state}" :
-          'No Location Attached To Shift'
-    end
+    get_show_variables
+    get_hours_information
     setup_sprint_params
   end
 
@@ -73,17 +63,16 @@ class CandidatesController < ApplicationController
 
   def create
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
-    @projects = Project.all
-    @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
-    outsourced = CandidateSource.find_by name: 'Outsourced'
-    @select_location = params[:select_location] == 'true' ? true : false
+    get_create_variables
     check_and_handle_unmatched_candidates
-    if @candidate_source == outsourced
-      handle_outsourced
-    elsif @candidate.save and @select_location
-      create_and_select_location
-    elsif @candidate.save
-      create_without_selecting_location
+    if @candidate_source == @outsourced
+      handle_outsourced; return if performed?
+    end
+    if @select_location
+      create_and_select_location; return if performed?
+    end
+    if @candidate.save
+      create_without_selecting_location; return if performed?
     else
       render :new
     end
@@ -116,15 +105,44 @@ class CandidatesController < ApplicationController
 
   private
 
+  def get_create_variables
+    @projects = Project.all
+    @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
+    @outsourced = CandidateSource.find_by name: 'Outsourced'
+    @select_location = params[:select_location] == 'true' ? true : false
+  end
+
+  def get_hours_information
+    if @candidate.person and @candidate_shifts.present?
+      @candidate_total_hours = @candidate_shifts.sum(:hours).round(2)
+      @candidate_hours_last_week = @candidate_shifts.where('date > ? ', Date.today - 7.days).sum(:hours).round(2)
+      @last_shift_date = @candidate_shifts.last.date.strftime('%A, %b %e')
+      @last_shift_location = @candidate_shifts.last.location ?
+          "##{@candidate_shifts.last.location.store_number}, #{@candidate_shifts.last.location.street_1}, #{@candidate_shifts.last.location.city}, #{@candidate_shifts.last.location.state}" :
+          'No Location Attached To Shift'
+    end
+  end
+
+  def get_show_variables
+    @candidate_contacts = @candidate.candidate_contacts
+    @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
+    @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
+    @candidate_shifts = Shift.where(person: @candidate.person) if @candidate.person
+  end
+
   def search_bar
     @search = Candidate.search(params[:q])
   end
 
   def create_and_select_location
-    @current_person.log? 'create',
-                         @candidate
-    flash[:notice] = 'Candidate saved!'
-    redirect_to select_location_candidate_path(@candidate, 'false')
+    if @candidate.save
+      @current_person.log? 'create',
+                           @candidate
+      flash[:notice] = 'Candidate saved!'
+      redirect_to select_location_candidate_path(@candidate, 'false')
+    else
+      render :new
+    end
   end
 
   def create_without_selecting_location

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422144313) do
+ActiveRecord::Schema.define(version: 20150422172724) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -390,6 +390,18 @@ ActiveRecord::Schema.define(version: 20150422144313) do
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
 
+  create_table "docusign_noses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "eligible_to_rehire", default: false, null: false
+    t.integer "employment_end_reason_id", null: false
+    t.string "envelope_guid", null: false
+    t.datetime "last_day_worked", null: false
+    t.integer "person_id", null: false
+    t.text "remarks"
+    t.datetime "termination_date", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "docusign_templates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "document_type", default: 0, null: false
@@ -415,6 +427,13 @@ ActiveRecord::Schema.define(version: 20150422144313) do
     t.string "to_email", null: false
     t.integer "to_person_id"
     t.datetime "updated_at"
+  end
+
+  create_table "employment_end_reasons", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employments", force: :cascade do |t|
