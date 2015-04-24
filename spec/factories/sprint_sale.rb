@@ -1,11 +1,18 @@
 FactoryGirl.define do
+  sequence :meid do
+    rand(10**18).to_s.rjust(18, '0')
+  end
+
+  sequence :mobile_phone do
+    rand(10**10).to_s.rjust(10, '0')
+  end
 
   factory :sprint_sale do
     sale_date Date.yesterday
     person
     location
-    meid '123456789012345678'
-    mobile_phone '7274872633'
+    meid { generate :meid }
+    mobile_phone { generate :mobile_phone }
     carrier_name 'Boost Mobile'
     handset_model_name 'LG Volt'
     upgrade false

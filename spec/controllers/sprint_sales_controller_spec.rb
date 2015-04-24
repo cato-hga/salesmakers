@@ -3,6 +3,7 @@ require 'rails_helper'
 describe SprintSalesController do
 
   describe 'GET scoreboard' do
+    let!(:client) { create :client, name: 'Sprint' }
     context 'with permission' do
       before do
         allow(controller).to receive(:policy).and_return double(scoreboard?: true)

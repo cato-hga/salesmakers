@@ -1,7 +1,7 @@
 require 'etl/connect_sprint_sales_source'
 require 'etl/sprint_sales_destination'
 
-source ConnectSprintSalesSource, 6.minutes
+source ConnectSprintSalesSource, 48.hours
 
 def get_location c_bpartner_location_id
   return unless c_bpartner_location_id

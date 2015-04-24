@@ -11,7 +11,11 @@ class SprintSalesController < ApplicationController
     set_depth
     set_range
     set_project
-    set_day_sales_counts
+    set_region_name_contains
+    set_market_name_contains
+    set_territory_name_contains
+    set_location_name_contains
+    set_sales
   end
 
   private
@@ -33,11 +37,32 @@ class SprintSalesController < ApplicationController
 
   def set_project
     @project = nil
-    @project = Project.find params[:project_id] if params[:project_id]
+    @project = Project.find params[:project_id] unless params[:project_id].blank?
   end
 
-  def set_day_sales_counts
-    @day_sales_counts = ActiveRecord::Base.connection.execute query
-    @search = OpenStruct.new(result: @day_sales_counts)
+  def set_region_name_contains
+    @region_name_contains = ''
+    @region_name_contains = params[:region_name_contains] unless params[:region_name_contains].blank?
+  end
+  
+  def set_market_name_contains
+    @market_name_contains = ''
+    @market_name_contains = params[:market_name_contains] unless params[:market_name_contains].blank?
+  end
+  
+  def set_territory_name_contains
+    @territory_name_contains = ''
+    @territory_name_contains = params[:territory_name_contains] unless params[:territory_name_contains].blank?
+  end
+  
+  def set_location_name_contains
+    @location_name_contains = ''
+    @location_name_contains = params[:location_name_contains] unless params[:location_name_contains].blank?
+  end
+
+  def set_sales
+    @query = query
+    @sales = ActiveRecord::Base.connection.execute @query
+    @search = OpenStruct.new(result: @sales)
   end
 end
