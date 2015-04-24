@@ -40,6 +40,8 @@
       = link_to 'Search', people_path
     %li
       = link_to 'Org Chart', org_chart_people_path
+    - if PersonPolicy.new(current_person, Person.new).approval?
+      %li= link_to 'Approve Assets', asset_approval_path
     - if PersonPolicy.new(current_person, Person.new).create?
       %li= link_to 'New', new_person_path
   - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new)
