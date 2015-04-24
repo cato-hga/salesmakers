@@ -44,17 +44,32 @@ describe 'Approving or Denying assets' do
       context 'approval' do
         before {
           click_on 'Approve'
+          employee_one.reload
         }
         it 'sets the vonage table status to approved' do
-
+          expect(employee_one.vonage_tablet_approval_status).to eq('approved')
         end
-        it 'renders the approval template again'
-        it 'removes the employee off the approval list'
+        it 'renders the approval template again' do
+          expect(current_path).to eq(asset_approval_path)
+        end
+        it 'removes the employee off the approval list' do
+          expect(page).not_to have_content(employee_one.display_name)
+        end
       end
       context 'denial' do
-        it 'sets the vonage table status to denied'
-        it 'renders the approval template again'
-        it 'removes the employee off the approval list'
+        before {
+          click_on 'Deny'
+          employee_one.reload
+        }
+        it 'sets the vonage table status to approved' do
+          expect(employee_one.vonage_tablet_approval_status).to eq('denied')
+        end
+        it 'renders the approval template again' do
+          expect(current_path).to eq(asset_approval_path)
+        end
+        it 'removes the employee off the approval list' do
+          expect(page).not_to have_content(employee_one.display_name)
+        end
       end
     end
   end

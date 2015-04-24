@@ -5,9 +5,9 @@ class AssetApprovalsController < ApplicationController
     team = @current_person.managed_team_members
     people = []
     for member in team do
-      people << member if member.passed_asset_hours_requirement
+      people << member if member.passed_asset_hours_requirement and member.vonage_tablet_approval_status == 'no_decision'
     end
-    @pending_approval = Person.no_tablets_from_collection(people) #RETURN THIS TO PEOPLE
+    @pending_approval = Person.no_tablets_from_collection(people)
   end
 
   def approve
