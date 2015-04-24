@@ -2,15 +2,19 @@ require 'rails_helper'
 
 RSpec.describe AssetApprovalsController, :type => :controller do
 
-  # describe 'GET new' do
-  #   before {
-  #     get :approval
-  #   }
-  #   it 'returns a success setting' do
-  #     expect(response).to be_success
-  #     expect(response).to render_template(:approval)
-  #   end
-  # end
+
+  describe 'GET new' do
+    let(:manager) { create :person }
+    before {
+      allow(controller).to receive(:policy).and_return double(approval?: true)
+      CASClient::Frameworks::Rails::Filter.fake(manager.email)
+      get :approval
+    }
+    it 'returns a success setting' do
+      expect(response).to be_success
+      expect(response).to render_template(:approval)
+    end
+  end
 
   describe 'POST create' do
     let(:approving_person) { create :person }

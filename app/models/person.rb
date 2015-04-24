@@ -46,6 +46,11 @@ class Person < ActiveRecord::Base
            :denied,
            :approved
        ]
+  enum sprint_prepaid_asset_approval_status: [
+           :prepaid_no_decision,
+           :prepaid_denied,
+           :prepaid_approved
+       ]
 
   def mobile_phone?
     self.mobile_phone and self.mobile_phone != '8005551212'
@@ -117,7 +122,7 @@ class Person < ActiveRecord::Base
     return true if Person.vonage_tablet_approval_statuses[self.vonage_tablet_approval_status] > 0
     person_areas = self.person_areas
     for person_area in person_areas do
-      @skip = true unless person_area.area.project.name.include? 'Vonage'
+      @skip = true unless person_area.area.project.name.include? 'Vonage' or person_area.area.project.name.include? 'Sprint Retail'
       break if @skip
     end
     return true if @skip

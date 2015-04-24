@@ -98,22 +98,6 @@ class AssetsMailer < ApplicationMailer
     )
   end
 
-  def asset_approval_mailer(supervisor)
-    return unless supervisor
-    @supervisor = supervisor
-    mail(from: 'notifications@salesmakersinc.com',
-         to: [supervisor.email],
-         subject: "[SalesMakers] New Employees to Approve for Tablet Deployment"
-    )
-  end
-
-  def no_supervisors_for_asset_approval_mailer
-    mail(from: 'notifications@salesmakersinc.com',
-         to: 'it@retaildoneright.com',
-         subject: "[SalesMakers] New Employees without Supervisors to approve assets"
-    )
-  end
-
   private
 
   def set_lost_stolen_or_found_variables device

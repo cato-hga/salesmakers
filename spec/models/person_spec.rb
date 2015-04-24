@@ -724,6 +724,7 @@ RSpec.describe Person, :type => :model do
     let(:area) { create :area, project: von_project }
     let(:von_project) { create :project, name: 'Vonage Retail' }
     let(:other_project) { create :project, name: 'Other Retail' }
+    let(:sprint_prepaid) { create :project, name: 'Sprint Retail' }
     it 'returns true if the person has passed asset hours requirement' do
       expect(person.skip_for_assets?).to eq(false)
       person.update passed_asset_hours_requirement: true
@@ -745,7 +746,12 @@ RSpec.describe Person, :type => :model do
       expect(person.skip_for_assets?).to eq(true)
     end
 
-    it 'returns true if the person is not a Vonage employee' do
+    it 'returns true if the person is not a Sprint Prepaid or Vonage employee' do
+      expect(person.skip_for_assets?).to eq(false)
+      area.update project: sprint_prepaid
+      area.reload
+      person_area.reload
+      person.reload
       expect(person.skip_for_assets?).to eq(false)
       area.update project: other_project
       area.reload

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422172724) do
+ActiveRecord::Schema.define(version: 20150424180158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -680,6 +680,7 @@ ActiveRecord::Schema.define(version: 20150422172724) do
     t.boolean "passed_asset_hours_requirement", default: false, null: false
     t.string "personal_email"
     t.integer "position_id"
+    t.integer "sprint_prepaid_asset_approval_status"
     t.integer "supervisor_id"
     t.datetime "updated_at"
     t.integer "vonage_tablet_approval_status", default: 0, null: false
@@ -1092,14 +1093,6 @@ ActiveRecord::Schema.define(version: 20150422172724) do
     t.string "location_name"
     t.string "room"
     t.string "store_number"
-  end
-
-  create_table "tmp_updates", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "cost_center"
-    t.string "mailstop"
-    t.string "store_name"
-    t.string "store_num"
   end
 
   create_table "tmp_updates", id: false, force: :cascade do |t|

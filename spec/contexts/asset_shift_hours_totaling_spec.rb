@@ -13,11 +13,18 @@ describe AssetShiftHoursTotaling do
   end
 
   describe '.generate_totals' do
-    let(:non_vonage_person) { create :person, display_name: 'Non Vonage', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
-    let!(:non_vonage_person_area) { create :person_area, area: non_vonage_area, person: non_vonage_person }
-    let(:non_vonage_area) { create :area, project: non_vonage_project }
-    let(:non_vonage_project) { create :project, name: 'Not Correct' }
-    let!(:non_vonage_shift) { create :shift, person: non_vonage_person, date: Date.today - 3.hours, hours: 41 }
+    let(:sprint_prepaid_person) { create :person, display_name: 'Sprint Employee', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
+    let!(:sprint_prepaid_person_area) { create :person_area, area: sprint_prepaid_area, person: sprint_prepaid_person }
+    let(:sprint_prepaid_area) { create :area, project: sprint_prepaid_project }
+    let(:sprint_prepaid_project) { create :project, name: 'Sprint Retail' }
+    let!(:sprint_prepaid_shift) { create :shift, person: sprint_prepaid_person, date: Date.today - 3.hours, hours: 41 }
+
+    let(:ignore_person) { create :person, display_name: 'Ignore Me', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
+    let!(:ignore_person_area) { create :person_area, area: ignore_area, person: ignore_person }
+    let(:ignore_area) { create :area, project: ignore_project }
+    let(:ignore_project) { create :project, name: 'Ignored' }
+    let!(:ignore_shift) { create :shift, person: ignore_person, date: Date.today - 3.hours, hours: 41 }
+
 
     let(:forty_person) { create :person, display_name: 'Forty', passed_asset_hours_requirement: true, vonage_tablet_approval_status: 0 }
     let!(:forty_person_area) { create :person_area, area: forty_area, person: forty_person }
@@ -53,16 +60,17 @@ describe AssetShiftHoursTotaling do
       }.not_to change too_early_person, :vonage_tablet_approval_status
     end
 
-    it 'ignores non-Vonage employees' do
+    it 'ignores non-Vonage and Non-Sprint Prepaid employees' do
       expect {
         @total.generate_totals
-        non_vonage_person.reload
-      }.not_to change non_vonage_person, :passed_asset_hours_requirement
+        ignore_person.reload
+      }.not_to change ignore_person, :passed_asset_hours_requirement
       expect {
         @total.generate_totals
-        non_vonage_person
-      }.not_to change non_vonage_person, :vonage_tablet_approval_status
+        ignore_person.reload
+      }.not_to change ignore_person, :vonage_tablet_approval_status
     end
+
     it 'ignores Vonage employees that are passed 40 hours' do
       expect {
         @total.generate_totals
@@ -73,6 +81,7 @@ describe AssetShiftHoursTotaling do
         forty_person.reload
       }.not_to change forty_person, :vonage_tablet_approval_status
     end
+
     it 'ignores employees that are qualified or disqualified already' do
       expect {
         @total.generate_totals
@@ -91,6 +100,21 @@ describe AssetShiftHoursTotaling do
         denied_person.reload
       }.not_to change denied_person, :vonage_tablet_approval_status
     end
+    it 'always passes the asset hours requirement for Sprint Prepaid employees' do
+      expect {
+        @total.generate_totals
+        sprint_prepaid_person.reload
+      }.to change(sprint_prepaid_person, :passed_asset_hours_requirement).to(true)
+      expect {
+        @total.generate_totals
+        sprint_prepaid_person.reload
+      }.not_to change sprint_prepaid_person, :vonage_tablet_approval_status
+      expect {
+        @total.generate_totals
+        sprint_prepaid_person.reload
+      }.not_to change sprint_prepaid_person, :sprint_prepaid_asset_approval_status
+    end
+
     it 'totals the hours for the remaining employees' do
       expect {
         @total.generate_totals
@@ -100,86 +124,6 @@ describe AssetShiftHoursTotaling do
         @total.generate_totals
         passing_forty_person.reload
       }.not_to change passing_forty_person, :vonage_tablet_approval_status
-    end
-    it 'passes off to .email_managers' do
-      expect(@total).to receive(:email_managers).with([passing_forty_person])
-      @total.generate_totals
-    end
-  end
-
-  describe '.email_managers' do
-    let(:person_with_supervisor) { create :person, supervisor: direct_supervisor }
-    let(:second_person_with_supervisor) { create :person, supervisor: direct_supervisor }
-    let(:no_supervisor) { create :person, supervisor: nil, display_name: 'Orphaned' }
-    let(:people) { [person, no_supervisor] }
-
-    let(:other_people) { [no_supervisor] }
-    let(:person) { create :person, display_name: 'Employee' }
-    let(:direct_supervisor) { create :person, display_name: 'Direct Supervisor' }
-    let(:market_supervisor) { create :person, display_name: 'Market Supervisor' }
-    let(:regional_supervisor) { create :person, display_name: 'Regional Supervisor' }
-    let(:area) { create :area, parent: market_area }
-    let(:market_area) { create :area, parent: regional_area }
-    let(:regional_area) { create :area }
-    let!(:person_area) { create :person_area, area: area, person: person }
-    let!(:supervisor_area) { create :person_area, area: area, person: direct_supervisor, manages: true }
-    let!(:market_supervisor_area) { create :person_area, area: market_area, person: market_supervisor, manages: true }
-    let!(:regional_supervisor_area) { create :person_area, area: regional_area, person: regional_supervisor, manages: true }
-
-    it 'emails managers for all employees in the array generated by .generate_totals' do
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(message_delivery).to receive(:deliver_later)
-      expect(AssetsMailer).to receive(:asset_approval_mailer).with(direct_supervisor).and_return(message_delivery)
-      @total = AssetShiftHoursTotaling.new(duration)
-      @total.email_managers(people)
-    end
-    it 'does not email managers twice if they have two people who passed 40 hours' do
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(message_delivery).to receive(:deliver_later)
-      expect(AssetsMailer).to receive(:asset_approval_mailer).with(direct_supervisor).and_return(message_delivery).once
-      @total = AssetShiftHoursTotaling.new(duration)
-      @total.email_managers(people)
-    end
-
-    it 'emails the area manager of territory if there is not a direct supervisor' do
-      supervisor_area.update manages: false
-      supervisor_area.reload
-      direct_supervisor.reload
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(message_delivery).to receive(:deliver_later)
-      expect(AssetsMailer).to receive(:asset_approval_mailer).with(market_supervisor).and_return(message_delivery).once
-      @total = AssetShiftHoursTotaling.new(duration)
-      mailer = @total.email_managers(people)
-    end
-
-    it 'emails the regional manager if there is not an area manager' do
-      supervisor_area.update manages: false
-      supervisor_area.reload
-      direct_supervisor.reload
-      market_supervisor_area.update manages: false
-      market_supervisor_area.reload
-      market_supervisor.reload
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(message_delivery).to receive(:deliver_later)
-      expect(AssetsMailer).to receive(:asset_approval_mailer).with(regional_supervisor).and_return(message_delivery).once
-      @total = AssetShiftHoursTotaling.new(duration)
-      mailer = @total.email_managers(people)
-    end
-    it 'emails IT if there is not a manager, area manager, or regional for an employee' do
-      supervisor_area.update manages: false
-      supervisor_area.reload
-      direct_supervisor.reload
-      market_supervisor_area.update manages: false
-      market_supervisor_area.reload
-      market_supervisor.reload
-      regional_supervisor_area.update manages: false
-      regional_supervisor_area.reload
-      regional_supervisor.reload
-      message_delivery = instance_double(ActionMailer::MessageDelivery)
-      allow(message_delivery).to receive(:deliver_later)
-      expect(AssetsMailer).to receive(:no_supervisors_for_asset_approval_mailer).and_return(message_delivery).once
-      @total = AssetShiftHoursTotaling.new(duration)
-      mailer = @total.email_managers([person])
     end
   end
 end
