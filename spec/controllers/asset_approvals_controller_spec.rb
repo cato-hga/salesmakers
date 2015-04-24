@@ -29,7 +29,7 @@ RSpec.describe AssetApprovalsController, :type => :controller do
       end
 
       it 'redirects to the approval page' do
-        expect(response).to render_template(:approval)
+        expect(response).to redirect_to(asset_approval_path)
       end
     end
 
@@ -42,6 +42,10 @@ RSpec.describe AssetApprovalsController, :type => :controller do
 
       it 'updates the tablet approval status for the person' do
         expect(denying_person.vonage_tablet_approval_status).to eq('denied')
+      end
+
+      it 'redirects to the approval page' do
+        expect(response).to redirect_to(asset_approval_path)
       end
     end
 
