@@ -140,10 +140,10 @@ class Person < ActiveRecord::Base
     supervisors
   end
 
-  def self.no_tablets_from_collection(people_collection)
+  def self.no_assets_from_collection(people_collection)
     @devices = Device.
         joins(:device_model).
-        where('device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ?', 'Evo View 4G', '%Tab%', '%Ellipsis%', '%Optik%')
+        where('device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ?', 'Pulse', 'Tribute', 'Evo View 4G', '%Galaxy%', '%Ellipsis%', '%Optik%')
     people_without_assets = []
     for person in people_collection do
       tablet = false

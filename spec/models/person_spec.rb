@@ -804,7 +804,7 @@ RSpec.describe Person, :type => :model do
 
     it 'returns a list of employees without tablets' do
       collection = [person_without_assets, person_with_tablet, person_with_laptop]
-      no_tablets = Person.no_tablets_from_collection(collection)
+      no_tablets = Person.no_assets_from_collection(collection)
       expect(no_tablets).not_to include(person_with_tablet)
       expect(no_tablets).to include(person_with_laptop)
       expect(no_tablets).to include(person_without_assets)
