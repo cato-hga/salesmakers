@@ -20,7 +20,9 @@
 		display: none;
 		text-align: right;
 		z-index: 99;
+	}
 
+	.inline_form, form#search_form {
 		input[type = text], textarea {
 			width: 10em;
 			display: inline-block;

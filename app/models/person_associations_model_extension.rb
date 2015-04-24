@@ -33,7 +33,7 @@ module PersonAssociationsModelExtension
         :uploaded_videos, :blog_posts, :wall_posts, :questions, :answers,
         :answer_upvotes, :communication_log_entries, :group_me_posts,
         :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
-        :vonage_refunds, :vonage_paycheck_negative_balances
+        :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales
     ]
 
     for has_many_association in has_many_associations do

@@ -32,7 +32,7 @@
           - comcast_customer_policy = ComcastCustomerPolicy.new(current_person, ComcastCustomer.new)
           - if comcast_lead_policy.index? || comcast_sale_policy.index? || comcast_customer_policy.create?
             %li.has-dropdown
-              %a{ href: '#' } Comcast Retail
+              %a{ href: '#' } Comcast
               %ul.dropdown
                 - if comcast_lead_policy.index?
                   %li= link_to 'Comcast Leads', comcast_leads_path
@@ -44,6 +44,13 @@
                   %li= link_to 'New Customer', new_comcast_customer_path
                   %li= link_to 'My Customers', comcast_customers_path
                   %li= link_to 'End Of Day', new_comcast_eod_path
+          - sprint_sale_policy = SprintSalePolicy.new(current_person, SprintSale.new)
+          - if sprint_sale_policy.scoreboard?
+            %li.has-dropdown
+              %a{ href: '#' } Sprint
+              %ul.dropdown
+                - if sprint_sale_policy.scoreboard?
+                  %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
           - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
           - if group_count > 0
             %li= link_to 'GroupMe Post', new_post_group_me_groups_path

@@ -74,7 +74,7 @@ class SaleImporter
     activated = activation? sale
     new_account = new_account? sale
     if obj
-      table_name = obj.model_name.name.pluralize.downcase
+      table_name = obj.model_name.name.underscore.pluralize.downcase
       increment_object_sale_count sold, table_name, obj, activated, new_account
     end
   end
@@ -122,7 +122,7 @@ class SaleImporter
         area: sale.area,
         project: project,
         client: client,
-        location: location_area
+        location_area: location_area
     }
   end
 

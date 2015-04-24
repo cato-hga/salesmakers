@@ -6,6 +6,7 @@ class PersonUpdater
     @person = person
     updater_connect_user = connect_user.updater
     @updater = Person.return_from_connect_user updater_connect_user
+    @updater = Person.find_by connect_user_id: '2C908AA22CBD1292012CBD1735100034' unless @updater
   end
 
   def update

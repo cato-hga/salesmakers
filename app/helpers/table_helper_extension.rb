@@ -51,4 +51,50 @@ module TableHelperExtension
     end
     stripped
   end
+
+  def generate_subtotal_rows rows, transform_from_string_to = :to_i, number_columns_to_subtotal = 1
+    new_rows_list = []
+    change_index = number_columns_to_subtotal * -1 - 2
+    value = rows.first[change_index]
+    subtotals = get_zero_subtotals number_columns_to_subtotal, transform_from_string_to
+    Rails.logger.debug "ZERO SUBTOTALS: #{subtotals.inspect}"
+    for row in rows do
+      if row[change_index] != value
+        new_rows_list << get_total_row(value, rows.first.length, subtotals, number_columns_to_subtotal)
+        subtotals = get_zero_subtotals number_columns_to_subtotal, transform_from_string_to
+        Rails.logger.debug "ZEROING: #{subtotals.inspect}"
+      end
+      value = row[change_index]
+      Rails.logger.debug "BEFORE: #{subtotals.inspect}"
+      Rails.logger.debug "SALES: #{row[-3]}"
+      subtotals = get_subtotal_array_from_row subtotals, row, transform_from_string_to, number_columns_to_subtotal
+      Rails.logger.debug "AFTER: #{subtotals.inspect}"
+      new_rows_list << row
+    end
+    new_rows_list << get_total_row(value, rows.first.length, subtotals, number_columns_to_subtotal)
+    new_rows_list
+  end
+
+  def get_subtotal_array_from_row current_subtotals, row, transform_from_string_to, number_columns_to_subtotal
+    subtotals = []
+    number_columns_to_subtotal.times do |i|
+      subtotals << current_subtotals.reverse[i] + row[(i+1)*-1].send(transform_from_string_to)
+    end
+    subtotals.reverse
+  end
+
+  def get_zero_subtotals number_columns_to_subtotal, transform_from_string_to
+    subtotals = []
+    number_columns_to_subtotal.times do
+      subtotals << '0'.send(transform_from_string_to)
+    end
+    subtotals
+  end
+
+  def get_total_row value, length, subtotals, number_columns_to_subtotal
+    total_row = Array.new(length - number_columns_to_subtotal - 1)
+    total_row[-1] = '[TOTAL] '.html_safe + (value ? value.html_safe : '')
+    total_row << nil
+    total_row.concat subtotals
+  end
 end

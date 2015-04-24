@@ -4,12 +4,16 @@ module AreaScopesModelExtension
   end
 
   module ClassMethods
-    def visible(person = nil)
+    def visible(person = nil, return_self_area = false)
       return Area.none unless person
       return Area.all if person.position and
           (person.position.hq? or person.position.all_field_visibility?)
       areas = get_management_areas(person)
-      return Area.none if areas.count < 1
+      if areas.count < 1 and return_self_area
+        areas = person.person_areas.map {|pa| pa.area }
+      elsif areas.count < 1
+        return Area.none
+      end
       Area.where("areas.id IN (#{areas.map(&:id).join(',')})")
     end
 
