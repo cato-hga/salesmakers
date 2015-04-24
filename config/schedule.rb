@@ -19,6 +19,8 @@
 
 # Learn more: http://github.com/javan/whenever
 
+set :path, '/opt/oneconnect/current'
+
 every 5.minutes do
   runner 'EmailBouncebackNotifierJob.perform_later(5)'
   runner 'LegacyVonageSaleImporting.new(5.minutes).import'
