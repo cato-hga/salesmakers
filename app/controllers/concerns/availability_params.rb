@@ -1,6 +1,5 @@
 module AvailabilityParams
 
-
   protected
 
   def availability_params

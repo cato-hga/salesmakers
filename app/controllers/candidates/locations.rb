@@ -20,6 +20,32 @@ module Candidates::Locations
     end
   end
 
+  protected
+
+  def create_and_select_location
+    if @candidate.save
+      if @candidate_source == @outsourced
+        flash[:notice] = 'Outsourced candidate saved!'
+      else
+        flash[:notice] = 'Candidate saved!'
+      end
+      @current_person.log? 'create',
+                           @candidate
+      redirect_to select_location_candidate_path(@candidate, 'false')
+    else
+      render :new
+    end
+  end
+
+  def create_without_selecting_location
+    call_initiated = Time.at(params[:call_initiated].to_i)
+    @current_person.log? 'create',
+                         @candidate
+    create_voicemail_contact(call_initiated)
+    flash[:notice] = 'Candidate saved!'
+    redirect_to candidates_path
+  end
+
   private
 
   def handle_location_area
@@ -30,17 +56,6 @@ module Candidates::Locations
       back_to_confirm
     else
       candidate_location_completion
-    end
-  end
-
-  def handle_outsourced
-    if @candidate.save
-      @current_person.log? 'create',
-                           @candidate
-      flash[:notice] = 'Outsourced candidate saved!'
-      redirect_to select_location_candidate_path(@candidate, 'false')
-    else
-      render :new
     end
   end
 

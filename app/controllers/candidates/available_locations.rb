@@ -2,6 +2,13 @@ module Candidates::AvailableLocations
 
   private
 
+  def get_staffable_projects
+    Project.
+        joins(:areas).
+        joins(:location_areas).
+        where('location_areas.target_head_count > 0')
+  end
+
   def get_project_location_areas(project)
     project_locations = Project.locations(project)
     locations = project_locations.near(@candidate, 30)
