@@ -6,8 +6,11 @@ class AssetApprovalsController < ApplicationController
     people = []
     for member in team do
       project_name = member.person_areas.first.area.project.name
-      if project_name == 'Sprint Retail' or project_name.include? 'Vonage'
-        people << member if member.passed_asset_hours_requirement and (member.vonage_tablet_approval_status == 'no_decision' or member.sprint_prepaid_asset_approval_status == 'prepaid_no_decision')
+      if project_name == 'Sprint Retail'
+        people << member if member.passed_asset_hours_requirement and member.sprint_prepaid_asset_approval_status == 'prepaid_no_decision'
+      end
+      if project_name.include? 'Vonage'
+        people << member if member.passed_asset_hours_requirement and member.vonage_tablet_approval_status == 'no_decision'
       end
     end
     @pending_approval = Person.no_assets_from_collection(people)
