@@ -3,7 +3,7 @@
   - for entry in changelog_entries do
     - max_id = entry.id if entry.id > max_id
   .alert-box.info#changelog{ data: { alert: true, path: update_changelog_entry_id_person_path(@current_person, max_id), authenticity_token: form_authenticity_token } }
-    %a.close#changelog_dismiss &times;
+    %a.close#changelog_dismiss(href="#") &times;
     %h4 What's New
     - for entry in changelog_entries do
       %p
@@ -14,4 +14,4 @@
             = friendly_datetime(entry.released)
         &mdash;
         = entry.description
-    %a#changelog_dismiss_and_close Dismiss
+    %a#changelog_dismiss_and_close(href="#") Dismiss
