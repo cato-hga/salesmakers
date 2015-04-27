@@ -9,11 +9,13 @@ require 'capistrano/rails'
 require 'capistrano/rvm'
 require 'capistrano/puma'
 require 'capistrano/rails/assets'
+require 'capistrano/faster_assets'
 require 'capistrano/rails/migrations'
 
 #require 'capistrano/sidekiq'
 
 require 'airbrussh/capistrano'
+require 'capistrano/rails/console'
 
 
 set :rvm_type, :user
