@@ -56,3 +56,7 @@ end
 every 1.day, at: '2:00 am' do
   runner 'GroupMeGroup.notify_of_assets(240)'
 end
+
+every 1.day, at: '4:00 am' do
+  runner 'AssetShiftHoursTotaling(24.hours)'
+end

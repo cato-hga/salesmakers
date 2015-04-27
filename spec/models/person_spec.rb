@@ -318,8 +318,8 @@ RSpec.describe Person, :type => :model do
     }
     let(:bar_rep) {
       create :person,
-      supervisor: bar_root_child_child_manager,
-      position: field_position
+             supervisor: bar_root_child_child_manager,
+             position: field_position
     }
     let!(:bar_rep_person_area) {
       create :person_area,
@@ -715,6 +715,99 @@ RSpec.describe Person, :type => :model do
         subject
         location_area.reload
       }.to change(location_area, :current_head_count).from(1).to(0)
+    end
+  end
+
+  describe '.skip_for_assets?' do
+    let(:person) { create :person, passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
+    let!(:person_area) { create :person_area, area: area, person: person }
+    let(:area) { create :area, project: von_project }
+    let(:von_project) { create :project, name: 'Vonage Retail' }
+    let(:other_project) { create :project, name: 'Other Retail' }
+    let(:sprint_prepaid) { create :project, name: 'Sprint Retail' }
+    it 'returns true if the person has passed asset hours requirement' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update passed_asset_hours_requirement: true
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person has been denied for an asset' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update vonage_tablet_approval_status: :denied
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person has been approved for an asset' do
+      expect(person.skip_for_assets?).to eq(false)
+      person.update vonage_tablet_approval_status: :approved
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+
+    it 'returns true if the person is not a Sprint Prepaid or Vonage employee' do
+      expect(person.skip_for_assets?).to eq(false)
+      area.update project: sprint_prepaid
+      area.reload
+      person_area.reload
+      person.reload
+      expect(person.skip_for_assets?).to eq(false)
+      area.update project: other_project
+      area.reload
+      person_area.reload
+      person.reload
+      expect(person.skip_for_assets?).to eq(true)
+    end
+  end
+
+  describe '.get_supervisors' do
+    let(:person) { create :person, display_name: 'Employee' }
+    let(:direct_supervisor) { create :person, display_name: 'Supervisor' }
+    let(:market_supervisor) { create :person, display_name: 'Market Supervisor' }
+    let(:regional_supervisor) { create :person, display_name: 'Regional Supervisor' }
+    let(:area) { create :area, parent: market_area }
+    let(:market_area) { create :area, parent: regional_area }
+    let(:regional_area) { create :area }
+    let!(:person_area) { create :person_area, area: area, person: person }
+    let!(:supervisor_area) { create :person_area, area: area, person: direct_supervisor, manages: true }
+    let!(:market_supervisor_area) { create :person_area, area: market_area, person: market_supervisor, manages: true }
+    let!(:regional_supervisor_area) { create :person_area, area: regional_area, person: regional_supervisor, manages: true }
+
+    it 'returns the direct supervisor, if available' do
+      person.update supervisor: direct_supervisor
+      person.reload
+      expect(person.get_supervisors).to eq([direct_supervisor])
+    end
+    it 'returns the area managers for an employee, if there is not a team supervisor' do
+      supervisor_area.update manages: false
+      supervisor_area.reload
+      expect(person.get_supervisors).to eq([market_supervisor])
+    end
+    it 'returns the regional managers for an employee if there is not a team or area manager' do
+      supervisor_area.update manages: false
+      supervisor_area.reload
+      market_supervisor_area.update manages: false
+      market_supervisor_area.reload
+      expect(person.get_supervisors).to eq([regional_supervisor]) #making sure that the market supervisor isn't returned
+    end
+  end
+
+  describe '#no_tablets_from_collection' do
+    let!(:person_with_tablet) { create :person, display_name: 'Tablet' }
+    let!(:tablet) { create :device, device_model: tablet_model, person: person_with_tablet }
+    let!(:tablet_model) { create :device_model, name: 'GalaxyTab' }
+    let!(:person_with_laptop) { create :person, display_name: 'Laptop' }
+    let!(:laptop_model) { create :device_model, name: 'Laptop Model' }
+    let!(:laptop) { create :device, device_model: laptop_model, person: person_with_laptop }
+    let!(:person_without_assets) { create :person, display_name: 'Nothing' }
+
+    it 'returns a list of employees without tablets' do
+      collection = [person_without_assets, person_with_tablet, person_with_laptop]
+      no_tablets = Person.no_assets_from_collection(collection)
+      expect(no_tablets).not_to include(person_with_tablet)
+      expect(no_tablets).to include(person_with_laptop)
+      expect(no_tablets).to include(person_without_assets)
     end
   end
 end

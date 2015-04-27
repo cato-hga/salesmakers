@@ -15,11 +15,11 @@ class Person < ActiveRecord::Base
   nilify_blanks
 
   def self.setup_validations
-    validates :first_name, length: { minimum: 2 }
-    validates :last_name, length: { minimum: 2 }
-    validates :display_name, length: { minimum: 5 }
-    validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
-    validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
+    validates :first_name, length: {minimum: 2}
+    validates :last_name, length: {minimum: 2}
+    validates :display_name, length: {minimum: 5}
+    validates :email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, uniqueness: true
+    validates :personal_email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, allow_blank: true
     validates :connect_user_id, uniqueness: true, allow_nil: true
     validates_with PhoneNumberValidator
   end
@@ -40,6 +40,17 @@ class Person < ActiveRecord::Base
   end
 
   default_scope { order :display_name }
+
+  enum vonage_tablet_approval_status: [
+           :no_decision,
+           :denied,
+           :approved
+       ]
+  enum sprint_prepaid_asset_approval_status: [
+           :prepaid_no_decision,
+           :prepaid_denied,
+           :prepaid_approved
+       ]
 
   def mobile_phone?
     self.mobile_phone and self.mobile_phone != '8005551212'
@@ -106,7 +117,59 @@ class Person < ActiveRecord::Base
     address = PersonAddress.find_by person: self, physical: false
   end
 
+  def skip_for_assets?
+    return true if self.passed_asset_hours_requirement
+    return true if Person.vonage_tablet_approval_statuses[self.vonage_tablet_approval_status] > 0
+    person_areas = self.person_areas
+    for person_area in person_areas do
+      @skip = true unless person_area.area.project.name.include? 'Vonage' or person_area.area.project.name.include? 'Sprint Retail'
+      break if @skip
+    end
+    return true if @skip
+    false
+  end
+
+  def get_supervisors
+    return [self.supervisor] if self.supervisor
+    supervisors = []
+    if self.person_areas
+      for person_area in person_areas do
+        supervisors.concat get_person_area_supervisors(person_area)
+      end
+    end
+    supervisors
+  end
+
+  def self.no_assets_from_collection(people_collection)
+    @devices = Device.
+        joins(:device_model).
+        where('device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ? or device_models.name ilike ?', 'Pulse', 'Tribute', 'Evo View 4G', '%Galaxy%', '%Ellipsis%', '%Optik%')
+    people_without_assets = []
+    for person in people_collection do
+      tablet = false
+      for device in person.devices
+        tablet = true if @devices.include? device
+      end
+      unless tablet
+        people_without_assets << person
+      end
+    end
+    people_without_assets
+  end
+
   private
+
+  def get_person_area_supervisors(person_area)
+    area = person_area.area
+    while area.present?
+      manager_person_areas = area.person_areas.where(manages: true)
+      unless manager_person_areas.empty?
+        return manager_person_areas.map { |p| p.person }
+      end
+      area = area.parent
+    end
+    []
+  end
 
   def generate_display_name
     return unless first_name and last_name
