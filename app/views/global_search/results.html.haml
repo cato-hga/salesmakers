@@ -5,7 +5,7 @@
     .inner
       No results.
 - else
-  - unless @people.empty?
+  - if @people and not @people.empty?
     .widget
       .inner
         %h3 People
@@ -70,7 +70,7 @@
           - rows << table_row(row.flatten)
         = table header, rows
         = paginate @people_query.hits
-  - unless @candidates.empty?
+  - if @candidates and not @candidates.empty?
     .widget
       .inner
         %h3 Candidates
