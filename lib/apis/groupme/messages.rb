@@ -24,7 +24,8 @@ module Groupme
       query = initialize_messages_query(max)
       run_count = 0
       (max.to_f / 100.to_f).ceil.times do
-        messages.concat get_message_run(group_name, group_id, query, run_count, max, before, minimum_likes)
+        message_run = get_message_run(group_name, group_id, query, run_count, max, before, minimum_likes) || []
+        messages.concat message_run
         run_count += 1
       end
       messages

@@ -27,15 +27,14 @@ describe 'GroupMe API' do
 
   describe '#get_messages' do
     it 'should get a list of messages from groups', :vcr do
-      groups = groupme.get_groups
+      groups = groupme.get_first_group
       group_id = groups['response'][0]['group_id']
       messages = groupme.get_messages group_id
       expect(messages.count).to be > 0
     end
 
-
     it 'should return the max messages, if max is specified', :vcr do
-      groups = groupme.get_groups
+      groups = groupme.get_first_group
       group_id = groups['response'][0]['group_id']
       messages = groupme.get_messages group_id, max = 17
       expect(messages.count).to eq(17)
@@ -46,13 +45,6 @@ describe 'GroupMe API' do
     it 'should get a list of recent messages', :vcr do
       messages = groupme.get_recent_messages
       expect(messages.count).to be > 0
-    end
-
-    it 'should display recent messages over the minimum likes threshold', :vcr do
-      messages = groupme.get_recent_messages 5, 3
-      for message in messages do
-        expect(message.likes).to be >= 3
-      end
     end
   end
 

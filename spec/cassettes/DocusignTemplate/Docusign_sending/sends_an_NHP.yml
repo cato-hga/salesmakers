@@ -17,9 +17,9 @@ http_interactions:
         side in order to take you through the required fields, If anything is not
         applicable to you please type in \"N/A\".\n\n              Please contact
         your recruiter should you have any questions or problems.\n\n              Your
-        location is set to , St. Petersburg, FL (store number CCWM4690).\n              Your
+        location is set to 555 34th St N, St. Petersburg, FL (store number CCWM4690).\n              Your
         area is set to A Test Area.\n\n            ","emailSubject":"Test Project
-        Employment Application and New Hire Paperwork for: Test Candidate","templateId":"BCDA79DF-21E1-4726-96A6-AC2AAD715BB5","eventNotification":{},"templateRoles":[{"name":"Test
+        Employment Application and New Hire Paperwork for: Test Candidate","templateId":"603E81AB-4DC0-4FBC-9028-46D1FCABDD21","eventNotification":{},"templateRoles":[{"name":"Test
         Candidate","email":"developers@salesmakersinc.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
@@ -44,25 +44,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1426874400'
+      - '1430150400'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '992'
+      - '998'
       Date:
-      - Fri, 20 Mar 2015 17:56:48 GMT
+      - Mon, 27 Apr 2015 15:16:27 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"3e01e012-a6fd-4634-8eb4-40ce704e34da\",\r\n
-        \ \"uri\": \"/envelopes/3e01e012-a6fd-4634-8eb4-40ce704e34da\",\r\n  \"statusDateTime\":
-        \"2015-03-20T17:56:45.7600000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"c37b66a7-b23c-41de-939a-0043d6f2404d\",\r\n
+        \ \"uri\": \"/envelopes/c37b66a7-b23c-41de-939a-0043d6f2404d\",\r\n  \"statusDateTime\":
+        \"2015-04-27T15:16:26.1070000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Fri, 20 Mar 2015 17:56:50 GMT
+  recorded_at: Mon, 27 Apr 2015 15:16:28 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/3e01e012-a6fd-4634-8eb4-40ce704e34da
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/c37b66a7-b23c-41de-939a-0043d6f2404d
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -89,12 +89,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Fri, 20 Mar 2015 17:56:50 GMT
+      - Mon, 27 Apr 2015 15:16:29 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Fri, 20 Mar 2015 17:56:52 GMT
+  recorded_at: Mon, 27 Apr 2015 15:16:30 GMT
 recorded_with: VCR 2.9.3

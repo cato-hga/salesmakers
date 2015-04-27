@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 17 Mar 2015 18:51:09 GMT
+      - Mon, 27 Apr 2015 14:07:30 GMT
       Etag:
-      - '"4c6c0297f8e61e89322aaa1b4d6354a3"'
+      - '"557aa02c28fee06fb2d442a789ca376c"'
       Server:
       - nginx/1.6.2
       Status:
@@ -33,20 +33,20 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - fc0e73e530d5fd3c23b93335dc7efe3d
+      - 140ba57cc35f32f842ed88cbed551c1e
       X-Runtime:
-      - '0.182129'
+      - '0.069312'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
-      - '731'
+      - '750'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"code":201},"response":{"id":"12939277","group_id":"12939277","name":"TEST","phone_number":"+1
-        2813463903","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1426618268,"updated_at":1426618268,"office_mode":false,"share_url":null,"members":[{"id":"79445664","user_id":"12486363","nickname":"SalesMakers
-        IT","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":50,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
+      string: '{"meta":{"code":201},"response":{"id":"13691715","group_id":"13691715","name":"TEST","phone_number":"+1
+        4143689402","type":"private","description":"SalesMakers, Inc.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","creator_user_id":"12486363","created_at":1430143650,"updated_at":1430143650,"office_mode":false,"share_url":null,"members":[{"id":"85218218","user_id":"12486363","nickname":"SalesMakers
+        IT","muted":false,"image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","autokicked":false}],"max_memberships":200,"max_members":200,"messages":{"count":0,"last_message_id":null,"last_message_created_at":null,"preview":{"nickname":null,"text":null,"image_url":null,"attachments":[]}}}}'
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 18:51:09 GMT
+  recorded_at: Mon, 27 Apr 2015 14:07:30 GMT
 recorded_with: VCR 2.9.3

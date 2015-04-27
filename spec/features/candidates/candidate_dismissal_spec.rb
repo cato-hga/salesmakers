@@ -12,6 +12,7 @@ describe 'Candidate dismissal' do
                                              permission_group: permission_group }
   let!(:reason) { create :candidate_denial_reason }
   let!(:candidate) { create :candidate, location_area: location_area }
+  let(:area) { create :area, project: create(:project) }
   let(:location_area) { create :location_area, target_head_count: 2, potential_candidate_count: 1 }
 
   describe 'for unauthorized users' do

@@ -35,7 +35,7 @@ describe DocusignTemplate do
   describe 'Docusign sending' do
     let!(:docusign_template) {
       create :docusign_template,
-             template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
+             template_guid: '603E81AB-4DC0-4FBC-9028-46D1FCABDD21',
              state: 'FL',
              project: location_area.area.project,
              document_type: 0
@@ -54,5 +54,4 @@ describe DocusignTemplate do
       expect(envelope_response.length).to be > 0
     end
   end
-
 end

@@ -25,7 +25,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 17 Mar 2015 18:51:10 GMT
+      - Mon, 27 Apr 2015 14:09:02 GMT
       X-Powered-By:
       - AT-5000
       X-Shenanigans:
@@ -36,16 +36,16 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"sid": "CA850c13c8aa7e20faa35bffb3809d12e5", "date_created": null,
+      string: '{"sid": "CA0fc07ab13b860adfc98f1c2170d16328", "date_created": null,
         "date_updated": null, "parent_call_sid": null, "account_sid": "AC96a051482517673481ee177d64d52bcf",
         "to": "+18635214572", "to_formatted": "(863) 521-4572", "from": "+17272286225",
         "from_formatted": "(727) 228-6225", "phone_number_sid": "PN58da424a7bf45e807524979ddd53a61d",
         "status": "queued", "start_time": null, "end_time": null, "duration": null,
         "price": null, "price_unit": "USD", "direction": "outbound-api", "answered_by":
         null, "api_version": "2010-04-01", "annotation": null, "forwarded_from": null,
-        "group_sid": null, "caller_name": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA850c13c8aa7e20faa35bffb3809d12e5.json",
-        "subresource_uris": {"notifications": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA850c13c8aa7e20faa35bffb3809d12e5/Notifications.json",
-        "recordings": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA850c13c8aa7e20faa35bffb3809d12e5/Recordings.json"}}'
+        "group_sid": null, "caller_name": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA0fc07ab13b860adfc98f1c2170d16328.json",
+        "subresource_uris": {"notifications": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA0fc07ab13b860adfc98f1c2170d16328/Notifications.json",
+        "recordings": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Calls/CA0fc07ab13b860adfc98f1c2170d16328/Recordings.json"}}'
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 18:51:10 GMT
+  recorded_at: Mon, 27 Apr 2015 14:09:02 GMT
 recorded_with: VCR 2.9.3

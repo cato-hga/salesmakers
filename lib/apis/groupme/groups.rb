@@ -1,5 +1,9 @@
 module Groupme
   module Groups
+    def get_first_group
+      doGet '/groups', { per_page: 1 }
+    end
+
     def get_groups
       doGet '/groups', { per_page: 100 }
     end
