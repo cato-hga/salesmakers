@@ -14,6 +14,7 @@ require 'capistrano/rails/migrations'
 #require 'capistrano/sidekiq'
 
 require 'airbrussh/capistrano'
+require 'capistrano/rails/console'
 
 
 set :rvm_type, :user
