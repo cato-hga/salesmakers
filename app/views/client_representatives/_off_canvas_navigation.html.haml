@@ -10,6 +10,9 @@
       %label Menu
     %li
       = link_to 'Home', welcome_client_representatives_path
+    - if WorkmarketAssignmentPolicy.new(current_client_rep, WorkmarketAssignment.new).index?
+      %li
+        = link_to 'Assignments', client_access_worker_assignments_path
   - if current_client_rep
     %ul.off-canvas-list
       %li

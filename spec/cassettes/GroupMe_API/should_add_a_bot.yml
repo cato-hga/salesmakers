@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot":{"name":"1dc4ef8e-d1b2-4a62-86c2-ef06786d978c","group_id":"8936279","callback_url":null,"avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}}'
+      string: '{"bot":{"name":"abb55a5d-2bc9-4765-8118-5504c9c64bfe","group_id":"8936279","callback_url":null,"avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}}'
     headers:
       Content-Type:
       - application/json
@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 17 Mar 2015 18:51:32 GMT
+      - Mon, 27 Apr 2015 14:07:42 GMT
       Etag:
-      - '"a9b8a1151258c2fab68067ec19956949"'
+      - '"1db1f958ccde4e11595836b92606b65d"'
       Server:
       - nginx/1.6.2
       Status:
@@ -33,27 +33,27 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 836891f722519f639940ad567d27a4c9
+      - b021edc9ffd4b8390af24cdc034fc46c
       X-Runtime:
-      - '0.024517'
+      - '0.017054'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
-      - '287'
+      - '295'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"code":201},"response":{"bot":{"name":"1dc4ef8e-d1b2-4a62-86c2-ef06786d978c","bot_id":"171d289226eff71abb2f70f4d8","group_id":"8936279","group_name":"RBD
+      string: '{"meta":{"code":201},"response":{"bot":{"name":"abb55a5d-2bc9-4765-8118-5504c9c64bfe","bot_id":"5c519cb2dec3f89e227f33820e","group_id":"8936279","group_name":"SalesMakers
         Test Playground!","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 18:51:33 GMT
+  recorded_at: Mon, 27 Apr 2015 14:07:47 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"171d289226eff71abb2f70f4d8"}'
+      string: '{"bot_id":"5c519cb2dec3f89e227f33820e"}'
     headers:
       Content-Type:
       - application/json
@@ -69,7 +69,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 17 Mar 2015 18:51:32 GMT
+      - Mon, 27 Apr 2015 14:07:47 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -79,9 +79,9 @@ http_interactions:
       X-Rack-Cache:
       - invalidate, pass
       X-Request-Id:
-      - 6cfd37aad364216ed0a3614c73ad5636
+      - e3bfbff5bfb05d769e2ab44d08738bd2
       X-Runtime:
-      - '0.018737'
+      - '0.016300'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -92,5 +92,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Tue, 17 Mar 2015 18:51:33 GMT
+  recorded_at: Mon, 27 Apr 2015 14:07:47 GMT
 recorded_with: VCR 2.9.3

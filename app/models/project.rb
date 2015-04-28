@@ -71,4 +71,27 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def self.number_on_navigation_for_person person
+    position = person.position
+    return 0 unless position
+    projects = {
+        comcast: [
+            'comcast_customer_create',
+            'comcast_lead_index',
+            'comcast_sale_index'
+        ],
+        sprint: [
+            'sprint_sale_index'
+        ]
+    }
+    visible_projects = []
+    for project_key in projects.keys do
+      projects[project_key].each do |permission_key|
+        permission = Permission.find_by(key: permission_key) || next
+        visible_projects << project_key if position.permissions.include?(permission)
+      end
+    end
+    visible_projects.uniq.count
+  end
+
 end

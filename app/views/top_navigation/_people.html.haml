@@ -1,0 +1,12 @@
+- if PersonPolicy.new(@current_person, Person.new).index?
+  %li.has-dropdown#joyride-people
+    = link_to icon('torsos-all') + ' People', '#'
+    %ul.dropdown
+      %li= link_to 'Search', people_path
+      %li= link_to 'Org Chart', org_chart_people_path
+      -#- if PersonPolicy.new(@current_person, Person.new).approval?
+      -#  %li.divider
+      -#  %li= link_to 'Approve Assets', asset_approval_path
+      - if PersonPolicy.new(@current_person, Person.new).create?
+        %li.divider
+        %li= link_to 'New', new_person_path

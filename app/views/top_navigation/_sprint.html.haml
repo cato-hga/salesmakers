@@ -1,0 +1,7 @@
+- sprint_sale_policy = SprintSalePolicy.new(@current_person, SprintSale.new)
+- if sprint_sale_policy.scoreboard?
+  %li.has-dropdown
+    %a{ href: '#' } Sprint
+    %ul.dropdown
+      - if sprint_sale_policy.scoreboard?
+        %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path

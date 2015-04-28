@@ -121,4 +121,36 @@ RSpec.describe Project, :type => :model do
       end
     end
   end
+
+  describe 'counting number of visible projects on navigation for a person' do
+    let(:position) { create :position }
+    let!(:foo_rep) {
+      create :person,
+             position: position
+    }
+    let!(:permission_comcast_one) { create :permission, key: 'comcast_lead_index' }
+    let!(:permission_comcast_two) { create :permission, key: 'comcast_sale_index' }
+    let!(:permission_sprint_one) { create :permission, key: 'sprint_sale_index' }
+
+    it 'returns 0 when no permissions' do
+      expect(Project.number_on_navigation_for_person(foo_rep)).to eq(0)
+    end
+
+    it 'returns 1 when one permission' do
+      position.permissions << permission_comcast_one
+      expect(Project.number_on_navigation_for_person(foo_rep)).to eq(1)
+    end
+
+    it 'returns 1 when 2 permissions are in the same project' do
+      position.permissions << permission_comcast_one
+      position.permissions << permission_comcast_two
+      expect(Project.number_on_navigation_for_person(foo_rep)).to eq(1)
+    end
+
+    it 'returns 2 when 2 permissions are from different projects' do
+      position.permissions << permission_comcast_one
+      position.permissions << permission_sprint_one
+      expect(Project.number_on_navigation_for_person(foo_rep)).to eq(2)
+    end
+  end
 end

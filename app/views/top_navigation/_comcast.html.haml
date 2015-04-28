@@ -1,0 +1,17 @@
+- comcast_lead_policy = ComcastLeadPolicy.new(@current_person, ComcastLead.new)
+- comcast_sale_policy = ComcastSalePolicy.new(@current_person, ComcastSale.new)
+- comcast_customer_policy = ComcastCustomerPolicy.new(@current_person, ComcastCustomer.new)
+- if comcast_lead_policy.index? || comcast_sale_policy.index? || comcast_customer_policy.create?
+  %li.has-dropdown
+    %a{ href: '#' } Comcast
+    %ul.dropdown
+      - if comcast_lead_policy.index?
+        %li= link_to 'Comcast Leads', comcast_leads_path
+      - if comcast_sale_policy.index?
+        %li= link_to 'Comcast Sales', comcast_sales_path
+      - if comcast_customer_policy.create? && (comcast_lead_policy.index? || comcast_sale_policy.index?)
+        %li.divider
+      - if comcast_customer_policy.create?
+        %li= link_to 'New Customer', new_comcast_customer_path
+        %li= link_to 'My Customers', comcast_customers_path
+        %li= link_to 'End Of Day', new_comcast_eod_path
