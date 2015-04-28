@@ -77,13 +77,23 @@ class ComcastGroupMeBotCallback
   end
 
   def rep_query(sales)
-    'SELECT people.display_name AS name, count(comcast_sales.id) ' +
+    'SELECT people.display_name AS name, sum(' +
+        'case when comcast_sales.tv = true then 1 else 0 end + ' +
+        'case when comcast_sales.internet = true then 1 else 0 end + ' +
+        'case when comcast_sales.phone = true then 1 else 0 end + ' +
+        'case when comcast_sales.security = true then 1 else 0 end' +
+        ') as count ' +
         self.from_and_joins(sales) +
         'GROUP BY people.display_name ORDER BY people.display_name '
   end
 
   def territory_query(sales)
-    'SELECT areas.name, count(comcast_sales.id) ' +
+    'SELECT areas.name, sum(' +
+        'case when comcast_sales.tv = true then 1 else 0 end + ' +
+        'case when comcast_sales.internet = true then 1 else 0 end + ' +
+        'case when comcast_sales.phone = true then 1 else 0 end + ' +
+        'case when comcast_sales.security = true then 1 else 0 end' +
+        ') as count ' +
         self.from_and_joins(sales) +
         'GROUP BY areas.name ORDER BY areas.name '
   end
