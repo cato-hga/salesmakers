@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'Reconciling a candidate' do
 
   let(:hr_admin) { create :person, position: position }
-  let(:position) { create :position, name: 'Software Developer', permissions: [permission_create, permission_index] }
+  let(:position) { create :position, name: 'Human Resources Administrator', permissions: [permission_create, permission_index] }
   let!(:candidate) { create :candidate }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
