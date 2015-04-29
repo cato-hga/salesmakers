@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       post :cant_make_training_location
       put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
       put :set_training_session_status
+      put :set_reconciliation_status
     end
     collection do
       get :dashboard, as: :dashboard

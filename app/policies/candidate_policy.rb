@@ -127,4 +127,10 @@ class CandidatePolicy < ApplicationPolicy
   def set_training_session_status?
     view_all?
   end
+
+  def set_reconciliation_status?
+    hr_admin = Position.find_by name: 'Software Developer'
+    return true if @user.position == hr_admin
+    false
+  end
 end
