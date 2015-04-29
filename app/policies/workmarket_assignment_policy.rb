@@ -12,4 +12,8 @@ class WorkmarketAssignmentPolicy < ApplicationPolicy
   def view_all?
     has_permission? 'view_all'
   end
+
+  def csv?
+    index?
+  end
 end

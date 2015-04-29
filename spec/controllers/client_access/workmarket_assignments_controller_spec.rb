@@ -35,4 +35,17 @@ describe ClientAccess::WorkmarketAssignmentsController do
     end
   end
 
+  describe 'GET csv' do
+    it 'returns a success status for CSV format' do
+      get :csv,
+          format: :csv
+      expect(response).to be_success
+    end
+
+    it 'redirects an HTML format' do
+      get :csv
+      expect(response).to redirect_to(client_access_worker_assignments_path)
+    end
+  end
+
 end
