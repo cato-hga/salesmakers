@@ -4,16 +4,20 @@
 - show_details = @person.show_details? @visible_people
 - clients = @person.clients
 - vonage = false
+- postpaid = Project.find_by name: 'Sprint Postpaid'
 - for client in clients do
   - vonage = true if client.name == 'Vonage'
-- if show_details
-  = content_for :action_buttons do
+= content_for :action_buttons do
+  - if show_details
     - if vonage
       = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
     - if ScreeningPolicy.new(@current_person, Screening.new).update?
       = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
     - if @person.candidate
       = link_to 'Candidate Profile', candidate_path(@person.candidate), class: [:button, :inline_button ]
+  - if @person.projects.include? postpaid
+    - if policy(@person).terminate?
+      = link_to 'Terminate/NOS Person', new_person_docusign_nos_path(@person), id: '#nos_button', class: [:button, :inline_button]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs

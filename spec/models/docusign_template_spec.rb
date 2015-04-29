@@ -32,7 +32,7 @@ describe DocusignTemplate do
     expect(subject).not_to be_valid
   end
 
-  describe 'Docusign sending' do
+  describe 'Docusign sending, NHP' do
     let!(:docusign_template) {
       create :docusign_template,
              template_guid: '603E81AB-4DC0-4FBC-9028-46D1FCABDD21',
@@ -51,6 +51,32 @@ describe DocusignTemplate do
 
     it 'sends an NHP', :vcr do
       envelope_response = DocusignTemplate.send_nhp candidate, person
+      expect(envelope_response.length).to be > 0
+    end
+  end
+
+  describe 'Docusign sending, NOS' do
+    let!(:docusign_template) {
+      create :docusign_template,
+             template_guid: 'CD15C02E-B073-44D9-A60A-6514C24949CB',
+             project: person_area.area.project,
+             document_type: 2
+    }
+    let!(:manager) { create :person,
+                           display_name: 'Test Manager',
+                            email: 'smiles@retaildoneright.com'
+    }
+    let!(:regional) { create :person, display_name: 'Test Regional', email: 'developers@salesmakersinc.com' }
+    let(:person) { create :person }
+
+    let!(:person_area) { create :person_area, person: person, area: area }
+    let(:area) { create :area, project: project }
+    let(:project) { create :project }
+    let(:reason) { create :employment_end_reason, name: 'M103 Sleeping on the Job', active: true }
+    let(:remark) { 'This is a test remark that will go over a string length and into a text area length' }
+
+    it 'sends an NOS', :vcr do
+      envelope_response = DocusignTemplate.send_nos(person, regional, DateTime.now, DateTime.now, reason, false, false, remark)
       expect(envelope_response.length).to be > 0
     end
   end

@@ -15,8 +15,11 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 #Code Climage Test coverage
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+# require "codeclimate-test-reporter"
+# CodeClimate::TestReporter.start
+#Test coverage, next two lines
+# require 'simplecov'
+# SimpleCov.start 'rails'
 require 'pundit/rspec'
 require 'support/pundit_matcher'
 require 'factory_girl_rails'

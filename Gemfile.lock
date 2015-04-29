@@ -766,6 +766,7 @@ DEPENDENCIES
   seed_dump (= 3.2.2)
   shoulda-matchers (= 2.7.0)
   sidekiq (= 3.3.2)
+  simplecov
   sinatra (= 1.4.5)
   spreadsheet (= 1.0.1)
   spring (= 1.2.0)

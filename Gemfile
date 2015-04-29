@@ -107,6 +107,7 @@ group :test do
   gem 'database_rewinder', '0.4.2' #Database Cleaner alternative
   gem 'timecop', '0.7.3' # Alter times in testing
   gem 'rack_session_access', '0.1.1' # Ability to access session hash from tests
+  gem 'simplecov' #Backup code coverage, since CodeClimate cant see our parallel tests
 end
 
 group :production do

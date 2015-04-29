@@ -220,6 +220,7 @@ Rails.application.routes.draw do
 
   resources :people, except: [:edit, :destroy] do
     resource :screening, only: [:edit, :update]
+    resources :docusign_noses, only: [:new, :create]
     member do
       get :commission, as: :commission
       post :commission
