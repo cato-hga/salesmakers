@@ -924,4 +924,35 @@ describe CandidatesController do
                from('pending').to('candidate_confirmed')
     end
   end
+
+  describe 'POST set_candidate_reconciliation_status' do
+    let!(:candidate) { create :candidate }
+    before { allow(controller).to receive(:policy).and_return double(index?: true) }
+    before { allow(controller).to receive(:policy).and_return double(set_reconciliation_status?: true) }
+    subject do
+      post :set_reconciliation_status,
+           id: candidate.id,
+           candidate_reconciliation: {
+               status: 'working'
+           }
+    end
+
+    it 'should be a redirect to the candidate show page' do
+      subject
+      expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'saves the CandidateReconcilation' do
+      expect {
+        subject
+        candidate.reload
+      }.to change(CandidateReconciliation, :count).by(1)
+    end
+
+    it 'sets the status' do
+      subject
+      candidate.reload
+      expect(candidate.candidate_reconciliations.last.status).to eq('working')
+    end
+  end
 end

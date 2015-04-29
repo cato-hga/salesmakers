@@ -90,6 +90,17 @@ class CandidatesController < ApplicationController
     end
   end
 
+  def set_reconciliation_status
+    status = params[:candidate_reconciliation][:status]
+    @candidate_reconciliation = CandidateReconciliation.new
+    @candidate_reconciliation.status = status
+    @candidate_reconciliation.candidate = @candidate
+    if @candidate_reconciliation.save
+      flash[:notice] = 'Candidate Reconciliation Status saved'
+      redirect_to candidate_path(@candidate)
+    end
+  end
+
   private
 
   def search_bar

@@ -27,6 +27,8 @@ module Candidates::Variables
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
     @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
     @candidate_shifts = Shift.where(person: @candidate.person) if @candidate.person
+    @candidate_reconciliation = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last : CandidateReconciliation.new
+
   end
 
   def get_suffixes_and_sources
