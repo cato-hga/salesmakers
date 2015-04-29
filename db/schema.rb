@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424183211) do
+ActiveRecord::Schema.define(version: 20150427182309) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1048,6 +1048,11 @@ ActiveRecord::Schema.define(version: 20150424183211) do
     t.string "assessment"
   end
 
+  create_table "tmp_all_sprint", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "store_num"
+  end
+
   create_table "tmp_candidates", id: false, force: :cascade do |t|
     t.integer "cid"
     t.string "state"
@@ -1088,6 +1093,10 @@ ActiveRecord::Schema.define(version: 20150424183211) do
     t.string "location_name"
     t.string "room"
     t.string "store_number"
+  end
+
+  create_table "tmp_uid", id: false, force: :cascade do |t|
+    t.string "ad_user_id"
   end
 
   create_table "tmp_updates", id: false, force: :cascade do |t|
