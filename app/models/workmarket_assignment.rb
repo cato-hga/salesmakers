@@ -26,6 +26,18 @@ class WorkmarketAssignment < ActiveRecord::Base
     where(project: client.projects)
   }
 
+  def location_name
+    self.workmarket_location ? self.workmarket_location.name : nil
+  end
+
+  def attachment_count
+    self.workmarket_attachments.count
+  end
+
+  def project_name
+    self.project.name
+  end
+
   private
 
   def namecase

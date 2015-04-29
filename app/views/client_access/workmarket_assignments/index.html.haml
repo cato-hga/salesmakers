@@ -46,5 +46,6 @@
         - rows << table_row([started, ended, project, title, worker, location, attachment_count])
     = table headers, rows
 
-= content_for :footer do
+- content_for :footer do
+  .left= csv_link csv_client_access_worker_assignments_path, @search.result.count
   = paginate @assignments
