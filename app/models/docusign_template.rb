@@ -51,6 +51,74 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
+  def self.send_nos(person, sender, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
+    project = person.person_areas.first.project
+    retail = retail == 'Retail' ? true : false
+    template = DocusignTemplate.find_by(state: 'FL', project: project, document_type: DocusignTemplate.document_types[:nos]) || return
+    client = DocusignRest::Client.new
+    hash = {
+        status: 'created',
+        email: {
+            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
+        },
+        template_id: template.template_guid,
+        signers: [
+            {
+                name: sender.display_name,
+                email: sender.email,
+                role_name: 'Manager',
+                text_tabs: [
+                    {
+                        label: 'Employee Name',
+                        name: 'Employee Name',
+                        value: "#{person.display_name}",
+                        locked: true
+                    },
+                    {
+                        label: "Last Day Worked",
+                        name: "Last Day Worked",
+                        value: "#{last_day_worked.strftime('%m-%d-%y')}",
+                        locked: true
+                    },
+                    {
+                        label: 'Termination Date',
+                        name: 'Termination Date',
+                        value: "#{termination_date.strftime('%m-%d-%y')}",
+                        locked: true
+                    },
+                    {
+                        label: 'Remarks',
+                        name: 'Remarks',
+                        value: "#{remarks}",
+                        locked: true
+                    },
+                    {
+                        label: 'Location',
+                        name: 'Location',
+                        value: retail,
+                        locked: true
+                    },
+                    {
+                        label: 'Eligible for Rehire',
+                        name: 'Eligible for Rehire',
+                        value: rehire,
+                        locked: true
+                    },
+                    {
+                        label: 'Separation Reason',
+                        name: 'Separation Reason',
+                        value: separation_reason.name,
+                        locked: true
+                    }
+                ]
+            }
+        ]
+    }
+    created_envelope = client.create_envelope_from_template(hash)
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
   def self.send_envelope(envelope_id)
     client = DocusignRest::Client.new
     content_type = { 'Content-Type' => 'application/json' }
@@ -70,5 +138,4 @@ class DocusignTemplate < ActiveRecord::Base
       nil
     end
   end
-
 end
