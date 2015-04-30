@@ -85,8 +85,6 @@ describe 'Prescreen answers' do
             expect(page).to have_content 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
             expect(page).to have_content candidate.name
           end
-
-          it 'sends an email to Sprint'
         end
       end
       context 'with any prescreen checkboxes missed, and availability selected' do #Person cannot work for us, exits process
