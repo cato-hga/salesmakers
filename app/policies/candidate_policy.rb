@@ -130,7 +130,9 @@ class CandidatePolicy < ApplicationPolicy
 
   def set_reconciliation_status?
     hr_admin = Position.find_by name: 'Human Resources Administrator'
-    return true if @user.position == hr_admin
+    software_dev = Position.find_by name: 'Software Developer'
+    senior_software = Position.find_by name: 'Senior Software Developer'
+    return true if @user.position == hr_admin or @user.position == software_dev or @user.position == senior_software
     false
   end
 end

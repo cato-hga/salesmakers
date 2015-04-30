@@ -11,6 +11,8 @@ class CandidateReconciliation < ActiveRecord::Base
            :ready_for_training_location_available,
            :ready_for_training_location_full,
            :working,
-           :nos
+           :nos,
+           :needs_work_location,
+           :in_training
        ]
 end

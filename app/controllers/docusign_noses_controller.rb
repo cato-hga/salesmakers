@@ -8,10 +8,10 @@ class DocusignNosesController < ApplicationController
   end
 
   def create
-    get_special_params
-    @nos = DocusignNos.new docusign_nos_params
+    get_params
+    @nos = DocusignNos.new
     verify_data; return if performed?
-    assign_special_params
+    assign_params
     get_nos_response
     handle_response; return if performed?
     handle_nos_saving; return if performed?
@@ -19,10 +19,21 @@ class DocusignNosesController < ApplicationController
 
   private
 
-  def assign_special_params
+  def get_params
+    @termination_date = Chronic.parse params[:docusign_nos][:termination_date]
+    @last_day_worked = Chronic.parse params[:docusign_nos][:last_day_worked]
+    @separation_reason = EmploymentEndReason.find params[:docusign_nos][:employment_end_reason_id] if params[:docusign_nos][:employment_end_reason_id].present?
+    @eligible = params[:docusign_nos][:eligible_to_rehire]
+    @retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
+    @remarks = params[:docusign_nos][:remarks] if params[:docusign_nos][:remarks]
+  end
+
+  def assign_params
     @nos.termination_date = @termination_date
     @nos.last_day_worked = @last_day_worked
     @nos.person = @person
+    @nos.employment_end_reason = @separation_reason
+    @nos.eligible_to_rehire = @eligible
   end
 
   def handle_response
@@ -42,6 +53,7 @@ class DocusignNosesController < ApplicationController
                            @person
       redirect_to people_path and return
     else
+      puts @nos.errors.full_messages
       flash[:error] = 'NOS sent, but there was an uncaught error. Double check NOS and send again if necessary'
       redirect_to @person and return
     end
@@ -59,17 +71,9 @@ class DocusignNosesController < ApplicationController
           @separation_reason,
           @eligible,
           @retail,
-          docusign_nos_params[:remarks],
+          @remarks,
       )
     end
-  end
-
-  def get_special_params
-    @termination_date = Chronic.parse docusign_nos_params[:termination_date]
-    @last_day_worked = Chronic.parse docusign_nos_params[:last_day_worked]
-    @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
-    @eligible = docusign_nos_params[:eligible_to_rehire]
-    @retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
   end
 
   def verify_data
@@ -100,17 +104,5 @@ class DocusignNosesController < ApplicationController
 
   def get_person
     @person = Person.find params[:person_id]
-  end
-
-  def docusign_nos_params
-    params.require(:docusign_nos).permit(
-        :eligible_to_rehire,
-        :termination_date,
-        :last_day_worked,
-        :remarks,
-        :envelope_guid,
-        :employment_end_reason_id,
-        :person_id
-    )
   end
 end

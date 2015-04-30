@@ -186,7 +186,7 @@
         %h3 Candidate Reconciliation
         = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
           = f.label :status, 'Reconciliation Status'
-          - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last : nil
+          - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
           = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize), s[0]]}, selected_status), include_blank: true
           = f.submit 'Reconcile', class: :button
   - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
