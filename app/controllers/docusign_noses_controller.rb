@@ -65,8 +65,8 @@ class DocusignNosesController < ApplicationController
   end
 
   def get_special_params
-    @termination_date = Chronic.parse docusign_nos_params[:termination_date]
-    @last_day_worked = Chronic.parse docusign_nos_params[:last_day_worked]
+    @termination_date = Chronic.parse params[:termination_date]
+    @last_day_worked = Chronic.parse params[:last_day_worked]
     @separation_reason = EmploymentEndReason.find docusign_nos_params[:employment_end_reason_id] if docusign_nos_params[:employment_end_reason_id].present?
     @eligible = docusign_nos_params[:eligible_to_rehire]
     @retail = @person.person_areas.first.area.project.name.include?('Event') ? 'Event' : 'Retail'
@@ -105,8 +105,6 @@ class DocusignNosesController < ApplicationController
   def docusign_nos_params
     params.require(:docusign_nos).permit(
         :eligible_to_rehire,
-        :termination_date,
-        :last_day_worked,
         :remarks,
         :envelope_guid,
         :employment_end_reason_id,
