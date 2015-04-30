@@ -5,6 +5,20 @@
   .inner
     = form_for [@candidate, @prescreen_answer] do |f|
       = hidden_field_tag 'call_initiated', @call_initiated.to_s
+      %fieldset
+        %legend RadioShack Employment
+        %p
+          = f.label :worked_for_radioshack, 'Has the candidate worked for RadioShack?'
+          = f.select :worked_for_radioshack, options_for_select([['Yes', true], ['No', false]]), include_blank: true
+        %p
+          = f.label :former_employment_date_start, 'Start of Radioshack Employment'
+          = f.text_field :former_employment_date_start, readonly: true
+        %p
+          = f.label :former_employment_date_end, 'End of Radioshack Employment'
+          = f.text_field :former_employment_date_end, readonly: true
+        %p
+          = f.label :store_number_city_state, 'Store Number, City, and State of RadioShack location worked at'
+          = f.text_field :store_number_city_state, readonly: true
       %p
         = f.check_box :worked_for_salesmakers
         = f.label :worked_for_salesmakers, 'Candidate has not worked for SalesMakers'

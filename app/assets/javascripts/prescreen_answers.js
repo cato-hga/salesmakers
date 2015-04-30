@@ -14,4 +14,15 @@ $(function () {
 			});
 		}
 	});
+	$('body').bind('')
+	radioshack_value = $('#prescreen_answer_worked_for_radioshack').val();
+	if (radioshack_value === true) {
+		$('#prescreen_answer_former_employment_date_start').prop("readonly", false);
+		$('#prescreen_answer_former_employment_date_end').prop("readonly", false);
+		$('#prescreen_answer_store_number_city_state').prop("readonly", false);
+	} else {
+		$('#prescreen_answer_former_employment_date_start').prop("readonly", true);
+		$('#prescreen_answer_former_employment_date_end').prop("readonly", true);
+		$('#prescreen_answer_store_number_city_state').prop("readonly", true);
+	}
 });
