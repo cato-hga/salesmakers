@@ -10,15 +10,18 @@
         %p
           = f.label :worked_for_radioshack, 'Has the candidate worked for RadioShack?'
           = f.select :worked_for_radioshack, options_for_select([['Yes', true], ['No', false]]), include_blank: true
+
+        %p
+          %strong The below fields are required if the candidate has worked for RadioShack!
         %p
           = f.label :former_employment_date_start, 'Start of Radioshack Employment'
-          = f.text_field :former_employment_date_start, readonly: true
+          = f.text_field :former_employment_date_start, disabled: "disabled"
         %p
           = f.label :former_employment_date_end, 'End of Radioshack Employment'
-          = f.text_field :former_employment_date_end, readonly: true
+          = f.text_field :former_employment_date_end, disabled: "disabled"
         %p
           = f.label :store_number_city_state, 'Store Number, City, and State of RadioShack location worked at'
-          = f.text_field :store_number_city_state, readonly: true
+          = f.text_field :store_number_city_state, disabled: "disabled"
       %p
         = f.check_box :worked_for_salesmakers
         = f.label :worked_for_salesmakers, 'Candidate has not worked for SalesMakers'
