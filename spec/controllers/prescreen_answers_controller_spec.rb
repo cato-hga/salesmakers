@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe PrescreenAnswersController do
+  include ActiveJob::TestHelper
+
   let(:recruiter) { create :person }
   let!(:candidate) { create :candidate, location_area: location_area }
   let(:location_area) { create :location_area }
@@ -280,7 +282,14 @@ describe PrescreenAnswersController do
         expect(response).to redirect_to(candidate_path(candidate))
       end
 
-      it 'sends an email to Sprint'
+      it 'sends an email to Sprint' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      end
 
     end
   end
