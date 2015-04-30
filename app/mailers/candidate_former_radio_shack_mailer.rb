@@ -7,7 +7,7 @@ class CandidateFormerRadioShackMailer < ApplicationMailer
     @end_date = end_date
     @location = location
     mail(to: 'smiles@retaildoneright.com',
-         cc: ['kevin@retaildoneright.com', 'rcushing@retaildoneright.com'],
+         #cc: ['kevin@retaildoneright.com', 'rcushing@retaildoneright.com'],
          subject: 'New SalesMakers, Inc Candidate Requiring Approval'
     )
   end
