@@ -66,6 +66,7 @@ describe "Terminating a Person" do
         select "No", from: :docusign_nos_eligible_to_rehire
         click_on 'Send NOS'
       end
+
       it 'generates and sends the NOS'
       it 'creates an object with the envelope guid tracked', :vcr do
         expect(page).to have_content 'NOS form sent'
