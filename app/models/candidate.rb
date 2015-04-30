@@ -35,7 +35,9 @@ class Candidate < ActiveRecord::Base
            :candidate_confirmed,
            :sprint_confirmed,
            :in_class,
-           :completed
+           :completed,
+           :did_not_graduate,
+           :did_not_attend
        ]
 
   has_paper_trail
