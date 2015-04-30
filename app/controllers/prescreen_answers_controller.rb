@@ -74,7 +74,8 @@ class PrescreenAnswersController < ApplicationController
                                              :worked_for_sprint,
                                              :eligible_smart_phone,
                                              :ok_to_screen,
-                                             :visible_tattoos
+                                             :visible_tattoos,
+    :
     )
   end
 
