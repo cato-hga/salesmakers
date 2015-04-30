@@ -40,6 +40,7 @@ describe PrescreenAnswersController do
       {
           candidate_id: candidate.id,
           prescreen_answer: {
+              worked_for_radioshack: 'false',
               worked_for_salesmakers: true,
               of_age_to_work: true,
               high_school_diploma: true,
@@ -117,6 +118,7 @@ describe PrescreenAnswersController do
         {
             candidate_id: candidate.id,
             prescreen_answer: {
+                worked_for_radioshack: 'false',
                 worked_for_salesmakers: true,
                 of_age_to_work: true,
                 high_school_diploma: true,
@@ -154,6 +156,7 @@ describe PrescreenAnswersController do
         post :create,
              candidate_id: candidate.id,
              prescreen_answer: {
+                 worked_for_radioshack: 'false',
                  worked_for_salesmakers: true,
                  of_age_to_work: true,
                  high_school_diploma: true,
@@ -193,6 +196,7 @@ describe PrescreenAnswersController do
         post :create,
              candidate_id: candidate.id,
              prescreen_answer: {
+                 worked_for_radioshack: 'false',
                  worked_for_salesmakers: true,
                  of_age_to_work: true,
                  high_school_diploma: true,
@@ -227,7 +231,7 @@ describe PrescreenAnswersController do
         post :create,
              candidate_id: candidate.id,
              prescreen_answer: {
-                 worked_for_radioshack: true,
+                 worked_for_radioshack: 'true',
                  former_employment_date_start: '05/25/2005',
                  former_employment_date_end: '05/25/2006',
                  store_number_city_state: '333, St Pete, FL',
@@ -261,8 +265,8 @@ describe PrescreenAnswersController do
       it 'parses the end and start dates' do
         subject
         answer = PrescreenAnswer.first
-        expect(answer.former_employment_date_end).to eq('blah')
-        expect(answer.former_employment_date_start).to eq('blah')
+        expect(answer.former_employment_date_end).to eq('Thu, 25 May 2006'.to_date)
+        expect(answer.former_employment_date_start).to eq('Thu, 25 May 2005'.to_date)
       end
 
       it 'changes the candidate status' do

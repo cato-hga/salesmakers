@@ -20,4 +20,11 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    attributes:
+      prescreen_answer:
+        store_number_city_state: 'Store Number, City and State'
+
   hello: "Hello world"
+
+

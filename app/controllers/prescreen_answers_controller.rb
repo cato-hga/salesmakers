@@ -17,6 +17,7 @@ class PrescreenAnswersController < ApplicationController
       @candidate.prescreen_answers.destroy_all
     end
     @prescreen_answer = PrescreenAnswer.new prescreen_answer_params
+    radioshack_employment_check; return if performed?
     if @inbound.blank?
       flash[:error] = 'You must select whether the call is inbound or outbound.'
       render :new and return
@@ -35,6 +36,25 @@ class PrescreenAnswersController < ApplicationController
 
   private
 
+  def radioshack_employment_check
+    @radioshack = prescreen_answer_params[:worked_for_radioshack]
+    @start = Chronic.parse params[:prescreen_answer][:former_employment_date_start]
+    @end_value = Chronic.parse params[:prescreen_answer][:former_employment_date_end]
+    @location = prescreen_answer_params[:store_number_city_state]
+    if @radioshack == 'true' and (@start.blank? or @end_value.blank? or @location.blank?)
+      if @start.blank?
+        @prescreen_answer.errors.add :former_employment_start_date, 'must be entered'
+      end
+      if @end_value.blank?
+        @prescreen_answer.errors.add :former_employment_end_date, 'must be entered'
+      end
+      if @location.blank?
+        @prescreen_answer.errors.add :store_number_city_state, 'must be entered'
+      end
+      render :new and return
+    end
+  end
+
   def setup_params
     @candidate = Candidate.find params[:candidate_id]
     @inbound = params[:inbound]
@@ -44,6 +64,7 @@ class PrescreenAnswersController < ApplicationController
   def save_prescreen
     if @prescreen_answer.save
       set_prescreened(@call_initiated)
+      check_and_handle_radioshack; return if performed?
       check_and_handle_location
     else
       flash[:error] = 'Candidate did not pass prescreening'
@@ -51,6 +72,15 @@ class PrescreenAnswersController < ApplicationController
       @candidate.update active: false
       create_prescreen_contact(@call_initiated, false)
       redirect_to new_candidate_path
+    end
+  end
+
+  def check_and_handle_radioshack
+    if @radioshack == 'true'
+      @prescreen_answer.update former_employment_date_start: @start,
+                               former_employment_date_end: @end_value
+      flash[:notice] = 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
+      redirect_to candidate_path(@candidate)
     end
   end
 
@@ -75,7 +105,8 @@ class PrescreenAnswersController < ApplicationController
                                              :eligible_smart_phone,
                                              :ok_to_screen,
                                              :visible_tattoos,
-    :
+                                             :store_number_city_state,
+                                             :worked_for_radioshack
     )
   end
 

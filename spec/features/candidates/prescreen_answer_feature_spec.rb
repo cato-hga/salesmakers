@@ -57,40 +57,41 @@ describe 'Prescreen answers' do
 
     describe 'prescreen form submission' do
 
-      # describe 'handling RadioShack Employment' do
-      #   context 'when the candidate has worked for radioshack', js: true do
-      #     it 'requires an answer to employment dates and store number/city/state' do
-      #       select 'Yes', from: :prescreen_answer_worked_for_radioshack
-      #       click_on 'Save Answers'
-      #       expect(page).to have_content 'Start of radioshack employment must be entered'
-      #       expect(page).to have_content 'End of radioshack employment must be entered'
-      #       expect(page).to have_content 'Store number, city, and state of previous radioshack location must be selected'
-      #     end
-      #     it 'a saving success redirects to candidate#show and flashes a message about vetting' do
-      #       select 'Yes', from: :prescreen_answer_worked_for_radioshack
-      #       fill_in :prescreen_answer_former_employment_date_start, with: '05/25/2007'
-      #       fill_in :prescreen_answer_former_employment_date_end, with: '05/25/2008'
-      #       fill_in :prescreen_answer_store_number_city_state, with: '3333, St Pete, FL'
-      #       check :prescreen_answer_worked_for_sprint
-      #       check :prescreen_answer_of_age_to_work
-      #       check :prescreen_answer_high_school_diploma
-      #       check :prescreen_answer_eligible_smart_phone
-      #       check :prescreen_answer_can_work_weekends
-      #       check :prescreen_answer_reliable_transportation
-      #       check :prescreen_answer_ok_to_screen
-      #       check :prescreen_answer_visible_tattoos
-      #       check :candidate_availability_monday_first
-      #       select 'Inbound', from: 'Is this call inbound or outbound?'
-      #       click_on 'Save Answers'
-      #       expect(page).to have_content 'Prescreen Answers saved!'
-      #       expect(page).to have_content 'The candidate must be vetted by Sprint before proceeding.'
-      #       expect(page).to have_content candidate.name
-      #     end
-      #     it 'sends an email to Sprint'
-      #   end
-      # end
+      describe 'handling RadioShack Employment' do
+        context 'when the candidate has worked for radioshack', js: true do
+          it 'requires an answer to employment dates and store number/city/state' do
+            select 'Yes', from: :prescreen_answer_worked_for_radioshack
+            click_on 'Save Answers'
+            expect(page).to have_content 'Former employment start date must be entered'
+            expect(page).to have_content 'Former employment end date must be entered'
+            expect(page).to have_content 'Store Number, City and State must be entered'
+          end
+          it 'a saving success redirects to candidate#show and flashes a message about vetting' do
+            select 'Yes', from: :prescreen_answer_worked_for_radioshack
+            fill_in :prescreen_answer_former_employment_date_start, with: '05/25/2007'
+            fill_in :prescreen_answer_former_employment_date_end, with: '05/25/2008'
+            fill_in :prescreen_answer_store_number_city_state, with: '3333, St Pete, FL'
+            check :prescreen_answer_worked_for_sprint
+            check :prescreen_answer_of_age_to_work
+            check :prescreen_answer_high_school_diploma
+            check :prescreen_answer_eligible_smart_phone
+            check :prescreen_answer_can_work_weekends
+            check :prescreen_answer_reliable_transportation
+            check :prescreen_answer_ok_to_screen
+            check :prescreen_answer_visible_tattoos
+            check :candidate_availability_monday_first
+            select 'Inbound', from: 'Is this call inbound or outbound?'
+            click_on 'Save Answers'
+            expect(page).to have_content 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
+            expect(page).to have_content candidate.name
+          end
+
+          it 'sends an email to Sprint'
+        end
+      end
       context 'with any prescreen checkboxes missed, and availability selected' do #Person cannot work for us, exits process
         before(:each) do
+          select 'No', from: :prescreen_answer_worked_for_radioshack
           check :candidate_availability_monday_first
           select 'Outbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
@@ -109,6 +110,7 @@ describe 'Prescreen answers' do
 
       context 'with all fields selected, and availability selected' do
         before(:each) do
+          select 'No', from: :prescreen_answer_worked_for_radioshack
           check :prescreen_answer_worked_for_sprint
           check :prescreen_answer_of_age_to_work
           check :prescreen_answer_high_school_diploma
@@ -149,6 +151,7 @@ describe 'Prescreen answers' do
 
       context 'with all fields selected, and availability NOT selected' do
         before(:each) do
+          select 'No', from: :prescreen_answer_worked_for_radioshack
           check :prescreen_answer_worked_for_sprint
           check :prescreen_answer_of_age_to_work
           check :prescreen_answer_high_school_diploma
@@ -189,6 +192,7 @@ describe 'Prescreen answers' do
           click_on 'INCOMPLETE'
         end
         expect(current_path).to eq(new_candidate_prescreen_answer_path(location_less_candidate))
+        select 'No', from: :prescreen_answer_worked_for_radioshack
         check :prescreen_answer_worked_for_sprint
         check :prescreen_answer_of_age_to_work
         check :prescreen_answer_high_school_diploma
