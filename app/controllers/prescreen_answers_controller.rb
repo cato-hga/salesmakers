@@ -78,7 +78,8 @@ class PrescreenAnswersController < ApplicationController
   def check_and_handle_radioshack
     if @radioshack == 'true'
       @prescreen_answer.update former_employment_date_start: @start,
-                               former_employment_date_end: @end_value
+                               former_employment_date_end: @end_value,
+                               store_number_city_state: @location
       flash[:notice] = 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
       redirect_to candidate_path(@candidate)
     end
