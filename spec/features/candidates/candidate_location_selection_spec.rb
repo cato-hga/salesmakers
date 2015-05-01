@@ -112,17 +112,13 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_content(location_area.area.project.name)
     end
 
-    it 'shows the hourly rate for the location area' do
-      expect(page).to have_content('$15.00')
-    end
-
     it 'shows the city for the location' do
       expect(page).to have_content(location_area.location.city)
     end
 
     it 'selects a location' do
       within first('tbody tr') do
-        click_on "#{location.channel.name}, #{location.display_name}"
+        click_on "#{location.display_name}"
       end
       expect(page).to have_content('successfully')
     end
@@ -134,7 +130,7 @@ describe 'selecting a Location for a Candidate' do
 
     it 'redirects to the prescreen if the candidate is not prescreened already' do
       within first('tbody tr') do
-        click_on "#{location.channel.name}, #{location.display_name}"
+        click_on "#{location.display_name}"
       end
       within('header h1') do
         expect(page).to have_content 'Prescreen Answers'
@@ -143,23 +139,10 @@ describe 'selecting a Location for a Candidate' do
 
     it 'changes the status for a candidate' do
       within first('tbody tr') do
-        click_on "#{location.channel.name}, #{location.display_name}"
+        click_on "#{location.display_name}"
       end
       candidate.reload
       expect(candidate.location_selected?).to eq(true)
-    end
-
-    it 'has the schedules for each location listed' do
-      expect(page).to have_content 'Schedule'
-    end
-
-    it 'shows multiple schedules for the relevant stores' do
-      within first('tbody tr') do
-        expect(page).not_to have_content('Schedule 1')
-        expect(page).not_to have_content('Schedule 2')
-      end
-      expect(page).to have_content('Schedule 1')
-      expect(page).to have_content('Schedule 2')
     end
 
     it 'does not show the outsourced locations without permission' do
@@ -176,7 +159,7 @@ describe 'selecting a Location for a Candidate' do
       it 'changes the potential candidate count' do
         expect {
           within first('tbody tr') do
-            click_on "#{location.channel.name}, #{location.display_name}"
+            click_on "#{location.display_name}"
           end
           candidate.reload
           location_area.reload
@@ -184,7 +167,7 @@ describe 'selecting a Location for a Candidate' do
       end
       it 'redirects to candidate show' do
         within first('tbody tr') do
-          click_on "#{location.channel.name}, #{location.display_name}"
+          click_on "#{location.display_name}"
         end
         expect(current_path).to eq(candidate_path(candidate))
       end
