@@ -62,8 +62,8 @@ describe 'Prescreen answers' do
           it 'requires an answer to employment dates and store number/city/state' do
             select 'Yes', from: :prescreen_answer_worked_for_radioshack
             click_on 'Save Answers'
-            expect(page).to have_content 'Former employment start date must be entered'
-            expect(page).to have_content 'Former employment end date must be entered'
+            expect(page).to have_content 'Former employment start date is invalid or blank. Please double check - a start date must be entered'
+            expect(page).to have_content 'Former employment end date is invalid or blank. Please double check - an end date must be entered'
             expect(page).to have_content 'Store Number, City and State must be entered'
           end
           it 'a saving success redirects to candidate#show and flashes a message about vetting' do

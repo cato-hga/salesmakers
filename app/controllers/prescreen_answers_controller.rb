@@ -43,10 +43,10 @@ class PrescreenAnswersController < ApplicationController
     @location = prescreen_answer_params[:store_number_city_state]
     if @radioshack == 'true' and (@start.blank? or @end_value.blank? or @location.blank?)
       if @start.blank?
-        @prescreen_answer.errors.add :former_employment_start_date, 'must be entered'
+        @prescreen_answer.errors.add :former_employment_start_date, 'is invalid or blank. Please double check - a start date must be entered'
       end
       if @end_value.blank?
-        @prescreen_answer.errors.add :former_employment_end_date, 'must be entered'
+        @prescreen_answer.errors.add :former_employment_end_date, 'is invalid or blank. Please double check - an end date must be entered'
       end
       if @location.blank?
         @prescreen_answer.errors.add :store_number_city_state, 'must be entered'
@@ -80,7 +80,7 @@ class PrescreenAnswersController < ApplicationController
       @prescreen_answer.update former_employment_date_start: @start,
                                former_employment_date_end: @end_value,
                                store_number_city_state: @location
-      CandidateFormerRadioShackMailer.vetting_mailer(@candidate, @start.strftime('%m%d%Y'), @end_value.strftime('%m%d%Y'), @location).deliver_later
+      CandidateFormerRadioShackMailer.vetting_mailer(@candidate, @start.strftime('%m-%d-%Y'), @end_value.strftime('%m-%d-%Y'), @location).deliver_later
       flash[:notice] = 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
       redirect_to candidate_path(@candidate)
     end

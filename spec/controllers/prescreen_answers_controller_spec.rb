@@ -290,7 +290,6 @@ describe PrescreenAnswersController do
           end
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
-
     end
   end
 

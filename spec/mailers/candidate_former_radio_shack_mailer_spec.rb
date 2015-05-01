@@ -16,7 +16,7 @@ describe CandidateFormerRadioShackMailer do
     ) }
 
     it 'has the correct from address' do
-      expect(mail.from).to eq(['sprintcandidatevetting@salesmakersinc.com'])
+      expect(mail.from).to eq(['development@retaildoneright.com'])
     end
     it 'has the correct subject' do
       expect(mail.subject).to eq('New SalesMakers, Inc Candidate Requiring Approval')
@@ -24,8 +24,8 @@ describe CandidateFormerRadioShackMailer do
     it 'ccs kevin and russ' do
       expect(mail.cc).to eq(['kevin@retaildoneright.com', 'rcushing@retaildoneright.com'])
     end
-    it 'sends an email to the sprint rep', pending: 'Out while testing' do
-      expect(mail.to).to eq('kelly.berard@radioshack.com')
+    it 'sends an email to the sprint rep' do
+      expect(mail.to).to eq(['kelly.berard@radioshack.com'])
     end
     it 'contains all relevant info' do
       expect(mail.body).to include(prescreen_answer.former_employment_date_start)
