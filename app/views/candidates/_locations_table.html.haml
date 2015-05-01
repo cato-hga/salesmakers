@@ -1,4 +1,4 @@
-- headers = header_row(['', 'Project', 'LG', 'Distance', 'City', 'Location', 'Store Number','Schedule', 'Hourly Rate', 'Target HC', 'Potentials', 'Extended Offers', 'Current HC', 'Open'])
+- headers = header_row(['', 'Project', 'LG', 'Distance', 'City', 'Location', 'Store Number','Target HC', 'Potentials', 'Extended Offers', 'Current HC', 'Open'])
 - rows = []
 - count = 0
 - project = nil
@@ -24,33 +24,10 @@
   - path = set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
   - distance = location_area.head_count_full? ? location.geographic_distance(@candidate).round(2).to_s : link_to(location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes)
   - city = location.city
-  - if location_area and location_area.radio_shack_location_schedules.any?
-    - @schedule = []
-    - schedule_count = 0
-    - for schedule in location_area.radio_shack_location_schedules do
-      - if location_area.radio_shack_location_schedules.count > 1
-        - name = "<strong>Schedule #{(schedule_count + 1)}</strong><br/>"
-      - else
-        - name = ''
-      - monday = schedule.monday > 0 ? ('M ' + schedule.monday.to_s + '<br/>') : ''
-      - tuesday = schedule.tuesday > 0 ? ('Tu ' + schedule.tuesday.to_s + '<br/>') : ''
-      - wednesday = schedule.wednesday > 0 ? ('W ' + schedule.wednesday.to_s + '<br/>') : ''
-      - thursday = schedule.thursday > 0 ? ('Th ' + schedule.thursday.to_s + '<br/>') : ''
-      - friday = schedule.friday > 0 ? ('F ' + schedule.friday.to_s + '<br/>') : ''
-      - saturday = schedule.saturday > 0 ? ('Sa ' + schedule.saturday.to_s + '<br/>') : ''
-      - sunday = schedule.sunday > 0 ? ('Su ' + schedule.sunday.to_s + '<br/>') : ''
-      - @schedule << (
-      - name + monday + tuesday + wednesday + thursday + friday + saturday + sunday
-      - ).html_safe
-      - schedule_count += 1
-    - location_schedule = raw [@schedule].join.html_safe
-  - else
-    - location_schedule = ''
   - candidate_view_all = Permission.find_by key: 'candidate_view_all'
-  - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? "#{location.channel.name}, #{location.display_name}" : link_to("#{location.channel.name}, #{location.display_name}", path, class: link_classes)
+  - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? ("#{location.channel.name}" + '<br/>' + "#{location.display_name}").html_safe : link_to(("#{location.channel.name}" + '<br/>' + " #{location.display_name}").html_safe, path, class: link_classes)
   - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.store_number : link_to(location.store_number, path, class: link_classes)
-  - hourly_rate = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : ''
   - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.address : link_to(location.address, path, class: link_classes)
   - classes = location_area.outsourced? ? [:outsourced_row] : nil
-  - rows << table_row(["#{count.to_s}.", project, launch_group, distance, city, location_name, store_number, location_schedule,  hourly_rate, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s], classes)
+  - rows << table_row(["#{count.to_s}.", project, launch_group, distance, city, location_name, store_number, target.to_s, potentials.to_s, offers_extended.to_s, current.to_s, open.to_s], classes)
 = table headers, rows
