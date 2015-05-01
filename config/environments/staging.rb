@@ -88,7 +88,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = {host: 'staging.salesmakersinc.com'}
 
   # Do not deliver mail from staging (use true for testing)
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
 
   config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.hash('STAGING')
 end
