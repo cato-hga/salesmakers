@@ -80,7 +80,7 @@ class PrescreenAnswersController < ApplicationController
       @prescreen_answer.update former_employment_date_start: @start,
                                former_employment_date_end: @end_value,
                                store_number_city_state: @location
-      CandidateFormerRadioShackMailer.vetting_mailer(@candidate, @start.to_s, @end_value.to_s, @location).deliver_later
+      CandidateFormerRadioShackMailer.vetting_mailer(@candidate, @start, @end_value, @location).deliver_later
       flash[:notice] = 'Answers and Availability saved. The candidate must be vetted by Sprint before proceeding.'
       redirect_to candidate_path(@candidate)
     end
