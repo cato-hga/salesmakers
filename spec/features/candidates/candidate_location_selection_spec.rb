@@ -194,10 +194,13 @@ describe 'selecting a Location for a Candidate' do
   end
 
   describe '"full" locations' do
+    let(:hours_at_location_candidate) { create :candidate, location_area: location_area, person: hours_at_location_person }
+    let(:hours_at_location_person) { create :person }
+    let(:hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 6.days, hours: 8 }
+    let!(:second_hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 5.days, hours: 8, location: location }
+
     it 'are not allowed to be selected' do
-      location_area.offer_extended_count = 3
-      location_area.save
-      location_area.reload
+      location_area.update target_head_count: 1
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
       visit select_location_candidate_path candidate, 'false'
       within first('tbody tr') do
