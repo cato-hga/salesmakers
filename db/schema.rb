@@ -800,16 +800,12 @@ ActiveRecord::Schema.define(version: 20150430151516) do
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
     t.boolean "eligible_smart_phone", default: false, null: false
-    t.date "former_employment_date_end"
-    t.date "former_employment_date_start"
     t.boolean "high_school_diploma", default: false, null: false
     t.boolean "of_age_to_work", default: false, null: false
     t.boolean "ok_to_screen", default: false, null: false
     t.boolean "reliable_transportation", default: false, null: false
-    t.string "store_number_city_state"
     t.datetime "updated_at", null: false
     t.boolean "visible_tattoos", default: false, null: false
-    t.boolean "worked_for_radioshack", default: false, null: false
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
   end
@@ -1017,6 +1013,9 @@ ActiveRecord::Schema.define(version: 20150430151516) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1104,10 +1103,6 @@ ActiveRecord::Schema.define(version: 20150430151516) do
     t.string "location_name"
     t.string "room"
     t.string "store_number"
-  end
-
-  create_table "tmp_uid", id: false, force: :cascade do |t|
-    t.string "ad_user_id"
   end
 
   create_table "tmp_updates", id: false, force: :cascade do |t|

@@ -10,6 +10,9 @@ require_relative 'sprint_group_me_bot_hpa_query'
 class SprintGroupMeBotCallback < SprintGroupMeBotQuery
   include GroupMeBotQuery
   include SprintGroupMeBotHelp
+  include SprintGroupMeBotHPAQuery
+  include GroupMeBotSalesMessages
+  include SprintGroupMeBotSalesQuery
 
   attr_accessor :query_string,
                 :keywords
@@ -56,14 +59,15 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
 
   def generate_message_content
     if self.has_keyword? 'hpa'
-      self.class.send :include, SprintGroupMeBotHPAQuery
+      @results = hpa_query
+      check_environment
+      @messages = hpa_generate_messages(@results)
     else
-      self.class.send :include, GroupMeBotSalesMessages
-      self.class.send :include, SprintGroupMeBotSalesQuery
+      @results = sales_query
+      check_environment
+      @messages = sales_generate_messages(@results)
     end
-    @results = query
-    check_environment
-    @messages = generate_messages(@results)
+    @messages
   end
 
   protected
@@ -80,9 +84,17 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
     end
   end
 
-  def query
-    select = self.send(@level + '_query')
-    select = self.send('wrap_query', (select))
+  def hpa_query
+    query 'hpa'
+  end
+
+  def sales_query
+    query 'sales'
+  end
+
+  def query(type = 'sales')
+    select = self.send(type + '_' + @level + '_query')
+    select = self.send(type + '_wrap_query', (select))
     begin
       tries ||= 3
       connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
