@@ -102,17 +102,17 @@ describe ApplicationHelper do
       expect(link_markup).to have_content(person.display_name)
     end
 
-    it "displays a link to an area's sales" do
-      area = create :area
-      expected_selector = 'a[href$="' +
-          helper.sales_client_project_area_path(area.project.client,
-                                                area.project,
-                                                area) +
-          '"]'
-      link_markup = helper.area_sales_link area
-      expect(link_markup).to have_selector(expected_selector)
-      expect(link_markup).to have_content(area.name)
-    end
+    # it "displays a link to an area's sales" do
+    #   area = create :area
+    #   expected_selector = 'a[href$="' +
+    #       helper.sales_client_project_area_path(area.project.client,
+    #                                             area.project,
+    #                                             area) +
+    #       '"]'
+    #   link_markup = helper.area_sales_link area
+    #   expect(link_markup).to have_selector(expected_selector)
+    #   expect(link_markup).to have_content(area.name)
+    # end
 
     # it "displays a link to a person with their nickname as a social link" do
     #   person = Person.first
