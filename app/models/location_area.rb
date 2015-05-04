@@ -18,7 +18,13 @@ class LocationArea < ActiveRecord::Base
   end
 
   def head_count_full?
-    return true if (self.target_head_count - (self.offer_extended_count + self.current_head_count)) <= -1
+    #return true if (self.target_head_count - (self.offer_extended_count + self.current_head_count)) <= -1
+    recent_shifts = Shift.where('location_id = ? and (date < ? and date > ?)', self.location.id, Date.today, Date.today - 7.days)
+    recent_people = []
+    for shift in recent_shifts do
+      recent_people << shift.person unless recent_people.include? shift.person
+    end
+    return true if (self.target_head_count - recent_people.count) <= 0
     false
   end
 
