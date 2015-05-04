@@ -22,9 +22,26 @@ class LocationArea < ActiveRecord::Base
     recent_shifts = Shift.where('location_id = ? and (date < ? and date > ?)', self.location.id, Date.today, Date.today - 7.days)
     recent_people = []
     for shift in recent_shifts do
-      recent_people << shift.person unless recent_people.include? shift.person
+      recent_people << shift.person unless recent_people.include? shift.person or shift.person.active == false
     end
     return true if (self.target_head_count - recent_people.count) <= 0
+
+    location_candidates = Candidate.where(location_area: self)
+    recent_trainings = SprintRadioShackTrainingSession.where("name ilike '%4/20%' or name ilike '%5/11%' or name ilike '%5/18%'")
+    most_recent_training_session = SprintRadioShackTrainingSession.find_by name: '5/11 Training'
+    recent_location_independent_shifts = Shift.where('date < ? and date > ?', Date.today, Date.today - 7.days)
+    recent_people = []
+    for shift in recent_location_independent_shifts do
+      recent_people << shift.person unless recent_people.include? shift.person or shift.person.active == false
+    end
+    booked_recent_candidates = []
+    for candidate in location_candidates do
+      booked_recent_candidates << candidate if (recent_people.include? candidate.person and recent_trainings.include? candidate.sprint_radio_shack_training_session) and not (booked_recent_candidates.include? candidate.person or candidate.active? == false)
+      booked_recent_candidates << candidate if (candidate.sprint_radio_shack_training_session == most_recent_training_session and candidate.training_session_status == 'candidate_confirmed') and not (booked_recent_candidates.include? candidate.person or candidate.active? == false)
+    end
+    return true if (self.target_head_count - booked_recent_candidates.count) <= 0
+
+
     false
   end
 

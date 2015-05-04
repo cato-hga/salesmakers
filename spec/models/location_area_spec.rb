@@ -35,32 +35,64 @@ describe LocationArea do
     let(:hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 6.days, hours: 8 }
     let!(:second_hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 5.days, hours: 8 }
 
-    it 'counts a candidate if candidate has booked hours at the location within the past 7 days' do
-      expect(hours_at_location_location_area.head_count_full?).to eq(false)
-      hours_at_location_shift.update location: hours_at_location_location
-      expect(hours_at_location_location_area.head_count_full?).to eq(true)
-    end
-
-    it 'does not count candidates twice' do
-      hours_at_location_shift.update location: hours_at_location_location
-      second_hours_at_location_shift.update location: hours_at_location_location
-      expect(hours_at_location_location_area.head_count_full?).to eq(true)
-      hours_at_location_location_area.update target_head_count: 2
-      expect(hours_at_location_location_area.head_count_full?).to eq(false)
-    end
-
     let(:recent_trainings_location) { create :location }
-    let!(:recent_trainings_location_area) { create :location_area, location: recent_trainings_location, target_head_count: 0 }
+    let!(:recent_trainings_location_area) { create :location_area, location: recent_trainings_location, target_head_count: 1 }
     let(:recent_trainings_candidate) { create :candidate, location_area: recent_trainings_location_area, person: recent_trainings_person }
     let(:recent_trainings_person) { create :person }
-    let(:recent_trainings_shift) { create :shift, person: recent_trainings_person, date: Date.today - 6.days, hours: 8, location: location }
+    let!(:recent_trainings_shift) { create :shift, person: recent_trainings_person, date: Date.today - 6.days, hours: 8 }
+    let(:recent_training_session) { create :sprint_radio_shack_training_session }
 
-    it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)' do
+    let(:inactive_candidate_location) { create :location }
+    let!(:inactive_candidate_location_area) { create :location_area, location: inactive_candidate_location, target_head_count: 1 }
+    let!(:inactive_candidate_candidate) { create :candidate, location_area: inactive_candidate_location_area, person: inactive_candidate_person, active: false }
+    let(:inactive_candidate_person) { create :person, active: false }
+    let!(:inactive_candidate_shift) { create :shift, person: inactive_candidate_person, date: Date.today - 6.days, hours: 8 }
 
+    context 'for hours at a location in the past 7 days' do
+      it 'counts a candidate if candidate has booked hours at the location within the past 7 days' do
+        expect(hours_at_location_location_area.head_count_full?).to eq(false)
+        hours_at_location_shift.update location: hours_at_location_location
+        expect(hours_at_location_location_area.head_count_full?).to eq(true)
+      end
+      it 'does not count candidates twice' do
+        hours_at_location_shift.update location: hours_at_location_location
+        second_hours_at_location_shift.update location: hours_at_location_location
+        expect(hours_at_location_location_area.head_count_full?).to eq(true)
+        hours_at_location_location_area.update target_head_count: 2
+        expect(hours_at_location_location_area.head_count_full?).to eq(false)
+      end
     end
-    it 'counts a candidate if candidate is in the 5/11 training, with candidate confirmed training session status'
-    it 'does not count inactive candidates'
-    it 'returns true if a location areas open head count is -1 or lower'
 
+    context 'for recent trainings' do
+      it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)' do
+        expect(recent_trainings_location_area.head_count_full?).to eq(false)
+        recent_training_session.update name: '4/20'
+        recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session
+        expect(recent_trainings_location_area.head_count_full?).to eq(true)
+        recent_training_session.update name: '5/11'
+        expect(recent_trainings_location_area.head_count_full?).to eq(true)
+        recent_training_session.update name: '5/18'
+        expect(recent_trainings_location_area.head_count_full?).to eq(true)
+      end
+      it 'counts a candidate if candidate is in the 5/11 training, with candidate confirmed training session status' do
+        recent_trainings_shift.update person: nil
+        recent_training_session.update name: '5/11'
+        expect(recent_trainings_location_area.head_count_full?).to eq(false)
+        recent_trainings_candidate.update training_session_status: 'candidate_confirmed'
+        expect(recent_trainings_location_area.head_count_full?).to eq(true)
+      end
+    end
+
+    it 'does not count inactive candidates' do
+      expect(inactive_candidate_location_area.head_count_full?).to eq(false)
+      inactive_candidate_shift.update location: inactive_candidate_location
+      expect(inactive_candidate_location_area.head_count_full?).to eq(false)
+    end
+
+    it 'returns true if a location areas open head count is 0 or lower' do
+      expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      recent_trainings_location_area.update target_head_count: 0
+      expect(recent_trainings_location_area.head_count_full?).to eq(true)
+    end
   end
 end
