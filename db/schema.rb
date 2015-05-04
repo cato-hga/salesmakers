@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430151516) do
+ActiveRecord::Schema.define(version: 20150504140113) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -609,6 +609,7 @@ ActiveRecord::Schema.define(version: 20150430151516) do
     t.integer "area_id", null: false
     t.datetime "created_at", null: false
     t.integer "current_head_count", default: 0, null: false
+    t.float "distance_to_cor"
     t.float "hourly_rate"
     t.integer "launch_group"
     t.integer "location_id", null: false
