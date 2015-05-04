@@ -1,7 +1,7 @@
 class LocationArea < ActiveRecord::Base
   validates :location, presence: true
-  validates :area, presence: true, uniqueness: {scope: :location,
-                                                message: 'is already assigned that location'}
+  validates :area, presence: true, uniqueness: { scope: :location,
+                                                 message: 'is already assigned that location' }
 
   belongs_to :location
   belongs_to :area
@@ -18,10 +18,64 @@ class LocationArea < ActiveRecord::Base
   end
 
   def head_count_full?
-    get_recent_people
-    return true if (self.target_head_count - @recent_people.count) <= 0
-    get_booked_recent_candidates
-    return true if (self.target_head_count - @booked_recent_candidates.count) <= 0
+    recent_hours_training_started = ActiveRecord::Base.connection.execute(
+        %{ select
+          c.id
+          from sprint_radio_shack_training_sessions train
+          left outer join candidates c
+            on c.sprint_radio_shack_training_session_id = train.id
+          left outer join shifts s
+            on s.person_id = c.person_id
+          left outer join location_areas la
+            on la.id = c.location_area_id
+          where s.date >= current_date - interval '7 days'
+            and train.start_date < current_date
+            and la.id = #{self.id}
+            and c.active = true
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    training_status_confirmed = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from sprint_radio_shack_training_sessions train
+          left outer join candidates c
+            on c.sprint_radio_shack_training_session_id = train.id
+          left outer join location_areas la
+            on la.id = c.location_area_id
+          where train.start_date >= current_date
+            and la.id = #{self.id}
+            and c.training_session_status = 1
+            and c.active = true
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    booked_hours_candidates = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join locations l
+            on la.location_id = l.id
+          left outer join shifts s
+            on s.location_id = l.id
+          left outer join people p
+            on p.id = s.person_id
+          left outer join candidates c
+            on c.person_id = p.id
+          where c.id is not null
+            and la.id = #{self.id}
+            and s.date >= current_date - interval '7 days'
+            and c.active = true
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    all_candidate_ids = [recent_hours_training_started, booked_hours_candidates, training_status_confirmed].flatten.uniq
+    return true if self.target_head_count <= all_candidate_ids.count
     false
   end
 
@@ -48,32 +102,4 @@ class LocationArea < ActiveRecord::Base
         candidate_status_integer >= accepted_status_integer
     self.update current_head_count: self.current_head_count + change_by if candidate_status_integer >= onboarded_status_integer
   end
-
-  private
-
-  def get_recent_people
-    recent_shifts = Shift.where('location_id = ? and (date < ? and date > ?)', self.location.id, Date.today, Date.today - 7.days)
-    @recent_people = []
-    for shift in recent_shifts do
-      @recent_people << shift.person unless @recent_people.include? shift.person or shift.person.active == false
-    end
-  end
-
-  def get_booked_recent_candidates
-    location_candidates = Candidate.where(location_area: self)
-    recent_trainings = SprintRadioShackTrainingSession.where("name ilike '%4/20%' or name ilike '%5/11%' or name ilike '%5/18%'")
-    most_recent_training_session = SprintRadioShackTrainingSession.find_by name: '5/11 Training'
-    recent_location_independent_shifts = Shift.where('date < ? and date > ?', Date.today, Date.today - 7.days)
-    recent_people = []
-    for shift in recent_location_independent_shifts do
-      recent_people << shift.person unless recent_people.include? shift.person or shift.person.active == false
-    end
-    @booked_recent_candidates = []
-    for candidate in location_candidates do
-      @booked_recent_candidates << candidate if (recent_people.include? candidate.person and recent_trainings.include? candidate.sprint_radio_shack_training_session) and not (@booked_recent_candidates.include? candidate.person or candidate.active? == false)
-      @booked_recent_candidates << candidate if (candidate.sprint_radio_shack_training_session == most_recent_training_session and candidate.training_session_status == 'candidate_confirmed') and not (@booked_recent_candidates.include? candidate.person or candidate.active? == false)
-    end
-  end
-
-
 end

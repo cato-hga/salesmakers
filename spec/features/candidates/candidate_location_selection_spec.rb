@@ -194,10 +194,16 @@ describe 'selecting a Location for a Candidate' do
   end
 
   describe '"full" locations' do
-    let(:hours_at_location_candidate) { create :candidate, location_area: location_area, person: hours_at_location_person }
+    let(:hours_at_location_location) { create :location }
+    let!(:hours_at_location_location_area) { create :location_area, location: hours_at_location_location, target_head_count: 1 }
+    let!(:hours_at_location_candidate) { create :candidate,
+                                                location_area: location_area,
+                                                person: hours_at_location_person,
+                                                sprint_radio_shack_training_session: hours_at_location_training_session }
     let(:hours_at_location_person) { create :person }
     let(:hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 6.days, hours: 8 }
     let!(:second_hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 5.days, hours: 8, location: location }
+    let(:hours_at_location_training_session) { create :sprint_radio_shack_training_session }
 
     it 'are not allowed to be selected' do
       location_area.update target_head_count: 1
