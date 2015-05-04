@@ -1,20 +1,20 @@
 module SprintGroupMeBotHPAQuery
   protected
 
-  def wrap_query(query)
+  def hpa_wrap_query(query)
     "SELECT name, " +
         "CASE WHEN everything.sales IS NULL OR everything.sales = 0 " +
         "THEN everything.hours ELSE everything.hours / everything.sales END " +
         "AS hpa  FROM (" + query + ") everything ORDER BY hpa ASC, name ASC "
   end
 
-  def every_where_clause
+  def hpa_every_where_clause
     "r.name LIKE 'Sprint Prepaid %' AND "
   end
 
-  def where_clause
+  def hpa_where_clause
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
-        every_where_clause +
+        hpa_every_where_clause +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
         "t.site_name NOT ILIKE '%training%' AND t.hours > 0.00 AND " +
@@ -22,9 +22,9 @@ module SprintGroupMeBotHPAQuery
         "r.name LIKE 'Sprint %' "
   end
 
-  def parameter_where_clause(parameter_name, parameter_value)
+  def hpa_parameter_where_clause(parameter_name, parameter_value)
     "WHERE r.name ILIKE '%#{query_string}%' AND " +
-        every_where_clause +
+        hpa_every_where_clause +
         "#{parameter_name} = '#{parameter_value}' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
@@ -33,7 +33,7 @@ module SprintGroupMeBotHPAQuery
         "r.name LIKE 'Sprint %' "
   end
 
-  def every_from_and_join
+  def hpa_every_from_and_join
     <<EOF
         from rsprint_timesheet t 
         left outer join ad_user u 
@@ -68,40 +68,40 @@ module SprintGroupMeBotHPAQuery
 EOF
   end
 
-  def rep_query
+  def hpa_rep_query
     'SELECT u.name, sum(t.hours) as hours, sales.sales ' +
-        self.from_and_joins +
+        self.hpa_from_and_joins +
         'GROUP BY u.name, sales.sales ORDER BY u.name, sales.sales '
   end
 
-  def territory_query
+  def hpa_territory_query
     "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
         "SELECT replace(replace(r.name, ' Territory', ''), 'Sprint Prepaid - ', '') as name, " +
         'sum(t.hours) as hours, sales.sales ' +
-        self.from_and_joins +
+        self.hpa_from_and_joins +
         "GROUP BY replace(replace(r.name, ' Territory', ''), 'Sprint Prepaid - ', ''), sales.sales ORDER BY replace(replace(r.name, ' Territory', ''), 'Sprint Prepaid - ', ''), sales.sales ) all_of_it " +
         "GROUP BY name ORDER BY name "
   end
 
-  def region_query
+  def hpa_region_query
     "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
         'SELECT region.name, ' +
         'sum(t.hours) as hours, sales.sales ' +
-        self.from_and_joins +
+        self.hpa_from_and_joins +
         'GROUP BY region.name, sales.sales ORDER BY region.name, sales.sales ) all_of_it ' +
         "GROUP BY name ORDER BY name "
   end
 
-  def director_query
+  def hpa_director_query
     "SELECT name, sum(hours) as hours, sum(sales) as sales FROM ( " +
         'SELECT initcap(r.description) AS name, ' +
         'sum(t.hours) as hours, sales.sales ' +
-        self.from_and_joins +
+        self.hpa_from_and_joins +
         'GROUP BY initcap(r.description), sales.sales ORDER BY initcap(r.description), sales.sales ) all_of_it ' +
         "GROUP BY name ORDER BY name "
   end
 
-  def generate_messages(results)
+  def hpa_generate_messages(results)
     return [] unless results and results.count > 0
     char_count = 0
     hpa_strings = []

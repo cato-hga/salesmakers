@@ -103,6 +103,6 @@ class TestGroupMeBotCallback
                 :query_string
 
   def messages(results)
-    self.generate_messages(results)
+    self.sales_generate_messages(results)
   end
 end

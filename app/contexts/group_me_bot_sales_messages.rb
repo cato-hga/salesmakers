@@ -1,5 +1,5 @@
 module GroupMeBotSalesMessages
-  def generate_messages(results)
+  def sales_generate_messages(results)
     return [] unless results and results.count > 0
     char_count = 0
     sales_strings = []

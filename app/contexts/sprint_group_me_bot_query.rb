@@ -14,16 +14,24 @@ class SprintGroupMeBotQuery
     false
   end
 
-  def from_and_joins
-    from_and_joins_string = every_from_and_join
+  def sales_from_and_joins
+    from_and_joins 'sales'
+  end
+
+  def hpa_from_and_joins
+    from_and_joins 'hpa'
+  end
+
+  def from_and_joins(type = 'sales')
+    from_and_joins_string = self.send((type + '_every_from_and_join').to_sym)
     if has_keyword?('east')
-      from_and_joins_string += parameter_where_clause('region.name', 'Sprint Prepaid East Region')
+      from_and_joins_string += self.send((type + '_parameter_where_clause').to_sym, 'region.name', 'Sprint Prepaid East Region')
     elsif has_keyword?('west')
-      from_and_joins_string += parameter_where_clause('region.name', 'Sprint Prepaid West Region')
+      from_and_joins_string += self.send((type + '_parameter_where_clause').to_sym, 'region.name', 'Sprint Prepaid West Region')
     elsif has_director_keyword?
-      from_and_joins_string += parameter_where_clause('r.description', director_name)
+      from_and_joins_string += self.send((type + '_parameter_where_clause').to_sym, 'r.description', director_name)
     else
-      from_and_joins_string += self.where_clause
+      from_and_joins_string += self.send((type + '_where_clause').to_sym)
     end
     from_and_joins_string
   end
