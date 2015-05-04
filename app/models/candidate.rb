@@ -37,7 +37,8 @@ class Candidate < ActiveRecord::Base
            :in_class,
            :completed,
            :did_not_graduate,
-           :did_not_attend
+           :did_not_attend,
+           :not_interested
        ]
 
   has_paper_trail
