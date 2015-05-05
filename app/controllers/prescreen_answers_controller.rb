@@ -24,6 +24,7 @@ class PrescreenAnswersController < ApplicationController
     end
     @call_initiated = Time.at(params[:call_initiated].to_i)
     @prescreen_answer.candidate = @candidate
+    @prescreen_answer.worked_for_radioshack = @radioshack
     @candidate_availability.attributes = availability_params
     @candidate_availability.candidate = @candidate
     if @candidate_availability.save
