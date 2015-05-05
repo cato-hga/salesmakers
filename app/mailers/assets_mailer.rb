@@ -103,7 +103,6 @@ class AssetsMailer < ApplicationMailer
     @supervisor = supervisor
     mail(from: 'notifications@salesmakersinc.com',
          to: [supervisor.email],
-         cc: ['smiles@retaildoneright.com'],
          subject: "[SalesMakers] New Employees to Approve for Asset Deployment"
     )
   end
