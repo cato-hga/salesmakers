@@ -38,7 +38,8 @@ class PrescreenAnswersController < ApplicationController
   private
 
   def radioshack_employment_check
-    @radioshack = prescreen_answer_params[:worked_for_radioshack] || false
+    @radioshack = prescreen_answer_params[:worked_for_radioshack]
+    @radioshack = false if @radioshack.blank?
     @start = Chronic.parse params[:prescreen_answer][:former_employment_date_start]
     @end_value = Chronic.parse params[:prescreen_answer][:former_employment_date_end]
     @location = prescreen_answer_params[:store_number_city_state]
