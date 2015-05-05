@@ -14,7 +14,7 @@ class AssetShiftHoursTotaling
     end
     for person in people do
       person_hours = Shift.where(person: person).sum(:hours).to_i
-      if person_hours > 40 or (person.person_areas.first.area and (person.person_areas.first.area.project == prepaid and person_hours > 30)) #Just doing the first person area, since we don't have multiple person areas just yet.
+      if person_hours > 40 or (person.person_areas.any? and (person.person_areas.first.area.project == prepaid and person_hours > 30)) #Just doing the first person area, since we don't have multiple person areas just yet.
         person.update passed_asset_hours_requirement: true
       end
     end
