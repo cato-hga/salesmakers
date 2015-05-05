@@ -42,7 +42,7 @@ describe PrescreenAnswersController do
       {
           candidate_id: candidate.id,
           prescreen_answer: {
-              worked_for_radioshack: 'false',
+              worked_for_radioshack: false,
               worked_for_salesmakers: true,
               of_age_to_work: true,
               high_school_diploma: true,
@@ -120,7 +120,7 @@ describe PrescreenAnswersController do
         {
             candidate_id: candidate.id,
             prescreen_answer: {
-                worked_for_radioshack: 'false',
+                worked_for_radioshack: false,
                 worked_for_salesmakers: true,
                 of_age_to_work: true,
                 high_school_diploma: true,

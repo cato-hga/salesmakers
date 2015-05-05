@@ -1,4 +1,4 @@
-class AddPrescreenQuestions < ActiveRecord::Migration
+class ReAddPrescreenQuestions < ActiveRecord::Migration
   def up
     add_column :prescreen_answers, :worked_for_radioshack, :boolean, null: false, default: false
     add_column :prescreen_answers, :former_employment_date_start, :date

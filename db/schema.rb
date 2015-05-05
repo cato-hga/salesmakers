@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150504183218) do
+ActiveRecord::Schema.define(version: 20150505133652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -801,12 +801,16 @@ ActiveRecord::Schema.define(version: 20150504183218) do
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
     t.boolean "eligible_smart_phone", default: false, null: false
+    t.date "former_employment_date_end"
+    t.date "former_employment_date_start"
     t.boolean "high_school_diploma", default: false, null: false
     t.boolean "of_age_to_work", default: false, null: false
     t.boolean "ok_to_screen", default: false, null: false
     t.boolean "reliable_transportation", default: false, null: false
+    t.string "store_number_city_state"
     t.datetime "updated_at", null: false
     t.boolean "visible_tattoos", default: false, null: false
+    t.boolean "worked_for_radioshack", default: false, null: false
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
   end
