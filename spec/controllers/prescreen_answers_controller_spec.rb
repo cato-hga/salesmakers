@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe PrescreenAnswersController do
+  include ActiveJob::TestHelper
+
   let(:recruiter) { create :person }
   let!(:candidate) { create :candidate, location_area: location_area }
   let(:location_area) { create :location_area }
@@ -40,6 +42,7 @@ describe PrescreenAnswersController do
       {
           candidate_id: candidate.id,
           prescreen_answer: {
+              worked_for_radioshack: 'false',
               worked_for_salesmakers: true,
               of_age_to_work: true,
               high_school_diploma: true,
@@ -83,7 +86,7 @@ describe PrescreenAnswersController do
       expect(candidate.status).to eq('prescreened')
     end
 
-    it 'redirects to the prescreen' do
+    it 'redirects to the interview schedule path' do
       subject
       expect(response).to redirect_to(new_candidate_interview_schedule_path(candidate))
     end
@@ -117,6 +120,7 @@ describe PrescreenAnswersController do
         {
             candidate_id: candidate.id,
             prescreen_answer: {
+                worked_for_radioshack: 'false',
                 worked_for_salesmakers: true,
                 of_age_to_work: true,
                 high_school_diploma: true,
@@ -154,6 +158,7 @@ describe PrescreenAnswersController do
         post :create,
              candidate_id: candidate.id,
              prescreen_answer: {
+                 worked_for_radioshack: 'false',
                  worked_for_salesmakers: true,
                  of_age_to_work: true,
                  high_school_diploma: true,
@@ -193,6 +198,7 @@ describe PrescreenAnswersController do
         post :create,
              candidate_id: candidate.id,
              prescreen_answer: {
+                 worked_for_radioshack: 'false',
                  worked_for_salesmakers: true,
                  of_age_to_work: true,
                  high_school_diploma: true,
@@ -219,6 +225,70 @@ describe PrescreenAnswersController do
         candidate.reload
         expect(candidate.candidate_availability).to be_nil
         expect(candidate.prescreen_answers.count).to be(0)
+      end
+    end
+
+    context 'when having worked for radioshack before' do
+      subject do
+        post :create,
+             candidate_id: candidate.id,
+             prescreen_answer: {
+                 worked_for_radioshack: 'true',
+                 former_employment_date_start: '05/25/2005',
+                 former_employment_date_end: '05/25/2006',
+                 store_number_city_state: '333, St Pete, FL',
+                 worked_for_salesmakers: true,
+                 of_age_to_work: true,
+                 high_school_diploma: true,
+                 can_work_weekends: true,
+                 reliable_transportation: true,
+                 eligible_smart_phone: true,
+                 worked_for_sprint: true,
+                 ok_to_screen: true,
+                 visible_tattoos: true
+             },
+             candidate_availability: {
+                 monday_first: true
+             },
+             call_initiated: call_initiated.to_i,
+             inbound: true
+      end
+
+      it 'creates a Prescreen Answer and attaches it to the correct candidate' do
+        expect { subject }.to change(PrescreenAnswer, :count).by(1)
+        answer = PrescreenAnswer.first
+        expect(answer.candidate).to eq(candidate)
+      end
+
+      it 'creates a candidate contact entry' do
+        expect { subject }.to change(CandidateContact, :count).by(1)
+      end
+
+      it 'parses the end and start dates' do
+        subject
+        answer = PrescreenAnswer.first
+        expect(answer.former_employment_date_end).to eq('Thu, 25 May 2006'.to_date)
+        expect(answer.former_employment_date_start).to eq('Thu, 25 May 2005'.to_date)
+      end
+
+      it 'changes the candidate status' do
+        subject
+        candidate.reload
+        expect(candidate.status).to eq('prescreened')
+      end
+
+      it 'redirects to the candidate show page' do
+        subject
+        expect(response).to redirect_to(candidate_path(candidate))
+      end
+
+      it 'sends an email to Sprint' do
+        expect {
+          subject
+          perform_enqueued_jobs do
+            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
+          end
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
       end
     end
   end
