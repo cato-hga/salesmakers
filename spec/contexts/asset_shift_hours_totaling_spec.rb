@@ -126,4 +126,8 @@ describe AssetShiftHoursTotaling do
       }.not_to change passing_forty_person, :vonage_tablet_approval_status
     end
   end
+
+  describe '.generate_mailer' do
+
+  end
 end
