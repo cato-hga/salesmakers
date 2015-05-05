@@ -35,6 +35,5 @@ class AssetShiftHoursTotaling
     # for supervisor in supervisor_for_assets do
     #   AssetMailer.approval_mailer(supervisor)
     # end
-
   end
 end

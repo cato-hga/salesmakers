@@ -128,6 +128,6 @@ describe AssetShiftHoursTotaling do
   end
 
   describe '.generate_mailer' do
-
+    it 'emails all supervisors with assets pending approval'
   end
 end
