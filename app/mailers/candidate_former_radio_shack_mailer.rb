@@ -1,5 +1,5 @@
 class CandidateFormerRadioShackMailer < ApplicationMailer
-  default from: 'development@retaildoneright.com'
+  default from: 'notifications@salesmakersinc.com'
 
   def vetting_mailer(candidate, start_date, end_date, location)
     @name = candidate.name

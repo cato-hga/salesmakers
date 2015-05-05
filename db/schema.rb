@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430151516) do
+ActiveRecord::Schema.define(version: 20150504183218) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -609,6 +609,7 @@ ActiveRecord::Schema.define(version: 20150430151516) do
     t.integer "area_id", null: false
     t.datetime "created_at", null: false
     t.integer "current_head_count", default: 0, null: false
+    t.float "distance_to_cor"
     t.float "hourly_rate"
     t.integer "launch_group"
     t.integer "location_id", null: false
@@ -1008,6 +1009,7 @@ ActiveRecord::Schema.define(version: 20150430151516) do
   create_table "sprint_radio_shack_training_sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
+    t.date "start_date", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1067,6 +1069,21 @@ ActiveRecord::Schema.define(version: 20150430151516) do
   create_table "tmp_candidates", id: false, force: :cascade do |t|
     t.integer "cid"
     t.string "state"
+  end
+
+  create_table "tmp_doors", id: false, force: :cascade do |t|
+    t.string "city"
+    t.string "cost_center"
+    t.decimal "distance_to_cor"
+    t.integer "launch_group"
+    t.string "mail_stop"
+    t.string "state"
+    t.string "store_number"
+    t.string "street_1"
+    t.string "street_2"
+    t.integer "target_head_count"
+    t.string "territory"
+    t.string "zip"
   end
 
   create_table "tmp_em", id: false, force: :cascade do |t|
