@@ -11,4 +11,6 @@ class PrescreenAnswer < ActiveRecord::Base
   validates :visible_tattoos, presence: true
 
   belongs_to :candidate
+
+  nilify_blanks
 end

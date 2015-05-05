@@ -298,4 +298,27 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include('N/A')
     end
   end
+
+  describe '.asset_approval_mailer' do
+    let(:person) { create :person, supervisor: supervisor }
+    let(:supervisor) { create :person }
+    let(:mail) { AssetsMailer.asset_approval_mailer(supervisor) }
+
+    it 'sends an email with correct subject' do
+      expect(mail.subject).to include('New Employees to Approve for Asset Deployment')
+    end
+
+    it 'sends the email to the manager' do
+      expect(mail.to).to include(supervisor.email)
+    end
+
+    it 'sends an email with the correct "from" email' do
+      expect(mail.from).to include('notifications@salesmakersinc.com')
+    end
+
+    it 'sends an email with the link to newcenter ' do
+      expect(mail.body.encoded).to have_content('Please visit https://newcenter.salesmakersinc.com/asset_approvals/approval')
+      expect(mail.body.encoded).to have_content('and click the "Approve Assets" link under People')
+    end
+  end
 end

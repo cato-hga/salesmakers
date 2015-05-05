@@ -14,4 +14,17 @@ $(function () {
 			});
 		}
 	});
+	$('#prescreen_answer_worked_for_radioshack').change(function () {
+		if (this.value === 'true') {
+			$('#prescreen_answer_former_employment_date_start').removeProp("disabled");
+			$('#prescreen_answer_former_employment_date_end').removeProp("disabled");
+			$('#prescreen_answer_store_number_city_state').removeProp("disabled");
+		} else {
+			$('#prescreen_answer_former_employment_date_start').prop("disabled", "disabled").val('');
+			$('#prescreen_answer_former_employment_date_end').prop("disabled", "disabled").val('');
+			$('#prescreen_answer_store_number_city_state').prop("disabled", "disabled").val('');
+
+		}
+	});
 });
+
