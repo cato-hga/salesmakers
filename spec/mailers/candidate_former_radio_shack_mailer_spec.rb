@@ -16,7 +16,7 @@ describe CandidateFormerRadioShackMailer do
     ) }
 
     it 'has the correct from address' do
-      expect(mail.from).to eq(['notifications@salesmakersinc.com'])
+      expect(mail.from).to eq(['sprintvetting@salesmakersinc.com'])
     end
     it 'has the correct subject' do
       expect(mail.subject).to eq('New SalesMakers, Inc Candidate Requiring Approval')
