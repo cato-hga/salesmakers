@@ -60,5 +60,5 @@ every 1.day, at: '2:00 am' do
 end
 
 every 1.day, at: '4:00 am' do
-  runner 'AssetShiftHoursTotaling(24.hours)'
+  runner 'AssetShiftHoursTotaling.new(24.hours)'
 end

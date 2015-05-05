@@ -1,7 +1,6 @@
 require_relative '../../app/contexts/asset_shift_hours_totaling'
 
 describe AssetShiftHoursTotaling do
-  #include ActiveJob::TestHelper
 
   let(:duration) { 24.hours }
 
@@ -127,7 +126,36 @@ describe AssetShiftHoursTotaling do
     end
   end
 
-  describe '.generate_mailer' do
-    it 'emails all supervisors with assets pending approval'
+  describe '#generate_mailer' do
+    let(:events_person) { create :person, passed_asset_hours_requirement: true }
+    let(:retail_person) { create :person, passed_asset_hours_requirement: true }
+    let(:prepaid_person) { create :person, passed_asset_hours_requirement: true }
+
+    let(:events_area) { create :area, project: events_project }
+    let(:retail_area) { create :area, project: retail_project }
+    let(:prepaid_area) { create :area, project: prepaid_project }
+
+    let(:events_project) { create :project, name: 'Vonage Events' }
+    let(:retail_project) { create :project, name: 'Vonage Retail' }
+    let(:prepaid_project) { create :project, name: 'Sprint Retail' }
+
+    let!(:events_person_area) { create :person_area, person: events_person, area: events_area, manages: false }
+    let!(:retail_person_area) { create :person_area, person: retail_person, area: retail_area, manages: false }
+    let!(:prepaid_person_area) { create :person_area, person: prepaid_person, area: prepaid_area, manages: false }
+
+    let!(:events_manager_area) { create :person_area, person: events_manager, area: events_area, manages: true }
+    let!(:retail_manager_area) { create :person_area, person: retail_manager, area: retail_area, manages: true }
+    let!(:prepaid_manager_area) { create :person_area, person: prepaid_manager, area: prepaid_area, manages: true }
+
+    let(:events_manager) { create :person, display_name: 'Events Manager' }
+    let(:retail_manager) { create :person, display_name: 'Retal Manager' }
+    let(:prepaid_manager) { create :person, display_name: 'Prepaid Manager' }
+
+    it 'emails all supervisors with assets pending approval' do
+      Sidekiq::Testing.inline!
+      AssetShiftHoursTotaling.generate_mailer
+      deliveries = ActionMailer::Base.deliveries
+      expect(deliveries.count).to eq(3)
+    end
   end
 end
