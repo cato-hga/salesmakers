@@ -74,7 +74,43 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    all_candidate_ids = [recent_hours_training_started, booked_hours_candidates, training_status_confirmed].flatten.uniq
+    paperwork_sent_last_7_days = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          left outer join job_offer_details j
+          on j.sent >= date_trunc('day', current_timestamp) - interval '1 week'
+          where j.id is not null
+            and la.id = #{self.id}
+            and c.status >= #{Candidate.statuses[:paperwork_sent]}
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    entered_since_0504 = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          where c.id is not null
+            and c.updated_at >= cast('05/04/2015' as timestamp)
+            and la.id = #{self.id}
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    all_candidate_ids = [
+        recent_hours_training_started,
+        booked_hours_candidates,
+        training_status_confirmed,
+        paperwork_sent_last_7_days,
+        entered_since_0504
+    ].flatten.uniq
     return true if self.target_head_count <= all_candidate_ids.count
     false
   end
