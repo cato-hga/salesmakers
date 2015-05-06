@@ -40,6 +40,9 @@
       - if candidate_policy.create?
         %li
           = link_to 'New Candidate', new_candidate_path
+      - if CandidatePolicy.new(@current_person, Candidate.new).dashboard?
+        %li
+          = link_to 'Dashboard', dashboard_candidates_path
   %ul.off-canvas-list
     %li
       %label People
