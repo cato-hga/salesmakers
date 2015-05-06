@@ -74,6 +74,9 @@ class GroupMeGroupsController < ApplicationController
     File.open(new_filename, 'wb') do |file|
       file.write(uploaded_io.read)
     end
+    FileUtils.ln_s new_filename, "#{new_filename}.avatar"
+    FileUtils.ln_s new_filename, "#{new_filename}.preview"
+    FileUtils.ln_s new_filename, "#{new_filename}.large"
     File.new new_filename
   end
 
@@ -116,7 +119,7 @@ class GroupMeGroupsController < ApplicationController
 
   def get_url_to_file
     if Rails.env.staging? || Rails.env.production?
-      URI::encode(root_url + '/uploads/' + File.basename(@file))
+      URI::encode(root_url + 'uploads/' + File.basename(@file))
     else
       URI::encode('http://localhost:3000' + '/uploads/' + File.basename(@file))
     end
