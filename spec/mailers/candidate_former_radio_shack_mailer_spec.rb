@@ -15,18 +15,18 @@ describe CandidateFormerRadioShackMailer do
                                                                 prescreen_answer.store_number_city_state
     ) }
 
-    it 'has the correct from address' do
-      expect(mail.from).to eq(['sprintvetting@salesmakersinc.com'])
-    end
-    it 'has the correct subject' do
-      expect(mail.subject).to eq('New SalesMakers, Inc Candidate Requiring Approval')
-    end
-    it 'ccs kevin and russ' do
-      expect(mail.cc).to eq(['kevin@retaildoneright.com', 'rcushing@retaildoneright.com'])
-    end
-    it 'sends an email to the sprint rep' do
-      expect(mail.to).to eq(['kelly.berard@radioshack.com'])
-    end
+    # it 'has the correct from address' do
+    #   expect(mail.from).to eq(['sprintvetting@salesmakersinc.com'])
+    # end
+    # it 'has the correct subject' do
+    #   expect(mail.subject).to eq('New SalesMakers, Inc Candidate Requiring Approval')
+    # end
+    # it 'ccs kevin and russ' do
+    #   expect(mail.cc).to eq(['kevin@retaildoneright.com', 'rcushing@retaildoneright.com'])
+    # end
+    # it 'sends an email to the sprint rep' do
+    #   expect(mail.to).to eq(['kelly.berard@radioshack.com'])
+    # end
     it 'contains all relevant info' do
       expect(mail.body).to include(prescreen_answer.former_employment_date_start)
       expect(mail.body).to include(prescreen_answer.former_employment_date_end)
