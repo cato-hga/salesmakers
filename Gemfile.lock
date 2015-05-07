@@ -37,6 +37,12 @@ GIT
       chronic (>= 0.6.7)
 
 GIT
+  remote: https://github.com/newrelic/rpm.git
+  revision: 8c3a469ebd4a678f77912da9f224066aaf25ade4
+  specs:
+    newrelic_rpm (3.11.2)
+
+GIT
   remote: https://github.com/philnash/bitly.git
   revision: cfdc63e1e76fbb6033f5731ec9c44d369c6d10ac
   specs:
@@ -401,7 +407,6 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.10.2)
-    newrelic_rpm (3.9.9.275)
     nilify_blanks (1.2.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -732,7 +737,7 @@ DEPENDENCIES
   letter_opener (= 1.3.0)
   metric_fu (= 4.11.1)
   namecase (= 1.1.0)
-  newrelic_rpm (= 3.9.9.275)
+  newrelic_rpm!
   nilify_blanks (= 1.2.0)
   paper_trail!
   parallel_tests (= 1.3.5)

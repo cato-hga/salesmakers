@@ -111,7 +111,7 @@ group :test do
 end
 
 group :production do
-  gem 'newrelic_rpm', '3.9.9.275' # NewRelic agent
+  gem 'newrelic_rpm', git: 'https://github.com/newrelic/rpm.git'
 end
 
 group :development, :test do
