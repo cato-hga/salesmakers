@@ -24,9 +24,6 @@ app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
-set :passenger_restart_command, "#{sudo} /home/deploy/.rvm/gems/ruby-2.2.0/bin/passenger-config restart-app"
-set :passenger_restart_options, -> { "#{deploy_to} --ignore-app-not-running --rolling-restart" }
-
 # set :puma_init_active_record, true
 # set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
 # set :puma_state, "#{shared_path}/tmp/pids/puma.state"
@@ -61,7 +58,7 @@ namespace :staging do
       execute 'sudo -u postgres  dropdb -U oneconnect oneconnect_production'
       execute 'sudo -u postgres  createdb -U oneconnect -O oneconnect oneconnect_production'
       execute 'pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
-      invoke 'passenger:restart'
+      invoke 'deploy:restart'
     end
   end
 end
@@ -108,20 +105,20 @@ namespace :deploy do
     end
   end
 
-  desc 'Initial Deploy'
-  task :initial do
-    on roles(:app) do
-      before 'deploy:restart', 'puma:start'
-      invoke 'deploy'
-    end
-  end
-
-  # desc 'Restart application'
-  # task :restart do
-  #   on roles(:app), in: :sequence, wait: 5 do
-  #     invoke 'puma:restart'
+  # desc 'Initial Deploy'
+  # task :initial do
+  #   on roles(:app) do
+  #     before 'deploy:restart', 'puma:start'
+  #     invoke 'deploy'
   #   end
   # end
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "touch #{current_path}/tmp/restart.txt"
+    end
+  end
 
   desc 'Silence Inspeqtor'
   task :silence_inspeqtor do
@@ -142,7 +139,7 @@ namespace :deploy do
   before :starting, :silence_inspeqtor
   after :finishing, :compile_assets
   after :finishing, :cleanup
-  # after :finishing, :restart
+  after :finishing, :restart
   after :finishing, :start_inspeqtor
 end
 

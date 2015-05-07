@@ -10,7 +10,6 @@ require 'capistrano/rvm'
 require 'capistrano/rails/assets'
 require 'capistrano/faster_assets'
 require 'capistrano/rails/migrations'
-require 'capistrano/passenger'
 
 #require 'capistrano/sidekiq'
 

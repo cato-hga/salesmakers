@@ -72,7 +72,6 @@ gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
 gem 'kiba', '0.5.0' # ETL data processing
-gem 'capistrano-passenger' # Phusion Passenger 5 web server
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
