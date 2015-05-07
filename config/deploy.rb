@@ -24,6 +24,8 @@ app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
+set :passenger_restart_command, "#{sudo} passenger-config restart-app"
+
 # set :puma_init_active_record, true
 # set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
 # set :puma_state, "#{shared_path}/tmp/pids/puma.state"
