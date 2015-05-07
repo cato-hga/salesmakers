@@ -24,7 +24,8 @@ app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
-set :passenger_restart_command, "#{sudo} #{current_path}/passenger-config restart-app"
+set :passenger_restart_with_sudo, true
+set :passenger_restart_command, "/home/deploy/.rvm/gems/ruby-2.2.0/bin/passenger-config restart-app"
 set :passenger_restart_options, -> { "#{deploy_to} --ignore-app-not-running --rolling-restart" }
 
 # set :puma_init_active_record, true
