@@ -30,8 +30,8 @@ gem 'capistrano', '3.3.5' # Was 3.2.1 01/21/2015 - Automated deployment
 gem 'capistrano-bundler', '1.1.3' # Was 1.1.2 01/21/2015 - Capistrano bundler integration
 gem 'capistrano-rails', '1.1.2' # Was 1.1.1 01/21/2015 - Capistrano Rails integration
 gem 'capistrano-rvm', '0.1.2' # Was 0.1.1 01/21/2015 - Capistrano RVM integration
-gem 'capistrano3-puma', '0.8.3' # Was 0.6.1 01/21/2015 - Capistrano Puma integration
-gem 'puma', '2.11.0' # Was 2.9.0 01/21/2015 - Web server
+# gem 'capistrano3-puma', '0.8.3' # Was 0.6.1 01/21/2015 - Capistrano Puma integration
+# gem 'puma', '2.11.0' # Was 2.9.0 01/21/2015 - Web server
 gem 'emoji', '1.0.1' # Automatic emoji embeds
 gem 'faye', '1.1.0' # Was 1.0.3 01/21/2015 - GroupMe client websockets
 gem 'metric_fu', '4.11.1', require: false # Code metrics
@@ -72,6 +72,7 @@ gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
 gem 'kiba', '0.5.0' # ETL data processing
+gem 'capistrano-passenger' # Phusion Passenger 5 web server
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

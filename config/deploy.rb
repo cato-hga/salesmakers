@@ -24,41 +24,41 @@ app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
 
-set :puma_init_active_record, true
-set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
-set :puma_state, "#{shared_path}/tmp/pids/puma.state"
-set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
-set :puma_access_log, "#{release_path}/log/puma.error.log"
-set :puma_error_log, "#{release_path}/log/puma.access.log"
+# set :puma_init_active_record, true
+# set :puma_bind, "unix://#{shared_path}/tmp/sockets/puma.sock"
+# set :puma_state, "#{shared_path}/tmp/pids/puma.state"
+# set :puma_pid, "#{shared_path}/tmp/pids/puma.pid"
+# set :puma_access_log, "#{release_path}/log/puma.error.log"
+# set :puma_error_log, "#{release_path}/log/puma.access.log"
 
 #set :sidekiq_processes, 3
 #set :sidekiq_config, 'config/sidekiq.yaml'
 
-namespace :puma do
-  desc 'Create Directories for Puma Pids and Socket'
-  task :make_dirs do
-    on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
-    end
-  end
-
-  before :start, :make_dirs
-end
+# namespace :puma do
+#   desc 'Create Directories for Puma Pids and Socket'
+#   task :make_dirs do
+#     on roles(:app) do
+#       execute "mkdir #{shared_path}/tmp/sockets -p"
+#       execute "mkdir #{shared_path}/tmp/pids -p"
+#     end
+#   end
+#
+#   before :start, :make_dirs
+# end
 
 namespace :staging do
   desc 'Sync staging and production database'
   task :sync do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:stop'
-    end
+    # on roles(:app), in: :sequence, wait: 5 do
+      # invoke 'puma:stop'
+    # end
     on roles(:app), in: :sequence do
       execute 'sudo service postgresql restart'
       execute 'pg_dump -Fc -h 10.211.32.28 -U oneconnect -f /tmp/dbdump.dump oneconnect_production'
       execute 'sudo -u postgres  dropdb -U oneconnect oneconnect_production'
       execute 'sudo -u postgres  createdb -U oneconnect -O oneconnect oneconnect_production'
       execute 'pg_restore -j 4 -v -d oneconnect_production -U oneconnect /tmp/dbdump.dump'
-      invoke 'puma:start'
+      invoke 'passenger:restart'
     end
   end
 end
@@ -113,12 +113,12 @@ namespace :deploy do
     end
   end
 
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      invoke 'puma:restart'
-    end
-  end
+  # desc 'Restart application'
+  # task :restart do
+  #   on roles(:app), in: :sequence, wait: 5 do
+  #     invoke 'puma:restart'
+  #   end
+  # end
 
   desc 'Silence Inspeqtor'
   task :silence_inspeqtor do
@@ -139,7 +139,7 @@ namespace :deploy do
   before :starting, :silence_inspeqtor
   after :finishing, :compile_assets
   after :finishing, :cleanup
-  after :finishing, :restart
+  # after :finishing, :restart
   after :finishing, :start_inspeqtor
 end
 
