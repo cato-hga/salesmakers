@@ -1019,6 +1019,9 @@ ActiveRecord::Schema.define(version: 20150505133652) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1054,85 +1057,6 @@ ActiveRecord::Schema.define(version: 20150505133652) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
-  end
-
-  create_table "tmp_al", id: false, force: :cascade do |t|
-    t.string "area"
-    t.string "assessment"
-  end
-
-  create_table "tmp_all_sprint", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "store_num"
-  end
-
-  create_table "tmp_candidates", id: false, force: :cascade do |t|
-    t.integer "cid"
-    t.string "state"
-  end
-
-  create_table "tmp_doors", id: false, force: :cascade do |t|
-    t.string "city"
-    t.string "cost_center"
-    t.decimal "distance_to_cor"
-    t.integer "launch_group"
-    t.string "mail_stop"
-    t.string "state"
-    t.string "store_number"
-    t.string "street_1"
-    t.string "street_2"
-    t.integer "target_head_count"
-    t.string "territory"
-    t.string "zip"
-  end
-
-  create_table "tmp_em", id: false, force: :cascade do |t|
-    t.string "email"
-    t.string "username"
-  end
-
-  create_table "tmp_it", id: false, force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "mobile_phone"
-  end
-
-  create_table "tmp_lg", id: false, force: :cascade do |t|
-    t.string "cost_center"
-    t.string "mail_stop"
-    t.decimal "pay_rate"
-    t.string "schedule"
-    t.string "store_number"
-    t.integer "target_head_count"
-  end
-
-  create_table "tmp_rates", id: false, force: :cascade do |t|
-    t.decimal "hourly_rate"
-    t.string "store_number"
-  end
-
-  create_table "tmp_sr", id: false, force: :cascade do |t|
-    t.string "email"
-    t.string "status"
-  end
-
-  create_table "tmp_tl", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "location_name"
-    t.string "room"
-    t.string "store_number"
-  end
-
-  create_table "tmp_uid", id: false, force: :cascade do |t|
-    t.string "ad_user_id"
-  end
-
-  create_table "tmp_updates", id: false, force: :cascade do |t|
-    t.string "address"
-    t.string "cost_center"
-    t.string "mailstop"
-    t.string "store_name"
-    t.string "store_num"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
