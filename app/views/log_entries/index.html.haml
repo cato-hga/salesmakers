@@ -7,8 +7,6 @@
     = f.text_field :person_display_name_cont, placeholder: 'Performed By', class: 'form-control'
     -#= f.collection_select :trackable_type_eq, LogEntry.order(:trackable_type).group(:trackable_type), :trackable_type, :trackable_type, { prompt: 'Type' }, class: 'form-control'
     = f.submit 'Search', class: 'button'
-  .top-pagination
-    = paginate @log_entries
 
 = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
 = paginate @log_entries
