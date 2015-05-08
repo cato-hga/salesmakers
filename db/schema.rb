@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508180436) do
+ActiveRecord::Schema.define(version: 20150508210342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -816,6 +816,22 @@ ActiveRecord::Schema.define(version: 20150508180436) do
     t.boolean "worked_for_sprint", default: false, null: false
   end
 
+  create_table "prescreen_questions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "disqualified_if"
+    t.string "only_if_prescreen_answer_value"
+    t.string "only_if_prescreen_question_id"
+    t.integer "order_value", null: false
+    t.integer "project_id", null: false
+    t.boolean "required", default: false, null: false
+    t.string "short_name", null: false
+    t.integer "type_id", null: false
+    t.string "type_type", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "prescreen_questions", ["type_type", "type_id"], name: "index_prescreen_questions_on_type_type_and_type_id", using: :btree
+
   create_table "profile_educations", force: :cascade do |t|
     t.text "activities_societies"
     t.datetime "created_at"
@@ -1020,9 +1036,6 @@ ActiveRecord::Schema.define(version: 20150508180436) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
-    t.boolean "insurance"
-    t.boolean "intl_connect_five"
-    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1058,6 +1071,85 @@ ActiveRecord::Schema.define(version: 20150508180436) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_al", id: false, force: :cascade do |t|
+    t.string "area"
+    t.string "assessment"
+  end
+
+  create_table "tmp_all_sprint", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "store_num"
+  end
+
+  create_table "tmp_candidates", id: false, force: :cascade do |t|
+    t.integer "cid"
+    t.string "state"
+  end
+
+  create_table "tmp_doors", id: false, force: :cascade do |t|
+    t.string "city"
+    t.string "cost_center"
+    t.decimal "distance_to_cor"
+    t.integer "launch_group"
+    t.string "mail_stop"
+    t.string "state"
+    t.string "store_number"
+    t.string "street_1"
+    t.string "street_2"
+    t.integer "target_head_count"
+    t.string "territory"
+    t.string "zip"
+  end
+
+  create_table "tmp_em", id: false, force: :cascade do |t|
+    t.string "email"
+    t.string "username"
+  end
+
+  create_table "tmp_it", id: false, force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "mobile_phone"
+  end
+
+  create_table "tmp_lg", id: false, force: :cascade do |t|
+    t.string "cost_center"
+    t.string "mail_stop"
+    t.decimal "pay_rate"
+    t.string "schedule"
+    t.string "store_number"
+    t.integer "target_head_count"
+  end
+
+  create_table "tmp_rates", id: false, force: :cascade do |t|
+    t.decimal "hourly_rate"
+    t.string "store_number"
+  end
+
+  create_table "tmp_sr", id: false, force: :cascade do |t|
+    t.string "email"
+    t.string "status"
+  end
+
+  create_table "tmp_tl", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "location_name"
+    t.string "room"
+    t.string "store_number"
+  end
+
+  create_table "tmp_uid", id: false, force: :cascade do |t|
+    t.string "ad_user_id"
+  end
+
+  create_table "tmp_updates", id: false, force: :cascade do |t|
+    t.string "address"
+    t.string "cost_center"
+    t.string "mailstop"
+    t.string "store_name"
+    t.string "store_num"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
