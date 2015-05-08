@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150505133652) do
+ActiveRecord::Schema.define(version: 20150508180436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20150505133652) do
     t.string "shirt_gender"
     t.string "shirt_size"
     t.integer "sprint_radio_shack_training_session_id"
+    t.integer "sprint_roster_status"
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"

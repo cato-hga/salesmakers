@@ -33,12 +33,16 @@ class Candidate < ActiveRecord::Base
   enum training_session_status: [
            :pending,
            :candidate_confirmed,
-           :sprint_confirmed,
            :in_class,
            :completed,
            :did_not_graduate,
            :did_not_attend,
            :not_interested
+       ]
+
+  enum sprint_roster_status: [
+           :roster_status_pending,
+           :sprint_confirmed
        ]
 
   has_paper_trail

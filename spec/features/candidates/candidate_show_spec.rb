@@ -8,7 +8,8 @@ describe 'candidate show page' do
            personality_assessment_score: 45,
            personality_assessment_status: :qualified,
            training_availability: training_availability,
-           candidate_availability: candidate_availability }
+           candidate_availability: candidate_availability,
+           sprint_roster_status: :sprint_confirmed }
 
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission] }
@@ -119,6 +120,11 @@ describe 'candidate show page' do
         expect(candidate.training_session_status).to eq('candidate_confirmed')
       end
     end
+
+    it "displays the candidate's Sprint roster status" do
+      expect(page).to have_content('Sprint Confirmed')
+    end
+
   end
 
   context 'hours widget' do

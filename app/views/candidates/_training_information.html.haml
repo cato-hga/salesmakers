@@ -12,4 +12,13 @@
     = form_tag "/candidates/#{@candidate.id}/set_training_session_status", method: :put do
       = label_tag :training_session_status, 'Status'
       = select_tag :training_session_status,  options_for_select(Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize), s[0]]}, @candidate.training_session_status)
+      %p
+        %strong Sprint Roster Status:
+        - if @candidate.sprint_roster_status
+          - if @candidate.sprint_roster_status == 'roster_status_pending'
+            Pending
+          - elsif @candidate.sprint_roster_status == 'sprint_confirmed'
+            Sprint Confirmed
+        - else
+          N/A
       = submit_tag 'Save', class: [:button]
