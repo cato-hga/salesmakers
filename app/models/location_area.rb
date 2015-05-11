@@ -49,6 +49,9 @@ class LocationArea < ActiveRecord::Base
             and la.id = #{self.id}
             and c.training_session_status = 1
             and c.active = true
+            and ((c.sprint_roster_status = 1
+          and c.sprint_radio_shack_training_session_id = 12)
+          or c.sprint_radio_shack_training_session_id != 12)
           group by c.id
           order by c.id
         }
@@ -86,20 +89,6 @@ class LocationArea < ActiveRecord::Base
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    entered_since_0504 = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          where c.id is not null
-            and c.updated_at >= cast('05/04/2015' as timestamp)
-            and la.id = #{self.id}
           group by c.id
           order by c.id
         }
