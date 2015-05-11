@@ -98,7 +98,6 @@ class LocationArea < ActiveRecord::Base
         booked_hours_candidates,
         training_status_confirmed,
         paperwork_sent_last_7_days,
-        entered_since_0504
     ].flatten.uniq
     return true if self.target_head_count <= all_candidate_ids.count
     false
