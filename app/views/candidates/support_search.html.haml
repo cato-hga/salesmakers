@@ -17,9 +17,9 @@
     = f.select :location_area_area_ancestry_eq, options_from_collection_for_select(@regions, :string_id, 'name', selected_region), include_blank: 'Region'
     - selected_area = params['q'] ? params['q']['area_name_eq'] : nil
     = f.select :location_area_area_id_eq, options_from_collection_for_select(Area.where(project: project), 'id', 'name', selected_area), include_blank: 'Area'
-    %br/
     - selected_training_session = params['q'] ? params['q']['sprint_radio_shack_training_session_id_eq'] : nil
     = f.select :sprint_radio_shack_training_session_id_eq, options_from_collection_for_select(SprintRadioShackTrainingSession.all, :id, :name, selected_training_session), include_blank: 'Training Session'
+    %br/
     = f.select :sprint_radio_shack_training_session_id_null, [['Show All', false],['Show Only Unscheduled', true]], include_blank: 'Training Scheduled?'
     - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
     = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
@@ -29,6 +29,8 @@
     - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
     = f.select :status_eq, status_options, prompt: 'Status'
     = f.select :candidate_drug_test_scheduled_eq, [['Scheduled', true],['Not Scheduled', false]], include_blank: 'Drug Test Status'
+    - selected_sprint_roster = params['q'] ? params['q']['sprint_roster_status_eq'] : nil
+    = f.select :sprint_roster_status_eq, options_for_select(Candidate.sprint_roster_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_sprint_roster), include_blank: 'Sprint Roster Status'
     = hidden_field_tag :enable_filter, params[:enable_filter]
     = f.submit 'Search', class: [:button, :inline_button]
   .top-pagination
