@@ -85,7 +85,7 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= date_trunc('day', current_timestamp) - interval '1 week'
+          on j.sent >= current_date - interval '1 week'
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}

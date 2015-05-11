@@ -108,11 +108,6 @@ describe LocationArea do
         paperwork_sent_past_week_job_offer_detail
         expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(true)
       end
-      it 'counts a candidate who was updated in the past 7 days in the location area' do
-        expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(false)
-        paperwork_sent_past_week_candidate
-        expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(true)
-      end
     end
 
     it 'does not count inactive candidates' do
