@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511141146) do
+ActiveRecord::Schema.define(version: 20150511184858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1020,6 +1020,9 @@ ActiveRecord::Schema.define(version: 20150511141146) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
