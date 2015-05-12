@@ -105,6 +105,7 @@ class CandidatePolicy < ApplicationPolicy
   end
 
   def dashboard?
+    has_permission? 'dashboard'
     has_permission? 'view_all'
   end
 
