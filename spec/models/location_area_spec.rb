@@ -94,15 +94,15 @@ describe LocationArea do
       #   ActiveRecord::Base.record_timestamps = true
       #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
       # end
-      it 'counts a candidate if candidate is in the 5/18 training, with candidate confirmed training session status', pending: 'Still valid?' do
-        recent_trainings_shift.update person: nil
-        recent_training_session.update name: '5/18', start_date: Date.new(2015, 05, 18)
-        expect(recent_trainings_location_area.head_count_full?).to eq(false)
-        recent_trainings_candidate.update training_session_status: 'candidate_confirmed', updated_at: DateTime.now - 8.days
-        expect(recent_trainings_location_area.head_count_full?).to eq(false)
-        recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session
-        expect(recent_trainings_location_area.head_count_full?).to eq(true)
-      end
+      # it 'counts a candidate if candidate is in the 5/18 training, with candidate confirmed training session status', pending: 'Still valid?' do
+      #   recent_trainings_shift.update person: nil
+      #   recent_training_session.update name: '5/18', start_date: Date.new(2015, 05, 18)
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      #   recent_trainings_candidate.update training_session_status: 'candidate_confirmed', updated_at: DateTime.now - 8.days
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      #   recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(true)
+      # end
       it 'counts a candidate whose paperwork was sent in the past 7 days' do
         expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(false)
         paperwork_sent_past_week_job_offer_detail
