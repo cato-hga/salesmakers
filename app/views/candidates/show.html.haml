@@ -200,6 +200,7 @@
     = render 'candidate_details'
   - unless @candidate.interview_answers.empty?
     = render 'interview_answers'
+  = render 'candidate_notes/form'
 
 
 .widget
@@ -210,3 +211,7 @@
   .inner
     %h3 Log Entries
     = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
+.widget#candidate_notes
+  .inner
+    %h3 Notes
+    = render partial: 'candidate_notes/table', locals: { candidate_notes: @candidate_notes }
