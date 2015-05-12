@@ -80,23 +80,23 @@ describe LocationArea do
     end
 
     context 'for recent trainings' do
-      it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)', pending: 'still valid?' do
-        expect(recent_trainings_location_area.head_count_full?).to eq(false)
-        recent_training_session.update name: '4/20', start_date: Date.new(2015, 04, 20)
-        recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session, updated_at: DateTime.now - 8.days
-        expect(recent_trainings_location_area.head_count_full?).to eq(true)
-        ActiveRecord::Base.record_timestamps = false
-        recent_training_session.update name: '5/11', start_date: Date.new(2015, 05, 11)
-        ActiveRecord::Base.record_timestamps = true
-        expect(recent_trainings_location_area.head_count_full?).to eq(false)
-        ActiveRecord::Base.record_timestamps = false
-        recent_training_session.update name: '5/18', start_date: Date.new(2015, 05, 18)
-        ActiveRecord::Base.record_timestamps = true
-        expect(recent_trainings_location_area.head_count_full?).to eq(false)
-      end
-      it 'counts a candidate if candidate is in the 5/11 training, with candidate confirmed training session status' do
+      # it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)' do
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      #   recent_training_session.update name: '4/20', start_date: Date.new(2015, 04, 20)
+      #   recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session, updated_at: DateTime.now - 8.days
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(true)
+      #   ActiveRecord::Base.record_timestamps = false
+      #   recent_training_session.update name: '5/11', start_date: Date.new(2015, 05, 11)
+      #   ActiveRecord::Base.record_timestamps = true
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      #   ActiveRecord::Base.record_timestamps = false
+      #   recent_training_session.update name: '5/18', start_date: Date.new(2015, 05, 18)
+      #   ActiveRecord::Base.record_timestamps = true
+      #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+      # end
+      it 'counts a candidate if candidate is in the 5/18 training, with candidate confirmed training session status', pending: 'Still valid?' do
         recent_trainings_shift.update person: nil
-        recent_training_session.update name: '5/11', start_date: Date.new(2015, 05, 11)
+        recent_training_session.update name: '5/18', start_date: Date.new(2015, 05, 18)
         expect(recent_trainings_location_area.head_count_full?).to eq(false)
         recent_trainings_candidate.update training_session_status: 'candidate_confirmed', updated_at: DateTime.now - 8.days
         expect(recent_trainings_location_area.head_count_full?).to eq(false)
