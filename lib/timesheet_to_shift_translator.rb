@@ -48,9 +48,17 @@ module TimesheetToShiftTranslator
   private
 
   def add_to_unmatched(timesheet, shift)
-    @unmatched_timesheets << {
-        timesheet: timesheet,
-        reason: shift.errors.full_messages.join(', ')
-    }
+    if timesheet &&
+        timesheet.site_num != 'CORP' &&
+        timesheet.site_num != 'CALLCENTERHQ' &&
+        timesheet.site_num != 'HRHQ' &&
+        timesheet.site_num != 'SMSCORP' &&
+        timesheet.site_num != 'OPSHQ' &&
+        timesheet.site_num != 'RECRUITHQ'
+      @unmatched_timesheets << {
+          timesheet: timesheet,
+          reason: shift.errors.full_messages.join(', ')
+      }
+    end
   end
 end
