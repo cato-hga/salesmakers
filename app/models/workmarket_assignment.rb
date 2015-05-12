@@ -16,8 +16,8 @@ class WorkmarketAssignment < ActiveRecord::Base
   belongs_to :workmarket_location,
              foreign_key: :workmarket_location_num,
              primary_key: :workmarket_location_num
-  has_many :workmarket_attachments
-  has_many :workmarket_fields
+  has_many :workmarket_attachments, dependent: :destroy
+  has_many :workmarket_fields, dependent: :destroy
 
   default_scope { order started: :desc, ended: :desc, title: :asc }
 

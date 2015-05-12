@@ -45,4 +45,11 @@ class ClientAccess::WorkmarketAssignmentsController < ClientApplicationControlle
     end
   end
 
+  def destroy
+    assignment = WorkmarketAssignment.find params[:id]
+    authorize assignment
+    assignment.destroy
+    redirect_to client_access_worker_assignments_path
+  end
+
 end

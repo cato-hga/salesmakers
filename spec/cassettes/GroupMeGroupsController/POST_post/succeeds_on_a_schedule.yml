@@ -21,21 +21,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:50 GMT
+      - Tue, 12 May 2015 13:56:22 GMT
       Etag:
-      - '"a05c190adb25e47ac36f5c1c87817e4b"'
+      - '"3dd6242323ff825afed049959cbc5e97"'
       Server:
       - nginx/1.6.2
       Status:
       - 201 Created
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - b330cb4881250c4210b391356cdaae09
+      - ddf7d0b786b46fa13cb185a53a6ffdd5
       X-Runtime:
-      - '0.018767'
+      - '0.032695'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -45,16 +43,16 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"39e9d891333befe625ccd46e4f","group_id":"8936279","group_name":"SalesMakers
+        2.0","bot_id":"841b5cadc8a5e8cf2606cefcfe","group_id":"8936279","group_name":"SalesMakers
         Test Playground!","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:50 GMT
+  recorded_at: Tue, 12 May 2015 13:56:22 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"39e9d891333befe625ccd46e4f","text":"This is a test message."}'
+      string: '{"bot_id":"841b5cadc8a5e8cf2606cefcfe","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -66,19 +64,17 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:51 GMT
+      - Tue, 12 May 2015 13:56:22 GMT
       Server:
       - nginx/1.6.2
       Status:
       - 202 Accepted
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - d75acc761da74fc1ebd2f56e0fd9a626
+      - 2f657dd69a43692a7f3f48915bc47ffd
       X-Runtime:
-      - '0.071470'
+      - '0.068069'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -89,13 +85,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:51 GMT
+  recorded_at: Tue, 12 May 2015 13:56:22 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"39e9d891333befe625ccd46e4f"}'
+      string: '{"bot_id":"841b5cadc8a5e8cf2606cefcfe"}'
     headers:
       Content-Type:
       - application/json
@@ -111,19 +107,17 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:51 GMT
+      - Tue, 12 May 2015 13:56:22 GMT
       Server:
       - nginx/1.6.2
       Status:
       - 200 OK
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - b0907d79a287d4a82f6dfd8532df51ad
+      - 15a371e6d804edd3f43e16cc77cc4894
       X-Runtime:
-      - '0.010979'
+      - '0.025933'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -134,7 +128,7 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:51 GMT
+  recorded_at: Tue, 12 May 2015 13:56:22 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
@@ -156,21 +150,19 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:51 GMT
+      - Tue, 12 May 2015 13:56:23 GMT
       Etag:
-      - '"c40d91e9f3216941609e87512f675c71"'
+      - '"5454a1739f827db1359670acc6f07091"'
       Server:
       - nginx/1.6.2
       Status:
       - 201 Created
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - 66c1517f9196bfe9f09f7bc1f1362466
+      - 231c71073c1d1111e80238e37f158ded
       X-Runtime:
-      - '0.022256'
+      - '0.019453'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -180,15 +172,15 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"meta":{"code":201},"response":{"bot":{"name":"Test User via SalesCenter
-        2.0","bot_id":"7df69284120ecfc74d9cdfe42b","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
+        2.0","bot_id":"6eb6a3aee2f06c1da93b836f05","group_id":"12548729","group_name":"TEST","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":null}}}'
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:51 GMT
+  recorded_at: Tue, 12 May 2015 13:56:23 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"7df69284120ecfc74d9cdfe42b","text":"This is a test message."}'
+      string: '{"bot_id":"6eb6a3aee2f06c1da93b836f05","text":"This is a test message."}'
     headers: {}
   response:
     status:
@@ -200,19 +192,17 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:51 GMT
+      - Tue, 12 May 2015 13:56:23 GMT
       Server:
       - nginx/1.6.2
       Status:
       - 202 Accepted
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - ebe9a06f00e3f0dd1725705184e5228d
+      - ed28234c81002c23bce3da11d3ecd72c
       X-Runtime:
-      - '0.055780'
+      - '0.063825'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -223,13 +213,13 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:51 GMT
+  recorded_at: Tue, 12 May 2015 13:56:23 GMT
 - request:
     method: post
     uri: https://api.groupme.com/v3/bots/destroy?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot_id":"7df69284120ecfc74d9cdfe42b"}'
+      string: '{"bot_id":"6eb6a3aee2f06c1da93b836f05"}'
     headers:
       Content-Type:
       - application/json
@@ -245,19 +235,17 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Tue, 05 May 2015 16:03:51 GMT
+      - Tue, 12 May 2015 13:56:23 GMT
       Server:
       - nginx/1.6.2
       Status:
       - 200 OK
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - afca2db1b801d0b95d97af9a8d5886fa
+      - b8d233ff7b05b432e2b287cbc3766452
       X-Runtime:
-      - '0.010247'
+      - '0.015199'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -268,5 +256,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Tue, 05 May 2015 16:03:51 GMT
+  recorded_at: Tue, 12 May 2015 13:56:23 GMT
 recorded_with: VCR 2.9.3

@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   resources :changelog_entries, only: [:index, :new, :create]
 
   namespace :client_access do
-    resources :worker_assignments, controller: 'workmarket_assignments', only: [:index, :show] do
+    resources :worker_assignments, controller: 'workmarket_assignments', only: [:index, :show, :destroy] do
       collection do
         get :csv, as: :csv, defaults: { format: :csv }
       end
