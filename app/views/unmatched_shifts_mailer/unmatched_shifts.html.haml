@@ -1,0 +1,26 @@
+%h1
+  = pluralize @unmatched_shifts.count.to_s, 'Unmatched Shift'
+%p
+  The following shift(s) attempted to be imported into SalesCenter from RBD Connect
+  but were not able to be matched for the indicated reasons. Please troubleshoot
+  and update the records manually if necessary.
+%table(width="100%")
+  %tr
+    %td
+      %strong Shift Date
+    %td
+      %strong Rep
+    %td
+      %strong Hours
+    %td
+      %strong Reason Unmatched
+  - for unmatched_shift in @unmatched_shifts do
+    - timesheet = unmatched_shift[:timesheet]
+    - reason = unmatched_shift[:reason]
+    - shift_date = timesheet.shift_date ? timesheet.shift_date.apply_eastern_offset.strftime('%m/%d/%Y') : ''
+    - hours = timesheet.respond_to?(:overtime) ? timesheet.hours + timesheet.overtime : timesheet.hours
+    %tr
+      %td= shift_date
+      %td= timesheet.connect_user.name
+      %td= hours ? hours.to_s : ''
+      %td= reason

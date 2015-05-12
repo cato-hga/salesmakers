@@ -9,5 +9,11 @@ class TimesheetImporter
     shifts = self.translate_all(timesheets)
     self.extend ShiftWriter
     self.clear_and_write_all shifts
+    self.send_unmatched
+  end
+
+  def send_unmatched
+    unmatched = self.unmatched_sales || return
+    UnmatchedVonageSalesMailer.unmatched_sales(unmatched).deliver_later
   end
 end
