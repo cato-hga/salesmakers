@@ -1,0 +1,9 @@
+- title "Terminate #{@person.display_name}"
+
+.widget
+  .inner
+    %br
+    = form_for [@person, @nos], url: create_third_party_person_docusign_noses_path do |f|
+      = f.label :manager
+      = f.select :manager, options_from_collection_for_select(@managers, 'id', 'name')
+      = f.submit 'Send NOS', class: [:button]

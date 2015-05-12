@@ -157,6 +157,10 @@ class Person < ActiveRecord::Base
     people_without_assets
   end
 
+  def main_project
+    self.person_areas.first.project
+  end
+
   private
 
   def get_person_area_supervisors(person_area)

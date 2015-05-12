@@ -67,7 +67,6 @@ describe "Terminating a Person" do
         click_on 'Send NOS'
       end
 
-      it 'generates and sends the NOS'
       it 'creates an object with the envelope guid tracked', :vcr do
         expect(page).to have_content 'NOS form sent'
       end
@@ -79,13 +78,46 @@ describe "Terminating a Person" do
         terminating_employee.reload
         expect(terminating_employee.active).to eq(true)
       end
-      it 'keeps track of the generated time, and alerts if the person is still active after a few days of the NOS being generated'
     end
   end
 
-  context 'once HR signs the NOS' do
-    it 'deactivates the person and candidate'
-    it 'creates log entries'
-    it 'changes the head count for the candidate/persons location'
+  context 'via the NOS screen, for authorized users, (SalesMaker Support Members)' do
+    let(:sms) { create :person, position: sms_position }
+    let(:sms_position) { create :position, name: 'SalesMakers Support Member' }
+
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(sms.email)
+      visit person_path terminating_employee
+    end
+
+    it 'sends a person to the NOS confirmation/data entry page' do
+      click_on 'Send NOS to SD'
+      expect(current_path).to eq(new_third_party_person_docusign_noses_path(terminating_employee))
+    end
+    it 'makes the user select a manager' do
+      click_on 'Send NOS to SD'
+      click_on 'Send NOS'
+      expect(page).to have_content 'A manager must be selected'
+    end
+
+    context 'successful sending' do
+      before(:each) do
+        click_on 'Send NOS to SD'
+        select correct_manager.name, from: :docusign_nos_manager
+        click_on 'Send NOS'
+      end
+
+      it 'creates an object with the envelope guid tracked', :vcr do
+        expect(page).to have_content 'NOS form sent'
+      end
+      it 'creates log entries (person as referencable, trackable is generated object)', :vcr do
+        visit person_path terminating_employee
+        expect(page).to have_content 'initiated a Notice of Separation'
+      end
+      it 'does not deactivate the person or take any action', :vcr do
+        terminating_employee.reload
+        expect(terminating_employee.active).to eq(true)
+      end
+    end
   end
 end

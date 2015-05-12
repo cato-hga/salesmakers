@@ -221,7 +221,12 @@ Rails.application.routes.draw do
 
   resources :people, except: [:edit, :destroy] do
     resource :screening, only: [:edit, :update]
-    resources :docusign_noses, only: [:new, :create]
+    resources :docusign_noses, only: [:new, :create] do
+      collection do
+        get :new_third_party, as: :new_third_party
+        post :create_third_party, as: :create_third_party
+      end
+    end
     member do
       get :commission, as: :commission
       post :commission

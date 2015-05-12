@@ -1,6 +1,6 @@
 class DocusignNosesController < ApplicationController
   before_action :get_person
-  before_action :do_authorization
+  before_action :do_authorization, except: [:new_third_party, :create_third_party]
   after_action :verify_authorized
 
   def new
@@ -13,6 +13,30 @@ class DocusignNosesController < ApplicationController
     verify_data; return if performed?
     assign_params
     get_nos_response
+    handle_response; return if performed?
+    handle_nos_saving; return if performed?
+  end
+
+  def new_third_party
+    authorize @person, :third_party_nos?
+    @nos = DocusignNos.new
+    postpaid = Project.find_by name: 'Sprint Postpaid'
+    @managers = Person.joins(:person_areas).where('person_areas.manages = true').joins(:areas).where("areas.project_id = #{postpaid.id}")
+  end
+
+  def create_third_party
+    authorize @person, :third_party_nos?
+    @nos = DocusignNos.new
+    @nos.third_party = true
+    @manager = Person.find params[:docusign_nos][:manager]
+    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
+      @response = 'STAGING'
+    else
+      @response = DocusignTemplate.send_third_party_nos(
+          @person,
+          @manager
+      )
+    end
     handle_response; return if performed?
     handle_nos_saving; return if performed?
   end

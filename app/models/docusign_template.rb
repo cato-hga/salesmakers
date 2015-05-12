@@ -51,6 +51,29 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
+  def self.send_third_party_nos(person, manager)
+    project = person.person_areas.first.project
+    template = DocusignTemplate.find_by template_guid: 'E0D92C92-D229-4C25-9CAF-E258FA990AF5' #Hard coding this temporarily
+    client = DocusignRest::Client.new
+    hash = {
+        status: 'created',
+        email: {
+            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
+        },
+        template_id: template.template_guid,
+        signers: [
+            {
+                name: manager.display_name,
+                email: manager.email,
+                role_name: 'Manager'
+            }
+        ]
+    }
+    created_envelope = client.create_envelope_from_template(hash)
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
   def self.send_nos(person, sender, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
     project = person.person_areas.first.project
     retail = retail == 'Retail' ? true : false

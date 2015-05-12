@@ -15,6 +15,13 @@ class PersonPolicy < ApplicationPolicy
     false
   end
 
+  def third_party_nos?
+    support = Position.find_by name: 'SalesMakers Support Member'
+    develop = Position.find_by name: 'Software Developer'
+    return true if @user.position == support or @user.position == develop
+    false
+  end
+
   def approval?
     @user.managed_team_members.any?
   end

@@ -63,7 +63,7 @@ describe DocusignTemplate do
              document_type: 2
     }
     let!(:manager) { create :person,
-                           display_name: 'Test Manager',
+                            display_name: 'Test Manager',
                             email: 'smiles@retaildoneright.com'
     }
     let!(:regional) { create :person, display_name: 'Test Regional', email: 'developers@salesmakersinc.com' }
@@ -78,6 +78,30 @@ describe DocusignTemplate do
     it 'sends an NOS', :vcr do
       envelope_response = DocusignTemplate.send_nos(person, regional, DateTime.now, DateTime.now, reason, false, false, remark)
       expect(envelope_response.length).to be > 0
+    end
+  end
+
+  describe 'Docusign Sending, Third Party NOS' do
+    describe 'Docusign sending, NOS' do
+      let!(:docusign_template) {
+        create :docusign_template,
+               template_guid: 'E0D92C92-D229-4C25-9CAF-E258FA990AF5',
+               project: person_area.area.project,
+               document_type: 2
+      }
+      let!(:manager) { create :person,
+                              display_name: 'Test Manager',
+                              email: 'smiles@retaildoneright.com'
+      }
+      let(:person) { create :person }
+      let!(:person_area) { create :person_area, person: person, area: area }
+      let(:area) { create :area, project: project }
+      let(:project) { create :project }
+
+      it 'sends an NOS', :vcr do
+        envelope_response = DocusignTemplate.send_third_party_nos(person, manager)
+        expect(envelope_response.length).to be >0
+      end
     end
   end
 end

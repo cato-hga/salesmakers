@@ -93,4 +93,78 @@ describe DocusignNosesController do
       end
     end
   end
+
+
+  describe 'GET new_third_party' do
+    it 'returns a success status' do
+      allow(controller).to receive(:policy).and_return double(third_party_nos?: true)
+      get :new_third_party, person_id: person.id
+      expect(response).to be_success
+      expect(response).to render_template(:new_third_party)
+    end
+  end
+
+  describe 'POST create_third_party' do
+    before {
+      CASClient::Frameworks::Rails::Filter.fake(manager.email)
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+      allow(controller).to receive(:policy).and_return double(third_party_nos?: true)
+    }
+
+    context 'success' do
+      subject {
+        post :create_third_party,
+             person_id: person.id,
+             docusign_nos: {
+                 manager: manager.id
+             }
+      }
+      it 'creates a DocusignNOS object', :vcr do
+        expect { subject }.to change(DocusignNos, :count).by(1)
+      end
+      it 'sends an NOS', :vcr do
+        expect(DocusignTemplate).to receive(:send_third_party_nos)
+        subject
+      end
+      it 'attaches the correct attributes', :vcr do
+        subject
+        nos = DocusignNos.first
+        expect(nos.person).to eq(person)
+        expect(nos.envelope_guid).not_to be_nil
+      end
+      it 'does not deactivate the person', :vcr do
+        subject
+        person.reload
+        expect(person.active).to eq(true)
+      end
+      it 'redirects to the the person index', :vcr do
+        subject
+        expect(response).to redirect_to people_path
+      end
+    end
+
+    context 'failure' do
+      subject {
+        allow_any_instance_of(DocusignTemplate).to receive(:send_nos).and_return(nil)
+        allow_any_instance_of(DocusignNos).to receive(:save).and_return(false)
+        post :create_third_party,
+             person_id: person.id,
+             docusign_nos: {
+                 manager: manager.id
+             }
+      }
+      it 'does not create a DocusignNOS object', :vcr do
+        expect { subject }.not_to change(DocusignNos, :count)
+      end
+      it 'does not deactivate the person', :vcr do
+        subject
+        person.reload
+        expect(person.active).to eq(true)
+      end
+      it 'renders the new template', :vcr do
+        subject
+        expect(response).to render_template(:new_third_party)
+      end
+    end
+  end
 end

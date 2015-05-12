@@ -1,13 +1,20 @@
 class DocusignNos < ActiveRecord::Base
 
-  validates :eligible_to_rehire, inclusion: { in: [true, false] }
-  validates :employment_end_reason_id, presence: true
-  validates :envelope_guid, presence: true
-  validates :last_day_worked, presence: true
+  validates :eligible_to_rehire, inclusion: { in: [true, false] }, unless: :third_party
+  validates :employment_end_reason_id, presence: true, unless: :third_party
+  validates :envelope_guid, presence: true, unless: :third_party
+  validates :last_day_worked, presence: true, unless: :third_party
   validates :person_id, presence: true
-  validates :termination_date, presence: true
+  validates :termination_date, presence: true, unless: :third_party
+  validates :manager_id, presence: true, if: :third_party?
 
   belongs_to :person
   belongs_to :employment_end_reason
+  belongs_to :manager, class: Person
 
+  private
+
+  def third_party?
+    third_party == true
+  end
 end
