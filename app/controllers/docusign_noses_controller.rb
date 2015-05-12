@@ -28,6 +28,10 @@ class DocusignNosesController < ApplicationController
     authorize @person, :third_party_nos?
     @nos = DocusignNos.new
     @nos.third_party = true
+    if params[:docusign_nos][:manager].blank?
+      flash[:error] = 'A manager must be selected'
+      render :new and return
+    end
     @manager = Person.find params[:docusign_nos][:manager]
     if Rails.env.staging? or Rails.env.test? or Rails.env.development?
       @response = 'STAGING'
@@ -38,6 +42,8 @@ class DocusignNosesController < ApplicationController
       )
     end
     handle_response; return if performed?
+    @nos.manager = @manager
+    @nos.person = @person
     handle_nos_saving; return if performed?
   end
 
@@ -71,7 +77,11 @@ class DocusignNosesController < ApplicationController
 
   def handle_nos_saving
     if @nos.save
-      flash[:notice] = 'NOS form sent. Please sign off to complete!'
+      if @nos.third_party
+        flash[:notice] = 'NOS form initiated'
+      else
+        flash[:notice] = 'NOS form sent. Please sign off to complete!'
+      end
       @current_person.log? 'sent_nos',
                            @nos,
                            @person

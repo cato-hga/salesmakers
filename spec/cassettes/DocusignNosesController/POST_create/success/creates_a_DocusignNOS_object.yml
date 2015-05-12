@@ -8,14 +8,14 @@ http_interactions:
       string: '{"status":"created","emailBlurb":null,"emailSubject":"Sprint Postpaid
         - NOTICE OF SEPARATION FOR: Test User","templateId":"CD15C02E-B073-44D9-A60A-6514C24949CB","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser3@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
         Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null},{"tabLabel":"Last
-        Day Worked","name":"Last Day Worked","value":"04-21-15","documentId":null,"selected":null},{"tabLabel":"Termination
-        Date","name":"Termination Date","value":"04-22-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"Test
-        remarks","documentId":null,"selected":null},{"tabLabel":"Location","name":"Location","value":false,"documentId":null,"selected":null},{"tabLabel":"Eligible
+        Day Worked","name":"Last Day Worked","value":"05-12-15","documentId":null,"selected":null},{"tabLabel":"Termination
+        Date","name":"Termination Date","value":"05-12-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"Test
+        remarks","documentId":null,"selected":null},{"tabLabel":"Location","name":"Location","value":true,"documentId":null,"selected":null},{"tabLabel":"Eligible
         for Rehire","name":"Eligible for Rehire","value":false,"documentId":null,"selected":null},{"tabLabel":"Separation
         Reason","name":"Separation Reason","value":"Test Reason","documentId":null,"selected":null}],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
-      - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
       Accept:
       - json
       Content-Type:
@@ -36,31 +36,31 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1429722000'
+      - '1431457200'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '994'
+      - '887'
       Date:
-      - Wed, 22 Apr 2015 16:27:56 GMT
+      - Tue, 12 May 2015 18:57:59 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"0838da49-610c-47be-a9b1-77180227d63a\",\r\n
-        \ \"uri\": \"/envelopes/0838da49-610c-47be-a9b1-77180227d63a\",\r\n  \"statusDateTime\":
-        \"2015-04-22T16:27:56.3770000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"d85b5e9c-ae28-4fe5-8e5e-43b2fd379d09\",\r\n
+        \ \"uri\": \"/envelopes/d85b5e9c-ae28-4fe5-8e5e-43b2fd379d09\",\r\n  \"statusDateTime\":
+        \"2015-05-12T18:57:59.6300000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Wed, 22 Apr 2015 16:27:57 GMT
+  recorded_at: Tue, 12 May 2015 18:58:00 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/0838da49-610c-47be-a9b1-77180227d63a
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/d85b5e9c-ae28-4fe5-8e5e-43b2fd379d09
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
     headers:
       X-Docusign-Authentication:
-      - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
       Accept:
       - json
       Content-Type:
@@ -81,12 +81,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Wed, 22 Apr 2015 16:27:58 GMT
+      - Tue, 12 May 2015 18:58:01 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Wed, 22 Apr 2015 16:27:58 GMT
+  recorded_at: Tue, 12 May 2015 18:58:01 GMT
 recorded_with: VCR 2.9.3

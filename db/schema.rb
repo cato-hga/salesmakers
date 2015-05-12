@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511174249) do
+ActiveRecord::Schema.define(version: 20150512173333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -401,13 +401,13 @@ ActiveRecord::Schema.define(version: 20150511174249) do
   create_table "docusign_noses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "eligible_to_rehire", default: false, null: false
-    t.integer "employment_end_reason_id", null: false
+    t.integer "employment_end_reason_id"
     t.string "envelope_guid", null: false
-    t.datetime "last_day_worked", null: false
+    t.datetime "last_day_worked"
     t.integer "manager_id"
     t.integer "person_id", null: false
     t.text "remarks"
-    t.datetime "termination_date", null: false
+    t.datetime "termination_date"
     t.boolean "third_party", default: false, null: false
     t.datetime "updated_at", null: false
   end
