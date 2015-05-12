@@ -80,7 +80,7 @@ describe LocationArea do
     end
 
     context 'for recent trainings' do
-      it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)' do
+      it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)', pending: true do
         expect(recent_trainings_location_area.head_count_full?).to eq(false)
         recent_training_session.update name: '4/20', start_date: Date.new(2015, 04, 20)
         recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session, updated_at: DateTime.now - 8.days

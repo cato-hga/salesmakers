@@ -3,7 +3,7 @@
 
 - if WorkmarketAssignmentPolicy.new(current_client_rep, @assignment).destroy?
   - content_for :action_buttons do
-    = button_to 'Delete', client_access_worker_assignment_path(@assignment), method: :delete, class: [:button, :alert], id: 'destroy_assignment'
+    = button_to 'Delete', client_access_worker_assignment_path(@assignment), method: :delete, class: [:button, :alert], id: 'destroy_assignment', data: { confirm: 'This cannot be undone. Are you sure?' }
 
 .widgets
   .widget
