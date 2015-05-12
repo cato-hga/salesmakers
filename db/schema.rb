@@ -404,9 +404,11 @@ ActiveRecord::Schema.define(version: 20150512130449) do
     t.integer "employment_end_reason_id", null: false
     t.string "envelope_guid", null: false
     t.datetime "last_day_worked", null: false
+    t.integer "manager_id"
     t.integer "person_id", null: false
     t.text "remarks"
     t.datetime "termination_date", null: false
+    t.boolean "third_party", default: false, null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1020,9 +1022,6 @@ ActiveRecord::Schema.define(version: 20150512130449) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
-    t.boolean "insurance"
-    t.boolean "intl_connect_five"
-    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
