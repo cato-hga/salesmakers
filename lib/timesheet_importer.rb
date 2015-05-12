@@ -14,6 +14,6 @@ class TimesheetImporter
 
   def send_unmatched
     unmatched = self.unmatched_timesheets || return
-    UnmatchedVonageSalesMailer.unmatched_shifts(unmatched).deliver_later
+    UnmatchedShiftsMailer.unmatched_shifts(unmatched).deliver_later
   end
 end
