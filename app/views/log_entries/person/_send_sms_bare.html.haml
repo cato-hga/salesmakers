@@ -4,6 +4,6 @@ Sent an SMS to
     = person_link log_entry.trackable
   - elsif log_entry.trackable.is_a? Candidate
     = candidate_link log_entry.trackable
-%span.comment
-  = surround '"', '"' do
-    = log_entry.comment
+stating:
+%blockquote
+  = log_entry.comment

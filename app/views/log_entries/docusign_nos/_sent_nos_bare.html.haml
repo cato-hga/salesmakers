@@ -1,9 +1,6 @@
 - person = log_entry.referenceable
-- sender = log_entry.person
 - guid = log_entry.trackable.envelope_guid
-
-= sender.name
-initiated a Notice of Separation for
-= person.name
+Initiated a notice of separation for
+= person_link person
 with envelope id
 = guid
