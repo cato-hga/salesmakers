@@ -70,7 +70,11 @@ class PersonAddress < ActiveRecord::Base
   def geocode_if_necessary
     unless self.latitude and self.longitude
       self.geocode
-      self.save
+      if self.latitude and self.longitude
+        time_zone_result = GoogleTimezone.fetch self.latitude, self.longitude
+        self.time_zone = time_zone_result.time_zone_id if time_zone_result
+        self.save
+      end
     end
   end
 end

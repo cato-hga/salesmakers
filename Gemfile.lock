@@ -69,6 +69,12 @@ GIT
       rubyzip (>= 1.0.0)
 
 GIT
+  remote: https://github.com/sck-v/google_timezone.git
+  revision: 9c1abd3a399783c6c9478d300e72524aff2337df
+  specs:
+    google_timezone (0.0.4)
+
+GIT
   remote: https://github.com/sdsykes/fastimage.git
   revision: eb2ee31cd266f152c437864925c7eda535fe778b
   specs:
@@ -720,6 +726,7 @@ DEPENDENCIES
   geocoder (= 1.2.6)
   gmaps4rails (= 2.1.2)
   goldiloader (= 0.0.8)
+  google_timezone!
   googlecharts (= 1.6.10)
   griddler (= 1.1.0)
   griddler-postmark (= 1.0.0)

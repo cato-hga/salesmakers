@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512200336) do
+ActiveRecord::Schema.define(version: 20150513142932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20150512200336) do
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
+    t.string "time_zone"
     t.integer "training_session_status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "zip", null: false
@@ -756,6 +757,7 @@ ActiveRecord::Schema.define(version: 20150512200336) do
     t.integer "person_id", null: false
     t.boolean "physical", default: true, null: false
     t.string "state", null: false
+    t.string "time_zone"
     t.datetime "updated_at"
     t.string "zip", null: false
   end
