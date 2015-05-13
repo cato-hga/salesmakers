@@ -54,7 +54,7 @@ describe 'edit candidate details' do
     it 'creates a log entry' do
       subject
       log = LogEntry.first
-      expect(page).to have_content "#{log.person.name} updated #{log.trackable.first_name} #{log.trackable.last_name}"
+      expect(page).to have_content "Updated #{log.trackable.first_name} #{log.trackable.last_name}"
     end
     it 'flashes a success message' do
       subject

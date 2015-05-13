@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Sprint PreTraining Welcome calls' do
-
   let!(:candidate) { create :candidate,
                             location_area: location_area,
                             training_availability: training_availability,
@@ -77,7 +76,7 @@ describe 'Sprint PreTraining Welcome calls' do
     end
     it 'creates a log entry' do
       #on show
-      expect(page).to have_content 'Completed the Welcome Call for'
+      expect(page).to have_content 'Completed the welcome call for'
     end
     it 'does not show the welcome button' do
       within('header h1') do
@@ -131,7 +130,7 @@ describe 'Sprint PreTraining Welcome calls' do
       select reason.name, from: 'Why not?'
       fill_in 'Comment', with: 'Test'
       click_on 'Save'
-      expect(page).to have_content 'Completed the Welcome Call for'
+      expect(page).to have_content 'Completed the welcome call for'
     end
   end
   context 'when available, but not able to download at the same time' do
@@ -170,7 +169,7 @@ describe 'Sprint PreTraining Welcome calls' do
       expect(welcome_call.status).to eq('started')
     end
     it 'creates a log entry' do
-      expect(page).to have_content 'Started the Welcome Call for'
+      expect(page).to have_content 'Started the welcome call for'
     end
   end
 end

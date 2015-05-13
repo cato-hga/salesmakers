@@ -1,6 +1,5 @@
 require 'rails_helper'
 describe 'Candidate reactivation' do
-
   let(:recruiter) { create :person, position: position }
   let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
@@ -59,7 +58,7 @@ describe 'Candidate reactivation' do
       it 'creates a log entry' do
         click_button 'Reactivate Candidate'
         visit candidate_path candidate
-        expect(page).to have_content 'reactivated'
+        expect(page).to have_content 'Reactivated'
       end
 
       it 'resets the candidate to a paperwork sent status if applicable' do
