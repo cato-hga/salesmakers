@@ -60,7 +60,7 @@ class AreaType < ActiveRecord::Base
         nil,
         nil,
         AreaType.find_by(name: 'Sprint Postpaid Region'),
-        nil,
+        AreaType.find_by(name: 'Sprint Postpaid Market'),
         AreaType.find_by(name: 'Sprint Postpaid Territory'),
     ]
   end
