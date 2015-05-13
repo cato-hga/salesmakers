@@ -96,6 +96,12 @@ class CandidatesController < ApplicationController
     @candidate_reconciliation.status = status
     @candidate_reconciliation.candidate = @candidate
     if @candidate_reconciliation.save
+      @current_person.log? 'set_reconciliation_status',
+                           @candidate,
+                           nil,
+                           nil,
+                           nil,
+                           NameCase(status.humanize)
       flash[:notice] = 'Candidate Reconciliation Status saved'
       redirect_to candidate_path(@candidate)
     end
