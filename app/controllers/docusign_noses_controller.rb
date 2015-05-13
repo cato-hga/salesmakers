@@ -22,6 +22,8 @@ class DocusignNosesController < ApplicationController
     @nos = DocusignNos.new
     postpaid = Project.find_by name: 'Sprint Postpaid'
     @managers = Person.joins(:person_areas).where('person_areas.manages = true').joins(:areas).where("areas.project_id = #{postpaid.id}")
+    smiles = Person.find 3
+    @managers << smiles
   end
 
   def create_third_party
@@ -33,7 +35,7 @@ class DocusignNosesController < ApplicationController
       render :new and return
     end
     @manager = Person.find params[:docusign_nos][:manager]
-    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
+    if Rails.env.test? or Rails.env.development?
       @response = 'STAGING'
     else
       @response = DocusignTemplate.send_third_party_nos(
