@@ -1,9 +1,8 @@
 - trackable = log_entry.trackable
 - comment = log_entry.comment
 Recouped
-= device_link(trackable.device)
+= device_link trackable.device
 - if comment.present? and not comment.blank?
-  with comment
-  %span.comment
-    = surround '"', '"' do
-      = comment
+  with comment:
+  %blockquote
+    = comment

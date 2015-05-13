@@ -58,6 +58,7 @@ module CandidateValidationsAndAssocationsExtension
       has_many :job_offer_details
       has_many :candidate_contacts
       has_many :candidate_reconciliations
+      has_many :candidate_notes
     end
 
     def setup_assocations

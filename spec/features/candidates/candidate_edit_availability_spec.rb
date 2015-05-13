@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Editing Candidates Availabilty' do
-
   let(:recruiter) { create :person, position: position }
   let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
@@ -66,7 +65,7 @@ describe 'Editing Candidates Availabilty' do
       end
 
       it 'creates a log entry' do
-        expect(page).to have_content 'updated the availability for'
+        expect(page).to have_content 'Updated the availability for'
       end
     end
 
@@ -108,7 +107,7 @@ describe 'Editing Candidates Availabilty' do
         end
 
         it 'creates a log entry' do
-          expect(page).to have_content 'updated the availability for'
+          expect(page).to have_content 'Updated the availability for'
         end
       end
     end

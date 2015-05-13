@@ -8,6 +8,10 @@ module CandidateGeocodingExtension
   def geocode_on_production
     return unless Rails.env.production? or Rails.env.staging?
     self.geocode
+    if self.latitude and self.longitude
+      time_zone_result = GoogleTimezone.fetch self.latitude, self.longitude || return
+      self.time_zone = time_zone_result.time_zone_id
+    end
   end
 
   def reverse_geocode_on_production

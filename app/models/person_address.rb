@@ -68,9 +68,14 @@ class PersonAddress < ActiveRecord::Base
   end
 
   def geocode_if_necessary
+    return unless Rails.env.production? or Rails.env.staging?
     unless self.latitude and self.longitude
       self.geocode
-      self.save
+      if self.latitude and self.longitude
+        time_zone_result = GoogleTimezone.fetch self.latitude, self.longitude
+        self.time_zone = time_zone_result.time_zone_id if time_zone_result
+        self.save
+      end
     end
   end
 end

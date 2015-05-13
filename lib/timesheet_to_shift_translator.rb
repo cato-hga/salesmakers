@@ -54,7 +54,8 @@ module TimesheetToShiftTranslator
         timesheet.site_num != 'HRHQ' &&
         timesheet.site_num != 'SMSCORP' &&
         timesheet.site_num != 'OPSHQ' &&
-        timesheet.site_num != 'RECRUITHQ'
+        timesheet.site_num != 'RECRUITHQ' &&
+        timesheet.hours > 0
       @unmatched_timesheets << {
           timesheet: timesheet,
           reason: shift.errors.full_messages.join(', ')

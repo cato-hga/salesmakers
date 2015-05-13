@@ -146,7 +146,10 @@ module LinksHelperExtension
   def candidate_link(candidate, classes = nil)
     classes = tack_on_inactive_class(candidate, classes)
     link = link_to candidate.name, candidate_url(candidate), class: classes
-    if candidate.mobile_phone and @current_person.position.hq?
+    if candidate.mobile_phone &&
+        @current_person &&
+        @current_person.position &&
+        @current_person.position.hq?
       link = link + candidate_contact_link(candidate)
     end
     link

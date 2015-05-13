@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "Terminating a Person" do
-
   let(:terminating_employee) { create :person }
   let(:correct_manager) { create :person, position: manager_position }
   let(:other_manager) { create :person, position: other_manager_position }
@@ -72,7 +71,7 @@ describe "Terminating a Person" do
       end
       it 'creates log entries (person as referencable, trackable is generated object)', :vcr do
         visit person_path terminating_employee
-        expect(page).to have_content 'initiated a Notice of Separation'
+        expect(page).to have_content 'Initiated a notice of separation'
       end
       it 'does not deactivate the person or take any action', :vcr do
         terminating_employee.reload
@@ -113,7 +112,7 @@ describe "Terminating a Person" do
       it 'creates log entries (person as referencable, trackable is generated object)', :vcr do
         CASClient::Frameworks::Rails::Filter.fake(correct_manager.email)
         visit person_path terminating_employee
-        expect(page).to have_content 'initiated a Notice of Separation'
+        expect(page).to have_content 'Initiated a notice of separation'
       end
 
       it 'does not deactivate the person or take any action', :vcr do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513131239) do
+ActiveRecord::Schema.define(version: 20150513142932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -137,6 +137,14 @@ ActiveRecord::Schema.define(version: 20150513131239) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "candidate_notes", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.datetime "created_at", null: false
+    t.text "note", null: false
+    t.integer "person_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "candidate_reconciliations", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
@@ -183,6 +191,7 @@ ActiveRecord::Schema.define(version: 20150513131239) do
     t.string "state", limit: 2
     t.integer "status", default: 0, null: false
     t.string "suffix"
+    t.string "time_zone"
     t.integer "training_session_status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "zip", null: false
@@ -748,6 +757,7 @@ ActiveRecord::Schema.define(version: 20150513131239) do
     t.integer "person_id", null: false
     t.boolean "physical", default: true, null: false
     t.string "state", null: false
+    t.string "time_zone"
     t.datetime "updated_at"
     t.string "zip", null: false
   end
@@ -1022,6 +1032,9 @@ ActiveRecord::Schema.define(version: 20150513131239) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"

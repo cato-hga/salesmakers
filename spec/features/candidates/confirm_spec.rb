@@ -46,7 +46,6 @@ describe 'confirming details' do
   end
 
   describe 'someone unavailable for training' do
-
     it 'successfully redirects to candidate show' do
       Capybara.ignore_hidden_elements = false
       select 'No', from: 'Is the candidate able to attend the training?'

@@ -28,7 +28,8 @@ module Candidates::Variables
     @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
     @candidate_shifts = Shift.where(person: @candidate.person).order(date: :asc) if @candidate.person
     @candidate_reconciliation = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last : CandidateReconciliation.new
-
+    @candidate_notes = @candidate.candidate_notes
+    @candidate_note = CandidateNote.new
   end
 
   def get_suffixes_and_sources

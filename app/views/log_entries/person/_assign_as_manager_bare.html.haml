@@ -3,4 +3,6 @@
 Assigned
 = person_link log_entry.trackable
 as manager of
-= link_to referenceable.name, client_project_area_path(project.client, project, referenceable)
+= area_link referenceable
+= surround '(', ')' do
+  = project.name
