@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513142932) do
+ActiveRecord::Schema.define(version: 20150513195546) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -628,6 +628,7 @@ ActiveRecord::Schema.define(version: 20150513142932) do
     t.integer "offer_extended_count", default: 0, null: false
     t.boolean "outsourced", default: false, null: false
     t.integer "potential_candidate_count", default: 0, null: false
+    t.integer "priority"
     t.integer "target_head_count", default: 0, null: false
     t.datetime "updated_at", null: false
   end
@@ -1032,9 +1033,6 @@ ActiveRecord::Schema.define(version: 20150513142932) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
-    t.boolean "insurance"
-    t.boolean "intl_connect_five"
-    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1070,6 +1068,24 @@ ActiveRecord::Schema.define(version: 20150513142932) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_doors", id: false, force: :cascade do |t|
+    t.string "city"
+    t.string "cost_center"
+    t.integer "launch_group"
+    t.string "mail_stop"
+    t.string "state"
+    t.string "store_number"
+    t.string "street_1"
+    t.string "street_2"
+    t.integer "target_head_count"
+    t.string "territory"
+    t.string "zip"
+  end
+
+  create_table "tmp_spr", id: false, force: :cascade do |t|
+    t.string "store_number"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
