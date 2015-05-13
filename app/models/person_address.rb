@@ -1,5 +1,6 @@
 class PersonAddress < ActiveRecord::Base
   geocoded_by :address
+  nilify_blanks
 
   validates :person, presence: true
   validates :line_1, format: { with: /\A\d+(\-)?[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }
@@ -21,7 +22,7 @@ class PersonAddress < ActiveRecord::Base
     string_address = ''
     string_address += self.line_1 if self.line_1
     string_address += ', '
-    string_address += self.line_2 + ', ' if self.line_2
+    string_address += self.line_2 + ', ' unless self.line_2.blank?
     string_address += self.city + ', ' if self.city
     string_address += self.state if self.state
     string_address += ' ' + self.zip if self.zip

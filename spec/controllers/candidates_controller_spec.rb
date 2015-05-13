@@ -847,10 +847,20 @@ describe CandidatesController do
 
     before { allow(controller).to receive(:policy).and_return double(resend_assessment?: true) }
 
-    it 'sends the assessment' do
+    subject do
       get :resend_assessment,
           id: candidate.id
+    end
+
+    it 'sends the assessment' do
+      subject
       expect(response).to redirect_to(candidate_path(candidate))
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
     end
   end
 
@@ -874,6 +884,11 @@ describe CandidatesController do
       candidate.reload
       expect(candidate.training_availability.able_to_attend).to eq(false)
       expect(candidate.training_availability.training_unavailability_reason).to eq(cant_make_location)
+    end
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
     end
   end
 
@@ -900,6 +915,12 @@ describe CandidatesController do
       }.to change(candidate, :sprint_radio_shack_training_session_id).
                from(nil).to(sprint_radio_shack_training_session.id)
     end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
+    end
   end
 
   describe 'PUT set_training_session_status' do
@@ -922,6 +943,12 @@ describe CandidatesController do
         candidate.reload
       }.to change(candidate, :training_session_status).
                from('pending').to('candidate_confirmed')
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
     end
   end
 
@@ -953,6 +980,12 @@ describe CandidatesController do
       subject
       candidate.reload
       expect(candidate.candidate_reconciliations.last.status).to eq('working')
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
     end
   end
 end
