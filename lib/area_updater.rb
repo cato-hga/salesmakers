@@ -75,6 +75,8 @@ class AreaUpdater
   def self.setup_sprint_postpaid_area_types
     @spr = AreaType.find_by name: 'Sprint Postpaid Region',
                             project: @sprint_postpaid
+    @spm = AreaType.find_by name: 'Sprint Postpaid Market',
+                            project: @sprint_postpaid
     @spt = AreaType.find_by name: 'Sprint Postpaid Territory',
                             project: @sprint_postpaid
   end
@@ -186,8 +188,9 @@ class AreaUpdater
     sp_connect.children.each do |spr_connect|
       sync_area spr_connect, @spr, @sprint_postpaid
       spr_connect.children.each do |spm_connect|
+        sync_area spm_connect, @spm, @sprint_postpaid, spr_connect
         spm_connect.children.each do |spt_connect|
-          sync_area spt_connect, @spt, @sprint_postpaid, spr_connect
+          sync_area spt_connect, @spt, @sprint_postpaid, spm_connect
         end
       end
     end
