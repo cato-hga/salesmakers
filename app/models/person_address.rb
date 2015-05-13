@@ -68,6 +68,7 @@ class PersonAddress < ActiveRecord::Base
   end
 
   def geocode_if_necessary
+    return unless Rails.env.production? or Rails.env.staging?
     unless self.latitude and self.longitude
       self.geocode
       if self.latitude and self.longitude
