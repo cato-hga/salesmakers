@@ -63,23 +63,26 @@ describe LocationArea do
     let(:paperwork_sent_past_week_location_area) { create :location_area, target_head_count: 1 }
     let(:paperwork_sent_past_week_candidate) { create :candidate, status: :paperwork_sent, location_area: paperwork_sent_past_week_location_area }
     let(:paperwork_sent_past_week_job_offer_detail) { create :job_offer_detail, sent: Date.today - 6.days, candidate: paperwork_sent_past_week_candidate }
+    let(:paperwork_sent_since_may_4_location_area) { create :location_area, target_head_count: 1, priority: 1 }
+    let(:paperwork_sent_since_may_4_candidate) { create :candidate, status: :paperwork_sent, location_area: paperwork_sent_since_may_4_location_area }
+    let(:paperwork_sent_since_may_4_job_offer_detail) { create :job_offer_detail, sent: Date.new(2015, 5, 5), candidate: paperwork_sent_since_may_4_candidate }
 
-    context 'for hours at a location in the past 7 days' do
-      it 'counts a candidate if candidate has booked hours at the location within the past 7 days' do
-        expect(hours_at_location_location_area.head_count_full?).to eq(false)
-        hours_at_location_shift.update location: hours_at_location_location
-        expect(hours_at_location_location_area.head_count_full?).to eq(true)
-      end
-      it 'does not count candidates twice' do
-        hours_at_location_shift.update location: hours_at_location_location
-        second_hours_at_location_shift.update location: hours_at_location_location
-        expect(hours_at_location_location_area.head_count_full?).to eq(true)
-        hours_at_location_location_area.update target_head_count: 2
-        expect(hours_at_location_location_area.head_count_full?).to eq(false)
-      end
-    end
+    # context 'for hours at a location in the past 7 days' do
+    #   it 'counts a candidate if candidate has booked hours at the location within the past 7 days' do
+    #     expect(hours_at_location_location_area.head_count_full?).to eq(false)
+    #     hours_at_location_shift.update location: hours_at_location_location
+    #     expect(hours_at_location_location_area.head_count_full?).to eq(true)
+    #   end
+    #   it 'does not count candidates twice' do
+    #     hours_at_location_shift.update location: hours_at_location_location
+    #     second_hours_at_location_shift.update location: hours_at_location_location
+    #     expect(hours_at_location_location_area.head_count_full?).to eq(true)
+    #     hours_at_location_location_area.update target_head_count: 2
+    #     expect(hours_at_location_location_area.head_count_full?).to eq(false)
+    #   end
+    # end
 
-    context 'for recent trainings' do
+    # context 'for recent trainings' do
       # it 'counts a candidate if candidate is in the 4/20 to 5/18 trainings, and have booked any hours in the past 7 days (location independent)' do
       #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
       #   recent_training_session.update name: '4/20', start_date: Date.new(2015, 04, 20)
@@ -103,23 +106,32 @@ describe LocationArea do
       #   recent_trainings_candidate.update sprint_radio_shack_training_session: recent_training_session
       #   expect(recent_trainings_location_area.head_count_full?).to eq(true)
       # end
-      it 'counts a candidate whose paperwork was sent in the past 7 days' do
-        expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(false)
-        paperwork_sent_past_week_job_offer_detail
-        expect(paperwork_sent_past_week_location_area.head_count_full?).to eq(true)
-      end
+    # end
+
+    it 'counts a candidate whose paperwork was sent since 5/4' do
+      expect(paperwork_sent_since_may_4_location_area.head_count_full?).to eq(false)
+      paperwork_sent_since_may_4_job_offer_detail
+      expect(paperwork_sent_since_may_4_location_area.head_count_full?).to eq(false)
+      paperwork_sent_since_may_4_location_area.update target_head_count: 0
+      paperwork_sent_since_may_4_location_area.reload
+      expect(paperwork_sent_since_may_4_location_area.head_count_full?).to eq(true)
     end
 
-    it 'does not count inactive candidates' do
-      expect(inactive_candidate_location_area.head_count_full?).to eq(false)
-      inactive_candidate_shift.update location: inactive_candidate_location
-      expect(inactive_candidate_location_area.head_count_full?).to eq(false)
+    it 'is never recruitable when not priority 1' do
+      low_priority_location_area = create :location_area, priority: 2
+      expect(low_priority_location_area.head_count_full?).to eq(true)
     end
 
-    it 'returns true if a location areas open head count is 0 or lower' do
-      expect(recent_trainings_location_area.head_count_full?).to eq(false)
-      recent_trainings_location_area.update target_head_count: 0
-      expect(recent_trainings_location_area.head_count_full?).to eq(true)
-    end
+    # it 'does not count inactive candidates' do
+    #   expect(inactive_candidate_location_area.head_count_full?).to eq(false)
+    #   inactive_candidate_shift.update location: inactive_candidate_location
+    #   expect(inactive_candidate_location_area.head_count_full?).to eq(false)
+    # end
+    #
+    # it 'returns true if a location areas open head count is 0 or lower' do
+    #   expect(recent_trainings_location_area.head_count_full?).to eq(false)
+    #   recent_trainings_location_area.update target_head_count: 0
+    #   expect(recent_trainings_location_area.head_count_full?).to eq(true)
+    # end
   end
 end

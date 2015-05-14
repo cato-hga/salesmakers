@@ -18,66 +18,83 @@ class LocationArea < ActiveRecord::Base
   end
 
   def head_count_full?
-    recent_hours_training_started = ActiveRecord::Base.connection.execute(
-        %{ select
-          c.id
-          from sprint_radio_shack_training_sessions train
-          left outer join candidates c
-            on c.sprint_radio_shack_training_session_id = train.id
-          left outer join shifts s
-            on s.person_id = c.person_id
-          left outer join location_areas la
-            on la.id = c.location_area_id
-          where s.date >= current_date - interval '7 days'
-            and train.start_date < current_date
-            and la.id = #{self.id}
-            and c.active = true
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    training_status_confirmed = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from sprint_radio_shack_training_sessions train
-          left outer join candidates c
-            on c.sprint_radio_shack_training_session_id = train.id
-          left outer join location_areas la
-            on la.id = c.location_area_id
-          where train.start_date >= current_date
-            and la.id = #{self.id}
-            and c.training_session_status = 1
-            and c.active = true
-            and ((c.sprint_roster_status = 1
-          and c.sprint_radio_shack_training_session_id = 12)
-          or c.sprint_radio_shack_training_session_id != 12)
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    booked_hours_candidates = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join locations l
-            on la.location_id = l.id
-          left outer join shifts s
-            on s.location_id = l.id
-          left outer join people p
-            on p.id = s.person_id
-          left outer join candidates c
-            on c.person_id = p.id
-          where c.id is not null
-            and la.id = #{self.id}
-            and s.date >= current_date - interval '7 days'
-            and c.active = true
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    paperwork_sent_last_7_days = ActiveRecord::Base.connection.execute(
+    return true unless self.priority == 1
+    # recent_hours_training_started = ActiveRecord::Base.connection.execute(
+    #     %{ select
+    #       c.id
+    #       from sprint_radio_shack_training_sessions train
+    #       left outer join candidates c
+    #         on c.sprint_radio_shack_training_session_id = train.id
+    #       left outer join shifts s
+    #         on s.person_id = c.person_id
+    #       left outer join location_areas la
+    #         on la.id = c.location_area_id
+    #       where s.date >= current_date - interval '7 days'
+    #         and train.start_date < current_date
+    #         and la.id = #{self.id}
+    #         and c.active = true
+    #       group by c.id
+    #       order by c.id
+    #     }
+    # ).values.flatten
+    # training_status_confirmed = ActiveRecord::Base.connection.execute(
+    #     %{
+    #       select
+    #       c.id
+    #       from sprint_radio_shack_training_sessions train
+    #       left outer join candidates c
+    #         on c.sprint_radio_shack_training_session_id = train.id
+    #       left outer join location_areas la
+    #         on la.id = c.location_area_id
+    #       where train.start_date >= current_date
+    #         and la.id = #{self.id}
+    #         and c.training_session_status = 1
+    #         and c.active = true
+    #         and ((c.sprint_roster_status = 1
+    #       and c.sprint_radio_shack_training_session_id = 12)
+    #       or c.sprint_radio_shack_training_session_id != 12)
+    #       group by c.id
+    #       order by c.id
+    #     }
+    # ).values.flatten
+    # booked_hours_candidates = ActiveRecord::Base.connection.execute(
+    #     %{
+    #       select
+    #       c.id
+    #       from location_areas la
+    #       left outer join locations l
+    #         on la.location_id = l.id
+    #       left outer join shifts s
+    #         on s.location_id = l.id
+    #       left outer join people p
+    #         on p.id = s.person_id
+    #       left outer join candidates c
+    #         on c.person_id = p.id
+    #       where c.id is not null
+    #         and la.id = #{self.id}
+    #         and s.date >= current_date - interval '7 days'
+    #         and c.active = true
+    #       group by c.id
+    #       order by c.id
+    #     }
+    # ).values.flatten
+    # paperwork_sent_last_7_days = ActiveRecord::Base.connection.execute(
+    #     %{
+    #       select
+    #       c.id
+    #       from location_areas la
+    #       left outer join candidates c
+    #         on c.location_area_id = la.id
+    #       left outer join job_offer_details j
+    #       on j.sent >= current_date - interval '1 week'
+    #       where j.id is not null
+    #         and la.id = #{self.id}
+    #         and c.status >= #{Candidate.statuses[:paperwork_sent]}
+    #       group by c.id
+    #       order by c.id
+    #     }
+    # ).values.flatten
+    paperwork_sent_since_may_4 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -85,7 +102,7 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= current_date - interval '1 week'
+          on j.sent >= cast('05/04/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
@@ -93,13 +110,13 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    all_candidate_ids = [
-        recent_hours_training_started,
-        booked_hours_candidates,
-        training_status_confirmed,
-        paperwork_sent_last_7_days,
-    ].flatten.uniq
-    return true if self.target_head_count <= all_candidate_ids.count
+    # all_candidate_ids = [
+    #     recent_hours_training_started,
+    #     booked_hours_candidates,
+    #     training_status_confirmed,
+    #     paperwork_sent_last_7_days,
+    # ].flatten.uniq
+    return true if self.target_head_count + 1 <= paperwork_sent_since_may_4.count
     false
   end
 
