@@ -43,23 +43,26 @@ class WorkmarketImport
   def start_assignment_import
     set_completed_assignments
     return if @listed_assignments.nil?
-    filter_to_new_assignments
+    delete_previously_stored_assignments
     import_assignments
     self
   end
 
   def set_completed_assignments
-    @listed_assignments = @api.get_completed_assignments
+    since_result = ActiveRecord::Base.connection.execute 'SELECT max(created_at) FROM workmarket_assignments'
+    since = since_result.andand[0].andand['max'].andand.to_datetime.andand.to_i
+    unless since
+      since = Rails.env.test? ? DateTime.now.beginning_of_week - 1.day : DateTime.new(2015, 4, 21, 13, 30, 12).to_i
+    end
+    @listed_assignments = @api.get_completed_updated_assignments since
     self
   end
 
-  def filter_to_new_assignments
-    new_assignments = []
+  def delete_previously_stored_assignments
     @listed_assignments.each do |assignment|
       saved_assignment = WorkmarketAssignment.find_by workmarket_assignment_num: assignment.workmarket_assignment_num
-      new_assignments << assignment unless saved_assignment
+      saved_assignment ? saved_assignment.destroy : nil
     end
-    @listed_assignments = new_assignments
     self
   end
 

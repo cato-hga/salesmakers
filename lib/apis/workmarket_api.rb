@@ -42,11 +42,30 @@ class WorkmarketAPI
     assignments
   end
 
+  def get_completed_updated_assignments since_unix
+    statuses = ['complete', 'paymentPending', 'paid', 'refunded']
+    assignments = []
+    statuses.each { |s| assignments.concat get_updated_assignments(s, since_unix) }
+    assignments
+  end
+
   def get_assignments status
     assignments = []
     start = 0
     loop do
       batch = get_assignment_list_batch status, start
+      start += batch.length
+      assignments.concat batch
+      break if batch.length < 25
+    end
+    assignments
+  end
+
+  def get_updated_assignments status, since_unix
+    assignments = []
+    start = 0
+    loop do
+      batch = get_updated_assignment_list_batch status, since_unix, start
       start += batch.length
       assignments.concat batch
       break if batch.length < 25
@@ -126,6 +145,13 @@ class WorkmarketAPI
   def get_assignment_list_batch status, start = 0
     response = doGet '/assignments/list', { status: status, start: start }
     WorkmarketListedAssignmentMapping.extract_collection get_data(response).andand['data'].to_json, :read
+  end
+
+  def get_updated_assignment_list_batch status, since_unix, start = 0
+    response = doGet '/assignments/list_updated', { status: status, start: start, modified_since: since_unix }
+    data = get_data(response).andand['data'].andand.to_json
+    return [] unless data
+    WorkmarketListedAssignmentMapping.extract_collection data, :read
   end
 
   def get_data(response)
