@@ -48,7 +48,8 @@ describe 'selecting a Location for a Candidate' do
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
-           hourly_rate: 15
+           hourly_rate: 15,
+           priority: 1
   }
   let!(:location_area_two) {
     create :location_area,
@@ -56,7 +57,8 @@ describe 'selecting a Location for a Candidate' do
            area: area,
            target_head_count: 2,
            potential_candidate_count: 1,
-           hourly_rate: 15
+           hourly_rate: 15,
+           priority: 1
   }
   let!(:location_area_three) {
     create :location_area,
@@ -65,14 +67,16 @@ describe 'selecting a Location for a Candidate' do
            target_head_count: 2,
            potential_candidate_count: 1,
            hourly_rate: 15,
-           radio_shack_location_schedules: [schedule, schedule_two]
+           radio_shack_location_schedules: [schedule, schedule_two],
+           priority: 1
   }
   let!(:location_area_outsourced) {
     create :location_area,
            location: location_three,
            area: area,
            target_head_count: 2,
-           outsourced: true
+           outsourced: true,
+           priority: 1
   }
 
   let(:schedule) { create :radio_shack_location_schedule }
@@ -193,25 +197,25 @@ describe 'selecting a Location for a Candidate' do
     end
   end
 
-  describe '"full" locations' do
-    let(:hours_at_location_location) { create :location }
-    let!(:hours_at_location_location_area) { create :location_area, location: hours_at_location_location, target_head_count: 1 }
-    let!(:hours_at_location_candidate) { create :candidate,
-                                                location_area: location_area,
-                                                person: hours_at_location_person,
-                                                sprint_radio_shack_training_session: hours_at_location_training_session }
-    let(:hours_at_location_person) { create :person }
-    let(:hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 6.days, hours: 8 }
-    let!(:second_hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 5.days, hours: 8, location: location }
-    let(:hours_at_location_training_session) { create :sprint_radio_shack_training_session }
-
-    it 'are not allowed to be selected' do
-      location_area.update target_head_count: 1
-      CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
-      visit select_location_candidate_path candidate, 'false'
-      within first('tbody tr') do
-        expect(page).not_to have_css(:a)
-      end
-    end
-  end
+  # describe '"full" locations' do
+  #   let(:hours_at_location_location) { create :location }
+  #   let!(:hours_at_location_location_area) { create :location_area, location: hours_at_location_location, target_head_count: 0 }
+  #   let!(:hours_at_location_candidate) { create :candidate,
+  #                                               location_area: location_area,
+  #                                               person: hours_at_location_person,
+  #                                               sprint_radio_shack_training_session: hours_at_location_training_session }
+  #   let(:hours_at_location_person) { create :person }
+  #   let(:hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 6.days, hours: 8 }
+  #   let!(:second_hours_at_location_shift) { create :shift, person: hours_at_location_person, date: Date.today - 5.days, hours: 8, location: location }
+  #   let(:hours_at_location_training_session) { create :sprint_radio_shack_training_session }
+  #
+  #   it 'are not allowed to be selected' do
+  #     location_area.update target_head_count: 0
+  #     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
+  #     visit select_location_candidate_path candidate, 'false'
+  #     within first('tbody tr') do
+  #       expect(page).not_to have_css(:a)
+  #     end
+  #   end
+  # end
 end
