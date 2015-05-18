@@ -38,6 +38,7 @@ class Candidate < ActiveRecord::Base
            :did_not_graduate,
            :did_not_attend,
            :not_interested,
+           :reschedule,
            :nos
        ]
 
