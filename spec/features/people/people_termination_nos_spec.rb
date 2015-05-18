@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe "Terminating a Person" do
   let(:terminating_employee) { create :person }
+  let!(:candidate) { create :candidate, person: terminating_employee }
   let(:correct_manager) { create :person, position: manager_position }
   let(:other_manager) { create :person, position: other_manager_position }
   let(:manager_position) { create :position, name: 'Retail Manager', permissions: [permission_terminate] }
@@ -20,7 +21,6 @@ describe "Terminating a Person" do
   let!(:reason) { create :employment_end_reason }
 
   context 'via the NOS screen, for unauthorized users' do
-
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(other_manager.email)
     end
@@ -37,7 +37,6 @@ describe "Terminating a Person" do
   end
 
   context 'via the NOS screen, for authorized users, (managers and above)' do
-
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(correct_manager.email)
       visit person_path terminating_employee
@@ -76,6 +75,10 @@ describe "Terminating a Person" do
       it 'does not deactivate the person or take any action', :vcr do
         terminating_employee.reload
         expect(terminating_employee.active).to eq(true)
+      end
+      it 'changes the Candidate training session status' do
+        candidate.reload
+        expect(candidate.training_session_status).to eq('nos')
       end
     end
   end
@@ -118,6 +121,11 @@ describe "Terminating a Person" do
       it 'does not deactivate the person or take any action', :vcr do
         terminating_employee.reload
         expect(terminating_employee.active).to eq(true)
+      end
+
+      it 'changes the Candidate training session status' do
+        candidate.reload
+        expect(candidate.training_session_status).to eq('nos')
       end
     end
   end

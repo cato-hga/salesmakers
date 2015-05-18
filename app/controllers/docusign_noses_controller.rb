@@ -85,12 +85,18 @@ class DocusignNosesController < ApplicationController
       @current_person.log? 'sent_nos',
                            @nos,
                            @person
+      handle_candidate
       redirect_to people_path and return
     else
       puts @nos.errors.full_messages
       flash[:error] = 'NOS sent, but there was an uncaught error. Double check NOS and send again if necessary'
       redirect_to @person and return
     end
+  end
+
+  def handle_candidate
+    candidate = @person.candidate || return
+    candidate.update training_session_status: :nos
   end
 
   def get_nos_response

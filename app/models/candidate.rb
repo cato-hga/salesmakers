@@ -37,7 +37,8 @@ class Candidate < ActiveRecord::Base
            :completed,
            :did_not_graduate,
            :did_not_attend,
-           :not_interested
+           :not_interested,
+           :nos
        ]
 
   enum sprint_roster_status: [
