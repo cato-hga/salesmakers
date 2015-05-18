@@ -5,6 +5,14 @@ module ComcastCSVExtension
     respond_to do |format|
       format.html { redirect_to self.send((controller_name + '_path').to_sym) }
       format.csv do
+        methods = [
+            :comcast_customer_name,
+            :comcast_customer_mobile_phone,
+            :comcast_customer_other_phone,
+            :rgus,
+            :link
+        ]
+        methods << :converted_to_sale if controller_name == 'comcast_leads'
         render csv: @results,
                filename: "#{controller_name}_#{date_time_string}",
                except: [
@@ -12,11 +20,7 @@ module ComcastCSVExtension
                    :comcast_customer_id,
                    :created_at
                ],
-               add_methods: [
-                   :comcast_customer_name,
-                   :comcast_customer_mobile_phone,
-                   :comcast_customer_other_phone
-               ]
+               add_methods: methods
       end
     end
   end

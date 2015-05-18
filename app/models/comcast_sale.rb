@@ -12,6 +12,21 @@ class ComcastSale < ActiveRecord::Base
   belongs_to_associations
   has_one_assocations
 
+  def rgus
+    rgus = 0
+    [self.tv?, self.internet?, self.phone?, self.security?].each {|rgu| rgus += (rgu ? 1 : 0)}
+    rgus
+  end
+
+  def link
+    return '' unless self.comcast_customer
+    if Rails.env.staging? || Rails.env.production?
+      Rails.application.routes.url_helpers.comcast_customer_url
+    else
+      Rails.application.routes.url_helpers.comcast_customer_url(self.comcast_customer, host: 'localhost:3000')
+    end
+  end
+
   private
 
   def within_24_hours
