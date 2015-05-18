@@ -19,4 +19,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
   inflect.acronym 'SMS'
   inflect.irregular 'docusign_nos', 'docusign_noses'
+  inflect.acronym 'DirecTV'
 end
