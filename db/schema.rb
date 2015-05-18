@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513195546) do
+ActiveRecord::Schema.define(version: 20150518181423) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -406,6 +406,18 @@ ActiveRecord::Schema.define(version: 20150513195546) do
   add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
+
+  create_table "directv_customers", force: :cascade do |t|
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.integer "location_id"
+    t.string "mobile_phone"
+    t.string "other_phone"
+    t.integer "person_id"
+    t.datetime "updated_at", null: false
+  end
 
   create_table "docusign_noses", force: :cascade do |t|
     t.datetime "created_at", null: false

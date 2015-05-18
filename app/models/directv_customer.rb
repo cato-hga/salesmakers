@@ -1,5 +1,5 @@
 require 'validators/customer_phone_validator'
-class ComcastCustomer < ActiveRecord::Base
+class DirecTVCustomer < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :person, presence: true
@@ -10,8 +10,8 @@ class ComcastCustomer < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
-  has_one :comcast_lead
-  has_one :comcast_sale
+  #has_one :comcast_lead
+  #has_one :comcast_sale
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person
@@ -20,7 +20,7 @@ class ComcastCustomer < ActiveRecord::Base
     people << person
     return Person.none if people.count < 1
 
-    ComcastCustomer.where("\"comcast_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
+    DirecTVCustomer.where("\"directv_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
   }
 
   def name
