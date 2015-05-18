@@ -5,7 +5,7 @@ class LegacyVonageSaleImporting
 
   def import
     orders = sales_for_last(@duration)
-    self.extend VonageLegacySaleTra nslator
+    self.extend VonageLegacySaleTranslator
     sales = self.translate_all(orders)
     self.extend VonageSaleWriter
     self.create_and_update_all sales
