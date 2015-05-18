@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518181423) do
+ActiveRecord::Schema.define(version: 20150518201241) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -415,6 +415,43 @@ ActiveRecord::Schema.define(version: 20150518181423) do
     t.integer "location_id"
     t.string "mobile_phone"
     t.string "other_phone"
+    t.integer "person_id"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_install_appointments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "directv_install_time_slot_id", null: false
+    t.integer "directv_sale_id", null: false
+    t.date "install_date", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_leads", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.text "comments"
+    t.datetime "created_at", null: false
+    t.integer "directv_customer_id", null: false
+    t.date "follow_up_by"
+    t.boolean "ok_to_call_and_text"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_sales", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "customer_acknowledged", default: false, null: false
+    t.integer "directv_customer_id", null: false
+    t.integer "directv_former_provider_id"
+    t.integer "directv_lead_id"
+    t.date "order_date", null: false
+    t.string "order_number", null: false
     t.integer "person_id"
     t.datetime "updated_at", null: false
   end
