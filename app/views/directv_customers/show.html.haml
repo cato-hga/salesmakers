@@ -64,8 +64,7 @@
         %p
           %strong Installation:
           - installation = short_date(sale.directv_install_appointment.install_date)
-          - installation += ' (' + sale.directv_install_appointment. |
-            directv_install_time_slot.name + ')'
+          - installation += ' (' + sale.directv_install_appointment.directv_install_time_slot.name + ')'
           = installation
   - else
     - @converting = true
