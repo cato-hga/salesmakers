@@ -1,0 +1,72 @@
+- title @directv_customer.name
+
+.widgets
+  .widget#directv_customer
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Mobile phone:
+        = phone_link @directv_customer.mobile_phone
+      %p
+        %strong Other phone:
+        = phone_link @directv_customer.other_phone
+      %p
+        %strong Entered by:
+        = person_link @directv_customer.person
+      %p
+        %strong Entered:
+        = friendly_datetime(@directv_customer.created_at)
+      - unless @directv_customer.comments.blank?
+        %p
+          %strong Comments:
+          %br/
+          %span.comment= @directv_customer.comments
+  - lead = @directv_customer.directv_lead
+  - sale = @directv_customer.directv_sale
+  - manage = DirecTVCustomer.manageable(@current_person).include?(@directv_customer)
+  - if lead
+    .widget#directv_lead
+      .inner
+        %h3
+          Lead Details
+          - if not sale and manage
+            = link_to icon('page-edit') + ' Edit Lead', edit_directv_customer_directv_lead_path(@directv_customer.id, lead.id), class: [:button, :rounded, :inline_button]
+        %p
+          %strong Follow up by:
+          = short_date lead.follow_up_by
+        - unless lead.comments.blank?
+          %p
+            %strong Comments:
+            %br/
+            %span.comment= lead.comments
+        - if manage
+          = button_to 'Dismiss Lead', |
+            directv_customer_directv_lead_path(@directv_customer, lead), |
+            data: { confirm: 'This action cannot be undone. Are you sure?' },
+            method: :delete,
+            class: [:button, :alert]
+  - if sale
+    .widget#directv_sale
+      .inner
+        %h3 Sale Details
+        %p
+          %strong Order date:
+          = short_date sale.order_date
+        %p
+          %strong Entered by:
+          = person_link sale.person
+        %p
+          %strong Entered:
+          = friendly_datetime sale.created_at
+        %p
+          %strong Order number:
+          = sale.order_number
+        %p
+          %strong Installation:
+          - installation = short_date(sale.directv_install_appointment.install_date)
+          - installation += ' (' + sale.directv_install_appointment. |
+            directv_install_time_slot.name + ')'
+          = installation
+  - else
+    - @converting = true
+    = render partial: 'directv_sales/form', locals: { converting: @converting }

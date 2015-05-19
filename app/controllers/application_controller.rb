@@ -35,6 +35,12 @@ class ApplicationController < BaseApplicationController
     @comcast_locations = comcast.locations_for_person @current_person
   end
 
+  def set_directv_locations
+    directv = Project.find_by name: 'DirecTV Retail'
+    return Location.none unless directv
+    @directv_locations = directv.locations_for_person @current_person
+  end
+
   def current_person_has_position?
     @current_person and @current_person.position
   end

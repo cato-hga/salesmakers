@@ -143,6 +143,11 @@ module LinksHelperExtension
     link_to comcast_customer.name, comcast_customer_path(comcast_customer), class: classes
   end
 
+  def directv_customer_link(directv_customer, classes = nil)
+    return unless directv_customer
+    link_to directv_customer.name, directv_customer_path(directv_customer), class: classes
+  end
+
   def candidate_link(candidate, classes = nil)
     classes = tack_on_inactive_class(candidate, classes)
     link = link_to candidate.name, candidate_url(candidate), class: classes

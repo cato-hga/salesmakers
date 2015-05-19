@@ -1,0 +1,14 @@
+.widget
+  .inner
+    = form_for [@directv_customer, @directv_lead] do |f|
+      - if @directv_lead.errors.any?
+        - @directv_lead.errors.full_messages.each do |msg|
+          .alert.alert-box= msg
+      - follow_up_by = @directv_lead.follow_up_by ? @directv_lead.follow_up_by.strftime('%m/%d/%Y') : ''
+      = f.label :follow_up_by
+      = f.text_field :follow_up_by, value: follow_up_by, placeholder: 'MM/DD/YYYY'
+      = f.check_box :ok_to_call_and_text
+      = f.label :ok_to_call_and_text, 'Customer agrees to be contacted by phone or text message'
+      = f.label :comments
+      = f.text_area :comments, rows: 5
+      = f.submit 'Save as Lead', class: [:button]

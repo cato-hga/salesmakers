@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518201241) do
+ActiveRecord::Schema.define(version: 20150519184043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -416,6 +416,27 @@ ActiveRecord::Schema.define(version: 20150518201241) do
     t.string "mobile_phone"
     t.string "other_phone"
     t.integer "person_id"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_eods", force: :cascade do |t|
+    t.boolean "cloud_training", default: false, null: false
+    t.text "cloud_training_takeaway"
+    t.datetime "created_at", null: false
+    t.boolean "directv_visit", default: false, null: false
+    t.text "directv_visit_takeaway"
+    t.datetime "eod_date", null: false
+    t.integer "location_id", null: false
+    t.integer "person_id"
+    t.boolean "sales_pro_visit", default: false, null: false
+    t.text "sales_pro_visit_takeaway"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_former_providers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "directv_sale_id"
+    t.string "name", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1021,6 +1042,10 @@ ActiveRecord::Schema.define(version: 20150518201241) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "shifts", ["date"], name: "index_shifts_on_date", using: :btree
+  add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
+  add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
+
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "from_candidate_id"
@@ -1119,26 +1144,7 @@ ActiveRecord::Schema.define(version: 20150518201241) do
     t.datetime "updated_at"
   end
 
-  create_table "tmp_dist", id: false, force: :cascade do |t|
-    t.decimal "distance_to_cor"
-    t.string "store_number"
-  end
-
-  create_table "tmp_doors", id: false, force: :cascade do |t|
-    t.string "city"
-    t.string "cost_center"
-    t.integer "launch_group"
-    t.string "mail_stop"
-    t.string "state"
-    t.string "store_number"
-    t.string "street_1"
-    t.string "street_2"
-    t.integer "target_head_count"
-    t.string "territory"
-    t.string "zip"
-  end
-
-  create_table "tmp_spr", id: false, force: :cascade do |t|
+  create_table "tmp_sn", id: false, force: :cascade do |t|
     t.string "store_number"
   end
 

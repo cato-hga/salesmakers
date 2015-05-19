@@ -10,8 +10,8 @@ class DirecTVCustomer < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
-  #has_one :comcast_lead
-  #has_one :comcast_sale
+  has_one :directv_lead
+  has_one :directv_sale
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

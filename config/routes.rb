@@ -192,6 +192,23 @@ Rails.application.routes.draw do
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
 
+  resources :directv_customers, except: [:edit, :update, :destroy] do
+    resources :directv_sales, only: [:new, :create]
+    resources :directv_leads, only: [:new, :create, :edit, :update, :destroy]
+  end
+
+  resources :directv_eods, only: [:new, :create]
+  resources :directv_leads, only: [:index] do
+    collection do
+      get :csv, to: 'directv_leads#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
+  resources :directv_sales, only: [:index] do
+    collection do
+      get :csv, to: 'directv_sales#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
+
   post 'docusign_connect', to: 'docusign_connect#incoming'
 
   get 'global_search', to: 'global_search#results', as: :global_search
