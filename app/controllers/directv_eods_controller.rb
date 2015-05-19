@@ -14,7 +14,6 @@ class DirecTVEodsController < ApplicationController
                            @directv_eod
       redirect_to directv_customers_path
     else
-      puts @directv_eod.errors.full_messages
       flash[:error] = 'End of day report was NOT saved'
       render :new
     end
