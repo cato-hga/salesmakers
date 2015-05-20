@@ -63,6 +63,11 @@ class ComcastLead < ActiveRecord::Base
     true
   end
 
+  def entered_by_name
+    return unless self.comcast_customer
+    self.comcast_customer.person.display_name
+  end
+
   private
 
   def no_past_follow_up_by_date

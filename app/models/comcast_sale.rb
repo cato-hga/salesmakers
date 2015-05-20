@@ -27,6 +27,11 @@ class ComcastSale < ActiveRecord::Base
     end
   end
 
+  def entered_by_name
+    return unless self.person
+    self.person.display_name
+  end
+
   private
 
   def within_24_hours

@@ -6,6 +6,7 @@ module ComcastCSVExtension
       format.html { redirect_to self.send((controller_name + '_path').to_sym) }
       format.csv do
         methods = [
+            :entered_by_name,
             :comcast_customer_name,
             :comcast_customer_mobile_phone,
             :comcast_customer_other_phone,
