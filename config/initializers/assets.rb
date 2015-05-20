@@ -6,6 +6,10 @@ Rails.application.config.assets.precompile += %w( foundation_new/foundation.joyr
 Rails.application.config.assets.precompile += %w( foundation_new/foundation.cookie.js )
 
 %w(
+directv_leads
+directv_sales
+directv_eods
+directv_customers
 global_search
 candidate_drug_tests
 asset_approvals
