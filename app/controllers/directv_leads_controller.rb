@@ -1,5 +1,8 @@
+require 'sales_leads_customers/sales_leads_customers_extension'
+
 class DirecTVLeadsController < ApplicationController
   include DirecTVCSVExtension
+  include SalesLeadsCustomersExtension
 
   before_action :set_directv_customer, only: [:new, :create, :edit, :update]
   before_action :do_authorization, only: [:new, :create]
@@ -7,9 +10,7 @@ class DirecTVLeadsController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    @search = policy_scope(DirecTVLead).search(params[:q])
-    @directv_leads = @search.result.page(params[:page])
-    authorize DirecTVLead.new
+    shared_index('DirecTV', 'Lead')
   end
 
   def new

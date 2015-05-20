@@ -1,5 +1,8 @@
+require 'sales_leads_customers/sales_leads_customers_extension'
+
 class DirecTVSalesController < ApplicationController
   include DirecTVCSVExtension
+  include SalesLeadsCustomersExtension
 
   before_action :setup_directv_customer, except: [:index, :csv]
   before_action :setup_time_slots, except: [:index, :csv]
@@ -7,9 +10,7 @@ class DirecTVSalesController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    @search = policy_scope(DirecTVSale).search(params[:q])
-    @directv_sales = @search.result.page(params[:page])
-    authorize DirecTVSale.new
+    shared_index('DirecTV', 'Sale')
   end
 
   def new
@@ -19,7 +20,7 @@ class DirecTVSalesController < ApplicationController
 
   def create
     @directv_sale = DirecTVSale.new directv_sale_params
-    parse_times
+    parse_times('directv')
     create_sale
     if @directv_sale.save
       log 'create'
@@ -39,15 +40,6 @@ class DirecTVSalesController < ApplicationController
     @directv_sale.directv_install_appointment.install_date = @install_time.to_date if @install_time
     @directv_sale.directv_customer = @directv_customer
     @directv_sale.person = @current_person
-  end
-
-  def parse_times
-    Chronic.time_class = Time.zone
-    @sale_time = Chronic.parse params.require(:directv_sale).permit(:order_date)[:order_date]
-    @install_time = Chronic.parse params.require(:directv_sale).
-                                      require(:directv_install_appointment_attributes).
-                                      permit(:install_date)[:install_date]
-    Chronic.time_class = Time
   end
 
   def incorrect_dates

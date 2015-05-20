@@ -1,5 +1,8 @@
+require 'sales_leads_customers/sales_leads_customers_extension'
+
 class ComcastSalesController < ApplicationController
   include ComcastCSVExtension
+  include SalesLeadsCustomersExtension
 
   before_action :setup_comcast_customer, except: [:index, :csv]
   before_action :setup_time_slots, except: [:index, :csv]
@@ -7,9 +10,7 @@ class ComcastSalesController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    @search = policy_scope(ComcastSale).search(params[:q])
-    @comcast_sales = @search.result.page(params[:page])
-    authorize ComcastSale.new
+    shared_index('Comcast', 'Sale')
   end
 
   def new
@@ -19,7 +20,7 @@ class ComcastSalesController < ApplicationController
 
   def create
     @comcast_sale = ComcastSale.new comcast_sale_params
-    parse_times
+    parse_times('comcast')
     create_sale
     if @comcast_sale.save
       log 'create'
@@ -39,15 +40,6 @@ class ComcastSalesController < ApplicationController
     @comcast_sale.comcast_install_appointment.install_date = @install_time.to_date if @install_time
     @comcast_sale.comcast_customer = @comcast_customer
     @comcast_sale.person = @current_person
-  end
-
-  def parse_times
-    Chronic.time_class = Time.zone
-    @sale_time = Chronic.parse params.require(:comcast_sale).permit(:order_date)[:order_date]
-    @install_time = Chronic.parse params.require(:comcast_sale).
-                                      require(:comcast_install_appointment_attributes).
-                                      permit(:install_date)[:install_date]
-    Chronic.time_class = Time
   end
 
   def incorrect_dates

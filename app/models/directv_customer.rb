@@ -1,4 +1,5 @@
 require 'validators/customer_phone_validator'
+
 class DirecTVCustomer < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name, presence: true
