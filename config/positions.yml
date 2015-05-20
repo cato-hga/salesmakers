@@ -88,6 +88,36 @@ Comcast:
       leader: Comcast Retail Regional Vice President
       not_leader: Comcast Retail Sales Specialist
 
+DirecTV:
+  4:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  3:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  2:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  1:
+    Retail:
+      leader: DirecTV Retail Regional Vice President
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Regional Vice President
+      not_leader: DirecTV Retail Sales Specialist
+
 Corporate:
   specialists:
     4:
