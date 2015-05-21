@@ -1,5 +1,8 @@
+require 'sales_leads_customers/sales_leads_customers_extension'
+
 class ComcastLeadsController < ApplicationController
   include ComcastCSVExtension
+  include SalesLeadsCustomersExtension
 
   before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
   before_action :do_authorization, only: [:new, :create]
