@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513195546) do
+ActiveRecord::Schema.define(version: 20150520163509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -233,6 +233,14 @@ ActiveRecord::Schema.define(version: 20150513195546) do
     t.datetime "created_at"
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "comcast_customer_notes", force: :cascade do |t|
+    t.integer "comcast_customer_id", null: false
+    t.datetime "created_at", null: false
+    t.text "note", null: false
+    t.integer "person_id", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "comcast_customers", force: :cascade do |t|
@@ -971,6 +979,10 @@ ActiveRecord::Schema.define(version: 20150513195546) do
     t.integer "person_id", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "shifts", ["date"], name: "index_shifts_on_date", using: :btree
+  add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
+  add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
 
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"

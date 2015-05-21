@@ -10,8 +10,8 @@ describe 'Navigation Authorization' do
   describe 'for top-navigation' do
     describe 'for comcast employees' do
       let(:comcast_employee) { create :person,
-                                       position: comcast_position,
-                                       email: 'comcastemployee@cc.salesmakersinc.com'
+                                      position: comcast_position,
+                                      email: 'comcastemployee@cc.salesmakersinc.com'
       }
       let(:comcast_permissions) { create :permission, key: 'comcast_customer_create' }
       let(:comcast_position) { create :position, name: 'Comcast Sales Specialist', department: comcast_department }
@@ -66,6 +66,9 @@ describe 'Navigation Authorization' do
       let(:person_index_permission) { Permission.new key: 'person_index',
                                                      permission_group: permission_group,
                                                      description: 'Test Description' }
+      let(:area_index_permission) { Permission.new key: 'area_index',
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
       let(:position) { create :position, name: 'IT Tech',
                               department: department,
                               hq: true,
@@ -74,7 +77,8 @@ describe 'Navigation Authorization' do
                                             log_entry_index_permission,
                                             candidate_index_permission,
                                             person_create_permission,
-                                            person_index_permission] }
+                                            person_index_permission,
+                                            area_index_permission] }
       let(:department) { create :department, name: 'Information Technology' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)
@@ -95,12 +99,6 @@ describe 'Navigation Authorization' do
           expect(page).to have_content('Lines')
           expect(page).to have_content('Changelog')
           expect(page).to have_content('Log')
-        end
-      end
-      it 'contains links to the sales page for all projects' do
-        within('.top-bar') do
-          expect(page).to have_content('Comcast')
-          expect(page).to have_content('Vonage')
         end
       end
       it 'contains links to Areas' do
@@ -124,11 +122,11 @@ describe 'Navigation Authorization' do
       let(:department) { create :department, name: 'Advocate Department' }
       let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
       let!(:permission_index) { Permission.create key: 'candidate_index',
-                                              permission_group: permission_group,
-                                              description: 'Test Description' }
+                                                  permission_group: permission_group,
+                                                  description: 'Test Description' }
       let!(:permission_create) { Permission.create key: 'candidate_create',
-                                               permission_group: permission_group,
-                                               description: 'Test Description' }
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
         visit root_path
@@ -157,8 +155,8 @@ describe 'Navigation Authorization' do
   describe 'for off-canvas navigation', js: true do
     describe 'for comcast employees' do
       let(:comcast_employee) { create :person,
-                                       position: comcast_position,
-                                       email: 'comcastemployee@cc.salesmakersinc.com'
+                                      position: comcast_position,
+                                      email: 'comcastemployee@cc.salesmakersinc.com'
       }
       let(:comcast_permissions) { create :permission, key: 'comcast_customer_create' }
       let(:comcast_position) { create :position, name: 'Comcast Sales Specialist', department: comcast_department }
@@ -206,11 +204,11 @@ describe 'Navigation Authorization' do
       let(:department) { create :department, name: 'Advocate Department' }
       let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
       let!(:permission_index) { Permission.create key: 'candidate_index',
-                                              permission_group: permission_group,
-                                              description: 'Test Description' }
+                                                  permission_group: permission_group,
+                                                  description: 'Test Description' }
       let!(:permission_create) { Permission.create key: 'candidate_create',
-                                               permission_group: permission_group,
-                                               description: 'Test Description' }
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
         page.current_window.resize_to '640', '480'

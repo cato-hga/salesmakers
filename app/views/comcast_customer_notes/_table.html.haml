@@ -1,0 +1,8 @@
+- headers = header_row ['Date/Time', 'By', 'Note']
+- rows = []
+- for note in comcast_customer_notes do
+  - note_datetime = friendly_datetime note.created_at
+  - by = person_link note.person
+  - note_text = note.note
+  - rows << table_row([note_datetime, by, note_text])
+= table headers, rows

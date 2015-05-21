@@ -11,7 +11,8 @@
     %h3 Training Status
     = form_tag "/candidates/#{@candidate.id}/set_training_session_status", method: :put do
       = label_tag :training_session_status, 'Status'
-      = select_tag :training_session_status, options_for_select(Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize).sub("Nos", "NOS"), s[0]]}, selected: @candidate.training_session_status, disabled: ["nos"])
+      - options_array = Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize).sub("Nos", "NOS").sub("Nclb", "NCLB"), s[0]]}
+      = select_tag :training_session_status, options_for_select(options_array, selected: @candidate.training_session_status, disabled: ["nos"])
       %p
         %strong Sprint Roster Status:
         - if @candidate.sprint_roster_status
