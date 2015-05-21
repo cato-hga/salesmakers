@@ -20,36 +20,10 @@ class ComcastSalesController < ApplicationController
 
   def create
     @comcast_sale = ComcastSale.new comcast_sale_params
-    parse_times('comcast')
-    create_sale
-    if @comcast_sale.save
-      log 'create'
-      flash[:notice] = 'Sale saved successfully.'
-      redirect_to comcast_customers_path and return
-    else
-      #Kicking back a flash message for incorrect dates
-      incorrect_dates
-      render :new and return
-    end
+    sale_create('Comcast', @comcast_sale, @comcast_customer, comcast_customers_path)
   end
 
   private
-
-  def create_sale
-    @comcast_sale.order_date = @sale_time.to_date if @sale_time
-    @comcast_sale.comcast_install_appointment.install_date = @install_time.to_date if @install_time
-    @comcast_sale.comcast_customer = @comcast_customer
-    @comcast_sale.person = @current_person
-  end
-
-  def incorrect_dates
-    if @sale_time == nil
-      @comcast_sale.errors.add :order_date, ' entered could not be used - there may be a typo or invalid date. Please re-enter'
-    end
-    if @install_time == nil
-      @comcast_sale.errors.add :install_date, ' entered could not be used - there may be a typo or invalid date. Please re-enter'
-    end
-  end
 
   def setup_former_providers
     @former_providers = ComcastFormerProvider.all
