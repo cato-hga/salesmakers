@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520185046) do
+ActiveRecord::Schema.define(version: 20150521153919) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1115,6 +1115,9 @@ ActiveRecord::Schema.define(version: 20150520185046) do
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1150,10 +1153,6 @@ ActiveRecord::Schema.define(version: 20150520185046) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
-  end
-
-  create_table "tmp_sn", id: false, force: :cascade do |t|
-    t.string "store_number"
   end
 
   create_table "training_availabilities", force: :cascade do |t|

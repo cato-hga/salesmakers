@@ -22,6 +22,9 @@
                 - if AreaPolicy.new(@current_person, Area.new).index?
                   %li
                     = link_to 'Areas', client_project_areas_path(project.client, project)
+                - if LocationPolicy.new(@current_person, Location.new).new?
+                  %li
+                    = link_to 'New Location', new_client_project_location_path(project.client, project)
     - if DepartmentPolicy.new(@current_person, Department.new).index?
       %li.divider
       %li= link_to 'Departments', departments_path
