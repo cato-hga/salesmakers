@@ -2,6 +2,12 @@ class LocationsController < ApplicationController
   before_action :set_necessary_variables
   after_action :verify_authorized
 
+  def index
+    @search = LocationArea.joins(:area).where("areas.project_id = #{@project.id}").search(params[:q])
+    @location_areas = @search.result.page(params[:page])
+    authorize Location.new
+  end
+
   def new
     @location = Location.new
     authorize @location

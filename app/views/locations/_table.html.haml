@@ -1,0 +1,13 @@
+- header = header_row ['Channel', 'Display name', 'Address', 'Area', 'Priority', 'Target HC', 'Recruitable']
+- rows = []
+- for location_area in @location_areas do
+  - location = location_area.location
+  - channel_name = location.channel.name
+  - display_name = location.display_name
+  - address = location.address
+  - area = area_link location_area.area
+  - priority = priority.to_s
+  - target_head_count = location_area.target_head_count.to_s
+  - recruitable = location_area.head_count_full? ? 'No' : 'Yes'
+  - rows << table_row([channel_name, display_name, address, area, priority, target_head_count, recruitable])
+= table header, rows

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521153919) do
+ActiveRecord::Schema.define(version: 20150521181549) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -414,76 +414,6 @@ ActiveRecord::Schema.define(version: 20150521153919) do
   add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
-
-  create_table "directv_customers", force: :cascade do |t|
-    t.text "comments"
-    t.datetime "created_at", null: false
-    t.string "first_name", null: false
-    t.string "last_name", null: false
-    t.integer "location_id"
-    t.string "mobile_phone"
-    t.string "other_phone"
-    t.integer "person_id"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_eods", force: :cascade do |t|
-    t.boolean "cloud_training", default: false, null: false
-    t.text "cloud_training_takeaway"
-    t.datetime "created_at", null: false
-    t.boolean "directv_visit", default: false, null: false
-    t.text "directv_visit_takeaway"
-    t.datetime "eod_date", null: false
-    t.integer "location_id", null: false
-    t.integer "person_id"
-    t.boolean "sales_pro_visit", default: false, null: false
-    t.text "sales_pro_visit_takeaway"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_former_providers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "directv_sale_id"
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_install_appointments", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "directv_install_time_slot_id", null: false
-    t.integer "directv_sale_id", null: false
-    t.date "install_date", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_install_time_slots", force: :cascade do |t|
-    t.boolean "active", default: true, null: false
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_leads", force: :cascade do |t|
-    t.boolean "active", default: true, null: false
-    t.text "comments"
-    t.datetime "created_at", null: false
-    t.integer "directv_customer_id", null: false
-    t.date "follow_up_by"
-    t.boolean "ok_to_call_and_text"
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "directv_sales", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.boolean "customer_acknowledged", default: false, null: false
-    t.integer "directv_customer_id", null: false
-    t.integer "directv_former_provider_id"
-    t.integer "directv_lead_id"
-    t.date "order_date", null: false
-    t.string "order_number", null: false
-    t.integer "person_id"
-    t.datetime "updated_at", null: false
-  end
 
   create_table "docusign_noses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1070,11 +1000,25 @@ ActiveRecord::Schema.define(version: 20150521153919) do
     t.datetime "updated_at"
   end
 
+  create_table "sprint_carriers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "project_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sprint_group_me_bots", force: :cascade do |t|
     t.integer "area_id", null: false
     t.string "bot_num", null: false
     t.datetime "created_at", null: false
     t.string "group_num", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sprint_handset_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "sprint_carrier_id", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1106,6 +1050,13 @@ ActiveRecord::Schema.define(version: 20150521153919) do
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.date "start_date", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sprint_rate_plans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "sprint_carrier_id", null: false
     t.datetime "updated_at", null: false
   end
 

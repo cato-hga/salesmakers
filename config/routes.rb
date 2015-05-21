@@ -91,7 +91,7 @@ Rails.application.routes.draw do
       member do
         get :sales, as: :sales
       end
-      resources :locations, only: [:new, :create]
+      resources :locations, only: [:new, :create, :index]
     end
     member do
       get :sales, as: :sales
