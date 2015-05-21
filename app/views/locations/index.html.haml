@@ -1,3 +1,6 @@
+- content_for :action_buttons do
+  - if LocationPolicy.new(@current_person, Location.new).new?
+    = new_button new_client_project_location_path(@client, @project)
 - content_for :header do
   = link_to icon('magnifying-glass'), '#', id: 'show_search'
   = search_form_for @search, id: 'search_form', url: client_project_locations_path(@client, @project) do |f|
@@ -22,3 +25,7 @@
 .widget
   .inner
     = render 'table'
+
+- content_for :footer do
+  -#.left= csv_link csv_people_path(controller: :people, action: :index), @search.result.count
+  = paginate @location_areas

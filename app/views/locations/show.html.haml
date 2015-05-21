@@ -1,0 +1,122 @@
+- title @location.name
+
+.widgets
+  .widget
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Channel:
+        = @location.channel.name
+      - if @location.street_1
+        %p
+          %strong Address:
+          %br/
+          = @location.street_1
+          %br/
+          - if @location.street_2
+            = @location.street_21
+            %br/
+          - if @location.city and @location.state
+            - zip_suffix = @location.zip ? ' ' + @location.zip : ''
+          = "#{@location.city}, #{@location.state}#{zip_suffix}"
+      %p
+        %strong Area(s):
+        - if @location.location_areas.empty?
+          N/A
+        - else
+          = @location.location_areas.map {|la| area_link la.area }.join(', ')
+      %p
+        %strong Target head count:
+        - target_hc = 0
+        - @location.location_areas.each {|la| target_hc += la.target_head_count }
+        = target_hc.to_s
+  - if @location.address
+    .widget
+      .inner
+        %h3 Map
+        = @location.address
+        #physical_address_map
+    :javascript
+      handler = Gmaps.build('Google');
+      handler.buildMap({ provider: {
+        styles: mapStyle()
+      }, internal: {id: 'physical_address_map'}}, function () {
+        marker = handler.addMarker({
+          "lat": #{html_escape(@location.latitude)},
+          "lng": #{html_escape(@location.longitude)}
+        });
+        handler.map.centerOn(marker);
+        handler.getMap().setZoom(10);
+      });
+- if CandidatePolicy.new(@current_person, Candidate.new).index?
+  .widget
+    .inner
+      %h3
+        Nearby Candidates
+        %span.small.comment (within 30 miles)
+      = render 'candidates/table'
+- if PersonPolicy.new(@current_person, Person.new).index?
+  .widget
+    .inner
+      %h3
+        Nearby People
+        %span.small.comment (within 30 miles)
+      - h_eid = 'EID'
+      - h_hired = 'Hired'
+      - h_termed = 'Term\'d'
+      - h_name = 'Name'
+      - h_email = 'Email'
+      - h_phone = 'Phone'
+      - h_position = 'Position'
+      - h_supervisor = 'Supervisor'
+      - h_areas = 'Area(s)'
+      - headers = Array.new
+      - if @current_person.hq?
+        - headers << [h_eid, h_hired, h_termed]
+      - headers << [h_name,h_email,h_phone,h_position,h_supervisor,h_areas]
+      - header = header_row headers.flatten
+      - rows = Array.new
+      - for person in @people do
+        - show_details = person.show_details? @visible_people
+        - blocked = content_tag(:div, '-', class: :blocked)
+        - classes = person.active? ? '' : 'inactive'
+        - hire_date = person.hire_date
+        - if hire_date
+          - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+        - else
+          - hired = ''
+        - employments = person.employments
+        - if person.termination_date_invalid?
+          - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
+        - elsif person.terminated?
+          - termed = show_details ? link_to(person.term_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+        - else
+          - termed = ''
+        - if person.eid
+          - eid = show_details ? link_to(person.eid, person, class: classes) : blocked
+        - else
+          - eid = ''
+        - display_name = person_link person, classes
+        - email = mail_to person.email, person.email, class: classes
+        - if person.office_phone
+          - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
+        - elsif person.mobile_phone
+          - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, classes)
+          - phone = show_details ? phone : blocked
+        - elsif person.home_phone
+          - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
+          - phone = show_details ? phone : blocked
+        - else
+          - phone = ''
+        - if phone.include? '(800) 555-1212'
+          - phone = ''
+        - position_name = person.position_name
+        - position_link = position_name ? link_to(position_name, person, class: classes) : ''
+        - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
+        - area = person_area_links person, classes
+        - row = Array.new
+        - if @current_person.hq?
+          - row << [eid, hired, termed]
+        - row << [display_name, email, phone, position_link, supervisor, area]
+        - rows << table_row(row.flatten)
+      = table header, rows

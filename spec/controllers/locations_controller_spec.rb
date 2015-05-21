@@ -26,6 +26,25 @@ describe LocationsController do
     end
   end
 
+  describe 'GET show' do
+    before do
+      location.save
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+      get :show,
+          client_id: area.project.client.id,
+          project_id: area.project.id,
+          id: location.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the show template' do
+      expect(response).to render_template(:show)
+    end
+  end
+
   describe 'GET new' do
     before do
       CASClient::Frameworks::Rails::Filter.fake(person.email)

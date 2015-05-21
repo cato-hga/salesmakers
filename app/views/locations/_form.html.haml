@@ -17,6 +17,10 @@
   = f.select :state, options_for_select(@states), include_blank: true
   = f.label :zip, 'ZIP Code'
   = f.text_field :zip, placeholder: '5 digits only'
+  = label_tag :priority, 'Priority'
+  = number_field_tag :priority, nil, placeholder: 'Numbers only'
+  = label_tag :target_head_count, 'Target head count'
+  = number_field_tag :target_head_count, nil, placeholder: 'Numbers only'
   - if @client.name == 'Sprint'
     = f.label :cost_center
     = f.text_field :cost_center
