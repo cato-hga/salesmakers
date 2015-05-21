@@ -69,3 +69,8 @@
   - else
     - @converting = true
     = render partial: 'directv_sales/form', locals: { converting: @converting }
+    = render 'directv_customer_notes/form'
+  .widget#directv_customer_notes
+    .inner
+      %h3 Notes
+      = render partial: 'directv_customer_notes/table', locals: { directv_customer_notes: @directv_customer.directv_customer_notes }  

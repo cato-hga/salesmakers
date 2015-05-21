@@ -13,6 +13,7 @@ class DirecTVCustomer < ActiveRecord::Base
   belongs_to :location
   has_one :directv_lead
   has_one :directv_sale
+  has_many :directv_customer_notes
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520185046) do
+ActiveRecord::Schema.define(version: 20150521185631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -414,6 +414,14 @@ ActiveRecord::Schema.define(version: 20150520185046) do
   add_index "devices", ["device_model_id"], name: "index_devices_on_device_model_id", using: :btree
   add_index "devices", ["line_id"], name: "index_devices_on_line_id", using: :btree
   add_index "devices", ["person_id"], name: "index_devices_on_person_id", using: :btree
+
+  create_table "directv_customer_notes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "directv_customer_id", null: false
+    t.text "note", null: false
+    t.integer "person_id", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "directv_customers", force: :cascade do |t|
     t.text "comments"

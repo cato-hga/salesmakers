@@ -14,6 +14,7 @@ class DirecTVCustomersController < ApplicationController
     @directv_sale = DirecTVSale.new
     @directv_sale.directv_install_appointment = DirecTVInstallAppointment.new
     @former_providers = DirecTVFormerProvider.all
+    @directv_customer_note = DirecTVCustomerNote.new
     authorize @directv_customer
   end
 
