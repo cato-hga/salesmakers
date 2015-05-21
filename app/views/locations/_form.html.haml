@@ -1,0 +1,27 @@
+- if @location.errors.any?
+  .alert.alert-box= @location.errors.full_messages.join ', '
+= form_for [@client, @project, @location] do |f|
+  = f.label :channel_id
+  = f.select :channel_id, options_from_collection_for_select(Channel.all, :id, :name), include_blank: true
+  = f.label :store_number
+  = f.text_field :store_number, placeholder: 'Numbers only'
+  = f.label :display_name
+  = f.text_field :display_name, placeholder: 'Usually "City, Street"'
+  = f.label :street_1, 'Street address line 1'
+  = f.text_field :street_1
+  = f.label :street_2, 'Street address line 2'
+  = f.text_field :street_2, placeholder: 'Optional'
+  = f.label :city
+  = f.text_field :city
+  = f.label :state
+  = f.select :state, options_for_select(@states), include_blank: true
+  = f.label :zip, 'ZIP Code'
+  = f.text_field :zip, placeholder: '5 digits only'
+  - if @client.name == 'Sprint'
+    = f.label :cost_center
+    = f.text_field :cost_center
+    = f.label :mail_stop
+    = f.text_field :mail_stop
+  = label_tag :area_id, 'Area'
+  = select_tag :area_id, options_from_collection_for_select(@areas, :id, :name, @area_id), include_blank: true
+  = f.submit 'Save', class: [:button]

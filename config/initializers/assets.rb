@@ -64,6 +64,7 @@ media
 people
 permission_groups
 positions
+locations
 profiles
 projects
 questions
