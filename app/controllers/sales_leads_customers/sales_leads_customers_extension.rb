@@ -21,6 +21,51 @@ module SalesLeadsCustomersExtension
     end
   end
 
+  def lead_create(client, lead, path)
+    #The following section handle invalid Chronic dates, since we allow purposefully blank Follow Up Dates
+    follow_up_by = params.require("#{client}_lead".to_sym).permit(:follow_up_by)[:follow_up_by]
+    chronic_parse_follow_up_by = Chronic.parse follow_up_by
+    Chronic.time_class = Time
+    if follow_up_by.present? and chronic_parse_follow_up_by == nil
+      flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
+      render :new and return
+    else
+      lead.follow_up_by = chronic_parse_follow_up_by
+    end
+
+    if lead.save
+      @current_person.log? 'create',
+                           lead,
+                           @current_person,
+                           nil,
+                           nil,
+                           params["#{client}_lead".to_sym][:comments]
+      flash[:notice] = 'Lead saved successfully.'
+      redirect_to path
+    else
+      render :new
+    end
+  end
+
+  def lead_update(client, lead, path)
+    lead.update update_params
+    lead.follow_up_by = Chronic.parse params.require("#{client}_lead".to_sym).permit(:follow_up_by)[:follow_up_by]
+    if lead.save
+      @current_person.log? 'update',
+                           lead,
+                           @current_person,
+                           nil,
+                           nil,
+                           update_params[:comments]
+      flash[:notice] = 'Lead updated successfully'
+      redirect_to path
+    else
+      flash[:error] = 'Lead could not be updated'
+      render :edit
+    end
+
+  end
+
   private
 
   def create_sale(client, sale, customer)

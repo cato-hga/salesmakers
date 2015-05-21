@@ -21,30 +21,7 @@ class DirecTVLeadsController < ApplicationController
     Chronic.time_class = Time.zone
     @directv_lead = DirecTVLead.new directv_lead_params
     @directv_lead.directv_customer = @directv_customer
-
-    #The following section handle invalid Chronic dates, since we allow purposefully blank Follow Up Dates
-    follow_up_by = params.require(:directv_lead).permit(:follow_up_by)[:follow_up_by]
-    chronic_parse_follow_up_by = Chronic.parse follow_up_by
-    Chronic.time_class = Time
-    if follow_up_by.present? and chronic_parse_follow_up_by == nil
-      flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
-      render :new and return
-    else
-      @directv_lead.follow_up_by = chronic_parse_follow_up_by
-    end
-
-    if @directv_lead.save
-      @current_person.log? 'create',
-                           @directv_lead,
-                           @current_person,
-                           nil,
-                           nil,
-                           directv_lead_params[:comments]
-      flash[:notice] = 'Lead saved successfully.'
-      redirect_to directv_customers_path
-    else
-      render :new
-    end
+    lead_create('directv', @directv_lead, directv_customers_path)
   end
 
   def edit
@@ -54,22 +31,7 @@ class DirecTVLeadsController < ApplicationController
 
   def update
     @directv_lead = DirecTVLead.find params[:id]
-    @directv_lead.update update_params
-    @directv_lead.follow_up_by = Chronic.parse params.require(:directv_lead).permit(:follow_up_by)[:follow_up_by]
-    if @directv_lead.save
-      @current_person.log? 'update',
-                           @directv_lead,
-                           @current_person,
-                           nil,
-                           nil,
-                           update_params[:comments]
-      flash[:notice] = 'Lead updated successfully'
-      redirect_to directv_customers_path
-    else
-      flash[:error] = 'Lead could not be updated'
-      render :edit
-    end
-
+    lead_update('directv', @directv_lead, directv_customers_path)
   end
 
   def destroy
