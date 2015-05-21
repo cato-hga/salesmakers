@@ -19,7 +19,12 @@
           - if group_count > 0
             %li= link_to 'GroupMe Post', new_post_group_me_groups_path
           -# YES. THIS IS DIRTY. But, only IT people need access anyways
-          - if DevicePolicy.new(@current_person, Device.new).index?
+          - if DevicePolicy.new(@current_person, Device.new).index? or |
+            AreaPolicy.new(@current_person, Area.new).index? or |
+            AreaTypePolicy.new(@current_person, AreaType.new).index? or |
+            DepartmentPolicy.new(@current_person, Department.new).index? or |
+            ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
+            LogEntryPolicy.new(@current_person, LogEntry.new).index? |
             = render 'top_navigation/admin'
       .right
         = form_tag global_search_path, method: :get, class: [:inline_block, :left] do
