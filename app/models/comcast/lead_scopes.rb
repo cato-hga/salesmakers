@@ -2,7 +2,7 @@ module Comcast::LeadScopes
   def setup_scopes
     default_scope {
       joins(:comcast_customer).
-          order('comcast_customers.first_name, comcast_customers.last_name')
+          order(:follow_up_by)
 
     }
 

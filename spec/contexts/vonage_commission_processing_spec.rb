@@ -212,6 +212,12 @@ describe VonageCommissionProcessing do
       expect(processor).to receive(:make_revenue_sharing_payout)
       processor.process
     end
+
+    it 'does not create revenue sharing payouts for inactive employees' do
+      rev_share_vonage_sale.person.update active: false
+      expect(processor).not_to receive(:make_revenue_sharing_payout)
+      processor.process
+    end
   end
 
   context 'changing manager payouts' do
@@ -325,5 +331,4 @@ describe VonageCommissionProcessing do
       expect(paycheck.vonage_paycheck_negative_balances.count).to eq(1)
     end
   end
-
 end

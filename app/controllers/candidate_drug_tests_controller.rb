@@ -10,7 +10,7 @@ class CandidateDrugTestsController < ApplicationController
       @candidate.candidate_drug_test.delete
     end
     @candidate_drug_test = CandidateDrugTest.new drug_test_params
-    @candidate_drug_test.test_date = Chronic.parse drug_test_params[:test_date]
+    @candidate_drug_test.test_date = Chronic.parse params.require(:candidate_drug_test).permit(:test_date)[:test_date]
     @candidate_drug_test.candidate = @candidate
     if @candidate_drug_test.scheduled == true and (@candidate_drug_test.test_date == nil or @candidate_drug_test.test_date < Date.current)
       flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
@@ -36,10 +36,8 @@ class CandidateDrugTestsController < ApplicationController
   private
 
   def drug_test_params
-    params.require(:candidate_drug_test).permit(:scheduled,
-                                                :comments,
-                                                :test_date
-    )
+    params.require(:candidate_drug_test).permit :scheduled,
+                                                :comments
   end
 
   def set_candidate

@@ -26,6 +26,7 @@ module RevenueSharing
   end
 
   def process_revenue_sharing_payout_for_sale(sale, days, retail_payout_amount, pilot_payout_amount)
+    return unless sale.person.active?
     payout = make_revenue_sharing_payout(sale, retail_payout_amount, pilot_payout_amount)
     return unless payout
     case days

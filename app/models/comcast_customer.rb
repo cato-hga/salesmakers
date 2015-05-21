@@ -12,6 +12,7 @@ class ComcastCustomer < ActiveRecord::Base
   belongs_to :location
   has_one :comcast_lead
   has_one :comcast_sale
+  has_many :comcast_customer_notes
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

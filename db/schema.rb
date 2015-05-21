@@ -235,6 +235,14 @@ ActiveRecord::Schema.define(version: 20150520185046) do
     t.datetime "updated_at"
   end
 
+  create_table "comcast_customer_notes", force: :cascade do |t|
+    t.integer "comcast_customer_id", null: false
+    t.datetime "created_at", null: false
+    t.text "note", null: false
+    t.integer "person_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comcast_customers", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false

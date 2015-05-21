@@ -1,0 +1,6 @@
+.widget
+  .inner
+    %h3 New Note
+    = form_for [@comcast_customer, @comcast_customer_note] do |f|
+      = f.text_area :note, rows: 7
+      = f.submit 'Save', class: [:button]

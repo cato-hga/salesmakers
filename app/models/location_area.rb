@@ -94,7 +94,7 @@ class LocationArea < ActiveRecord::Base
     #       order by c.id
     #     }
     # ).values.flatten
-    paperwork_sent_since_may_4 = ActiveRecord::Base.connection.execute(
+    paperwork_sent_since_may_18 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -102,7 +102,7 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= cast('05/04/2015' as timestamp)
+          on j.sent >= cast('05/18/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
@@ -116,7 +116,7 @@ class LocationArea < ActiveRecord::Base
     #     training_status_confirmed,
     #     paperwork_sent_last_7_days,
     # ].flatten.uniq
-    return true if self.target_head_count + 1 <= paperwork_sent_since_may_4.count
+    return true if self.target_head_count + 1 <= paperwork_sent_since_may_18.count
     false
   end
 

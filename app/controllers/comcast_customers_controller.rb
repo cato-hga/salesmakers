@@ -14,6 +14,7 @@ class ComcastCustomersController < ApplicationController
     @comcast_sale = ComcastSale.new
     @comcast_sale.comcast_install_appointment = ComcastInstallAppointment.new
     @former_providers = ComcastFormerProvider.all
+    @comcast_customer_note = ComcastCustomerNote.new
     authorize @comcast_customer
   end
 

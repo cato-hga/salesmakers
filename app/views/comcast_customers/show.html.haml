@@ -86,3 +86,8 @@
   - else
     - @converting = true
     = render partial: 'comcast_sales/form', locals: { converting: @converting }
+  = render 'comcast_customer_notes/form'
+.widget#comcast_customer_notes
+  .inner
+    %h3 Notes
+    = render partial: 'comcast_customer_notes/table', locals: { comcast_customer_notes: @comcast_customer.comcast_customer_notes }
