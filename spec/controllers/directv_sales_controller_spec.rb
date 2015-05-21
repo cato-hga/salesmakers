@@ -84,5 +84,12 @@ describe DirecTVSalesController do
       subject
       expect(response).to redirect_to(directv_customers_path)
     end
+    it 'assigns the correct attributes to the sale' do
+      subject
+      sale = DirecTVSale.first
+      expect(sale.order_date).to eq(directv_sale.order_date)
+      expect(sale.order_number).to eq(directv_sale.order_number)
+      expect(sale.directv_customer).to eq(directv_customer)
+    end
   end
 end

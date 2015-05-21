@@ -85,5 +85,13 @@ describe ComcastSalesController do
       subject
       expect(response).to redirect_to(comcast_customers_path)
     end
+    it 'assigns the correct attributes to the sale' do
+      subject
+      sale = ComcastSale.first
+      expect(sale.order_date).to eq(comcast_sale.order_date)
+      expect(sale.order_number).to eq(comcast_sale.order_number)
+      expect(sale.tv).to eq(comcast_sale.tv)
+      expect(sale.comcast_customer).to eq(comcast_customer)
+    end
   end
 end

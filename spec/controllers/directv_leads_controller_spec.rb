@@ -55,6 +55,7 @@ describe DirecTVLeadsController do
       post :create,
            directv_customer_id: directv_customer.id,
            directv_lead: {
+               follow_up_by: 'tomorrow',
                ok_to_call_and_text: true
            }
     end
@@ -69,6 +70,12 @@ describe DirecTVLeadsController do
     end
     it 'creates a lead' do
       expect { subject }.to change(DirecTVLead, :count).by(1)
+    end
+    it 'assigns the correct attributes' do
+      subject
+      lead = DirecTVLead.first
+      expect(lead.follow_up_by).to eq(Date.tomorrow)
+      expect(lead.ok_to_call_and_text).to eq(true)
     end
   end
 
@@ -88,6 +95,7 @@ describe DirecTVLeadsController do
     it 'renders the new template' do
       expect(response).to render_template(:edit)
     end
+
   end
 
   describe 'PATCH update' do
