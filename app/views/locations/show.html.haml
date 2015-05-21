@@ -69,11 +69,12 @@
       - h_phone = 'Phone'
       - h_position = 'Position'
       - h_supervisor = 'Supervisor'
+      - h_projects = 'Project(s)'
       - h_areas = 'Area(s)'
       - headers = Array.new
       - if @current_person.hq?
         - headers << [h_eid, h_hired, h_termed]
-      - headers << [h_name,h_email,h_phone,h_position,h_supervisor,h_areas]
+      - headers << [h_name,h_email,h_phone,h_position,h_supervisor,h_projects,h_areas]
       - header = header_row headers.flatten
       - rows = Array.new
       - for person in @people do
@@ -113,10 +114,11 @@
         - position_name = person.position_name
         - position_link = position_name ? link_to(position_name, person, class: classes) : ''
         - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
+        - projects = person.person_areas.empty? ? nil : person.person_areas.map {|pa| pa.area.project.name }.uniq.join(', ')
         - area = person_area_links person, classes
         - row = Array.new
         - if @current_person.hq?
           - row << [eid, hired, termed]
-        - row << [display_name, email, phone, position_link, supervisor, area]
+        - row << [display_name, email, phone, position_link, supervisor, projects, area]
         - rows << table_row(row.flatten)
       = table header, rows

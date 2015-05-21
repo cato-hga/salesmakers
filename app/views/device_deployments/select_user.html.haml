@@ -17,7 +17,7 @@
     = paginate @people
 
 %section
-  - header = header_row ['EID','Name','Email','Phone','Position','Supervisor','Area(s)', 'Deploy']
+  - header = header_row ['EID','Name','Email','Phone','Position','Supervisor', 'Project(s)', 'Area(s)', 'Deploy']
   - rows = Array.new
   - for person in @people do
     - classes = person.active? ? '' : 'inactive'
@@ -35,12 +35,13 @@
     - position_object = person.position
     - position = position_object ? link_to(position_object.name, person, class: classes) : ''
     - supervisor = (person.supervisor) ? person_link(person.supervisor, classes) : ''
+    - projects = person.person_areas.empty? ? nil : person.person_areas.map {|pa| pa.area.project.name}.uniq.join(', ')
     - area = person_area_links person, classes
     - if person.active?
       - deploy_button = link_to 'Deploy', new_device_device_deployments_path(@device, person), class: [:deploy_button, :button]
     - else
       - deploy_button = ''
-    - rows << table_row([eid, display_name, email, phone, position, supervisor, area, deploy_button])
+    - rows << table_row([eid, display_name, email, phone, position, supervisor, projects, area, deploy_button])
   = table header, rows
 
 - content_for :footer do
