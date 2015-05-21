@@ -1,0 +1,32 @@
+- if @directv_sale.errors.any?
+  - @directv_sale.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    - if converting
+      %h3 Convert to Sale
+    = form_for [@directv_customer, @directv_sale] do |f|
+      - order_date = short_date(@directv_sale.order_date)
+      = f.label :order_date
+      = f.text_field :order_date, value: order_date, placeholder: 'MM/DD/YYYY'
+      = f.label :order_number
+      = f.text_field :order_number
+      = f.label :directv_former_provider, 'Previous Provider'
+      = f.select :directv_former_provider, options_from_collection_for_select(@former_providers, 'id', 'name')
+      %fieldset
+        %legend Installation
+        = f.fields_for :directv_install_appointment do |a|
+          - slots = options_from_collection_for_select(@time_slots, 'id', 'name')
+          - appointment = @directv_sale.directv_install_appointment
+          - install_date = short_date(appointment.install_date)
+          = a.label :install_date
+          = a.text_field :install_date, value: install_date, placeholder: 'MM/DD/YYYY'
+          = a.label :directv_install_time_slot_id, 'Install time slot'
+          = a.select :directv_install_time_slot_id, slots
+        %p
+          = f.check_box :customer_acknowledged
+          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+      - if converting
+        = f.hidden_field :directv_lead_id, value: @directv_customer
+      = f.submit 'Complete Sale', class: [:button]

@@ -214,8 +214,9 @@ class AreaUpdater
     dtvr_connect.children.each do |dtvrr_connect|
       sync_area dtvrr_connect, @dtvrr, @directv_retail
       dtvrr_connect.children.each do |dtvrm_connect|
+        sync_area dtvrm_connect, @dtvrm, @directv_retail, dtvrr_connect
         dtvrm_connect.children.each do |dtvrt_connect|
-          sync_area dtvrt_connect, @dtvrt, @directv_retail, dtvrr_connect
+          sync_area dtvrt_connect, @dtvrt, @directv_retail, dtvrm_connect
         end
       end
     end

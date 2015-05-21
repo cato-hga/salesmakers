@@ -66,6 +66,18 @@
       - if comcast_sale_policy.index?
         %li
           = link_to 'Comcast Sales', comcast_sales_path
+  - directv_lead_policy = DirecTVLeadPolicy.new(current_person, DirecTVLead.new)
+  - directv_sale_policy = DirecTVSalePolicy.new(current_person, DirecTVSale.new)
+  - if directv_lead_policy.index? || directv_sale_policy.index?
+    %ul.off-canvas-list
+      %li
+        %label DirecTV Retail
+      - if directv_lead_policy.index?
+        %li
+          = link_to 'DirecTV Leads', directv_leads_path
+      - if directv_sale_policy.index?
+        %li
+          = link_to 'DirecTV Sales', directv_sales_path
   -if DevicePolicy.new(current_person, Device.new).index?
     %ul.off-canvas-list
       - for project in visible_projects

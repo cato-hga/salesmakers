@@ -21,6 +21,7 @@ class AreaType < ActiveRecord::Base
         at_ccrm: AreaType.find_by(name: 'Comcast Retail Market'),
         at_ccrt: AreaType.find_by(name: 'Comcast Retail Territory'),
         at_dtvrr: AreaType.find_by(name: 'DirecTV Retail Region'),
+        at_dtvrm: AreaType.find_by(name: 'DirecTV Retail Market'),
         at_dtvrt: AreaType.find_by(name: 'DirecTV Retail Territory')
     }
   end
@@ -80,6 +81,7 @@ class AreaType < ActiveRecord::Base
         nil,
         nil,
         AreaType.find_by(name: 'DirecTV Retail Region'),
+        AreaType.find_by(name: 'DirecTV Retail Market'),
         AreaType.find_by(name: 'DirecTV Retail Territory')
     ]
   end
@@ -96,6 +98,8 @@ class AreaType < ActiveRecord::Base
         return AreaType.sprint_array[fast_type]
       elsif projects_hash[:sprint_postpaid]
         return AreaType.sprint_postpaid_array[fast_type]
+      elsif projects_hash[:directv]
+        return AreaType.directv_array[fast_type]
       else # Vonage Retail
         return AreaType.vonage_retail_array[fast_type]
       end

@@ -56,7 +56,7 @@ class Location < ActiveRecord::Base
     location_hash[:state] = location_hash[:c_state].name
     location_hash[:zip] = location_hash[:c_loc].postal
     location_hash[:display_name] = c_bpl.display_name
-    location_hash[:channel] = c_bpl.connect_business_partner.get_channel || return
+    location_hash[:channel] = c_bpl.connect_business_partner.get_channel(c_bpl.fax) || return
     location_hash[:store_number] = c_bpl.store_number || return
     location_hash
   end

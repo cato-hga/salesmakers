@@ -2,6 +2,8 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  get 'comcast_customer_notes/create'
+
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -193,6 +195,24 @@ Rails.application.routes.draw do
   resources :device_manufacturers, only: [:new, :create]
   resources :device_models, only: [:index, :new, :create, :edit, :update]
   resources :device_states, except: [:show]
+
+  resources :directv_customers, except: [:edit, :update, :destroy] do
+    resources :directv_customer_notes, only: [:create]
+    resources :directv_sales, only: [:new, :create]
+    resources :directv_leads, only: [:new, :create, :edit, :update, :destroy]
+  end
+
+  resources :directv_eods, only: [:new, :create]
+  resources :directv_leads, only: [:index] do
+    collection do
+      get :csv, to: 'directv_leads#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
+  resources :directv_sales, only: [:index] do
+    collection do
+      get :csv, to: 'directv_sales#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
 
   post 'docusign_connect', to: 'docusign_connect#incoming'
 

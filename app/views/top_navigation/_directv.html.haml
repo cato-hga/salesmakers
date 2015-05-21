@@ -1,0 +1,17 @@
+- directv_lead_policy = DirecTVLeadPolicy.new(@current_person, DirecTVLead.new)
+- directv_sale_policy = DirecTVSalePolicy.new(@current_person, DirecTVSale.new)
+- directv_customer_policy = DirecTVCustomerPolicy.new(@current_person, DirecTVCustomer.new)
+- if directv_lead_policy.index? || directv_sale_policy.index? || directv_customer_policy.create?
+  %li.has-dropdown
+    %a{ href: '#' } DirecTV
+    %ul.dropdown
+      - if directv_lead_policy.index?
+        %li= link_to 'DirecTV Leads', directv_leads_path
+      - if directv_sale_policy.index?
+        %li= link_to 'DirecTV Sales', directv_sales_path
+      - if directv_customer_policy.create? && (directv_lead_policy.index? || directv_sale_policy.index?)
+        %li.divider
+      - if directv_customer_policy.create?
+        %li= link_to 'New Customer', new_directv_customer_path
+        %li= link_to 'My Customers', directv_customers_path
+        %li= link_to 'End Of Day', new_directv_eod_path

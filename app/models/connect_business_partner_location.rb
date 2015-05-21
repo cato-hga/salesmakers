@@ -30,10 +30,12 @@ class ConnectBusinessPartnerLocation < ConnectModel
   def store_number
     if self.fax
       stripped = self.fax.sub /SP/, ''
+      stripped = self.fax.sub /DT/, ''
       stripped = stripped.sub /POST/, ''
       stripped = stripped.sub /RS/, ''
       stripped = stripped.sub /WM/, ''
       stripped = stripped.sub /CC/, ''
+      stripped = stripped.sub /FR/, ''
     end
     return stripped if defined? stripped
     self.c_bpartner_location_id

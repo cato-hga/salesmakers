@@ -55,6 +55,7 @@ describe ComcastLeadsController do
       post :create,
            comcast_customer_id: comcast_customer.id,
            comcast_lead: {
+               follow_up_by: 'tomorrow',
                tv: true,
                ok_to_call_and_text: true
            }
@@ -70,6 +71,13 @@ describe ComcastLeadsController do
     end
     it 'creates a lead' do
       expect { subject }.to change(ComcastLead, :count).by(1)
+    end
+    it 'assigns the correct attributes' do
+      subject
+      lead = ComcastLead.first
+      expect(lead.follow_up_by).to eq(Date.tomorrow)
+      expect(lead.tv).to eq(true)
+      expect(lead.ok_to_call_and_text).to eq(true)
     end
   end
 

@@ -15,8 +15,14 @@ class ConnectBusinessPartner < ConnectModel
           primary_key: 'c_salary_category_id',
           foreign_key: 'c_salary_category_id'
 
-  def get_channel
+  def get_channel(fax = nil)
     case self.name
+      when 'DirecTV'
+        if fax and fax[0..3] == 'DTFR'
+          channel_name = "Fry's"
+        else
+          channel_name = "Walmart"
+        end
       when 'Comcast'
         channel_name = 'Walmart'
       when 'Microcenter'

@@ -1,0 +1,23 @@
+- if @person_show
+  %h3= @person.display_name + "'s Leads"
+- else
+  %h3 My Leads
+- overdue = @directv_leads.overdue
+- upcoming = @directv_leads.upcoming
+- not_upcoming_or_overdue = @directv_leads.not_upcoming_or_overdue
+
+- if @directv_leads.count == 0
+  .comment None.
+- if overdue.count > 0
+  #overdue_leads
+    %h4 Overdue
+    = render partial: 'directv_leads/table', locals: { leads: overdue }
+- if upcoming.count > 0
+  #upcoming_leads
+    %h4
+      Upcoming
+      %span.small.comment 1 week
+    = render partial: 'directv_leads/table', locals: { leads: upcoming }
+- if not_upcoming_or_overdue.count > 0
+  %h4 Other Leads
+  = render partial: 'directv_leads/table', locals: { leads: not_upcoming_or_overdue }

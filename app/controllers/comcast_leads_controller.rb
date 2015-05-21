@@ -1,5 +1,8 @@
+require 'sales_leads_customers/sales_leads_customers_extension'
+
 class ComcastLeadsController < ApplicationController
   include ComcastCSVExtension
+  include SalesLeadsCustomersExtension
 
   before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
   before_action :do_authorization, only: [:new, :create]
@@ -20,30 +23,7 @@ class ComcastLeadsController < ApplicationController
     Chronic.time_class = Time.zone
     @comcast_lead = ComcastLead.new comcast_lead_params
     @comcast_lead.comcast_customer = @comcast_customer
-
-    #The following section handle invalid Chronic dates, since we allow purposefully blank Follow Up Dates
-    follow_up_by = params.require(:comcast_lead).permit(:follow_up_by)[:follow_up_by]
-    chronic_parse_follow_up_by = Chronic.parse follow_up_by
-    Chronic.time_class = Time
-    if follow_up_by.present? and chronic_parse_follow_up_by == nil
-      flash[:error] = 'The date entered could not be used - there may be a typo or invalid date. Please re-enter'
-      render :new and return
-    else
-      @comcast_lead.follow_up_by = chronic_parse_follow_up_by
-    end
-
-    if @comcast_lead.save
-      @current_person.log? 'create',
-                           @comcast_lead,
-                           @current_person,
-                           nil,
-                           nil,
-                           comcast_lead_params[:comments]
-      flash[:notice] = 'Lead saved successfully.'
-      redirect_to comcast_customers_path
-    else
-      render :new
-    end
+    lead_create('comcast', @comcast_lead, comcast_customers_path)
   end
 
   def edit
