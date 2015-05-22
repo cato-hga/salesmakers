@@ -1,4 +1,4 @@
-- header = header_row ['Channel', 'Display name', 'Address', 'Area', 'Priority', 'Target HC', 'Recruitable']
+- header = header_row ['Channel', 'Display name', 'Store #', 'Address', 'Area', 'Priority', 'Target HC', 'Recruitable']
 - rows = []
 - for location_area in @location_areas do
   - location = location_area.location
@@ -6,6 +6,7 @@
   - classes = tack_on_inactive_class(location_area, nil)
   - channel_name = location.channel.name
   - display_name = link_to location.display_name, location_url, class: classes
+  - display_name = link_to location.store_number, location_url, class: classes
   - address = link_to location.address, location_url, class: classes
   - area = area_link location_area.area
   - priority = priority.to_s
