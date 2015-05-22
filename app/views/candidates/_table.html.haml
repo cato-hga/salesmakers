@@ -10,7 +10,11 @@
   - location = ''
   - location_obj = candidate.location_area ? candidate.location_area.location : nil
   - channel = location_obj.channel.name if candidate.location_area
-  - location = location_obj.display_name if candidate.location_area
+  - if candidate.location_area
+    - if LocationPolicy.new(@current_person, Location.new).index?
+      - location = link_to location_obj.display_name, client_project_location_path(candidate.location_area.area.project.client, candidate.location_area.area.project, location_obj)
+    - else
+      - location = location_obj.display_name
   - status = ''
   - status = NameCase(candidate.status.humanize) if candidate.status
   - assessment = candidate.personality_assessment_status ? NameCase(candidate.personality_assessment_status) : ''

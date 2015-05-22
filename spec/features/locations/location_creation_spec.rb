@@ -22,9 +22,13 @@ describe 'creating Locations and LocationAreas' do
     select location.state, from: 'State'
     fill_in 'ZIP Code', with: location.zip
     select area.name, from: 'Area'
+    fill_in 'Priority', with: '1'
+    fill_in 'Target head count', with: '2'
     click_on 'Save'
     expect(page).to have_content('successfully')
     expect(Location.count).to eq(1)
     expect(LocationArea.count).to eq(1)
+    expect(LocationArea.first.priority).to eq(1)
+    expect(LocationArea.first.target_head_count).to eq(2)
   end
 end

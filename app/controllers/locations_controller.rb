@@ -2,6 +2,20 @@ class LocationsController < ApplicationController
   before_action :set_necessary_variables
   after_action :verify_authorized
 
+  def index
+    @search = LocationArea.joins(:area).where("areas.project_id = #{@project.id}").search(params[:q])
+    @location_areas = @search.result.page(params[:page])
+    authorize Location.new
+  end
+
+  def show
+    @location = Location.find params[:id]
+    @candidates = Candidate.near(@location, 30)
+    @person_addresses = PersonAddress.near(@location, 30)
+    @people = @person_addresses.map {|pa| pa.person }
+    authorize @location
+  end
+
   def new
     @location = Location.new
     authorize @location
@@ -16,7 +30,9 @@ class LocationsController < ApplicationController
     end
     if @location.save
       location_area = LocationArea.create location: @location,
-                                          area_id: @area_id
+                                          area_id: @area_id,
+                                          priority: params[:priority] ? params[:priority].to_i : nil,
+                                          target_head_count: params[:target_head_count] ? params[:target_head_count].to_i : 0
       @current_person.log? 'create',
                            @location,
                            location_area

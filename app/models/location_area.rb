@@ -11,7 +11,9 @@ class LocationArea < ActiveRecord::Base
 
   has_paper_trail
 
-  #default_scope { where(active: true) }
+  default_scope {
+    joins(:area).joins(:location).order("areas.name, locations.display_name")
+  }
 
   def self.for_project_and_location(project, location)
     location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
