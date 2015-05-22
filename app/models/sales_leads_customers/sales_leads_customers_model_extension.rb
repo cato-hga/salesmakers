@@ -1,5 +1,9 @@
 module SalesLeadsCustomersModelExtension
 
+  def name
+    NameCase([self.first_name, self.last_name].join(' '))
+  end
+
   private
 
   def within_24_hours

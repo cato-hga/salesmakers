@@ -1,6 +1,6 @@
 class ComcastCustomerPolicy < ApplicationPolicy
   class Scope < Struct.new(:person, :scope)
-    include ComcastCustomerAndSaleScope
+    include CustomerAndSaleScope
 
     def table_name
       'comcast_customers'

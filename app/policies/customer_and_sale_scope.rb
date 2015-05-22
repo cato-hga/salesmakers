@@ -1,4 +1,4 @@
-module DirecTVCustomerAndSaleScope
+module CustomerAndSaleScope
   def resolve
     if self.person.manager_or_hq?
       people = PersonPolicy::Scope.new(self.person, Person).resolve

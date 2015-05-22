@@ -1,6 +1,9 @@
 require 'validators/customer_phone_validator'
+require 'sales_leads_customers/sales_leads_customers_model_extension'
 
 class DirecTVCustomer < ActiveRecord::Base
+  include SalesLeadsCustomersModelExtension
+
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :person, presence: true
@@ -25,7 +28,4 @@ class DirecTVCustomer < ActiveRecord::Base
     DirecTVCustomer.where("\"directv_customers\".\"person_id\" IN (#{people.map(&:id).join(',')})")
   }
 
-  def name
-    NameCase([self.first_name, self.last_name].join(' '))
-  end
 end
