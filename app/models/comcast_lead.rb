@@ -43,23 +43,9 @@ class ComcastLead < ActiveRecord::Base
     end
   end
 
-  def link
-    return '' unless self.comcast_customer
-    if Rails.env.staging? || Rails.env.production?
-      Rails.application.routes.url_helpers.comcast_customer_url(self.comcast_customer)
-    else
-      Rails.application.routes.url_helpers.comcast_customer_url(self.comcast_customer, host: 'localhost:3000')
-    end
-  end
-
   def converted_to_sale
     return false unless self.comcast_customer and self.comcast_customer.comcast_sale
     true
-  end
-
-  def entered_by_name
-    return unless self.comcast_customer
-    self.comcast_customer.person.display_name
   end
 
   private

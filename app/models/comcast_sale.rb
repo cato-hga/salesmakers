@@ -14,18 +14,4 @@ class ComcastSale < ActiveRecord::Base
   belongs_to_associations
   has_one_assocations
 
-  def link
-    return '' unless self.comcast_customer
-    if Rails.env.staging? || Rails.env.production?
-      Rails.application.routes.url_helpers.comcast_customer_url(self.comcast_customer)
-    else
-      Rails.application.routes.url_helpers.comcast_customer_url(self.comcast_customer, host: 'localhost:3000')
-    end
-  end
-
-  def entered_by_name
-    return unless self.person
-    self.person.display_name
-  end
-
 end
