@@ -8,13 +8,14 @@
     = link_to 'Clear', request.path if params[:q]
     = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
     = f.text_field :location_display_name_cont, placeholder: 'Display name'
+    = f.text_field :location_store_number_cont, placeholder: 'Store number'
     = f.select :area_id_eq, options_from_collection_for_select(@areas, :id, :name), include_blank: 'All areas'
     = f.text_field :priority_eq, placeholder: 'Priority'
     = f.text_field :target_head_count_cont, placeholder: 'Target HC'
     %br/
-    = f.text_field :location_street_1_cont, placeholder: 'Display name'
-    = f.text_field :location_street_2_cont, placeholder: 'Display name'
-    = f.text_field :location_city_cont, placeholder: 'Display name'
+    = f.text_field :location_street_1_cont, placeholder: 'Street address 1'
+    = f.text_field :location_street_2_cont, placeholder: 'Street address 2'
+    = f.text_field :location_city_cont, placeholder: 'City'
     = f.select :location_state_eq, options_for_select(::UnitedStates), include_blank: 'All states'
     = f.text_field :location_zip_cont, placeholder: 'ZIP code'
     = f.submit 'Search', class: [:button, :inline_button]
