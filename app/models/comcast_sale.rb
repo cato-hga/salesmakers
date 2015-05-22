@@ -1,9 +1,11 @@
 require 'comcast/sales_and_leads'
 require 'comcast/sale_scopes'
 require 'comcast/sale_validations_and_associations'
+require 'sales_leads_customers/sales_leads_customers_model_extension'
 
 class ComcastSale < ActiveRecord::Base
   include Comcast::SalesAndLeads
+  include SalesLeadsCustomersModelExtension
   extend Comcast::SaleScopes
   extend Comcast::SaleValidationsAndAssociations
 
@@ -32,27 +34,4 @@ class ComcastSale < ActiveRecord::Base
     self.person.display_name
   end
 
-  private
-
-  def within_24_hours
-    return unless self.order_date
-    if self.order_date.to_date < Date.today - 1.day
-      errors.add(:order_date, 'cannot be more than 24 hours in the past')
-    end
-  end
-
-  def no_future_sales
-    return unless self.order_date
-    if self.order_date.to_date > Date.today
-      errors.add(:order_date, 'cannot be in the future')
-    end
-  end
 end
-
-
-
-
-
-
-
-

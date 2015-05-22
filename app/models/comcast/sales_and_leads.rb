@@ -1,5 +1,11 @@
 module Comcast::SalesAndLeads
 
+  def rgus
+    rgus = 0
+    [self.tv?, self.internet?, self.phone?, self.security?].each { |rgu| rgus += (rgu ? 1 : 0) }
+    rgus
+  end
+
   private
 
   def comcast_customer_name
