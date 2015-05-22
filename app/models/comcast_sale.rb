@@ -14,12 +14,6 @@ class ComcastSale < ActiveRecord::Base
   belongs_to_associations
   has_one_assocations
 
-  def rgus
-    rgus = 0
-    [self.tv?, self.internet?, self.phone?, self.security?].each {|rgu| rgus += (rgu ? 1 : 0)}
-    rgus
-  end
-
   def link
     return '' unless self.comcast_customer
     if Rails.env.staging? || Rails.env.production?
