@@ -4,7 +4,7 @@ class TimesheetImporter
   end
 
   def import
-    timesheets = timesheets_for_last(@duration)
+    timesheets = timesheets_for_last(@duration).order(:shift_date)
     self.extend TimesheetToShiftTranslator
     shifts = self.translate_all(timesheets)
     self.extend ShiftWriter
