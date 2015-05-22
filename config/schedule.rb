@@ -44,8 +44,7 @@ every :hour do
 end
 
 every 3.hours do
-  runner 'ConnectUpdater.update_shifts(1.week)'
-  runner 'LegacyBlueforceTimesheetImporting.new(21.days).import'
+  runner 'ConnectUpdater.update_shifts(3.weeks)'
 end
 
 every 1.day, at: '8:00 am' do
