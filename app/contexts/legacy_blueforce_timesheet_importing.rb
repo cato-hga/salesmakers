@@ -14,7 +14,7 @@ class LegacyBlueforceTimesheetImporting < TimesheetImporter
   private
 
   def timesheets_for_last(duration)
-    ConnectBlueforceTimesheet.updated_within_last duration
+    ConnectBlueforceTimesheet.shifts_within_last duration
   end
 
 end
