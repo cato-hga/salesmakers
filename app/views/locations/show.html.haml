@@ -30,24 +30,6 @@
         - target_hc = 0
         - @location.location_areas.each {|la| target_hc += la.target_head_count }
         = target_hc.to_s
-  - if @location.address
-    .widget
-      .inner
-        %h3 Map
-        = @location.address
-        #physical_address_map
-    :javascript
-      handler = Gmaps.build('Google');
-      handler.buildMap({ provider: {
-        styles: mapStyle()
-      }, internal: {id: 'physical_address_map'}}, function () {
-        marker = handler.addMarker({
-          "lat": #{html_escape(@location.latitude)},
-          "lng": #{html_escape(@location.longitude)}
-        });
-        handler.map.centerOn(marker);
-        handler.getMap().setZoom(10);
-      });
 - if CandidatePolicy.new(@current_person, Candidate.new).index?
   .widget
     .inner
