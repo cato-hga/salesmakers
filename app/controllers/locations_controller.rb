@@ -10,9 +10,17 @@ class LocationsController < ApplicationController
 
   def show
     @location = Location.find params[:id]
-    @candidates = Candidate.near(@location, 30)
+    #candidate_ids = order_by_distance(Candidate.near(@location, 30)).map {|c| c.id}.uniq
+    #@candidates = Candidate.unscoped.where(id: candidate_ids).page(params[:candidate_page]).per(10)
+    @candidates = Candidate.
+        unscoped.
+        where("candidates.status < ?", Candidate.statuses[:onboarded]).
+        near(@location, 30).
+        page(params[:candidate_page]).
+        per(10)
     @person_addresses = PersonAddress.near(@location, 30)
-    @people = @person_addresses.map {|pa| pa.person }
+    people_ids = @person_addresses.map {|pa| pa.person.id }.uniq
+    @people = Person.where(id: people_ids).page(params[:person_page]).per(10)
     authorize @location
   end
 
@@ -64,5 +72,13 @@ class LocationsController < ApplicationController
                                      :zip,
                                      :cost_center,
                                      :mail_stop
+  end
+
+  def order_by_distance(candidates)
+    return [] if candidates.empty? or not @location
+    candidates.sort do |x, y|
+      @location.geographic_distance(x) <=>
+          @location.geographic_distance(x)
+    end
   end
 end

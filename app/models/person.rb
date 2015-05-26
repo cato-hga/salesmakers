@@ -161,6 +161,14 @@ class Person < ActiveRecord::Base
     self.person_areas.first.project
   end
 
+  def total_hours
+    self.shifts.sum :hours
+  end
+
+  def last_shift_date
+    self.shifts.maximum :date
+  end
+
   private
 
   def get_person_area_supervisors(person_area)

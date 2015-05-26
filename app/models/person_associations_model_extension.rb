@@ -34,7 +34,8 @@ module PersonAssociationsModelExtension
         :answer_upvotes, :communication_log_entries, :group_me_posts,
         :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
         :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales,
-        :candidate_notes, :comcast_customer_notes, :directv_customer_notes
+        :candidate_notes, :comcast_customer_notes, :directv_customer_notes,
+        :shifts
     ]
 
     for has_many_association in has_many_associations do
