@@ -1,0 +1,15 @@
+- title 'Reassign Lead'
+
+
+.widget
+  .inner
+    %h3 Availabe Employees
+    - headers = header_row(['Employee', 'Reassign?'])
+    - rows = []
+    - for employee in @employees do
+      - next if employee == @comcast_lead.comcast_customer.person
+      - next unless employee.active
+      - employee_link = person_link employee
+      - reassign = button_to 'Reassign Lead to Employee', reassign_to_comcast_customer_comcast_lead_path(@comcast_customer, @comcast_lead, employee), method: :patch, class: [:button]
+      - rows << table_row([employee_link, reassign])
+    = table headers, rows
