@@ -11,6 +11,36 @@ class LocationArea < ActiveRecord::Base
 
   has_paper_trail
 
+  searchable do
+    text :display_name, boost: 4.0 do
+      location.display_name
+    end
+    text :channel, boost: 3.0 do
+      location.channel.name
+    end
+    text :store_number, boost: 7.0 do
+      location.store_number
+    end
+    text :city, boost: 5.0 do
+      location.city
+    end
+    text :state, boost: 5.0 do
+      location.state
+    end
+    text :street_1, boost: 6.0 do
+      location.street_1
+    end
+    text :zip, boost: 7.0 do
+      location.zip
+    end
+    text :cost_center, boost: 7.0 do
+      location.cost_center
+    end
+    text :mail_stop, boost: 7.0 do
+      location.mail_stop
+    end
+  end
+
   default_scope {
     joins(:area).joins(:location).order("areas.name, locations.display_name")
   }

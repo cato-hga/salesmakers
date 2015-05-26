@@ -2,7 +2,8 @@
 - rows = []
 - for location_area in @location_areas do
   - location = location_area.location
-  - location_url = client_project_location_path(@client, @project, location)
+  - area = location_area.area
+  - location_url = client_project_location_path(area.project.client, area.project, location)
   - classes = tack_on_inactive_class(location_area, nil)
   - channel_name = location.channel.name
   - display_name = link_to location.display_name, location_url, class: classes

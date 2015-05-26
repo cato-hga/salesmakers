@@ -73,6 +73,7 @@ gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
 gem 'kiba', '0.5.0' # ETL data processing
 gem 'google_timezone', git: 'https://github.com/sck-v/google_timezone.git'
+gem 'progress_bar', '1.0.3' # Showing progress for reindexing Solr/Sunspot
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

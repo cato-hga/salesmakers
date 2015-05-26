@@ -13,4 +13,8 @@ class LocationAreaPolicy < ApplicationPolicy
   def outsourced?
     has_permission? 'outsourced'
   end
+
+  def index?
+    LocationPolicy.new(user, Location.new).index?
+  end
 end

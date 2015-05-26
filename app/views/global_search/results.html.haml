@@ -126,3 +126,8 @@
           - rows << table_row([provider,identifier,device_link,contract_end_date,states])
         = table header, rows
         = paginate @lines_query.hits
+  - if @location_areas and not @location_areas.empty?
+    .widget
+      .inner
+        %h3 Locations
+        = render 'locations/table'
