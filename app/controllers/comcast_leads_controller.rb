@@ -4,9 +4,9 @@ class ComcastLeadsController < ApplicationController
   include ComcastCSVExtension
   include SalesLeadsCustomersExtension
 
-  before_action :set_comcast_customer, only: [:new, :create, :edit, :update]
+  before_action :set_comcast_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to]
   before_action :do_authorization, only: [:new, :create]
-  after_action :verify_authorized, only: [:new, :create, :index]
+  after_action :verify_authorized, only: [:new, :create, :index, :reassign]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
@@ -64,6 +64,23 @@ class ComcastLeadsController < ApplicationController
       flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', ')
     end
     redirect_to comcast_customers_path
+  end
+
+  def reassign
+    @comcast_lead = ComcastLead.find params[:id]
+    @employees = @current_person.managed_team_members
+    authorize @comcast_customer
+  end
+
+  def reassign_to
+    authorize @comcast_customer
+    new_person = Person.find params[:person_id]
+    if @comcast_customer.update person: new_person
+      @current_person.log? 'reassign_lead',
+                           @comcast_customer,
+                           new_person
+      redirect_to comcast_customers_path
+    end
   end
 
   private

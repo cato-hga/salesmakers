@@ -4,9 +4,9 @@ class DirecTVLeadsController < ApplicationController
   include DirecTVCSVExtension
   include SalesLeadsCustomersExtension
 
-  before_action :set_directv_customer, only: [:new, :create, :edit, :update]
+  before_action :set_directv_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to]
   before_action :do_authorization, only: [:new, :create]
-  after_action :verify_authorized, only: [:new, :create, :index]
+  after_action :verify_authorized, only: [:new, :create, :index, :reassign]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
@@ -47,6 +47,23 @@ class DirecTVLeadsController < ApplicationController
       flash[:error] = 'Could not dismiss lead: ' + @directv_lead.errors.full_messages.join(', ')
     end
     redirect_to directv_customers_path
+  end
+
+  def reassign
+    @directv_lead = DirecTVLead.find params[:id]
+    @employees = @current_person.managed_team_members
+    authorize @directv_customer
+  end
+
+  def reassign_to
+    authorize @directv_customer
+    new_person = Person.find params[:person_id]
+    if @directv_customer.update person: new_person
+      @current_person.log? 'reassign_lead',
+                           @directv_customer,
+                           new_person
+      redirect_to directv_customers_path
+    end
   end
 
   private

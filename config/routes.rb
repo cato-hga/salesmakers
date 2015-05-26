@@ -112,7 +112,12 @@ Rails.application.routes.draw do
   resources :comcast_customers, except: [:edit, :update, :destroy] do
     resources :comcast_customer_notes, only: [:create]
     resources :comcast_sales, only: [:new, :create]
-    resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy]
+    resources :comcast_leads, only: [:new, :create, :edit, :update, :destroy] do
+      member do
+        get :reassign, to: 'comcast_leads#reassign', as: :reassign
+        patch 'reassign_to/:person_id', to: 'comcast_leads#reassign_to', as: :reassign_to
+      end
+    end
   end
 
   resources :comcast_eods, only: [:new, :create]
@@ -199,7 +204,12 @@ Rails.application.routes.draw do
   resources :directv_customers, except: [:edit, :update, :destroy] do
     resources :directv_customer_notes, only: [:create]
     resources :directv_sales, only: [:new, :create]
-    resources :directv_leads, only: [:new, :create, :edit, :update, :destroy]
+    resources :directv_leads, only: [:new, :create, :edit, :update, :destroy] do
+      member do
+        get :reassign, to: 'directv_leads#reassign', as: :reassign
+        patch 'reassign_to/:person_id', to: 'directv_leads#reassign_to', as: :reassign_to
+      end
+    end
   end
 
   resources :directv_eods, only: [:new, :create]
