@@ -4,6 +4,9 @@ Rails.application.config.assets.precompile += %w( google_jsapi.js )
 Rails.application.config.assets.precompile += %w( dashboard.js )
 Rails.application.config.assets.precompile += %w( foundation_new/foundation.joyride.js )
 Rails.application.config.assets.precompile += %w( foundation_new/foundation.cookie.js )
+Rails.application.config.assets.precompile += %w( google_maps_api.min.js )
+Rails.application.config.assets.precompile += %w( marker_clusterer.min.js )
+Rails.application.config.assets.precompile += %w( gmaps/google.js )
 
 %w(
 directv_leads

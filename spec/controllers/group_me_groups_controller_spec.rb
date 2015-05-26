@@ -61,17 +61,17 @@ describe GroupMeGroupsController do
       expect(response).to redirect_to(new_post_group_me_groups_path)
     end
 
-    it 'succeeds with a non-image file', :vcr do
-      allow(SecureRandom).to receive(:uuid).and_return('1')
-      post :post,
-           group_me_group_ids: [
-               group_me_group.id.to_s,
-               second_group_me_group.id.to_s
-           ],
-           message: 'This is a test message.',
-           file: not_image_file
-      expect(response).to redirect_to(new_post_group_me_groups_path)
-    end
+    # it 'succeeds with a non-image file', :vcr do
+    #   allow(SecureRandom).to receive(:uuid).and_return('1')
+    #   post :post,
+    #        group_me_group_ids: [
+    #            group_me_group.id.to_s,
+    #            second_group_me_group.id.to_s
+    #        ],
+    #        message: 'This is a test message.',
+    #        file: not_image_file
+    #   expect(response).to redirect_to(new_post_group_me_groups_path)
+    # end
 
     it 'succeeds on a schedule', :vcr do
       schedule_for = Time.now + 10.seconds
