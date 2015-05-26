@@ -14,6 +14,7 @@ class ComcastLead < ActiveRecord::Base
   delegate :name, to: :comcast_customer
   delegate :mobile_phone, to: :comcast_customer
   delegate :other_phone, to: :comcast_customer
+  delegate :person, to: :comcast_customer
 
   def self.policy_class
     ComcastCustomerPolicy

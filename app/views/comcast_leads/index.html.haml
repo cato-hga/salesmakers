@@ -2,7 +2,6 @@
 
 .widget
   .inner
-    = paginate @comcast_leads
     = render partial: 'comcast_leads/table', locals: { leads: @comcast_leads }
 - content_for :footer do
   .left= csv_link csv_comcast_leads_path(controller: :comcast_leads, action: :index), @search.result.count

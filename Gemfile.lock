@@ -6,6 +6,17 @@ GIT
       activesupport
 
 GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: c09aa177953deb27e28179f55844ced0489613b4
+  specs:
+    ransack (1.6.6)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 1.2)
+
+GIT
   remote: https://github.com/airblade/paper_trail.git
   revision: 8a0eab193d5631d92ab1a616d86d3fbc7dd6ca9e
   specs:
@@ -433,7 +444,7 @@ GEM
     parser (2.2.0.2)
       ast (>= 1.1, < 3.0)
     pg (0.18.1)
-    polyamorous (1.1.0)
+    polyamorous (1.2.0)
       activerecord (>= 3.0)
     postmark (1.5.0)
       json
@@ -494,12 +505,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
-    ransack (1.6.2)
-      actionpack (>= 3.0)
-      activerecord (>= 3.0)
-      activesupport (>= 3.0)
-      i18n
-      polyamorous (~> 1.1)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -757,7 +762,7 @@ DEPENDENCIES
   rack_session_access (= 0.1.1)
   rails (= 4.2.0)
   rails_best_practices (= 1.15.4)
-  ransack (= 1.6.2)
+  ransack!
   ransack_chronic!
   remotipart (= 1.2.1)
   render_csv (= 2.0.0)

@@ -11,6 +11,6 @@
     = f.text_field :comcast_customer_first_name_cont, placeholder: 'Cust. first name'
     = f.text_field :comcast_customer_last_name_cont, placeholder: 'Cust. last name'
     = f.submit 'search', class: 'button'
-  - if @devices
+  - if @comcast_leads
     .top-pagination
-      = paginate @devices
+      = paginate @comcast_leads
