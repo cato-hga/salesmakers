@@ -10,9 +10,10 @@ describe 'employee screenings' do
     create :permission,
            key: 'screening_update'
   }
+  let(:view) { create :permission, key: 'candidate_index' }
   let(:hr_position) {
     create :position,
-           permissions: [permission],
+           permissions: [permission, view],
            all_corporate_visibility: true,
            all_field_visibility: true
   }
@@ -78,6 +79,19 @@ describe 'employee screenings' do
       candidate.reload
       expect(candidate.status).to eq('rejected')
       expect(candidate.candidate_denial_reason).to eq(candidate_denial_reason)
+    end
+
+    it 'creates a log entry when a person fails the screening' do
+      select 'Private Background Check Failed', from: 'Private background check'
+      click_on 'Save'
+      candidate.reload
+      candidate.person.reload
+      visit person_path(candidate.person)
+      save_and_open_page
+      expect(page).to have_content 'Was marked as failing their screening by'
+      visit candidate_path(candidate)
+      save_and_open_page
+      expect(page).to have_content 'Was marked as failing their screening by'
     end
   end
 
