@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527130134) do
+ActiveRecord::Schema.define(version: 20150527131459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -862,6 +862,7 @@ ActiveRecord::Schema.define(version: 20150527130134) do
   add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
 
   create_table "person_pay_rates", force: :cascade do |t|
+    t.string "connect_business_partner_salary_category_id"
     t.datetime "created_at", null: false
     t.date "effective_date", null: false
     t.integer "person_id", null: false
