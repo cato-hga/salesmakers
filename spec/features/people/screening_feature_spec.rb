@@ -87,10 +87,8 @@ describe 'employee screenings' do
       candidate.reload
       candidate.person.reload
       visit person_path(candidate.person)
-      save_and_open_page
       expect(page).to have_content 'Was marked as failing their screening by'
       visit candidate_path(candidate)
-      save_and_open_page
       expect(page).to have_content 'Was marked as failing their screening by'
     end
   end
