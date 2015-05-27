@@ -22,7 +22,7 @@ class VonageCommissionProcessing
     clear_existing_payouts
     save_payouts
     process_negative_balances
-    ProcessLog.create process_class: self.class.name, records_processed: @count
+    ProcessLog.create process_class: "VonageCommissionProcessing", records_processed: @count
     self
   end
 

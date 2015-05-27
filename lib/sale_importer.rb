@@ -11,7 +11,7 @@ class SaleImporter
                         @start_date,
                         @end_date,
                         started).destroy_all
-    ProcessLog.create process_class: self.class.name, records_processed: @count
+    ProcessLog.create process_class: "SaleImporter", records_processed: @count
   end
 
   private

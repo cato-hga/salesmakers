@@ -11,7 +11,7 @@ class TimesheetImporter
     self.extend ShiftWriter
     self.clear_and_write_all shifts
     self.send_unmatched
-    ProcessLog.create process_class: self.class.name, records_processed: shifts.count
+    ProcessLog.create process_class: "TimesheetImporter", records_processed: shifts.count
   end
 
   def send_unmatched

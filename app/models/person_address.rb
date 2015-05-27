@@ -65,7 +65,7 @@ class PersonAddress < ActiveRecord::Base
       pu = PersonUpdater.new cu
       pu.update
     end
-    ProcessLog.create process_class: self.class.name, records_processed: results.count, notes: "update_from_connect(#{minutes.to_s})"
+    ProcessLog.create process_class: "PersonAddress", records_processed: results.count, notes: "update_from_connect(#{minutes.to_s})"
   end
 
   def geocode_if_necessary

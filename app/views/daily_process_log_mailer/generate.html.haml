@@ -1,0 +1,14 @@
+%h1 24-Hour Process History
+
+%table(style="border: 1px solid #DDDDDD;")
+  %thead
+    %tr
+      %th Process Class
+      %th Notes
+      %th # Records
+  %tbody
+    - for result in @process_logs do
+      %tr{ style: result['has_run'] == 't' ? 'background-color: #B2FFB2' : 'background-color: #FFB2B2;' }
+        %td= result['process_class']
+        %td= result['notes']
+        %td= result['records_processed'].to_s

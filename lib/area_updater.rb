@@ -5,7 +5,7 @@ class AreaUpdater
   def self.update
     setup
     update_areas
-    ProcessLog.create process_class: self.class.name, records_processed: @count
+    ProcessLog.create process_class: "AreaUpdater", records_processed: @count
   end
 
   private
