@@ -12,7 +12,7 @@ class PerformanceRanker
         process_rankings month_sales, day, :month_rank, class_name
       end
     end
-    ProcessLog.create process_class: self.class.name, records_processed: @total_count, notes: class_name
+    ProcessLog.create process_class: "PerformanceRanker", records_processed: @total_count, notes: class_name
   end
 
   def self.query_sales(type, project, start_date, end_date)

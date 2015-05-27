@@ -101,7 +101,7 @@ class GroupMeGroup < ActiveRecord::Base
       GroupMeGroup.update_group_via_json group
     end
     GroupMeGroup.update_bots
-    ProcessLog.create process_class: self.class.name, records_processed: groups.count, notes: 'update_groups'
+    ProcessLog.create process_class: "GroupMeGroup", records_processed: groups.count, notes: 'update_groups'
   end
 
   def self.update_bots

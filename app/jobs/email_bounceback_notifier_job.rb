@@ -17,6 +17,6 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
         end
       end
     end
-    ProcessLog.create process_class: self.class.name, records_processed: bounces.count
+    ProcessLog.create process_class: "EmailBouncebackNotifierJob", records_processed: bounces.count
   end
 end

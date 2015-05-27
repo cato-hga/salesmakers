@@ -23,7 +23,7 @@ class AssetShippingNotifier
       send_group_me_hal_message(hal_mti, person, group_me_group_num)
       count += 1
     end
-    ProcessLog.create process_class: self.class.name, records_processed: count
+    ProcessLog.create process_class: "AssetShippingNotifier", records_processed: count
   end
 
   def send_group_me_hal_message(hal_mti, person, group_me_group_num)

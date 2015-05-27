@@ -9,7 +9,7 @@ class WorkmarketImport
   def execute
     start_location_import
     start_assignment_import
-    ProcessLog.create process_class: self.class.name, records_processed: @count
+    ProcessLog.create process_class: "WorkmarketImport", records_processed: @count
     self
   end
 
