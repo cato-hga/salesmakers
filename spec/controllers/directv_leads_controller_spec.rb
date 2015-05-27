@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe DirecTVLeadsController do
-  let(:directv_customer) { create :directv_customer }
+  let(:directv_customer) { create :directv_customer, person: directv_employee }
   let(:directv_employee) { create :directv_employee }
   let(:directv_lead) { build :directv_lead, directv_customer: directv_customer }
 
@@ -153,5 +153,44 @@ describe DirecTVLeadsController do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
   end
+
+  describe 'GET edit' do
+    before {
+      directv_lead.save
+      allow(controller).to receive(:policy).and_return double(reassign?: true)
+      get :reassign,
+          id: directv_lead.id,
+          directv_customer_id: directv_customer.id
+    }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the new template' do
+      expect(response).to render_template(:reassign)
+    end
+  end
+
+  describe 'PATCH reassign_lead' do
+    let!(:directv_employee_two) { create :directv_employee, email: 'test@test.com' }
+    subject {
+      directv_lead.save
+      allow(controller).to receive(:policy).and_return double(reassign_to?: true)
+      patch :reassign_to,
+            id: directv_lead.id,
+            directv_customer_id: directv_customer.id,
+            person_id: directv_employee_two.id
+    }
+
+    it 'reassigns the lead' do
+      expect(directv_customer.person).to eq(directv_employee)
+      subject
+      directv_customer.reload
+      expect(directv_customer.person).to eq(directv_employee_two)
+    end
+
+  end
+
 
 end

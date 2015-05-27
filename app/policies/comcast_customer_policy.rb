@@ -19,4 +19,12 @@ class ComcastCustomerPolicy < ApplicationPolicy
     update?
   end
 
+  def reassign?
+    ComcastCustomer.manageable(@user).include?(@record)
+  end
+
+  def reassign_to?
+    reassign?
+  end
+
 end

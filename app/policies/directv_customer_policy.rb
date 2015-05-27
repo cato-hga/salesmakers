@@ -19,4 +19,12 @@ class DirecTVCustomerPolicy < ApplicationPolicy
     update?
   end
 
+  def reassign?
+    DirecTVCustomer.manageable(@user).include?(@record)
+  end
+
+  def reassign_to?
+    reassign?
+  end
+
 end

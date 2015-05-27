@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ComcastLeadsController do
-  let(:comcast_customer) { create :comcast_customer }
+  let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
   let(:comcast_employee) { create :comcast_employee }
   let(:comcast_lead) { build :comcast_lead, comcast_customer: comcast_customer }
 
@@ -157,6 +157,44 @@ describe ComcastLeadsController do
     it 'creates a log entry' do
       expect { subject }.to change(LogEntry, :count).by(1)
     end
+  end
+
+  describe 'GET edit' do
+    before {
+      comcast_lead.save
+      allow(controller).to receive(:policy).and_return double(reassign?: true)
+      get :reassign,
+          id: comcast_lead.id,
+          comcast_customer_id: comcast_customer.id
+    }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the new template' do
+      expect(response).to render_template(:reassign)
+    end
+  end
+
+  describe 'PATCH reassign_lead' do
+    let!(:comcast_employee_two) { create :comcast_employee, email: 'test@test.com' }
+    subject {
+      comcast_lead.save
+      allow(controller).to receive(:policy).and_return double(reassign_to?: true)
+      patch :reassign_to,
+            id: comcast_lead.id,
+            comcast_customer_id: comcast_customer.id,
+            person_id: comcast_employee_two.id
+    }
+
+    it 'reassigns the lead' do
+      expect(comcast_customer.person).to eq(comcast_employee)
+      subject
+      comcast_customer.reload
+      expect(comcast_customer.person).to eq(comcast_employee_two)
+    end
+
   end
 
 end
