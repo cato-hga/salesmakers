@@ -13,6 +13,7 @@ class AssetShippingNotifier
   end
 
   def process_movements(hours)
+    count = 0
     track_movements recent_movements(hours)
     for hal_mti in @held_at_location do
       person = Person.return_from_connect_user hal_mti.connect_asset_movement.moved_to_user
@@ -20,7 +21,9 @@ class AssetShippingNotifier
       group_me_group_num = person_group_me_group_num person
       next unless group_me_group_num
       send_group_me_hal_message(hal_mti, person, group_me_group_num)
+      count += 1
     end
+    ProcessLog.create process_class: self.class.name, records_processed: count
   end
 
   def send_group_me_hal_message(hal_mti, person, group_me_group_num)

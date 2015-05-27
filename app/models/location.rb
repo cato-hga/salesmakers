@@ -107,6 +107,7 @@ class Location < ActiveRecord::Base
     num_minutes = minutes + offset
     c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', (Time.now - num_minutes.minutes).apply_eastern_offset)
     c_bpls.each { |c_bpl| update_individual_from_connect(c_bpl) }
+    ProcessLog.create process_class: self.class.name, records_processed: c_bpls.count, notes: "update_from_connect(#{minutes.to_s})"
   end
 
   def self.update_individual_from_connect(c_bpl)

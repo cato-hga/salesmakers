@@ -187,24 +187,31 @@ module PersonConnectFunctionality
       for connect_user in connect_users do
         PersonUpdater.new(connect_user).update
       end
+      ProcessLog.create process_class: self.class.name, records_processed: connect_users.count, notes: "update_from_connect(#{minutes.to_s})"
     end
 
     def update_eids_from_connect
       ids = ConnectUserMapping.employee_ids
+      count = 0
       for eid in ids do
         person = Person.find_by_connect_user_id eid.ad_user_id
         next if not person or person.eid == eid.mapping.to_i
-        person.update eid: eid.mapping.to_i
+        count += 1 if person.update(eid: eid.mapping.to_i)
       end
+      ProcessLog.create process_class: self.class.name, records_processed: count, notes: "update_eids_from_connect"
     end
 
     def update_eids_from_connect_blueforce_usernames
       username_mappings = ConnectUserMapping.blueforce_usernames
+      count = 0
       for username_mapping in username_mappings do
         person = Person.find_by_connect_user_id username_mapping.ad_user_id
         next if not person or person.eid
-        person.update eid: username_mapping.mapping.gsub(/[^0-9]/, '').to_i
+        count += 1 if person.update(eid: username_mapping.mapping.gsub(/[^0-9]/, '').to_i)
       end
+      ProcessLog.create process_class: self.class.name,
+                        records_processed: count,
+                        notes: "update_eids_from_connect_blueforce_usernames"
     end
   end
 end

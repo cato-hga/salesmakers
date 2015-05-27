@@ -1,6 +1,8 @@
 require 'etl/connect_sprint_sales_source'
 require 'etl/sprint_sales_destination'
 
+count = 0
+
 source ConnectSprintSalesSource, 48.hours
 
 def get_location c_bpartner_location_id
@@ -16,7 +18,7 @@ def get_person ad_user_id
 end
 
 transform do |row|
-  puts row, ''
+  count += 1
   sale = Hash.new
   sale[:carrier_name] = row['carrier']
   sale[:comments] = row['comments']
@@ -41,3 +43,7 @@ transform do |row|
 end
 
 destination SprintSalesDestination
+
+post_process do
+  ProcessLog.create process_class: "LegacySprintSaleImporting", records_processed: count
+end

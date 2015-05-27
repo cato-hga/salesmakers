@@ -9,6 +9,7 @@ class LegacyVonageSaleImporting
     sales = self.translate_all(orders)
     self.extend VonageSaleWriter
     self.create_and_update_all sales
+    ProcessLog.create process_class: self.class.name, records_processed: sales.count
   end
 
   private

@@ -1,6 +1,7 @@
 class TimesheetImporter
   def initialize(duration)
     @duration = duration
+    @count = 0
   end
 
   def import
@@ -10,6 +11,7 @@ class TimesheetImporter
     self.extend ShiftWriter
     self.clear_and_write_all shifts
     self.send_unmatched
+    ProcessLog.create process_class: self.class.name, records_processed: shifts.count
   end
 
   def send_unmatched

@@ -14,6 +14,7 @@ class VonageCommissionProcessing
   include NegativeBalances
 
   def process(paycheck = nil)
+    @count = 0
     @paycheck = paycheck || get_paycheck
     return unless @paycheck
     generate_payouts
@@ -21,6 +22,7 @@ class VonageCommissionProcessing
     clear_existing_payouts
     save_payouts
     process_negative_balances
+    ProcessLog.create process_class: self.class.name, records_processed: @count
     self
   end
 
@@ -34,7 +36,7 @@ class VonageCommissionProcessing
   def save_payouts
     return unless @all_payouts
     @all_payouts.compact!
-    @all_payouts.each { |payout| payout.save }
+    @all_payouts.each { |payout| @count += 1 if payout.save }
     self
   end
 

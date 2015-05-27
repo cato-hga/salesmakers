@@ -3,11 +3,13 @@ require 'apis/workmarket_api'
 class WorkmarketImport
   def initialize
     @api = WorkmarketAPI.new
+    @count = 0
   end
 
   def execute
     start_location_import
     start_assignment_import
+    ProcessLog.create process_class: self.class.name, records_processed: @count
     self
   end
 
@@ -78,6 +80,7 @@ class WorkmarketImport
     assignment = @api.get_assignment json
     return if assignment.nil?
     if assignment.save
+      @count += 1
       import_attachments json
       import_fields json
     end

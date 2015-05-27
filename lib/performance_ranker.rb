@@ -1,6 +1,7 @@
 class PerformanceRanker
 
   def self.rank_sales(class_name)
+    @total_count = 0
     for project in Project.all do
       ((Date.today - 1.month)..(Date.today)).each do |day|
         day_sales = query_sales class_name.downcase, project, day, day
@@ -11,6 +12,7 @@ class PerformanceRanker
         process_rankings month_sales, day, :month_rank, class_name
       end
     end
+    ProcessLog.create process_class: self.class.name, records_processed: @total_count, notes: class_name
   end
 
   def self.query_sales(type, project, start_date, end_date)
@@ -81,7 +83,7 @@ class PerformanceRanker
                                                            rankable_id: sales_count['id'].to_i,
                                                            rankable_type: type
       ranking[column] = rank
-      ranking.save
+      @total_count += 1 if ranking.save
     end
   end
 end

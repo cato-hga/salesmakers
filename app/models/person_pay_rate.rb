@@ -26,6 +26,7 @@ class PersonPayRate < ActiveRecord::Base
       person_pay_rate.connect_business_partner_salary_category_id = cbpsc.c_bp_salcategory_id
       person_pay_rate.save
     end
+    ProcessLog.create process_class: self.class.name, records_processed: cbpscs.count, notes: "update_from_connect(#{minutes.to_s})"
   end
 
   def self.get_or_create cbpsc

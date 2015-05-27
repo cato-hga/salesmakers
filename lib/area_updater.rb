@@ -5,11 +5,13 @@ class AreaUpdater
   def self.update
     setup
     update_areas
+    ProcessLog.create process_class: self.class.name, records_processed: @count
   end
 
   private
 
   def self.setup
+    @count = 0
     setup_clients
     setup_projects
     setup_area_types
@@ -110,6 +112,7 @@ class AreaUpdater
                             created_at: connect.created,
                             updated_at: connect.updated,
                             connect_salesregion_id: connect.c_salesregion_id
+      @count += 1
       if parent_connect
         new_area.update parent: parent if parent
       end
@@ -120,6 +123,7 @@ class AreaUpdater
                            area_type: area_type,
                            project: project,
                            parent: parent
+      @count += 1
     end
   end
 

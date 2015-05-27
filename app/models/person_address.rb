@@ -58,7 +58,6 @@ class PersonAddress < ActiveRecord::Base
         AND (a.updated >= current_timestamp - interval '#{minutes.to_s} minutes'
           OR l.updated >= current_timestamp - interval '#{minutes.to_s} minutes')"
 
-    puts results.count.to_s + ' Results'
     return unless results and results.count > 0
     results.each do |row|
       cu = ConnectUser.find_by ad_user_id: row['ad_user_id']
@@ -66,6 +65,7 @@ class PersonAddress < ActiveRecord::Base
       pu = PersonUpdater.new cu
       pu.update
     end
+    ProcessLog.create process_class: self.class.name, records_processed: results.count, notes: "update_from_connect(#{minutes.to_s})"
   end
 
   def geocode_if_necessary

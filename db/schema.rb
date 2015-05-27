@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527131459) do
+ActiveRecord::Schema.define(version: 20150527160958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -923,6 +923,14 @@ ActiveRecord::Schema.define(version: 20150527131459) do
     t.boolean "worked_for_radioshack", default: false, null: false
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
+  end
+
+  create_table "process_logs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "notes"
+    t.string "process_class", null: false
+    t.integer "records_processed", default: 0, null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "profile_educations", force: :cascade do |t|
