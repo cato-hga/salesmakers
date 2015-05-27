@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522161528) do
+ActiveRecord::Schema.define(version: 20150527130134) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -861,6 +861,15 @@ ActiveRecord::Schema.define(version: 20150522161528) do
   add_index "person_areas", ["area_id"], name: "index_person_areas_on_area_id", using: :btree
   add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
 
+  create_table "person_pay_rates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.date "effective_date", null: false
+    t.integer "person_id", null: false
+    t.float "rate", null: false
+    t.datetime "updated_at", null: false
+    t.integer "wage_type", null: false
+  end
+
   create_table "poll_question_choices", force: :cascade do |t|
     t.datetime "created_at"
     t.text "help_text"
@@ -1078,11 +1087,25 @@ ActiveRecord::Schema.define(version: 20150522161528) do
     t.datetime "updated_at"
   end
 
+  create_table "sprint_carriers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "project_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sprint_group_me_bots", force: :cascade do |t|
     t.integer "area_id", null: false
     t.string "bot_num", null: false
     t.datetime "created_at", null: false
     t.string "group_num", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "sprint_handset_models", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "sprint_carrier_id", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1117,12 +1140,22 @@ ActiveRecord::Schema.define(version: 20150522161528) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sprint_rate_plans", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "sprint_carrier_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sprint_sales", force: :cascade do |t|
     t.string "carrier_name", null: false
     t.text "comments"
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
+    t.boolean "insurance"
+    t.boolean "intl_connect_five"
+    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1158,10 +1191,6 @@ ActiveRecord::Schema.define(version: 20150522161528) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
-  end
-
-  create_table "tmp_sn", id: false, force: :cascade do |t|
-    t.string "store_number"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
