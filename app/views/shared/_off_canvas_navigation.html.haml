@@ -78,7 +78,13 @@
       - if directv_sale_policy.index?
         %li
           = link_to 'DirecTV Sales', directv_sales_path
-  -if DevicePolicy.new(current_person, Device.new).index?
+  - if DevicePolicy.new(@current_person, Device.new).index? or |
+    AreaPolicy.new(@current_person, Area.new).index? or |
+    AreaTypePolicy.new(@current_person, AreaType.new).index? or |
+    DepartmentPolicy.new(@current_person, Department.new).index? or |
+    ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
+    LogEntryPolicy.new(@current_person, LogEntry.new).index? or |
+    LocationPolicy.new(@current_person, Location.new).index? |
     %ul.off-canvas-list
       - for project in visible_projects
         %li
@@ -86,15 +92,19 @@
         - if AreaTypePolicy.new(current_person, AreaType.new).index?
           %li
             = link_to 'Area Types', client_project_area_types_path(project.client, project)
-        %li
-          = link_to 'Areas', client_project_areas_path(project.client, project)
+        - if AreaPolicy.new(@current_person, Area.new).index?
+          %li
+            = link_to 'Areas', client_project_areas_path(project.client, project)
+        - if LocationPolicy.new(@current_person, Location.new).index?
+          %li
+            = link_to 'Locations', client_project_locations_path(project.client, project)
       - admin_links = Array.new
-      - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
-      - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
-      - admin_links << link_to('Device Models', device_models_path)
-      - admin_links << link_to(icon('list') + ' Log', lines_path)
-      - admin_links << link_to(icon('torsos-all') + ' Org Chart', org_chart_people_path)
-      - admin_links << link_to(icon('torsos-all') + ' People', people_path)
+      - if DevicePolicy.new(@current_person, Device.new).index?
+        - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
+        - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
+        - admin_links << link_to('Device Models', device_models_path)
+      - if LogEntryPolicy.new(@current_person, LogEntry.new).index?
+        - admin_links << link_to(icon('list') + ' Log', lines_path)
       %ul.off-canvas-list
         %li
           %label Administration
