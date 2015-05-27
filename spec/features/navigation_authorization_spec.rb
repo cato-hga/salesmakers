@@ -251,7 +251,8 @@ describe 'Navigation Authorization' do
                    permissions,
                    person_create_permission,
                    person_index_permission,
-                   candidate_index_permission
+                   candidate_index_permission,
+                   area_index_permission
                ]
       }
       let(:department) { create :department, name: 'Information Technology' }
@@ -262,6 +263,9 @@ describe 'Navigation Authorization' do
                                                      permission_group: permissions.permission_group,
                                                      description: 'Test Description' }
       let!(:candidate_index_permission) { Permission.create key: 'candidate_index',
+                                                            permission_group: permissions.permission_group,
+                                                            description: 'Test Description' }
+      let!(:area_index_permission) { Permission.create key: 'area_index',
                                                             permission_group: permissions.permission_group,
                                                             description: 'Test Description' }
 
