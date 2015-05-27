@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150522161528) do
+ActiveRecord::Schema.define(version: 20150527135127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -299,6 +299,13 @@ ActiveRecord::Schema.define(version: 20150522161528) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "comcast_lead_dismissal_reasons", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "comcast_leads", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.integer "comcast_customer_id", null: false
@@ -465,6 +472,13 @@ ActiveRecord::Schema.define(version: 20150522161528) do
   end
 
   create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false

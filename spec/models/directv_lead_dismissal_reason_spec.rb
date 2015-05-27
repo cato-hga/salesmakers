@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe CandidateDenialReason, :type => :model do
+RSpec.describe DirecTVLeadDismissalReason, :type => :model do
+
 
   describe 'validations' do
-    let(:reason) { build :candidate_denial_reason }
+    let(:reason) { build :directv_lead_dismissal_reason }
     it 'requires a name' do
       reason.name = nil
       expect(reason).not_to be_valid
