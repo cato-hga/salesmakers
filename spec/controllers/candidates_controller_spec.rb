@@ -519,6 +519,11 @@ describe CandidatesController do
       candidate.reload
       expect(candidate.status).to eq('paperwork_sent')
     end
+
+    it 'changes the training session status', :vcr do
+      candidate.reload
+      expect(candidate.training_session_status).to eq('nclb')
+    end
   end
 
   describe 'GET new_sms_message' do

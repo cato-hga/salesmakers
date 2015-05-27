@@ -8,7 +8,6 @@ describe 'sending Docusign paperwork' do
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'candidate_index', description: 'Blah blah blah', permission_group: permission_group }
-
   before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }
 
   it 'sends the paperwork when the envelope successfully sends', :vcr do
@@ -32,4 +31,14 @@ describe 'sending Docusign paperwork' do
     expect(page).to have_content(candidate.name)
   end
 
+  it 'assigns the candidate the NCLB Training Session Status', :vcr do
+    docusign_template = create :docusign_template,
+                               template_guid: 'BCDA79DF-21E1-4726-96A6-AC2AAD715BB5',
+                               state: 'FL',
+                               project: location_area.area.project,
+                               document_type: 0
+    visit send_paperwork_candidate_path(candidate)
+    candidate.reload
+    expect(candidate.training_session_status).to eq("nclb")
+  end
 end
