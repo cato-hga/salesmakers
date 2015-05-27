@@ -44,4 +44,16 @@ module PersonEmploymentModelExtension
       end
     end
   end
+
+  def commissionable?
+    return true if self.person_pay_rates.empty?
+    current_pay_rate = self.person_pay_rates.first
+    return true unless current_pay_rate.rate == 12.0
+    return false if self.person_areas.empty?
+    if self.person_areas.first.area.name.downcase.include?('pilot ')
+      true
+    else
+      false
+    end
+  end
 end
