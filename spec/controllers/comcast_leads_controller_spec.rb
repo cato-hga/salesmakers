@@ -136,13 +136,19 @@ describe ComcastLeadsController do
   end
 
   describe 'DELETE destroy' do
+    let!(:reason) { create :comcast_lead_dismissal_reason }
     subject do
       comcast_lead.save
       allow(controller).to receive(:policy).and_return double(destroy?: true)
       delete :destroy,
              id: comcast_lead.id,
-             comcast_customer_id: comcast_customer.id
+             comcast_customer_id: comcast_customer.id,
+             comcast_customer: {
+                 comcast_lead_dismissal_reason_id: reason.id,
+                 dismissal_comment: "Test Comment!"
+             }
       comcast_lead.reload
+      comcast_customer.reload
     end
 
     it 'deactivates a lead' do
@@ -156,6 +162,14 @@ describe ComcastLeadsController do
 
     it 'creates a log entry' do
       expect { subject }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'attaches the comments and dismissal reason' do
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to be_nil
+      expect(comcast_customer.dismissal_comment).to be_nil
+      subject
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to eq(reason.id)
+      expect(comcast_customer.dismissal_comment).to eq('Test Comment!')
     end
   end
 
@@ -194,7 +208,23 @@ describe ComcastLeadsController do
       comcast_customer.reload
       expect(comcast_customer.person).to eq(comcast_employee_two)
     end
-
   end
 
+  describe 'GET dismiss' do
+    before do
+      comcast_lead.save
+      allow(controller).to receive(:policy).and_return double(dismiss?: true)
+      get :dismiss,
+          id: comcast_lead.id,
+          comcast_customer_id: comcast_customer.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the index template' do
+      expect(response).to render_template(:dismiss)
+    end
+  end
 end

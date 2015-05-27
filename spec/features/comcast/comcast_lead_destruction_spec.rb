@@ -47,7 +47,7 @@ describe 'Comcast lead destruction' do
     end
   end
 
-  describe 'for authorized employees', js: true do
+  describe 'for authorized employees' do
     let(:position) { create :comcast_sales_position, permissions: [permission_customer_index] }
     let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
     let!(:comcast_lead) {
@@ -57,15 +57,37 @@ describe 'Comcast lead destruction' do
     }
 
     let(:comcast_employee) { create :comcast_employee, position: position }
+    let!(:reason) { create :comcast_lead_dismissal_reason }
 
-    it 'deactivates a lead' do
+    before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
       visit comcast_customer_path(comcast_customer)
       within '#comcast_lead' do
         click_on 'Dismiss Lead'
       end
+    end
+
+    specify 'the dismiss button takes you to a dismiss screen' do
+      expect(current_path).to eq(dismiss_comcast_customer_comcast_lead_path(comcast_customer, comcast_lead))
+    end
+
+    it 'contains a form for comments and selecting a dismissal reason' do
+      expect(page).to have_content 'Dismiss ' + comcast_customer.name
+      expect(page).to have_content 'Dismissal reason'
+      expect(page).to have_content 'Comments'
+    end
+
+    it 'deactivates a lead' do
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to be_nil
+      expect(comcast_customer.dismissal_comment).to be_nil
+      select 'Test Reason'
+      fill_in 'Comments', with: 'Test Comments!'
+      click_on 'Dismiss'
       expect(page).to have_content('dismissed')
       expect(page).to have_content('My Leads')
+      comcast_customer.reload
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to eq(reason.id)
+      expect(comcast_customer.dismissal_comment).to eq('Test Comments!')
     end
   end
 end

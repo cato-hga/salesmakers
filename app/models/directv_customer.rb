@@ -14,6 +14,7 @@ class DirecTVCustomer < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
+  belongs_to :directv_lead_dismissal_reason
   has_one :directv_lead
   has_one :directv_sale
   has_many :directv_customer_notes
