@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527143514) do
+ActiveRecord::Schema.define(version: 20150527160958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -879,6 +879,16 @@ ActiveRecord::Schema.define(version: 20150527143514) do
   add_index "person_areas", ["area_id"], name: "index_person_areas_on_area_id", using: :btree
   add_index "person_areas", ["person_id"], name: "index_person_areas_on_person_id", using: :btree
 
+  create_table "person_pay_rates", force: :cascade do |t|
+    t.string "connect_business_partner_salary_category_id"
+    t.datetime "created_at", null: false
+    t.date "effective_date", null: false
+    t.integer "person_id", null: false
+    t.float "rate", null: false
+    t.datetime "updated_at", null: false
+    t.integer "wage_type", null: false
+  end
+
   create_table "poll_question_choices", force: :cascade do |t|
     t.datetime "created_at"
     t.text "help_text"
@@ -931,6 +941,14 @@ ActiveRecord::Schema.define(version: 20150527143514) do
     t.boolean "worked_for_radioshack", default: false, null: false
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
+  end
+
+  create_table "process_logs", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "notes"
+    t.string "process_class", null: false
+    t.integer "records_processed", default: 0, null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "profile_educations", force: :cascade do |t|
