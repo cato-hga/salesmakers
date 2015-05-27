@@ -244,8 +244,10 @@ ActiveRecord::Schema.define(version: 20150527181354) do
   end
 
   create_table "comcast_customers", force: :cascade do |t|
+    t.integer "comcast_lead_dismissal_reason_id"
     t.text "comments"
     t.datetime "created_at", null: false
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id", null: false
@@ -293,6 +295,13 @@ ActiveRecord::Schema.define(version: 20150527181354) do
   end
 
   create_table "comcast_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comcast_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -426,6 +435,8 @@ ActiveRecord::Schema.define(version: 20150527181354) do
   create_table "directv_customers", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false
+    t.integer "directv_lead_dismissal_reason_id"
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id"
@@ -465,6 +476,13 @@ ActiveRecord::Schema.define(version: 20150527181354) do
   end
 
   create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -1096,25 +1114,11 @@ ActiveRecord::Schema.define(version: 20150527181354) do
     t.datetime "updated_at"
   end
 
-  create_table "sprint_carriers", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.integer "project_id", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sprint_group_me_bots", force: :cascade do |t|
     t.integer "area_id", null: false
     t.string "bot_num", null: false
     t.datetime "created_at", null: false
     t.string "group_num", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "sprint_handset_models", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.integer "sprint_carrier_id", null: false
     t.datetime "updated_at", null: false
   end
 
@@ -1149,22 +1153,12 @@ ActiveRecord::Schema.define(version: 20150527181354) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sprint_rate_plans", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.integer "sprint_carrier_id", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sprint_sales", force: :cascade do |t|
     t.string "carrier_name", null: false
     t.text "comments"
     t.string "connect_sprint_sale_id"
     t.datetime "created_at", null: false
     t.string "handset_model_name", null: false
-    t.boolean "insurance"
-    t.boolean "intl_connect_five"
-    t.boolean "intl_connect_ten"
     t.integer "location_id", null: false
     t.string "meid", null: false
     t.string "mobile_phone"
@@ -1200,6 +1194,10 @@ ActiveRecord::Schema.define(version: 20150527181354) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_sn", id: false, force: :cascade do |t|
+    t.string "store_number"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
