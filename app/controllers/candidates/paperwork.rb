@@ -17,6 +17,7 @@ module Candidates::Paperwork
     end
     job_offer_details.save
     @candidate.paperwork_sent!
+    @candidate.nclb!
     redirect_to @candidate
   end
 end
