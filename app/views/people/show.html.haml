@@ -102,19 +102,6 @@
           %br/
         = physical_address.city + ', ' + physical_address.state
         = physical_address.zip
-        #physical_address_map
-    :javascript
-      handler = Gmaps.build('Google');
-      handler.buildMap({ provider: {
-        styles: mapStyle()
-      }, internal: {id: 'physical_address_map'}}, function () {
-        marker = handler.addMarker({
-          "lat": #{html_escape(physical_address.latitude)},
-          "lng": #{html_escape(physical_address.longitude)}
-        });
-        handler.map.centerOn(marker);
-        handler.getMap().setZoom(10);
-      });
 - if show_details
   - if @person.department and @person.department.name.include?('Comcast')
     .widget#leads
