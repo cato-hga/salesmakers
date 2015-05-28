@@ -28,14 +28,15 @@ class ScreeningsController < ApplicationController
     if @screening.save
       @person.reload
       @current_person.log? 'screened', @person
-      @current_person.log? 'screened', @person.candidate if @person.candidate and
-          (@screening.complete? or @screening.failed?)
       flash[:notice] = 'Screening results saved.'
       redirect_to people_path
-      candidate.reload
-      unless candidate.active
-        @current_person.log? 'screening_failed', candidate
-        @current_person.log? 'screening_failed', @person
+      if candidate
+        @current_person.log? 'screened', candidate if @screening.complete? or @screening.failed?
+        candidate.reload
+        unless candidate.active
+          @current_person.log? 'screening_failed', candidate
+          @current_person.log? 'screening_failed', @person
+        end
       end
     else
       puts @screening.errors.full_messages.join(',')
