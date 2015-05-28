@@ -62,7 +62,6 @@ describe 'DirecTV Sale creation' do
       it 'renders :new and shows all relevant error messages' do
         click_on 'Complete Sale'
         expect(page).to have_content("Order date can't be blank")
-        expect(page).to have_content("Order number is the wrong length")
         expect(page).to have_content("Order number is not a number")
         expect(page).to have_content("install date can't be blank")
       end
@@ -91,7 +90,7 @@ describe 'DirecTV Sale creation' do
     context 'with other invalid information' do
       it 'renders :new and should retain information' do #Error messages handled above
         fill_in 'Order date', with: 'today'
-        fill_in 'Order number', with: '123456789101'
+        fill_in 'Order number', with: '12345678910A'
         select previous_provider.name, from: 'Previous Provider'
         fill_in 'Install date', with: 'tomorrow'
         select directv_install_time_slot.name, from: 'Install time slot'
@@ -162,7 +161,7 @@ describe 'DirecTV Sale creation' do
       context 'submission failure' do
         before(:each) do
           fill_in 'Order date', with: 'today'
-          fill_in 'Order number', with: '123456789101'
+          fill_in 'Order number', with: '12345678910A'
           select previous_provider.name, from: 'Previous Provider'
           fill_in 'Install date', with: 'tomorrow'
           select directv_install_time_slot.name, from: 'Install time slot'
