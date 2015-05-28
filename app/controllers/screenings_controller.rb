@@ -9,6 +9,7 @@ class ScreeningsController < ApplicationController
 
   def update
     screens = Screening.where(person_id: @person.id)
+    candidate = Candidate.find_by person_id: @person.id
     if screens
       for screen in screens do
         screen.delete
@@ -31,6 +32,11 @@ class ScreeningsController < ApplicationController
           (@screening.complete? or @screening.failed?)
       flash[:notice] = 'Screening results saved.'
       redirect_to people_path
+      candidate.reload
+      unless candidate.active
+        @current_person.log? 'screening_failed', candidate
+        @current_person.log? 'screening_failed', @person
+      end
     else
       puts @screening.errors.full_messages.join(',')
       render :edit

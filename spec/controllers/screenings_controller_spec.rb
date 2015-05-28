@@ -37,8 +37,8 @@ describe ScreeningsController do
       end
 
       it 'creates a log entry for the person and candidate' do
-        expect(LogEntry.where(trackable_type: 'Candidate').count).to eq(1)
-        expect(LogEntry.where(trackable_type: 'Person').count).to eq(1)
+        expect(LogEntry.where(trackable_type: 'Candidate').count).to eq(2)
+        expect(LogEntry.where(trackable_type: 'Person').count).to eq(2)
       end
 
       it 'redirects to people#index' do
