@@ -40,7 +40,8 @@ class Candidate < ActiveRecord::Base
            :not_interested,
            :reschedule,
            :nos,
-           :nclb
+           :nclb,
+           :transfer
        ]
 
   enum sprint_roster_status: [
