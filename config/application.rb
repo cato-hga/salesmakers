@@ -65,6 +65,12 @@ class Time
   end
 end
 
+class String
+  def nan?
+    self !~ /^\s*[+-]?((\d+_?)*\d+(\.(\d+_?)*\d+)?|\.(\d+_?)*\d+)(\s*|([eE][+-]?(\d+_?)*\d+)\s*)$/
+  end
+end
+
 ::UnitedStates = Array["AK", "AL", "AR", "AS", "AZ", "CA", "CO",
                        "CT", "DC", "DE", "FL", "GA", "GU", "HI",
                        "IA", "ID", "IL", "IN", "KS", "KY", "LA",

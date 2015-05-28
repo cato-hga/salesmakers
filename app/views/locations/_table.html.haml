@@ -10,7 +10,7 @@
   - store_number = link_to location.store_number, location_url, class: classes
   - address = link_to location.address, location_url, class: classes
   - area = area_link location_area.area
-  - priority = priority.to_s
+  - priority = location_area.priority.to_s
   - target_head_count = location_area.target_head_count.to_s
   - recruitable = location_area.head_count_full? ? 'No' : 'Yes'
   - rows << table_row([channel_name, display_name, store_number, address, area, priority, target_head_count, recruitable])

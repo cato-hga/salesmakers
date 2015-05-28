@@ -49,6 +49,7 @@ end
 
 every 1.day, at: '8:00 am' do
   runner 'ConnectUpdater.update_shifts(17.days)'
+  runner 'DailyProcessLogMailer.generate.deliver_later'
 end
 
 every 1.day, at: '5:00 pm' do

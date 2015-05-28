@@ -28,7 +28,7 @@ module DetermineSales
   def set_people_with_sales
     @people_with_sales = []
     for sale in @sales do
-      @people_with_sales << sale.person
+      @people_with_sales << sale.person if sale.person.commissionable?
     end
     @people_with_sales.uniq!
     self

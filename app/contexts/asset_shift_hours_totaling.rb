@@ -18,6 +18,7 @@ class AssetShiftHoursTotaling
         person.update passed_asset_hours_requirement: true
       end
     end
+    ProcessLog.create process_class: "AssetShiftHoursTotaling", records_processed: people.count, notes: 'generate_totals'
   end
 
   def self.generate_mailer
@@ -34,5 +35,6 @@ class AssetShiftHoursTotaling
     for supervisor in supervisor_for_assets do
       AssetsMailer.asset_approval_mailer(supervisor).deliver_later
     end
+    ProcessLog.create process_class: "AssetShiftHoursTotaling", records_processed: people_waiting_on_assets.count, notes: 'generate_mailer'
   end
 end

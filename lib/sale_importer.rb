@@ -4,13 +4,14 @@ class SaleImporter
     started = Time.now
     @start_date = start_date
     @end_date = end_date
+    @count = 0
     import_vonage
     import_sprint
     DaySalesCount.where('day >= ? AND day <= ? AND updated_at < ?',
                         @start_date,
                         @end_date,
                         started).destroy_all
-
+    ProcessLog.create process_class: "SaleImporter", records_processed: @count
   end
 
   private
@@ -108,7 +109,7 @@ class SaleImporter
       day_sales.activations = @days[day][saleable_key][o][:activations]
       day_sales.new_accounts = @days[day][saleable_key][o][:new_accounts]
       day_sales.updated_at = Time.now
-      day_sales.save
+      @count += 1 if day_sales.save
     end
   end
 

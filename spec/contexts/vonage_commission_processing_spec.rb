@@ -182,7 +182,7 @@ describe VonageCommissionProcessing do
     end
 
     it 'makes an individual payout from a person, sale, and payout' do
-      expect(processor).to receive(:make_payout).at_least(:once)
+      expect(processor).to receive(:make_payout).exactly(:once)
       processor.process
     end
   end
@@ -329,6 +329,41 @@ describe VonageCommissionProcessing do
       processor.process
       processor.process
       expect(paycheck.vonage_paycheck_negative_balances.count).to eq(1)
+    end
+  end
+
+  context 'for non-comissioned employees' do
+    let(:pilot_area) { create :area, project: vonage_retail }
+    let(:pilot_sub_area) { create :area, name: 'Pilot Sub-area', project: vonage_retail }
+    let(:pilot_person_area) { create :person_area, person: vonage_sale.person, area: pilot_sub_area }
+    let!(:pilot_rep_sale_payout_bracket) {
+      create :vonage_rep_sale_payout_bracket,
+             area: pilot_area,
+             sales_minimum: 0,
+             sales_maximum: 2,
+             per_sale: 10.00
+    }
+    let(:non_commissioned_person) {
+      create :person
+    }
+    let!(:non_commissioned_person_pay_rate) {
+      create :person_pay_rate,
+             rate: 12.0,
+             person: vonage_sale.person
+    }
+
+    before { pilot_sub_area.update parent: pilot_area }
+
+    it 'does not make payouts for non-commissioned employees' do
+      expect(processor).not_to receive(:make_payout)
+      processor.process
+    end
+
+    it 'still makes payouts for Pilot employees at $12.00/hr. rate' do
+      vonage_sale.person.person_areas.destroy_all
+      vonage_sale.person.person_areas << pilot_person_area
+      expect(processor).to receive(:make_payout).exactly(:once)
+      processor.process
     end
   end
 end
