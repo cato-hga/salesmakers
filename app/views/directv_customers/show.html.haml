@@ -45,6 +45,7 @@
             data: { confirm: 'This action cannot be undone. Are you sure?' },
             method: :delete,
             class: [:button, :alert]
+        - if @current_person.manager_or_hq?
           = link_to 'Reassign Lead', reassign_directv_customer_directv_lead_path(@directv_customer, lead), class: [:button]
 
   - if sale

@@ -53,6 +53,7 @@
             data: { confirm: 'This action cannot be undone. Are you sure?' }, |
             method: :delete,
             class: [:button, :alert]
+        - if @current_person.manager_or_hq?
           = link_to 'Reassign Lead', reassign_comcast_customer_comcast_lead_path(@comcast_customer, lead), class: [:button]
   - if sale
     .widget#comcast_sale
