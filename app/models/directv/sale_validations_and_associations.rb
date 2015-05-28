@@ -4,7 +4,7 @@ module DirecTV::SaleValidationsAndAssociations
     validates :person_id, presence: true
     validates :directv_customer_id, presence: true
     validates :directv_install_appointment, presence: true
-    validates :order_number, length: { is: 13 }, numericality: { only_integer: true }, uniqueness: true
+    validates :order_number, numericality: { only_integer: true }, uniqueness: true
     validate :no_future_sales
     validate :within_24_hours
   end
