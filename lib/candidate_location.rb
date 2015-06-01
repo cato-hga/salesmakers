@@ -33,7 +33,7 @@ class CandidateLocation
     for location in locations do
       location_areas = location.location_areas
       for location_area in location_areas do
-        next if location_area.target_head_count < 1
+        next if location_area.target_head_count < 1 or location_area.head_count_full?
         next if project_id and location_area.area.project_id != project_id
         candidate_locations << CandidateLocation.new(location_area)
       end
