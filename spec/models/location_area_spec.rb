@@ -63,9 +63,9 @@ describe LocationArea do
     let(:paperwork_sent_past_week_location_area) { create :location_area, target_head_count: 1 }
     let(:paperwork_sent_past_week_candidate) { create :candidate, status: :paperwork_sent, location_area: paperwork_sent_past_week_location_area }
     let(:paperwork_sent_past_week_job_offer_detail) { create :job_offer_detail, sent: Date.today - 6.days, candidate: paperwork_sent_past_week_candidate }
-    let(:paperwork_sent_since_may_18_location_area) { create :location_area, target_head_count: 1, priority: 1 }
-    let(:paperwork_sent_since_may_18_candidate) { create :candidate, status: :paperwork_sent, location_area: paperwork_sent_since_may_18_location_area }
-    let(:paperwork_sent_since_may_18_job_offer_detail) { create :job_offer_detail, sent: Date.new(2015, 5, 19), candidate: paperwork_sent_since_may_18_candidate }
+    let(:paperwork_sent_since_may_25_location_area) { create :location_area, target_head_count: 1, priority: 1 }
+    let(:paperwork_sent_since_may_25_candidate) { create :candidate, status: :paperwork_sent, location_area: paperwork_sent_since_may_25_location_area }
+    let(:paperwork_sent_since_may_25_job_offer_detail) { create :job_offer_detail, sent: Date.new(2015, 5, 26), candidate: paperwork_sent_since_may_25_candidate }
 
     # context 'for hours at a location in the past 7 days' do
     #   it 'counts a candidate if candidate has booked hours at the location within the past 7 days' do
@@ -108,13 +108,13 @@ describe LocationArea do
       # end
     # end
 
-    it 'counts a candidate whose paperwork was sent since 5/4' do
-      expect(paperwork_sent_since_may_18_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_may_18_job_offer_detail
-      expect(paperwork_sent_since_may_18_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_may_18_location_area.update target_head_count: 0
-      paperwork_sent_since_may_18_location_area.reload
-      expect(paperwork_sent_since_may_18_location_area.head_count_full?).to eq(true)
+    it 'counts a candidate whose paperwork was sent since 5/25' do
+      expect(paperwork_sent_since_may_25_location_area.head_count_full?).to eq(false)
+      paperwork_sent_since_may_25_job_offer_detail
+      expect(paperwork_sent_since_may_25_location_area.head_count_full?).to eq(false)
+      paperwork_sent_since_may_25_location_area.update target_head_count: 0
+      paperwork_sent_since_may_25_location_area.reload
+      expect(paperwork_sent_since_may_25_location_area.head_count_full?).to eq(true)
     end
 
     it 'is never recruitable when not priority 1' do
