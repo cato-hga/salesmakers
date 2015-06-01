@@ -3,6 +3,7 @@ require 'rails_helper'
 describe API::V1::LocationsController do
   let!(:location_area) {
     create :location_area,
+           priority: 1,
            target_head_count: 2,
            location: location
   }
