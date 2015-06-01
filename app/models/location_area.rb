@@ -134,7 +134,8 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= cast('05/18/2015' as timestamp)
+          on j.sent >= cast('05/25/2015' as timestamp)
+          or j.completed_by_candidate >= cast('05/18/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
