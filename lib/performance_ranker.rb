@@ -1,6 +1,6 @@
 class PerformanceRanker
 
-  def self.rank_sales(class_name)
+  def self.rank_sales class_name, automated = false
     @total_count = 0
     for project in Project.all do
       ((Date.today - 1.month)..(Date.today)).each do |day|
@@ -12,7 +12,9 @@ class PerformanceRanker
         process_rankings month_sales, day, :month_rank, class_name
       end
     end
-    ProcessLog.create process_class: "PerformanceRanker", records_processed: @total_count, notes: class_name
+    ProcessLog.create process_class: "PerformanceRanker",
+                      records_processed: @total_count,
+                      notes: class_name if automated
   end
 
   def self.query_sales(type, project, start_date, end_date)

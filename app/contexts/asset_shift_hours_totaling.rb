@@ -1,11 +1,11 @@
 class AssetShiftHoursTotaling
 
-  def initialize(duration)
+  def initialize(duration, automated = false)
     @duration = duration
-    generate_totals
+    generate_totals automated
   end
 
-  def generate_totals
+  def generate_totals automated = false
     shifts = Shift.where('date >= ?', DateTime.now - @duration)
     prepaid = Project.find_by name: 'Sprint Retail'
     people = []
@@ -18,10 +18,12 @@ class AssetShiftHoursTotaling
         person.update passed_asset_hours_requirement: true
       end
     end
-    ProcessLog.create process_class: "AssetShiftHoursTotaling", records_processed: people.count, notes: 'generate_totals'
+    ProcessLog.create process_class: "AssetShiftHoursTotaling",
+                      records_processed: people.count,
+                      notes: 'generate_totals' if automated
   end
 
-  def self.generate_mailer
+  def self.generate_mailer automated = false
     people_waiting_on_assets = Person.where('passed_asset_hours_requirement = ? and (vonage_tablet_approval_status = ? or sprint_prepaid_asset_approval_status = ?)', true, 0, 0).uniq.flatten
     prepaid = Project.find_by name: 'Sprint Retail'
     vonretail = Project.find_by name: 'Vonage Retail'
@@ -35,6 +37,8 @@ class AssetShiftHoursTotaling
     for supervisor in supervisor_for_assets do
       AssetsMailer.asset_approval_mailer(supervisor).deliver_later
     end
-    ProcessLog.create process_class: "AssetShiftHoursTotaling", records_processed: people_waiting_on_assets.count, notes: 'generate_mailer'
+    ProcessLog.create process_class: "AssetShiftHoursTotaling",
+                      records_processed: people_waiting_on_assets.count,
+                      notes: 'generate_mailer' if automated
   end
 end

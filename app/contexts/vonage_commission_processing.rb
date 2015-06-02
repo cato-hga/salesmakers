@@ -13,7 +13,7 @@ class VonageCommissionProcessing
   include RevenueSharing
   include NegativeBalances
 
-  def process(paycheck = nil)
+  def process automated = false, paycheck = nil
     @count = 0
     @paycheck = paycheck || get_paycheck
     return unless @paycheck
@@ -22,7 +22,7 @@ class VonageCommissionProcessing
     clear_existing_payouts
     save_payouts
     process_negative_balances
-    ProcessLog.create process_class: "VonageCommissionProcessing", records_processed: @count
+    ProcessLog.create process_class: "VonageCommissionProcessing", records_processed: @count if automated
     self
   end
 

@@ -13,7 +13,7 @@ class PersonPayRate < ActiveRecord::Base
            :salary
        ]
 
-  def self.update_from_connect minutes
+  def self.update_from_connect minutes, automated = false
     cbpscs = ConnectBusinessPartnerSalaryCategory.where "updated >= ?", (Time.now - minutes.minutes).apply_eastern_offset
     for cbpsc in cbpscs do
       connect_user = ConnectUser.find_by c_bpartner_id: cbpsc.c_bpartner_id || next
@@ -26,7 +26,9 @@ class PersonPayRate < ActiveRecord::Base
       person_pay_rate.connect_business_partner_salary_category_id = cbpsc.c_bp_salcategory_id
       person_pay_rate.save
     end
-    ProcessLog.create process_class: "PersonPayRate", records_processed: cbpscs.count, notes: "update_from_connect(#{minutes.to_s})"
+    ProcessLog.create process_class: "PersonPayRate",
+                      records_processed: cbpscs.count,
+                      notes: "update_from_connect(#{minutes.to_s})" if automated
   end
 
   def self.get_or_create cbpsc

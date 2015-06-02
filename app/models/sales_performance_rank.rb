@@ -12,12 +12,12 @@ class SalesPerformanceRank < ActiveRecord::Base
     self.rankable.name
   end
 
-  def self.rank_people_sales
-    PerformanceRanker.rank_sales('Person')
+  def self.rank_people_sales automated = false
+    PerformanceRanker.rank_sales 'Person', automated
   end
 
-  def self.rank_areas_sales
-    PerformanceRanker.rank_sales('Area')
+  def self.rank_areas_sales automated = false
+    PerformanceRanker.rank_sales 'Area', automated
   end
 
 end

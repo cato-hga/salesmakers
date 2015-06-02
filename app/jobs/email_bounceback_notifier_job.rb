@@ -1,7 +1,7 @@
 class EmailBouncebackNotifierJob < ActiveJob::Base
   queue_as :default
 
-  def perform(minutes)
+  def perform minutes, automated = false
     after_datetime = DateTime.now - minutes.minutes
     client = Postmark::ApiClient.new Postmark.api_token
     bounces = client.bounces.first(minutes * 4)
@@ -17,6 +17,6 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
         end
       end
     end
-    ProcessLog.create process_class: "EmailBouncebackNotifierJob", records_processed: bounces.count
+    ProcessLog.create process_class: "EmailBouncebackNotifierJob", records_processed: bounces.count if automated
   end
 end

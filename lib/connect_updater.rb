@@ -1,18 +1,18 @@
 class ConnectUpdater
 
-  def self.update(minutes)
-    AreaUpdater.update
-    Person.update_from_connect minutes
-    PersonAddress.update_from_connect minutes
-    Location.update_from_connect minutes
-    Person.update_eids_from_connect
-    Person.update_eids_from_connect_blueforce_usernames
-    PersonPayRate.update_from_connect minutes
+  def self.update minutes, automated = false
+    AreaUpdater.update automated
+    Person.update_from_connect minutes, automated
+    PersonAddress.update_from_connect minutes, automated
+    Location.update_from_connect minutes, automated
+    Person.update_eids_from_connect automated
+    Person.update_eids_from_connect_blueforce_usernames automated
+    PersonPayRate.update_from_connect minutes, automated
   end
 
-  def self.update_shifts(duration)
-    LegacyMinuteWorxTimesheetImporting.new(duration).import
-    LegacyBlueforceTimesheetImporting.new(duration).import
+  def self.update_shifts duration, automated = false
+    LegacyMinuteWorxTimesheetImporting.new(duration).import(automated)
+    LegacyBlueforceTimesheetImporting.new(duration).import(automated)
   end
 
 end

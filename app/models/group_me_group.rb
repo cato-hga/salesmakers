@@ -92,7 +92,7 @@ class GroupMeGroup < ActiveRecord::Base
   #   end
   # end
 
-  def self.update_groups
+  def self.update_groups automated = false
     groupme = GroupMe.new_global
     groups = groupme.get_groups
     return unless groups and groups['response']
@@ -101,7 +101,9 @@ class GroupMeGroup < ActiveRecord::Base
       GroupMeGroup.update_group_via_json group
     end
     GroupMeGroup.update_bots
-    ProcessLog.create process_class: "GroupMeGroup", records_processed: groups.count, notes: 'update_groups'
+    ProcessLog.create process_class: "GroupMeGroup",
+                      records_processed: groups.count,
+                      notes: 'update_groups' if automated
   end
 
   def self.update_bots
@@ -128,8 +130,8 @@ class GroupMeGroup < ActiveRecord::Base
     end
   end
 
-  def self.notify_of_assets(hours)
+  def self.notify_of_assets(hours, automated = false)
     notifier = AssetShippingNotifier.new
-    notifier.process_movements(hours)
+    notifier.process_movements(hours, automated)
   end
 end

@@ -101,13 +101,15 @@ class Location < ActiveRecord::Base
     end
   end
 
-  def self.update_from_connect(minutes)
+  def self.update_from_connect minutes, automated = false
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
     num_minutes = minutes + offset
     c_bpls = ConnectBusinessPartnerLocation.where('updated >= ?', (Time.now - num_minutes.minutes).apply_eastern_offset)
     c_bpls.each { |c_bpl| update_individual_from_connect(c_bpl) }
-    ProcessLog.create process_class: "Location", records_processed: c_bpls.count, notes: "update_from_connect(#{minutes.to_s})"
+    ProcessLog.create process_class: "Location",
+                      records_processed: c_bpls.count,
+                      notes: "update_from_connect(#{minutes.to_s})" if automated
   end
 
   def self.update_individual_from_connect(c_bpl)

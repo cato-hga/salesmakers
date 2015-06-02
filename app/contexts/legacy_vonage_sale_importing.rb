@@ -3,13 +3,13 @@ class LegacyVonageSaleImporting
     @duration = duration
   end
 
-  def import
+  def import automated = false
     orders = sales_for_last(@duration)
     self.extend VonageLegacySaleTranslator
     sales = self.translate_all(orders)
     self.extend VonageSaleWriter
     self.create_and_update_all sales
-    ProcessLog.create process_class: "LegacyVonageSaleImporting", records_processed: sales.count
+    ProcessLog.create process_class: "LegacyVonageSaleImporting", records_processed: sales.count if automated
   end
 
   private

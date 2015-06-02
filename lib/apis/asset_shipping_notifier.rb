@@ -12,7 +12,7 @@ class AssetShippingNotifier
     @groupme = GroupMe.new_global
   end
 
-  def process_movements(hours)
+  def process_movements hours, automated = false
     count = 0
     track_movements recent_movements(hours)
     for hal_mti in @held_at_location do
@@ -23,7 +23,7 @@ class AssetShippingNotifier
       send_group_me_hal_message(hal_mti, person, group_me_group_num)
       count += 1
     end
-    ProcessLog.create process_class: "AssetShippingNotifier", records_processed: count
+    ProcessLog.create process_class: "AssetShippingNotifier", records_processed: count if automated
   end
 
   def send_group_me_hal_message(hal_mti, person, group_me_group_num)

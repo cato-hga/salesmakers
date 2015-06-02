@@ -6,10 +6,10 @@ class WorkmarketImport
     @count = 0
   end
 
-  def execute
+  def execute automated = false
     start_location_import
     start_assignment_import
-    ProcessLog.create process_class: "WorkmarketImport", records_processed: @count
+    ProcessLog.create process_class: "WorkmarketImport", records_processed: @count if automated
     self
   end
 
