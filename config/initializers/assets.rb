@@ -9,6 +9,7 @@ Rails.application.config.assets.precompile += %w( marker_clusterer.min.js )
 Rails.application.config.assets.precompile += %w( gmaps/google.js )
 
 %w(
+sms_daily_checks
 directv_leads
 directv_sales
 directv_eods

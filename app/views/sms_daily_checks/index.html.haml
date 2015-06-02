@@ -1,0 +1,25 @@
+- title 'SalesMakers Support Dashboard'
+
+.row.full-width
+  = form_tag sms_daily_checks_path, method: :get do
+    .large-11.medium-9.small-9.columns
+      = select_tag 'select_team', options_from_collection_for_select(@available_teams, 'id', 'name', @team), include_blank: 'Select a Team'
+    .large-1.medium-3.small-3.columns
+      = submit_tag 'View', class: [:button, 'full-width']
+
+- if @team
+  .widget
+    .inner
+      - headers = header_row(['Name', 'In Time', 'Out Time', 'Check In', 'Check Out', 'Save/Off'])
+      - rows = []
+      - for employee in @people
+        = form_tag sms_daily_check_path(employee), method: :patch do |f|
+          - name = person_link employee
+          - in_time = select_tag :in_time, options_for_select(@times.collect { |t| [t[:name], t[:id]]})
+          - out_time = select_tag :out_time, options_for_select(@times.collect { |t| [t[:name], t[:id]]})
+          - check_in = ("<br/><input type='checkbox' name='check_in_on_time'> Clocked in on time?<br/> <input type='checkbox' name='check_in_uniform'> In Uniform?<br/> <input type='checkbox' name='check_in_inside_store'> Inside Store?").html_safe
+          - check_out = ("<br/><input type='checkbox' name='check_out_on_time'> Clocked out on time?<br/> <input type='checkbox' name='check_in_inside_store'> Inside Store?").html_safe
+          - save =  ("<br/><input type='submit' class='button' value='Save'><br/> <input type='submit' class='button' value='Employee Off'>").html_safe
+          - rows << table_row([name, in_time, out_time, check_in, check_out, save])
+      = table headers, rows
+

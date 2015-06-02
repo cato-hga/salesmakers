@@ -7,4 +7,8 @@ class SMSDailyCheck < ActiveRecord::Base
   belongs_to :person, class_name: 'Person', foreign_key: 'person_id'
   belongs_to :sms, class_name: 'Person', foreign_key: 'sms_id'
 
+  def self.policy_class
+    SMSDailyCheckPolicy
+  end
+
 end
