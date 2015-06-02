@@ -9,7 +9,8 @@ class ApplicationController < BaseApplicationController
                 #:set_last_seen_profile,
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
-                :setup_accessibles
+                :setup_accessibles,
+                :log_additional_data
 
   protected
 
@@ -25,6 +26,12 @@ class ApplicationController < BaseApplicationController
     return unless current_person_has_position?
     @wall = @current_person.default_wall
     @walls = Wall.postable(@current_person).includes(:wallable)
+  end
+
+  def log_additional_data
+    request.env["exception_notifier.exception_data"] = {
+        person: @person
+    }
   end
 
   private
@@ -106,7 +113,6 @@ class ApplicationController < BaseApplicationController
   def get_projects
     @projects = Project.all
   end
-
 
   helper_method :current_user
   helper_method :current_theme
