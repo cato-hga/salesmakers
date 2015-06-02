@@ -34,15 +34,15 @@ class DocusignNosesController < ApplicationController
     end
     @manager = Person.find params[:docusign_nos][:manager]
     @remarks = params[:docusign_nos][:remarks]
-    # if Rails.env.staging? or Rails.env.test? or Rails.env.development?
-    #   @response = 'STAGING'
-    # else
+    if Rails.env.staging? or Rails.env.test? or Rails.env.development?
+      @response = 'STAGING'
+    else
       @response = DocusignTemplate.send_third_party_nos(
           @person,
           @manager,
           (@remarks ? @remarks : '')
       )
-    # end
+    end
     handle_response; return if performed?
     @nos.manager = @manager
     @nos.person = @person
