@@ -7,9 +7,9 @@
     .large-1.medium-3.small-3.columns
       = submit_tag 'View', class: [:button, 'full-width']
 
-- if @team
-  .widget
-    .inner
+.widget
+  .inner
+    - if @team
       - headers = header_row(['Name', 'In Time', 'Out Time', 'Check In', 'Check Out', 'Save/Off'])
       - rows = []
       - for employee in @people
@@ -22,4 +22,6 @@
           - save =  ("<br/><input type='submit' class='button' value='Save'><br/> <input type='submit' class='button' value='Employee Off'>").html_safe
           - rows << table_row([name, in_time, out_time, check_in, check_out, save])
       = table headers, rows
+    - else
+      No active employees on this team
 
