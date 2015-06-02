@@ -51,7 +51,7 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
-  def self.send_third_party_nos(person, manager)
+  def self.send_third_party_nos(person, manager, remarks = '')
     project = person.person_areas.first.project
     template = DocusignTemplate.find_by template_guid: 'E0D92C92-D229-4C25-9CAF-E258FA990AF5' #Hard coding this temporarily
     client = DocusignRest::Client.new
@@ -65,7 +65,21 @@ class DocusignTemplate < ActiveRecord::Base
             {
                 name: manager.display_name,
                 email: manager.email,
-                role_name: 'Manager'
+                role_name: 'Manager',
+                text_tabs: [
+                    {
+                        label: 'Employee Name',
+                        name: 'Employee Name',
+                        value: "#{person.display_name}",
+                        locked: true
+                    },
+                    {
+                        label: 'Remarks',
+                        name: 'Remarks',
+                        value: "#{remarks}",
+                        locked: false
+                    }
+                ]
             }
         ]
     }
