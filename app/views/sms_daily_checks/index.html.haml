@@ -13,13 +13,15 @@
       - headers = header_row(['Name', 'In Time', 'Out Time', 'Check In', 'Check Out', 'Save/Off'])
       - rows = []
       - for employee in @people
-        = form_tag sms_daily_check_path(employee), method: :patch do |f|
+        = form_tag sms_daily_checks_path, remote: true, id: 'sms_check' do
+          = hidden_field_tag :person_id, employee.id
           - name = person_link employee
           - in_time = select_tag :in_time, options_for_select(@times.collect { |t| [t[:name], t[:id]]})
           - out_time = select_tag :out_time, options_for_select(@times.collect { |t| [t[:name], t[:id]]})
-          - check_in = ("<br/><input type='checkbox' name='check_in_on_time'> Clocked in on time?<br/> <input type='checkbox' name='check_in_uniform'> In Uniform?<br/> <input type='checkbox' name='check_in_inside_store'> Inside Store?").html_safe
-          - check_out = ("<br/><input type='checkbox' name='check_out_on_time'> Clocked out on time?<br/> <input type='checkbox' name='check_in_inside_store'> Inside Store?").html_safe
-          - save =  ("<br/><input type='submit' class='button' value='Save'><br/> <input type='submit' class='button' value='Employee Off'>").html_safe
+          - check_in = ("<br/><input type='checkbox' name='check_in_on_time'/> Clocked in on time?<br/> <input type='checkbox' name='check_in_uniform'/> In Uniform?<br/> <input type='checkbox' name='check_in_inside_store'/> Inside Store?").html_safe
+          - check_out = ("<br/><input type='checkbox' name='check_out_on_time'/> Clocked out on time?<br/> <input type='checkbox' name='check_in_inside_store'/> Inside Store?").html_safe
+          -#- save = ("<br/><input type='submit' name='commit' class='button' value='Save'/><br/> <input type='submit' name='commit' class='button' value='Employee Off'/>").html_safe
+          - save = submit_tag 'Save', class: :button
           - rows << table_row([name, in_time, out_time, check_in, check_out, save])
       = table headers, rows
     - else

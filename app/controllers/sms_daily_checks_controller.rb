@@ -34,9 +34,14 @@ class SMSDailyChecksController < ApplicationController
       end
       @people
     end
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
-  def update
+  def create
 
   end
 end
