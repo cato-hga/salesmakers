@@ -7,7 +7,7 @@ class InterviewSchedulesController < ApplicationController
 
   def index
     @schedule_date = Date.parse(params[:schedule_date])
-    interview_schedules = policy_scope(InterviewSchedule.where(interview_date: @schedule_date))
+    interview_schedules = policy_scope(InterviewSchedule.where(interview_date: @schedule_date, active: true))
     @interview_schedules = {}
     cookies[:show_open_time_slots] ? nil : cookies[:show_open_time_slots] = true
     for schedule in interview_schedules do
