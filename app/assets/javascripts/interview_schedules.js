@@ -20,4 +20,8 @@ $(function () {
 		$.cookie('show_open_time_slots', $(this).val());
 		location.reload();
 	});
+	$('body').on('change', '#show_only_missed_interviews', function () {
+		$.cookie('show_only_missed_interviews', $(this).val());
+		location.reload();
+	});
 });
