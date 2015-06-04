@@ -27,7 +27,7 @@ class SMSDailyChecksController < ApplicationController
     ]
     if params[:select_team]
       @team = params[:select_team]
-      person_areas = PersonArea.where(area: @team)
+      person_areas = PersonArea.where(area: @team).joins(:person).order('people.display_name')
       @people = []
       for area in person_areas do
         @people << area.person if area.person.active
@@ -36,15 +36,7 @@ class SMSDailyChecksController < ApplicationController
     end
   end
 
-  def create
-    respond_to do |format|
-      format.js
-    end
-  end
-
   def update
-    respond_to do |format|
-      format.js
-    end
+
   end
 end

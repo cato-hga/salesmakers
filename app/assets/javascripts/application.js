@@ -21,10 +21,9 @@
 //= require foundation_new/foundation.alert
 //= require jquery-ui.min
 // require chat
-//= require jquery.remotipart
 //= require imagesloaded.min
 //= require magnific
-//= require websocket_rails/main
+// require websocket_rails/main
 //= require classie
 //= require notificationFx
 //= require browser_timezone_rails/application

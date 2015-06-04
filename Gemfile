@@ -36,7 +36,6 @@ gem 'emoji', '1.0.1' # Automatic emoji embeds
 gem 'faye', '1.1.0' # Was 1.0.3 01/21/2015 - GroupMe client websockets
 gem 'metric_fu', '4.11.1', require: false # Code metrics
 gem 'dragonfly', '1.0.7' # Image and file storage
-gem 'remotipart', '1.2.1' # Allow remote form submission via AJAX for file uploads
 gem 'auto_html', '1.6.4' # Turn links to embed HTML automatically
 gem 'whenever', '0.9.4' # Was 0.9.2 01/21/2015 - Background tasks scheduled in a flat ruby file.
 gem 'postmark-rails', '0.10.0' # Was 0.9.0 01/21/2015 - Postmark integration. Currently for contact/feedback form

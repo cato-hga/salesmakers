@@ -526,7 +526,6 @@ GEM
       parser (~> 2.2.0.pre.7)
       rainbow (>= 1.99, < 3.0)
       unparser (~> 0.2.2)
-    remotipart (1.2.1)
     render_csv (2.0.0)
       rails (>= 3.0)
     request_store (1.1.0)
@@ -770,7 +769,6 @@ DEPENDENCIES
   rails_best_practices (= 1.15.4)
   ransack!
   ransack_chronic!
-  remotipart (= 1.2.1)
   render_csv (= 2.0.0)
   responders (= 2.0.2)
   roo!
