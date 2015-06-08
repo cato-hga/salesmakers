@@ -55,7 +55,7 @@ module Groupme
     def clean_groups
       groups = GroupMeGroup.all
       for group in groups do
-        json = self.get_group group
+        json = self.get_group group.group_num.to_s
         next unless json.blank?
         group.destroy
       end
