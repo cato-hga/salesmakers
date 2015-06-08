@@ -51,5 +51,14 @@ module Groupme
       }.to_json
       doPost "/groups/#{group_id}/members/add", add_user
     end
+
+    def clean_groups
+      groups = GroupMeGroup.all
+      for group in groups do
+        json = self.get_group group
+        next unless json.blank?
+        group.destroy
+      end
+    end
   end
 end

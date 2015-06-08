@@ -1,5 +1,24 @@
 module Groupme
   module Bots
+    def clean_bots
+      bots = get_bots
+      for bot in bots do
+        bot_id = bot['bot_id'] || next
+        if bot['callback_url'].blank?
+          self.destroy_bot bot_id
+          next
+        end
+        next if bot['callback_url'] && bot['callback_url'].include?('rbdconnect.com/it/groupme')
+        bot_record = GroupMeGroup.find_by bot_num: bot_id
+        next if bot_record
+        bot_record = SprintGroupMeBot.find_by bot_num: bot_id
+        next if bot_record
+        bot_record = ComcastGroupMeBot.find_by bot_num: bot_id
+        next if bot_record
+        destroy_bot bot_id
+      end
+    end
+
     def get_bots
       response = doGet '/bots'
       return unless response and response['response']
