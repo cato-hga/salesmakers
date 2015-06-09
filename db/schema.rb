@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609180257) do
+ActiveRecord::Schema.define(version: 20150609183902) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1136,6 +1136,16 @@ ActiveRecord::Schema.define(version: 20150609180257) do
     t.float "tuesday", default: 0.0, null: false
     t.datetime "updated_at", null: false
     t.float "wednesday", default: 0.0, null: false
+  end
+
+  create_table "report_queries", force: :cascade do |t|
+    t.string "category_name", null: false
+    t.datetime "created_at", null: false
+    t.string "database_name", null: false
+    t.string "name", null: false
+    t.string "permission_key", null: false
+    t.text "query", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sales_performance_ranks", force: :cascade do |t|
