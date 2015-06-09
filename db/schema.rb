@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602131608) do
+ActiveRecord::Schema.define(version: 20150608145616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1088,9 +1088,9 @@ ActiveRecord::Schema.define(version: 20150602131608) do
     t.boolean "check_out_on_time"
     t.datetime "created_at", null: false
     t.date "date", null: false
-    t.integer "in_time"
+    t.datetime "in_time"
     t.boolean "off_day"
-    t.integer "out_time"
+    t.datetime "out_time"
     t.integer "person_id", null: false
     t.integer "sms_id", null: false
     t.datetime "updated_at", null: false
@@ -1172,6 +1172,24 @@ ActiveRecord::Schema.define(version: 20150602131608) do
     t.boolean "upgrade", default: false, null: false
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.string "context", limit: 128
+    t.datetime "created_at"
+    t.integer "tag_id"
+    t.integer "taggable_id"
+    t.string "taggable_type"
+    t.integer "tagger_id"
+    t.string "tagger_type"
+  end
+
+  add_index "taggings", %w(tag_id taggable_id taggable_type context tagger_id tagger_type), name: "taggings_idx", unique: true, using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+  end
+
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
   create_table "technology_service_providers", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -1192,6 +1210,11 @@ ActiveRecord::Schema.define(version: 20150602131608) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_distances", id: false, force: :cascade do |t|
+    t.decimal "distance"
+    t.string "store_number"
   end
 
   create_table "tmp_sn", id: false, force: :cascade do |t|
