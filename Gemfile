@@ -96,6 +96,7 @@ group :development do
   gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
   gem 'capistrano-rails-console', '0.5.2' # Access to Rails console on remote machine from cap command!
   gem 'capistrano-faster-assets', '1.0.2' # Precompile only the assets that have changed on deploys
+  gem 'lol_dba', '2.0.0' # Find missing indexes
 end
 
 group :test do
