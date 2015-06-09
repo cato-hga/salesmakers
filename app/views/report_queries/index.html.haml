@@ -1,0 +1,18 @@
+- title 'Reports'
+
+.widgets
+  - if @report_queries.empty?
+    .widget
+      .inner
+        No reports are visible to you yet.
+  - else
+    - category_name = nil
+    - for report_query in @report_queries do
+      - if report_query.category_name != category_name
+        - category_name = report_query.category_name
+        .widget
+          .inner
+            %h3= category_name
+            = link_to report_query.name, report_query_path(report_query)
+      - else
+        = link_to report_query.name, report_query_path(report_query)

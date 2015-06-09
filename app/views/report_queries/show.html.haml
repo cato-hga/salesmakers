@@ -1,0 +1,10 @@
+- title @report_query.name
+
+- if @results.count > 0
+  .widget
+    .inner
+      - rows = []
+      - header = header_row @results.fields
+      - for result in @results do
+        - rows << table_row(result.values)
+      = table header, rows

@@ -72,6 +72,7 @@ profiles
 projects
 questions
 reports
+report_queries
 sessions
 themes
 widgets ).each do |controller|

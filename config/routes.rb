@@ -278,6 +278,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :report_queries, except: [:edit, :update, :destroy]
+
   get 'sessions/destroy', as: 'logout'
 
   post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
