@@ -13,17 +13,17 @@ class ReportQueriesController < ApplicationController
   end
 
   def csv
-    report_query = ReportQuery.find params[:id]
-    authorize report_query
-    database_connection = get_connection
-    database_connection.select_all report_query.query
+    @report_query = ReportQuery.find params[:id]
+    authorize @report_query
+    database_connection = get_database_connection
+    results = database_connection.select_all @report_query.query
     csv_string = CSV.generate col_sep: ',' do |csv|
-      csv << results.fields
-      results.each do |result|
-        csv << result.values
+      csv << results.columns
+      results.rows.each do |result|
+        csv << result
       end
     end
-    filename = report_query.name.downcase.gsub(/[^0-9a-zA-Z]/, '_') +
+    filename = @report_query.name.downcase.gsub(/[^0-9a-zA-Z]/, '_') +
         Time.now.in_time_zone.strftime('_%m%d%Y_%H%M%S') +
         '.csv'
     respond_to do |format|
