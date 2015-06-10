@@ -97,9 +97,6 @@ describe ReportQueriesController do
       before do
         permission = create :permission, key: report_query.permission_key
         person.position.permissions << permission
-        for p in person.position.permissions do
-          puts p.key
-        end
         get :show, id: report_query.id
       end
 
