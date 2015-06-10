@@ -6,10 +6,9 @@ class SMSDailyChecksController < ApplicationController
     authorize SMSDailyCheck.new
     postpaid = Project.find_by name: 'Sprint Postpaid'
     @available_teams = Area.where(project: postpaid)
-
-    time_slots_start = Time.zone.local(Date.current.year, Date.current.month, Date.current.day, 7, 0, 0)
+    time_slots_start = Time.new(Date.current.year, Date.current.month, Date.current.day, 7, 0, 0)
     @times = []
-    24.times do
+    33.times do
       time_slot = time_slots_start.beginning_of_minute
       @times << time_slot
       time_slots_start = time_slots_start + 30.minutes
@@ -33,6 +32,9 @@ class SMSDailyChecksController < ApplicationController
       check.destroy_all
     end
     @check = SMSDailyCheck.new sms_daily_check_params
+    if params[:commit] == 'Employee Off'
+      @check.off_day = true
+    end
     @check.person = @employee
     @check.sms = @current_person
     @check.date = Date.today

@@ -3,16 +3,29 @@
 
 $(function () {
 	$('body').on('click', '.save_button', function () {
-		$(this).after("<p class='updating'>Updating...</p>").fadeIn(300);
+		saveButton(this);
 	});
+	$('body').on('click', '.off_button', function () {
+		saveButton(this);
+	});
+});
+
+function saveButton(element) {
+	$(element).after("<p class='updating'>Updating...</p>").fadeIn(300);
 	$('body').on('ajax:success', 'form[data-remote=true]', function () {
 		$('.updating').remove();
-		$(this).find('.save_button').after("<p class='saved'>Saved!</p>").fadeIn(300);
-		$(this).find('.saved').delay(5000).fadeOut(300);
+		$(element).after("<p class='saved'>Saved!</p>").fadeIn(300);
+		$('.saved').delay(3000).fadeOut(300, function () {
+			$(this).remove();
+		});
+		element = null;
 	});
 	$('body').on('ajax:failure', 'form[data-remote=true]', function () {
 		$('.updating').remove();
-		$(this).find('.save_button').after("<p class='saved'>Save Failed!</p>").fadeIn(300);
-		$(this).find('.saved').delay(5000).fadeOut(300);
+		$(element).after("<p class='saved'>Saved Failed!</p>").fadeIn(300);
+		$('.saved').delay(3000).fadeOut(300, function () {
+			$(this).remove();
+		});
+		element = null;
 	});
-})
+}
