@@ -1,18 +1,18 @@
 - title 'Reports'
+- if ReportQueryPolicy.new(@current_person, ReportQuery.new).create?
+  - content_for :action_buttons do
+    = new_button new_report_query_path
 
 .widgets
-  - if @report_queries.empty?
+  - if @report_query_categories.empty?
     .widget
       .inner
         No reports are visible to you yet.
   - else
-    - category_name = nil
-    - for report_query in @report_queries do
-      - if report_query.category_name != category_name
-        - category_name = report_query.category_name
-        .widget
-          .inner
-            %h3= category_name
+    - for report_query_category in @report_query_categories do
+      .widget
+        .inner
+          %h3= report_query_category.first
+          - for report_query in report_query_category.last do
             = link_to report_query.name, report_query_path(report_query)
-      - else
-        = link_to report_query.name, report_query_path(report_query)
+            %br/

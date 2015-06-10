@@ -8,3 +8,6 @@
       - for result in @results do
         - rows << table_row(result.values)
       = table header, rows
+
+- content_for :footer do
+  = link_to 'csv', csv_report_query_path(@report_query), class: [:button]

@@ -278,7 +278,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :report_queries, except: [:edit, :update, :destroy]
+  resources :report_queries, except: [:edit, :update, :destroy] do
+    member do
+      get :csv, as: :csv, defaults: { format: :csv }
+    end
+  end
 
   get 'sessions/destroy', as: 'logout'
 

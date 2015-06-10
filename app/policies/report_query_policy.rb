@@ -21,4 +21,8 @@ class ReportQueryPolicy < ApplicationPolicy
       false
     end
   end
+
+  def csv?
+    show?
+  end
 end

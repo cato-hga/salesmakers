@@ -2,13 +2,31 @@ class ReportQueriesController < ApplicationController
   after_action :verify_authorized, except: [:index]
 
   def index
-    @report_queries = policy_scope(ReportQuery).all
+    @report_query_categories = policy_scope(ReportQuery).all.group_by { |q| q.category_name }
   end
 
   def show
     @report_query = ReportQuery.find params[:id]
     authorize @report_query
     @results = ActiveRecord::Base.connection.execute @report_query.query
+  end
+
+  def csv
+    report_query = ReportQuery.find params[:id]
+    authorize report_query
+    results = ActiveRecord::Base.connection.execute report_query.query
+    csv_string = CSV.generate col_sep: ',' do |csv|
+      csv << results.fields
+      results.each do |result|
+        csv << result.values
+      end
+    end
+    filename = report_query.name.downcase.gsub(/[^0-9a-zA-Z]/, '_') +
+        Time.now.in_time_zone.strftime('_%m%d%Y_%H%M%S') +
+        '.csv'
+    respond_to do |format|
+      format.csv { send_data csv_string, filename: filename }
+    end
   end
 
   def new
