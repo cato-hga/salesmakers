@@ -7,9 +7,9 @@
   .widget
     .inner
       - rows = []
-      - header = header_row @results.fields
-      - for result in @results do
-        - rows << table_row(result.values)
+      - header = header_row @results.columns
+      - for result in @results.rows do
+        - rows << table_row(result)
       = table header, rows
 
 - content_for :footer do

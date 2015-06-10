@@ -7,14 +7,16 @@ class ReportQueriesController < ApplicationController
 
   def show
     @report_query = ReportQuery.find params[:id]
+    database_connection = get_database_connection
     authorize @report_query
-    @results = ActiveRecord::Base.connection.execute @report_query.query
+    @results = database_connection.select_all @report_query.query
   end
 
   def csv
     report_query = ReportQuery.find params[:id]
     authorize report_query
-    results = ActiveRecord::Base.connection.execute report_query.query
+    database_connection = get_connection
+    database_connection.select_all report_query.query
     csv_string = CSV.generate col_sep: ',' do |csv|
       csv << results.fields
       results.each do |result|
@@ -72,6 +74,17 @@ class ReportQueriesController < ApplicationController
   end
 
   private
+
+  def get_database_connection
+    case @report_query.database_name
+      when 'mssql'
+        MSSQLDatabaseConnection.establish_connection(:mssql).connection
+      when 'rbd_erp'
+        ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+      else
+        ActiveRecord::Base.connection
+    end
+  end
 
   def report_query_params
     params.require(:report_query).permit :name,

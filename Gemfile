@@ -75,6 +75,8 @@ gem 'kiba', '0.5.0' # ETL data processing
 gem 'google_timezone', git: 'https://github.com/sck-v/google_timezone.git'
 gem 'progress_bar', '1.0.3' # Showing progress for reindexing Solr/Sunspot
 gem 'acts_as_taggable_on', '3.0.0.rc2' # Showing progress for reindexing Solr/Sunspot
+gem 'activerecord-sqlserver-adapter', '~> 4.2.0' # Microsoft SQL Server Adapter
+gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

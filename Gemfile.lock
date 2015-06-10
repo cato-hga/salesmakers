@@ -63,6 +63,12 @@ GIT
       oauth2 (>= 0.5.0, < 2.0)
 
 GIT
+  remote: https://github.com/rails-sqlserver/tiny_tds.git
+  revision: 757e6d40b8e5ac7da56af5e32074723db305d9f4
+  specs:
+    tiny_tds (0.6.3.rc1)
+
+GIT
   remote: https://github.com/roo-rb/roo-xls.git
   revision: f12153239bf789b520def2bb315d9a2d6b5d1008
   specs:
@@ -146,6 +152,8 @@ GEM
       actionpack (>= 4.0.0, < 5)
       activerecord (>= 4.0.0, < 5)
       railties (>= 4.0.0, < 5)
+    activerecord-sqlserver-adapter (4.2.3)
+      activerecord (~> 4.2.0)
     activesupport (4.2.0)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -702,6 +710,7 @@ PLATFORMS
 DEPENDENCIES
   active_shipping (= 1.0.0pre1)
   activerecord-session_store (= 0.1.1)
+  activerecord-sqlserver-adapter (~> 4.2.0)
   acts_as_taggable_on (= 3.0.0.rc2)
   airbrussh (= 0.3.0)
   ancestry!
@@ -799,6 +808,7 @@ DEPENDENCIES
   sunspot_solr (= 2.2.0)
   swiper-rails (= 1.0.2)
   timecop (= 0.7.3)
+  tiny_tds!
   traceroute (= 0.4.0)
   twilio-ruby (= 3.14.4)
   uglifier (= 2.7.0)
