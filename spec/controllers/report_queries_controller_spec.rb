@@ -3,8 +3,9 @@ require 'rails_helper'
 describe ReportQueriesController do
   let(:report_query) { build :report_query }
   let!(:person) { create :person, position: position }
-  let(:position) { create :position, permissions: [report_query_create] }
+  let(:position) { create :position, permissions: [report_query_create, report_query_update] }
   let(:report_query_create) { create :permission, key: 'report_query_create' }
+  let(:report_query_update) { create :permission, key: 'report_query_update' }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -109,6 +110,44 @@ describe ReportQueriesController do
       it 'renders the show template' do
         expect(response).to render_template :show
       end
+    end
+  end
+
+  describe 'GET edit' do
+    before do
+      report_query.save
+      get :edit, id: report_query.id
+    end
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the edit template' do
+      expect(response).to render_template :edit
+    end
+  end
+
+  describe 'PUT update' do
+    before { report_query.save }
+
+    subject do
+      put :update,
+          id: report_query.id,
+          report_query: {
+              category_name: 'Bat Category'
+          }
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by 1
+    end
+
+    it 'redirects to ReportQueries#index' do
+      subject
+      expect(response).to redirect_to report_queries_path
     end
   end
 end

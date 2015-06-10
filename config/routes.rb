@@ -278,7 +278,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :report_queries, except: [:edit, :update, :destroy] do
+  resources :report_queries, except: [:destroy] do
     member do
       get :csv, as: :csv, defaults: { format: :csv }
     end

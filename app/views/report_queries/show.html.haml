@@ -1,4 +1,7 @@
 - title @report_query.name
+- if ReportQueryPolicy.new(@current_person, ReportQuery.new).update?
+  - content_for :action_buttons do
+    = edit_button edit_report_query_path(@report_query)
 
 - if @results.count > 0
   .widget
@@ -10,4 +13,4 @@
       = table header, rows
 
 - content_for :footer do
-  = link_to 'csv', csv_report_query_path(@report_query), class: [:button]
+  .left= csv_link csv_report_query_path(@report_query), @results.count

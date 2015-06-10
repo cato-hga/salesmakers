@@ -10,6 +10,7 @@
   = f.text_field :database_name
   = f.label :query
   = f.text_area :query, rows: 20
-  = f.label :permission_key
-  = f.text_field :permission_key
+  - unless @report_query.persisted?
+    = f.label :permission_key
+    = f.text_field :permission_key
   = f.submit 'Save', class: [:button]

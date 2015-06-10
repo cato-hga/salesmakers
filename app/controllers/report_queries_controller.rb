@@ -53,6 +53,24 @@ class ReportQueriesController < ApplicationController
     end
   end
 
+  def edit
+    authorize ReportQuery.new
+    @report_query = ReportQuery.find params[:id]
+  end
+
+  def update
+    authorize ReportQuery.new
+    @report_query = ReportQuery.find params[:id]
+    if @report_query.update report_query_params
+      @current_person.log? 'update',
+                           @report_query
+      flash[:notice] = 'Report saved.'
+      redirect_to report_queries_path
+    else
+      render :edit
+    end
+  end
+
   private
 
   def report_query_params
