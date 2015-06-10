@@ -7,6 +7,7 @@ $(function () {
 	});
 	$('body').on('click', '.off_button', function () {
 		saveButton(this);
+		$('.
 	});
 });
 
