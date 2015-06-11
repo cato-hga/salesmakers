@@ -49,9 +49,10 @@
               = hidden_field_tag :authenticity_token, form_authenticity_token
               .tablecell
                 = person_link @employee
-                - if @check and @check.off_day
-                  %br
-                  %strong EMPLOYEE OFF
+                .employee_off_area
+                  - if @check and @check.off_day
+                    %br
+                    %strong EMPLOYEE OFF
               .tablecell
                 = select_tag :in_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.in_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
               .tablecell

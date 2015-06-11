@@ -7,7 +7,7 @@ $(function () {
 	});
 	$('body').on('click', '.off_button', function () {
 		saveButton(this);
-		$('.
+		$('.employee_off_area').after("<br/><strong>EMPLOYEE OFF</strong>").fadeIn(300);
 	});
 });
 
