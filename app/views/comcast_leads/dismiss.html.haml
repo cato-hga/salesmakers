@@ -1,0 +1,10 @@
+- title "Dismiss #{@comcast_customer.name}"
+
+.widget
+  .inner
+    = form_for @comcast_customer, url: comcast_customer_comcast_lead_path(@comcast_customer, @comcast_lead), method: :delete do |f|
+      = f.label :comcast_lead_dismissal_reason_id, 'Dismissal reason'
+      = f.select :comcast_lead_dismissal_reason_id, options_from_collection_for_select(@dismissal_reasons, :id, :name), include_blank: true
+      = f.label :dismissal_comment, 'Comments'
+      = f.text_field :dismissal_comment
+      = f.submit 'Dismiss', class: [:button]

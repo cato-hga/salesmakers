@@ -116,6 +116,7 @@ Rails.application.routes.draw do
       member do
         get :reassign, to: 'comcast_leads#reassign', as: :reassign
         patch 'reassign_to/:person_id', to: 'comcast_leads#reassign_to', as: :reassign_to
+        get :dismiss, to: 'comcast_leads#dismiss', as: :dismiss
       end
     end
   end
@@ -208,6 +209,7 @@ Rails.application.routes.draw do
       member do
         get :reassign, to: 'directv_leads#reassign', as: :reassign
         patch 'reassign_to/:person_id', to: 'directv_leads#reassign_to', as: :reassign_to
+        get :dismiss, to: 'directv_leads#dismiss', as: :dismiss
       end
     end
   end

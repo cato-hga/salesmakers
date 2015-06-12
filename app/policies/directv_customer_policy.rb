@@ -27,4 +27,7 @@ class DirecTVCustomerPolicy < ApplicationPolicy
     reassign?
   end
 
+  def dismiss?
+    update?
+  end
 end

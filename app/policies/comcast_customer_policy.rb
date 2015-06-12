@@ -27,4 +27,7 @@ class ComcastCustomerPolicy < ApplicationPolicy
     reassign?
   end
 
+  def dismiss?
+    update?
+  end
 end

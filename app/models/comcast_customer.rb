@@ -14,6 +14,7 @@ class ComcastCustomer < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
+  belongs_to :comcast_lead_dismissal_reason
   has_one :comcast_lead
   has_one :comcast_sale
   has_many :comcast_customer_notes

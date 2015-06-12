@@ -48,7 +48,8 @@ class Candidate < ActiveRecord::Base
   enum sprint_roster_status: [
            :roster_status_pending,
            :sprint_submitted,
-           :sprint_confirmed
+           :sprint_confirmed,
+           :sprint_rejected
        ]
 
   has_paper_trail

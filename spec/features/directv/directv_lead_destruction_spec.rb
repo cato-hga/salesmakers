@@ -47,7 +47,7 @@ describe 'DirecTV lead destruction' do
     end
   end
 
-  describe 'for authorized employees', js: true do
+  describe 'for authorized employees' do
     let(:position) { create :directv_sales_position, permissions: [permission_customer_index] }
     let(:directv_customer) { create :directv_customer, person: directv_employee }
     let!(:directv_lead) {
@@ -56,16 +56,39 @@ describe 'DirecTV lead destruction' do
              directv_customer: directv_customer
     }
 
-    let(:directv_employee) { create :directv_employee, position: position }
 
-    it 'deactivates a lead' do
+    let(:directv_employee) { create :directv_employee, position: position }
+    let!(:reason) { create :directv_lead_dismissal_reason }
+
+    before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(directv_employee.email)
       visit directv_customer_path(directv_customer)
       within '#directv_lead' do
         click_on 'Dismiss Lead'
       end
+    end
+
+    specify 'the dismiss button takes you to a dismiss screen' do
+      expect(current_path).to eq(dismiss_directv_customer_directv_lead_path(directv_customer, directv_lead))
+    end
+
+    it 'contains a form for comments and selecting a dismissal reason' do
+      expect(page).to have_content 'Dismiss ' + directv_customer.name
+      expect(page).to have_content 'Dismissal reason'
+      expect(page).to have_content 'Comments'
+    end
+
+    it 'deactivates a lead' do
+      expect(directv_customer.directv_lead_dismissal_reason_id).to be_nil
+      expect(directv_customer.dismissal_comment).to be_nil
+      select 'Test Reason'
+      fill_in 'Comments', with: 'Test Comments!'
+      click_on 'Dismiss'
       expect(page).to have_content('dismissed')
       expect(page).to have_content('My Leads')
+      directv_customer.reload
+      expect(directv_customer.directv_lead_dismissal_reason_id).to eq(reason.id)
+      expect(directv_customer.dismissal_comment).to eq('Test Comments!')
     end
   end
 end

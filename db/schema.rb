@@ -279,8 +279,10 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "comcast_customer_notes", ["person_id"], name: "index_comcast_customer_notes_on_person_id", using: :btree
 
   create_table "comcast_customers", force: :cascade do |t|
+    t.integer "comcast_lead_dismissal_reason_id"
     t.text "comments"
     t.datetime "created_at", null: false
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id", null: false
@@ -341,6 +343,13 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "comcast_install_appointments", ["comcast_sale_id"], name: "index_comcast_install_appointments_on_comcast_sale_id", using: :btree
 
   create_table "comcast_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comcast_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -484,6 +493,8 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   create_table "directv_customers", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false
+    t.integer "directv_lead_dismissal_reason_id"
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id"
@@ -534,6 +545,13 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "directv_install_appointments", ["directv_sale_id"], name: "index_directv_install_appointments_on_directv_sale_id", using: :btree
 
   create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -1200,6 +1218,22 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
   add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
 
+  create_table "sms_daily_checks", force: :cascade do |t|
+    t.boolean "check_in_inside_store"
+    t.boolean "check_in_on_time"
+    t.boolean "check_in_uniform"
+    t.boolean "check_out_inside_store"
+    t.boolean "check_out_on_time"
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.datetime "in_time"
+    t.boolean "off_day"
+    t.datetime "out_time"
+    t.integer "person_id", null: false
+    t.integer "sms_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "from_candidate_id"
@@ -1351,6 +1385,20 @@ ActiveRecord::Schema.define(version: 20150612175211) do
     t.string "display_name", null: false
     t.string "name", null: false
     t.datetime "updated_at"
+  end
+
+  create_table "tmp_distances", id: false, force: :cascade do |t|
+    t.decimal "distance"
+    t.string "store_number"
+  end
+
+  create_table "tmp_sn", id: false, force: :cascade do |t|
+    t.string "store_number"
+  end
+
+  create_table "tmp_stores", id: false, force: :cascade do |t|
+    t.string "store_number"
+    t.integer "target_head_count"
   end
 
   create_table "training_availabilities", force: :cascade do |t|

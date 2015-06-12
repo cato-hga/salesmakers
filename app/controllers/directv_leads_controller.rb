@@ -4,9 +4,9 @@ class DirecTVLeadsController < ApplicationController
   include DirecTVCSVExtension
   include SalesLeadsCustomersExtension
 
-  before_action :set_directv_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to]
+  before_action :set_directv_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to, :dismiss, :destroy]
   before_action :do_authorization, only: [:new, :create]
-  after_action :verify_authorized, only: [:new, :create, :index, :reassign]
+  after_action :verify_authorized, only: [:new, :create, :index, :reassign, :dismiss]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
@@ -36,7 +36,9 @@ class DirecTVLeadsController < ApplicationController
 
   def destroy
     @directv_lead = DirecTVLead.find params[:id]
-    if @directv_lead.update active: false
+    reason = DirecTVLeadDismissalReason.find params[:directv_customer][:directv_lead_dismissal_reason_id]
+    comment = params[:directv_customer][:dismissal_comment]
+    if @directv_lead.update active: false and @directv_customer.update directv_lead_dismissal_reason_id: reason.id, dismissal_comment: comment
       flash[:notice] = 'Lead succesfully dismissed.'
       @current_person.log? 'destroy',
                            @directv_lead,
@@ -44,7 +46,7 @@ class DirecTVLeadsController < ApplicationController
                            nil,
                            nil
     else
-      flash[:error] = 'Could not dismiss lead: ' + @directv_lead.errors.full_messages.join(', ')
+      flash[:error] = 'Could not dismiss lead: ' + @directv_lead.errors.full_messages.join(', '), +@directv_customers.errors.full_messsages.join(', ')
     end
     redirect_to directv_customers_path
   end
@@ -64,6 +66,12 @@ class DirecTVLeadsController < ApplicationController
                            new_person
       redirect_to directv_customers_path
     end
+  end
+
+  def dismiss
+    authorize @directv_customer
+    @directv_lead = DirecTVLead.find params[:id]
+    @dismissal_reasons = DirecTVLeadDismissalReason.where(active: true)
   end
 
   private
