@@ -134,8 +134,8 @@ class DaySalesCount < ActiveRecord::Base
   year_scopes
   depth_scopes
 
-  def self.import
-    SaleImporter.new
+  def self.import automated = false
+    SaleImporter.new automated
   end
 
 end

@@ -30,9 +30,9 @@ describe 'viewing Candidate interview schedules' do
       expect(page).to have_selector('h3', Date.today.strftime('%A, %B %-d, %Y'))
     end
 
-    it 'shows each time slot' do
-      expect(page).to have_content((start_time + 2.hours).beginning_of_hour.strftime('%-l:%M'))
-    end
+    # it 'shows each time slot' do
+    #   expect(page).to have_content((start_time + 2.hours).beginning_of_hour.strftime('%-l:%M'))
+    # end
 
     # it 'shows the candidate link' do
     #   expect(page).to have_selector('a', text: candidate.name)

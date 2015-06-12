@@ -9,7 +9,8 @@ class ApplicationController < BaseApplicationController
                 #:set_last_seen_profile,
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
-                :setup_accessibles
+                :setup_accessibles,
+                :log_additional_data
 
   protected
 
@@ -25,6 +26,12 @@ class ApplicationController < BaseApplicationController
     return unless current_person_has_position?
     @wall = @current_person.default_wall
     @walls = Wall.postable(@current_person).includes(:wallable)
+  end
+
+  def log_additional_data
+    request.env["exception_notifier.exception_data"] = {
+        person: @person
+    }
   end
 
   private
@@ -82,7 +89,7 @@ class ApplicationController < BaseApplicationController
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'wayman@cc.salesmakersinc.com'
+    #@current_person = Person.find_by_email 'asmith@hireretailpros.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st
@@ -106,7 +113,6 @@ class ApplicationController < BaseApplicationController
   def get_projects
     @projects = Project.all
   end
-
 
   helper_method :current_user
   helper_method :current_theme

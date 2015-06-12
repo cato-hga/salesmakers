@@ -280,6 +280,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :report_queries, except: [:destroy] do
+    member do
+      get :csv, as: :csv, defaults: { format: :csv }
+    end
+  end
+
   get 'sessions/destroy', as: 'logout'
 
   post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'

@@ -78,6 +78,11 @@
       - if directv_sale_policy.index?
         %li
           = link_to 'DirecTV Sales', directv_sales_path
+    %ul.off-canvas-list
+      %li
+        %label Reports
+        %li
+          = link_to 'Report List', report_queries_path
   - if DevicePolicy.new(@current_person, Device.new).index? or |
     AreaPolicy.new(@current_person, Area.new).index? or |
     AreaTypePolicy.new(@current_person, AreaType.new).index? or |

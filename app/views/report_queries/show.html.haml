@@ -1,0 +1,16 @@
+- title @report_query.name
+- if ReportQueryPolicy.new(@current_person, ReportQuery.new).update?
+  - content_for :action_buttons do
+    = edit_button edit_report_query_path(@report_query)
+
+- if @results.count > 0
+  .widget
+    .inner.overflow-x_scroll.freeze_header
+      - rows = []
+      - header = header_row @results.columns
+      - for result in @results.rows do
+        - rows << table_row(result)
+      = table header, rows
+
+- content_for :footer do
+  .left= csv_link csv_report_query_path(@report_query), @results.count

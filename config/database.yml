@@ -119,3 +119,13 @@ rbd_connect_production:
   password: r3C0nn3ct
   pool: 5
   encoding: unicode
+
+mssql:
+  adapter: sqlserver
+  mode: dblib
+  dataserver: 'rbd.database.windows.net'
+  database: rbd_sprint
+  username: reporting
+  password: SalesCenter1!
+  timeout: 5000
+  azure: true

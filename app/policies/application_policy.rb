@@ -51,6 +51,10 @@ class ApplicationPolicy
                             @user
                           end || return
     key = @record.class.name.underscore + '_' + permission_name
+    has_key? permissioned_object, key
+  end
+
+  def has_key? permissioned_object, key
     permissions = Permission.where(key: key)
     return false if permissions.empty?
     for permission in permissions do

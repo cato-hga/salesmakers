@@ -2,10 +2,10 @@ require 'person_updater'
 
 class AreaUpdater
 
-  def self.update
+  def self.update automated = false
     setup
     update_areas
-    ProcessLog.create process_class: "AreaUpdater", records_processed: @count
+    ProcessLog.create process_class: "AreaUpdater", records_processed: @count if automated
   end
 
   private

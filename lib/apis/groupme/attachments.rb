@@ -18,22 +18,23 @@ module Groupme
       return if messages.nil?
       until messages.count == 0
         urls = get_urls_from_messages(messages)
-        download_url_batch(urls)
+        download_url_batch(urls, group_name)
         messages = get_messages_before group_id, group_name, messages.last.message_id
         return if messages.nil?
       end
     end
 
     def get_urls_from_messages(messages)
-      urls = Array.new
+      urls = []
       for message in messages do
         url = message.image_url
         urls << url if url
       end
-      urls.uniq!
+      urls
     end
 
-    def download_url_batch(urls)
+    def download_url_batch(urls, group_name)
+      return unless urls
       for url in urls do
         next if url.include?("text.rbdconnect.com") or url.include?("salesmakersinc.com")
         puts "Downloading #{url}"

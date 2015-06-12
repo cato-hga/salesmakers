@@ -33,17 +33,20 @@ class DocusignNosesController < ApplicationController
       render :new and return
     end
     @manager = Person.find params[:docusign_nos][:manager]
+    @remarks = params[:docusign_nos][:remarks]
     if Rails.env.staging? or Rails.env.test? or Rails.env.development?
       @response = 'STAGING'
     else
       @response = DocusignTemplate.send_third_party_nos(
           @person,
-          @manager
+          @manager,
+          (@remarks ? @remarks : '')
       )
     end
     handle_response; return if performed?
     @nos.manager = @manager
     @nos.person = @person
+    @nos.remarks = @remarks
     handle_nos_saving; return if performed?
   end
 
@@ -64,6 +67,7 @@ class DocusignNosesController < ApplicationController
     @nos.person = @person
     @nos.employment_end_reason = @separation_reason
     @nos.eligible_to_rehire = @eligible
+    @nos.remarks = @remarks
   end
 
   def handle_response

@@ -33,6 +33,7 @@ class Candidate < ActiveRecord::Base
   enum training_session_status: [
            :pending,
            :candidate_confirmed,
+           :shadow_confirmed,
            :in_class,
            :completed,
            :did_not_graduate,
@@ -46,11 +47,14 @@ class Candidate < ActiveRecord::Base
 
   enum sprint_roster_status: [
            :roster_status_pending,
-           :sprint_confirmed
+           :sprint_submitted,
+           :sprint_confirmed,
+           :sprint_rejected
        ]
 
   has_paper_trail
   nilify_blanks
+  acts_as_taggable
   geocoding_validations
   attribute_validations
   setup_assocations

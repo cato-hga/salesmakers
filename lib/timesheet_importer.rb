@@ -4,14 +4,14 @@ class TimesheetImporter
     @count = 0
   end
 
-  def import
+  def import automated = false
     timesheets = timesheets_for_last(@duration).order(:shift_date)
     self.extend TimesheetToShiftTranslator
     shifts = self.translate_all(timesheets)
     self.extend ShiftWriter
     self.clear_and_write_all shifts
     self.send_unmatched
-    ProcessLog.create process_class: "TimesheetImporter", records_processed: shifts.count
+    ProcessLog.create process_class: "TimesheetImporter", records_processed: shifts.count if automated
   end
 
   def send_unmatched

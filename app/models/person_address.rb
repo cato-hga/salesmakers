@@ -36,7 +36,7 @@ class PersonAddress < ActiveRecord::Base
     address
   end
 
-  def self.update_from_connect(minutes)
+  def self.update_from_connect minutes, automated = false
     offset = Time.zone_offset(Time.zone.now.strftime('%Z')) / 60
     offset = offset * -1
     minutes = minutes + offset
@@ -65,7 +65,9 @@ class PersonAddress < ActiveRecord::Base
       pu = PersonUpdater.new cu
       pu.update
     end
-    ProcessLog.create process_class: "PersonAddress", records_processed: results.count, notes: "update_from_connect(#{minutes.to_s})"
+    ProcessLog.create process_class: "PersonAddress",
+                      records_processed: results.count,
+                      notes: "update_from_connect(#{minutes.to_s})" if automated
   end
 
   def geocode_if_necessary

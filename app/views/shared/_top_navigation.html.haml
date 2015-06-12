@@ -18,7 +18,7 @@
           - group_count = GroupMeGroupPolicy::Scope.new(@current_person, GroupMeGroup.all).resolve.count
           - if group_count > 0
             %li= link_to 'GroupMe Post', new_post_group_me_groups_path
-          -# YES. THIS IS DIRTY. But, only IT people need access anyways
+          %li= link_to 'Reports', report_queries_path
           - if DevicePolicy.new(@current_person, Device.new).index? or |
             AreaPolicy.new(@current_person, Area.new).index? or |
             AreaTypePolicy.new(@current_person, AreaType.new).index? or |

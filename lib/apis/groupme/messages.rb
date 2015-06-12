@@ -11,7 +11,6 @@ module Groupme
       return nil unless response['response'] and response['response']['messages']
       all_messages = response['response']['messages']
       for message in all_messages do
-        next if message['system'] == true
         group_me_message = new_message(group_name, message, 0)
         messages << group_me_message
       end
@@ -52,7 +51,8 @@ module Groupme
                             message['text'],
                             message['created_at'],
                             likes,
-                            message['avatar_url']
+                            message['avatar_url'],
+                            message['id']
     end
 
     def initialize_messages_query(max)

@@ -1,6 +1,6 @@
 class SaleImporter
   #:nocov:
-  def initialize(start_date = (Time.zone.now - 1.month).to_date, end_date = Time.zone.now.to_date)
+  def initialize automated = false, start_date = (Time.zone.now - 1.month).to_date, end_date = Time.zone.now.to_date
     started = Time.now
     @start_date = start_date
     @end_date = end_date
@@ -11,7 +11,7 @@ class SaleImporter
                         @start_date,
                         @end_date,
                         started).destroy_all
-    ProcessLog.create process_class: "SaleImporter", records_processed: @count
+    ProcessLog.create process_class: "SaleImporter", records_processed: @count if automated
   end
 
   private

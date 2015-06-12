@@ -74,6 +74,9 @@ gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
 gem 'kiba', '0.5.0' # ETL data processing
 gem 'google_timezone', git: 'https://github.com/sck-v/google_timezone.git'
 gem 'progress_bar', '1.0.3' # Showing progress for reindexing Solr/Sunspot
+gem 'acts_as_taggable_on', '3.0.0.rc2' # Showing progress for reindexing Solr/Sunspot
+gem 'activerecord-sqlserver-adapter', '~> 4.2.0' # Microsoft SQL Server Adapter
+gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
@@ -95,6 +98,7 @@ group :development do
   gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
   gem 'capistrano-rails-console', '0.5.2' # Access to Rails console on remote machine from cap command!
   gem 'capistrano-faster-assets', '1.0.2' # Precompile only the assets that have changed on deploys
+  gem 'lol_dba', '2.0.0' # Find missing indexes
 end
 
 group :test do

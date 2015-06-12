@@ -182,15 +182,17 @@ module PersonConnectFunctionality
       LogEntry.position_set_from_connect person, creator, person.position, connect_user.created.apply_eastern_offset, connect_user.updated.apply_eastern_offset if person.position
     end
 
-    def update_from_connect(minutes)
+    def update_from_connect minutes, automated = false
       connect_users = ConnectUser.where('updated >= ?', (Time.now - minutes.minutes).apply_eastern_offset)
       for connect_user in connect_users do
         PersonUpdater.new(connect_user).update
       end
-      ProcessLog.create process_class: "Person", records_processed: connect_users.count, notes: "update_from_connect(#{minutes.to_s})"
+      ProcessLog.create process_class: "Person",
+                        records_processed: connect_users.count,
+                        notes: "update_from_connect(#{minutes.to_s})" if automated
     end
 
-    def update_eids_from_connect
+    def update_eids_from_connect automated = false
       ids = ConnectUserMapping.employee_ids
       count = 0
       for eid in ids do
@@ -198,10 +200,12 @@ module PersonConnectFunctionality
         next if not person or person.eid == eid.mapping.to_i
         count += 1 if person.update(eid: eid.mapping.to_i)
       end
-      ProcessLog.create process_class: "Person", records_processed: count, notes: "update_eids_from_connect"
+      ProcessLog.create process_class: "Person",
+                        records_processed: count,
+                        notes: "update_eids_from_connect" if automated
     end
 
-    def update_eids_from_connect_blueforce_usernames
+    def update_eids_from_connect_blueforce_usernames automated = false
       username_mappings = ConnectUserMapping.blueforce_usernames
       count = 0
       for username_mapping in username_mappings do
@@ -211,7 +215,7 @@ module PersonConnectFunctionality
       end
       ProcessLog.create process_class: "Person",
                         records_processed: count,
-                        notes: "update_eids_from_connect_blueforce_usernames"
+                        notes: "update_eids_from_connect_blueforce_usernames" if automated
     end
   end
 end
