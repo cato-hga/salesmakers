@@ -1,32 +1,21 @@
 class ReportQueriesController < ApplicationController
   after_action :verify_authorized, except: [:index]
+  before_action :set_query_and_date_range, only: [:show, :csv]
 
   def index
     @report_query_categories = policy_scope(ReportQuery).all.group_by { |q| q.category_name }
   end
 
   def show
-    @report_query = ReportQuery.find params[:id]
-    if @report_query.has_date_range? && @report_query.start_date_default
-      @start_date = params[:start_date] ? params[:start_date] : Date.today.public_send(@report_query.start_date_default).strftime('%m/%d/%Y')
-      @end_date = params[:end_date] ? params[:end_date] : Date.today.strftime('%m/%d/%Y')
-    end
     database_connection = get_database_connection
     authorize @report_query
-    query = @report_query.query
-    if @start_date && @end_date
-      query = query.
-          gsub('#{start_date}', @start_date).
-          gsub('#{end_date}', @end_date)
-    end
-    @results = database_connection.select_all query
+    @results = database_connection.select_all get_query_text
   end
 
   def csv
-    @report_query = ReportQuery.find params[:id]
     authorize @report_query
     database_connection = get_database_connection
-    results = database_connection.select_all @report_query.query
+    results = database_connection.select_all get_query_text
     csv_string = CSV.generate col_sep: ',' do |csv|
       csv << results.columns
       results.rows.each do |result|
@@ -104,5 +93,23 @@ class ReportQueriesController < ApplicationController
                                          :permission_key,
                                          :has_date_range,
                                          :start_date_default
+  end
+
+  def set_query_and_date_range
+    @report_query = ReportQuery.find params[:id]
+    if @report_query.has_date_range? && @report_query.start_date_default
+      @start_date = params[:start_date] ? params[:start_date] : Date.today.public_send(@report_query.start_date_default).strftime('%m/%d/%Y')
+      @end_date = params[:end_date] ? params[:end_date] : Date.today.strftime('%m/%d/%Y')
+    end
+  end
+
+  def get_query_text
+    query = @report_query.query
+    if @start_date && @end_date
+      query = query.
+          gsub('#{start_date}', @start_date).
+          gsub('#{end_date}', @end_date)
+    end
+    query
   end
 end
