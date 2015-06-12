@@ -7,6 +7,8 @@ Rails.application.config.assets.precompile += %w( foundation_new/foundation.cook
 Rails.application.config.assets.precompile += %w( google_maps_api.min.js )
 Rails.application.config.assets.precompile += %w( marker_clusterer.min.js )
 Rails.application.config.assets.precompile += %w( gmaps/google.js )
+Rails.application.config.assets.precompile += %w( picker.css )
+Rails.application.config.assets.precompile += %w( picker.date.css )
 
 %w(
 directv_leads

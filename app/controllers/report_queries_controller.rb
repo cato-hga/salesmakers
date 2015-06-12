@@ -7,9 +7,19 @@ class ReportQueriesController < ApplicationController
 
   def show
     @report_query = ReportQuery.find params[:id]
+    if @report_query.has_date_range? && @report_query.start_date_default
+      @start_date = params[:start_date] ? params[:start_date] : Date.today.public_send(@report_query.start_date_default).strftime('%m/%d/%Y')
+      @end_date = params[:end_date] ? params[:end_date] : Date.today.strftime('%m/%d/%Y')
+    end
     database_connection = get_database_connection
     authorize @report_query
-    @results = database_connection.select_all @report_query.query
+    query = @report_query.query
+    if @start_date && @end_date
+      query = query.
+          gsub('#{start_date}', @start_date).
+          gsub('#{end_date}', @end_date)
+    end
+    @results = database_connection.select_all query
   end
 
   def csv
@@ -91,6 +101,8 @@ class ReportQueriesController < ApplicationController
                                          :category_name,
                                          :database_name,
                                          :query,
-                                         :permission_key
+                                         :permission_key,
+                                         :has_date_range,
+                                         :start_date_default
   end
 end
