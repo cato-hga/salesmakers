@@ -7,7 +7,6 @@ $(function () {
 	});
 	$('body').on('click', '.off_button', function () {
 		saveButton(this);
-		$('.employee_off_area').after("<br/><strong>EMPLOYEE OFF</strong>").fadeIn(300);
 	});
 });
 
@@ -19,6 +18,10 @@ function saveButton(element) {
 		$('.saved').delay(3000).fadeOut(300, function () {
 			$(this).remove();
 		});
+		;
+		if (element.className == 'button off_button') {
+			$(element).parent().parent().find('.employee_off_area').delay(50000).after("<br/><strong>EMPLOYEE OFF</strong>").fadeIn(300);
+		}
 		element = null;
 	});
 	$('body').on('ajax:failure', 'form[data-remote=true]', function () {

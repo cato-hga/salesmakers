@@ -73,9 +73,9 @@
                 = check_box_tag :check_out_inside_store, nil, (@check.check_out_inside_store if @check and @check.off_day == false)
                 = label_tag :check_out_on_time, 'Inside Store?'
               .tablecell.save_area
-                = submit_tag 'Save', class: [:button, :off_button]
+                = submit_tag 'Save', class: [:button, :save_button ]
                 %br
-                = submit_tag 'Employee Off', class: [:button, :save_button]
+                = submit_tag 'Employee Off', class: [:button, :off_button]
     - else
       No active employees on this team
 
