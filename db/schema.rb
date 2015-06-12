@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609192551) do
+ActiveRecord::Schema.define(version: 20150612171321) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -279,8 +279,10 @@ ActiveRecord::Schema.define(version: 20150609192551) do
   add_index "comcast_customer_notes", ["person_id"], name: "index_comcast_customer_notes_on_person_id", using: :btree
 
   create_table "comcast_customers", force: :cascade do |t|
+    t.integer "comcast_lead_dismissal_reason_id"
     t.text "comments"
     t.datetime "created_at", null: false
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id", null: false
@@ -341,6 +343,13 @@ ActiveRecord::Schema.define(version: 20150609192551) do
   add_index "comcast_install_appointments", ["comcast_sale_id"], name: "index_comcast_install_appointments_on_comcast_sale_id", using: :btree
 
   create_table "comcast_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comcast_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -484,6 +493,8 @@ ActiveRecord::Schema.define(version: 20150609192551) do
   create_table "directv_customers", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false
+    t.integer "directv_lead_dismissal_reason_id"
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id"
@@ -534,6 +545,13 @@ ActiveRecord::Schema.define(version: 20150609192551) do
   add_index "directv_install_appointments", ["directv_sale_id"], name: "index_directv_install_appointments_on_directv_sale_id", using: :btree
 
   create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
