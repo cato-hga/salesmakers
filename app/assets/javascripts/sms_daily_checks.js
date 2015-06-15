@@ -18,7 +18,6 @@ function saveButton(element) {
 		$('.saved').delay(3000).fadeOut(300, function () {
 			$(this).remove();
 		});
-		;
 		if (element.className == 'button off_button') {
 			$(element).parent().parent().find('.employee_off_area').delay(50000).after("<br/><strong>EMPLOYEE OFF</strong>").fadeIn(300);
 		}
