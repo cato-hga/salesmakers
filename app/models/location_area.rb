@@ -151,6 +151,7 @@ class LocationArea < ActiveRecord::Base
             on c.location_area_id = la.id
           where c.sprint_roster_status = 2
             and (c.training_session_status != 8 or c.training_session_status != 10 or c.training_session_status != 12)
+            and la.id = #{self.id}
         }
     ).values.flatten
     all_candidate_ids = [
