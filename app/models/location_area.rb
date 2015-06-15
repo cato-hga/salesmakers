@@ -150,7 +150,7 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           where c.sprint_roster_status = 2
-            and (c.training_session_status != #{Candidate.statuses[:not_interested]} or c.training_session_status != #{Candidate.statuses[:nos]} or c.training_session_status != #{Candidate.statuses[:transfer]})
+            and (c.training_session_status != #{Candidate.training_session_statuses[:not_interested]} or c.training_session_status != #{Candidate.training_session_statuses[:nos]} or c.training_session_status != #{Candidate.training_session_statuses[:transfer]})
             and la.id = #{self.id}
         }
     ).values.flatten
