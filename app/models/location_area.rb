@@ -126,7 +126,7 @@ class LocationArea < ActiveRecord::Base
     #       order by c.id
     #     }
     # ).values.flatten
-    paperwork_sent_since_may_18 = ActiveRecord::Base.connection.execute(
+    paperwork_sent_since_june_8 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -134,8 +134,7 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= cast('05/25/2015' as timestamp)
-          or j.completed_by_candidate >= cast('05/18/2015' as timestamp)
+          on j.sent >= cast('06/08/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
@@ -143,13 +142,22 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    # all_candidate_ids = [
-    #     recent_hours_training_started,
-    #     booked_hours_candidates,
-    #     training_status_confirmed,
-    #     paperwork_sent_last_7_days,
-    # ].flatten.uniq
-    return true if self.target_head_count + 1 <= paperwork_sent_since_may_18.count
+    sprint_confirmed_from_june_12 = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          where c.sprint_roster_status = 2
+            and (c.training_session_status != 8 or c.training_session_status != 10 or c.training_session_status != 12)
+        }
+    ).values.flatten
+    all_candidate_ids = [
+        paperwork_sent_since_june_8,
+        sprint_confirmed_from_june_12
+    ].flatten.uniq
+    return true if self.target_head_count + 1 <= all_candidate_ids.count
     false
   end
 
