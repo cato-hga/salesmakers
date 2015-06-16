@@ -6,7 +6,7 @@ module DirecTV::SaleValidationsAndAssociations
     validates :directv_install_appointment, presence: true
     validates :order_number, numericality: { only_integer: true }, uniqueness: true
     validate :no_future_sales
-    validate :within_24_hours
+    #validate :within_24_hours
   end
 
   def belongs_to_associations
