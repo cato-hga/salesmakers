@@ -1,12 +1,17 @@
 - title 'SalesMakers Support Dashboard'
+- content_for :action_buttons do
+  = button_to 'Post Roll Call', '#', class: [:button, :inline_button]
+  = button_to 'Post Check In', '#', class: [:button, :inline_button]
+  = button_to 'Post Mid Day', '#', class: [:button, :inline_button]
+  = button_to 'Post Check Out', '#', class: [:button, :inline_button]
 
 .row.full-width
   = form_tag sms_daily_checks_path, method: :get do
     .large-11.medium-9.small-9.columns
-      = label_tag 'select_team', 'Select Teams(s):'
+      = label_tag 'select_team', 'Select Teams(s): (Hold Shift or CTRL to select multiple)'
       = select_tag 'select_team', options_from_collection_for_select(@available_teams, 'id', 'name', @team), multiple: true, size: 5
     .large-1.medium-3.small-3.columns
-      = submit_tag 'View', class: [:button, :full_width, :team_select_button]
+      = submit_tag 'View', class: [:button, :full_width]
 
 .widget
   .inner
