@@ -3,9 +3,10 @@
 .row.full-width
   = form_tag sms_daily_checks_path, method: :get do
     .large-11.medium-9.small-9.columns
-      = select_tag 'select_team', options_from_collection_for_select(@available_teams, 'id', 'name', @team), include_blank: 'Select a Team'
+      = label_tag 'select_team', 'Select Teams(s):'
+      = select_tag 'select_team', options_from_collection_for_select(@available_teams, 'id', 'name', @team), multiple: true, size: 5
     .large-1.medium-3.small-3.columns
-      = submit_tag 'View', class: [:button, 'full-width']
+      = submit_tag 'View', class: [:button, :full_width, :team_select_button]
 
 .widget
   .inner
