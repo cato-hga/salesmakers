@@ -12,6 +12,7 @@ gem 'responders', '2.0.2' # Required by rails 4.2.0 for respond_to
 
 # ------ Our gems below this line --------
 
+gem 'jquery-ui-rails', '5.0.5' #Jquery UI gem
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'chartkick', '1.3.2' # Was 1.2.5 01/21/2015 - Easy Google Charts creation in Rails
 gem 'haml-rails', '0.7.0' # Was 0.5.3 01/21/2015 - HAML template engine

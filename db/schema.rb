@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150608145616) do
+ActiveRecord::Schema.define(version: 20150612175211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "area_candidate_sourcing_groups", ["project_id"], name: "index_area_candidate_sourcing_groups_on_project_id", using: :btree
+
   create_table "area_types", force: :cascade do |t|
     t.datetime "created_at"
     t.string "name", null: false
@@ -67,6 +69,7 @@ ActiveRecord::Schema.define(version: 20150608145616) do
   end
 
   add_index "areas", ["ancestry"], name: "index_areas_on_ancestry", using: :btree
+  add_index "areas", ["area_candidate_sourcing_group_id"], name: "index_areas_on_area_candidate_sourcing_group_id", using: :btree
   add_index "areas", ["area_type_id"], name: "index_areas_on_area_type_id", using: :btree
   add_index "areas", ["project_id"], name: "index_areas_on_project_id", using: :btree
 
@@ -110,6 +113,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.boolean "wednesday_third", default: false, null: false
   end
 
+  add_index "candidate_availabilities", ["candidate_id"], name: "index_candidate_availabilities_on_candidate_id", using: :btree
+
   create_table "candidate_contacts", force: :cascade do |t|
     t.text "call_results"
     t.integer "candidate_id", null: false
@@ -120,6 +125,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "person_id", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "candidate_contacts", ["candidate_id"], name: "index_candidate_contacts_on_candidate_id", using: :btree
+  add_index "candidate_contacts", ["person_id"], name: "index_candidate_contacts_on_person_id", using: :btree
 
   create_table "candidate_denial_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
@@ -137,6 +145,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "candidate_drug_tests", ["candidate_id"], name: "index_candidate_drug_tests_on_candidate_id", using: :btree
+
   create_table "candidate_notes", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
@@ -145,12 +155,17 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "candidate_notes", ["candidate_id"], name: "index_candidate_notes_on_candidate_id", using: :btree
+  add_index "candidate_notes", ["person_id"], name: "index_candidate_notes_on_person_id", using: :btree
+
   create_table "candidate_reconciliations", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "candidate_reconciliations", ["candidate_id"], name: "index_candidate_reconciliations_on_candidate_id", using: :btree
 
   create_table "candidate_sms_messages", force: :cascade do |t|
     t.boolean "active", default: true, null: false
@@ -197,6 +212,14 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "zip", null: false
   end
 
+  add_index "candidates", ["candidate_denial_reason_id"], name: "index_candidates_on_candidate_denial_reason_id", using: :btree
+  add_index "candidates", ["candidate_source_id"], name: "index_candidates_on_candidate_source_id", using: :btree
+  add_index "candidates", ["created_by"], name: "index_candidates_on_created_by", using: :btree
+  add_index "candidates", ["location_area_id"], name: "index_candidates_on_location_area_id", using: :btree
+  add_index "candidates", ["person_id"], name: "index_candidates_on_person_id", using: :btree
+  add_index "candidates", ["potential_area_id"], name: "index_candidates_on_potential_area_id", using: :btree
+  add_index "candidates", ["sprint_radio_shack_training_session_id"], name: "index_candidates_on_sprint_radio_shack_training_session_id", using: :btree
+
   create_table "changelog_entries", force: :cascade do |t|
     t.boolean "all_field"
     t.boolean "all_hq"
@@ -208,6 +231,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "released", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "changelog_entries", ["department_id"], name: "index_changelog_entries_on_department_id", using: :btree
+  add_index "changelog_entries", ["project_id"], name: "index_changelog_entries_on_project_id", using: :btree
 
   create_table "channels", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -224,10 +250,16 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "client_representatives", ["client_id"], name: "index_client_representatives_on_client_id", using: :btree
+
   create_table "client_representatives_permissions", id: false, force: :cascade do |t|
     t.integer "client_representative_id"
     t.integer "permission_id"
   end
+
+  add_index "client_representatives_permissions", ["client_representative_id", "permission_id"], name: "client_rep_perms_client_rep_perm", using: :btree
+  add_index "client_representatives_permissions", ["client_representative_id"], name: "client_rep_perms_client_rep", using: :btree
+  add_index "client_representatives_permissions", ["permission_id"], name: "client_rep_perms_perm", using: :btree
 
   create_table "clients", force: :cascade do |t|
     t.datetime "created_at"
@@ -243,9 +275,14 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_customer_notes", ["comcast_customer_id"], name: "index_comcast_customer_notes_on_comcast_customer_id", using: :btree
+  add_index "comcast_customer_notes", ["person_id"], name: "index_comcast_customer_notes_on_person_id", using: :btree
+
   create_table "comcast_customers", force: :cascade do |t|
+    t.integer "comcast_lead_dismissal_reason_id"
     t.text "comments"
     t.datetime "created_at", null: false
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id", null: false
@@ -254,6 +291,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "person_id", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "comcast_customers", ["location_id"], name: "index_comcast_customers_on_location_id", using: :btree
+  add_index "comcast_customers", ["person_id"], name: "index_comcast_customers_on_person_id", using: :btree
 
   create_table "comcast_eods", force: :cascade do |t|
     t.boolean "cloud_training", default: false, null: false
@@ -269,12 +309,17 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_eods", ["location_id"], name: "index_comcast_eods_on_location_id", using: :btree
+  add_index "comcast_eods", ["person_id"], name: "index_comcast_eods_on_person_id", using: :btree
+
   create_table "comcast_former_providers", force: :cascade do |t|
     t.integer "comcast_sale_id"
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "comcast_former_providers", ["comcast_sale_id"], name: "index_comcast_former_providers_on_comcast_sale_id", using: :btree
 
   create_table "comcast_group_me_bots", force: :cascade do |t|
     t.integer "area_id"
@@ -284,6 +329,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_group_me_bots", ["area_id"], name: "index_comcast_group_me_bots_on_area_id", using: :btree
+
   create_table "comcast_install_appointments", force: :cascade do |t|
     t.integer "comcast_install_time_slot_id", null: false
     t.integer "comcast_sale_id", null: false
@@ -292,7 +339,17 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_install_appointments", ["comcast_install_time_slot_id"], name: "comcast_inst_appts_time_slot", using: :btree
+  add_index "comcast_install_appointments", ["comcast_sale_id"], name: "index_comcast_install_appointments_on_comcast_sale_id", using: :btree
+
   create_table "comcast_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comcast_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -313,6 +370,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_leads", ["comcast_customer_id"], name: "index_comcast_leads_on_comcast_customer_id", using: :btree
+
   create_table "comcast_sales", force: :cascade do |t|
     t.integer "comcast_customer_id", null: false
     t.integer "comcast_former_provider_id"
@@ -329,6 +388,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "comcast_sales", ["comcast_customer_id"], name: "index_comcast_sales_on_comcast_customer_id", using: :btree
+  add_index "comcast_sales", ["person_id"], name: "index_comcast_sales_on_person_id", using: :btree
+
   create_table "communication_log_entries", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "loggable_id", null: false
@@ -336,6 +398,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "person_id", null: false
     t.datetime "updated_at"
   end
+
+  add_index "communication_log_entries", ["person_id"], name: "index_communication_log_entries_on_person_id", using: :btree
 
   create_table "day_sales_counts", force: :cascade do |t|
     t.integer "activations", default: 0, null: false
@@ -423,9 +487,14 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "directv_customer_notes", ["directv_customer_id"], name: "index_directv_customer_notes_on_directv_customer_id", using: :btree
+  add_index "directv_customer_notes", ["person_id"], name: "index_directv_customer_notes_on_person_id", using: :btree
+
   create_table "directv_customers", force: :cascade do |t|
     t.text "comments"
     t.datetime "created_at", null: false
+    t.integer "directv_lead_dismissal_reason_id"
+    t.text "dismissal_comment"
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.integer "location_id"
@@ -434,6 +503,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "person_id"
     t.datetime "updated_at", null: false
   end
+
+  add_index "directv_customers", ["location_id"], name: "index_directv_customers_on_location_id", using: :btree
+  add_index "directv_customers", ["person_id"], name: "index_directv_customers_on_person_id", using: :btree
 
   create_table "directv_eods", force: :cascade do |t|
     t.boolean "cloud_training", default: false, null: false
@@ -449,12 +521,17 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "directv_eods", ["location_id"], name: "index_directv_eods_on_location_id", using: :btree
+  add_index "directv_eods", ["person_id"], name: "index_directv_eods_on_person_id", using: :btree
+
   create_table "directv_former_providers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "directv_sale_id"
     t.string "name", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "directv_former_providers", ["directv_sale_id"], name: "index_directv_former_providers_on_directv_sale_id", using: :btree
 
   create_table "directv_install_appointments", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -464,7 +541,17 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "directv_install_appointments", ["directv_install_time_slot_id"], name: "directv_inst_appts_time_slot", using: :btree
+  add_index "directv_install_appointments", ["directv_sale_id"], name: "index_directv_install_appointments_on_directv_sale_id", using: :btree
+
   create_table "directv_install_time_slots", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "directv_lead_dismissal_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -481,6 +568,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "directv_leads", ["directv_customer_id"], name: "index_directv_leads_on_directv_customer_id", using: :btree
+
   create_table "directv_sales", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.boolean "customer_acknowledged", default: false, null: false
@@ -492,6 +581,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "person_id"
     t.datetime "updated_at", null: false
   end
+
+  add_index "directv_sales", ["directv_customer_id"], name: "index_directv_sales_on_directv_customer_id", using: :btree
+  add_index "directv_sales", ["person_id"], name: "index_directv_sales_on_person_id", using: :btree
 
   create_table "docusign_noses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -507,6 +599,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "docusign_noses", ["employment_end_reason_id"], name: "index_docusign_noses_on_employment_end_reason_id", using: :btree
+  add_index "docusign_noses", ["person_id"], name: "index_docusign_noses_on_person_id", using: :btree
+
   create_table "docusign_templates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "document_type", default: 0, null: false
@@ -515,6 +610,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "template_guid", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "docusign_templates", ["project_id"], name: "index_docusign_templates_on_project_id", using: :btree
 
   create_table "drop_off_reasons", force: :cascade do |t|
     t.boolean "active", default: true, null: false
@@ -533,6 +630,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "to_person_id"
     t.datetime "updated_at"
   end
+
+  add_index "email_messages", ["to_person_id"], name: "index_email_messages_on_to_person_id", using: :btree
 
   create_table "employment_end_reasons", force: :cascade do |t|
     t.boolean "active", default: false, null: false
@@ -631,6 +730,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.text "work_history", null: false
   end
 
+  add_index "interview_answers", ["candidate_id"], name: "index_interview_answers_on_candidate_id", using: :btree
+
   create_table "interview_schedules", force: :cascade do |t|
     t.boolean "active"
     t.integer "candidate_id", null: false
@@ -640,6 +741,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "start_time", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "interview_schedules", ["candidate_id"], name: "index_interview_schedules_on_candidate_id", using: :btree
+  add_index "interview_schedules", ["person_id"], name: "index_interview_schedules_on_person_id", using: :btree
 
   create_table "job_offer_details", force: :cascade do |t|
     t.integer "candidate_id", null: false
@@ -651,6 +755,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "sent", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "job_offer_details", ["candidate_id"], name: "index_job_offer_details_on_candidate_id", using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.datetime "created_at"
@@ -719,10 +825,18 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "location_areas", ["area_id", "location_id"], name: "index_location_areas_on_area_id_and_location_id", using: :btree
+  add_index "location_areas", ["area_id"], name: "index_location_areas_on_area_id", using: :btree
+  add_index "location_areas", ["location_id"], name: "index_location_areas_on_location_id", using: :btree
+
   create_table "location_areas_radio_shack_location_schedules", id: false, force: :cascade do |t|
     t.integer "location_area_id", null: false
     t.integer "radio_shack_location_schedule_id", null: false
   end
+
+  add_index "location_areas_radio_shack_location_schedules", ["location_area_id", "radio_shack_location_schedule_id"], name: "location_areas_location_areas_rs_schedules", using: :btree
+  add_index "location_areas_radio_shack_location_schedules", ["location_area_id"], name: "location_areas_location_areas", using: :btree
+  add_index "location_areas_radio_shack_location_schedules", ["radio_shack_location_schedule_id"], name: "location_areas_rs_schedules", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.integer "channel_id", null: false
@@ -741,6 +855,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
     t.string "zip"
   end
+
+  add_index "locations", ["channel_id"], name: "index_locations_on_channel_id", using: :btree
+  add_index "locations", ["sprint_radio_shack_training_location_id"], name: "index_locations_on_sprint_radio_shack_training_location_id", using: :btree
 
   create_table "log_entries", force: :cascade do |t|
     t.string "action", null: false
@@ -806,6 +923,7 @@ ActiveRecord::Schema.define(version: 20150608145616) do
   add_index "people_poll_question_choices", ["person_id", "poll_question_choice_id"], name: "ppqc_person_choice", using: :btree
   add_index "people_poll_question_choices", ["person_id"], name: "people_poll_choices_person", using: :btree
   add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "people_poll_choices_person_choice", using: :btree
+  add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "poll_q_choices_poll_q_choice_person", using: :btree
   add_index "people_poll_question_choices", ["poll_question_choice_id", "person_id"], name: "ppqc_choice_person", using: :btree
 
   create_table "permission_groups", force: :cascade do |t|
@@ -849,6 +967,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "zip", null: false
   end
 
+  add_index "person_addresses", ["person_id"], name: "index_person_addresses_on_person_id", using: :btree
+
   create_table "person_areas", force: :cascade do |t|
     t.integer "area_id", null: false
     t.datetime "created_at"
@@ -870,6 +990,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
     t.integer "wage_type", null: false
   end
+
+  add_index "person_pay_rates", ["person_id"], name: "index_person_pay_rates_on_person_id", using: :btree
 
   create_table "poll_question_choices", force: :cascade do |t|
     t.datetime "created_at"
@@ -924,6 +1046,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.boolean "worked_for_salesmakers", default: false, null: false
     t.boolean "worked_for_sprint", default: false, null: false
   end
+
+  add_index "prescreen_answers", ["candidate_id"], name: "index_prescreen_answers_on_candidate_id", using: :btree
 
   create_table "process_logs", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1032,6 +1156,18 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.float "wednesday", default: 0.0, null: false
   end
 
+  create_table "report_queries", force: :cascade do |t|
+    t.string "category_name", null: false
+    t.datetime "created_at", null: false
+    t.string "database_name", null: false
+    t.boolean "has_date_range", default: false, null: false
+    t.string "name", null: false
+    t.string "permission_key", null: false
+    t.text "query", null: false
+    t.string "start_date_default"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sales_performance_ranks", force: :cascade do |t|
     t.datetime "created_at"
     t.date "day", null: false
@@ -1055,6 +1191,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "sex_offender_check", default: 0, null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "screenings", ["person_id"], name: "index_screenings_on_person_id", using: :btree
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at"
@@ -1112,6 +1250,11 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at"
   end
 
+  add_index "sms_messages", ["from_candidate_id"], name: "index_sms_messages_on_from_candidate_id", using: :btree
+  add_index "sms_messages", ["from_person_id"], name: "index_sms_messages_on_from_person_id", using: :btree
+  add_index "sms_messages", ["to_candidate_id"], name: "index_sms_messages_on_to_candidate_id", using: :btree
+  add_index "sms_messages", ["to_person_id"], name: "index_sms_messages_on_to_person_id", using: :btree
+
   create_table "sprint_group_me_bots", force: :cascade do |t|
     t.integer "area_id", null: false
     t.string "bot_num", null: false
@@ -1119,6 +1262,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "group_num", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "sprint_group_me_bots", ["area_id"], name: "index_sprint_group_me_bots_on_area_id", using: :btree
 
   create_table "sprint_pre_training_welcome_calls", force: :cascade do |t|
     t.integer "candidate_id", null: false
@@ -1132,6 +1277,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "status", default: 0, null: false
     t.boolean "still_able_to_attend", default: false, null: false
   end
+
+  add_index "sprint_pre_training_welcome_calls", ["candidate_id"], name: "index_sprint_pre_training_welcome_calls_on_candidate_id", using: :btree
 
   create_table "sprint_radio_shack_training_locations", force: :cascade do |t|
     t.string "address", null: false
@@ -1171,6 +1318,10 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
     t.boolean "upgrade", default: false, null: false
   end
+
+  add_index "sprint_sales", ["connect_sprint_sale_id"], name: "index_sprint_sales_on_connect_sprint_sale_id", using: :btree
+  add_index "sprint_sales", ["location_id"], name: "index_sprint_sales_on_location_id", using: :btree
+  add_index "sprint_sales", ["person_id"], name: "index_sprint_sales_on_person_id", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.string "context", limit: 128
@@ -1212,6 +1363,11 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_csr", id: false, force: :cascade do |t|
+    t.string "connect_salesregion_id"
+    t.string "store_number"
+  end
+
   create_table "tmp_distances", id: false, force: :cascade do |t|
     t.decimal "distance"
     t.string "store_number"
@@ -1226,6 +1382,16 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "target_head_count"
   end
 
+  create_table "tmp_wm", id: false, force: :cascade do |t|
+    t.string "address_1"
+    t.string "city"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "state"
+    t.string "store_number"
+    t.string "zip"
+  end
+
   create_table "training_availabilities", force: :cascade do |t|
     t.boolean "able_to_attend", default: false, null: false
     t.integer "candidate_id", null: false
@@ -1234,6 +1400,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "training_unavailability_reason_id"
     t.datetime "updated_at", null: false
   end
+
+  add_index "training_availabilities", ["candidate_id"], name: "index_training_availabilities_on_candidate_id", using: :btree
+  add_index "training_availabilities", ["training_unavailability_reason_id"], name: "train_avail_unavail_reason", using: :btree
 
   create_table "training_class_attendees", force: :cascade do |t|
     t.boolean "attended", default: false, null: false
@@ -1249,6 +1418,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "training_class_attendees", ["person_id"], name: "index_training_class_attendees_on_person_id", using: :btree
+  add_index "training_class_attendees", ["training_class_id"], name: "index_training_class_attendees_on_training_class_id", using: :btree
+
   create_table "training_class_types", force: :cascade do |t|
     t.string "ancestry"
     t.datetime "created_at", null: false
@@ -1259,6 +1431,7 @@ ActiveRecord::Schema.define(version: 20150608145616) do
   end
 
   add_index "training_class_types", ["ancestry"], name: "index_training_class_types_on_ancestry", using: :btree
+  add_index "training_class_types", ["project_id"], name: "index_training_class_types_on_project_id", using: :btree
 
   create_table "training_classes", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1268,6 +1441,10 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "training_time_slot_id"
     t.datetime "updated_at", null: false
   end
+
+  add_index "training_classes", ["person_id"], name: "index_training_classes_on_person_id", using: :btree
+  add_index "training_classes", ["training_class_type_id"], name: "index_training_classes_on_training_class_type_id", using: :btree
+  add_index "training_classes", ["training_time_slot_id"], name: "index_training_classes_on_training_time_slot_id", using: :btree
 
   create_table "training_time_slots", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1284,6 +1461,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
     t.boolean "wednesday", default: false, null: false
   end
+
+  add_index "training_time_slots", ["person_id"], name: "index_training_time_slots_on_person_id", using: :btree
+  add_index "training_time_slots", ["training_class_type_id"], name: "index_training_time_slots_on_training_class_type_id", using: :btree
 
   create_table "training_unavailability_reasons", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1364,6 +1544,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "vonage_paycheck_id", null: false
   end
 
+  add_index "vonage_paycheck_negative_balances", ["person_id"], name: "index_vonage_paycheck_negative_balances_on_person_id", using: :btree
+  add_index "vonage_paycheck_negative_balances", ["vonage_paycheck_id"], name: "vonage_paycheck_neg_bal_paycheck", using: :btree
+
   create_table "vonage_paychecks", force: :cascade do |t|
     t.date "commission_end", null: false
     t.date "commission_start", null: false
@@ -1392,6 +1575,10 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "vonage_sale_id", null: false
   end
 
+  add_index "vonage_refunds", ["person_id"], name: "index_vonage_refunds_on_person_id", using: :btree
+  add_index "vonage_refunds", ["vonage_account_status_change_id"], name: "index_vonage_refunds_on_vonage_account_status_change_id", using: :btree
+  add_index "vonage_refunds", ["vonage_sale_id"], name: "index_vonage_refunds_on_vonage_sale_id", using: :btree
+
   create_table "vonage_rep_sale_payout_brackets", force: :cascade do |t|
     t.integer "area_id", null: false
     t.datetime "created_at", null: false
@@ -1400,6 +1587,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "sales_minimum", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "vonage_rep_sale_payout_brackets", ["area_id"], name: "index_vonage_rep_sale_payout_brackets_on_area_id", using: :btree
 
   create_table "vonage_sale_payouts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -1413,6 +1602,10 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "vonage_paycheck_id", null: false
     t.integer "vonage_sale_id", null: false
   end
+
+  add_index "vonage_sale_payouts", ["person_id"], name: "index_vonage_sale_payouts_on_person_id", using: :btree
+  add_index "vonage_sale_payouts", ["vonage_paycheck_id"], name: "index_vonage_sale_payouts_on_vonage_paycheck_id", using: :btree
+  add_index "vonage_sale_payouts", ["vonage_sale_id"], name: "index_vonage_sale_payouts_on_vonage_sale_id", using: :btree
 
   create_table "vonage_sales", force: :cascade do |t|
     t.string "confirmation_number", null: false
@@ -1428,6 +1621,11 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.datetime "updated_at", null: false
     t.integer "vonage_product_id", null: false
   end
+
+  add_index "vonage_sales", ["connect_order_uuid"], name: "index_vonage_sales_on_connect_order_uuid", using: :btree
+  add_index "vonage_sales", ["location_id"], name: "index_vonage_sales_on_location_id", using: :btree
+  add_index "vonage_sales", ["person_id"], name: "index_vonage_sales_on_person_id", using: :btree
+  add_index "vonage_sales", ["vonage_product_id"], name: "index_vonage_sales_on_vonage_product_id", using: :btree
 
   create_table "wall_post_comments", force: :cascade do |t|
     t.text "comment", null: false
@@ -1480,6 +1678,9 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "workmarket_location_num", null: false
   end
 
+  add_index "workmarket_assignments", ["project_id"], name: "index_workmarket_assignments_on_project_id", using: :btree
+  add_index "workmarket_assignments", ["workmarket_location_num"], name: "index_workmarket_assignments_on_workmarket_location_num", using: :btree
+
   create_table "workmarket_attachments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "filename", null: false
@@ -1489,6 +1690,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.integer "workmarket_assignment_id", null: false
   end
 
+  add_index "workmarket_attachments", ["workmarket_assignment_id"], name: "index_workmarket_attachments_on_workmarket_assignment_id", using: :btree
+
   create_table "workmarket_fields", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
@@ -1496,6 +1699,8 @@ ActiveRecord::Schema.define(version: 20150608145616) do
     t.string "value", null: false
     t.integer "workmarket_assignment_id", null: false
   end
+
+  add_index "workmarket_fields", ["workmarket_assignment_id"], name: "index_workmarket_fields_on_workmarket_assignment_id", using: :btree
 
   create_table "workmarket_locations", force: :cascade do |t|
     t.datetime "created_at", null: false

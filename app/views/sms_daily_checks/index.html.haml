@@ -50,15 +50,15 @@
           - for @employee in @people
             - check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
             - @check = check.first
-            = form_tag update_sms_daily_check_path(@check), remote:true, method: :put, class: [:sms_check, :tablerow] do
-              = hidden_field_tag :person_id, @employee.id
-              = hidden_field_tag :authenticity_token, form_authenticity_token
+            = form_tag update_sms_daily_check_path(@check), remote:true, method: :put, class: [:sms_check, :tablerow, :togglerow] do
               .tablecell
                 = person_link @employee
                 .employee_off_area
                   - if @check and @check.off_day
                     %br
                     %strong EMPLOYEE OFF
+              = hidden_field_tag :person_id, @employee.id
+              = hidden_field_tag :authenticity_token, form_authenticity_token
               .tablecell
                 = select_tag :in_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.in_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
               .tablecell
