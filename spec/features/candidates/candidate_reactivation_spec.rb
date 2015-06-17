@@ -12,6 +12,7 @@ describe 'Candidate reactivation' do
   let!(:reason) { create :candidate_denial_reason }
   let!(:candidate) { create :candidate, active: false, location_area: location_area }
   let(:location_area) { create :location_area, target_head_count: 2, potential_candidate_count: 1 }
+  let(:person) { create :person }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -36,6 +37,17 @@ describe 'Candidate reactivation' do
       expect(page).to have_button 'Reactivate Candidate'
     end
 
+    it 'does not contain the reactivate button if there is a deactivated person attached to the candidate' do
+      candidate.update person: person
+      candidate.reload
+      visit candidate_path candidate
+      expect(page).to have_button "Reactivate Candidate"
+      person.update active: false
+      person.reload
+      candidate.reload
+      visit candidate_path candidate
+      expect(page).not_to have_button 'Reactivate Candidate'
+    end
 
     describe 'reactivation success' do
       let(:offer) { create :job_offer_detail }
