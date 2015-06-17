@@ -33,7 +33,7 @@ class ScreeningsController < ApplicationController
       if candidate
         @current_person.log? 'screened', candidate if @screening.complete? or @screening.failed?
         candidate.reload
-        unless candidate.active
+        if candidate.active == false and @screening.failed?
           @current_person.log? 'screening_failed', candidate
           @current_person.log? 'screening_failed', @person
         end
