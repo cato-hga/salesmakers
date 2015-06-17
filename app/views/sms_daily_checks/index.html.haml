@@ -50,7 +50,7 @@
           - for @employee in @people
             - check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
             - @check = check.first
-            = form_tag update_sms_daily_check_path(@check), remote:true, method: :put, class: [:sms_check, :tablerow, :togglerow] do
+            = form_tag update_sms_daily_check_path(@check), method: :put, class: [:sms_check, :tablerow, :togglerow] do
               .tablecell
                 = person_link @employee
                 .employee_off_area
