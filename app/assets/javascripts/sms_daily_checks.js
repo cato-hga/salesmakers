@@ -1,7 +1,7 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-//= require 'jquery-ui/accordion'
+//= require 'foundation_new/foundation.accordion'
 
 $(function () {
 	$('body').on('click', '.save_button', function () {
@@ -10,7 +10,6 @@ $(function () {
 	$('body').on('click', '.off_button', function () {
 		saveButton(this);
 	});
-	$('.togglerow').accordion();
 });
 
 function saveButton(element) {
