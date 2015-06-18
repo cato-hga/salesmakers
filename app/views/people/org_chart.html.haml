@@ -7,17 +7,14 @@
       %h3 Company HQ
       %ul
         - for department in @departments
-          - active_people = department.people.where(active: true).order(:display_name).includes(:position)
-          - next if active_people.empty?
           %li.nested_areas
             %a.nested_areas_icon= icon('plus')
-            = department.name
+            = department[0]
             %ul
-              - for person in active_people
+              - for entry in department[1]
                 %li.nested_areas
-                  = person_link person
-                  - position = person.position
-                  %span.small.comment= '(' + position.name + ')'
+                  = person_link entry.person_id
+                  %span.small.comment= '(' + entry.position_name + ')'
 
   - for project in @visible_projects
     - next unless project.areas.count > 0

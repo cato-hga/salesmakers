@@ -64,7 +64,33 @@ class PeopleController < ProtectedController
   end
 
   def org_chart
-    @departments = Department.joins(:positions).where('positions.hq = true').uniq
+    @departments = Hash.new
+    HeadquartersOrgChartEntry.all.each do |entry|
+      if @departments.has_key?(entry.department_name)
+        @departments[entry.department_name] << entry
+      else
+        @departments[entry.department_name] = [entry]
+      end
+    end
+    @non_manager_person_areas = ActiveRecord::Base.connection.execute("
+                                                                        select
+
+                                                                        a.id as area_id,
+                                                                        p.id,
+                                                                        p.display_name
+
+                                                                        from areas a
+                                                                        left outer join person_areas pa
+                                                                          on pa.area_id = a.id
+                                                                        left outer join people p
+                                                                          on p.id = pa.person_id
+
+                                                                        where
+                                                                          pa.manages = false
+                                                                          and p.active = true
+
+                                                                        order by area_id, p.display_name").
+        group_by { |e| e['area_id'] }
   end
 
   def show

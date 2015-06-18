@@ -68,6 +68,7 @@ module LinksHelperExtension
   end
 
   def person_link(person, classes = nil)
+    person = Person.find(person) if person.is_a?(Integer)
     classes = tack_on_inactive_class(person, classes)
     link = link_to person.display_name, person_url(person), class: classes
     if can_send_text?(person)
