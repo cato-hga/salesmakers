@@ -21,7 +21,7 @@ function saveButton(element) {
 			$(this).remove();
 		});
 		if (element.className == 'button off_button') {
-			$(element).parent().parent().find('.employee_off_area').delay(50000).after("<br/><strong>EMPLOYEE OFF</strong>").fadeIn(300);
+			$(element).parent().parent().parent().parent().parent().find('a.employee_off_area').append(" - EMPLOYEE OFF");
 		}
 		element = null;
 	});

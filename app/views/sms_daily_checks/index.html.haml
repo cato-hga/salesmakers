@@ -16,77 +16,45 @@
 .widget
   .inner
     - if @team
-      .table
-        .tableheader
-          .tablerow
-            .tablecell Employee
-            .tablecell In Time
-            .tablecell Out Time
-            .tablecell Check In
-            .tablecell Check Out
-            .tablecell Save
-            :css
-              @media only screen and (max-width: 800px) {
-                .tablebody .tablecell:nth-of-type(1):before {
-                  content: "Employee";
-                }
-                .tablebody .tablecell:nth-of-type(2):before {
-                  content: "In Time";
-                }
-                .tablebody .tablecell:nth-of-type(3):before {
-                  content: "Out Time";
-                }
-                .tablebody .tablecell:nth-of-type(4):before {
-                  content: "Check In";
-                }
-                .tablebody .tablecell:nth-of-type(5):before {
-                  content: "Check Out";
-                }
-                .tablebody .tablecell:nth-of-type(6):before {
-                  content: "Save";
-                }
-              }
-        .tablebody
-          - count = 0
-          - for @employee in @people
-            - count += 1
-            - check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
-            - @check = check.first
-            %dl.accordion{ data: { accordion: "" } }
-              %dd.tablecell.accordion-navigation
-                = link_to @employee.display_name, "#panel#{count}"
-                -#= person_link @employee, id: "panel#{count}"
-                %div{ id: "panel#{count}"}
-                  = form_tag update_sms_daily_check_path(@check), method: :put, class: [:sms_check, :tablerow] do
-                    .employee_off_area
-                      - if @check and @check.off_day
-                        %br
-                        %strong EMPLOYEE OFF
-                    = hidden_field_tag :person_id, @employee.id
-                    = hidden_field_tag :authenticity_token, form_authenticity_token
-                    .tablecell
-                      = select_tag :in_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.in_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
-                    .tablecell
-                      = select_tag :out_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.out_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
-                    .tablecell
-                      = check_box_tag :check_in_on_time, nil, (@check.check_in_on_time if @check and @check.off_day == false)
-                      = label_tag :check_in_on_time, 'Clocked in on time?'
-                      %br
-                      = check_box_tag :check_in_uniform, nil, (@check.check_in_uniform if @check and @check.off_day == false)
-                      = label_tag :check_in_uniform, 'In Uniform?'
-                      %br
-                      = check_box_tag :check_in_inside_store, nil, (@check.check_in_inside_store if @check and @check.off_day == false)
-                      = label_tag :check_in_inside_store, 'Inside Store?'
-                    .tablecell
-                      = check_box_tag :check_out_on_time, nil, (@check.check_out_on_time if @check and @check.off_day == false)
-                      = label_tag :check_out_on_time, 'Clocked out on time?'
-                      %br
-                      = check_box_tag :check_out_inside_store, nil, (@check.check_out_inside_store if @check and @check.off_day == false)
-                      = label_tag :check_out_on_time, 'Inside Store?'
-                    .tablecell.save_area
-                      = submit_tag 'Save', class: [:button, :save_button ]
-                      %br
-                      = submit_tag 'Employee Off', class: [:button, :off_button]
+      - count = 0
+      - for @employee in @people
+        - count += 1
+        - check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
+        - @check = check.first
+        %dl.accordion{ data: { accordion: "" } }
+          %dd.accordion-navigation
+            = (@check and @check.off_day) ? link_to("#{@employee.display_name} - EMPLOYEE OFF", "#panel#{count}") : link_to(@employee.display_name, "#panel#{count}", class: :employee_off_area)
+            %div{ id: "panel#{count}", class: 'content'}
+              = form_tag update_sms_daily_check_path(@check), remote: true, method: :put, class: [:sms_check, :tablerow] do
+                .row.full-width
+                  = hidden_field_tag :person_id, @employee.id
+                  = hidden_field_tag :authenticity_token, form_authenticity_token
+                  .large-3.columns
+                    %h4 Schedule
+                    = select_tag :in_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.in_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
+                    = select_tag :out_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.out_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
+                  .large-3.columns
+                    %h4 Check In
+                    = check_box_tag :check_in_on_time, nil, (@check.check_in_on_time if @check and @check.off_day == false)
+                    = label_tag :check_in_on_time, 'Clocked in on time?'
+                    %br
+                    = check_box_tag :check_in_uniform, nil, (@check.check_in_uniform if @check and @check.off_day == false)
+                    = label_tag :check_in_uniform, 'In Uniform?'
+                    %br
+                    = check_box_tag :check_in_inside_store, nil, (@check.check_in_inside_store if @check and @check.off_day == false)
+                    = label_tag :check_in_inside_store, 'Inside Store?'
+                  .large-3.columns
+                    %h4 Check Out
+                    = check_box_tag :check_out_on_time, nil, (@check.check_out_on_time if @check and @check.off_day == false)
+                    = label_tag :check_out_on_time, 'Clocked out on time?'
+                    %br
+                    = check_box_tag :check_out_inside_store, nil, (@check.check_out_inside_store if @check and @check.off_day == false)
+                    = label_tag :check_out_on_time, 'Inside Store?'
+                  .large-3.columns.save_area
+                    %h4 Save/Employee Off
+                    = submit_tag 'Save', class: [:button, :save_button ]
+                    %br
+                    = submit_tag 'Employee Off', class: [:button, :off_button]
     - else
       No active employees on this team
 
