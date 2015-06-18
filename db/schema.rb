@@ -1218,6 +1218,22 @@ ActiveRecord::Schema.define(version: 20150618184500) do
   add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
   add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
 
+  create_table "sms_daily_checks", force: :cascade do |t|
+    t.boolean "check_in_inside_store"
+    t.boolean "check_in_on_time"
+    t.boolean "check_in_uniform"
+    t.boolean "check_out_inside_store"
+    t.boolean "check_out_on_time"
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.datetime "in_time"
+    t.boolean "off_day"
+    t.datetime "out_time"
+    t.integer "person_id", null: false
+    t.integer "sms_id", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "from_candidate_id"
