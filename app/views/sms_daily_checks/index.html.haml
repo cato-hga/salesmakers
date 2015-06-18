@@ -29,28 +29,52 @@
                 .row.full-width
                   = hidden_field_tag :person_id, @employee.id
                   = hidden_field_tag :authenticity_token, form_authenticity_token
-                  .large-3.columns
+                  .large-2.columns
                     %h4 Schedule
+                    = label_tag :in_time, 'In Time:'
                     = select_tag :in_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.in_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
+                    = label_tag :out_time, 'Out Time:'
                     = select_tag :out_time, options_for_select(@times.collect{ |x| x.strftime('%l:%M%P')}, (@check.out_time.strftime('%l:%M%P') if @check and @check.off_day == false)), include_blank: true
-                  .large-3.columns
+                  .large-2.columns
                     %h4 Check In
+                    = check_box_tag :roll_call, nil, (@check.roll_call if @check and @check.off_day == false)
+                    = label_tag :roll_call, 'Roll Call?'
+                    %br
                     = check_box_tag :check_in_on_time, nil, (@check.check_in_on_time if @check and @check.off_day == false)
                     = label_tag :check_in_on_time, 'Clocked in on time?'
+                    %br
+                    = check_box_tag :blueforce_geotag, nil, (@check.blueforce_geotag if @check and @check.off_day == false)
+                    = label_tag :blueforce_geotag, 'Blueforce GeoTag?'
                     %br
                     = check_box_tag :check_in_uniform, nil, (@check.check_in_uniform if @check and @check.off_day == false)
                     = label_tag :check_in_uniform, 'In Uniform?'
                     %br
                     = check_box_tag :check_in_inside_store, nil, (@check.check_in_inside_store if @check and @check.off_day == false)
                     = label_tag :check_in_inside_store, 'Inside Store?'
-                  .large-3.columns
+                  .large-2.columns
+                    %h4 Mid Day
+                    = check_box_tag :accountability_check_in_1, nil, (@check.accountability_check_in_2 if @check and @check.off_day == false)
+                    = label_tag :accountability_checkin_1, 'Accountability Checkin 1'
+                    %br
+                    = check_box_tag :accountability_check_in_2, nil, (@check.accountability_check_in_2 if @check and @check.off_day == false)
+                    = label_tag :accountability_checkin_2, 'Accountability Checkin 2'
+                    %br
+                    = check_box_tag :accountability_check_in_3, nil, (@check.accountability_check_in_3 if @check and @check.off_day == false)
+                    = label_tag :accountability_checkin_3, 'Accountability Checkin 3'
+                  .large-2.columns
                     %h4 Check Out
                     = check_box_tag :check_out_on_time, nil, (@check.check_out_on_time if @check and @check.off_day == false)
                     = label_tag :check_out_on_time, 'Clocked out on time?'
                     %br
                     = check_box_tag :check_out_inside_store, nil, (@check.check_out_inside_store if @check and @check.off_day == false)
                     = label_tag :check_out_on_time, 'Inside Store?'
-                  .large-3.columns.save_area
+                    %br
+                      = label_tag :sales, 'Sales:', class: :vertical_middle
+                      = number_field_tag :sales, (@check.sales if @check and @check.off_day == false), step: 1, max: 100
+                  .large-2.columns.save_area
+                    %h4 Notes
+                    = text_area_tag :notes, (@check.notes if @check and @check.off_day == false), rows: 7
+                  .large-2.columns
                     %h4 Save/Employee Off
                     = submit_tag 'Save', class: [:button, :save_button ]
                     %br
