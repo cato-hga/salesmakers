@@ -4,7 +4,6 @@ module PersonAssociationsModelExtension
     setup_has_one
     setup_has_many
     setup_has_many_through
-    setup_has_and_belongs_to_many
     setup_complex_associations
   end
 
@@ -20,8 +19,6 @@ module PersonAssociationsModelExtension
   end
 
   def setup_has_one
-    has_one :profile
-    has_one :wall, as: :wallable
     has_one :group_me_user
     has_one :candidate
     has_one :screening
@@ -29,9 +26,7 @@ module PersonAssociationsModelExtension
 
   def setup_has_many
     has_many_associations = [
-        :person_areas, :device_deployments, :devices, :uploaded_images,
-        :uploaded_videos, :blog_posts, :wall_posts, :questions, :answers,
-        :answer_upvotes, :communication_log_entries, :group_me_posts,
+        :person_areas, :device_deployments, :devices, :communication_log_entries, :group_me_posts,
         :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
         :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales,
         :candidate_notes, :comcast_customer_notes, :directv_customer_notes,
@@ -46,11 +41,6 @@ module PersonAssociationsModelExtension
   def setup_has_many_through
     has_many :permissions, through: :position
     has_many :areas, through: :person_areas
-    has_many :group_me_likes, through: :group_me_user
-  end
-
-  def setup_has_and_belongs_to_many
-    has_and_belongs_to_many :poll_question_choices
   end
 
   def setup_complex_associations

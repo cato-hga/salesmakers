@@ -4,7 +4,6 @@ class Department < ActiveRecord::Base
 
   has_many :positions
   has_many :people, through: :positions
-  has_one :wall, as: :wallable
 
   default_scope { order :name }
 

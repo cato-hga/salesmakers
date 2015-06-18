@@ -23,7 +23,6 @@ module AreaAssociationsModelExtension
   end
 
   def setup_has_one_associations
-    has_one :wall, as: :wallable
     has_one :group_me_group
   end
 
