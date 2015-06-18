@@ -94,7 +94,7 @@ group :development do
   gem 'web-console', '~> 2.0' # Web console (new to rails 4.2)
   gem 'parallel_tests', '1.3.5' # Parallel testing
   gem 'seed_dump', '3.2.2' # Dump database records to seeds
-  gem 'fix-db-schema-conflicts', '1.0.1' #This should fix our issues with silly schema.rb changes
+  # gem 'fix-db-schema-conflicts', '1.0.1' #This should fix our issues with silly schema.rb changes
   gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
   gem 'capistrano-rails-console', '0.5.2' # Access to Rails console on remote machine from cap command!
   gem 'capistrano-faster-assets', '1.0.2' # Precompile only the assets that have changed on deploys
