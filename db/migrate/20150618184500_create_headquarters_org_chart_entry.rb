@@ -1,4 +1,4 @@
-class CreateHeadquartersOrgChartView < ActiveRecord::Migration
+class CreateHeadquartersOrgChartEntry < ActiveRecord::Migration
   def up
     execute "
             create or replace view headquarters_org_chart_entries as
