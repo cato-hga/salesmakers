@@ -53,7 +53,7 @@
                     = label_tag :check_in_inside_store, 'Inside Store?'
                   .large-2.columns
                     %h4 Mid Day
-                    = check_box_tag :accountability_check_in_1, nil, (@check.accountability_check_in_2 if @check and @check.off_day == false)
+                    = check_box_tag :accountability_check_in_1, nil, (@check.accountability_check_in_1 if @check and @check.off_day == false)
                     = label_tag :accountability_checkin_1, 'Accountability Checkin 1'
                     %br
                     = check_box_tag :accountability_check_in_2, nil, (@check.accountability_check_in_2 if @check and @check.off_day == false)
