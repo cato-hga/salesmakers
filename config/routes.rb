@@ -288,6 +288,10 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy', as: 'logout'
 
+  resources :sms_daily_checks, only: [:index]
+
+  put 'sms_daily_checks/update', to: 'sms_daily_checks#update', as: :update_sms_daily_check
+
   post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
 
   resources :sprint_sales, only: [:index] do
