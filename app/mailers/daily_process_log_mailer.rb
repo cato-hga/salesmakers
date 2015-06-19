@@ -23,14 +23,4 @@ class DailyProcessLogMailer < ApplicationMailer
     mail to: developer_emails,
         subject: '24-Hour Process History'
   end
-
-  private
-
-  def get_developer_emails
-    positions = Position.where("name ILIKE '%developer%'")
-    return if positions.empty?
-    people = Person.where(position: positions)
-    return if people.empty?
-    people.map { |person| person.email }
-  end
 end

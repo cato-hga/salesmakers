@@ -1,0 +1,19 @@
+%h1 Vonage Hours with No Location Attached
+
+%table(style="border: 1px solid #DDDDDD; width: 100%;")
+  %thead(style="text-align: left;")
+    %tr
+      %th Shift Date
+      %th Person
+      %th Email
+      %th Customer
+      %th Hours
+  %tbody
+    - for timesheet in @timesheets do
+      %tr
+        %td= timesheet.shift_date.strftime('%m/%d/%Y')
+        - connect_user = timesheet.connect_user
+        %td= connect_user.name
+        %td= connect_user.username
+        %td= timesheet.customer
+        %td= timesheet.hours.round(2).to_s
