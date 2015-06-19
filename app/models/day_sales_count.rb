@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: day_sales_counts
+#
+#  id            :integer          not null, primary key
+#  day           :date             not null
+#  saleable_id   :integer          not null
+#  saleable_type :string           not null
+#  sales         :integer          default(0), not null
+#  created_at    :datetime
+#  updated_at    :datetime
+#  activations   :integer          default(0), not null
+#  new_accounts  :integer          default(0), not null
+#
+
 require 'sale_importer'
 
 class DaySalesCount < ActiveRecord::Base

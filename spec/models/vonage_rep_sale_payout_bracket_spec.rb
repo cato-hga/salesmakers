@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: vonage_rep_sale_payout_brackets
+#
+#  id            :integer          not null, primary key
+#  per_sale      :decimal(, )      not null
+#  area_id       :integer          not null
+#  sales_minimum :integer          not null
+#  sales_maximum :integer          not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 require 'rails_helper'
 
 describe VonageRepSalePayoutBracket do

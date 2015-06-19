@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: email_messages
+#
+#  id           :integer          not null, primary key
+#  from_email   :string           not null
+#  to_email     :string           not null
+#  to_person_id :integer
+#  content      :text             not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  subject      :string           not null
+#
+
 require 'rails_helper'
 
 describe EmailMessage do

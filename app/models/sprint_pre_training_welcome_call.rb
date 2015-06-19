@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: sprint_pre_training_welcome_calls
+#
+#  id                   :integer          not null, primary key
+#  still_able_to_attend :boolean          default(FALSE), not null
+#  comment              :text
+#  group_me_reviewed    :boolean          default(FALSE), not null
+#  group_me_confirmed   :boolean          default(FALSE), not null
+#  cloud_reviewed       :boolean          default(FALSE), not null
+#  cloud_confirmed      :boolean          default(FALSE), not null
+#  epay_reviewed        :boolean          default(FALSE), not null
+#  epay_confirmed       :boolean          default(FALSE), not null
+#  candidate_id         :integer          not null
+#  status               :integer          default(0), not null
+#
+
 class SprintPreTrainingWelcomeCall < ActiveRecord::Base
 
   validates :candidate_id, presence: true

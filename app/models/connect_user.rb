@@ -1,3 +1,46 @@
+# == Schema Information
+#
+# Table name: ad_user
+#
+#  ad_user_id             :string(32)       not null, primary key
+#  ad_client_id           :string(32)       not null
+#  ad_org_id              :string(32)       not null
+#  isactive               :string(1)        default("Y"), not null
+#  created                :datetime         not null
+#  createdby              :string(32)       not null
+#  updated                :datetime         not null
+#  updatedby              :string(32)       not null
+#  name                   :string(60)       not null
+#  description            :string(255)
+#  password               :string(40)
+#  email                  :string(40)
+#  supervisor_id          :string(32)
+#  c_bpartner_id          :string(32)
+#  processing             :string(1)
+#  emailuser              :string(20)
+#  emailuserpw            :string(40)
+#  c_bpartner_location_id :string(32)
+#  c_greeting_id          :string(32)
+#  title                  :string(40)
+#  comments               :string(2000)
+#  phone                  :string(40)
+#  phone2                 :string(40)
+#  fax                    :string(40)
+#  lastcontact            :datetime
+#  lastresult             :string(255)
+#  birthday               :datetime
+#  ad_orgtrx_id           :string(32)
+#  firstname              :string(60)
+#  lastname               :string(60)
+#  username               :string(60)
+#  default_ad_client_id   :string(32)
+#  default_ad_language    :string(6)
+#  default_ad_org_id      :string(32)
+#  default_ad_role_id     :string(32)
+#  default_m_warehouse_id :string(32)
+#  islocked               :string(1)        default("N"), not null
+#
+
 require 'apis/gateway'
 
 class ConnectUser < ConnectModel

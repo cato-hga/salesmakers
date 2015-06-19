@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id                     :integer          not null, primary key
+#  name                   :string           not null
+#  client_id              :integer          not null
+#  created_at             :datetime
+#  updated_at             :datetime
+#  workmarket_project_num :string
+#
+
 class Project < ActiveRecord::Base
   #after_save :create_wall
 

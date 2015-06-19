@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: screenings
+#
+#  id                       :integer          not null, primary key
+#  person_id                :integer          not null
+#  sex_offender_check       :integer          default(0), not null
+#  public_background_check  :integer          default(0), not null
+#  private_background_check :integer          default(0), not null
+#  drug_screening           :integer          default(0), not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#
+
 require 'rails_helper'
 
 describe Screening do

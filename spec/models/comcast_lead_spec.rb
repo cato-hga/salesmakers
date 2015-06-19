@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: comcast_leads
+#
+#  id                  :integer          not null, primary key
+#  comcast_customer_id :integer          not null
+#  follow_up_by        :date
+#  tv                  :boolean          default(FALSE), not null
+#  internet            :boolean          default(FALSE), not null
+#  phone               :boolean          default(FALSE), not null
+#  security            :boolean          default(FALSE), not null
+#  ok_to_call_and_text :boolean          default(FALSE), not null
+#  comments            :text
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  active              :boolean          default(TRUE), not null
+#
+
 require 'rails_helper'
 
 describe ComcastLead do

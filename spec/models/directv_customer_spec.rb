@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: directv_customers
+#
+#  id                               :integer          not null, primary key
+#  first_name                       :string           not null
+#  last_name                        :string           not null
+#  mobile_phone                     :string
+#  other_phone                      :string
+#  person_id                        :integer
+#  comments                         :text
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
+#  location_id                      :integer
+#  directv_lead_dismissal_reason_id :integer
+#  dismissal_comment                :text
+#
+
 require 'rails_helper'
 
 describe DirecTVCustomer do

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: employments
+#
+#  id         :integer          not null, primary key
+#  person_id  :integer
+#  start      :date
+#  end        :date
+#  end_reason :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Employment < ActiveRecord::Base
   belongs_to :person
 

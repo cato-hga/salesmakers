@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: departments
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  corporate  :boolean          not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Department < ActiveRecord::Base
   #after_save :create_wall
   validates :name, presence: true, length: { minimum: 5 }

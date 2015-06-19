@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: group_me_users
+#
+#  id                :integer          not null, primary key
+#  group_me_user_num :string           not null
+#  person_id         :integer
+#  name              :string           not null
+#  avatar_url        :string
+#  created_at        :datetime
+#  updated_at        :datetime
+#
+
 # require 'rails_helper'
 # require 'shoulda/matchers'
 #

@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: location_areas
+#
+#  id                        :integer          not null, primary key
+#  location_id               :integer          not null
+#  area_id                   :integer          not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  current_head_count        :integer          default(0), not null
+#  potential_candidate_count :integer          default(0), not null
+#  target_head_count         :integer          default(0), not null
+#  active                    :boolean          default(TRUE), not null
+#  hourly_rate               :float
+#  offer_extended_count      :integer          default(0), not null
+#  outsourced                :boolean          default(FALSE), not null
+#  launch_group              :integer
+#  distance_to_cor           :float
+#  priority                  :integer
+#
+
 class LocationArea < ActiveRecord::Base
   validates :location, presence: true
   validates :area, presence: true, uniqueness: { scope: :location,

@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: directv_sales
+#
+#  id                         :integer          not null, primary key
+#  order_date                 :date             not null
+#  person_id                  :integer
+#  directv_customer_id        :integer          not null
+#  order_number               :string           not null
+#  directv_former_provider_id :integer
+#  directv_lead_id            :integer
+#  customer_acknowledged      :boolean          default(FALSE), not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#
+
 require 'rails_helper'
 
 describe DirecTVSale do

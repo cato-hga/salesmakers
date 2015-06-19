@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: line_states
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  created_at :datetime
+#  updated_at :datetime
+#  locked     :boolean          default(FALSE)
+#
+
 class LineState < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }, uniqueness: { case_sensitive: false }
 

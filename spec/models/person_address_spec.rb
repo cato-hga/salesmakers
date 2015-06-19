@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: person_addresses
+#
+#  id         :integer          not null, primary key
+#  person_id  :integer          not null
+#  line_1     :string           not null
+#  line_2     :string
+#  city       :string           not null
+#  state      :string           not null
+#  zip        :string           not null
+#  physical   :boolean          default(TRUE), not null
+#  created_at :datetime
+#  updated_at :datetime
+#  latitude   :float
+#  longitude  :float
+#  time_zone  :string
+#
+
 require 'rails_helper'
 
 describe PersonAddress do

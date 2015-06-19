@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: vonage_sales
+#
+#  id                  :integer          not null, primary key
+#  sale_date           :date             not null
+#  person_id           :integer          not null
+#  confirmation_number :string           not null
+#  location_id         :integer          not null
+#  customer_first_name :string           not null
+#  customer_last_name  :string           not null
+#  mac                 :string           not null
+#  vonage_product_id   :integer          not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  connect_order_uuid  :string
+#  resold              :boolean          default(FALSE), not null
+#
+
 require 'rails_helper'
 
 describe VonageSale do

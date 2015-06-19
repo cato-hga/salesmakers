@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: rc_asset
+#
+#  rc_asset_id       :string(32)       not null, primary key
+#  created           :datetime         not null
+#  updated           :datetime         not null
+#  createdby         :string(32)       not null
+#  updatedby         :string(32)       not null
+#  isactive          :string(1)        default("Y"), not null
+#  ad_client_id      :string(32)       not null
+#  ad_org_id         :string(32)       not null
+#  ad_user_id        :string(32)       not null
+#  serial            :string(255)      not null
+#  ptn               :string(255)
+#  a_asset_group_id  :string(32)       not null
+#  contract_end_date :datetime
+#
+
 # Openbravo assets. These should remain read-only (usually for the
 # purposes of imports)
 class ConnectAsset < ConnectModel
