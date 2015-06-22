@@ -121,5 +121,10 @@
       = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
   .widget
     .inner
-      %h3 Communication Log
+      %h3 Person's Communication Log
       = render partial: 'shared/communication_log', locals: { communication_log_entries: @communication_log_entries }
+  - unless @candidate_contacts.empty?
+    .widget
+      .inner
+        %h3 Candidate's Communication Log
+        = render 'shared/candidate_contacts_table'

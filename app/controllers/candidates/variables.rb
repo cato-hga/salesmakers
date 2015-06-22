@@ -24,6 +24,7 @@ module Candidates::Variables
 
   def get_show_variables
     @candidate_contacts = @candidate.candidate_contacts
+    @communication_log_entries = @candidate.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
     @log_entries = @candidate.related_log_entries.page(params[:log_entries_page]).per(10)
     @candidate_availability = @candidate.candidate_availability if @candidate.candidate_availability
     @candidate_shifts = Shift.where(person: @candidate.person).order(date: :asc) if @candidate.person

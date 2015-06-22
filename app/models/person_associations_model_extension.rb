@@ -41,6 +41,7 @@ module PersonAssociationsModelExtension
   def setup_has_many_through
     has_many :permissions, through: :position
     has_many :areas, through: :person_areas
+    has_many :candidate_contacts, through: :candidate
   end
 
   def setup_complex_associations
