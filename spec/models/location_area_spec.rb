@@ -129,14 +129,14 @@ describe LocationArea do
       # end
     # end
 
-    it 'counts a candidate whose paperwork was sent since 6/08' do
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_june_8_job_offer_detail
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_june_8_location_area.update target_head_count: 0
-      paperwork_sent_since_june_8_location_area.reload
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(true)
-    end
+    # it 'counts a candidate whose paperwork was sent since 6/08' do
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
+    #   paperwork_sent_since_june_8_job_offer_detail
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
+    #   paperwork_sent_since_june_8_location_area.update target_head_count: 0
+    #   paperwork_sent_since_june_8_location_area.reload
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(true)
+    # end
 
     it 'is never recruitable when not priority 1' do
       low_priority_location_area = create :location_area, priority: 2

@@ -78,7 +78,7 @@ class LocationArea < ActiveRecord::Base
   end
 
   def number_of_candidates_in_funnel
-    paperwork_sent_since_june_8 = ActiveRecord::Base.connection.execute(
+    paperwork_sent_since_june_22 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -86,29 +86,44 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= cast('06/08/2015' as timestamp)
+          on j.sent >= cast('06/22/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
+            and c.active = true
           group by c.id
           order by c.id
         }
     ).values.flatten
-    sprint_confirmed_from_june_12 = ActiveRecord::Base.connection.execute(
+    in_class_for_615 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
           from location_areas la
           left outer join candidates c
             on c.location_area_id = la.id
-          where c.sprint_roster_status = 2
-            and (c.training_session_status != #{Candidate.training_session_statuses[:not_interested]} or c.training_session_status != #{Candidate.training_session_statuses[:nos]} or c.training_session_status != #{Candidate.training_session_statuses[:transfer]})
+          where c.sprint_radio_shack_training_session_id = 18
+            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
             and la.id = #{self.id}
+            and c.active = true
+        }
+    ).values.flatten
+    in_629_training = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          where c.sprint_radio_shack_training_session_id = 17
+            and la.id = #{self.id}
+            and c.active = true
         }
     ).values.flatten
     [
-        paperwork_sent_since_june_8,
-        sprint_confirmed_from_june_12
+        paperwork_sent_since_june_22,
+        in_class_for_615,
+        in_629_training
     ].flatten.uniq.count
   end
 
