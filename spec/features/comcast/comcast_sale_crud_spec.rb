@@ -58,7 +58,7 @@ describe 'Comcast sales CRUD actions' do
     end
 
     context 'failures' do
-      context 'date entry' do
+      context 'date entry', pending: 'Removed by request' do
         let(:incorrect_order_date) { (comcast_sale.order_date - 25.hours).strftime('%m/%d/%Y') }
         before {
           fill_in 'Order date', with: incorrect_order_date
