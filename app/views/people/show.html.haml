@@ -60,6 +60,12 @@
                 Unknown
               - else
                 = first_employment.updated_at.strftime('%-m/%-d/%Y')
+            %p
+              %strong Termination Reason:
+              - if first_employment.end_reason
+                = first_employment.end_reason
+              - else
+                Unknown
         - if employments.count > 0
           - first_employment = employments.first
           - employment_start = first_employment.start
@@ -121,5 +127,10 @@
       = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
   .widget
     .inner
-      %h3 Communication Log
+      %h3 Person's Communication Log
       = render partial: 'shared/communication_log', locals: { communication_log_entries: @communication_log_entries }
+  - unless @candidate_contacts.empty?
+    .widget
+      .inner
+        %h3 Candidate's Communication Log
+        = render 'shared/candidate_contacts_table'
