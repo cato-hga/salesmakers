@@ -33,7 +33,12 @@ class NotificationMailer < ApplicationMailer
 
   def vonage_hours_with_no_location
     emails = get_developer_emails || return
-    emails.concat ['jumartinez@retaildoneright.com', 'nhissa@retaildoneright.com', 'tspurlock@retaildoneright.com']
+    emails.concat [
+                      'jumartinez@retaildoneright.com',
+                      'nhissa@retaildoneright.com',
+                      'tspurlock@retaildoneright.com',
+                      'dvoorhees@retaildoneright.com'
+                  ]
     @timesheets = ConnectTimesheet.
         where("shift_date = ? AND rc_timesheet.c_bpartner_location_id IS NULL", Date.yesterday).
         joins(:connect_user).
