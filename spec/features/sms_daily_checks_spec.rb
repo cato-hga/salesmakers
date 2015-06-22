@@ -82,7 +82,7 @@ describe 'SMS Daily Checks' do
 
     context 'updating the daily check' do
 
-      it 'saves the correct info' do
+      it 'saves the correct info', pending: true do
         select 'First Area', from: :select_team
         click_on 'View'
         select '7:00am', from: :in_time
