@@ -27,7 +27,6 @@
 #  passed_asset_hours_requirement       :boolean          default(FALSE), not null
 #  sprint_prepaid_asset_approval_status :integer          default(0), not null
 #
-
 require 'rails_helper'
 require 'shoulda/matchers'
 
@@ -47,6 +46,10 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:mobile_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:office_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
+  end
+
+  it 'responds to update_position_from_connect?' do
+    expect(person).to respond_to :update_position_from_connect?
   end
 
   describe 'uniqueness validations' do
@@ -852,5 +855,6 @@ RSpec.describe Person, :type => :model do
       }.to change(candidate, :active).from(false).to(true)
     end
   end
+
 
 end

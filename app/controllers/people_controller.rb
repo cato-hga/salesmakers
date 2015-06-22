@@ -133,6 +133,36 @@ class PeopleController < ProtectedController
     redirect_to person_path(person)
   end
 
+  def edit_position
+    @positions = Position.all.order :name
+    @person = policy_scope(Person).find params[:id]
+    authorize @person
+  end
+
+  def update_position
+    @positions = Position.all.order :name
+    @person = policy_scope(Person).find params[:id]
+    authorize @person
+    unless params[:position_id]
+      flash[:error] = 'You must select a position'
+      redirect_to edit_position_person_path(@person)
+    end
+    old_position = @person.position
+    new_position = Position.find params[:position_id]
+    if @person.update position: new_position
+      @current_person.log? 'update_position',
+                           @person,
+                           new_position,
+                           nil,
+                           nil,
+                           "from #{old_position.name} to #{new_position.name}"
+      flash[:notice] = 'Position saved successfully.'
+      redirect_to person_path(@person)
+    else
+      render :edit_position
+    end
+  end
+
   def update
 
   end

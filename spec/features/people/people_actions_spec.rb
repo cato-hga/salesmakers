@@ -21,7 +21,6 @@ describe 'actions involving People' do
     end
 
     it 'should show log entries on the show page' do
-
       expect(page).to have_content("Created person #{person.display_name}")
     end
 
