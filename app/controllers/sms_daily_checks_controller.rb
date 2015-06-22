@@ -26,29 +26,29 @@ class SMSDailyChecksController < ApplicationController
 
   def update
     authorize SMSDailyCheck.new
-    @employee = Person.find sms_daily_check_params[:person_id]
-    check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
-    if check.present?
-      check.destroy_all
-    end
-    @check = SMSDailyCheck.new sms_daily_check_params
-    if params[:commit] == 'Employee Off'
-      @check.off_day = true
-    end
-    @check.person = @employee
-    @check.sms = @current_person
-    @check.date = Date.today
-    if @check.save
-      # respond_to do |format|
-      #   format.js
-      #   format.html { redirect_to devices_path }
-      # end
-    else
-      flash[:error] = 'Couldnt save!'
-      redirect_to people_path
-      puts 'HEREEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-      puts @check.errors.full_messages
-    end
+    # @employee = Person.find sms_daily_check_params[:person_id]
+    # check = SMSDailyCheck.where('person_id = ? and date = ?', @employee.id, Date.today)
+    # if check.present?
+    #   check.destroy_all
+    # end
+    # @check = SMSDailyCheck.new sms_daily_check_params
+    # if params[:commit] == 'Employee Off'
+    #   @check.off_day = true
+    # end
+    # @check.person = @employee
+    # @check.sms = @current_person
+    # @check.date = Date.today
+    # if @check.save
+    #   # respond_to do |format|
+    #   #   format.js
+    #   #   format.html { redirect_to devices_path }
+    #   # end
+    # else
+    #   flash[:error] = 'Couldnt save!'
+    #   redirect_to people_path
+    #   puts 'HEREEEEEEE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    #   puts @check.errors.full_messages
+    # end
   end
 
   private
