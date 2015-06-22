@@ -149,7 +149,7 @@ class PeopleController < ProtectedController
     end
     old_position = @person.position
     new_position = Position.find params[:position_id]
-    if @person.update position: new_position
+    if @person.update position: new_position, update_position_from_connect: false
       @current_person.log? 'update_position',
                            @person,
                            new_position,
