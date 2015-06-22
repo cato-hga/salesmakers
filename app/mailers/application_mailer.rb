@@ -16,7 +16,7 @@ class ApplicationMailer < ActionMailer::Base
   def get_position_emails(position_name_contains)
     positions = Position.where("name ILIKE '%#{position_name_contains}%'")
     return if positions.empty?
-    people = Person.where(position: positions)
+    people = Person.where(position: positions, active: true)
     return if people.empty?
     people.map { |person| person.email }
   end
