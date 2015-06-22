@@ -25,7 +25,7 @@
       - sources = options_from_collection_for_select(@sources, 'id', 'name', (@candidate_source ? @candidate_source.id : nil))
       = f.label :candidate_source_id, 'Candidate source'
       = f.select :candidate_source_id, sources, include_blank: true
-      - if action_name == 'new'
+      - if action_name == 'new' or action_name == 'create'
         = hidden_field_tag 'select_location', 'true'
         = f.submit 'Save and Select Location', class: :button
         %a.button(href="#" id="submit_leave_voicemail") Save, left voicemail
