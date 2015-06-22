@@ -47,8 +47,9 @@ every 3.hours do
   runner 'ConnectUpdater.update_shifts(3.weeks, true)'
 end
 
-every 1.day, at: '8:00 am' do
+every 1.day, at: '12:00 pm' do
   runner 'DailyProcessLogMailer.generate.deliver_later'
+  runner 'NotificationMailer.vonage_hours_with_no_location.deliver_later'
 end
 
 every 1.day, at: '5:00 pm' do

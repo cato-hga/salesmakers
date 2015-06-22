@@ -98,6 +98,14 @@ class Person < ActiveRecord::Base
     people and people.include?(self)
   end
 
+  def active=(is_active)
+    if self.candidate and is_active and not self.candidate.active?
+      self.candidate.update active: true
+    end
+    return if self[:active] == is_active
+    self[:active] = is_active
+  end
+
   def log?(action, trackable, referenceable = nil, created_at = nil, updated_at = nil, comment = nil)
     return false unless self and self.id
     entry = LogEntry.new person: self,

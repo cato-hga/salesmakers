@@ -840,4 +840,17 @@ RSpec.describe Person, :type => :model do
       expect(no_tablets).to include(person_without_assets)
     end
   end
+
+  describe 'when a person is reactivated and the candidate is inactive' do
+    let!(:person) { create :person }
+    let!(:candidate) { create :candidate, person: person, active: false }
+
+    it 'should set the candidate to active when person is set to active' do
+      expect {
+        person.update active: true
+        candidate.reload
+      }.to change(candidate, :active).from(false).to(true)
+    end
+  end
+
 end
