@@ -7,9 +7,9 @@
       - if PersonPolicy.new(@current_person, Person.new).approval?
         %li.divider
         %li= link_to 'Approve Assets', asset_approval_path
-      - if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new).index?
-        %li.divider
-        %li= link_to 'SMS Dashboard', sms_daily_checks_path
+      -#- if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new).index?
+      -#  %li.divider
+      -#  %li= link_to 'SMS Dashboard', sms_daily_checks_path
       - if PersonPolicy.new(@current_person, Person.new).create?
         %li.divider
         %li= link_to 'New', new_person_path
