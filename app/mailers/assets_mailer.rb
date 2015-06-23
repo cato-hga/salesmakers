@@ -112,7 +112,7 @@ class AssetsMailer < ApplicationMailer
     @person = person
     @device = device_deployment.device
     @device_deployment = device_deployment
-    mail(to: [@person.email],
+    mail(to: [@person.email, @person.personal_email],
          subject: "[SalesMakers] Your Asset is On Its Way!"
     )
   end

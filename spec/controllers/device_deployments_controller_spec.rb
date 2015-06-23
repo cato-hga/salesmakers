@@ -27,7 +27,7 @@ describe DeviceDeploymentsController do
     end
   end
 
-  describe 'POST create' do
+  describe 'POST create', :vcr do
     before {
       allow(controller).to receive(:policy).and_return double(create?: true)
     }
@@ -82,7 +82,7 @@ describe DeviceDeploymentsController do
       end
 
       it 'creates a log entry for the deployment' do
-        expect{ subject }.to change(LogEntry, :count).by(1)
+        expect{ subject }.to change(LogEntry, :count).by(2)
       end
     end
 
