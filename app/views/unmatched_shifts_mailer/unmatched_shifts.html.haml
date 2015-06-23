@@ -1,5 +1,4 @@
-%h1
-  = pluralize @unmatched_shifts.count.to_s, 'Unmatched Shift'
+= mailer_h1 pluralize(@unmatched_shifts.count.to_s, 'Unmatched Shift')
 %p
   The following shift(s) attempted to be imported into SalesCenter from RBD Connect
   but were not able to be matched for the indicated reasons. Please troubleshoot

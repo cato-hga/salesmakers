@@ -1,10 +1,12 @@
+= mailer_h1 'Your Interview'
+
 %p We're excited to have you interview with us! Here are your interview details:
 
 %p= 'Interview Date: ' + long_date(@schedule.interview_date)
 %p= 'Interview Time: ' + @schedule.start_time.in_time_zone.strftime('%l:%M %p %Z')
 
-%p
-  %strong Online Interview Details:
+= mailer_h2 'Online Interview Details'
+
 %p This will be a web-based interview and will require access to the following:
 %ul
   %li A PC, Mac, iOS, or Android device with a webcam and microphone
