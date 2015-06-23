@@ -5,6 +5,14 @@ class PersonPolicy < ApplicationPolicy
     end
   end
 
+  def edit_position?
+    update_position?
+  end
+
+  def update_position?
+    has_permission? 'update_position'
+  end
+
   def update_own_basic?
     has_permission? 'update_own_basic'
   end

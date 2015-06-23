@@ -162,12 +162,6 @@ describe 'Comcast Customer CRUD actions' do
             expect(page).to have_content(comcast_lead.comments)
           end
         end
-
-        it 'shows install fields' do
-          comcast_sale.destroy
-          visit comcast_customer_path(comcast_customer)
-          expect(page).to have_content('Install date')
-        end
       end
 
       context 'with a sale' do
@@ -217,10 +211,18 @@ describe 'Comcast Customer CRUD actions' do
       context 'without a sale' do
         before do
           comcast_sale.destroy
-          visit comcast_customer_path(comcast_customer)
         end
 
-        it 'displays the sale entry form' do
+        subject { visit comcast_customer_path(comcast_customer) }
+
+        it 'does not display the sale entry form without ComcastCustomer create? permission' do
+          subject
+          expect(page).not_to have_selector('#new_comcast_sale')
+        end
+
+        it 'displays the sale entry form when the person has permission to create a new ComcastCustomer' do
+          person.position.permissions << permission_create
+          subject
           expect(page).to have_selector('#new_comcast_sale')
         end
       end

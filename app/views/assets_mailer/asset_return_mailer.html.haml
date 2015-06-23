@@ -1,3 +1,5 @@
+= mailer_h1 'Please Return Your Company Asset'
+
 %strong= @person_name + ','
 %br
 %br
@@ -5,7 +7,7 @@
 
 %p If you do not already have an RMA ("Return Merchandise Authorization") shipping label to return the asset(s), SalesMakers, Inc will provide you with one at our expense, but you must request the label by following the below instructions.
 
-%strong Instructions:
+= mailer_h2 'Instructions'
 %br
 %ol
   %li
@@ -33,7 +35,8 @@ SalesMakers, Inc
     This is an automated message. Do not reply directly to this email, as it will not be seen. Direct all communication through
     %a{href: "mailto:assets@retaildoneright.com"} assets@retaildoneright.com
 
-%h2 Assets on Record
+= mailer_h2 'Assets On Record'
+
 %h3 Information
 %table{ style: 'width: 100%;' }
   %tr

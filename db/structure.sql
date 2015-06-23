@@ -2056,7 +2056,8 @@ CREATE TABLE people (
     changelog_entry_id integer,
     vonage_tablet_approval_status integer DEFAULT 0 NOT NULL,
     passed_asset_hours_requirement boolean DEFAULT false NOT NULL,
-    sprint_prepaid_asset_approval_status integer DEFAULT 0 NOT NULL
+    sprint_prepaid_asset_approval_status integer DEFAULT 0 NOT NULL,
+    update_position_from_connect boolean DEFAULT true NOT NULL
 );
 
 
@@ -8910,4 +8911,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150612175211');
 INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622192929');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622195621');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623152104');
 

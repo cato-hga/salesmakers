@@ -1,3 +1,5 @@
+= mailer_h1 'Your Interview'
+
 %p We're excited to have you interview with us! Here are your interview details:
 
 %p= 'Interview Date: ' + long_date(@schedule.interview_date)
@@ -6,8 +8,8 @@
 %p Although this is an online interview, be sure to treat it as you would a face to face interview (I.E: dress the part, be on time, smile and be ready to discuss your work history)
 %strong We want to be sure this is the right position for you. If you decide for any reason this position is not for you, please contact your recruiter ASAP to cancel your interview
 
-%p
-  %strong Online Interview Details:
+= mailer_h2 'Online Interview Details'
+
 %p This will be a web-based interview and will require access to the following:
 %ul
   %li A PC, Mac, iOS, or Android device with a webcam and microphone

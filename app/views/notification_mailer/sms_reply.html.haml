@@ -1,5 +1,8 @@
 - from_person = @sms_message.from_person
 - from_candidate = @sms_message.from_candidate
+
+= mailer_h1 'New Text Message Reply'
+
 %p
   - if from_person
     = link_to from_person.display_name, person_url(from_person)

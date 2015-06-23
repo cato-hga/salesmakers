@@ -1,5 +1,4 @@
-%h1
-  = pluralize @unmatched_sales.count.to_s, 'Unmatched Vonage Sale'
+= mailer_h1 pluralize(@unmatched_sales.count.to_s, 'Unmatched Vonage Sale')
 %p
   The following sales attempted to be imported into SalesCenter from RBD Connect
   but were not able to be matched for the indicated reasons. Please troubleshoot

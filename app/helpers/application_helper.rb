@@ -6,6 +6,7 @@ module ApplicationHelper
   include AutoHtml
   include CommunicationLogHelperExtension
   include DateAndTimeHelperExtension
+  include MailerHelperExtension
   include LinksHelperExtension
   include SalesHelperExtension
   include TableHelperExtension
