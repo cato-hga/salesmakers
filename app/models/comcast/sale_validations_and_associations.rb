@@ -7,7 +7,7 @@ module Comcast::SaleValidationsAndAssociations
     validates :order_number, length: { is: 13 }, numericality: { only_integer: true }, uniqueness: true
     validate :one_service_selected
     validate :no_future_sales
-    #validate :within_24_hours
+    validate :within_24_hours
   end
 
   def belongs_to_associations

@@ -72,7 +72,7 @@ describe ComcastSale do
   end
 
 
-  it 'does not allow sales to be entered after more than 24 hours', pending: 'Temporarily removed due to request. Put back in if you see this message' do
+  it 'does not allow sales to be entered after more than 24 hours' do
     subject.order_date = Date.today
     expect(subject).to be_valid
     subject.order_date = Date.today - 1.day
