@@ -37,7 +37,8 @@ class NotificationMailer < ApplicationMailer
                       'jumartinez@retaildoneright.com',
                       'nhissa@retaildoneright.com',
                       'tspurlock@retaildoneright.com',
-                      'dvoorhees@retaildoneright.com'
+                      'dvoorhees@retaildoneright.com',
+                      'rcushing@retaildoneright.com'
                   ]
     @timesheets = ConnectTimesheet.
         where("shift_date = ? AND rc_timesheet.c_bpartner_location_id IS NULL", Date.yesterday).
