@@ -1,3 +1,5 @@
+require 'apis/gateway'
+
 class DeviceDeploymentsController < ApplicationController
   def select_user
     @device = Device.find params[ :device_id ]
