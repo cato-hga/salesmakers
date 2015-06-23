@@ -12,6 +12,8 @@
     %p
       %strong Store #:
       = location.store_number if location.store_number
+      = surround '(', ')' do
+        = location.channel.name
     %strong Store Address:
     = location.address
     %br/
