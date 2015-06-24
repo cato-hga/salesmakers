@@ -107,6 +107,16 @@ class AssetsMailer < ApplicationMailer
     )
   end
 
+  def asset_deployed(person, device_deployment)
+    return unless person.email
+    @person = person
+    @device = device_deployment.device
+    @device_deployment = device_deployment
+    mail(to: [@person.email, @person.personal_email],
+         subject: "[SalesMakers] Your Asset is On Its Way!"
+    )
+  end
+
   private
 
   def set_lost_stolen_or_found_variables device

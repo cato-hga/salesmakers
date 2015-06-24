@@ -8,7 +8,7 @@ describe 'Device Deployments NON-CRUD actions' do
     CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
 
-  context 'for deployment' do
+  context 'for deployment', :vcr do
     let(:device) { create :device }
     let!(:deployed) { create :device_state, name: 'Deployed' }
     let!(:person) { Person.first }
