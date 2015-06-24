@@ -728,7 +728,7 @@ RSpec.describe Person, :type => :model do
     end
   end
 
-  describe 'separation' do
+  describe 'separation', :vcr do
     let(:to_separate) { create :person }
     let!(:candidate) { create :candidate, person: to_separate, status: :onboarded, location_area: location_area }
     let(:location_area) { create :location_area }
