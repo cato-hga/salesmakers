@@ -533,6 +533,39 @@ ALTER SEQUENCE candidate_sources_id_seq OWNED BY candidate_sources.id;
 
 
 --
+-- Name: candidate_sprint_radio_shack_training_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE candidate_sprint_radio_shack_training_sessions (
+    id integer NOT NULL,
+    candidate_id integer NOT NULL,
+    sprint_radio_shack_training_session_id integer NOT NULL,
+    sprint_roster_status integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: candidate_sprint_radio_shack_training_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE candidate_sprint_radio_shack_training_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: candidate_sprint_radio_shack_training_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE candidate_sprint_radio_shack_training_sessions_id_seq OWNED BY candidate_sprint_radio_shack_training_sessions.id;
+
+
+--
 -- Name: candidates; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3573,7 +3606,8 @@ CREATE TABLE sprint_radio_shack_training_sessions (
     name character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    start_date date NOT NULL
+    start_date date NOT NULL,
+    locked boolean DEFAULT false NOT NULL
 );
 
 
@@ -4864,6 +4898,13 @@ ALTER TABLE ONLY candidate_sources ALTER COLUMN id SET DEFAULT nextval('candidat
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY candidate_sprint_radio_shack_training_sessions ALTER COLUMN id SET DEFAULT nextval('candidate_sprint_radio_shack_training_sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY candidates ALTER COLUMN id SET DEFAULT nextval('candidates_id_seq'::regclass);
 
 
@@ -5775,6 +5816,14 @@ ALTER TABLE ONLY candidate_sms_messages
 
 ALTER TABLE ONLY candidate_sources
     ADD CONSTRAINT candidate_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: candidate_sprint_radio_shack_training_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY candidate_sprint_radio_shack_training_sessions
+    ADD CONSTRAINT candidate_sprint_radio_shack_training_sessions_pkey PRIMARY KEY (id);
 
 
 --
@@ -8917,4 +8966,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624135224');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624135729');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 

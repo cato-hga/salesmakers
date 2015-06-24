@@ -3,9 +3,22 @@
     %h3 Training Session
     = form_for @sprint_radio_shack_training_session, url: set_sprint_radio_shack_training_session_candidate_path(@candidate), method: :put do |f|
       - selected_id = @sprint_radio_shack_training_session ? @sprint_radio_shack_training_session.id : nil
+      - disabled = []
+      - for training_session in @sprint_radio_shack_training_sessions do
+        - if training_session.locked? and not @candidate.sprint_radio_shack_training_session == training_session
+          - disabled << training_session.id
       = f.label :id, 'Session'
-      = f.select :id, options_from_collection_for_select(@sprint_radio_shack_training_sessions, :id, :name, selected_id), include_blank: true
+      = f.select :id, options_from_collection_for_select(@sprint_radio_shack_training_sessions, :id, :name, { selected: selected_id, disabled: disabled }), include_blank: true
       = f.submit 'Save', class: [:button]
+    %h5 Training Session History
+    - headers = ['Date Set', 'Session', 'Sprint Confirmed?']
+    - rows = []
+    - for candidate_training_session in @candidate.candidate_sprint_radio_shack_training_sessions do
+      - date_set = friendly_datetime(candidate_training_session.created_at)
+      - session_name = candidate_training_session.sprint_radio_shack_training_session.name
+      - sprint_roster_status = candidate_training_session.sprint_roster_status.to_s.humanize
+    - rows << table_row([date_set, session_name, sprint_roster_status])
+    = table header_row(headers), rows, false
 .widget#training_status
   .inner
     %h3 Training Status
@@ -13,13 +26,4 @@
       = label_tag :training_session_status, 'Status'
       - options_array = Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize).sub("Nos", "NOS").sub("Nclb", "NCLB"), s[0]]}
       = select_tag :training_session_status, options_for_select(options_array, selected: @candidate.training_session_status, disabled: ["nos"])
-      %p
-        %strong Sprint Roster Status:
-        - if @candidate.sprint_roster_status
-          - if @candidate.sprint_roster_status == 'roster_status_pending'
-            Pending
-          - elsif @candidate.sprint_roster_status == 'sprint_confirmed'
-            Sprint Confirmed
-        - else
-          N/A
       = submit_tag 'Save', class: [:button]

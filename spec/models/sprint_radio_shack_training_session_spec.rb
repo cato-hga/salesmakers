@@ -27,4 +27,8 @@ describe SprintRadioShackTrainingSession do
     subject.start_date = nil
     expect(subject).not_to be_valid
   end
+
+  it 'responds to locked?' do
+    expect(subject).to respond_to(:locked?)
+  end
 end

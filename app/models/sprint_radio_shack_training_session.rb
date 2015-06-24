@@ -13,5 +13,8 @@ class SprintRadioShackTrainingSession < ActiveRecord::Base
   validates :name, presence: true
   validates :start_date, presence: true
 
+  has_many :candidate_sprint_radio_shack_training_sessions
+  has_many :candidates, through: :candidate_sprint_radio_shack_training_sessions
+
   default_scope { order :name }
 end
