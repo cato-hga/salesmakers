@@ -1,3 +1,5 @@
+require 'maas360_lockdown_job'
+
 module PersonEmploymentModelExtension
 
   def termination_date_invalid?
