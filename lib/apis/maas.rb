@@ -1,8 +1,9 @@
 class Maas
   include HTTParty
+
   base_uri 'https://services.fiberlink.com'
   format :xml
-  headers({ 'Content-Type' => 'application/xml', 'Accept' => 'application/xml'})
+  headers({ 'Content-Type' => 'application/xml', 'Accept' => 'application/xml' })
 
   require 'open-uri'
   require 'nokogiri'
@@ -33,13 +34,64 @@ class Maas
         }
       }
     end
-    puts o.to_xml
     response = self.class.post '/auth-apis/auth/1.0/authenticate/' + @billing_id, body: o.to_xml
     if response['authResponse'] and response['authResponse']['authToken']
       @auth_token = response['authResponse']['authToken']
     else
       @auth_token = nil
     end
+  end
+
+  def meid_search meid
+    doGet '/device-apis/devices/1.0/search', { imeiMeid: meid }
+  end
+
+  def meid_and_username_search meid, username
+    doGet '/device-apis/devices/1.0/search', { imeiMeid: meid, partialUsername: username }
+  end
+
+  def security_and_compliance_attributes maas_360_device_id
+    doGet '/device-apis/devices/1.0/mdSecurityCompliance', { deviceId: maas_360_device_id }
+  end
+
+  def change_device_policy maas_360_device_id, new_policy_name
+    doPostForm '/device-apis/devices/1.0/changeDevicePolicy', {
+                                                                'maas360DeviceId' => maas_360_device_id,
+                                                                'policyName' => new_policy_name
+                                                            }
+  end
+
+  def doGet(path, query = nil)
+    self.class.get path + '/' + @billing_id, {
+                                               query: query, headers: {
+                                                   'Content-Type' => 'application/xml',
+                                                   'Accept' => 'application/xml',
+                                                   'Authorization' => 'MaaS token="' + @auth_token + '"'
+                                               }
+                                           }
+  end
+
+  def doPost(path, body, query = nil)
+    self.class.post path + '/' + @billing_id, {
+                                                body: body, query: query, headers: {
+                                                    'Content-Type' => 'application/xml',
+                                                    'Accept' => 'application/xml',
+                                                    'Authorization' => 'MaaS token="' + @auth_token + '"'
+                                                }
+                                            }
+  end
+
+  def doPostForm(path, form_parameters = {}, query = nil)
+    uri = Addressable::URI.new
+    uri.query_values = form_parameters
+    body = uri.query
+    self.class.post path + '/' + @billing_id, {
+                                                body: body, query: query, headers: {
+                                                    'Content-Type' => 'application/x-www-form-urlencoded',
+                                                    'Accept' => 'application/xml',
+                                                    'Authorization' => 'MaaS token="' + @auth_token + '"'
+                                                }
+                                            }
   end
 
 end
