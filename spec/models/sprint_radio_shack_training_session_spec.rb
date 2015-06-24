@@ -22,4 +22,9 @@ describe SprintRadioShackTrainingSession do
     subject.name = nil
     expect(subject).not_to be_valid
   end
+
+  it 'requires a start date' do
+    subject.start_date = nil
+    expect(subject).not_to be_valid
+  end
 end

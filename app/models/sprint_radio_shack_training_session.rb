@@ -11,6 +11,7 @@
 
 class SprintRadioShackTrainingSession < ActiveRecord::Base
   validates :name, presence: true
+  validates :start_date, presence: true
 
   default_scope { order :name }
 end
