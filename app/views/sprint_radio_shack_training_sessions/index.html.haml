@@ -1,0 +1,21 @@
+- title 'Sprint RadioShack Training Sessions'
+
+- content_for :action_buttons do
+  - new_button new_sprint_radio_shack_training_session_path
+- content_for :header do
+  .top-pagination
+    = paginate @sprint_radio_shack_training_sessions
+
+.widget
+  .inner
+    - headers = ['Name', 'Start Date', 'Locked?']
+    - rows = []
+    - for training_session in @sprint_radio_shack_training_sessions do
+      - name = link_to training_session.name, edit_sprint_radio_shack_training_session_path(training_session)
+      - start_date = link_to short_date(training_session.start_date), edit_sprint_radio_shack_training_session_path(training_session)
+      - locked = training_session.locked? ? 'Yes' : 'No'
+      - rows << table_row([name, start_date, locked])
+    = table header_row(headers), rows
+
+- content_for :footer do
+  = paginate @sprint_radio_shack_training_sessions

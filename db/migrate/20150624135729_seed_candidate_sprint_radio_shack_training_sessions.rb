@@ -4,7 +4,7 @@ class SeedCandidateSprintRadioShackTrainingSessions < ActiveRecord::Migration
     for candidate in candidates do
       CandidateSprintRadioShackTrainingSession.create candidate: candidate,
                                                       sprint_radio_shack_training_session: candidate.sprint_radio_shack_training_session,
-                                                      sprint_roster_status: candidate.sprint_roster_status
+                                                      sprint_roster_status: candidate.sprint_roster_status ? candidate.sprint_roster_status : :roster_status_pending
     end
   end
 end
