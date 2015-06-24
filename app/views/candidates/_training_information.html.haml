@@ -17,7 +17,7 @@
       - date_set = friendly_datetime(candidate_training_session.created_at)
       - session_name = candidate_training_session.sprint_radio_shack_training_session.name
       - sprint_roster_status = candidate_training_session.sprint_roster_status.to_s.humanize
-    - rows << table_row([date_set, session_name, sprint_roster_status])
+      - rows << table_row([date_set, session_name, sprint_roster_status])
     = table header_row(headers), rows, false
 .widget#training_status
   .inner

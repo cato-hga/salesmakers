@@ -21,13 +21,15 @@ module Candidates::Training
     @sprint_radio_shack_training_session = SprintRadioShackTrainingSession.find_by id: @sprint_radio_shack_training_session_id
     if training_session_updated?
       CandidateSprintRadioShackTrainingSession.create candidate: @candidate,
-                                                      sprint_radio_shack_training_session: @sprint_radio_shack_training_session
+                                                      sprint_radio_shack_training_session: @sprint_radio_shack_training_session,
+                                                      sprint_roster_status: :roster_status_pending
+      @candidate.update sprint_roster_status: :roster_status_pending
       @current_person.log? 'set_sprint_radio_shack_training_session',
                            @candidate,
                            @sprint_radio_shack_training_session
       flash[:notice] = 'Saved training session'
     else
-      flash[:error] = 'Could not save training session'
+      flash[:error] = 'Could not save training session or training session did not change'
     end
     redirect_to candidate_path(@candidate)
   end
