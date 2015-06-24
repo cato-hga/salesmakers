@@ -120,11 +120,6 @@ describe 'candidate show page' do
         expect(candidate.training_session_status).to eq('candidate_confirmed')
       end
     end
-
-    it "displays the candidate's Sprint roster status" do
-      expect(page).to have_content('Sprint Confirmed')
-    end
-
   end
 
   context 'hours widget' do
