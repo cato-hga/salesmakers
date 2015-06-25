@@ -12,6 +12,7 @@ class CandidateSprintRadioShackTrainingSession < ActiveRecord::Base
            :roster_status_pending,
            :sprint_submitted,
            :sprint_confirmed,
-           :sprint_rejected
+           :sprint_rejected,
+           :sprint_preconfirmed
        ]
 end
