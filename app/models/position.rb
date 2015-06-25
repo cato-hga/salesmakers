@@ -18,12 +18,14 @@
 require 'yaml'
 
 class Position < ActiveRecord::Base
-  validates :name, presence: true, length: { minimum: 5 }
+  validates :name, presence: true, length: { minimum: 4 }
   validates :department, presence: true
 
   belongs_to :department
   has_many :people
   has_and_belongs_to_many :permissions
+
+  default_scope { order :name }
 
   #:nocov:
   def self.return_from_connect_user(connect_user)
