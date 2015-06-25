@@ -36,8 +36,7 @@ Assets On Record
 Information
 
 <% for device in @devices do %>
-
-<%= device.device_model_name %>
-<%= device.serial %>
-<%= device.line.present? ? device.line.identifier : 'N/A' %>
+Type: <%= device.device_model_name %>
+Serial: <%= device.serial %>
+PTN: <%= device.line.present? ? device.line.identifier : 'N/A' %>
 <% end %>

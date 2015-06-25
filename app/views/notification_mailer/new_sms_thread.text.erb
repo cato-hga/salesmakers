@@ -11,8 +11,9 @@ New Text Message Thread Started
 <% else %>
 <%= phone_link @sms_message.from_num %>
 has just sent a text message that appears to have started a new thread:
-<%= @sms_message.message %>
 <% end %>
+
+"<%= @sms_message.message %>"
 
 <% if from_person %>
 <%= link_to 'Click here to reply.', new_sms_message_person_url(from_person) %>

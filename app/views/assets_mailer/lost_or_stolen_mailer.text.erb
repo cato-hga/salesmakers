@@ -1,6 +1,6 @@
 Asset Lost or Stolen
 
 An asset has just been marked as "Lost or Stolen" for '<%= @person_name %>' (<%= @personal_email + ', ' + @person_phone %>):
-<%= @device.device_model_name %>
-<%= @device.serial %>
-<%= @device.line.present? ? @device.line.identifier : 'N/A' %>
+Type: <%= @device.device_model_name %>
+Serial/Dec: <%= @device.serial %>
+PTN: <%= @device.line.present? ? @device.line.identifier : 'N/A' %>

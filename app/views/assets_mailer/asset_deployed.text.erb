@@ -6,11 +6,11 @@ Your company-issued device has just been deployed!
 
 Device Details
 <% if line %>
-<%= @device.device_model_name %>
-<%= @device.serial %>
+Type: <%= @device.device_model_name %>
+Serial/Dec: <%= @device.serial %>
 <% end %>
 <% if line %>
-<%= line.identifier %>
+Line: <%= line.identifier %>
 <% end %>
 
 
