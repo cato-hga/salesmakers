@@ -1,7 +1,7 @@
 class SeedJuanPosition < ActiveRecord::Migration
   def up
-    hr_admin = Position.find_by name: 'Human Resources Administrator'
-    department = Department.find_by name: 'Operations'
+    hr_admin = Position.find_by name: 'Human Resources Administrator' || return
+    department = Department.find_by name: 'Operations' || return
     juan = Position.create name: 'Juan',
                            department: department,
                            all_field_visibility: true,
