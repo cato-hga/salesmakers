@@ -9,6 +9,7 @@ class SeedJuanPosition < ActiveRecord::Migration
                            leadership: true,
                            field: false,
                            hq: true
+    return unless juan and hr_admin
     juan.permissions << hr_admin.permissions
   end
 end
