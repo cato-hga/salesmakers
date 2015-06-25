@@ -1,0 +1,22 @@
+<% from_person = @sms_message.from_person %>
+<% from_candidate = @sms_message.from_candidate %>
+
+New Text Message Reply
+
+<%= if from_person %>
+<%= link_to from_person.display_name, person_url(from_person) %>
+<% elsif from_candidate %>
+<%= link_to from_candidate.name, candidate_url(from_candidate) %>
+has just replied to your previous text message:
+<% end %>
+
+"<%= @sms_message.message %>"
+
+<% if from_candidate %>
+<%= link_to 'Click here to reply.', new_sms_message_candidate_url(from_candidate) %>
+<% elsif from_person %>
+<%= link_to 'Click here to reply.', new_sms_message_person_url(from_person) %>
+<% end %>
+
+Last 24 Hours of Communication
+<%= render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours, skip_pagination: true } %>

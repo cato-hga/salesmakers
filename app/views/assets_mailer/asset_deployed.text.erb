@@ -1,0 +1,21 @@
+Asset Deployed
+
+<% line = @device.line %>
+
+Your company-issued device has just been deployed!
+
+Device Details
+<% if line %>
+Type: <%= @device.device_model_name %>
+Serial/Dec: <%= @device.serial %>
+<% end %>
+<% if line %>
+Line: <%= line.identifier %>
+<% end %>
+
+
+You should receive a phone call from FedEx once the device arrives and is ready to be picked up.
+<% if @device_deployment.tracking_number %>
+In the meantime, you can click the following tracking number to track your package:
+<%= tracking_link @device_deployment.tracking_number %>
+<% end %>
