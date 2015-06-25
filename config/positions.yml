@@ -58,6 +58,36 @@ Sprint:
       leader: Sprint Retail Regional Vice President
       not_leader: Sprint Retail Sales Specialist
 
+Sprint Postpaid:
+  4:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  3:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  2:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  1:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+
 Comcast:
   4:
     Retail:
