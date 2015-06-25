@@ -14,4 +14,4 @@
     - notes += "<br><strong class='small comment'>Results: </strong>".html_safe
     - notes += content_tag(:span, contact.call_results, class: [:small, :comment])
   - rows << table_row([date_time, contacted_by, method, in_out, notes])
-= table headers, rows
+= table headers, rows, false

@@ -9,3 +9,8 @@
         content: "#{stripped_cell}";
       }
     }
+    @media only print {
+      #{random_tag} td:nth-of-type(#{header_index.to_s}):before {
+        content: "#{stripped_cell}";
+      }
+    }

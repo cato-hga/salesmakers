@@ -1,4 +1,4 @@
-- page_title = @candidate.first_name.html_safe + @candidate.last_name.html_safe
+- page_title = @candidate.first_name.html_safe + ' ' + @candidate.last_name.html_safe
 - page_title = page_title + candidate_contact_link(@candidate) if @candidate.mobile_phone?
 - title page_title
 - content_for :action_buttons do
