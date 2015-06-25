@@ -40,8 +40,9 @@ describe UnmatchedVonageSalesMailer do
     end
 
     it 'includes all MACs' do
-      expect(mail.body).to include(unmatched_sales.first[:order].documentno[3..14])
-      expect(mail.body).to include(unmatched_sales.last[:order].documentno[3..14])
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include(unmatched_sales.first[:order].documentno[3..14])
+      expect(source).to include(unmatched_sales.last[:order].documentno[3..14])
     end
   end
 end

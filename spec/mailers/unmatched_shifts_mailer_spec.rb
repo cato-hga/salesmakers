@@ -40,8 +40,9 @@ describe UnmatchedShiftsMailer do
     end
 
     it 'includes all shift dates' do
-      expect(mail.body).to include(unmatched_shifts.first[:timesheet].shift_date.strftime('%m/%d/%Y'))
-      expect(mail.body).to include(unmatched_shifts.last[:timesheet].shift_date.strftime('%m/%d/%Y'))
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include(unmatched_shifts.first[:timesheet].shift_date.strftime('%m/%d/%Y'))
+      expect(source).to include(unmatched_shifts.last[:timesheet].shift_date.strftime('%m/%d/%Y'))
     end
   end
 

@@ -17,7 +17,8 @@ describe CandidatePrescreenAssessmentMailer do
       expect(mail.to).to include(candidate.email)
     end
     it 'contains a link to the personality assessment test' do
-      expect(mail.body).to include(link)
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include(link)
     end
   end
 

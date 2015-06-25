@@ -1,15 +1,5 @@
 24-Hour Process History
 
-(style="border: 1px solid #DDDDDD;")
-
-    1. Process Class
-    2. Notes
-    3. # Records
-
-    <% for result in @process_logs do %>
-        { style: result['has_run'] == t ? background-color: #B2FFB2 : background-color: #FFB2B2 }
-            <%= result['process_class'] %>
-            <%= result['notes'] %>
-            <%= result['records_processed'].to_s %>
-
-    <% end %>
+<% for result in @process_logs do %>
+<%= result['process_class'] %><%= result['notes'] ? ' (' + result['notes'] + ')' : '' %>: <%= result['records_processed'].to_s %> processed
+<% end %>

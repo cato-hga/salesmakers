@@ -28,10 +28,11 @@ describe CandidateFormerRadioShackMailer do
     #   expect(mail.to).to eq(['kelly.berard@radioshack.com'])
     # end
     it 'contains all relevant info' do
-      expect(mail.body).to include(prescreen_answer.former_employment_date_start)
-      expect(mail.body).to include(prescreen_answer.former_employment_date_end)
-      expect(mail.body).to include(prescreen_answer.store_number_city_state)
-      expect(mail.body).to include(candidate.name)
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include(prescreen_answer.former_employment_date_start.to_s)
+      expect(source).to include(prescreen_answer.former_employment_date_end.to_s)
+      expect(source).to include(prescreen_answer.store_number_city_state)
+      expect(source).to include(candidate.name)
     end
   end
 end

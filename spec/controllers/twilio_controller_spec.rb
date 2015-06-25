@@ -69,7 +69,8 @@ describe TwilioController do
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('SMS Reply from ' + to_person.display_name)
       expect(email.to).to eq([from_person.email])
-      expect(email.body.to_s).to match(/This is a sample incoming message/)
+      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to match(/This is a sample incoming message/)
     end
 
     it 'sends an email to everyone applicable when not a reply' do
@@ -85,7 +86,8 @@ describe TwilioController do
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('New SMS Thread Started by ' + from_person.display_name)
       expect(email.to).to eq([from_person.email])
-      expect(email.body.to_s).to match(/This is a message that starts a new thread/)
+      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to match(/This is a message that starts a new thread/)
     end
 
     it 'sends an email when the phone number is not recognized' do\
@@ -101,7 +103,8 @@ describe TwilioController do
       email = ActionMailer::Base.deliveries.first
       expect(email.subject).to eq('New SMS Thread Started by (991) 448-8899')
       expect(email.to).to eq([from_person.email])
-      expect(email.body.to_s).to match(/This is a message from an unrecognized number/)
+      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to match(/This is a message from an unrecognized number/)
     end
   end
 end

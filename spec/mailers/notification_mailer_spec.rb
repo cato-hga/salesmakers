@@ -106,10 +106,12 @@ describe NotificationMailer do
     end
     it 'contains the candidate name in the body if there is a candidate' do
       candidate
-      expect(mail.body).to include(candidate.name)
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include(candidate.name)
     end
     it 'works without a candidate attached' do
-      expect(mail.body).to include("foo@bar.com")
+      source = mail.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
+      expect(source).to include("foo@bar.com")
     end
   end
 end

@@ -3,25 +3,19 @@
 
 New Text Message Thread Started
 
-
 <% if from_person %>
-<%= link_to from_person.display_name, person_url(from_person) %>
+<%= from_person.display_name %>
 <% elsif from_candidate %>
-<%= link_to from_candidate.name, candidate_url(from_candidate)%>
+<%= from_candidate.name %>
 <% else %>
-<%= phone_link @sms_message.from_num %>
+<%= @sms_message.from_num %>
 has just sent a text message that appears to have started a new thread:
 <% end %>
 
 "<%= @sms_message.message %>"
 
 <% if from_person %>
-<%= link_to 'Click here to reply.', new_sms_message_person_url(from_person) %>
+Visit this address to reply: <%= new_sms_message_person_url(from_person) %>
 <% elsif from_candidate %>
-<%= link_to 'Click here to reply.', new_sms_message_candidate_url(from_candidate) %>
-<% end %>
-
-<% if @last_24_hours %>
-Last 24 Hours of Communication
-<%= render partial: 'shared/communication_log', locals: { communication_log_entries: @last_24_hours, skip_pagination: true } %>
+Visit this address to reply: <%= new_sms_message_candidate_url(from_candidate) %>
 <% end %>
