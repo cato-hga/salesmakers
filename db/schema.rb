@@ -1218,22 +1218,6 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
   add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
 
-  create_table "sms_daily_checks", force: :cascade do |t|
-    t.boolean "check_in_inside_store"
-    t.boolean "check_in_on_time"
-    t.boolean "check_in_uniform"
-    t.boolean "check_out_inside_store"
-    t.boolean "check_out_on_time"
-    t.datetime "created_at", null: false
-    t.date "date", null: false
-    t.datetime "in_time"
-    t.boolean "off_day"
-    t.datetime "out_time"
-    t.integer "person_id", null: false
-    t.integer "sms_id", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"
     t.integer "from_candidate_id"
@@ -1363,6 +1347,11 @@ ActiveRecord::Schema.define(version: 20150612175211) do
     t.datetime "updated_at"
   end
 
+  create_table "tmp_csr", id: false, force: :cascade do |t|
+    t.string "connect_salesregion_id"
+    t.string "store_number"
+  end
+
   create_table "tmp_distances", id: false, force: :cascade do |t|
     t.decimal "distance"
     t.string "store_number"
@@ -1375,6 +1364,16 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   create_table "tmp_stores", id: false, force: :cascade do |t|
     t.string "store_number"
     t.integer "target_head_count"
+  end
+
+  create_table "tmp_wm", id: false, force: :cascade do |t|
+    t.string "address_1"
+    t.string "city"
+    t.float "latitude"
+    t.float "longitude"
+    t.string "state"
+    t.string "store_number"
+    t.string "zip"
   end
 
   create_table "training_availabilities", force: :cascade do |t|
