@@ -81,7 +81,7 @@
           - installation += ' (' + sale.comcast_install_appointment. |
             comcast_install_time_slot.name + ')' |
           = installation
-  - else
+  - elsif ComcastCustomerPolicy.new(@current_person, ComcastCustomer.new).create?
     - @converting = true
     = render partial: 'comcast_sales/form', locals: { converting: @converting }
   = render 'comcast_customer_notes/form'

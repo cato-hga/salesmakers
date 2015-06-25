@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: rc_order_payout
+#
+#  rc_order_payout_id :string(32)       not null, primary key
+#  ad_client_id       :string(32)       not null
+#  ad_org_id          :string(32)       not null
+#  isactive           :string(1)        default("Y"), not null
+#  created            :datetime         not null
+#  createdby          :string(32)       not null
+#  updated            :datetime         not null
+#  updatedby          :string(32)       not null
+#  ad_user_id         :string(32)       not null
+#  hps                :decimal(, )      not null
+#  payout             :decimal(, )      not null
+#  rc_paycheck_id     :string(32)       not null
+#  c_order_id         :string(32)       not null
+#
+
 # Openbravo commission payments
 class ConnectOrderPayout < RealConnectModel
   # Openbravo table name

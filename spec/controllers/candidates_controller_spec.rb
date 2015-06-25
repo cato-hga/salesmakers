@@ -926,6 +926,19 @@ describe CandidatesController do
         subject
       }.to change(LogEntry, :count).by(1)
     end
+
+    it 'creates a CandidateSprintRadioShackTrainingSession' do
+      expect {
+        subject
+      }.to change(CandidateSprintRadioShackTrainingSession, :count).by(1)
+    end
+
+    it 'does not create a CandidateSprintRadioShackTrainingSession if the session is staying the same' do
+      subject
+      expect {
+        subject
+      }.not_to change(CandidateSprintRadioShackTrainingSession, :count)
+    end
   end
 
   describe 'PUT set_training_session_status' do

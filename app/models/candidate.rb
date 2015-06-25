@@ -1,3 +1,38 @@
+# == Schema Information
+#
+# Table name: candidates
+#
+#  id                                     :integer          not null, primary key
+#  first_name                             :string           not null
+#  last_name                              :string           not null
+#  suffix                                 :string
+#  mobile_phone                           :string           not null
+#  email                                  :string           not null
+#  zip                                    :string           not null
+#  created_at                             :datetime         not null
+#  updated_at                             :datetime         not null
+#  person_id                              :integer
+#  location_area_id                       :integer
+#  latitude                               :float
+#  longitude                              :float
+#  active                                 :boolean          default(TRUE), not null
+#  status                                 :integer          default(0), not null
+#  state                                  :string(2)
+#  candidate_source_id                    :integer
+#  created_by                             :integer          not null
+#  candidate_denial_reason_id             :integer
+#  personality_assessment_completed       :boolean          default(FALSE), not null
+#  shirt_gender                           :string
+#  shirt_size                             :string
+#  personality_assessment_status          :integer          default(0), not null
+#  personality_assessment_score           :float
+#  sprint_radio_shack_training_session_id :integer
+#  potential_area_id                      :integer
+#  training_session_status                :integer          default(0), not null
+#  sprint_roster_status                   :integer
+#  time_zone                              :string
+#
+
 class Candidate < ActiveRecord::Base
   include CandidateGeocodingExtension
   include CandidateValidationsAndAssocationsExtension

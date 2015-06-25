@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: training_availabilities
+#
+#  id                                :integer          not null, primary key
+#  able_to_attend                    :boolean          default(FALSE), not null
+#  training_unavailability_reason_id :integer
+#  comments                          :text
+#  created_at                        :datetime         not null
+#  updated_at                        :datetime         not null
+#  candidate_id                      :integer          not null
+#
+
 class TrainingAvailability < ActiveRecord::Base
   validates :able_to_attend, inclusion: { in: [true, false] }
   validates :candidate, presence: true

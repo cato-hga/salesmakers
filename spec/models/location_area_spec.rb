@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: location_areas
+#
+#  id                        :integer          not null, primary key
+#  location_id               :integer          not null
+#  area_id                   :integer          not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  current_head_count        :integer          default(0), not null
+#  potential_candidate_count :integer          default(0), not null
+#  target_head_count         :integer          default(0), not null
+#  active                    :boolean          default(TRUE), not null
+#  hourly_rate               :float
+#  offer_extended_count      :integer          default(0), not null
+#  outsourced                :boolean          default(FALSE), not null
+#  launch_group              :integer
+#  distance_to_cor           :float
+#  priority                  :integer
+#
+
 require 'rails_helper'
 
 describe LocationArea do
@@ -108,14 +129,14 @@ describe LocationArea do
       # end
     # end
 
-    it 'counts a candidate whose paperwork was sent since 6/08' do
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_june_8_job_offer_detail
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
-      paperwork_sent_since_june_8_location_area.update target_head_count: 0
-      paperwork_sent_since_june_8_location_area.reload
-      expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(true)
-    end
+    # it 'counts a candidate whose paperwork was sent since 6/08' do
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
+    #   paperwork_sent_since_june_8_job_offer_detail
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(false)
+    #   paperwork_sent_since_june_8_location_area.update target_head_count: 0
+    #   paperwork_sent_since_june_8_location_area.reload
+    #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(true)
+    # end
 
     it 'is never recruitable when not priority 1' do
       low_priority_location_area = create :location_area, priority: 2

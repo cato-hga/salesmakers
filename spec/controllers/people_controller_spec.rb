@@ -158,6 +158,55 @@ describe PeopleController do
     end
   end
 
+  describe 'edit_position' do
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+      allow(controller).to receive(:policy).and_return double(edit_position?: true)
+    end
+
+    subject { get :edit_position, id: person.id }
+
+    it 'returns a success response' do
+      expect(response).to be_success
+    end
+  end
+
+  describe 'update_position' do
+    let!(:person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    let!(:new_position) { create :position, name: 'New Position' }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(person.email)
+      allow(controller).to receive(:policy).and_return double(update_position?: true)
+    end
+
+    subject do
+      put :update_position,
+          id: person.id,
+          position_id: new_position.id
+    end
+
+    it 'redirects to the person profile page' do
+      subject
+      expect(response).to redirect_to person_path(person)
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by(1)
+    end
+
+    it 'changes the position' do
+      expect {
+        subject
+        person.reload
+      }.to change(person, :position).to new_position
+    end
+  end
+
   describe 'commission' do
     let(:area) { create :area }
     let!(:paycheck) {

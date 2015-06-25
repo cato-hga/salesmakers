@@ -1,7 +1,23 @@
+# == Schema Information
+#
+# Table name: areas
+#
+#  id                               :integer          not null, primary key
+#  name                             :string           not null
+#  area_type_id                     :integer          not null
+#  ancestry                         :string
+#  created_at                       :datetime
+#  updated_at                       :datetime
+#  project_id                       :integer          not null
+#  connect_salesregion_id           :string
+#  personality_assessment_url       :string
+#  area_candidate_sourcing_group_id :integer
+#  email                            :string
+#
+
 class Area < ActiveRecord::Base
   extend AreaAssociationsModelExtension
   include AreaScopesModelExtension
-
 
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true

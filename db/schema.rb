@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612175211) do
+ActiveRecord::Schema.define(version: 20150618184240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -1217,6 +1217,29 @@ ActiveRecord::Schema.define(version: 20150612175211) do
   add_index "shifts", ["date"], name: "index_shifts_on_date", using: :btree
   add_index "shifts", ["location_id"], name: "index_shifts_on_location_id", using: :btree
   add_index "shifts", ["person_id"], name: "index_shifts_on_person_id", using: :btree
+
+  create_table "sms_daily_checks", force: :cascade do |t|
+    t.boolean "accountability_checkin_1"
+    t.boolean "accountability_checkin_2"
+    t.boolean "accountability_checkin_3"
+    t.boolean "blueforce_geotag"
+    t.boolean "check_in_inside_store"
+    t.boolean "check_in_on_time"
+    t.boolean "check_in_uniform"
+    t.boolean "check_out_inside_store"
+    t.boolean "check_out_on_time"
+    t.datetime "created_at", null: false
+    t.date "date", null: false
+    t.datetime "in_time"
+    t.text "notes"
+    t.boolean "off_day"
+    t.datetime "out_time"
+    t.integer "person_id", null: false
+    t.boolean "roll_call"
+    t.integer "sales"
+    t.integer "sms_id", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sms_messages", force: :cascade do |t|
     t.datetime "created_at"

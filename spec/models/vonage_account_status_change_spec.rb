@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: vonage_account_status_changes
+#
+#  id                 :integer          not null, primary key
+#  mac                :string           not null
+#  account_start_date :date             not null
+#  account_end_date   :date
+#  status             :integer          not null
+#  termination_reason :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 require 'rails_helper'
 
 describe VonageAccountStatusChange do

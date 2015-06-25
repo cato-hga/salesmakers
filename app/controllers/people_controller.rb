@@ -64,13 +64,40 @@ class PeopleController < ProtectedController
   end
 
   def org_chart
-    @departments = Department.joins(:positions).where('positions.hq = true').uniq
+    @departments = Hash.new
+    HeadquartersOrgChartEntry.all.each do |entry|
+      if @departments.has_key?(entry.department_name)
+        @departments[entry.department_name] << entry
+      else
+        @departments[entry.department_name] = [entry]
+      end
+    end
+    @non_manager_person_areas = ActiveRecord::Base.connection.execute("
+                                                                        select
+
+                                                                        a.id as area_id,
+                                                                        p.id,
+                                                                        p.display_name
+
+                                                                        from areas a
+                                                                        left outer join person_areas pa
+                                                                          on pa.area_id = a.id
+                                                                        left outer join people p
+                                                                          on p.id = pa.person_id
+
+                                                                        where
+                                                                          pa.manages = false
+                                                                          and p.active = true
+
+                                                                        order by area_id, p.display_name").
+        group_by { |e| e['area_id'] }
   end
 
   def show
     @person = Person.find params[:id]
     @log_entries = @person.related_log_entries.page(params[:log_entries_page]).per(10)
     @communication_log_entries = @person.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
+    @candidate_contacts = @person.candidate_contacts
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
   end
@@ -104,6 +131,36 @@ class PeopleController < ProtectedController
     gateway.send_text_to_person person, message, @current_person
     flash[:notice] = 'Message successfully sent.'
     redirect_to person_path(person)
+  end
+
+  def edit_position
+    @positions = Position.all.order :name
+    @person = policy_scope(Person).find params[:id]
+    authorize @person
+  end
+
+  def update_position
+    @positions = Position.all.order :name
+    @person = policy_scope(Person).find params[:id]
+    authorize @person
+    unless params[:position_id]
+      flash[:error] = 'You must select a position'
+      redirect_to edit_position_person_path(@person)
+    end
+    old_position = @person.position
+    new_position = Position.find params[:position_id]
+    if @person.update position: new_position, update_position_from_connect: false
+      @current_person.log? 'update_position',
+                           @person,
+                           new_position,
+                           nil,
+                           nil,
+                           "from #{old_position.name} to #{new_position.name}"
+      flash[:notice] = 'Position saved successfully.'
+      redirect_to person_path(@person)
+    else
+      render :edit_position
+    end
   end
 
   def update

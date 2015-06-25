@@ -56,7 +56,7 @@ describe 'DirecTV sales CRUD actions' do
       end
     end
 
-    context 'failures' do
+    context 'failures', pending: 'Temporarily removedexit' do
       context 'date entry' do
         let(:incorrect_order_date) { (directv_sale.order_date - 25.hours).strftime('%m/%d/%Y') }
         before {

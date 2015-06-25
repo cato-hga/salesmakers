@@ -65,10 +65,10 @@
           - installation = short_date(sale.directv_install_appointment.install_date)
           - installation += ' (' + sale.directv_install_appointment.directv_install_time_slot.name + ')'
           = installation
-  - else
+  - elsif DirecTVCustomerPolicy.new(@current_person, DirecTVCustomer.new).create?
     - @converting = true
     = render partial: 'directv_sales/form', locals: { converting: @converting }
-    = render 'directv_customer_notes/form'
+  = render 'directv_customer_notes/form'
   .widget#directv_customer_notes
     .inner
       %h3 Notes

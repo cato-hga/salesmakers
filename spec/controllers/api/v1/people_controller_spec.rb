@@ -59,24 +59,6 @@ describe API::V1::PeopleController, type: :controller do
         subject
       }.to change(LogEntry, :count).by(1)
     end
-
-    it 'sends emails if the employee has assets' do
-      expect {
-        subject
-        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs[0][:args])
-        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs[1][:args])
-      }.to change(ActionMailer::Base.deliveries, :count).by(2)
-    end
-
-    it 'sends emails if the employee does not have assets' do
-      separated_user.devices = []
-      expect {
-        subject
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
-    end
   end
 end
 

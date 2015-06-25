@@ -1,0 +1,13 @@
+- if @sprint_radio_shack_training_session.errors.any?
+  - @sprint_radio_shack_training_session.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+= form_for @sprint_radio_shack_training_session do |f|
+  = f.label :name
+  = f.text_field :name
+  = f.check_box :locked
+  Locked?
+  %br/
+  = f.label :start_date
+  = f.text_field :start_date
+  = f.submit 'Save', class: [:button]

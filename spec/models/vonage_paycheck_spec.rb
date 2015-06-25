@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: vonage_paychecks
+#
+#  id               :integer          not null, primary key
+#  name             :string           not null
+#  wages_start      :date             not null
+#  wages_end        :date             not null
+#  commission_start :date             not null
+#  commission_end   :date             not null
+#  cutoff           :datetime         not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 require 'rails_helper'
 
 describe VonagePaycheck do

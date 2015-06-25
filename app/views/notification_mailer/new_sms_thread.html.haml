@@ -1,6 +1,8 @@
 - from_person = @sms_message.from_person
 - from_candidate = @sms_message.from_candidate
 
+= mailer_h1 'New Text Message Thread Started'
+
 %p
   - if from_person
     = link_to from_person.display_name, person_url(from_person)
@@ -8,7 +10,7 @@
     = link_to from_candidate.name, candidate_url(from_candidate)
   - else
     = phone_link @sms_message.from_num
-  has just sent an SMS that appears to have started a new thread:
+  has just sent a text message that appears to have started a new thread:
 %blockquote
   = @sms_message.message
 - if from_person

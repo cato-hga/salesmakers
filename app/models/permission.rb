@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: permissions
+#
+#  id                  :integer          not null, primary key
+#  key                 :string           not null
+#  description         :string           not null
+#  permission_group_id :integer          not null
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+
 class Permission < ActiveRecord::Base
   validates :key, length: { minimum: 5 }
   validates :description, length: { minimum: 10 }

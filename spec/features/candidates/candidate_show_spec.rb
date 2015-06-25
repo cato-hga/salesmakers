@@ -120,11 +120,6 @@ describe 'candidate show page' do
         expect(candidate.training_session_status).to eq('candidate_confirmed')
       end
     end
-
-    it "displays the candidate's Sprint roster status" do
-      expect(page).to have_content('Sprint Confirmed')
-    end
-
   end
 
   context 'hours widget' do
@@ -135,7 +130,7 @@ describe 'candidate show page' do
     let!(:first_shift) { create :shift, person: person, date: Date.today - 8.days, hours: 8, location: location }
     let!(:second_shift) { create :shift, person: person, date: Date.today - 6.days, hours: 5, location: location }
     let!(:third_shift) { create :shift, person: person, date: Date.today - 2.days, hours: 6, location: last_location }
-    it 'doesnt show the hours widget if the candiate does not have a person' do
+    it 'does not show the hours widget if the candidate does not have a person' do
       #inheriting the visit
       expect(page).not_to have_css('#candidate_hours')
     end
@@ -145,7 +140,7 @@ describe 'candidate show page' do
         expect(page).to have_content 'Total Hours: 19.0'
         expect(page).to have_content 'Hours This Week: 11.0'
         expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%A, %b %e')}"
-        expect(page).to have_content "Last Shift Location: ##{third_shift.location.store_number}, #{third_shift.location.street_1}, #{third_shift.location.city}, #{third_shift.location.state}"
+        expect(page).to have_content "Last Shift Location: ##{third_shift.location.store_number} (#{third_shift.location.channel.name}), #{third_shift.location.street_1}, #{third_shift.location.city}, #{third_shift.location.state}"
       end
     end
   end

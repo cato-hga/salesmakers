@@ -156,12 +156,6 @@ describe 'DirecTV Customer CRUD actions' do
             expect(page).to have_content(directv_lead.comments)
           end
         end
-
-        it 'shows install fields' do
-          directv_sale.destroy
-          visit directv_customer_path(directv_customer)
-          expect(page).to have_content('Install date')
-        end
       end
 
       context 'with a sale' do
@@ -205,10 +199,18 @@ describe 'DirecTV Customer CRUD actions' do
       context 'without a sale' do
         before do
           directv_sale.destroy
-          visit directv_customer_path(directv_customer)
         end
 
-        it 'displays the sale entry form' do
+        subject { visit directv_customer_path(directv_customer) }
+
+        it 'does not display the sale entry form without DirecTVCustomer create? permission' do
+          subject
+          expect(page).not_to have_selector('#new_directv_sale')
+        end
+
+        it 'displays the sale entry form when the person has permission to create a new DirecTVCustomer' do
+          person.position.permissions << permission_create
+          subject
           expect(page).to have_selector('#new_directv_sale')
         end
       end

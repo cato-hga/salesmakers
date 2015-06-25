@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: changelog_entries
+#
+#  id            :integer          not null, primary key
+#  department_id :integer
+#  project_id    :integer
+#  all_hq        :boolean
+#  all_field     :boolean
+#  heading       :string           not null
+#  description   :text             not null
+#  released      :datetime         not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
 class ChangelogEntry < ActiveRecord::Base
   validates :heading, length: { minimum: 5 }
   validates :description, length: { minimum: 20 }

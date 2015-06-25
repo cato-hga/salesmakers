@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: sprint_radio_shack_training_locations
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  address    :string           not null
+#  room       :string           not null
+#  latitude   :float
+#  longitude  :float
+#  virtual    :boolean          default(FALSE), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require 'rails_helper'
 
 RSpec.describe SprintRadioShackTrainingLocation, :type => :model do

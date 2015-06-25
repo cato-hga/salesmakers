@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: devices
+#
+#  id              :integer          not null, primary key
+#  identifier      :string           not null
+#  serial          :string           not null
+#  device_model_id :integer          not null
+#  line_id         :integer
+#  person_id       :integer
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class Device < ActiveRecord::Base
   extend NonAlphaNumericRansacker
 

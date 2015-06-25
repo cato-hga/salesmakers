@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: device_states
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  created_at :datetime
+#  updated_at :datetime
+#  locked     :boolean          default(FALSE)
+#
+
 require 'rails_helper'
 
 describe DeviceState do

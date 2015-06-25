@@ -1,0 +1,2 @@
+module SMSDailyChecksHelper
+end

@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: vonage_paycheck_negative_balances
+#
+#  id                 :integer          not null, primary key
+#  person_id          :integer          not null
+#  balance            :decimal(, )      not null
+#  vonage_paycheck_id :integer          not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 require 'rails_helper'
 
 describe VonagePaycheckNegativeBalance do

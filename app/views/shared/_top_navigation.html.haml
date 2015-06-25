@@ -25,7 +25,8 @@
             DepartmentPolicy.new(@current_person, Department.new).index? or |
             ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
             LogEntryPolicy.new(@current_person, LogEntry.new).index? or |
-            LocationPolicy.new(@current_person, Location.new).index? |
+            LocationPolicy.new(@current_person, Location.new).index? or |
+            SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new).index? |
             = render 'top_navigation/admin'
       .right
         = form_tag global_search_path, method: :get, class: [:inline_block, :left] do

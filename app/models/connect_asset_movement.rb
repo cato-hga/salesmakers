@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: rc_asset_movement
+#
+#  rc_asset_movement_id :string(32)       not null, primary key
+#  created              :datetime         not null
+#  updated              :datetime         not null
+#  createdby            :string(32)       not null
+#  updatedby            :string(32)       not null
+#  isactive             :string(1)        default("Y"), not null
+#  ad_client_id         :string(32)       not null
+#  ad_org_id            :string(32)       not null
+#  from_user            :string(32)       not null
+#  to_user              :string(32)       not null
+#  rc_asset_id          :string(32)       not null
+#  tracking             :string(255)
+#  note                 :string(255)
+#
+
 # Openbravo asset movements
 class ConnectAssetMovement < ConnectModel
   # Openbravo table name

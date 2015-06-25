@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: group_me_groups
+#
+#  id         :integer          not null, primary key
+#  group_num  :integer          not null
+#  area_id    :integer
+#  name       :string           not null
+#  avatar_url :string
+#  created_at :datetime
+#  updated_at :datetime
+#  bot_num    :string
+#
+
 require 'apis/groupme'
 require 'apis/asset_shipping_notifier'
 

@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: sales_performance_ranks
+#
+#  id            :integer          not null, primary key
+#  day           :date             not null
+#  rankable_id   :integer          not null
+#  rankable_type :string           not null
+#  day_rank      :integer
+#  week_rank     :integer
+#  month_rank    :integer
+#  year_rank     :integer
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 require 'performance_ranker'
 require 'sales_performance_rank_scopes'
 

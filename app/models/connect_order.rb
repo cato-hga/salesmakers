@@ -1,3 +1,77 @@
+# == Schema Information
+#
+# Table name: c_order
+#
+#  c_order_id             :string(32)       not null, primary key
+#  ad_client_id           :string(32)       not null
+#  ad_org_id              :string(32)       not null
+#  isactive               :string(1)        default("Y"), not null
+#  created                :datetime         not null
+#  createdby              :string(32)       not null
+#  updated                :datetime         not null
+#  updatedby              :string(32)       not null
+#  issotrx                :string(1)        default("Y"), not null
+#  documentno             :string(30)       not null
+#  docstatus              :string(60)       not null
+#  docaction              :string(60)       not null
+#  processing             :string(1)
+#  processed              :string(1)        default("N"), not null
+#  c_doctype_id           :string(32)       not null
+#  c_doctypetarget_id     :string(32)       not null
+#  description            :string(255)
+#  isdelivered            :string(1)        default("N"), not null
+#  isinvoiced             :string(1)        default("N"), not null
+#  isprinted              :string(1)        default("N"), not null
+#  isselected             :string(1)        default("N"), not null
+#  salesrep_id            :string(32)
+#  dateordered            :datetime         not null
+#  datepromised           :datetime
+#  dateprinted            :datetime
+#  dateacct               :datetime         not null
+#  c_bpartner_id          :string(32)       not null
+#  billto_id              :string(32)
+#  c_bpartner_location_id :string(32)       not null
+#  poreference            :string(20)
+#  isdiscountprinted      :string(1)        default("Y"), not null
+#  c_currency_id          :string(32)       not null
+#  paymentrule            :string(60)       not null
+#  c_paymentterm_id       :string(32)       not null
+#  invoicerule            :string(60)       not null
+#  deliveryrule           :string(60)       not null
+#  freightcostrule        :string(60)       not null
+#  freightamt             :decimal(, )      default(0.0)
+#  deliveryviarule        :string(60)       not null
+#  m_shipper_id           :string(32)
+#  c_charge_id            :string(32)
+#  chargeamt              :decimal(, )      default(0.0)
+#  priorityrule           :string(60)       not null
+#  totallines             :decimal(, )      default(0.0), not null
+#  grandtotal             :decimal(, )      default(0.0), not null
+#  m_warehouse_id         :string(32)       not null
+#  m_pricelist_id         :string(32)       not null
+#  istaxincluded          :string(1)        default("N")
+#  c_campaign_id          :string(32)
+#  c_project_id           :string(32)
+#  c_activity_id          :string(32)
+#  posted                 :string(60)       default("N"), not null
+#  ad_user_id             :string(32)
+#  copyfrom               :string(1)
+#  dropship_bpartner_id   :string(32)
+#  dropship_location_id   :string(32)
+#  dropship_user_id       :string(32)
+#  isselfservice          :string(1)        default("N"), not null
+#  ad_orgtrx_id           :string(32)
+#  user1_id               :string(32)
+#  user2_id               :string(32)
+#  deliverynotes          :string(2000)
+#  c_incoterms_id         :string(32)
+#  incotermsdescription   :string(255)
+#  generatetemplate       :string(1)
+#  delivery_location_id   :string(32)
+#  copyfrompo             :string(1)
+#  fin_paymentmethod_id   :string(32)
+#
+
 # Openbravo orders
 class ConnectOrder < RealConnectModel
   include ConnectScopes

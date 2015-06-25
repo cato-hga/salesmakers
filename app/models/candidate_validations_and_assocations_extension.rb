@@ -59,12 +59,18 @@ module CandidateValidationsAndAssocationsExtension
       has_many :candidate_contacts
       has_many :candidate_reconciliations
       has_many :candidate_notes
+      has_many :candidate_sprint_radio_shack_training_sessions
+    end
+
+    def has_many_through_associations
+      has_many :communication_log_entries, through: :person
     end
 
     def setup_assocations
       belongs_to_associations
       has_one_associations
       has_many_associations
+      has_many_through_associations
     end
   end
 end

@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: workmarket_assignments
+#
+#  id                        :integer          not null, primary key
+#  project_id                :integer          not null
+#  json                      :text             not null
+#  workmarket_assignment_num :string           not null
+#  title                     :string           not null
+#  worker_name               :string           not null
+#  worker_first_name         :string
+#  worker_last_name          :string
+#  worker_email              :string           not null
+#  cost                      :float            not null
+#  started                   :datetime         not null
+#  ended                     :datetime         not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  workmarket_location_num   :string           not null
+#
+
 require 'rails_helper'
 
 describe WorkmarketAssignment do

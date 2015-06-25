@@ -1,4 +1,6 @@
 // require wall.js
+//= require 'jquery-ui'
+
 $(function () {
     $('body').on('click', '.add_row', function () {
         $('<div class="row full-width">' +

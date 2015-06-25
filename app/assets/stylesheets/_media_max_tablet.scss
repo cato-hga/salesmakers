@@ -1,28 +1,42 @@
 @import 'variables';
 
 @media only screen and (max-width: $tablet_cutoff) {
-	html table, thead, html table tbody, html table thead th, html table tr td, html table thead tr, html table tbody tr {
+	html table,
+	html .table,
+	thead,
+	html .tableheader,
+	html table tbody,
+	html .table .tablebody,
+	html table thead th,
+	html table tr td,
+	html .table .tablerow .tablecell,
+	html table thead tr,
+	html .table .tableheader .tablerow,
+	html table tbody tr {
 		display: block;
 
 	}
 
-	thead tr {
+	html .table .tableheader .tablerow th, html .table .tablebody .tablerow th, html .table .tablebody .tablerow .tablecell, html .table .tablerow .tablecell {
+		display: block;
+	}
+	thead tr, .tableheader .tablerow {
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
 
-	tr {
+	tr, .tablerow {
 		border: 1px solid #ccc;
 	}
 
-	td {
+	td, .tablecell {
 		border: none;
 		position: relative;
 		padding-left: 50%;
 	}
 
-	td:before {
+	td:before, .tablecell:before {
 		top: 6px;
 		left: 6px;
 		width: 45%;

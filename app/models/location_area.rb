@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: location_areas
+#
+#  id                        :integer          not null, primary key
+#  location_id               :integer          not null
+#  area_id                   :integer          not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  current_head_count        :integer          default(0), not null
+#  potential_candidate_count :integer          default(0), not null
+#  target_head_count         :integer          default(0), not null
+#  active                    :boolean          default(TRUE), not null
+#  hourly_rate               :float
+#  offer_extended_count      :integer          default(0), not null
+#  outsourced                :boolean          default(FALSE), not null
+#  launch_group              :integer
+#  distance_to_cor           :float
+#  priority                  :integer
+#
+
 class LocationArea < ActiveRecord::Base
   validates :location, presence: true
   validates :area, presence: true, uniqueness: { scope: :location,
@@ -51,82 +72,13 @@ class LocationArea < ActiveRecord::Base
 
   def head_count_full?
     return true unless self.priority == 1
-    # recent_hours_training_started = ActiveRecord::Base.connection.execute(
-    #     %{ select
-    #       c.id
-    #       from sprint_radio_shack_training_sessions train
-    #       left outer join candidates c
-    #         on c.sprint_radio_shack_training_session_id = train.id
-    #       left outer join shifts s
-    #         on s.person_id = c.person_id
-    #       left outer join location_areas la
-    #         on la.id = c.location_area_id
-    #       where s.date >= current_date - interval '7 days'
-    #         and train.start_date < current_date
-    #         and la.id = #{self.id}
-    #         and c.active = true
-    #       group by c.id
-    #       order by c.id
-    #     }
-    # ).values.flatten
-    # training_status_confirmed = ActiveRecord::Base.connection.execute(
-    #     %{
-    #       select
-    #       c.id
-    #       from sprint_radio_shack_training_sessions train
-    #       left outer join candidates c
-    #         on c.sprint_radio_shack_training_session_id = train.id
-    #       left outer join location_areas la
-    #         on la.id = c.location_area_id
-    #       where train.start_date >= current_date
-    #         and la.id = #{self.id}
-    #         and c.training_session_status = 1
-    #         and c.active = true
-    #         and ((c.sprint_roster_status = 1
-    #       and c.sprint_radio_shack_training_session_id = 12)
-    #       or c.sprint_radio_shack_training_session_id != 12)
-    #       group by c.id
-    #       order by c.id
-    #     }
-    # ).values.flatten
-    # booked_hours_candidates = ActiveRecord::Base.connection.execute(
-    #     %{
-    #       select
-    #       c.id
-    #       from location_areas la
-    #       left outer join locations l
-    #         on la.location_id = l.id
-    #       left outer join shifts s
-    #         on s.location_id = l.id
-    #       left outer join people p
-    #         on p.id = s.person_id
-    #       left outer join candidates c
-    #         on c.person_id = p.id
-    #       where c.id is not null
-    #         and la.id = #{self.id}
-    #         and s.date >= current_date - interval '7 days'
-    #         and c.active = true
-    #       group by c.id
-    #       order by c.id
-    #     }
-    # ).values.flatten
-    # paperwork_sent_last_7_days = ActiveRecord::Base.connection.execute(
-    #     %{
-    #       select
-    #       c.id
-    #       from location_areas la
-    #       left outer join candidates c
-    #         on c.location_area_id = la.id
-    #       left outer join job_offer_details j
-    #       on j.sent >= current_date - interval '1 week'
-    #       where j.id is not null
-    #         and la.id = #{self.id}
-    #         and c.status >= #{Candidate.statuses[:paperwork_sent]}
-    #       group by c.id
-    #       order by c.id
-    #     }
-    # ).values.flatten
-    paperwork_sent_since_june_8 = ActiveRecord::Base.connection.execute(
+    candidates = number_of_candidates_in_funnel
+    return true if self.target_head_count + 1 <= candidates
+    false
+  end
+
+  def number_of_candidates_in_funnel
+    paperwork_sent_since_june_22 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -134,32 +86,45 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= cast('06/08/2015' as timestamp)
+          on j.sent >= cast('06/22/2015' as timestamp)
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
+            and c.active = true
           group by c.id
           order by c.id
         }
     ).values.flatten
-    sprint_confirmed_from_june_12 = ActiveRecord::Base.connection.execute(
+    in_class_for_615 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
           from location_areas la
           left outer join candidates c
             on c.location_area_id = la.id
-          where c.sprint_roster_status = 2
-            and (c.training_session_status != #{Candidate.training_session_statuses[:not_interested]} or c.training_session_status != #{Candidate.training_session_statuses[:nos]} or c.training_session_status != #{Candidate.training_session_statuses[:transfer]})
+          where c.sprint_radio_shack_training_session_id = 18
+            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
             and la.id = #{self.id}
+            and c.active = true
         }
     ).values.flatten
-    all_candidate_ids = [
-        paperwork_sent_since_june_8,
-        sprint_confirmed_from_june_12
-    ].flatten.uniq
-    return true if self.target_head_count + 1 <= all_candidate_ids.count
-    false
+    in_629_training = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          where c.sprint_radio_shack_training_session_id = 17
+            and la.id = #{self.id}
+            and c.active = true
+        }
+    ).values.flatten
+    [
+        paperwork_sent_since_june_22,
+        in_class_for_615,
+        in_629_training
+    ].flatten.uniq.count
   end
 
   def self.get_all_location_areas(candidate, current_person)

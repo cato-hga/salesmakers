@@ -1,7 +1,6 @@
-- managers = ''
-- if area.managers.count > 0
-  - manager_links = area.managers.map { |manager| person_link(manager).html_safe }
-  - managers = content_tag(:span, '('.html_safe + manager_links.join(', ').html_safe + ')', class: :person_link)
+-# if area.managers.count > 0
+- manager_links = area.managers.map { |manager| person_link(manager).html_safe }
+- managers = manager_links.count > 0 ? content_tag(:span, '('.html_safe + manager_links.join(', ').html_safe + ')', class: :person_link) : ''
 %li.nested_areas
   - if area.has_children?
     - icon = icon('plus').html_safe + ' '
@@ -10,14 +9,25 @@
     = area.name
     = managers
   - else
-    - area_non_managers = area.non_managers.where(active: true)
+    - if @non_manager_person_areas
+      - if @non_manager_person_areas[area.id.to_s]
+        - area_non_managers = @non_manager_person_areas[area.id.to_s]
+      - else
+        - area_non_managers = []
+    - else
+      - area_non_managers = area.non_managers.where(active: true).all
     - if area_non_managers.count > 1
       - icon = icon('plus').html_safe + ' '
       %a{ class: (icon.length > 0) ? 'nested_areas_icon' : '' }= icon
       -#= link_to area.name, [area.project.client, area.project, area]
       = area.name
       = managers
+    - if @non_manager_person_areas
+      %ul
+        - for e in area_non_managers
+          %li.nested_areas= link_to NameCase(e['display_name']), person_url(e['id'].to_i)
+    - else
       %ul
         - for employee in area_non_managers
-          %li.nested_areas= person_link employee
+          %li.nested_areas= link_to person.display_name, person_url(person)
   = sub_area_content

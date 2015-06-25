@@ -31,6 +31,24 @@ class NotificationMailer < ApplicationMailer
          subject: 'Email Bounceback'
   end
 
+  def vonage_hours_with_no_location
+    emails = get_developer_emails || return
+    emails.concat [
+                      'jumartinez@retaildoneright.com',
+                      'nhissa@retaildoneright.com',
+                      'tspurlock@retaildoneright.com',
+                      'dvoorhees@retaildoneright.com',
+                      'rcushing@retaildoneright.com'
+                  ]
+    @timesheets = ConnectTimesheet.
+        where("shift_date = ? AND rc_timesheet.c_bpartner_location_id IS NULL", Date.yesterday).
+        joins(:connect_user).
+        order("ad_user.name ASC")
+    return if @timesheets.empty?
+    mail to: emails,
+         subject: 'Vonage Hours with No Location Attached'
+  end
+
   def simple_mail(to_email, subject, content, html = false)
     content_type = 'text/plain'
     content_type = 'text/html' if html

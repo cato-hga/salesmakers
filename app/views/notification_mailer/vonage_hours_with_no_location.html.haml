@@ -1,0 +1,34 @@
+= mailer_h1 'Vonage Hours with No Location Attached'
+
+%table(style="border: 1px solid #DDDDDD; width: 100%;")
+  %thead(style="text-align: left;")
+    %tr
+      %th Shift Date
+      %th Person
+      %th Email
+      %th Area
+      %th Supervisor
+      %th Customer
+      %th Hours
+  %tbody
+    - for timesheet in @timesheets do
+      %tr
+        %td= timesheet.shift_date.strftime('%m/%d/%Y')
+        - connect_user = timesheet.connect_user
+        %td= connect_user.name
+        %td= connect_user.username
+        - if not connect_user.connect_regions.empty?
+          %td= connect_user.connect_regions.map { |connect_region| connect_region.name }.join(', ')
+        - elsif not connect_user.supervisor.connect_regions.empty?
+          %td= connect_user.supervisor.connect_regions.map { |connect_region| connect_region.name }.join(', ')
+        - else
+          %td
+        - supervisor = connect_user.supervisor
+        - while supervisor.supervisor and supervisor.firstname == 'X'
+          - supervisor = supervisor.supervisor
+        - if supervisor
+          %td= supervisor.name
+        - else
+          %td
+        %td= timesheet.customer
+        %td= timesheet.hours.round(2).to_s

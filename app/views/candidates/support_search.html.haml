@@ -50,7 +50,7 @@
       - location = ''
       - location_obj = candidate.location_area ? candidate.location_area.location : nil
       - location += location_obj.city + ', ' if location_obj and location_obj.city
-      - location += location_obj.display_name if location_obj
+      - location += location_obj.display_name if location_obj and location_obj.display_name
       - availability = 'Unknown'
       - if candidate.candidate_availability
         - availability = render_availability candidate.candidate_availability

@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: area_types
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  project_id :integer          not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class AreaType < ActiveRecord::Base
 
   validates :name, presence: true, length: { minimum: 3 }

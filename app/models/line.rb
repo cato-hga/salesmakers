@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: lines
+#
+#  id                             :integer          not null, primary key
+#  identifier                     :string           not null
+#  contract_end_date              :date             not null
+#  technology_service_provider_id :integer          not null
+#  created_at                     :datetime
+#  updated_at                     :datetime
+#
+
 class Line < ActiveRecord::Base
   extend NonAlphaNumericRansacker
 

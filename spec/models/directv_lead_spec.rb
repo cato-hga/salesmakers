@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: directv_leads
+#
+#  id                  :integer          not null, primary key
+#  active              :boolean          default(TRUE), not null
+#  directv_customer_id :integer          not null
+#  comments            :text
+#  follow_up_by        :date
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  ok_to_call_and_text :boolean
+#
+
 require 'rails_helper'
 
 RSpec.describe DirecTVLead, :type => :model do

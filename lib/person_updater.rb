@@ -33,6 +33,7 @@ class PersonUpdater
   end
 
   def update_position
+    return unless @person.update_position_from_connect?
     new_position = Position.return_from_connect_user @connect_user
     if new_position and @person.position != new_position
       if @person.update position: new_position,

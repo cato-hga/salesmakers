@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: vonage_sale_payouts
+#
+#  id                 :integer          not null, primary key
+#  vonage_sale_id     :integer          not null
+#  person_id          :integer          not null
+#  payout             :decimal(, )      not null
+#  vonage_paycheck_id :integer          not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  day_62             :boolean          default(FALSE), not null
+#  day_92             :boolean          default(FALSE), not null
+#  day_122            :boolean          default(FALSE), not null
+#  day_152            :boolean          default(FALSE), not null
+#
+
 require 'rails_helper'
 
 describe VonageSalePayout do

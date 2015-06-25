@@ -44,6 +44,9 @@ module Reconnect
     # Rails 5.0-ready for avoiding deprecation warnings
     config.active_record.raise_in_transactional_callbacks = true
 
+    # Using stored procedures, triggers, views, or anything database-specific requires a :sql schema_format
+    config.active_record.schema_format = :sql
+
     config.active_job.queue_adapter = :sidekiq
   end
 end

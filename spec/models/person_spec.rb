@@ -1,3 +1,32 @@
+# == Schema Information
+#
+# Table name: people
+#
+#  id                                   :integer          not null, primary key
+#  first_name                           :string           not null
+#  last_name                            :string           not null
+#  display_name                         :string           not null
+#  email                                :string           not null
+#  personal_email                       :string
+#  position_id                          :integer
+#  created_at                           :datetime
+#  updated_at                           :datetime
+#  active                               :boolean          default(TRUE), not null
+#  connect_user_id                      :string
+#  supervisor_id                        :integer
+#  office_phone                         :string
+#  mobile_phone                         :string
+#  home_phone                           :string
+#  eid                                  :integer
+#  groupme_access_token                 :string
+#  groupme_token_updated                :datetime
+#  group_me_user_id                     :string
+#  last_seen                            :datetime
+#  changelog_entry_id                   :integer
+#  vonage_tablet_approval_status        :integer          default(0), not null
+#  passed_asset_hours_requirement       :boolean          default(FALSE), not null
+#  sprint_prepaid_asset_approval_status :integer          default(0), not null
+#
 require 'rails_helper'
 require 'shoulda/matchers'
 
@@ -17,6 +46,10 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:mobile_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:office_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
+  end
+
+  it 'responds to update_position_from_connect?' do
+    expect(person).to respond_to :update_position_from_connect?
   end
 
   describe 'uniqueness validations' do
@@ -695,7 +728,7 @@ RSpec.describe Person, :type => :model do
     end
   end
 
-  describe 'separation' do
+  describe 'separation', :vcr do
     let(:to_separate) { create :person }
     let!(:candidate) { create :candidate, person: to_separate, status: :onboarded, location_area: location_area }
     let(:location_area) { create :location_area }
@@ -810,4 +843,18 @@ RSpec.describe Person, :type => :model do
       expect(no_tablets).to include(person_without_assets)
     end
   end
+
+  describe 'when a person is reactivated and the candidate is inactive' do
+    let!(:person) { create :person }
+    let!(:candidate) { create :candidate, person: person, active: false }
+
+    it 'should set the candidate to active when person is set to active' do
+      expect {
+        person.update active: true
+        candidate.reload
+      }.to change(candidate, :active).from(false).to(true)
+    end
+  end
+
+
 end

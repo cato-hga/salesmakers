@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: docusign_templates
+#
+#  id            :integer          not null, primary key
+#  template_guid :string           not null
+#  state         :string(2)        not null
+#  document_type :integer          default(0), not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  project_id    :integer          not null
+#
+
 class DocusignTemplate < ActiveRecord::Base
   enum document_type: [
            :nhp,

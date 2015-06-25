@@ -271,6 +271,8 @@ Rails.application.routes.draw do
       put 'update_changelog_entry_id/:changelog_entry_id',
           to: 'people#update_changelog_entry_id',
           as: :update_changelog_entry_id
+      get :edit_position, as: :edit_position
+      put :update_position, as: :update_position
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
@@ -288,7 +290,13 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy', as: 'logout'
 
+  resources :sms_daily_checks, only: [:index]
+
+  put 'sms_daily_checks/update', to: 'sms_daily_checks#update', as: :update_sms_daily_check
+
   post 'sprint_group_me_bots/message', to: 'sprint_group_me_bots#message'
+
+  resources :sprint_radio_shack_training_sessions, only: [:index, :new, :create, :edit, :update]
 
   resources :sprint_sales, only: [:index] do
     collection do
