@@ -293,4 +293,33 @@ describe PeopleController do
     end
   end
 
+  describe 'POST send_asset_form', :vcr do
+    let(:message) { 'Test message' }
+    let!(:it_tech_person) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    let!(:person) { create :person, email: 'aatkinson@salesmakersinc.com' }
+
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(it_tech_person.email)
+      allow(controller).to receive(:policy).and_return double(send_asset_form?: true)
+    end
+
+    subject do
+      post :send_asset_form,
+           id: person.id,
+           template_guid_and_subject: '61B80AC4-0915-45A2-8C4E-DD809C58F953|Mobile Device Agreement Form for HQ Employee: '
+    end
+
+    it 'redirects to People#show' do
+      subject
+      expect(response).to redirect_to person_path(person)
+    end
+
+    it 'creates a log entry' do
+      expect {
+        subject
+      }.to change(LogEntry, :count).by 1
+    end
+  end
+
 end

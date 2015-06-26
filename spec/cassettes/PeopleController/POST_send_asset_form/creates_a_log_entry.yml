@@ -1,0 +1,87 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes
+    body:
+      encoding: UTF-8
+      string: '{"status":"created","emailBlurb":null,"emailSubject":"Mobile Device
+        Agreement Form for HQ Employee: Test User","templateId":"61B80AC4-0915-45A2-8C4E-DD809C58F953","eventNotification":{},"templateRoles":[{"name":"Test
+        User","email":"aatkinson@salesmakersinc.com","roleName":"Employee","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+    headers:
+      X-Docusign-Authentication:
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      Accept:
+      - json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '198'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Ratelimit-Reset:
+      - '1435341600'
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '998'
+      Date:
+      - Fri, 26 Jun 2015 17:19:04 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: "{\r\n  \"envelopeId\": \"03a1d5d9-d790-48e6-8c8a-0fa6d2580479\",\r\n
+        \ \"uri\": \"/envelopes/03a1d5d9-d790-48e6-8c8a-0fa6d2580479\",\r\n  \"statusDateTime\":
+        \"2015-06-26T17:19:04.0400000Z\",\r\n  \"status\": \"created\"\r\n}"
+    http_version: 
+  recorded_at: Fri, 26 Jun 2015 17:19:04 GMT
+- request:
+    method: put
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/03a1d5d9-d790-48e6-8c8a-0fa6d2580479
+    body:
+      encoding: UTF-8
+      string: '{"status":"sent"}'
+    headers:
+      X-Docusign-Authentication:
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      Accept:
+      - json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 26 Jun 2015 17:19:06 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: "{}"
+    http_version: 
+  recorded_at: Fri, 26 Jun 2015 17:19:06 GMT
+recorded_with: VCR 2.9.3

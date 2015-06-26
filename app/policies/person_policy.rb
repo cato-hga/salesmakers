@@ -33,4 +33,8 @@ class PersonPolicy < ApplicationPolicy
   def approval?
     @user.managed_team_members.any?
   end
+
+  def send_asset_form?
+    DevicePolicy.new(@user, Device.new).update?
+  end
 end

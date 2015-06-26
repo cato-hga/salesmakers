@@ -123,6 +123,8 @@
     .inner
       %h3 Current Devices
       = render partial: 'shared/device_deployments', locals: { current_devices: @person.devices }
+      - if DevicePolicy.new(@current_person, Device.new).update?
+        = render partial: 'send_asset_form'
   .widget
     .inner
       %h3 Log Entries

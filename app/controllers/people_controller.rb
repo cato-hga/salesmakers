@@ -28,7 +28,8 @@ class PeopleController < ProtectedController
                                         :show,
                                         :update_changelog_entry_id,
                                         :new,
-                                        :create
+                                        :create,
+                                        :send_asset_form
                                     ]
   before_action :find_person, only: [:sales, :commission]
   before_action :setup_onboarding_fields, only: [:new, :create]
@@ -100,6 +101,7 @@ class PeopleController < ProtectedController
     @candidate_contacts = @person.candidate_contacts
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
+    @asset_form_options = asset_form_options
   end
 
   def new
@@ -187,6 +189,37 @@ class PeopleController < ProtectedController
     person = Person.find params[:id]
     person.update changelog_entry_id: params[:changelog_entry_id]
     render nothing: true
+  end
+
+  def send_asset_form
+    authorize Person.new
+    person = Person.find params[:id]
+    template_guid_and_subject = params.permit(:template_guid_and_subject)[:template_guid_and_subject]
+    if template_guid_and_subject.blank? or not template_guid_and_subject.include?('|')
+      flash[:error] = 'You must select a form before clicking "Send Form".'
+      redirect_to person_path(person)
+    end
+    template_guid, subject, role_name = template_guid_and_subject.split('|')[0], template_guid_and_subject.split('|')[1] + person.display_name, template_guid_and_subject.split('|')[2]
+    signers = [
+        {
+            name: person.display_name,
+            email: person.email,
+            role_name: role_name
+        }
+    ]
+    envelope_response = DocusignTemplate.send_ad_hoc_template template_guid, subject, signers
+    if envelope_response
+      flash[:notice] = 'Asset form sent successully.'
+      @current_person.log? 'send_asset_form',
+                           person,
+                           nil,
+                           nil,
+                           nil,
+                           subject
+    else
+      flash[:error] = 'Could not send asset form. Please report this error to the development team.'
+    end
+    redirect_to person_path(person)
   end
 
   private
@@ -297,5 +330,17 @@ class PeopleController < ProtectedController
     else
       'Person created successfully!'
     end
+  end
+
+  def asset_form_options
+    [
+        ['Emergency Tablet Deployment Agreement', 'B94E7297-A122-4172-A45D-B36534812B91|Emergency Tablet Deployment Agreement for: |Manager'],
+        ['Laptop Agreement Form (Deduction Signed First)', '9E900BAE-CEBD-416C-BB64-491B3073CA5B|Laptop Agreement form for: |Employee'],
+        ['Mobile Device Agreement Form for Management', '61B80AC4-0915-45A2-8C4E-DD809C58F953|Mobile Device Agreement Form for HQ Employee: |Employee'],
+        ['Sprint Custom Phone Agreement', 'D978BD2B-2F16-45B5-92CE-CB0820E7674D|Sprint Custom Handset Agreement for: |Employee'],
+        ['Tablet Exchange Form', '160E396D-71CB-4359-A201-FEF6566FDBC4|Tablet Exchange Form for: |Employee'],
+        ['Tablet Exchange Form (Amnesty)', 'F3068461-1889-4C8E-B8E1-83DB64E6B594|Tablet Exchange Form for: |Employee'],
+        ['Tablet Exchange Form (Lost/Stolen Tablet)', 'D490579D-D2B7-4AF6-804C-C3B692A5B43F|Tablet Exchange Form for: |Employee'],
+    ]
   end
 end

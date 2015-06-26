@@ -273,6 +273,7 @@ Rails.application.routes.draw do
           as: :update_changelog_entry_id
       get :edit_position, as: :edit_position
       put :update_position, as: :update_position
+      post :send_asset_form, as: :send_asset_form
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search

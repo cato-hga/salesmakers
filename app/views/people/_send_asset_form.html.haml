@@ -1,0 +1,4 @@
+= form_tag send_asset_form_person_path(@person), class: [:inline_form, :vertical_space] do
+  .row.full-width
+    = select_tag :template_guid_and_subject, options_for_select(@asset_form_options), include_blank: 'Select asset form'
+    = submit_tag 'Send Form', class: [:button, :inline_button]
