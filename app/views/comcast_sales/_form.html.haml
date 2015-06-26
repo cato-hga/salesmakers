@@ -32,9 +32,10 @@
       %fieldset
         %legend Installation
         = f.fields_for :comcast_install_appointment do |a|
-          - slots = options_from_collection_for_select(@time_slots, 'id', 'name')
           - appointment = @comcast_sale.comcast_install_appointment
           - install_date = short_date(appointment.install_date)
+          - selected_slot = appointment.comcast_install_time_slot_id ? appointment.comcast_install_time_slot_id : nil
+          - slots = options_from_collection_for_select(@time_slots, 'id', 'name', selected_slot)
           = a.label :install_date
           = a.text_field :install_date, value: install_date, placeholder: 'MM/DD/YYYY'
           = a.label :comcast_install_time_slot_id, 'Install time slot'
