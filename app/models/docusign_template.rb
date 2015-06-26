@@ -101,6 +101,21 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
+  def self.send_ad_hoc_template template_guid, subject, signers
+    client = DocusignRest::Client.new
+    hash = {
+        status: 'created',
+        email: {
+            subject: subject
+        },
+        template_id: template_guid,
+        signers: signers
+    }
+    created_envelope = client.create_envelope_from_template(hash)
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
   def self.send_nos(person, sender, last_day_worked, termination_date, separation_reason, rehire, retail, remarks)
     project = person.person_areas.first.project
     retail = retail == 'Retail' ? true : false

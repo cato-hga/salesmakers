@@ -117,4 +117,24 @@ describe DocusignTemplate do
       end
     end
   end
+
+  describe 'Docusign Sending, simple template ID with signers' do
+    let!(:template_guid) { 'E0D92C92-D229-4C25-9CAF-E258FA990AF5' }
+    let!(:manager) { create :person,
+                            display_name: 'Test Manager',
+                            email: 'smiles@retaildoneright.com'
+    }
+
+    it 'sends an NOS', :vcr do
+      signers = [
+          {
+              name: manager.display_name,
+              email: manager.email,
+              role_name: 'Manager'
+          }
+      ]
+      envelope_response = DocusignTemplate.send_ad_hoc_template template_guid, 'This is a subject', signers
+      expect(envelope_response.length).to be > 0
+    end
+  end
 end
