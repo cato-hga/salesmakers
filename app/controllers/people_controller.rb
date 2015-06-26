@@ -197,7 +197,7 @@ class PeopleController < ProtectedController
     template_guid_and_subject = params.permit(:template_guid_and_subject)[:template_guid_and_subject]
     if template_guid_and_subject.blank? or not template_guid_and_subject.include?('|')
       flash[:error] = 'You must select a form before clicking "Send Form".'
-      redirect_to person_path(person)
+      redirect_to person_path(person) and return
     end
     template_guid, subject, role_name = template_guid_and_subject.split('|')[0], template_guid_and_subject.split('|')[1] + person.display_name, template_guid_and_subject.split('|')[2]
     signers = [
