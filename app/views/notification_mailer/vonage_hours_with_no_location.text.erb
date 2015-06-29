@@ -14,7 +14,7 @@ Area: <%= connect_user.supervisor.connect_regions.map { |connect_region| connect
 <% supervisor = connect_user.supervisor %>
 <% end %>
 
-<% while supervisor.supervisor and supervisor.firstname == 'X' %>
+<% while supervisor and supervisor.supervisor and supervisor.firstname == 'X' %>
 <% supervisor = supervisor.supervisor %>
 <% if supervisor %>
 Supervisor: <%= supervisor.name %>
