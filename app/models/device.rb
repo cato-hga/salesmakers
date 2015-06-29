@@ -28,6 +28,7 @@ class Device < ActiveRecord::Base
   belongs_to :person
   has_and_belongs_to_many :device_states
   has_many :device_deployments
+  has_many :device_notes
   has_one :device_manufacturer, through: :device_model
 
   stripping_ransacker(:unstripped_identifier, :identifier, true)
