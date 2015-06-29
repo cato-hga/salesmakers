@@ -26,6 +26,27 @@ describe LocationsController do
     end
   end
 
+  describe 'GET csv' do
+    let!(:location_area) { create :location_area, location: location, area: area }
+
+    before { CASClient::Frameworks::Rails::Filter.fake(person.email) }
+
+    it 'returns a success status for CSV format' do
+      get :csv,
+          client_id: area.project.client.id,
+          project_id: area.project.id,
+          format: :csv
+      expect(response).to be_success
+    end
+
+    it 'redirects an HTML format' do
+      get :csv,
+          client_id: area.project.client.id,
+          project_id: area.project.id
+      expect(response).to redirect_to(client_project_locations_path(area.project.client, area.project))
+    end
+  end
+
   describe 'GET show' do
     before do
       location.save

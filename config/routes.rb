@@ -93,7 +93,11 @@ Rails.application.routes.draw do
       member do
         get :sales, as: :sales
       end
-      resources :locations, only: [:new, :create, :index, :show]
+      resources :locations, only: [:new, :create, :index, :show] do
+        collection do
+          get :csv, as: :csv, defaults: { format: :csv }
+        end
+      end
     end
     member do
       get :sales, as: :sales
