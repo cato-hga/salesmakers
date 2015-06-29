@@ -433,7 +433,7 @@ ActiveRecord::Schema.define(version: 20150618184240) do
   end
 
   add_index "device_deployments", ["device_id"], name: "index_device_deployments_on_device_id", using: :btree
-  add_index "device_deployments", ["person_id"], name: "index_device_deployments_on_person_id", using: :btree
+  add_index "device_deployments", ["person_id"], name: "index_device_deployments_on_person_id", using: :f
 
   create_table "device_manufacturers", force: :cascade do |t|
     t.datetime "created_at"
