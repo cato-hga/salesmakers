@@ -149,6 +149,7 @@ Rails.application.routes.draw do
   end
 
   resources :devices do
+    resources :device_notes, only: [:create]
     member do
       get 'write_off'
       get 'line_swap_or_move'

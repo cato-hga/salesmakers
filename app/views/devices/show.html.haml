@@ -92,3 +92,11 @@
               - future = entry.created_at
             = render_log_entry(entry)
           .clearfix
+
+.widget.no_print
+  .inner
+    = render  'device_notes/form'
+.widget#device_notes
+  .inner
+    %h3 Notes
+    = render partial: 'device_notes/table', locals: { device_notes: @device_notes }
