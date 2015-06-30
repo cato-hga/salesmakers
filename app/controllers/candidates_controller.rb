@@ -118,6 +118,7 @@ class CandidatesController < ApplicationController
                                       :last_name,
                                       :suffix,
                                       :mobile_phone,
+                                      :other_phone,
                                       :email,
                                       :zip,
                                       :project_id,

@@ -12,7 +12,7 @@ describe 'contacting the candidate' do
                                           description: 'Test Description' }
   let(:location) { create :location }
 
-  let!(:candidate) { create :candidate, location_area: location_area }
+  let!(:candidate) { create :candidate, location_area: location_area, other_phone: '4648884444' }
   let!(:location_area) { create :location_area, location: location }
   let(:note) { 'Because I feel like it' }
   let(:results) { 'The call went very well!' }
@@ -22,7 +22,12 @@ describe 'contacting the candidate' do
     visit candidates_path
     click_on 'Call'
     fill_in "Enter a note on why you are calling #{candidate.first_name}", with: note
-    click_on 'Show Phone Number'
+    click_on 'Show Phone Number(s)'
+  end
+
+  it 'shows the phone numbers', js: true do
+    expect(page).to have_content "(#{candidate.mobile_phone[0..2]}) #{candidate.mobile_phone[3..5]}-#{candidate.mobile_phone[6..9]}"
+    expect(page).to have_content "(#{candidate.other_phone[0..2]}) #{candidate.other_phone[3..5]}-#{candidate.other_phone[6..9]}"
   end
 
   it 'records phone call details', js: true do

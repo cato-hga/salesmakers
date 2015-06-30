@@ -22,6 +22,9 @@ module CandidateValidationsAndAssocationsExtension
       validates :mobile_phone, uniqueness: true
       validates :mobile_phone, length: { is: 10 },
                 if: Proc.new { |c| c.new_record? }
+      validates :other_phone, length: { is: 10 },
+                allow_blank: true,
+                if: Proc.new { |c| c.new_record? }
       validates :email,
                 presence: true,
                 format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' },
