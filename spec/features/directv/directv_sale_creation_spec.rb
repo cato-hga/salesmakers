@@ -87,6 +87,21 @@ describe 'DirecTV Sale creation' do
       end
     end
 
+    context 'with a past date' do
+      before do
+        fill_in 'Order date', with: Date.today
+        fill_in 'Order number', with: '1234567891015'
+        select previous_provider.name, from: 'Previous Provider'
+        fill_in 'Install date', with: Date.yesterday
+        select directv_install_time_slot.name, from: 'Install time slot'
+        click_on 'Complete Sale'
+      end
+
+      it 'flashes an error message' do
+        expect(page).to have_content 'cannot be in the past.'
+      end
+    end
+
     context 'with other invalid information' do
       it 'renders :new and should retain information' do #Error messages handled above
         fill_in 'Order date', with: 'today'

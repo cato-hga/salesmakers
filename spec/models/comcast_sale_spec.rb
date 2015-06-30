@@ -28,6 +28,11 @@ describe ComcastSale do
     expect(subject).to be_valid
   end
 
+  it 'does not allow install date to be past-dated' do
+    subject.comcast_install_appointment.install_date = Date.yesterday
+    expect(subject).not_to be_valid
+  end
+
   it 'requires at least one of tv, internet, phone, or security' do
     subject.tv = false
     subject.internet = false

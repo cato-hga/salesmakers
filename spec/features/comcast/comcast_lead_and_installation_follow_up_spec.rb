@@ -77,12 +77,16 @@ describe 'Followups' do
     end
 
     describe 'recent/upcoming/other installs' do
-      let(:recent_install_appointment) { create :comcast_install_appointment, install_date: Date.yesterday }
-      let!(:recent_sale) { create :comcast_sale,
+      let(:recent_install_appointment) { x = build(:comcast_install_appointment,
+                                                   install_date: Date.yesterday)
+                                          x.save(validate: false)
+                                         x}
+      let!(:recent_sale) { x = build(:comcast_sale,
                                   comcast_customer: comcast_customer,
                                   person: person,
-                                  comcast_install_appointment: recent_install_appointment
-      }
+                                  comcast_install_appointment: recent_install_appointment)
+                            x.save(validate: false)
+                            x }
 
       let(:upcoming_install_appointment) { create :comcast_install_appointment, install_date: Date.tomorrow }
       let!(:upcoming_sale) { create :comcast_sale,
@@ -91,11 +95,15 @@ describe 'Followups' do
                                     comcast_install_appointment: upcoming_install_appointment
       }
 
-      let(:past_week_install_appointment) { create :comcast_install_appointment, install_date: Date.today - 8.days }
-      let!(:past_week_sale) { create :comcast_sale,
+      let(:past_week_install_appointment) { x = build(:comcast_install_appointment,
+                                                 install_date: Date.today - 8.days)
+                                            x.save(validate: false)
+                                            x}
+      let!(:past_week_sale) { x = build(:comcast_sale,
                                      comcast_customer: comcast_customer,
                                      person: person,
-                                     comcast_install_appointment: past_week_install_appointment
+                                     comcast_install_appointment: past_week_install_appointment)
+                              x.save(validate: false)
       }
 
       let(:future_week_install_appointment) { create :comcast_install_appointment, install_date: Date.today + 8.days }
@@ -108,6 +116,7 @@ describe 'Followups' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(person.email)
         visit comcast_customers_path
+
       end
       it 'show when necessary' do
         expect(page).to have_content(Date.yesterday.strftime('%m/%d/%Y'))

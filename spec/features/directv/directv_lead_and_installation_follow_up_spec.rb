@@ -76,11 +76,16 @@ describe 'Followups' do
     end
 
     describe 'recent/upcoming/other installs' do
-      let(:recent_install_appointment) { create :directv_install_appointment, install_date: Date.yesterday }
-      let!(:recent_sale) { create :directv_sale,
+      let(:recent_install_appointment) { x = build(:directv_install_appointment,
+                                                   install_date: Date.yesterday)
+                                         x.save(validate: false)
+                                         x}
+      let!(:recent_sale) { x = build(:directv_sale,
                                   directv_customer: directv_customer,
                                   person: person,
-                                  directv_install_appointment: recent_install_appointment
+                                  directv_install_appointment: recent_install_appointment)
+                           x.save(validate: false)
+                           x
       }
 
       let(:upcoming_install_appointment) { create :directv_install_appointment, install_date: Date.tomorrow }
@@ -90,11 +95,16 @@ describe 'Followups' do
                                     directv_install_appointment: upcoming_install_appointment
       }
 
-      let(:past_week_install_appointment) { create :directv_install_appointment, install_date: Date.today - 8.days }
-      let!(:past_week_sale) { create :directv_sale,
+      let(:past_week_install_appointment) { x = build(:directv_install_appointment,
+                                                      install_date: Date.today - 8.days)
+                                            x.save(validate: false)
+                                            x}
+      let!(:past_week_sale) { x = build(:directv_sale,
                                      directv_customer: directv_customer,
                                      person: person,
-                                     directv_install_appointment: past_week_install_appointment
+                                     directv_install_appointment: past_week_install_appointment)
+                              x.save(validate:false)
+
       }
 
       let(:future_week_install_appointment) { create :directv_install_appointment, install_date: Date.today + 8.days }

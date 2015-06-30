@@ -1,4 +1,4 @@
-hvogFactoryGirl.define do
+FactoryGirl.define do
 
   factory :device do
     sequence(:identifier, (1..9).cycle) { |n| "12345#{n}" }
