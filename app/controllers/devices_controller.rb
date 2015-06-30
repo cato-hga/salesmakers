@@ -45,10 +45,13 @@ class DevicesController < ApplicationController
 
   def show
     @device = Device.find params[:id]
+    @device_note = DeviceNote.new
+    @device_notes = @device.device_notes
     authorize @device
     @unlocked_device_states = DeviceState.where locked: false
     @log_entries = LogEntry.where("(trackable_type = 'Device' AND trackable_id = #{@device.id}) OR (trackable_type = 'DeviceDeployment' AND referenceable_id = #{@device.id})").order('created_at DESC')
   end
+
 
   def new
     @device = Device.new
