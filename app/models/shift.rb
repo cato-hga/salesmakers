@@ -19,4 +19,24 @@ class Shift < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
+
+  def self.totals_by_person_for_date_range start_date, end_date
+    connection.execute %{
+      select
+
+      p.connect_user_id,
+      floor(round(sum(s.hours), 2)) as hours
+
+      from shifts s
+      left outer join people p
+        on p.id = s.person_id
+
+      where
+        s.date >= cast('#{start_date.strftime('%m/%d/%Y')}' as date)
+        and s.date <= cast('#{end_date.strftime('%m/%d/%Y')}' as date)
+
+      group by p.connect_user_id
+      order by p.connect_user_id
+    }
+  end
 end
