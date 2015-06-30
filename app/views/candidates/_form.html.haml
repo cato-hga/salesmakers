@@ -18,6 +18,8 @@
       = f.select :suffix, @suffixes.map { |value| [value, value]}, include_blank: true
       = f.label :mobile_phone
       = f.text_field :mobile_phone
+      = f.label :other_phone
+      = f.text_field :other_phone
       = f.label :email, 'Email address'
       = f.text_field :email
       = f.label :zip, 'Zip Code'

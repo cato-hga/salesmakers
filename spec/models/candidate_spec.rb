@@ -60,21 +60,42 @@ describe Candidate do
       candidate.mobile_phone = nil
       expect(candidate).not_to be_valid
     end
+
+    it 'responds to other_phone' do
+      expect(candidate).to respond_to(:other_phone)
+    end
+
     it 'requires a mobile phone exactly 10 digits in length' do
       candidate.mobile_phone = '80055512121'
       expect(candidate).not_to be_valid
       candidate.mobile_phone = '800555121'
       expect(candidate).not_to be_valid
     end
+
     it 'does not validate mobile phone length for existing records' do
       candidate.mobile_phone = '800555121'
       candidate.save validate: false
       expect(candidate).to be_valid
     end
+
+    it 'requires that the other phone field be 10 digits in length if present' do
+      candidate.other_phone = nil
+      expect(candidate).to be_valid
+      candidate.other_phone = '800555121'
+      expect(candidate).not_to be_valid
+    end
+
+    it 'does not validate other phone length for existing records' do
+      candidate.other_phone = '800555121'
+      candidate.save validate: false
+      expect(candidate).to be_valid
+    end
+
     it 'requires an email address' do
       candidate.email = nil
       expect(candidate).not_to be_valid
     end
+
     it 'requires a zip code exactly 5 digits long' do
       candidate.zip = nil
       expect(candidate).not_to be_valid
