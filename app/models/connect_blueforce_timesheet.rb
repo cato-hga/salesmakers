@@ -42,8 +42,8 @@ class ConnectBlueforceTimesheet < RealConnectModel
 
   scope :shifts_within_last, ->(duration) {
     return none unless duration
-    where 'shift_date >= ?',
-          (Time.zone.now - duration).beginning_of_day.apply_eastern_offset
+    where('shift_date >= ?',
+          (Time.zone.now - duration).beginning_of_day.apply_eastern_offset).order(:ad_user_id, :shift_date)
   }
 
   def shift_date
