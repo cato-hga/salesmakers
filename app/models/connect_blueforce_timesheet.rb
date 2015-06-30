@@ -73,7 +73,8 @@ class ConnectBlueforceTimesheet < RealConnectModel
 
       where
         t.shift_date >= cast('#{start_date.strftime('%m/%d/%Y')}' as timestamp)
-        and t.shift_date < cast('#{end_date.strftime('%m/%d/%Y')}' as timestamp)
+        and t.shift_date <= cast('#{end_date.strftime('%m/%d/%Y')}' as timestamp)
+        and t.ad_user_id is not null
 
       group by u.ad_user_id
       order by u.ad_user_id
