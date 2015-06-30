@@ -25,6 +25,7 @@ describe DirecTVCustomer do
     expect(subject).to be_valid
   end
 
+
   it 'requires a location' do
     subject.location = nil
     expect(subject).not_to be_valid

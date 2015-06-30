@@ -27,6 +27,7 @@ describe ComcastInstallAppointment do
   it 'requires a ComcastSale' do
     subject.comcast_sale = nil
     expect(subject).not_to be_valid
+
   end
 
   it 'requires an install date' do

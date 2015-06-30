@@ -64,7 +64,10 @@ describe 'DirecTV Customer Creation' do
         expect(page).to have_content("Last name can't be blank")
         expect(page).to have_content("Mobile phone is required")
       end
-    end
+
+
+  end
+
 
     describe 'with valid data' do
 
