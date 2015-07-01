@@ -69,6 +69,7 @@ log_entries
 media
 people
 permission_groups
+person_areas
 positions
 locations
 profiles

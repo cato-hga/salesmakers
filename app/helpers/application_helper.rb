@@ -74,12 +74,12 @@ module ApplicationHelper
   end
 
   def delete_button(path)
-    link_to icon('x-circle') + ' Delete',
-            path,
-            class: [:button, :rounded, :inline_button],
-            id: 'delete_action_button',
-            method: :delete,
-            data: { confirm: 'This action cannot be undone! Are you sure?' }
+    button_to 'Delete'.html_safe,
+              path,
+              class: [:button, :rounded, :inline_button, :alert],
+              id: 'delete_action_button',
+              method: :delete,
+              data: { confirm: 'This action cannot be undone! Are you sure?' }
   end
 
   def last_slice(array, i)

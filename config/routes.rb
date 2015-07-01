@@ -267,6 +267,7 @@ Rails.application.routes.draw do
         post :create_third_party, as: :create_third_party
       end
     end
+    resources :person_areas
     member do
       get :commission, as: :commission
       post :commission
