@@ -2480,38 +2480,6 @@ CREATE TABLE location_areas_radio_shack_location_schedules (
 
 
 --
--- Name: location_client_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE location_client_areas (
-    id integer NOT NULL,
-    location_id integer NOT NULL,
-    client_area_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: location_client_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE location_client_areas_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: location_client_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE location_client_areas_id_seq OWNED BY location_client_areas.id;
-
-
---
 -- Name: locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2797,38 +2765,6 @@ CREATE SEQUENCE person_areas_id_seq
 --
 
 ALTER SEQUENCE person_areas_id_seq OWNED BY person_areas.id;
-
-
---
--- Name: person_client_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE person_client_areas (
-    id integer NOT NULL,
-    person_id integer NOT NULL,
-    client_area_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
-);
-
-
---
--- Name: person_client_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE person_client_areas_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: person_client_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE person_client_areas_id_seq OWNED BY person_client_areas.id;
 
 
 --
@@ -3508,21 +3444,21 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
     notes text
 );
@@ -5024,20 +4960,6 @@ ALTER TABLE ONLY channels ALTER COLUMN id SET DEFAULT nextval('channels_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY client_area_types ALTER COLUMN id SET DEFAULT nextval('client_area_types_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY client_areas ALTER COLUMN id SET DEFAULT nextval('client_areas_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY client_representatives ALTER COLUMN id SET DEFAULT nextval('client_representatives_id_seq'::regclass);
 
 
@@ -5374,13 +5296,6 @@ ALTER TABLE ONLY location_areas ALTER COLUMN id SET DEFAULT nextval('location_ar
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY location_client_areas ALTER COLUMN id SET DEFAULT nextval('location_client_areas_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY locations ALTER COLUMN id SET DEFAULT nextval('locations_id_seq'::regclass);
 
 
@@ -5431,13 +5346,6 @@ ALTER TABLE ONLY person_addresses ALTER COLUMN id SET DEFAULT nextval('person_ad
 --
 
 ALTER TABLE ONLY person_areas ALTER COLUMN id SET DEFAULT nextval('person_areas_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY person_client_areas ALTER COLUMN id SET DEFAULT nextval('person_client_areas_id_seq'::regclass);
 
 
 --
@@ -5984,22 +5892,6 @@ ALTER TABLE ONLY channels
 
 
 --
--- Name: client_area_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY client_area_types
-    ADD CONSTRAINT client_area_types_pkey PRIMARY KEY (id);
-
-
---
--- Name: client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY client_areas
-    ADD CONSTRAINT client_areas_pkey PRIMARY KEY (id);
-
-
---
 -- Name: client_representatives_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6384,14 +6276,6 @@ ALTER TABLE ONLY location_areas
 
 
 --
--- Name: location_client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY location_client_areas
-    ADD CONSTRAINT location_client_areas_pkey PRIMARY KEY (id);
-
-
---
 -- Name: locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6453,14 +6337,6 @@ ALTER TABLE ONLY person_addresses
 
 ALTER TABLE ONLY person_areas
     ADD CONSTRAINT person_areas_pkey PRIMARY KEY (id);
-
-
---
--- Name: person_client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY person_client_areas
-    ADD CONSTRAINT person_client_areas_pkey PRIMARY KEY (id);
 
 
 --
@@ -7155,13 +7031,6 @@ CREATE INDEX index_changelog_entries_on_department_id ON changelog_entries USING
 --
 
 CREATE INDEX index_changelog_entries_on_project_id ON changelog_entries USING btree (project_id);
-
-
---
--- Name: index_client_areas_on_ancestry; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_client_areas_on_ancestry ON client_areas USING btree (ancestry);
 
 
 --
@@ -9141,21 +9010,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
-INSERT INTO schema_migrations (version) VALUES ('20150622183936');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622184112');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622185318');
-
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623200929');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -9165,21 +9024,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
 
-INSERT INTO schema_migrations (version) VALUES ('20150624200915');
-
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626182711');
-
-INSERT INTO schema_migrations (version) VALUES ('20150626191228');
-
-INSERT INTO schema_migrations (version) VALUES ('20150626191313');
-
-INSERT INTO schema_migrations (version) VALUES ('20150626193106');
-
-INSERT INTO schema_migrations (version) VALUES ('20150626194312');
-
-INSERT INTO schema_migrations (version) VALUES ('20150626194833');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 

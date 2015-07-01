@@ -27,6 +27,9 @@ class DirecTVCustomer < ActiveRecord::Base
   validates :person, presence: true
   validates :location, presence: true
   validates_with CustomerPhoneValidator
+  validates :mobile_phone, uniqueness: true
+
+
 
   nilify_blanks
 
