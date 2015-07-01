@@ -1,6 +1,6 @@
 - if CandidatePolicy.new(@current_person, Candidate.new).index?
   %li.has-dropdown
-    = link_to 'Candidates', candidates_path
+    %a{ href: '#' } Candidates
     %ul.dropdown
       %li= link_to 'New', new_candidate_path
       %li= link_to 'Search', candidates_path
