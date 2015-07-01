@@ -1,5 +1,5 @@
 .sticky.fixed
-  %nav.top-bar.contain-to-grid.hide-for-medium-down{ data: { topbar: "" } }
+  %nav.top-bar.contain-to-grid.hide-for-medium-down{ data: { topbar: "", options: 'dropdown_autoclose: false' }, role: 'navigation' }
     %ul.title-area
       %li
         %a= link_to image_tag('logo_nav.png', id: 'joyride-logo'), root_path
