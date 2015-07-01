@@ -62,6 +62,8 @@ class LocationArea < ActiveRecord::Base
     end
   end
 
+  delegate :store_number, :display_name, :address, to: :location
+
   default_scope {
     joins(:area).joins(:location).order("areas.name, locations.display_name")
   }
@@ -149,5 +151,13 @@ class LocationArea < ActiveRecord::Base
     self.update offer_extended_count: self.offer_extended_count + change_by if candidate_status_integer < onboarded_status_integer and
         candidate_status_integer >= accepted_status_integer
     self.update current_head_count: self.current_head_count + change_by if candidate_status_integer >= onboarded_status_integer
+  end
+
+  def channel_name
+    location.channel.name
+  end
+
+  def area_name
+    area.name
   end
 end
