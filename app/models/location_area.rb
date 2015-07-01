@@ -95,20 +95,7 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    in_class_for_615 = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          where c.sprint_radio_shack_training_session_id = 18
-            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
-            and la.id = #{self.id}
-            and c.active = true
-        }
-    ).values.flatten
-    in_629_training = ActiveRecord::Base.connection.execute(
+    in_class_for_629 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -116,14 +103,14 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           where c.sprint_radio_shack_training_session_id = 17
+            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
             and la.id = #{self.id}
             and c.active = true
         }
     ).values.flatten
     [
         paperwork_sent_since_june_22,
-        in_class_for_615,
-        in_629_training
+        in_class_for_629,
     ].flatten.uniq.count
   end
 
