@@ -42,8 +42,8 @@ class ConnectBlueforceTimesheet < RealConnectModel
 
   scope :shifts_within_last, ->(duration) {
     return none unless duration
-    where 'shift_date >= ?',
-          (Time.zone.now - duration).beginning_of_day.apply_eastern_offset
+    where('shift_date >= ?',
+          (Time.zone.now - duration).beginning_of_day.apply_eastern_offset).order(:ad_user_id, :shift_date)
   }
 
   def shift_date
@@ -58,5 +58,26 @@ class ConnectBlueforceTimesheet < RealConnectModel
   def self.this_month
     beginning_date_time = Date.today.beginning_of_month.to_datetime
     self.where('shift_date >= ?', beginning_date_time)
+  end
+
+  def self.totals_by_person_for_date_range start_date, end_date
+    connection.execute %{
+      select
+
+      u.ad_user_id as connect_user_id,
+      floor(round(sum(t.hours), 2)) as hours
+
+      from rsprint_timesheet t
+      left outer join ad_user u
+        on u.ad_user_id = t.ad_user_id
+
+      where
+        t.shift_date >= cast('#{start_date.strftime('%m/%d/%Y')}' as timestamp)
+        and t.shift_date <= cast('#{end_date.strftime('%m/%d/%Y')}' as timestamp)
+        and t.ad_user_id is not null
+
+      group by u.ad_user_id
+      order by u.ad_user_id
+    }
   end
 end

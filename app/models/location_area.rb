@@ -62,6 +62,8 @@ class LocationArea < ActiveRecord::Base
     end
   end
 
+  delegate :store_number, :display_name, :address, to: :location
+
   default_scope {
     joins(:area).joins(:location).order("areas.name, locations.display_name")
   }
@@ -95,20 +97,7 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    in_class_for_615 = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          where c.sprint_radio_shack_training_session_id = 18
-            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
-            and la.id = #{self.id}
-            and c.active = true
-        }
-    ).values.flatten
-    in_629_training = ActiveRecord::Base.connection.execute(
+    in_class_for_629 = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
@@ -116,14 +105,14 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           where c.sprint_radio_shack_training_session_id = 17
+            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
             and la.id = #{self.id}
             and c.active = true
         }
     ).values.flatten
     [
         paperwork_sent_since_june_22,
-        in_class_for_615,
-        in_629_training
+        in_class_for_629,
     ].flatten.uniq.count
   end
 
@@ -149,5 +138,13 @@ class LocationArea < ActiveRecord::Base
     self.update offer_extended_count: self.offer_extended_count + change_by if candidate_status_integer < onboarded_status_integer and
         candidate_status_integer >= accepted_status_integer
     self.update current_head_count: self.current_head_count + change_by if candidate_status_integer >= onboarded_status_integer
+  end
+
+  def channel_name
+    location.channel.name
+  end
+
+  def area_name
+    area.name
   end
 end

@@ -22,6 +22,8 @@
       = link_to 'Send NOS to SD', new_third_party_person_docusign_noses_path(@person), id: '#third_party_nos_button', class: [:button, :inline_button]
   - if PersonPolicy.new(@current_person, @person).update_position?
     = link_to 'Edit Position', edit_position_person_path(@person), class: [:button, :inline_button]
+  - if PersonAreaPolicy.new(@current_person, PersonArea.new).update?
+    = link_to 'Edit Areas', person_person_areas_path(@person), class: [:button, :inline_button]
 
 - if @person.areas.count > 0
   %ul.breadcrumbs

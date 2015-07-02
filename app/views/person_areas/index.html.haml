@@ -1,0 +1,14 @@
+- title "Areas for #{@person.display_name}"
+
+- content_for :action_buttons do
+  = new_button new_person_person_area_path(@person)
+
+- header = header_row ['Project', 'Area', 'Added', 'Can Manage?']
+- rows = []
+- for person_area in @person_areas do
+  - project = person_area.area.project.name
+  - area = link_to person_area.area.name, edit_person_person_area_path(@person, person_area)
+  - added = friendly_datetime(person_area.created_at)
+  - can_manage = person_area.manages? ? 'Yes' : 'No'
+  - rows << table_row([project, area, added, can_manage])
+= table header, rows

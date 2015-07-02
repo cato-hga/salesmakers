@@ -108,7 +108,7 @@ describe 'LineStates CRUD actions' do
     subject do
       visit line_states_path
       click_on line_state.name
-      within '#main_container header h1' do
+      within '#main_container header' do
         click_on 'delete_action_button'
       end
     end

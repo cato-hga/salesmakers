@@ -8,6 +8,35 @@ class LocationsController < ApplicationController
     authorize Location.new
   end
 
+  def csv
+    @search = LocationArea.
+        joins(:area, :location).
+        where("areas.project_id = #{@project.id}").
+        order('locations.city ASC, locations.street_1 ASC').
+        search(params[:q])
+    authorize Location.new
+    @locations = @search.result
+    respond_to do |format|
+      format.html { redirect_to client_project_locations_path(@client, @project) }
+      format.csv do
+        render csv: @locations,
+               filename: "locations_#{date_time_string}",
+               except: [
+                   :id, :location_id, :area_id, :updated_at
+               ],
+               add_methods: [
+                   :number_of_candidates_in_funnel,
+                   :head_count_full?,
+                   :channel_name,
+                   :store_number,
+                   :display_name,
+                   :address,
+                   :area_name
+               ]
+      end
+    end
+  end
+
   def show
     @location = Location.find params[:id]
     #candidate_ids = order_by_distance(Candidate.near(@location, 30)).map {|c| c.id}.uniq

@@ -3,7 +3,7 @@ module ConnectScopes
     base.instance_eval "
       scope :updated_within_last, ->(duration) {
         if duration
-          where('updated >= ?', (Time.zone.now - duration).apply_eastern_offset)
+          where('updated >= ?', (Time.zone.now - duration).apply_eastern_offset).order(:ad_user_id)
         else
           none
         end

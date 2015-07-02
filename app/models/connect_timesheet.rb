@@ -51,4 +51,24 @@ class ConnectTimesheet < RealConnectModel
     beginning_date_time = Date.today.beginning_of_month.to_datetime
     self.where('shift_date >= ?', beginning_date_time)
   end
+
+  def self.totals_by_person_for_date_range start_date, end_date
+    connection.execute %{
+      select
+
+      u.ad_user_id as connect_user_id,
+      floor(round(sum(t.hours) + sum(t.overtime), 2)) as hours
+
+      from rc_timesheet t
+      left outer join ad_user u
+        on u.ad_user_id = t.ad_user_id
+
+      where
+        t.shift_date >= cast('#{start_date.strftime('%m/%d/%Y')}' as timestamp)
+        and t.shift_date <= cast('#{end_date.strftime('%m/%d/%Y')}' as timestamp)
+
+      group by u.ad_user_id
+      order by u.ad_user_id
+    }
+  end
 end

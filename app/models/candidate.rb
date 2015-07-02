@@ -77,7 +77,9 @@ class Candidate < ActiveRecord::Base
            :reschedule,
            :nos,
            :nclb,
-           :transfer
+           :transfer,
+           :transfer_reject,
+           :moved_to_other_project
        ]
 
   enum sprint_roster_status: [

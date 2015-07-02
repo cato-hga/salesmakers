@@ -93,7 +93,11 @@ Rails.application.routes.draw do
       member do
         get :sales, as: :sales
       end
-      resources :locations, only: [:new, :create, :index, :show]
+      resources :locations, only: [:new, :create, :index, :show] do
+        collection do
+          get :csv, as: :csv, defaults: { format: :csv }
+        end
+      end
     end
     member do
       get :sales, as: :sales
@@ -145,6 +149,7 @@ Rails.application.routes.draw do
   end
 
   resources :devices do
+    resources :device_notes, only: [:create]
     member do
       get 'write_off'
       get 'line_swap_or_move'
@@ -262,6 +267,7 @@ Rails.application.routes.draw do
         post :create_third_party, as: :create_third_party
       end
     end
+    resources :person_areas
     member do
       get :commission, as: :commission
       post :commission

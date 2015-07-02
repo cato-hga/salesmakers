@@ -41,6 +41,7 @@ end
 
 every :hour do
   runner 'GroupMeGroup.update_groups(true)'
+  runner 'TimesheetSynchronization.new(Date.today - 22.days - 1.month, Date.today - 22.days).process'
 end
 
 every 3.hours do

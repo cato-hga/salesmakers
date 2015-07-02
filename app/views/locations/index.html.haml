@@ -28,5 +28,6 @@
     = render 'table'
 
 - content_for :footer do
-  -#.left= csv_link csv_people_path(controller: :people, action: :index), @search.result.count
+  - search_params = params[:q] || []
+  .left= csv_link csv_client_project_locations_path(controller: :locations, action: :csv, q: search_params), @search.result.count
   = paginate @location_areas

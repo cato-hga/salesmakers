@@ -271,8 +271,7 @@ describe ApplicationHelper do
 
   it 'should display a delete button' do
     markup = helper.delete_button('/')
-    expect(markup).to have_selector('a[href$="/"]')
-    expect(markup).to have_selector('i[class="fi-x-circle"]')
+    expect(markup).to have_selector('#delete_action_button')
   end
 
   it 'returns the correct last slice of an array' do

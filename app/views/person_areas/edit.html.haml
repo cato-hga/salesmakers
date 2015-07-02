@@ -1,0 +1,5 @@
+- title 'Editing Area for ' + @person.display_name
+- content_for :action_buttons do
+  = delete_button person_person_area_path(@person, @person_area)
+
+= render 'form'

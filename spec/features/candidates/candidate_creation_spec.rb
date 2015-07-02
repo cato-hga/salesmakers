@@ -39,6 +39,7 @@ describe 'Candidate creation' do
         expect(page).to have_content('Last name')
         expect(page).to have_content('Suffix')
         expect(page).to have_content('Mobile phone')
+        expect(page).to have_content('Other phone')
         expect(page).to have_content('Email address')
         expect(page).to have_content('Zip Code')
         expect(page).to have_content('Candidate source')
@@ -90,14 +91,39 @@ describe 'Candidate creation' do
               fill_in 'Email address', with: 'test@test.com'
               fill_in 'Zip Code', with: '33701'
               select source.name, from: 'Candidate source'
-              click_on 'Save and Select Location'
+
             end
           end
-          it 'displays a flash message' do
-            expect(page).to have_content 'Candidate saved!'
+
+          context 'for candidates without an alternate phone number' do
+            before { click_on 'Save and Select Location' }
+
+            it 'displays a flash message' do
+              expect(page).to have_content 'Candidate saved!'
+            end
+
+            it 'redirects to the location selection page' do
+              expect(page).to have_content 'Select Location for '
+            end
           end
-          it 'redirects to the location selection page' do
-            expect(page).to have_content 'Select Location for '
+
+          context 'for candidates with an alternate phone number' do
+            before do
+              fill_in 'Other phone', with: '4648884444'
+              click_on 'Save and Select Location'
+            end
+
+            it 'displays a flash message' do
+              expect(page).to have_content 'Candidate saved!'
+            end
+
+            it 'redirects to the location selection page' do
+              expect(page).to have_content 'Select Location for '
+            end
+
+            it 'saves the other phone number' do
+              expect(Candidate.first.other_phone).to eq('4648884444')
+            end
           end
         end
 

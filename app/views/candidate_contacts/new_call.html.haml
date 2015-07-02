@@ -7,8 +7,14 @@
       = f.label :notes, "Enter a note on why you are calling #{@candidate.first_name}"
       = f.text_area :notes, rows: 5
       %p
-        = f.submit 'Show Phone Number', class: [:button, :inline_button]
-        %span#phone_number(style="display:none;")= phone_display(@candidate.mobile_phone)
+        = f.submit 'Show Phone Number(s)', class: [:button, :inline_button]
+        %span.phone_number(style="display:none;")
+          %strong Mobile:
+          = phone_display(@candidate.mobile_phone)
+        - if @candidate.other_phone
+          %span.phone_number(style="display:none;")
+            %strong Other:
+            = phone_display(@candidate.other_phone)
     #call_results(style="display:none;")
       = form_tag save_call_results_candidate_candidate_contacts_path(@candidate), method: :put do
         = hidden_field_tag 'candidate_contact_id'

@@ -598,7 +598,8 @@ CREATE TABLE candidates (
     potential_area_id integer,
     training_session_status integer DEFAULT 0 NOT NULL,
     sprint_roster_status integer,
-    time_zone character varying
+    time_zone character varying,
+    other_phone character varying
 );
 
 
@@ -1318,6 +1319,39 @@ ALTER SEQUENCE device_models_id_seq OWNED BY device_models.id;
 
 
 --
+-- Name: device_notes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE device_notes (
+    id integer NOT NULL,
+    device_id integer,
+    note text,
+    person_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: device_notes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE device_notes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: device_notes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE device_notes_id_seq OWNED BY device_notes.id;
+
+
+--
 -- Name: device_states; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1845,6 +1879,38 @@ CREATE SEQUENCE email_messages_id_seq
 --
 
 ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
+
+
+--
+-- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE employee_call_off_reasons (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    active boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE employee_call_off_reasons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
 
 
 --
@@ -3426,7 +3492,9 @@ CREATE TABLE sms_daily_checks (
     accountability_checkin_2 boolean,
     accountability_checkin_3 boolean,
     sales integer,
-    notes text
+    notes text,
+    employee_call_off_reason_id integer,
+    called_off boolean
 );
 
 
@@ -5052,6 +5120,13 @@ ALTER TABLE ONLY device_models ALTER COLUMN id SET DEFAULT nextval('device_model
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY device_notes ALTER COLUMN id SET DEFAULT nextval('device_notes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY device_states ALTER COLUMN id SET DEFAULT nextval('device_states_id_seq'::regclass);
 
 
@@ -5151,6 +5226,13 @@ ALTER TABLE ONLY drop_off_reasons ALTER COLUMN id SET DEFAULT nextval('drop_off_
 --
 
 ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
 
 
 --
@@ -5995,6 +6077,14 @@ ALTER TABLE ONLY device_models
 
 
 --
+-- Name: device_notes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY device_notes
+    ADD CONSTRAINT device_notes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: device_states_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6112,6 +6202,14 @@ ALTER TABLE ONLY drop_off_reasons
 
 ALTER TABLE ONLY email_messages
     ADD CONSTRAINT email_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY employee_call_off_reasons
+    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
 
 
 --
@@ -8976,4 +9074,14 @@ INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
+
+INSERT INTO schema_migrations (version) VALUES ('20150626182711');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629191123');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629200154');
+
+INSERT INTO schema_migrations (version) VALUES ('20150630143153');
+
+INSERT INTO schema_migrations (version) VALUES ('20150701181643');
 

@@ -4,4 +4,8 @@ class LocationPolicy < ApplicationPolicy
       scope.all
     end
   end
+
+  def csv?
+    index?
+  end
 end
