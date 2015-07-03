@@ -33,7 +33,7 @@ module Twilio
       r.Say 'Hello, ' + person.first_name + '.'
       r.Say 'You have ' + pluralize(person.sales_today.to_s, 'sale') + ' today.'
       managed_team_members = person.managed_team_members
-      managed_team_members = managed_team_members.empty? ? [] : Person.where("id IN (#{managed_team_members.map(&:id)}) AND active = true")
+      managed_team_members = managed_team_members.empty? ? [] : Person.where("id IN (#{managed_team_members.map(&:id).join(',')}) AND active = true")
       for employee in managed_team_members do
         next if employee.sales_today < 1
         r.Say employee.first_name + ' ' + employee.last_name + ' has ' +
