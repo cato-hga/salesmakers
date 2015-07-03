@@ -32,13 +32,15 @@ module Twilio
       total_sales = person.sales_today
       r.Say 'Hello, ' + person.first_name + '.'
       r.Say 'You have ' + pluralize(person.sales_today.to_s, 'sale') + ' today.'
-      for employee in person.managed_team_members.where(active: true) do
+      managed_team_members = person.managed_team_members
+      managed_team_members = managed_team_members.empty? ? [] : Person.where("id IN (#{managed_team_members.map(&:id)}) AND active = true")
+      for employee in managed_team_members do
         next if employee.sales_today < 1
         r.Say employee.first_name + ' ' + employee.last_name + ' has ' +
                   pluralize(employee.sales_today.to_s, 'sale') + ' today'
         total_sales += employee.sales_today
       end
-      if person.managed_team_members.where(active: true).count > 0
+      unless managed_team_members.empty?
         r.Say 'The total number of sales for you and your employees is ' +
                   total_sales.to_s + '.'
       end
