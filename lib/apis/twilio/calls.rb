@@ -38,7 +38,7 @@ module Twilio
                   pluralize(employee.sales_today.to_s, 'sale') + ' today'
         total_sales += employee.sales_today
       end
-      if person.employees.where(active: true).count > 0
+      if person.managed_team_members.where(active: true).count > 0
         r.Say 'The total number of sales for you and your employees is ' +
                   total_sales.to_s + '.'
       end
