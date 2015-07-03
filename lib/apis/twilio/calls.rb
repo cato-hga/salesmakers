@@ -32,7 +32,7 @@ module Twilio
       total_sales = person.sales_today
       r.Say 'Hello, ' + person.first_name + '.'
       r.Say 'You have ' + pluralize(person.sales_today.to_s, 'sale') + ' today.'
-      for employee in person.employees.where(active: true) do
+      for employee in person.managed_team_members.where(active: true) do
         next if employee.sales_today < 1
         r.Say employee.first_name + ' ' + employee.last_name + ' has ' +
                   pluralize(employee.sales_today.to_s, 'sale') + ' today'

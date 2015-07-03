@@ -10,7 +10,7 @@ module PersonToPersonVisibilityModelExtension
       next unless person_area.manages
       areas = person_area.area.subtree
       for area in areas do
-        people = people.concat area.people.to_a
+        people = people.concat area.people.order(:display_name).to_a
       end
     end
     people.flatten
