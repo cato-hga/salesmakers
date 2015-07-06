@@ -30,17 +30,19 @@ module Twilio
 
     def announce_sales(r, person)
       total_sales = person.sales_today
-      r.Say 'Hello, ' + person.first_name + '.'
-      r.Say 'You have ' + pluralize(person.sales_today.to_s, 'sale') + ' today.'
-      for employee in person.employees.where(active: true) do
+      r.Say 'Hello, ' + person.first_name + '.', voice: 'alice'
+      r.Say 'You have ' + pluralize(person.sales_today.to_s, 'sale') + ' today.', voice: 'alice'
+      managed_team_members = person.managed_team_members
+      managed_team_members = managed_team_members.empty? ? [] : Person.where("id IN (#{managed_team_members.map(&:id).join(',')}) AND active = true")
+      for employee in managed_team_members do
         next if employee.sales_today < 1
         r.Say employee.first_name + ' ' + employee.last_name + ' has ' +
-                  pluralize(employee.sales_today.to_s, 'sale') + ' today'
+                  pluralize(employee.sales_today.to_s, 'sale') + ' today', voice: 'alice'
         total_sales += employee.sales_today
       end
-      if person.employees.where(active: true).count > 0
+      unless managed_team_members.empty?
         r.Say 'The total number of sales for you and your employees is ' +
-                  total_sales.to_s + '.'
+                  total_sales.to_s + '.', voice: 'alice'
       end
     end
 
