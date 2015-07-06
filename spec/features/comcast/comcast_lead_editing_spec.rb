@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Comcast lead editing' do
-  let(:position) { create :comcast_sales_position }
+  let(:position) { create :comcast_sales_position, permissions: [permission_customer_index] }
   let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
   let!(:comcast_lead) {
     create :comcast_lead,
@@ -14,6 +14,15 @@ describe 'Comcast lead editing' do
   let(:permission_update) { Permission.create key: 'comcast_customer_update', permission_group: permission_group, description: description }
   let(:permission_destroy) { Permission.create key: 'comcast_customer_destroy', permission_group: permission_group, description: description }
   let(:permission_create) { Permission.create key: 'comcast_customer_create', permission_group: permission_group, description: description }
+  let!(:location) { create :location, display_name: 'New Location' }
+  let(:project) { create :project, name: 'Comcast Retail' }
+  let(:person_area) { create :person_area,
+                             person: comcast_employee,
+                             area: create(:area,
+                                          project: project) }
+  let!(:location_area) { create :location_area,
+                                location: location,
+                                area: person_area.area }
 
   describe 'for unauthorized employees' do
     context 'that are from other projects' do
@@ -48,15 +57,6 @@ describe 'Comcast lead editing' do
   end
 
   describe 'for authorized employees' do
-    let(:position) { create :comcast_sales_position, permissions: [permission_customer_index] }
-    let(:comcast_customer) { create :comcast_customer, person: comcast_employee }
-    let!(:comcast_lead) {
-      create :comcast_lead,
-             follow_up_by: Date.tomorrow,
-             comcast_customer: comcast_customer
-    }
-
-    let(:comcast_employee) { create :comcast_employee, position: position }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
       visit comcast_customer_path(comcast_customer)
@@ -70,6 +70,11 @@ describe 'Comcast lead editing' do
         expect(page).to have_content('Follow up by')
         expect(page).to have_content('Interest in Services')
         expect(page).to have_content('Customer agrees to be contacted by phone or text message')
+        expect(page).to have_content('Location')
+        expect(page).to have_content('First name')
+        expect(page).to have_content('Last name')
+        expect(page).to have_content('Mobile phone')
+        expect(page).to have_content('Other phone')
       end
     end
     describe 'submission success' do
@@ -78,6 +83,11 @@ describe 'Comcast lead editing' do
         check 'comcast_lead_internet'
         check 'comcast_lead_security'
         fill_in 'Comments', with: 'Test Comment'
+        select location.name, from: 'Location'
+        fill_in 'First name', with: 'Peter'
+        fill_in 'Last name', with: 'Ortiz'
+        fill_in 'Mobile phone', with: '7777777777'
+        fill_in 'Other phone', with: '8888888888'
         click_on 'Save as Lead'
       end
       it 'flashes a success message' do
@@ -87,7 +97,14 @@ describe 'Comcast lead editing' do
         expect(page).to have_content('My Leads')
       end
       it 'updates the lead' do
+        comcast_customer.reload
         expect(page).to have_content((Date.today + 1.week).strftime('%m/%d/%Y'))
+        expect(comcast_customer.location).to eq(location)
+        click_on('Peter Ortiz')
+        expect(page).to have_content('Peter')
+        expect(page).to have_content('Ortiz')
+        expect(page).to have_content('(777) 777-7777')
+        expect(page).to have_content('(888) 888-8888')
       end
     end
 
