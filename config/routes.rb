@@ -2,8 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  get 'comcast_customer_notes/create'
-
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
