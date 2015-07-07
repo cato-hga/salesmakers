@@ -49,16 +49,12 @@ describe 'DirecTV lead destruction' do
 
   describe 'for authorized employees' do
     let(:position) { create :directv_sales_position, permissions: [permission_customer_index] }
-    let(:directv_customer) { create :directv_customer, person: directv_employee }
-    let!(:directv_lead) {
+    let!(:active_lead) {
       create :directv_lead,
              active: true,
              follow_up_by: Date.tomorrow,
              directv_customer: directv_customer
     }
-
-
-    let(:directv_employee) { create :directv_employee, position: position }
     let!(:reason) { create :directv_lead_dismissal_reason }
 
     before(:each) do
@@ -66,6 +62,7 @@ describe 'DirecTV lead destruction' do
       visit directv_customer_path(directv_customer)
       within '#directv_lead' do
         click_on 'Dismiss Lead'
+
       end
     end
 
@@ -95,7 +92,10 @@ describe 'DirecTV lead destruction' do
 
 
     context 'an inactive lead' do
-      let!(:inactive_lead) { create :directv_lead, active: false}
+      let!(:inactive_lead) { create :directv_lead,
+                                   directv_customer: directv_customer,
+                                   active: false
+      }
 
 
       before(:each) do
@@ -110,6 +110,7 @@ describe 'DirecTV lead destruction' do
       it 'does not show dismissal or reassign button if lead is inactive' do
         expect(page).not_to have_button 'Dismiss Lead'
         expect(page).not_to have_button 'Reassign Lead'
+
       end
     end
   end
