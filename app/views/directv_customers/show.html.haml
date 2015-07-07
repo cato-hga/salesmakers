@@ -37,8 +37,11 @@
         - unless lead.comments.blank?
           %p
             %strong Comments:
-            %br/
             %span.comment= lead.comments
+        - unless lead.active
+          %p
+            %strong Dismissal Reason:
+            = @directv_customer.directv_lead_dismissal_reason.name
 
         - if lead.active
           %p

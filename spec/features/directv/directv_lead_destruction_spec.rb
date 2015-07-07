@@ -91,24 +91,26 @@ describe 'DirecTV lead destruction' do
       expect(directv_customer.directv_lead_dismissal_reason_id).to eq(reason.id)
       expect(directv_customer.dismissal_comment).to eq('Test Comments!')
     end
-  end
 
 
-  context 'an inactive lead' do
-    let!(:inactive_lead) { create :directv_lead, active: false}
 
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake(directv_employee.email)
-      visit directv_customer_path(directv_customer)
+    context 'an inactive lead' do
+      let!(:inactive_lead) { create :directv_lead, active: false}
+
+
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(directv_employee.email)
+        visit directv_customer_path(directv_customer)
+      end
+      it 'displays dismissal reason on show page' do
+        expect(page).to have_content('Lead Details')
+        expect(page).to have_selector('strong', text: directv_customer.directv_lead_dismissal_reason)
+      end
+
+      it 'does not show dismissal or reassign button if lead is inactive' do
+        expect(page).not_to have_button 'Dismiss Lead'
+        expect(page).not_to have_button 'Reassign Lead'
+      end
     end
-    it 'displays dismissal reason on show page' do
-      expect(page).to have_content('Lead Details')
-      expect(page).to have_content('dismissal reason')
-    end
-
-    it 'does not show dismissal or reassign button if lead is inactive' do
-      expect(page).not_to have_content 'Di'
-    end
-
   end
 end
