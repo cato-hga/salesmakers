@@ -11,7 +11,7 @@
     = f.text_field :location_store_number_cont, placeholder: 'Store number'
     = f.select :area_id_eq, options_from_collection_for_select(@areas, :id, :name), include_blank: 'All areas'
     = f.text_field :priority_eq, placeholder: 'Priority'
-    = f.text_field :target_head_count_cont, placeholder: 'Target HC'
+    = f.text_field :target_head_count_eq, placeholder: 'Target HC'
     %br/
     = f.text_field :location_street_1_cont, placeholder: 'Street address 1'
     = f.text_field :location_street_2_cont, placeholder: 'Street address 2'
