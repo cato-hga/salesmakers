@@ -147,7 +147,7 @@ class DevicesController < ApplicationController
   end
 
   def set_models_and_providers
-    @device_models = DeviceModel.all
+    @device_models = DeviceModel.all.joins(:device_manufacturer).order("device_manufacturers.name, name")
     @service_providers = TechnologyServiceProvider.all
   end
 end
