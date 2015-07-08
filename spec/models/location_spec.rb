@@ -72,6 +72,10 @@ describe Location do
     expect(subject).to respond_to(:mail_stop)
   end
 
+  it 'responds to location_client_areas' do
+    expect(subject).to respond_to(:location_client_areas)
+  end
+
   describe 'LocationAreas' do
     let(:project) { create :project }
     let(:second_project) { create :project }

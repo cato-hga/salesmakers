@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-describe 'creating Locations and LocationAreas' do
+describe 'creating Locations, LocationAreas, and LocationClientAreas' do
   let(:location) { build :location }
   let!(:area) { create :area }
+  let!(:client_area) { create :client_area, project: area.project }
   let(:person) { create :person, position: position }
   let(:position) { create :position, permissions: [location_create_permission] }
   let(:location_create_permission) { create :permission, key: 'location_create' }
@@ -22,12 +23,14 @@ describe 'creating Locations and LocationAreas' do
     select location.state, from: 'State'
     fill_in 'ZIP Code', with: location.zip
     select area.name, from: 'Area'
+    select client_area.name, from: 'Client area'
     fill_in 'Priority', with: '1'
     fill_in 'Target head count', with: '2'
     click_on 'Save'
     expect(page).to have_content('successfully')
     expect(Location.count).to eq(1)
     expect(LocationArea.count).to eq(1)
+    expect(LocationClientArea.count).to eq(1)
     expect(LocationArea.first.priority).to eq(1)
     expect(LocationArea.first.target_head_count).to eq(2)
   end

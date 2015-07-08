@@ -48,6 +48,10 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
   end
 
+  it 'responds to person_client_areas' do
+    expect(person).to respond_to(:person_client_areas)
+  end
+
   it 'responds to update_position_from_connect?' do
     expect(person).to respond_to :update_position_from_connect?
   end
