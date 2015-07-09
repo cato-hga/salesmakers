@@ -128,7 +128,7 @@ class LocationArea < ActiveRecord::Base
     end
     return LocationArea.none if locations.empty?
     location_areas = locations.map { |l| l.location_areas }.flatten
-    LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
+    LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND location_areas.active = true")).resolve
   end
 
   def change_counts candidate_status_integer, change_by

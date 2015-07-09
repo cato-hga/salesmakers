@@ -27,6 +27,7 @@ RSpec.describe Area, :type => :model do
   it { should belong_to(:project) }
   it { should have_many(:person_areas) }
   it { should have_many(:people).through(:person_areas) }
+
   #it { should have_one(:wall) }
 
   # Scope isn't currently used. Test will pass once uncommented
@@ -120,6 +121,25 @@ RSpec.describe Area, :type => :model do
 
     it 'returns all locations in the tree for #all_locations' do
       expect(area_one.all_locations.count).to eq(2)
+    end
+  end
+
+  describe 'deactivation of LocationAreas when area is deactivated' do
+    let(:area) { create :area }
+    let!(:location_area) { create :location_area, area: area }
+
+    it 'deactivates upon save when active is false' do
+      expect {
+        area.update active: false
+        location_area.reload
+      }.to change(location_area, :active?).from(true).to(false)
+    end
+
+    it 'does not deactivate upon save when active is true' do
+      expect {
+        area.update active: true
+        location_area.reload
+      }.not_to change(location_area, :active?)
     end
   end
 

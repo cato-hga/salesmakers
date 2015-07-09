@@ -105,34 +105,38 @@ class AreaUpdater
     existing_area = Area.find_by connect_salesregion_id: connect.c_salesregion_id
     clean_name = Position.clean_area_name(connect)
     parent = parent_connect ? Area.find_by(connect_salesregion_id: parent_connect.c_salesregion_id) : nil
+    active = connect.isactive == 'Y' ? true : false
     if not existing_area
       new_area = Area.create name: clean_name,
                              area_type: area_type,
-                            project: project,
-                            created_at: connect.created,
-                            updated_at: connect.updated,
-                            connect_salesregion_id: connect.c_salesregion_id
+                             project: project,
+                             created_at: connect.created,
+                             updated_at: connect.updated,
+                             connect_salesregion_id: connect.c_salesregion_id,
+                             active: active
       @count += 1
       if parent_connect
         new_area.update parent: parent if parent
       end
       new_area_manager = connect.manager
       PersonUpdater.new(new_area_manager).update if new_area_manager
-    elsif not same_area?(existing_area, clean_name, area_type, project, parent)
+    elsif not same_area?(existing_area, clean_name, area_type, project, parent, active)
       existing_area.update name: clean_name,
                            area_type: area_type,
                            project: project,
-                           parent: parent
+                           parent: parent,
+                           active: active
       @count += 1
     end
   end
 
-  def self.same_area?(area, name, area_type, project, parent)
+  def self.same_area?(area, name, area_type, project, parent, active)
     area.name == name &&
         area.area_type == area_type &&
         area.project == project &&
         (parent &&
-            area.parent == parent)
+            area.parent == parent) &&
+        area.active? == active
   end
 
   def self.update_areas

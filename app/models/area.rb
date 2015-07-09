@@ -19,6 +19,8 @@ class Area < ActiveRecord::Base
   extend AreaAssociationsModelExtension
   include AreaScopesModelExtension
 
+  after_save :deactivate_location_areas_if_inactive
+
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
 
@@ -38,11 +40,24 @@ class Area < ActiveRecord::Base
     Location.where("id IN (#{subtree_location_areas.map(&:location_id).join(',')})")
   end
 
+  def all_location_areas
+    LocationArea.where area_id: self.subtree_ids
+  end
+
   def string_id
     "#{id.to_s}"
   end
 
   def full_name
     "#{self.project.name} - #{self.name}"
+  end
+
+  private
+
+  def deactivate_location_areas_if_inactive
+    return if self.active?
+    for location_area in self.all_location_areas do
+      location_area.update active: false
+    end
   end
 end
