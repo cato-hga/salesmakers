@@ -90,6 +90,7 @@ Rails.application.routes.draw do
         end
       end
       resources :channels
+      resources :client_areas, only: [:index]
       member do
         get :sales, as: :sales
       end

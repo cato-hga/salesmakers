@@ -4,6 +4,7 @@ describe LocationsController do
   let!(:channel) { create :channel }
   let(:location) { build :location }
   let!(:area) { create :area }
+  let!(:client_area) { create :client_area, project: area.project }
   let(:person) { create :person, position: position }
   let(:position) { create :position, permissions: [location_create_permission, location_index_permission] }
   let(:location_create_permission) { create :permission, key: 'location_create' }
@@ -98,7 +99,8 @@ describe LocationsController do
                state: location.state,
                zip: location.zip
            },
-           area_id: area.id
+           area_id: area.id,
+           client_area_id: client_area.id
     end
 
     it 'returns a success status' do

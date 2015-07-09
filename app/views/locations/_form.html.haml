@@ -28,4 +28,6 @@
     = f.text_field :mail_stop
   = label_tag :area_id, 'Area'
   = select_tag :area_id, options_from_collection_for_select(@areas, :id, :name, @area_id), include_blank: true
+  = label_tag :client_area_id, 'Client area'
+  = select_tag :client_area_id, options_from_collection_for_select(@client_areas, :id, :name, @client_area_id), include_blank: true
   = f.submit 'Save', class: [:button]
