@@ -233,6 +233,14 @@ Rails.application.routes.draw do
 
   get 'global_search', to: 'global_search#results', as: :global_search
 
+  resources :group_mes, path: :groupme do
+    collection do
+      get :auth_page, path: :sync
+      get :auth
+      get :called_back
+    end
+  end
+
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups
   post 'group_me_groups/post', to: 'group_me_groups#post', as: :post_group_me_groups

@@ -5,26 +5,31 @@ class GroupMesController < ApplicationController
   skip_before_action CASClient::Frameworks::Rails::Filter, only: :incoming_bot_message
   skip_before_action :set_current_user, only: :incoming_bot_message
   protect_from_forgery except: :incoming_bot_message
-  before_action :setup_groupme, except: :incoming_bot_message
-  layout false
+  before_action :setup_groupme, except: [:incoming_bot_message, :auth_page]
+  layout false, except: :auth_page
 
-  # def auth
-  #   redirect_to 'https://oauth.groupme.com/oauth/authorize?client_id=UeyAKMhjQFp1oai4Fs838Vvz9qneTW11ZWeMRgs1U2AIz5vw'
-  # end
-  #
-  # def called_back
-  #   if params[:access_token] and current_user
-  #     current_user.update groupme_access_token: params[:access_token],
-  #                         groupme_token_updated: Time.now
-  #     setup_groupme
-  #     group_me_user_json = @groupme.get_me
-  #     GroupMeUser.find_or_create_from_json group_me_user_json, @current_person
-  #   end
-  #
-  #   flash[:notice] = 'GroupMe integration complete!'
-  #   redirect_to root_url
-  #
-  # end
+  def auth
+    redirect_to 'https://oauth.groupme.com/oauth/authorize?client_id=UeyAKMhjQFp1oai4Fs838Vvz9qneTW11ZWeMRgs1U2AIz5vw'
+  end
+
+  def called_back
+    if params[:access_token] and current_user
+      current_user.update groupme_access_token: params[:access_token],
+                          groupme_token_updated: Time.now
+      setup_groupme
+      group_me_user_json = @groupme.get_me
+      GroupMeUser.find_or_create_from_json group_me_user_json, @current_person
+    end
+
+    flash[:notice] = 'GroupMe integration complete!'
+    redirect_to root_url
+
+  end
+
+  def auth_page
+
+
+  end
 
   def incoming_bot_message
     json = request.body.read
