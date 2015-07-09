@@ -5,7 +5,7 @@ class AreasController < ProtectedController
   def index
     @project = Project.find params[:project_id]
     #@areas = Area.member_of(@current_person).where project: @project
-    @areas = Area.roots.where project: @project
+    @areas = Area.roots.where project: @project, active: true
   end
 
   def show

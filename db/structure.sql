@@ -190,7 +190,8 @@ CREATE TABLE areas (
     connect_salesregion_id character varying,
     personality_assessment_url character varying,
     area_candidate_sourcing_group_id integer,
-    email character varying
+    email character varying,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -9232,4 +9233,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150701181643');
 INSERT INTO schema_migrations (version) VALUES ('20150707200146');
 
 INSERT INTO schema_migrations (version) VALUES ('20150708152321');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709141841');
 

@@ -29,5 +29,5 @@
             - else
               = link_to area.name, [area.project.client, area.project, area]
           - else
-            - areas = area.subtree.arrange(order: :name)
+            - areas = area.subtree.where(active: true).arrange(order: :name)
             = people_nested_areas areas
