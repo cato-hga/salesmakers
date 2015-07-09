@@ -33,7 +33,7 @@ class SprintSalesController < ApplicationController
     if params[:start_date] && params[:end_date]
       @range = [Chronic.parse(params[:start_date]), Chronic.parse(params[:end_date])]
     end
-    unless @range.first
+    unless @range.first and @range.last
       @range = [Date.today, Date.today]
       flash[:error] = 'You have either entered an invalidate start date or end date. Please re-enter the dates.'
     end
