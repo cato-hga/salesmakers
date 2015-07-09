@@ -18,6 +18,9 @@
       - unless @line.contract_end_date == Date.parse('01/01/1901')
         %strong Contract End Date:
         = short_date @line.contract_end_date
+        %br/
+        %br/
+        = link_to 'Assign Line to Device', lines_path, class: [:button]
   - if @line.device
     - device = @line.device
     .widget
