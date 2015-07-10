@@ -78,7 +78,7 @@ class WorkmarketAPI
   end
 
   def get_assignment assignment_json
-    return if assignment_json.nil?
+    return if assignment_json.blank?
     assignment = WorkmarketAssignment.new
     resource = assignment_json.andand['active_resource']
     check_in_outs = resource.andand['check_in_out']
