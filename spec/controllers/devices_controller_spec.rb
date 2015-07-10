@@ -189,6 +189,23 @@ describe DevicesController do
     end
   end
 
+  describe 'GET line_edit' do
+    let(:it_tech) { create :it_tech_person, position: position }
+    let(:position) { create :it_tech_position }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+      allow(controller).to receive(:policy).and_return double(line_edit?: true)
+      get :line_edit
+    end
+    it 'should return a success status.' do
+      expect(response).to be_success
+    end
+
+    it 'renders the line edit template' do
+      expect(response).to render_template("line_edit")
+    end
+  end
+
   describe 'states' do
     let(:device) { create :device }
     let(:locked_state) { create :device_state, locked: true }

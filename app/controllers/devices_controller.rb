@@ -8,8 +8,8 @@ class DevicesController < ApplicationController
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move]
-  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move]
+  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move, :line_edit]
+  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move ]
 
   def index
     authorize Device.new
