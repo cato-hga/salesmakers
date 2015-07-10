@@ -3,7 +3,7 @@
   - if @line.active?
     = button_to 'Deactivate', deactivate_line_path(@line), class: [:button, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
     - unless @line.device
-      = link_to 'Assign Line to Device', line_edit_devices_path, class: [:button, :inline_button]
+      = link_to 'Assign Line to Device', line_edit_devices_path(line_id: @line.id ), class: [:button, :inline_button]
 
 .line_states
   - for line_state in @line.line_states

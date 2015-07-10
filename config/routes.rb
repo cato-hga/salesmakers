@@ -185,7 +185,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :csv, to: 'devices#csv', as: :csv, defaults: { format: :csv }
-      get :line_edit
+      get 'line_edit/:line_id', to: 'devices#line_edit', as: :line_edit
     end
     resources :device_deployments, except: [ :index ] do
       collection do
