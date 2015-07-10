@@ -20,4 +20,6 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'SMS'
   inflect.irregular 'docusign_nos', 'docusign_noses'
   inflect.acronym 'DirecTV'
+  inflect.acronym 'VCP07012015'
+  inflect.acronym 'HPS'
 end

@@ -37,6 +37,7 @@ class VonageSale < ActiveRecord::Base
   has_many :vonage_sale_payouts
   has_one :vonage_refund
   has_many :vonage_account_status_changes, primary_key: 'mac', foreign_key: 'mac'
+  has_one :vcp07012015_hps_sale
 
   scope :for_paycheck, ->(paycheck) {
     if paycheck
