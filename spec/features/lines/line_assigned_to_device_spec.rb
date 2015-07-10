@@ -25,7 +25,8 @@
       it 'should direct to eligible devices page' do
         visit line_path(line)
         click_on 'Assign Line to Device'
-        expect(page.current_path).to eq(line_edit)
+        expect(page.current_path).to eq(line_edit_devices_path)
+
       end
     end
   end

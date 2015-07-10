@@ -128,6 +128,10 @@ class DevicesController < ApplicationController
     end
   end
 
+  def line_edit
+
+  end
+
   private
 
   def search_bar
