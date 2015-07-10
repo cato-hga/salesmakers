@@ -4064,16 +4064,6 @@ CREATE TABLE tmp_sn (
 
 
 --
--- Name: tmp_stores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tmp_stores (
-    store_number character varying,
-    target_head_count integer
-);
-
-
---
 -- Name: tmp_wm; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
