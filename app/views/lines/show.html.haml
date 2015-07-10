@@ -1,6 +1,7 @@
 = title line_display( @line )
 - if @line.active?
   - content_for :action_buttons do
+    = link_to 'Assign Line to Device', lines_path, class: [:button, :inline_button]
     = button_to 'Deactivate', deactivate_line_path(@line), class: [:button, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
 
 .line_states
@@ -18,9 +19,6 @@
       - unless @line.contract_end_date == Date.parse('01/01/1901')
         %strong Contract End Date:
         = short_date @line.contract_end_date
-        %br/
-        %br/
-        = link_to 'Assign Line to Device', lines_path, class: [:button]
   - if @line.device
     - device = @line.device
     .widget

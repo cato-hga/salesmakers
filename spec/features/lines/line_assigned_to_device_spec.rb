@@ -1,6 +1,6 @@
   require 'rails_helper'
 
-  describe 'Line Assigned to Device' do
+  describe 'Adding a Line to a Device' do
     let(:it_tech) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
     let(:line) {create :line}
@@ -16,8 +16,16 @@
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
     end
-    it 'should have assign device button' do
-      visit line_path(line)
-      expect(page).to have_link('Assign Line to Device')
+
+    describe 'The Show Page' do
+      it 'should have assign device button' do
+        visit line_path(line)
+        expect(page).to have_link('Assign Line to Device')
+      end
+      it 'should direct to eligible devices page' do
+        visit line_path(line)
+        click_on 'Assign Line to Device'
+        expect(page.current_path).to eq(line_edit)
+      end
     end
   end
