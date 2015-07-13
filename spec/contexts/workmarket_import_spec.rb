@@ -52,4 +52,5 @@ describe WorkmarketImport do
   #     import.execute
   #   }.to change(WorkmarketField, :count).by_at_least(1)
   # end
+
 end

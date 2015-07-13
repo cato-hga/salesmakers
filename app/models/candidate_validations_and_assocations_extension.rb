@@ -1,3 +1,5 @@
+require 'apis/gateway'
+
 module CandidateValidationsAndAssocationsExtension
   def self.included(klass)
     klass.extend ClassMethods
@@ -12,6 +14,26 @@ module CandidateValidationsAndAssocationsExtension
   def trim_names
     first_name.strip! if first_name
     last_name.strip! if last_name
+  end
+
+  def mobile_phone_number_valid
+    return if Rails.env.test?
+    return unless self.mobile_phone and self.mobile_phone_changed?
+    validation = Gateway.new.number_validation self.mobile_phone
+    if validation.valid && !validation.mobile
+      errors.add :mobile_phone, 'number is a landline. Please move the number to the "Other phone" field and get a valid mobile phone number from the candidate.'
+    elsif !validation.valid
+      errors.add :mobile_phone, 'number is not an active phone number'
+    end
+  end
+
+  def other_phone_number_valid
+    return if Rails.env.test?
+    return unless self.mobile_phone and self.mobile_phone_changed?
+    validation = Gateway.new.number_validation self.mobile_phone
+    if !validation.valid
+      errors.add :other_phone, 'number is not an active phone number'
+    end
   end
 
   module ClassMethods
@@ -32,6 +54,8 @@ module CandidateValidationsAndAssocationsExtension
       validates :zip, length: { is: 5 }
       validates :candidate_source_id, presence: true
       validates :created_by, presence: true
+      validate :mobile_phone_number_valid
+      validate :other_phone_number_valid
 
       before_validation :trim_names
       after_validation :proper_casing

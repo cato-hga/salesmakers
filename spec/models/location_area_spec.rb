@@ -138,10 +138,10 @@ describe LocationArea do
     #   expect(paperwork_sent_since_june_8_location_area.head_count_full?).to eq(true)
     # end
 
-    it 'is never recruitable when not priority 1' do
-      low_priority_location_area = create :location_area, priority: 2
-      expect(low_priority_location_area.head_count_full?).to eq(true)
-    end
+    # it 'is never recruitable when not priority 1' do
+    #   low_priority_location_area = create :location_area, priority: 2
+    #   expect(low_priority_location_area.head_count_full?).to eq(true)
+    # end
 
     # it 'does not count inactive candidates' do
     #   expect(inactive_candidate_location_area.head_count_full?).to eq(false)
