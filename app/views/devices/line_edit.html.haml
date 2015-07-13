@@ -1,0 +1,50 @@
+- title 'Assign a Device to Line ' + line_display(@line)
+- content_for :header do
+
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, url: line_edit_devices_path(line_id: @line.id), id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :unstripped_identifier_cont, placeholder: 'Identifier'
+    = f.text_field :unstripped_serial_cont, placeholder: 'Serial'
+    = f.text_field :person_display_name_cont, placeholder: 'Assigned To'
+    = f.text_field :person_email_cont, placeholder: 'Email (assigned to)'
+    = f.text_field :device_deployments_person_display_name_cont, placeholder: 'Previously Assigned To'
+    = f.text_field :device_manufacturer_name_cont, placeholder: 'Manufacturer'
+    = f.text_field :device_model_name_cont, placeholder: 'Model'
+    = f.text_field :device_states_name_cont, placeholder: 'State(s)'
+    = f.text_field :device_deployments_tracking_number_cont, placeholder: 'Tracking #'
+    = f.submit 'search', class: 'button'
+    - if @devices
+      .top-pagination
+        = paginate @devices
+
+
+%section#line_edit_table
+  - h_identifier = sort_link(@search, :identifier)
+  - h_serial = sort_link(@search, :serial)
+  - h_assignee = sort_link(@search, :person_display_name, 'Assignee')
+  - h_deploy_date = 'Deploy Date'
+  - h_line = sort_link(@search, :line_identifier, 'Line')
+  - h_manufacturer = sort_link(@search, :device_manufacturer_name, 'Manufacturer')
+  - h_model = sort_link(@search, :device_model_name, 'Model')
+  - h_states = 'State(s)'
+  - header = header_row [h_identifier, h_serial, h_assignee, h_deploy_date, h_line, h_manufacturer, h_model, h_states, 'Assign']
+  - rows = Array.new
+  - for device in @devices do
+    - identifier = link_to device.identifier, device
+    - serial = link_to device.serial, device
+    - assigned_to = (device.person) ? person_link(device.person) : ''
+    - deploy_date = (device.deployed?) ? link_to(device.deploy_date_string, device) : ''
+    - line_object = device.line
+    - line = line_object ? line_link(line_object) : ''
+    - manufacturer = device.manufacturer_name
+    - model_object = device.device_model
+    - model = model_object.name
+    - states = device_state_links device
+    - assign_button = link_to 'Assign Line', line_update_device_path(device, line_id: @line.id),method: :patch, class: [:button]
+    - rows << table_row([identifier,serial,assigned_to,deploy_date,line,manufacturer,model,states, assign_button])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @devices

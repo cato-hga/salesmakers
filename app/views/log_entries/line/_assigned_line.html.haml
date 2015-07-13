@@ -1,0 +1,7 @@
+.entry_type
+  Assigned Line
+  = line_link log_entry.trackable
+  .time_ago
+    = time_ago_in_words(log_entry.created_at) + ' ago'
+by
+= person_link log_entry.person

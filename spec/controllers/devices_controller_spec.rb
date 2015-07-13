@@ -190,21 +190,46 @@ describe DevicesController do
   end
 
   describe 'GET line_edit' do
-    let(:it_tech) { create :it_tech_person, position: position }
-    let(:position) { create :it_tech_position }
+    let(:it_tech) { create :it_tech_person }
+    let(:line) { create :line, line_states: [line_state] }
+    let(:line_state) { create :line_state, name: 'Active' }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
       allow(controller).to receive(:policy).and_return double(line_edit?: true)
-      get :line_edit
+      get :line_edit,
+          line_id: line.id
     end
+
     it 'should return a success status.' do
       expect(response).to be_success
     end
 
     it 'renders the line edit template' do
-      expect(response).to render_template("line_edit")
+      expect(response).to render_template(:line_edit)
     end
   end
+
+  describe 'PATCH line_update' do
+    let(:line) { create :line }
+    let(:it_tech) { create :it_tech_person }
+    let(:device) { create :device, line: nil }
+    before(:each) do
+      CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+      allow(controller).to receive(:policy).and_return double(line_update?: true)
+      patch :line_update,
+          line_id: line.id,
+          id: device.id
+    end
+    it 'updates Device with correct line' do
+      device.reload
+      expect(device.line).to eq(line)
+
+    end
+    it 'redirect to device page' do
+     expect(response).to redirect_to device_path(device)
+    end
+  end
+
 
   describe 'states' do
     let(:device) { create :device }
