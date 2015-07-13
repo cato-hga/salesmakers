@@ -61,12 +61,15 @@
     - display_name = person_link person, classes
     - email = mail_to person.email, person.email, class: classes
     - if person.office_phone
-      - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, classes)
+      - pclasses = person.office_phone_valid? ? classes : 'sm_red'
+      - phone = content_tag(:em, 'o:') + phone_link(person.office_phone, pclasses)
     - elsif person.mobile_phone
-      - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, classes)
+      - pclasses = person.mobile_phone_valid? ? classes : 'sm_red'
+      - phone = content_tag(:em, 'm:') + phone_link(person.mobile_phone, pclasses)
       - phone = show_details ? phone : blocked
     - elsif person.home_phone
-      - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, classes)
+      - pclasses = person.home_phone_valid? ? classes : 'sm_red'
+      - phone = content_tag(:em, 'h:') + phone_link(person.home_phone, pclasses)
       - phone = show_details ? phone : blocked
     - else
       - phone = ''

@@ -56,6 +56,18 @@ RSpec.describe Person, :type => :model do
     expect(person).to respond_to :update_position_from_connect?
   end
 
+  it 'responds to mobile_phone_valid?' do
+    expect(person).to respond_to :mobile_phone_valid?
+  end
+
+  it 'responds to home_phone_valid?' do
+    expect(person).to respond_to :home_phone_valid?
+  end
+
+  it 'responds to office_phone_valid?' do
+    expect(person).to respond_to :office_phone_valid?
+  end
+
   describe 'uniqueness validations' do
     let(:second_person) { create :person }
 

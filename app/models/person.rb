@@ -29,6 +29,7 @@
 #
 
 require 'validators/phone_number_validator'
+require 'apis/gateway'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
   extend NonAlphaNumericRansacker
@@ -40,6 +41,7 @@ class Person < ActiveRecord::Base
   include PersonEmploymentModelExtension
 
   before_validation :generate_display_name
+  after_create :set_phone_validation
 
   has_paper_trail
   nilify_blanks
@@ -92,6 +94,36 @@ class Person < ActiveRecord::Base
 
   def office_phone?
     self.office_phone and self.office_phone != '8005551212'
+  end
+
+  def set_phone_validation
+    return unless Rails.env.production? || Rails.env.staging?
+    if mobile_phone?
+      validation = Gateway.new.number_validation self.mobile_phone
+      if validation.valid && !validation.mobile
+        move_mobile_to_landline
+      elsif !validation.valid
+        self.mobile_phone_valid = false
+      else
+        self.mobile_phone_valid = true
+      end
+    end
+    if home_phone?
+      validation = Gateway.new.number_validation self.home_phone
+      if validation.valid
+        self.home_phone_valid = true
+      else
+        self.home_phone_valid = false
+      end
+    end
+    if office_phone?
+      validation = Gateway.new.number_validation self.office_phone
+      if validation.valid
+        self.office_phone_valid = true
+      else
+        self.office_phone_valid = false
+      end
+    end
   end
 
   def show_details?(people)
@@ -245,4 +277,12 @@ class Person < ActiveRecord::Base
     candidate.update active: false if candidate
   end
 
+  def move_mobile_to_landline
+    if self.home_phone
+      self.office_phone = self.mobile_phone
+    else
+      self.home_phone = self.mobile_phone
+    end
+    self.mobile_phone = nil
+  end
 end

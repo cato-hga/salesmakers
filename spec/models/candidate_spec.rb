@@ -47,6 +47,14 @@ describe Candidate do
     expect(candidate.last_name).to eq('Bar')
   end
 
+  it 'responds to mobile_phone_valid?' do
+    expect(candidate).to respond_to :mobile_phone_valid?
+  end
+
+  it 'responds to other_phone_valid?' do
+    expect(candidate).to respond_to :other_phone_valid?
+  end
+
   describe 'validations' do
     it 'requires a first name at least 2 characters long' do
       candidate.first_name = 'a'
