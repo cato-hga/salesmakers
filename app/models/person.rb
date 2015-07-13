@@ -41,7 +41,7 @@ class Person < ActiveRecord::Base
   include PersonEmploymentModelExtension
 
   before_validation :generate_display_name
-  after_create :set_phone_validation
+  before_create :set_phone_validation
 
   has_paper_trail
   nilify_blanks
