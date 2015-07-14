@@ -3,7 +3,7 @@ FactoryGirl.define do
   factory :comcast_customer do
     first_name 'Blanche'
     last_name 'Devereaux'
-    mobile_phone '6969696969'
+    sequence(:mobile_phone, (1..9).cycle) { |n| "727498518#{n}" }
     person
     location
   end

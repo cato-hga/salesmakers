@@ -34,6 +34,16 @@ describe ComcastCustomer do
     expect(subject.name).to eq(subject.first_name + ' ' + subject.last_name)
   end
 
+  context 'uniqueness of mobile phone' do
+    let!(:comcast_customer) { create :comcast_customer, mobile_phone: '1234567890' }
+
+    subject { build :comcast_customer, mobile_phone: '1234567890' }
+
+    it 'validates that the mobile phone is unique' do
+      expect(subject).not_to be_valid
+    end
+  end
+
   context 'manageable scope' do
     let(:comcast_manager) { create :comcast_manager }
     let(:comcast_employee) { create :comcast_employee }
