@@ -3,10 +3,7 @@ require 'rails_helper'
 describe 'DirecTV lead editing' do
   let(:position) { create :directv_sales_position, permissions: [permission_customer_index] }
   let(:directv_customer) { create :directv_customer, person: directv_employee }
-  let!(:directv_lead) {
-    create :directv_lead,
-           directv_customer: directv_customer
-  }
+  let!(:directv_lead) { create :directv_lead, directv_customer: directv_customer }
   let!(:directv_employee) { create :directv_employee, position: position }
   let(:permission_group) { PermissionGroup.create name: 'Test Permission Group' }
   let(:description) { 'TestDescription' }
@@ -35,7 +32,6 @@ describe 'DirecTV lead editing' do
       it 'does not show the edit lead button' do
         expect(page).not_to have_content('Edit Lead')
       end
-
     end
 
     context 'that are not the person attached to the customer/lead' do
@@ -50,6 +46,7 @@ describe 'DirecTV lead editing' do
         CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
         visit directv_customer_path(directv_customer)
       end
+
       it 'does not show the edit lead button' do
         expect(page).not_to have_content('Edit Lead')
       end
@@ -63,7 +60,6 @@ describe 'DirecTV lead editing' do
       click_on 'Edit Lead'
     end
 
-
     describe 'form' do
       it 'shows the edit form and all fields' do
         expect(page).to have_content('Edit Lead')
@@ -76,7 +72,6 @@ describe 'DirecTV lead editing' do
         expect(page).to have_content('Other phone')
       end
     end
-
 
     describe 'submission success' do
       before do
@@ -115,6 +110,7 @@ describe 'DirecTV lead editing' do
         uncheck 'Customer agrees to be contacted by phone or text message'
         click_on 'Save as Lead'
       end
+
       it 'flashes error messages' do
         expect(page).to have_content('Lead could not be updated')
       end
@@ -123,6 +119,5 @@ describe 'DirecTV lead editing' do
         expect(page).to have_content('Edit Lead')
       end
     end
-
   end
 end
