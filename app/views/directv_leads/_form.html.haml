@@ -5,6 +5,23 @@
         - @directv_lead.errors.full_messages.each do |msg|
           .alert.alert-box= msg
       - follow_up_by = @directv_lead.follow_up_by ? @directv_lead.follow_up_by.strftime('%m/%d/%Y') : ''
+      - if action_name == 'edit' or action_name == 'update'
+        = f.fields_for :directv_customer do |cust|
+          - if @directv_locations
+            - options = options_from_collection_for_select(@directv_locations, :id, :name, @directv_customer.location )
+          - else
+            - options = ''
+          = cust.hidden_field :person_id, value: @directv_lead.directv_customer.person.id
+          = cust.label :location_id
+          = cust.select :location_id, options
+          = cust.label :first_name
+          = cust.text_field :first_name
+          = cust.label :last_name
+          = cust.text_field :last_name
+          = cust.label :mobile_phone
+          = cust.text_field :mobile_phone
+          = cust.label :other_phone
+          = cust.text_field :other_phone
       = f.label :follow_up_by
       = f.text_field :follow_up_by, value: follow_up_by, placeholder: 'MM/DD/YYYY'
       = f.check_box :ok_to_call_and_text
