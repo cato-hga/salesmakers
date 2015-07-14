@@ -13,10 +13,7 @@
     - if line.contract_end_date == Date.parse('01/01/1901')
       - contract_end_date = ''
     - else
-    - if line.active?
-      - contract_end_date = link_to short_date(line.contract_end_date), line
-    - else
-      - contract_end_date = link_to short_date(line.contract_end_date), line, class: :inactive
+    - contract_end_date = line.active? ? link_to(short_date(line.contract_end_date), line) : link_to(short_date(line.contract_end_date), line, class: :inactive)
     - states = line_state_links line
     - rows << table_row([provider,identifier,device_link,contract_end_date,states])
   = table header, rows

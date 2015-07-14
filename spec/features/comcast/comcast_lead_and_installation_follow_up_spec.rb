@@ -88,7 +88,6 @@ describe 'Followups' do
       let!(:upcoming_sale) { create :comcast_sale,
                                     comcast_customer: comcast_customer,
                                     person: person,
-
                                     comcast_install_appointment: upcoming_install_appointment
       }
 
