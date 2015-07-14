@@ -73,7 +73,7 @@ class LocationArea < ActiveRecord::Base
   end
 
   def head_count_full?
-    return true unless self.priority == 1
+    return true unless (self.priority == 1 or self.priority == 2)
     candidates = number_of_candidates_in_funnel
     return true if self.target_head_count + 1 <= candidates
     false
@@ -92,6 +92,10 @@ class LocationArea < ActiveRecord::Base
           where j.id is not null
             and la.id = #{self.id}
             and c.status >= #{Candidate.statuses[:paperwork_sent]}
+            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} OR
+                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} OR
+                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} OR
+                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
             and c.active = true
           group by c.id
           order by c.id
@@ -128,7 +132,7 @@ class LocationArea < ActiveRecord::Base
     end
     return LocationArea.none if locations.empty?
     location_areas = locations.map { |l| l.location_areas }.flatten
-    LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND active = true")).resolve
+    LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND location_areas.active = true")).resolve
   end
 
   def change_counts candidate_status_integer, change_by

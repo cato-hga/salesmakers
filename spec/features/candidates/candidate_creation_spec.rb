@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe 'Candidate creation' do
+describe 'Candidate creation', :vcr do
   let(:recruiter) { create :person, position: position }
   let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
@@ -91,7 +91,6 @@ describe 'Candidate creation' do
               fill_in 'Email address', with: 'test@test.com'
               fill_in 'Zip Code', with: '33701'
               select source.name, from: 'Candidate source'
-
             end
           end
 
@@ -109,7 +108,7 @@ describe 'Candidate creation' do
 
           context 'for candidates with an alternate phone number' do
             before do
-              fill_in 'Other phone', with: '4648884444'
+              fill_in 'Other phone', with: '8634396520'
               click_on 'Save and Select Location'
             end
 
@@ -122,7 +121,7 @@ describe 'Candidate creation' do
             end
 
             it 'saves the other phone number' do
-              expect(Candidate.first.other_phone).to eq('4648884444')
+              expect(Candidate.first.other_phone).to eq('8634396520')
             end
           end
         end
@@ -162,6 +161,38 @@ describe 'Candidate creation' do
           end
         end
       end
+
+      # context 'with invalid phone numbers' do
+      #   before(:each) do
+      #     within '#content' do
+      #       fill_in 'First name', with: 'Test'
+      #       fill_in 'Last name', with: 'Candidate'
+      #       fill_in 'Email address', with: 'test@test.com'
+      #       fill_in 'Zip Code', with: '33701'
+      #       select source.name, from: 'Candidate source'
+      #     end
+      #   end
+      #
+      #   subject { click_on 'Save and Select Location' }
+      #
+      #   it 'handles an invalid phone number filled out on Mobile phone' do
+      #     fill_in 'Mobile phone', with: '8631234567'
+      #     subject
+      #     expect(page).to have_content 'Mobile phone number is not an active phone number'
+      #   end
+      #
+      #   it 'handles an invalid phone number filled out on Other phone' do
+      #     fill_in 'Other phone', with: '8631234567'
+      #     subject
+      #     expect(page).to have_content 'Other phone number is not an active phone number'
+      #   end
+      #
+      #   it 'handles a non-mobile phone number filled out on Mobile phone' do
+      #     fill_in 'Mobile phone', with: '8634396520'
+      #     subject
+      #     expect(page).to have_content 'Mobile phone number is a landline. Please move the number to the "Other phone" field and get a valid mobile phone number from the candidate.'
+      #   end
+      # end
     end
   end
 end

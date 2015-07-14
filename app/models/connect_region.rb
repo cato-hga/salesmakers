@@ -26,7 +26,7 @@ class ConnectRegion < ConnectModel
   self.table_name = :c_salesregion
   self.primary_key = :c_salesregion_id
 
-  default_scope { active.order :name }
+  default_scope { order :name }
 
   belongs_to :manager, class_name: 'ConnectUser',
              primary_key: 'ad_user_id',

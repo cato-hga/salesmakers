@@ -41,4 +41,30 @@ describe 'SMS Gateway API', vcr: true do
     expect(response).to be_a(Twilio::REST::Call)
   end
 
+  describe 'phone number validation', :vcr do
+    it 'detects invalid phone numbers' do
+      validation = gateway.number_validation '1234567890'
+      expect(validation.valid).to eq(false)
+      expect(validation.mobile).to eq(false)
+    end
+
+    it 'returns a valid mobile number when the number given is valid and mobile' do
+      validation = gateway.number_validation '8635214572'
+      expect(validation.valid).to eq(true)
+      expect(validation.mobile).to eq(true)
+    end
+
+    it 'returns a valid mobile number when the number given is valid and VoIP' do
+      validation = gateway.number_validation '7274872633'
+      expect(validation.valid).to eq(true)
+      expect(validation.mobile).to eq(true)
+    end
+
+    it 'returns a valid non-mobile number when the number given is valid and landline' do
+      validation = gateway.number_validation '8634396520'
+      expect(validation.valid).to eq(true)
+      expect(validation.mobile).to eq(false)
+    end
+  end
+
 end

@@ -190,7 +190,8 @@ CREATE TABLE areas (
     connect_salesregion_id character varying,
     personality_assessment_url character varying,
     area_candidate_sourcing_group_id integer,
-    email character varying
+    email character varying,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -599,7 +600,10 @@ CREATE TABLE candidates (
     training_session_status integer DEFAULT 0 NOT NULL,
     sprint_roster_status integer,
     time_zone character varying,
-    other_phone character varying
+    other_phone character varying,
+    mobile_phone_valid boolean DEFAULT true NOT NULL,
+    other_phone_valid boolean DEFAULT true NOT NULL,
+    mobile_phone_is_landline boolean DEFAULT false NOT NULL
 );
 
 
@@ -1948,38 +1952,6 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
--- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE employee_call_off_reasons (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    active boolean NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE employee_call_off_reasons_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
-
-
---
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2222,7 +2194,10 @@ CREATE TABLE people (
     vonage_tablet_approval_status integer DEFAULT 0 NOT NULL,
     passed_asset_hours_requirement boolean DEFAULT false NOT NULL,
     sprint_prepaid_asset_approval_status integer DEFAULT 0 NOT NULL,
-    update_position_from_connect boolean DEFAULT true NOT NULL
+    update_position_from_connect boolean DEFAULT true NOT NULL,
+    mobile_phone_valid boolean DEFAULT true NOT NULL,
+    home_phone_valid boolean DEFAULT true NOT NULL,
+    office_phone_valid boolean DEFAULT true NOT NULL
 );
 
 
@@ -3606,25 +3581,23 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
-    notes text,
-    employee_call_off_reason_id integer,
-    called_off boolean
+    notes text
 );
 
 
@@ -4063,16 +4036,6 @@ CREATE TABLE tmp_sn (
 
 
 --
--- Name: tmp_stores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE tmp_stores (
-    store_number character varying,
-    target_head_count integer
-);
-
-
---
 -- Name: tmp_wm; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4405,6 +4368,143 @@ ALTER SEQUENCE uploaded_videos_id_seq OWNED BY uploaded_videos.id;
 
 
 --
+-- Name: vcp07012015_hps_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_hps_sales (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    vonage_sale_id integer NOT NULL,
+    person_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_hps_sales_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_hps_sales_id_seq OWNED BY vcp07012015_hps_sales.id;
+
+
+--
+-- Name: vcp07012015_hps_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_hps_shifts (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    shift_id integer NOT NULL,
+    person_id integer NOT NULL,
+    hours double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    hps_commission_payout double precision
+);
+
+
+--
+-- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_hps_shifts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_hps_shifts_id_seq OWNED BY vcp07012015_hps_shifts.id;
+
+
+--
+-- Name: vcp07012015_vested_sales_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_vested_sales_sales (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    vonage_sale_id integer NOT NULL,
+    person_id integer NOT NULL,
+    vested boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_vested_sales_sales_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_vested_sales_sales_id_seq OWNED BY vcp07012015_vested_sales_sales.id;
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_vested_sales_shifts (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    shift_id integer NOT NULL,
+    person_id integer NOT NULL,
+    hours double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    vested_sales_commission_payout double precision
+);
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_vested_sales_shifts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_vested_sales_shifts_id_seq OWNED BY vcp07012015_vested_sales_shifts.id;
+
+
+--
 -- Name: version_associations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4503,6 +4603,42 @@ CREATE SEQUENCE vonage_account_status_changes_id_seq
 --
 
 ALTER SEQUENCE vonage_account_status_changes_id_seq OWNED BY vonage_account_status_changes.id;
+
+
+--
+-- Name: vonage_commission_period07012015s; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_commission_period07012015s (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    hps_start date,
+    hps_end date,
+    vested_sales_start date,
+    vested_sales_end date,
+    cutoff timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vonage_commission_period07012015s_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_commission_period07012015s_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_commission_period07012015s_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commission_period07012015s.id;
 
 
 --
@@ -5376,13 +5512,6 @@ ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY employment_end_reasons ALTER COLUMN id SET DEFAULT nextval('employment_end_reasons_id_seq'::regclass);
 
 
@@ -5831,6 +5960,34 @@ ALTER TABLE ONLY uploaded_videos ALTER COLUMN id SET DEFAULT nextval('uploaded_v
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vcp07012015_hps_sales ALTER COLUMN id SET DEFAULT nextval('vcp07012015_hps_sales_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vcp07012015_hps_shifts ALTER COLUMN id SET DEFAULT nextval('vcp07012015_hps_shifts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vcp07012015_vested_sales_sales ALTER COLUMN id SET DEFAULT nextval('vcp07012015_vested_sales_sales_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vcp07012015_vested_sales_shifts ALTER COLUMN id SET DEFAULT nextval('vcp07012015_vested_sales_shifts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY version_associations ALTER COLUMN id SET DEFAULT nextval('version_associations_id_seq'::regclass);
 
 
@@ -5846,6 +6003,13 @@ ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq':
 --
 
 ALTER TABLE ONLY vonage_account_status_changes ALTER COLUMN id SET DEFAULT nextval('vonage_account_status_changes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT nextval('vonage_commission_period07012015s_id_seq'::regclass);
 
 
 --
@@ -6379,14 +6543,6 @@ ALTER TABLE ONLY email_messages
 
 
 --
--- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY employee_call_off_reasons
-    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
-
-
---
 -- Name: employment_end_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6899,6 +7055,38 @@ ALTER TABLE ONLY uploaded_videos
 
 
 --
+-- Name: vcp07012015_hps_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vcp07012015_hps_sales
+    ADD CONSTRAINT vcp07012015_hps_sales_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vcp07012015_hps_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vcp07012015_hps_shifts
+    ADD CONSTRAINT vcp07012015_hps_shifts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vcp07012015_vested_sales_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vcp07012015_vested_sales_sales
+    ADD CONSTRAINT vcp07012015_vested_sales_sales_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vcp07012015_vested_sales_shifts
+    ADD CONSTRAINT vcp07012015_vested_sales_shifts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: version_associations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6920,6 +7108,14 @@ ALTER TABLE ONLY versions
 
 ALTER TABLE ONLY vonage_account_status_changes
     ADD CONSTRAINT vonage_account_status_changes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_commission_period07012015s_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_commission_period07012015s
+    ADD CONSTRAINT vonage_commission_period07012015s_pkey PRIMARY KEY (id);
 
 
 --
@@ -9256,21 +9452,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
-INSERT INTO schema_migrations (version) VALUES ('20150622183936');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622184112');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622185318');
-
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623200929');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -9279,8 +9465,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
-
-INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -9296,10 +9480,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
 
-INSERT INTO schema_migrations (version) VALUES ('20150629191123');
-
-INSERT INTO schema_migrations (version) VALUES ('20150629200154');
-
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
 INSERT INTO schema_migrations (version) VALUES ('20150701181643');
@@ -9307,4 +9487,30 @@ INSERT INTO schema_migrations (version) VALUES ('20150701181643');
 INSERT INTO schema_migrations (version) VALUES ('20150707200146');
 
 INSERT INTO schema_migrations (version) VALUES ('20150708152321');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709141841');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709180211');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709181749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709183929');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709193232');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709194414');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709195124');
+
+INSERT INTO schema_migrations (version) VALUES ('20150709195850');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713173931');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713174001');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713194138');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713194328');
+
+INSERT INTO schema_migrations (version) VALUES ('20150714132627');
 

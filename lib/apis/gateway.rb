@@ -13,8 +13,24 @@ class Gateway
   def initialize(from = '+17272286225')
     @from = from
     @message_twimlet_base = 'http://twimlets.com/message?'
-    @client = Twilio::REST::Client.new 'AC96a051482517673481ee177d64d52bcf',
-                                       '806dd03205d48972b9837da98ccf0348'
+    @sid = 'AC96a051482517673481ee177d64d52bcf'
+    @auth_token = '806dd03205d48972b9837da98ccf0348'
+    @client = Twilio::REST::Client.new @sid,
+                                       @auth_token
+  end
+
+  def number_validation number
+    lookup_client = Twilio::REST::LookupsClient.new @sid, @auth_token
+    response = lookup_client.phone_numbers.get number, type: 'carrier'
+    validation = OpenStruct.new
+    validation.valid = valid? response
+    if validation.valid
+      type = response.andand.carrier.andand['type']
+      validation.mobile = (type == 'mobile' || type == 'voip') ? true : false
+    else
+      validation.mobile = false
+    end
+    validation
   end
 
   private
@@ -43,6 +59,15 @@ class Gateway
       return nil
     else
       results.first
+    end
+  end
+
+  def valid? response
+    begin
+      response.phone_number
+      return true
+    rescue
+      return false
     end
   end
 end
