@@ -138,11 +138,16 @@ class DevicesController < ApplicationController
   def line_update
     line = Line.find params[:line_id]
     device = Device.find params[:id]
-    device.update line: line
+    if device.update line: line
     @current_person.log? 'assigned_line',
                          line,
                          device
+    flash[:notice] = 'Successfully assigned line to device!'
     redirect_to device
+    else
+      flash[:error] = 'Line was not assigned to device!'
+      redirect_to device
+    end
   end
 
   private

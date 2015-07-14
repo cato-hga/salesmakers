@@ -28,14 +28,12 @@ describe 'Adding a Line to a Device' do
       click_on 'Assign Line to Device'
       expect(page.current_path).to eq line_edit_devices_path(line)
     end
-
   end
   context 'Line with a Device Attached' do
 
     it 'should not show an assign device button' do
       visit line_path(line_with_device)
       expect(page).not_to have_link('Assign Line to Device')
-
     end
   end
 
@@ -56,7 +54,7 @@ describe 'Adding a Line to a Device' do
       expect(page).to have_content(device_without_line_three.serial)
     end
     it 'should have an assign line button ' do
-      expect(page).to have_content('Assign Line', count: 3)
+      expect(page).to have_button('Assign Line', count: 3)
     end
   end
 
@@ -74,6 +72,10 @@ describe 'Adding a Line to a Device' do
 
     it 'redirects to device_path' do
       expect(current_path).to eq(device_path(device_without_line_one))
+    end
+
+    it 'flashes success message' do
+      expect(page).to have_content('Successfully assigned line to device!')
     end
 
     it 'creates log entries' do
