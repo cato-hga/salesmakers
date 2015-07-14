@@ -48,7 +48,7 @@ module SalesLeadsCustomersExtension
   end
 
   def lead_update(client, lead, path)
-    lead.update update_params
+    lead.assign_attributes update_params
     lead.follow_up_by = Chronic.parse params.require("#{client}_lead".to_sym).permit(:follow_up_by)[:follow_up_by]
     if lead.save
       @current_person.log? 'update',

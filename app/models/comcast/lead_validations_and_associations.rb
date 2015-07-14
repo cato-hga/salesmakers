@@ -8,5 +8,6 @@ module Comcast::LeadValidationsAndAssociations
 
   def belongs_to_associations
     belongs_to :comcast_customer
+    accepts_nested_attributes_for :comcast_customer
   end
 end

@@ -7,5 +7,6 @@ module DirecTV::LeadValidationsAndAssociations
 
   def belongs_to_associations
     belongs_to :directv_customer
+    accepts_nested_attributes_for :directv_customer
   end
 end

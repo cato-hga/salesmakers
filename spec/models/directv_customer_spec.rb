@@ -19,7 +19,7 @@
 require 'rails_helper'
 
 describe DirecTVCustomer do
-  subject { build :directv_customer }
+  subject { build :directv_customer, first_name: 'Testbg' }
 
   it 'is valid with correct attributes' do
     expect(subject).to be_valid

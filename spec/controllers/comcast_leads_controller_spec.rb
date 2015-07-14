@@ -100,6 +100,15 @@ describe ComcastLeadsController do
   end
 
   describe 'PATCH update' do
+    let(:location) { create :location, display_name: 'New Location' }
+    let(:project) { create :project, name: 'Comcast Retail' }
+    let(:person_area) { create :person_area,
+                               person: comcast_employee,
+                               area: create(:area,
+                                            project: project) }
+    let!(:location_area) { create :location_area,
+                                  location: location,
+                                  area: person_area.area }
     context 'success' do
       before do
         comcast_lead.save
@@ -111,12 +120,27 @@ describe ComcastLeadsController do
                   follow_up_by: Date.today + 1.week,
                   tv: false,
                   security: true,
-                  ok_to_call_and_text: true
+                  ok_to_call_and_text: true,
+                  comcast_customer_attributes: {
+                      first_name: 'Peter',
+                      last_name: 'Ortiz',
+                      location_id: location.id,
+                      mobile_phone: '7777777777',
+                      other_phone: '8888888888',
+                      person_id: comcast_employee.id
+                  }
               }
         comcast_lead.reload
       end
 
       it 'updates the lead correctly' do
+        customer = comcast_lead.comcast_customer
+        customer.reload
+        expect(customer.first_name).to eq('Peter')
+        expect(customer.last_name).to eq('Ortiz')
+        expect(customer.location).to eq(location)
+        expect(customer.mobile_phone).to eq('7777777777')
+        expect(customer.other_phone).to eq('8888888888')
         expect(comcast_lead.follow_up_by).to eq(Date.today + 1.week)
         expect(comcast_lead.tv).to eq(false)
         expect(comcast_lead.security).to eq(true)

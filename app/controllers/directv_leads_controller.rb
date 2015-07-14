@@ -6,6 +6,7 @@ class DirecTVLeadsController < ApplicationController
 
   before_action :set_directv_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to, :dismiss, :destroy]
   before_action :do_authorization, only: [:new, :create]
+  before_action :set_directv_locations, only: [:edit, :update]
   after_action :verify_authorized, only: [:new, :create, :index, :reassign, :dismiss]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
@@ -95,7 +96,16 @@ class DirecTVLeadsController < ApplicationController
                                          :phone,
                                          :security,
                                          :ok_to_call_and_text,
-                                         :comments
+                                         :comments,
+                                         directv_customer_attributes: [
+                                             :first_name,
+                                             :last_name,
+                                             :location_id,
+                                             :mobile_phone,
+                                             :other_phone,
+                                             :person_id,
+                                             :id
+                                         ]
   end
 
   def do_authorization

@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :directv_customer do
-    first_name 'Comcast'
+    first_name 'DirecTV'
     last_name 'Customer'
     sequence(:mobile_phone, (1..9).cycle) { |n| "727498518#{n}" }
     person
