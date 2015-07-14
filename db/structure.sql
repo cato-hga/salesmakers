@@ -602,7 +602,8 @@ CREATE TABLE candidates (
     time_zone character varying,
     other_phone character varying,
     mobile_phone_valid boolean DEFAULT true NOT NULL,
-    other_phone_valid boolean DEFAULT true NOT NULL
+    other_phone_valid boolean DEFAULT true NOT NULL,
+    mobile_phone_is_landline boolean DEFAULT false NOT NULL
 );
 
 
@@ -9510,4 +9511,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150713174001');
 INSERT INTO schema_migrations (version) VALUES ('20150713194138');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713194328');
+
+INSERT INTO schema_migrations (version) VALUES ('20150714132627');
 

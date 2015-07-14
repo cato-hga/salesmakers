@@ -36,6 +36,18 @@ module CandidateValidationsAndAssocationsExtension
     end
   end
 
+  def set_phone_validation
+    if self.mobile_phone
+      validation = Gateway.new.number_validation self.mobile_phone
+      self.mobile_phone_valid = validation.valid
+      self.mobile_phone_is_landline = !validation.mobile
+    end
+    if self.other_phone
+      validation = Gateway.new.number_validation self.other_phone
+      self.other_phone_valid = validation.valid
+    end
+  end
+
   module ClassMethods
     def attribute_validations
       validates :first_name, presence: true, length: { minimum: 2 }
