@@ -28,7 +28,6 @@ describe 'Comcast Sale creation' do
         expect(page).to have_content(comcast_customer.name)
       end
 
-
       it 'should only show active time slots' do
         expect(page).to have_content(comcast_install_time_slot.name)
         expect(page).not_to have_content(inactive_comcast_install_time_slot.name)
@@ -82,6 +81,7 @@ describe 'Comcast Sale creation' do
         select comcast_install_time_slot.name, from: 'Install time slot'
         click_on 'Complete Sale'
       end
+
       it 'renders :new and shows a clear error message' do
         expect(page).to have_content "Order date entered could not be used - there may be a typo or invalid date. Please re-enter"
         expect(page).to have_content "Install date entered could not be used - there may be a typo or invalid date. Please re-enter"
@@ -123,7 +123,6 @@ describe 'Comcast Sale creation' do
       it 'flashes an error message' do
         expect(page).to have_content 'must be within 60 days from today.'
       end
-
     end
 
     context 'with other invalid information' do
