@@ -66,7 +66,6 @@ describe DirecTVCustomer do
       expect(manageable).to include(other_directv_employee_customer)
     end
 
-
     it 'does not allow an employee to manage another employees customers ' do
       manageable = DirecTVCustomer.manageable(directv_employee)
       expect(manageable).not_to include(other_directv_employee_customer)
