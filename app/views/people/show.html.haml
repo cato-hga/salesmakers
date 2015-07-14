@@ -91,15 +91,24 @@
       - if @person.mobile_phone? and show_details
         %p
           %strong Mobile Phone:
-          = phone_link @person.mobile_phone, nil
+          - mclasses = @person.mobile_phone_valid? ? nil : 'sm_red'
+          = phone_link @person.mobile_phone, mclasses
+          - unless @person.mobile_phone_valid?
+            %span.sm_red.small.comment This phone number is mostly likely invalid, as it is listed as not in service.
       - if @person.office_phone?
         %p
           %strong Office Phone:
-          = phone_link @person.office_phone, nil
+          - oclasses = @person.office_phone_valid? ? nil : 'sm_red'
+          = phone_link @person.office_phone, oclasses
+          - unless @person.office_phone_valid?
+            %span.sm_red.small.comment This phone number is mostly likely invalid, as it is listed as not in service.
       - if @person.home_phone? and show_details
         %p
           %strong Home Phone:
-          = phone_link @person.home_phone, nil
+          - hclasses = @person.home_phone_valid? ? nil : 'sm_red'
+          = phone_link @person.home_phone, hclasses
+          - unless @person.home_phone_valid?
+            %span.sm_red.small.comment This phone number is mostly likely invalid, as it is listed as not in service.
   - physical_address = @person.physical_address
   - if physical_address and show_details
     .widget

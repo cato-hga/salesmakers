@@ -2,8 +2,6 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  get 'comcast_customer_notes/create'
-
   root 'root_redirects#incoming_redirect'
 
   mount_griddler
@@ -90,6 +88,7 @@ Rails.application.routes.draw do
         end
       end
       resources :channels
+      resources :client_areas, only: [:index]
       member do
         get :sales, as: :sales
       end
@@ -234,6 +233,14 @@ Rails.application.routes.draw do
   post 'docusign_connect', to: 'docusign_connect#incoming'
 
   get 'global_search', to: 'global_search#results', as: :global_search
+
+  resources :group_mes, path: :groupme do
+    collection do
+      get :auth_page, path: :sync
+      get :auth
+      get :called_back
+    end
+  end
 
   post 'group_me_bot/message', to: 'group_mes#incoming_bot_message'
   get 'group_me_groups/new_post', to: 'group_me_groups#new_post', as: :new_post_group_me_groups

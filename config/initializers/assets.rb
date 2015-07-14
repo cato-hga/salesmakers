@@ -12,6 +12,7 @@ Rails.application.config.assets.precompile += %w( picker.date.css )
 
 %w(
 sms_daily_checks
+client_areas
 directv_leads
 directv_sales
 directv_eods

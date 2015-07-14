@@ -65,11 +65,16 @@ class LocationsController < ApplicationController
       flash[:error] = 'Area cannot be blank'
       render :new and return
     end
+    unless @client_area_id
+      flash[:error] = 'Client area cannot be blank'
+      render :new and return
+    end
     if @location.save
       location_area = LocationArea.create location: @location,
                                           area_id: @area_id,
                                           priority: params[:priority] ? params[:priority].to_i : nil,
                                           target_head_count: params[:target_head_count] ? params[:target_head_count].to_i : 0
+      location_client_area = LocationClientArea.create location: @location, client_area_id: @client_area_id
       @current_person.log? 'create',
                            @location,
                            location_area
@@ -86,7 +91,9 @@ class LocationsController < ApplicationController
     @client = Client.find params[:client_id]
     @project = Project.find params[:project_id]
     @areas = @project.areas
+    @client_areas = @project.client_areas
     @area_id = params.andand[:area_id]
+    @client_area_id = params.andand[:client_area_id]
     @states = ::UnitedStates
   end
 

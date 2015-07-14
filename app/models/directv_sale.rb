@@ -30,5 +30,7 @@ class DirecTVSale < ActiveRecord::Base
   belongs_to_associations
   has_one_assocations
 
+
+
 end
 

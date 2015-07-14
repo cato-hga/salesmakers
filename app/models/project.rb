@@ -22,6 +22,8 @@ class Project < ActiveRecord::Base
     belongs_to :client
     has_many :area_types
     has_many :areas
+    has_many :client_area_types
+    has_many :client_areas
     has_one :wall, as: :wallable
     has_many :day_sales_counts, as: :saleable
   end
@@ -51,6 +53,18 @@ class Project < ActiveRecord::Base
                 ON areas.id = location_areas.area_id
               LEFT OUTER JOIN projects
                 ON projects.id = areas.project_id
+              }).where("projects.id = #{project.id}")
+  end
+
+  def self.location_client_areas(project)
+    Location.
+        joins(%{
+              LEFT OUTER JOIN location_client_areas
+                ON location_client_areas.location_id = locations.id
+              LEFT OUTER JOIN client_areas
+                ON client_areas.id = location_client_areas.area_id
+              LEFT OUTER JOIN projects
+                ON projects.id = client_areas.project_id
               }).where("projects.id = #{project.id}")
   end
 

@@ -34,6 +34,16 @@ describe DirecTVSale do
     expect(subject).not_to be_valid
   end
 
+  it 'does not allow install date to be past-dated' do
+    subject.directv_install_appointment.install_date = Date.yesterday
+    expect(subject).not_to be_valid
+  end
+
+  it 'does not allow date to be future-dated more than 60 days.' do
+    subject.directv_install_appointment.install_date = 61.days.from_now
+    expect(subject).not_to be_valid
+  end
+
   it 'requires an order number with only digits' do
     subject.order_number = '1234567890123A'
     expect(subject).not_to be_valid

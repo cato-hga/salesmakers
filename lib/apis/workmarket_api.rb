@@ -78,7 +78,7 @@ class WorkmarketAPI
   end
 
   def get_assignment assignment_json
-    return if assignment_json.nil?
+    return if assignment_json.blank?
     assignment = WorkmarketAssignment.new
     resource = assignment_json.andand['active_resource']
     check_in_outs = resource.andand['check_in_out']
@@ -115,14 +115,17 @@ class WorkmarketAPI
 
   def get_custom_fields assignment_json
     return if assignment_json.nil?
-    custom_fields_json = assignment_json.
-        andand['custom_fields'].
-        andand.
-        first.
-        andand['fields']
-    return if custom_fields_json.nil? or custom_fields_json.empty?
-    workmarket_assignment = WorkmarketAssignment.find_by workmarket_assignment_num: assignment_json.andand['id'] || return
-    custom_fields = WorkmarketFieldMapping.extract_collection custom_fields_json.to_json, :read
+    custom_fields_base_json = assignment_json.
+        andand['custom_fields']
+    return if custom_fields_base_json.nil? or custom_fields_base_json.empty?
+    custom_fields = []
+    for custom_field_set_json in custom_fields_base_json do
+      custom_fields_json = custom_field_set_json.
+          andand['fields']
+      next if custom_fields_json.nil? or custom_fields_json.empty?
+      workmarket_assignment = WorkmarketAssignment.find_by workmarket_assignment_num: assignment_json.andand['id'] || next
+      custom_fields.concat WorkmarketFieldMapping.extract_collection custom_fields_json.to_json, :read
+    end
     custom_fields.each { |f| f.workmarket_assignment = workmarket_assignment }
   end
 

@@ -18,7 +18,6 @@
 #  sprint_radio_shack_training_location_id :integer
 #  cost_center                             :string
 #  mail_stop                               :string
-#
 
 class Location < ActiveRecord::Base
   geocoded_by :address
@@ -36,6 +35,7 @@ class Location < ActiveRecord::Base
 
   belongs_to :channel
   has_many :location_areas
+  has_many :location_client_areas
   has_many :comcast_customers
   has_many :comcast_eods
   belongs_to :sprint_radio_shack_training_location
