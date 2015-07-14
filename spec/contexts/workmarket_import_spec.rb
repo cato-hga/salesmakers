@@ -14,6 +14,7 @@ describe WorkmarketImport do
     import.execute
   end
 
+
   it 'saves locations', vcr: { record: :once } do
     expect {
       import.execute
