@@ -48,7 +48,7 @@ gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'attribute_normalizer', '1.2.0' # Do not allow blanks to save to DB
 gem 'nilify_blanks', '1.2.0' # Was 1.1.0 01/21/2015 - Change empty strings to nil before saving certain models
 gem 'render_csv', '2.0.0' # CSV file rendering
-gem 'twilio-ruby', '3.14.4' # Was 3.14.2 01/21/2015 - Twilio SMS and Voice library
+gem 'twilio-ruby', '4.2.1' # Was 3.14.4 07/13/2015 - Twilio SMS and Voice library
 gem 'geocoder', '1.2.6' # Geocoding
 gem 'gmaps4rails', '2.1.2' # Google Maps
 gem 'browser-timezone-rails', '0.0.8' #using the timezone of a user
