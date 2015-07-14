@@ -4,7 +4,7 @@ class ChangelogEntriesController < ApplicationController
   before_action :chronic_time_zones
 
   def index
-    @changelog_entries = ChangelogEntry.all.page
+    @changelog_entries = ChangelogEntry.order('Released').page(params[:page])
   end
 
   def new
