@@ -116,6 +116,10 @@ describe 'candidate show page' do
     expect(page).to have_content('Candidate Interview Answers')
   end
 
+  it 'shows the candidate ID' do
+    expect(page).to have_content candidate.id
+  end
+
   it 'has an edit button for details' do
     within('.widget.candidate_details') do
       expect(page).to have_content ('Edit')

@@ -25,6 +25,12 @@
   - if PersonAreaPolicy.new(@current_person, PersonArea.new).update?
     = link_to 'Edit Areas', person_person_areas_path(@person), class: [:button, :inline_button]
 
+- if @person.candidate
+  - content_for :header do
+    %h4(style="clear: both; font-style: italic")
+      Candidate ID#
+      = @person.candidate.id
+
 - if @person.areas.count > 0
   %ul.breadcrumbs
     - for area in @person.areas
