@@ -1,5 +1,5 @@
 - page_title = @candidate.first_name.html_safe + ' ' + @candidate.last_name.html_safe
-- page_title = page_title + candidate_contact_link(@candidate) if @candidate.mobile_phone?
+- page_title = page_title + candidate_contact_link(@candidate) if @candidate.mobile_phone? && @candidate.mobile_phone_valid? && !@candidate.mobile_phone_is_landline?
 - title page_title
 - content_for :action_buttons do
   = render 'candidate_show_action_buttons'
@@ -64,7 +64,10 @@
             %strong Drug Test Not Scheduled:
             %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
       %p
-        = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+        - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
+          = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+        - else
+          %span.sm_red There is no valid phone number for this candidate.
   .widget
     .inner
       %h3 Progress

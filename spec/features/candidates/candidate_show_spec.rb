@@ -52,6 +52,38 @@ describe 'candidate show page' do
     expect(page).to have_content(candidate_contact.notes)
   end
 
+  it 'shows the call button' do
+    expect(page).to have_selector 'a', text: 'Call'
+  end
+
+  it 'shows the call button when at least one number is valid' do
+    candidate.update other_phone: '9194445366', mobile_phone_valid: false, other_phone_valid: true
+    visit candidate_path(candidate)
+    expect(page).to have_selector 'a', text: 'Call'
+  end
+
+  it 'shows the text message icon link' do
+    expect(page).to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the text message icon link if the mobile phone number is not valid' do
+    candidate.update mobile_phone_valid: false
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the text message icon link if the mobile phone number is a landline' do
+    candidate.update mobile_phone_is_landline: true
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the call button when both phone numbers are invalid' do
+    candidate.update other_phone: '9194445366', mobile_phone_valid: false, other_phone_valid: false
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a', text: 'Call'
+  end
+
   it 'shows the scheduled interview time' do
     expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
   end

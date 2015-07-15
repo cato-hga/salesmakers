@@ -91,6 +91,7 @@ module LinksHelperExtension
   end
 
   def candidate_contact_link(candidate)
+    return unless candidate.mobile_phone_valid? && !candidate.mobile_phone_is_landline?
     link_to icon('megaphone'), new_sms_message_candidate_url(candidate), class: [:send_contact]
   end
 

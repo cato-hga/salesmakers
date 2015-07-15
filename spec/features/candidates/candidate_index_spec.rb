@@ -38,7 +38,6 @@ describe 'candidate index' do
     expect(page).to have_content(candidate.name)
   end
 
-
   it 'searches for last names' do
     fill_in 'q_last_name_cont', with: candidate.last_name[3]
     within '#main_container' do
