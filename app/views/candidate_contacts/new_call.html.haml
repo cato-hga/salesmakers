@@ -8,10 +8,11 @@
       = f.text_area :notes, rows: 5
       %p
         = f.submit 'Show Phone Number(s)', class: [:button, :inline_button]
-        %span.phone_number(style="display:none;")
-          %strong Mobile:
-          = phone_display(@candidate.mobile_phone)
-        - if @candidate.other_phone
+        - if @candidate.mobile_phone_valid?
+          %span.phone_number(style="display:none;")
+            %strong Mobile:
+            = phone_display(@candidate.mobile_phone)
+        - if @candidate.other_phone && @candidate.other_phone_valid?
           %span.phone_number(style="display:none;")
             %strong Other:
             = phone_display(@candidate.other_phone)
