@@ -41,6 +41,7 @@ comcast_leads
 root_redirects
 device_manufacturers
 device_models
+roster_verification_sessions
 line_states
 device_states
 poll_questions

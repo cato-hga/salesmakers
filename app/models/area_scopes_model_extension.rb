@@ -23,10 +23,30 @@ module AreaScopesModelExtension
       person_areas = person.person_areas
       for person_area in person_areas do
         if person_area.manages?
-          areas = areas.concat person_area.area.subtree.to_a
+          areas = areas.concat person_area.area.subtree.where(active: true).to_a
         else
-          areas << person_area.area
+          areas << person_area.area if area.active?
         end
+      end
+      areas.flatten.compact
+    end
+
+    def get_direct_management_areas(person = nil)
+      return [] unless person
+      areas = []
+      all_areas = []
+      person_areas = person.person_areas
+      for person_area in person_areas do
+        if person_area.manages?
+          all_areas = all_areas.concat person_area.area.subtree.where(active: true).to_a
+        else
+          all_areas << person_area.area if area.active?
+        end
+      end
+      for area in all_areas.uniq do
+        manager = area.direct_manager
+        next unless manager == person
+        areas << area
       end
       areas.flatten.compact
     end

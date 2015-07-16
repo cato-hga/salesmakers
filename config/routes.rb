@@ -307,6 +307,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :roster_verification_sessions, only: [:new, :create]
+
   get 'sessions/destroy', as: 'logout'
 
   resources :sms_daily_checks, only: [:index]

@@ -47,11 +47,11 @@ class Person < ActiveRecord::Base
   nilify_blanks
 
   def self.setup_validations
-    validates :first_name, length: {minimum: 2}
-    validates :last_name, length: {minimum: 2}
-    validates :display_name, length: {minimum: 5}
-    validates :email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, uniqueness: true
-    validates :personal_email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, allow_blank: true
+    validates :first_name, length: { minimum: 2 }
+    validates :last_name, length: { minimum: 2 }
+    validates :display_name, length: { minimum: 5 }
+    validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
+    validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
     validates :connect_user_id, uniqueness: true, allow_nil: true
     validates_with PhoneNumberValidator
   end
@@ -237,6 +237,16 @@ class Person < ActiveRecord::Base
 
   def last_shift_date
     self.shifts.maximum :date
+  end
+
+  def last_shift_location
+    the_last_shift = self.last_shift
+    the_last_shift ? the_last_shift.location : nil
+  end
+
+  def last_shift
+    shifts = self.shifts.order(date: :desc)
+    shifts.empty? ? nil : shifts.first
   end
 
   private

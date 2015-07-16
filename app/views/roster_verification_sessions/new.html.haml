@@ -1,0 +1,41 @@
+- title 'Roster Verification'
+
+= form_for @roster_verification_session do |f|
+  .widgets
+    = f.hidden_field :creator_id
+    - for area in @areas do
+      - people = area.people.where "active = true AND person_id != ?", @current_person.id
+      - next if people.empty?
+      .widget
+        .inner
+          %h3= area.name
+          - for person in people do
+            - last_shift_date = person.last_shift_date
+            - last_shift_location = person.last_shift_location
+            - roster_verification = @roster_verification_session.roster_verifications.build person: person, status: nil, creator_id: @current_person.id
+            - roster_verification.last_shift_date = last_shift_date if last_shift_date
+            - roster_verification.location_id = last_shift_location.id if last_shift_location
+            .person
+              = f.fields_for :roster_verifications, roster_verification do |r|
+                = r.hidden_field :creator_id
+                = r.hidden_field :person_id
+                .row
+                  .large-6.columns
+                    = r.radio_button :status, 'active'
+                    Active
+                    = r.radio_button :status, 'PAF'
+                    PAF
+                    = r.radio_button :status, 'NOS'
+                    NOS
+                  .large-6.columns
+                    %strong.display_name= person.display_name
+                    - if last_shift_date || last_shift_location
+                      = r.hidden_field :last_shift_date
+                      = r.hidden_field :location_id if last_shift_location
+                      .last_shift.small
+                        = time_ago_in_words last_shift_date
+                        ago
+                        - if last_shift_location
+                          at
+                          = last_shift_location.name
+          = f.submit 'Save', class: [:button, :save_button]
