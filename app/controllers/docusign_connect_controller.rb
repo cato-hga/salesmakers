@@ -62,20 +62,39 @@ class DocusignConnectController < ApplicationController
   def mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
     job_offer_detail = get_job_offer_detail(envelope_id) || return
     candidate = job_offer_detail.candidate || return
+    person = Person.find_by display_name: 'System Administrator'
     if hr_signed_time
       job_offer_detail.update completed: hr_signed_time,
                               completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
+      person.log? "signed_nhp",
+                  person,
+                  nil,
+                  nil,
+                  nil,
+                  'HR'
       candidate.paperwork_completed_by_hr! unless candidate.onboarded?
     elsif advocate_signed_time
       job_offer_detail.update completed: nil,
                               completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
+      person.log? "signed_nhp",
+                  person,
+                  nil,
+                  nil,
+                  nil,
+                  'Advocate'
       candidate.paperwork_completed_by_advocate!
     elsif candidate_signed_time
       job_offer_detail.update completed: nil,
                               completed_by_advocate: nil,
                               completed_by_candidate: candidate_signed_time
+      person.log? "signed_nhp",
+                  candidate,
+                  nil,
+                  nil,
+                  nil,
+                  'candidate'
       candidate.paperwork_completed_by_candidate!
     end
   end
