@@ -43,6 +43,10 @@ describe 'roster verification' do
     expect(page).to have_content location.name
   end
 
+  it 'lists the position for the employee' do
+    expect(page).to have_content employee.position.name
+  end
+
   describe 'submission' do
     let!(:missing_employees) { 'John Lee Hooker, Billy Idol' }
     before do

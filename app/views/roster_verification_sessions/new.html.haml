@@ -31,15 +31,18 @@
                     Huh?
                   .large-5.columns
                     %strong.display_name= person.display_name
+                    %br/
+                    %span.small.comment= person.position.name
                     - if last_shift_date || last_shift_location
                       = r.hidden_field :last_shift_date
                       = r.hidden_field :location_id if last_shift_location
                       .last_shift.small
-                        = time_ago_in_words last_shift_date
-                        ago
-                        - if last_shift_location
-                          at
-                          = last_shift_location.name
+                        %strong
+                          = time_ago_in_words last_shift_date
+                          ago
+                          - if last_shift_location
+                            at
+                            = last_shift_location.name
           = f.submit 'Save', class: [:button, :save_button]
     .widget
       .inner
