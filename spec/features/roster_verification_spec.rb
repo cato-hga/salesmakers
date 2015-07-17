@@ -5,7 +5,7 @@ describe 'roster verification' do
 
   let(:employee) { create :person }
   let(:location) { create :location }
-  let!(:shift) { create :shift, person: employee, date: Date.yesterday, location: location }
+  let!(:shift) { create :shift, person: employee, date: DateTime.now - 1.day, location: location }
 
   let!(:root_area) { create :area, name: 'Root Area' }
   let!(:intermediate_area) { create :area, name: 'Intermediate Area' }
@@ -44,7 +44,11 @@ describe 'roster verification' do
   end
 
   describe 'submission' do
-    before { find('input[type="radio"]:first-child').click }
+    let!(:missing_employees) { 'John Lee Hooker, Billy Idol' }
+    before do
+      find('input[type="radio"]:first-child').click
+      fill_in 'Missing employees', with: missing_employees
+    end
 
     subject { click_on 'Save' }
 
@@ -52,6 +56,11 @@ describe 'roster verification' do
       expect {
         subject
       }.to change(RosterVerificationSession, :count).by 1
+    end
+
+    it 'saves the missing employees on the session' do
+      subject
+      expect(RosterVerificationSession.first.missing_employees).to eq(missing_employees)
     end
 
     it 'adds a RosterVerification' do

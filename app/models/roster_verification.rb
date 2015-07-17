@@ -9,5 +9,5 @@ class RosterVerification < ActiveRecord::Base
   belongs_to :person
   belongs_to :location
 
-  enum status: [:active, :PAF, :NOS]
+  enum status: [:active, :PAF, :NOS, :huh]
 end

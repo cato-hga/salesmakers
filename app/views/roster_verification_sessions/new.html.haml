@@ -20,14 +20,16 @@
                 = r.hidden_field :creator_id
                 = r.hidden_field :person_id
                 .row
-                  .large-6.columns
+                  .large-7.columns
                     = r.radio_button :status, 'active'
                     Active
                     = r.radio_button :status, 'PAF'
                     PAF
                     = r.radio_button :status, 'NOS'
                     NOS
-                  .large-6.columns
+                    = r.radio_button :status, 'huh'
+                    Huh?
+                  .large-5.columns
                     %strong.display_name= person.display_name
                     - if last_shift_date || last_shift_location
                       = r.hidden_field :last_shift_date
@@ -39,3 +41,8 @@
                           at
                           = last_shift_location.name
           = f.submit 'Save', class: [:button, :save_button]
+    .widget
+      .inner
+        = f.label :missing_employees
+        = f.text_area :missing_employees
+        %span.small.comment Fill out the full names of any employees you may be missing, separated by a comma.

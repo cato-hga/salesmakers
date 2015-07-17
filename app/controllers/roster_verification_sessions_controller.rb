@@ -10,6 +10,7 @@ class RosterVerificationSessionsController < ApplicationController
     @roster_verification_session.roster_verifications.each {|v| v.roster_verification_session = @roster_verification_session}
     if @roster_verification_session.save
       RosterVerificationDocusignJob.perform_later @roster_verification_session
+      RosterVerificationMailer.send_employee_exceptions(@roster_verification_session).deliver_later
       @current_person.log? 'verify_roster',
                            @current_person,
                            @roster_verification_session
@@ -25,6 +26,7 @@ class RosterVerificationSessionsController < ApplicationController
 
   def roster_verification_session_params
     params.require(:roster_verification_session).permit :creator_id,
+                                                        :missing_employees,
                                                         roster_verifications_attributes: [
                                                             :creator_id,
                                                             :person_id,

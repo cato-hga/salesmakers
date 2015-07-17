@@ -5,4 +5,6 @@ class RosterVerificationSession < ActiveRecord::Base
   has_many :roster_verifications
 
   accepts_nested_attributes_for :roster_verifications
+
+  nilify_blanks
 end

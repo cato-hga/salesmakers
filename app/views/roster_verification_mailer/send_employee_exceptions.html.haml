@@ -1,0 +1,22 @@
+%h1
+  Roster Verification Exceptions for
+  = @creator.display_name
+
+- unless @unknown_employees.empty?
+  %h3 Unknown Employees on Roster
+
+  %ul
+    - for verification in @unknown_employees do
+      - employee = verification.person
+      %li
+        = employee.display_name
+        = surround '(', ')' do
+          = employee.email
+
+- if @missing_employees
+  %h3 Missing Employees
+  %p
+    = @creator.first_name
+    reported employees as being missing from their roster:
+  %p
+    %strong= @missing_employees

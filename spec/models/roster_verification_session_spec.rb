@@ -15,4 +15,8 @@ describe RosterVerificationSession do
   it 'responds to roster_verifications' do
     expect(subject).to respond_to :roster_verifications
   end
+
+  it 'responds to missing_employees' do
+    expect(subject).to respond_to :missing_employees
+  end
 end

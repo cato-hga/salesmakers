@@ -1,0 +1,23 @@
+@import 'variables';
+
+@media (min-width: $hd_cutoff) {
+
+	.widgets .widget,
+	.top_widgets .widget {
+		width: 32%;
+		margin: .5%;
+		&.grid-4 {
+			width: 32%;
+			margin: .5%;
+		}
+		&.grid-6 {
+			width: 48.5%;
+			margin: .5% .5%;
+		}
+		&.grid-12 {
+			width: 98%;
+			margin: .5% 1%;
+		}
+	}
+}
+

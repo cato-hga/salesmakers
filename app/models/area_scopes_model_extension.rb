@@ -25,7 +25,7 @@ module AreaScopesModelExtension
         if person_area.manages?
           areas = areas.concat person_area.area.subtree.where(active: true).to_a
         else
-          areas << person_area.area if area.active?
+          areas << person_area.area if person_area.area.active?
         end
       end
       areas.flatten.compact

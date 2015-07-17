@@ -1,0 +1,15 @@
+Roster Verification Exceptions for <%= @creator.display_name %>
+----------------------------------------------------------------------
+
+<% unless @unknown_employees.empty? %>
+Unknown Employees on Roster:
+
+    <% for verification in @unknown_employees do %>
+        <% employee = verification.person %>
+        - <%= employee.display_name %> (<%= employee.email %>)
+    <% end %>
+<% end %>
+
+<% if @missing_employees %>
+    <%= @creator.first_name %> reported missing employees on their roster: <%= @missing_employees %>
+<% end %>

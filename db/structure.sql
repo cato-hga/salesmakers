@@ -3432,7 +3432,8 @@ CREATE TABLE roster_verification_sessions (
     id integer NOT NULL,
     creator_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    missing_employees character varying
 );
 
 
@@ -9619,4 +9620,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150716142818');
 INSERT INTO schema_migrations (version) VALUES ('20150716194648');
 
 INSERT INTO schema_migrations (version) VALUES ('20150716201630');
+
+INSERT INTO schema_migrations (version) VALUES ('20150717144346');
 
