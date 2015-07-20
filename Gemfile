@@ -129,7 +129,7 @@ end
 
 group :development, :production, :staging do
   gem 'swiper-rails', '1.0.2' # Content slider
-  gem 'active_shipping', '1.0.0pre1' # Was 0.12.4 01/21/2015 - Shipping integration for many carriers
+  gem 'active_shipping', '1.4.2' # Was 1.0.0pre1 on 7/20/2015 - Shipping integration for many carriers
 end
 
 
