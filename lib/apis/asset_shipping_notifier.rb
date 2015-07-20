@@ -34,6 +34,7 @@ class AssetShippingNotifier
     return unless asset_type
     message = get_message person, tracking_number, asset_type, tracking_info
     return unless message
+    puts message
     @groupme.send_message group_me_group_num,
                           message
   end
@@ -76,8 +77,7 @@ class AssetShippingNotifier
     return nil unless person and person.person_areas.count > 0
     group_me_groups = []
     for person_area in person.person_areas do
-      next unless person_area.area.find_group_me_group
-      group_me_groups << person_area.area.find_group_me_group
+      group_me_groups.concat person_area.area.find_group_me_groups
     end
     group_me_groups
   end

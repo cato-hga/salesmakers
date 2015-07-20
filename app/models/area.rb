@@ -52,15 +52,19 @@ class Area < ActiveRecord::Base
     "#{self.project.name} - #{self.name}"
   end
 
-  def find_group_me_group
-    return self.group_me_group if self.group_me_group
-    parent_group_me_group = nil
+  def find_group_me_groups
+    return self.group_me_groups unless self.group_me_groups.empty?
+    parent_group_me_groups = []
     parent_area = self.parent
-    until parent_group_me_group || !parent_area do
-      parent_group_me_group = parent_area.group_me_group
+    while parent_group_me_groups.empty? && parent_area do
+      parent_group_me_groups = parent_area.group_me_groups
       parent_area = parent_area.parent
     end
-    parent_group_me_group
+    parent_group_me_groups
+  end
+
+  def group_me_group
+    self.group_me_groups.empty? ? nil : self.group_me_groups.first
   end
 
   private
