@@ -37,7 +37,12 @@ class DirecTVLeadsController < ApplicationController
 
   def destroy
     @directv_lead = DirecTVLead.find params[:id]
-    reason = DirecTVLeadDismissalReason.find params[:directv_customer][:directv_lead_dismissal_reason_id]
+    begin
+      reason = DirecTVLeadDismissalReason.find params[:directv_customer][:directv_lead_dismissal_reason_id]
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Directv Lead Dismissal reason is required'
+      redirect_to dismiss_directv_customer_directv_lead_path(@directv_customer, @directv_lead) and return
+    end
     comment = params[:directv_customer][:dismissal_comment]
     if @directv_lead.update active: false and @directv_customer.update directv_lead_dismissal_reason_id: reason.id, dismissal_comment: comment
       flash[:notice] = 'Lead succesfully dismissed.'

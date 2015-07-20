@@ -3,6 +3,10 @@
 - title page_title
 - content_for :action_buttons do
   = render 'candidate_show_action_buttons'
+- content_for :header do
+  %h4(style="clear: both; font-style: italic")
+    ID#
+    = @candidate.id
 
 .widgets
   .widget#basic_information
