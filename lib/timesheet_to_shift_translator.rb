@@ -49,12 +49,15 @@ module TimesheetToShiftTranslator
 
   def add_to_unmatched(timesheet, shift)
     if timesheet &&
-        timesheet.site_num != 'CORP' &&
-        timesheet.site_num != 'CALLCENTERHQ' &&
-        timesheet.site_num != 'HRHQ' &&
-        timesheet.site_num != 'SMSCORP' &&
-        timesheet.site_num != 'OPSHQ' &&
-        timesheet.site_num != 'RECRUITHQ' &&
+        ((timesheet.respond_to?(:site_num) &&
+            timesheet.site_num != 'CORP' &&
+            timesheet.site_num != 'CALLCENTERHQ' &&
+            timesheet.site_num != 'HRHQ' &&
+            timesheet.site_num != 'SMSCORP' &&
+            timesheet.site_num != 'OPSHQ' &&
+            timesheet.site_num != 'RECRUITHQ') ||
+            !timesheet.respond_to?(:site_num)
+        ) &&
         timesheet.hours > 0
       @unmatched_timesheets << {
           timesheet: timesheet,
