@@ -41,7 +41,7 @@
         - unless lead.active
           %p
             %strong Dismissal Reason:
-            = @directv_customer.directv_lead_dismissal_reason.name
+            = @directv_customer.directv_lead_dismissal_reason.name ? @directv_customer.directv_lead_dismissal_reason.name : "No dismissal reason"
 
         - if lead.active
           %p

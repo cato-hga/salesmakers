@@ -89,7 +89,11 @@ describe 'DirecTV lead destruction' do
       expect(directv_customer.dismissal_comment).to eq('Test Comments!')
     end
 
-
+    it 'will flash an error message if dismissal reason is left blank' do
+      expect(directv_customer.directv_lead_dismissal_reason_id).to be_nil
+      click_on 'Dismiss'
+      expect(page).to have_content('Directv Lead Dismissal reason is required')
+    end
 
     context 'an inactive lead' do
       let!(:inactive_lead) { create :directv_lead,
