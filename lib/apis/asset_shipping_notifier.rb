@@ -57,7 +57,7 @@ class AssetShippingNotifier
       begin
         puts deployment.tracking_number
         tracking_info = @fedex.find_tracking_info deployment.tracking_number
-      rescue ActiveShipping::ResponseContentError, ActiveShipping::ShipmentNotFound
+      rescue ActiveShipping::ResponseContentError, ActiveShipping::ShipmentNotFound, ActiveShipping::ResponseError
         next
       end
       unless has_events?(tracking_info)
