@@ -85,7 +85,9 @@ describe DocusignConnectController do
       end
 
       it 'creates a log entry' do
-        expect{ subject }.to change(LogEntry, :count).by(1)
+        expect { subject }.to change(LogEntry, :count).by(1)
+        expect(LogEntry.first.action).to eq('signed_nhp')
+        expect(LogEntry.first.comment).to eq('Candidate')
       end
     end
 
@@ -106,7 +108,9 @@ describe DocusignConnectController do
       end
 
       it 'creates a log entry' do
-        expect{ subject }.to change(LogEntry, :count).by(1)
+        expect { subject }.to change(LogEntry, :count).by(1)
+        expect(LogEntry.first.action).to eq('signed_nhp')
+        expect(LogEntry.first.comment).to eq('Advocate')
       end
     end
 
@@ -136,7 +140,9 @@ describe DocusignConnectController do
       end
 
       it 'creates a log entry' do
-        expect{ subject }.to change(LogEntry, :count).by(1)
+        expect { subject }.to change(LogEntry, :count).by(1)
+        expect(LogEntry.first.action).to eq('signed_nhp')
+        expect(LogEntry.first.comment).to eq('HR')
       end
     end
   end

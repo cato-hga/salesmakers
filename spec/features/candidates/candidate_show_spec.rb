@@ -176,4 +176,18 @@ describe 'candidate show page' do
       end
     end
   end
+
+  context 'NHP LogEntry' do
+    let!(:job_offer_detail) { create :job_offer_detail, candidate: candidate }
+    let!(:log_entry_candidate) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'Candidate' }
+    let!(:log_entry_advocate) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'Advocate' }
+    let!(:log_entry_hr) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'HR' }
+
+    it 'shows the log entries' do
+      visit candidate_path(candidate)
+      expect(page).to have_content('NHP signed by Candidate')
+      expect(page).to have_content('NHP signed by Advocate')
+      expect(page).to have_content('NHP signed by HR')
+    end
+  end
 end

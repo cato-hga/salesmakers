@@ -68,8 +68,8 @@ class DocusignConnectController < ApplicationController
                               completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
       person.log? "signed_nhp",
-                  person,
-                  nil,
+                  job_offer_detail,
+                  candidate,
                   nil,
                   nil,
                   'HR'
@@ -79,8 +79,8 @@ class DocusignConnectController < ApplicationController
                               completed_by_advocate: advocate_signed_time,
                               completed_by_candidate: candidate_signed_time
       person.log? "signed_nhp",
-                  person,
-                  nil,
+                  job_offer_detail,
+                  candidate,
                   nil,
                   nil,
                   'Advocate'
@@ -90,11 +90,11 @@ class DocusignConnectController < ApplicationController
                               completed_by_advocate: nil,
                               completed_by_candidate: candidate_signed_time
       person.log? "signed_nhp",
+                  job_offer_detail,
                   candidate,
                   nil,
                   nil,
-                  nil,
-                  'candidate'
+                  'Candidate'
       candidate.paperwork_completed_by_candidate!
     end
   end
