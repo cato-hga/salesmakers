@@ -47,6 +47,10 @@ describe Screening do
   end
 
   describe 'completion' do
+    let(:person) { create :person }
+    let(:screening) { create :screening, person: person }
+    let!(:candidate) { create :candidate, person: person }
+
     it 'shows as complete for passes or failures' do
       subject.sex_offender_check = 1
       subject.public_background_check = 1
@@ -97,6 +101,16 @@ describe Screening do
       subject.private_background_check = 3
       subject.drug_screening = 1
       expect(subject.complete?).to be_falsey
+    end
+
+    it 'sets NOS status to a candidate that has a failed screening' do
+      screening.sex_offender_check = 1
+      screening.public_background_check = 2
+      screening.private_background_check = 3
+      screening.drug_screening = 3
+      screening.save
+      candidate.reload
+      expect(candidate.training_session_status).to eq('nos')
     end
 
     it 'shows as partially complete with one pass/fail' do
