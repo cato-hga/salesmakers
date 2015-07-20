@@ -54,7 +54,12 @@ class ComcastLeadsController < ApplicationController
 
   def destroy
     @comcast_lead = ComcastLead.find params[:id]
-    reason = ComcastLeadDismissalReason.find params[:comcast_customer][:comcast_lead_dismissal_reason_id]
+    begin
+      reason = ComcastLeadDismissalReason.find params[:comcast_customer][:comcast_lead_dismissal_reason_id]
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Comcast Lead Dismissal reason is required'
+      redirect_to dismiss_comcast_customer_comcast_lead_path(@comcast_customer, @comcast_lead) and return
+    end
     comment = params[:comcast_customer][:dismissal_comment]
     if @comcast_lead.update active: false and @comcast_customer.update comcast_lead_dismissal_reason_id: reason.id, dismissal_comment: comment
       flash[:notice] = 'Lead succesfully dismissed.'

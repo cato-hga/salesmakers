@@ -89,6 +89,13 @@ describe 'Comcast lead destruction' do
       expect(comcast_customer.comcast_lead_dismissal_reason_id).to eq(reason.id)
       expect(comcast_customer.dismissal_comment).to eq('Test Comments!')
     end
+
+    it 'will flash an error message if dismissal reason is left blank' do
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to be_nil
+      click_on 'Dismiss'
+      expect(page).to have_content('Comcast Lead Dismissal reason is required')
+    end
+
     context 'an inactive lead' do
       let!(:inactive_lead) { create :comcast_lead,
                                     comcast_customer: comcast_customer,

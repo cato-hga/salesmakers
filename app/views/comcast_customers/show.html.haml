@@ -50,7 +50,7 @@
         - unless lead.active
           %p
             %strong Dismissal Reason:
-            = @comcast_customer.comcast_lead_dismissal_reason ? @comcast_customer.comcast_lead_dismissal_reason.name : "No dismissal reason"
+            = @comcast_customer.comcast_lead_dismissal_reason.name ? @comcast_customer.comcast_lead_dismissal_reason.name : "No dismissal reason"
 
         - if lead.active
           %p
