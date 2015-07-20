@@ -271,6 +271,8 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
+  post 'minuteworx_punch/begin', to: 'minute_worx_punch_receiver#begin'
+
   resources :people, except: [:edit, :destroy] do
     resource :screening, only: [:edit, :update]
     resources :docusign_noses, only: [:new, :create] do

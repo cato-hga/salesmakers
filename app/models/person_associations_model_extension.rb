@@ -30,7 +30,7 @@ module PersonAssociationsModelExtension
         :employments, :person_addresses, :vonage_sale_payouts, :vonage_sales,
         :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales,
         :candidate_notes, :comcast_customer_notes, :directv_customer_notes,
-        :shifts, :person_pay_rates, :person_client_areas
+        :shifts, :person_pay_rates, :person_client_areas, :person_punches
     ]
 
     for has_many_association in has_many_associations do
