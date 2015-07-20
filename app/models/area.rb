@@ -52,6 +52,17 @@ class Area < ActiveRecord::Base
     "#{self.project.name} - #{self.name}"
   end
 
+  def find_group_me_group
+    return self.group_me_group if self.group_me_group
+    parent_group_me_group = nil
+    parent_area = self.parent
+    until parent_group_me_group || !parent_area do
+      parent_group_me_group = parent_area.group_me_group
+      parent_area = parent_area.parent
+    end
+    parent_group_me_group
+  end
+
   private
 
   def deactivate_location_areas_if_inactive

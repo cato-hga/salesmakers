@@ -12,15 +12,15 @@ class AssetShippingNotifier
     @groupme = GroupMe.new_global
   end
 
-  def process_movements hours, automated = false
+  def process_deployments hours, automated = false
     count = 0
     track_movements recent_movements(hours)
     for hal_mti in @held_at_location do
-      person = Person.return_from_connect_user hal_mti.connect_asset_movement.moved_to_user
-      next unless person
-      group_me_group_num = person_group_me_group_num person
-      next unless group_me_group_num
-      send_group_me_hal_message(hal_mti, person, group_me_group_num)
+      person = hal_mti.deployment.person || next
+      group_me_groups = person_group_me_groups person
+      for group in group_me_groups do
+        send_group_me_hal_message(hal_mti, person, group.group_num)
+      end
       count += 1
     end
     ProcessLog.create process_class: "AssetShippingNotifier", records_processed: count if automated
@@ -28,9 +28,9 @@ class AssetShippingNotifier
 
   def send_group_me_hal_message(hal_mti, person, group_me_group_num)
     tracking_info = hal_mti.tracking_info
-    tracking_number = hal_mti.connect_asset_movement.tracking
+    tracking_number = hal_mti.deployment.tracking_number
     return unless tracking_info.params
-    asset_type = asset_type hal_mti.connect_asset_movement
+    asset_type = asset_type hal_mti.deployment
     return unless asset_type
     message = get_message person, tracking_number, asset_type, tracking_info
     return unless message
@@ -39,24 +39,25 @@ class AssetShippingNotifier
   end
 
   def recent_movements(hours)
-    ConnectAssetMovement.where 'created >= ? AND tracking IS NOT NULL',
-                               Time.now.apply_eastern_offset - hours.hours
+    DeviceDeployment.where 'created_at >= ? AND tracking_number IS NOT NULL',
+                           Time.now - hours.hours
   end
 
-  def asset_type(movement)
-    return nil unless movement and
-        movement.connect_asset and
-        movement.connect_asset.connect_asset_group
-    movement.connect_asset.connect_asset_group.name
+  def asset_type(deployment)
+    return unless deployment and
+        deployment.device and
+        deployment.device.device_model
+    deployment.device.device_model.device_model_name
   end
 
-  def track_movements(movements)
+  def track_movements(deployments)
     @delivered = Array.new
     @held_at_location = Array.new
-    for movement in movements do
+    for deployment in deployments do
       begin
-        tracking_info = @fedex.find_tracking_info movement.tracking
-      rescue ActiveMerchant::Shipping::ResponseError
+        puts deployment.tracking_number
+        tracking_info = @fedex.find_tracking_info deployment.tracking_number
+      rescue ActiveShipping::ResponseContentError, ActiveShipping::ShipmentNotFound
         next
       end
       unless has_events?(tracking_info)
@@ -64,21 +65,21 @@ class AssetShippingNotifier
       end
       last_movement = tracking_info.shipment_events.last
       if last_movement.name.starts_with?('Held at')
-        @held_at_location << MovementTrackingInfo.new(movement, tracking_info)
+        @held_at_location << DeploymentTrackingInfo.new(deployment, tracking_info)
       elsif last_movement.name.starts_with?('Delivered')
-        @delivered << MovementTrackingInfo.new(movement, tracking_info)
+        @delivered << DeploymentTrackingInfo.new(deployment, tracking_info)
       end
     end
   end
 
-  def person_group_me_group_num(person)
+  def person_group_me_groups(person)
     return nil unless person and person.person_areas.count > 0
-    group_me_group_num = nil
+    group_me_groups = []
     for person_area in person.person_areas do
-      next unless person_area.area.groupme_group
-      group_me_group_num = person_area.area.groupme_group
+      next unless person_area.area.find_group_me_group
+      group_me_groups << person_area.area.find_group_me_group
     end
-    group_me_group_num
+    group_me_groups
   end
 
   def delivered
@@ -134,15 +135,15 @@ class AssetShippingNotifier
 
 end
 
-class MovementTrackingInfo
+class DeploymentTrackingInfo
 
-  def initialize(connect_asset_movement, tracking_info)
-    @connect_asset_movement = connect_asset_movement
+  def initialize(deployment, tracking_info)
+    @deployment = deployment
     @tracking_info = tracking_info
   end
 
-  def connect_asset_movement
-    @connect_asset_movement
+  def deployment
+    @deployment
   end
 
   def tracking_info
