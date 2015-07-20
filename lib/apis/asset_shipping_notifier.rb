@@ -17,7 +17,7 @@ class AssetShippingNotifier
     track_movements recent_movements(hours)
     for hal_mti in @held_at_location do
       person = hal_mti.deployment.person || next
-      group_me_groups = person_group_me_groups person
+      group_me_groups = person.group_me_groups
       for group in group_me_groups do
         send_group_me_hal_message(hal_mti, person, group.group_num)
       end
@@ -71,15 +71,6 @@ class AssetShippingNotifier
         @delivered << DeploymentTrackingInfo.new(deployment, tracking_info)
       end
     end
-  end
-
-  def person_group_me_groups(person)
-    return nil unless person and person.person_areas.count > 0
-    group_me_groups = []
-    for person_area in person.person_areas do
-      group_me_groups.concat person_area.area.find_group_me_groups
-    end
-    group_me_groups
   end
 
   def delivered

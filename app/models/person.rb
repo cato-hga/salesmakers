@@ -239,6 +239,15 @@ class Person < ActiveRecord::Base
     self.shifts.maximum :date
   end
 
+  def group_me_groups
+    return [] if self.person_areas.empty?
+    group_me_groups = []
+    for person_area in self.person_areas do
+      group_me_groups.concat person_area.area.find_group_me_groups
+    end
+    group_me_groups
+  end
+
   private
 
   def get_person_area_supervisors(person_area)

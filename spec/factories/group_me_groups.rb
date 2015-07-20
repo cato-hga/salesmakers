@@ -16,8 +16,8 @@
 #
 FactoryGirl.define do
   factory :group_me_group do
-    group_num 1
-    name 'Test GroupMe Group'
+    group_num 8936279
+    name 'SalesMakers Test Playground!'
     area
   end
 end
