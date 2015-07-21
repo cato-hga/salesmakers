@@ -3504,7 +3504,8 @@ CREATE TABLE roster_verifications (
     envelope_guid character varying,
     roster_verification_session_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    issue character varying
 );
 
 
@@ -9428,4 +9429,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150716201630');
 INSERT INTO schema_migrations (version) VALUES ('20150717144346');
 
 INSERT INTO schema_migrations (version) VALUES ('20150720140615');
+
+INSERT INTO schema_migrations (version) VALUES ('20150721180921');
 

@@ -3,8 +3,10 @@ class RosterVerificationDocusignJob < ActiveJob::Base
 
   def perform roster_verification_session
     for roster_verification in roster_verification_session.roster_verifications do
-      DocusignTemplate.send_blank_paf roster_verification.person, roster_verification.creator if roster_verification.status == 'PAF'
-      DocusignTemplate.send_blank_nos roster_verification.person, roster_verification.creator if roster_verification.status == 'NOS'
+      if roster_verification.status == 'terminate'
+        nos_envelope = DocusignTemplate.send_blank_nos roster_verification.person, roster_verification.creator
+        roster_verification.update envelope_guid: nos_envelope if nos_envelope
+      end
     end
   end
 end

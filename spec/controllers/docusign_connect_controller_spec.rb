@@ -148,7 +148,37 @@ describe DocusignConnectController do
   end
 
   describe 'notice of separation' do
+    let(:voided_xml) {
+      {
+          "EnvelopeStatus" => {
+              "RecipientStatuses" => {
+                  "RecipientStatus" => [
+                      {
+                          "Signed" => "2015-03-09T08:49:43.747",
+                      },
+                      {},
+                      {}
+                  ]
+              },
+              "EnvelopeID" => "ea558d7e-39a4-482c-b0d1-2142cb521680",
+              "Status" => "Voided",
+              "Subject" => "Sprint - NOTICE OF SEPARATION FOR: John Smith"
+          },
+          "TimeZoneOffset" => "-7"
+      }.to_xml(root: 'DocuSignEnvelopeInformation')
+    }
 
+    let!(:roster_verification) {
+      create :roster_verification,
+             envelope_guid: 'ea558d7e-39a4-482c-b0d1-2142cb521680',
+             status: RosterVerification.statuses[:terminate]
+    }
+
+    it 'removes the envelope_guid from the RosterVerification when voided' do
+      expect {
+        post :incoming, voided_xml, format: :xml
+        roster_verification.reload
+      }.to change(roster_verification, :envelope_guid).to nil
+    end
   end
-
 end

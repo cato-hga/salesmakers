@@ -1,14 +1,35 @@
-- title 'Roster Verification'
+- page_employees = 0
+- page_employees_with_hours = 0
+- for area in @areas do
+  - people = area.people.where "active = true AND person_id != ?", @current_person.id
+  - for person in people do
+    - page_employees += 1
+    - shifts = person.shifts.where("date >= ?", Date.today - 1.week)
+    - next if shifts.empty?
+    - page_employees_with_hours += 1
+
+- content_for :title do
+  Roster Verification
+  %span.small.comment= "(#{pluralize(page_employees, 'employee')}, #{page_employees_with_hours.to_s} with hours in the past week)"
 
 = form_for @roster_verification_session do |f|
   .widgets
     = f.hidden_field :creator_id
     - for area in @areas do
+      - territory_employees = 0
+      - territory_employees_with_hours = 0
       - people = area.people.where "active = true AND person_id != ?", @current_person.id
       - next if people.empty?
+      - for person in people do
+        - territory_employees += 1
+        - shifts = person.shifts.where("date >= ?", Date.today - 1.week)
+        - next if shifts.empty?
+        - territory_employees_with_hours += 1
       .widget
         .inner
-          %h3= area.name
+          %h3
+            = area.name
+            .small.comment= "(#{pluralize(territory_employees, 'employee')}, #{territory_employees_with_hours.to_s} with hours in the past week)"
           - for person in people do
             - last_shift_date = person.last_shift_date
             - last_shift_location = person.last_shift_location
@@ -16,33 +37,48 @@
             - roster_verification.last_shift_date = last_shift_date if last_shift_date
             - roster_verification.location_id = last_shift_location.id if last_shift_location
             .person
-              = f.fields_for :roster_verifications, roster_verification do |r|
-                = r.hidden_field :creator_id
-                = r.hidden_field :person_id
-                .row
-                  .large-7.columns
-                    = r.radio_button :status, 'active'
-                    Active
-                    = r.radio_button :status, 'PAF'
-                    PAF
-                    = r.radio_button :status, 'NOS'
-                    NOS
-                    = r.radio_button :status, 'huh'
-                    Huh?
-                  .large-5.columns
-                    %strong.display_name= person.display_name
-                    %br/
-                    %span.small.comment= person.position.name
+              .row
+                .large-7.columns
+                  - if person.roster_verifications.where("status = ? AND envelope_guid IS NOT NULL", RosterVerification.statuses[:terminate]).empty?
+                    = f.fields_for :roster_verifications, roster_verification do |r|
+                      = r.hidden_field :creator_id
+                      = r.hidden_field :person_id
+                      = r.radio_button :status, 'active'
+                      Active
+                      = r.radio_button :status, 'terminate'
+                      Terminate
+                      = r.radio_button :status, 'issue'
+                      - if last_shift_date || last_shift_location
+                        = r.hidden_field :last_shift_date
+                        = r.hidden_field :location_id if last_shift_location
+                      Issue
+                      .issue_dropdown
+                        = r.select :issue, options_for_select(@issues), include_blank: 'Select an issue'
+                  - else
+                    .sm_orange.small There is an NOS pending to terminate this person.
+                .large-5.columns
+                  %strong.display_name= person.display_name
+                  %br/
+                  %span.small.comment
+                    = succeed ',' do
+                      = person.position.name
+                    - if person.employments.empty?
+                      Onboarded
+                      = person.created_at.strftime('%m/%d/%Y')
+                    - else
+                      Hired
+                      = person.employments.first.start.strftime('%m/%d/%Y')
+                  .last_shift.small
                     - if last_shift_date || last_shift_location
-                      = r.hidden_field :last_shift_date
-                      = r.hidden_field :location_id if last_shift_location
-                      .last_shift.small
-                        %strong
-                          = time_ago_in_words last_shift_date
-                          ago
-                          - if last_shift_location
-                            at
-                            = last_shift_location.name
+                      %strong
+                        Last shift:
+                        = time_ago_in_words last_shift_date
+                        ago
+                        - if last_shift_location
+                          at
+                          = last_shift_location.name
+                    - else
+                      %strong No last shift
           = f.submit 'Save', class: [:button, :save_button]
     .widget
       .inner

@@ -3,6 +3,28 @@ class RosterVerificationSessionsController < ApplicationController
   def new
     @areas = Area.get_direct_management_areas @current_person
     @roster_verification_session = RosterVerificationSession.new creator: @current_person
+    @issues = [
+        [
+            "I don't know who this person is",
+            "I don't know who this person is"
+        ],
+        [
+            "This person was transferred to another project",
+            "This person was transferred to another project"
+        ],
+        [
+            "This person has the wrong job title",
+            "This person has the wrong job title"
+        ],
+        [
+            "This person is a duplicate",
+            "This person is a duplicate"
+        ],
+        [
+            "This person is in the wrong territory",
+            "This person is in the wrong territory"
+        ]
+    ]
   end
 
   def create
@@ -32,8 +54,8 @@ class RosterVerificationSessionsController < ApplicationController
                                                             :person_id,
                                                             :status,
                                                             :location_id,
-                                                            :last_shift_date
+                                                            :last_shift_date,
+                                                            :issue
                                                         ]
   end
-
 end

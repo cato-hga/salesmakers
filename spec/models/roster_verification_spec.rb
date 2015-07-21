@@ -34,6 +34,17 @@ describe RosterVerification do
     expect(subject).to respond_to :envelope_guid
   end
 
+  it 'responds to issue' do
+    expect(subject).to respond_to :issue
+  end
+
+  it 'requires an issue if the status is "issue"' do
+    subject.status = RosterVerification.statuses[:issue]
+    expect(subject).not_to be_valid
+    subject.issue = 'This is a big issue'
+    expect(subject).to be_valid
+  end
+
   it 'requires a roster verification session' do
     subject.roster_verification_session = nil
     expect(subject).not_to be_valid

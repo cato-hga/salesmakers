@@ -13,7 +13,7 @@ class RosterVerificationMailer < ApplicationMailer
   end
 
   def send_employee_exceptions roster_verification_session
-    @unknown_employees = roster_verification_session.roster_verifications.where status: RosterVerification.statuses[:huh]
+    @unknown_employees = roster_verification_session.roster_verifications.where status: RosterVerification.statuses[:issue]
     @missing_employees = roster_verification_session.missing_employees
     return if @unknown_employees.empty?
     @creator = roster_verification_session.creator
@@ -22,6 +22,7 @@ class RosterVerificationMailer < ApplicationMailer
     project = person_areas.first.area.project
     to_address = project_emails.andand[project.name] || return
     mail to: to_address,
+         cc: @creator.email,
          subject: "#{@creator.display_name}'s Exceptions on Roster Verification"
   end
 
