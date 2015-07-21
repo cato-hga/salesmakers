@@ -602,12 +602,18 @@ describe CandidatesController do
         candidate.reload
         expect(candidate.active).to eq(true)
       end
-      it 'decreases the potential candidate count' do
+      it 'does not decrease the potential candidate count' do
         expect(location_area.potential_candidate_count).to eq(0)
         subject
         candidate.reload
         location_area.reload
-        expect(location_area.potential_candidate_count).to eq(1)
+        expect(location_area.potential_candidate_count).to eq(0)
+      end
+      it 'clears the location association' do
+        expect(candidate.location_area).to eq(location_area)
+        subject
+        candidate.reload
+        expect(candidate.location_area).to eq(nil)
       end
     end
 
@@ -627,7 +633,6 @@ describe CandidatesController do
         candidate.reload
         expect(candidate.status).to eq('paperwork_sent')
       end
-
       it 'resets the candidate to an interviewed status if applicable' do
         candidate.interview_answers << interview
         subject
@@ -639,13 +644,6 @@ describe CandidatesController do
         subject
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
-      end
-      it 'resets the candidate to a location selected status if applicable' do
-        candidate.location_area = location_area
-        candidate.save
-        subject
-        candidate.reload
-        expect(candidate.status).to eq('location_selected')
       end
       it 'resets the candidate to a prescreened status if applicable' do
         candidate.prescreen_answers << answers

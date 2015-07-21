@@ -8,7 +8,7 @@ module Candidates::Status
       reset_candidate_status
       @current_person.log? 'reactivate',
                            @candidate
-      flash[:notice] = 'Candidate reactivated'
+      flash[:notice] = 'Candidate reactivated. Please select a location for candidate'
       redirect_to candidate_path @candidate
     else
       flash[:error] = 'Candidate could not be reactivated'
@@ -40,6 +40,7 @@ module Candidates::Status
   private
 
   def reset_candidate_status
+    @candidate.location_area = nil if @candidate.location_area
     @candidate.entered!
     if @candidate.job_offer_details.any?
       @candidate.paperwork_sent!
@@ -47,8 +48,6 @@ module Candidates::Status
       @candidate.interviewed!
     elsif @candidate.interview_schedules.any?
       @candidate.interview_scheduled!
-    elsif @candidate.location_area.present?
-      @candidate.location_selected!
     elsif @candidate.prescreen_answers.any?
       @candidate.prescreened!
     else
