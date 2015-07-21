@@ -63,6 +63,21 @@ class Area < ActiveRecord::Base
     person_areas.empty? ? nil : person_areas.first.person
   end
 
+  def find_group_me_groups
+    return self.group_me_groups unless self.group_me_groups.empty?
+    parent_group_me_groups = []
+    parent_area = self.parent
+    while parent_group_me_groups.empty? && parent_area do
+      parent_group_me_groups = parent_area.group_me_groups
+      parent_area = parent_area.parent
+    end
+    parent_group_me_groups
+  end
+
+  def group_me_group
+    self.group_me_groups.empty? ? nil : self.group_me_groups.first
+  end
+
   private
 
   def deactivate_location_areas_if_inactive

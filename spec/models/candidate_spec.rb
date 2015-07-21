@@ -36,7 +36,7 @@
 require 'rails_helper'
 
 describe Candidate do
-  let(:candidate) { build :candidate, mobile_phone: '7164158131', personality_assessment_status: :incomplete }
+  let(:candidate) { build :candidate, mobile_phone: '8005551001', personality_assessment_status: :incomplete }
 
   it 'trims the names' do
     candidate.first_name = ' Foo '
@@ -208,7 +208,7 @@ describe Candidate do
   end
 
   describe 'uniqueness' do
-    let(:second_candidate) { build :candidate, mobile_phone: '7164158131' }
+    let(:second_candidate) { build :candidate, mobile_phone: '8005551001' }
     it 'has unique mobile phone numbers' do
       candidate.save
       expect(second_candidate).not_to be_valid

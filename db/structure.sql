@@ -2972,6 +2972,40 @@ ALTER SEQUENCE person_pay_rates_id_seq OWNED BY person_pay_rates.id;
 
 
 --
+-- Name: person_punches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE person_punches (
+    id integer NOT NULL,
+    identifier character varying NOT NULL,
+    punch_time timestamp without time zone NOT NULL,
+    in_or_out integer NOT NULL,
+    person_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: person_punches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE person_punches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_punches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE person_punches_id_seq OWNED BY person_punches.id;
+
+
+--
 -- Name: poll_question_choices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5797,6 +5831,13 @@ ALTER TABLE ONLY person_pay_rates ALTER COLUMN id SET DEFAULT nextval('person_pa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY person_punches ALTER COLUMN id SET DEFAULT nextval('person_punches_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY poll_question_choices ALTER COLUMN id SET DEFAULT nextval('poll_question_choices_id_seq'::regclass);
 
 
@@ -6872,6 +6913,14 @@ ALTER TABLE ONLY person_client_areas
 
 ALTER TABLE ONLY person_pay_rates
     ADD CONSTRAINT person_pay_rates_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person_punches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY person_punches
+    ADD CONSTRAINT person_punches_pkey PRIMARY KEY (id);
 
 
 --
@@ -8188,6 +8237,27 @@ CREATE INDEX index_person_areas_on_person_id ON person_areas USING btree (person
 --
 
 CREATE INDEX index_person_pay_rates_on_person_id ON person_pay_rates USING btree (person_id);
+
+
+--
+-- Name: index_person_punches_on_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_identifier ON person_punches USING btree (identifier);
+
+
+--
+-- Name: index_person_punches_on_in_or_out; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_in_or_out ON person_punches USING btree (in_or_out);
+
+
+--
+-- Name: index_person_punches_on_punch_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_punch_time ON person_punches USING btree (punch_time);
 
 
 --
@@ -9687,4 +9757,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150716194648');
 INSERT INTO schema_migrations (version) VALUES ('20150716201630');
 
 INSERT INTO schema_migrations (version) VALUES ('20150717144346');
+
+INSERT INTO schema_migrations (version) VALUES ('20150720140615');
 

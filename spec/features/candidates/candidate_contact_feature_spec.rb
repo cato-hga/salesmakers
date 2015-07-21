@@ -12,7 +12,7 @@ describe 'contacting the candidate' do
                                           description: 'Test Description' }
   let(:location) { create :location }
 
-  let!(:candidate) { create :candidate, location_area: location_area, other_phone: '4648884444' }
+  let!(:candidate) { create :candidate, location_area: location_area, other_phone: '8005551010' }
   let!(:location_area) { create :location_area, location: location }
   let(:note) { 'Because I feel like it' }
   let(:results) { 'The call went very well!' }
