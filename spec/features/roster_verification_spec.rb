@@ -6,7 +6,7 @@ describe 'roster verification' do
   let(:employee) { create :person }
   let!(:employment) { create :employment, person: employee }
   let(:location) { create :location }
-  let!(:shift) { create :shift, person: employee, date: DateTime.now - 1.day, location: location }
+  let!(:shift) { create :shift, person: employee, date: (DateTime.now - 1.day).to_date, location: location }
 
   let!(:root_area) { create :area, name: 'Root Area' }
   let!(:intermediate_area) { create :area, name: 'Intermediate Area' }

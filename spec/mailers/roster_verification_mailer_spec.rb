@@ -60,6 +60,7 @@ describe RosterVerificationMailer do
       let!(:roster_verification) {
         create :roster_verification,
                status: RosterVerification.statuses[:issue],
+               issue: 'This is a big issue!',
                roster_verification_session: roster_verification_session
       }
 
@@ -83,6 +84,10 @@ describe RosterVerificationMailer do
 
       it 'has the email addresses of the employees' do
         expect(mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source).to include roster_verification.person.email
+      end
+
+      it 'has the issue selected for each employee' do
+        expect(mail.body.parts.find { |p| p.content_type.match /html/ }.body.raw_source).to include roster_verification.issue
       end
 
       it 'has the missing employee information' do

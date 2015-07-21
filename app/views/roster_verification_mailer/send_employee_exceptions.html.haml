@@ -12,6 +12,8 @@
         = employee.display_name
         = surround '(', ')' do
           = employee.email
+        = '-'
+        %em= verification.issue
 
 - if @missing_employees
   %h3 Missing Employees
