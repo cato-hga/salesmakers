@@ -8,10 +8,10 @@ FactoryGirl.define do
     first_name 'Test'
     last_name 'User'
     email { generate(:sequential_email) }
-    mobile_phone '7274872633'
+    mobile_phone '8005551001'
     association :position
     trait :mobile_two do
-      mobile_phone '7274872634'
+      mobile_phone '7274985180'
     end
   end
 end

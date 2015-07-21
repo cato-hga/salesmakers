@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'SMS messaging' do
   let!(:person) { create :it_tech_person, position: position }
-  let!(:candidate) { create :candidate, mobile_phone: '8636660776' }
+  let!(:candidate) { create :candidate, mobile_phone: '7274985180' }
   let(:position) { create :it_tech_position, department: department, permissions: [candidate_index] }
   let(:department) { create :information_technology_department }
   let(:candidate_index) { create :permission, key: 'candidate_index' }

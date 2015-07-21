@@ -19,8 +19,24 @@ module SprintGroupMeBotSalesQuery
   end
 
   def sales_parameter_where_clause(parameter_name, parameter_value)
-    "WHERE c_salesregion.name ILIKE '%#{query_string}%' AND " +
-        sales_every_where_clause +
+    output = ""
+    case @level
+      when "territory"
+        output += "WHERE c_salesregion.name ILIKE '%#{query_string}%' AND "
+      when "market"
+        if self.has_keyword?('east')
+          output += "WHERE market.name ILIKE '%east market #{query_string}%' AND "
+        else
+          output += "WHERE market.name ILIKE '%west market #{query_string}%' AND "
+        end
+      when "region"
+        if self.has_keyword?('east')
+          output += "WHERE region.name ILIKE '%east region%' AND "
+        else
+          output += "WHERE region.name ILIKE '%west region%' AND "
+        end
+    end
+    output += sales_every_where_clause +
         sales_activations_clause +
         sales_upgrades_clause +
         "#{parameter_name} = '#{parameter_value}' AND " +
@@ -49,7 +65,9 @@ module SprintGroupMeBotSalesQuery
         LEFT OUTER JOIN ad_user tl 
         ON tl.ad_user_id = c_salesregion.salesrep_id 
         LEFT OUTER JOIN ad_user asm 
-        ON asm.ad_user_id = tl.supervisor_id 
+        ON asm.ad_user_id = tl.supervisor_id
+        LEFT OUTER JOIN c_salesregion market
+        ON market.salesrep_id = asm.ad_user_id
         LEFT OUTER JOIN ad_user rm 
         ON rm.ad_user_id = asm.supervisor_id 
         LEFT OUTER JOIN c_salesregion region 
@@ -72,10 +90,17 @@ EOF
         "GROUP BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint Prepaid - ', '') ORDER BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint Prepaid - ', '') "
   end
 
-  def sales_region_query
-    'SELECT region.name, count(rsprint_sales.rsprint_sales_id) ' +
+  def sales_market_query
+    'SELECT ad_user.name, count(rsprint_sales.rsprint_sales_id) ' +
         self.sales_from_and_joins +
-        'GROUP BY region.name ORDER BY region.name '
+        'GROUP BY ad_user.name ORDER BY ad_user.name '
+  end
+
+  def sales_region_query
+    "SELECT replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint Prepaid - ', '') as name, " +
+        'count(rsprint_sales.rsprint_sales_id) ' +
+        self.sales_from_and_joins +
+        "GROUP BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint Prepaid - ', '') ORDER BY replace(replace(c_salesregion.name, ' Territory', ''), 'Sprint Prepaid - ', '') "
   end
 
   def sales_director_query
