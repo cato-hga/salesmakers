@@ -38,10 +38,6 @@ describe 'roster verification' do
       expect(page).to have_content employee.display_name
     end
 
-    it "lists the employee's last shift date" do
-      expect(page).to have_content '1 day ago'
-    end
-
     it "lists the employee's last shift location" do
       expect(page).to have_content location.name
     end
