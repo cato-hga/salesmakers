@@ -91,7 +91,7 @@
       %p
         %strong Interview Scheduling:
         - if @candidate.interview_schedules.empty?
-          %span.sm_red INCOMPLETE
+          %span.sm_red= link_to 'INCOMPLETE', new_candidate_interview_schedule_path(@candidate), class: [:sm_red, :candidate_incomplete]
         - else
           %span.sm_green COMPLETE
 
