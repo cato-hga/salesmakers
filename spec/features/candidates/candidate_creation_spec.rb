@@ -108,7 +108,7 @@ describe 'Candidate creation', :vcr do
 
           context 'for candidates with an alternate phone number' do
             before do
-              fill_in 'Other phone', with: '8634396520'
+              fill_in 'Other phone', with: '8005551002'
               click_on 'Save and Select Location'
             end
 
@@ -121,7 +121,7 @@ describe 'Candidate creation', :vcr do
             end
 
             it 'saves the other phone number' do
-              expect(Candidate.first.other_phone).to eq('8634396520')
+              expect(Candidate.first.other_phone).to eq('8005551002')
             end
           end
         end
