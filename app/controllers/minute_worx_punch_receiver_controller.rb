@@ -44,7 +44,7 @@ class MinuteWorxPunchReceiverController < ApplicationController
     group_me = GroupMe.new_global
     groups = punch.person.group_me_groups
     for group in groups do
-      group.send_message "#{punch.person.display_name} just punched #{punch.in_or_out.to_s}."
+      group.send_message "#{punch.person.display_name} just punched #{punch.in_or_out.to_s} at #{punch.punch_time.in_time_zone(ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")).strftime('%-l:%M%P')} Eastern."
     end
   end
 
