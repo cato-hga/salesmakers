@@ -4,7 +4,7 @@ FactoryGirl.define do
     first_name 'DirecTv'
     last_name 'Manager'
     email 'directv_manager@dtv.salesmakersinc.com'
-    mobile_phone '7274872610'
+    mobile_phone '8005551001'
     association :position, factory: :directv_sales_manager_position, strategy: :build_stubbed
   end
 

@@ -32,7 +32,6 @@ class MinuteWorxPunchReceiverController < ApplicationController
                                punch_time: timestamp,
                                in_or_out: punch_type,
                                person: person || (render(nothing: true) and return)
-    puts 'Made the punch thingy'
     send_punch_to_group_me punch
     render text: 'ok'
   end

@@ -4,7 +4,7 @@ FactoryGirl.define do
     first_name 'IT'
     last_name 'Tech'
     email 'ittech@salesmakersinc.com'
-    mobile_phone '8137164150'
+    mobile_phone '7274985180'
     association :position, factory: :it_tech_position
   end
 
