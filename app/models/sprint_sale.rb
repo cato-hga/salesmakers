@@ -21,9 +21,6 @@
 #  connect_sprint_sale_id        :string
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
-#  intl_connect_five             :boolean
-#  intl_connect_ten              :boolean
-#  insurance                     :boolean
 #
 
 class SprintSale < ActiveRecord::Base

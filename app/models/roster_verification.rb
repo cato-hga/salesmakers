@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: roster_verifications
+#
+#  id                             :integer          not null, primary key
+#  creator_id                     :integer          not null
+#  person_id                      :integer          not null
+#  status                         :integer          default(0), not null
+#  last_shift_date                :date
+#  location_id                    :integer
+#  envelope_guid                  :string
+#  roster_verification_session_id :integer          not null
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  issue                          :string
+#
+
 class RosterVerification < ActiveRecord::Base
   before_validation :nilify_issue
 

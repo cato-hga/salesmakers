@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  start_date :date             not null
+#  locked     :boolean          default(FALSE), not null
 #
 
 class SprintRadioShackTrainingSession < ActiveRecord::Base

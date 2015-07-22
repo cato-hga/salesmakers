@@ -31,6 +31,10 @@
 #  training_session_status                :integer          default(0), not null
 #  sprint_roster_status                   :integer
 #  time_zone                              :string
+#  other_phone                            :string
+#  mobile_phone_valid                     :boolean          default(TRUE), not null
+#  other_phone_valid                      :boolean          default(TRUE), not null
+#  mobile_phone_is_landline               :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'

@@ -26,7 +26,12 @@
 #  vonage_tablet_approval_status        :integer          default(0), not null
 #  passed_asset_hours_requirement       :boolean          default(FALSE), not null
 #  sprint_prepaid_asset_approval_status :integer          default(0), not null
+#  update_position_from_connect         :boolean          default(TRUE), not null
+#  mobile_phone_valid                   :boolean          default(TRUE), not null
+#  home_phone_valid                     :boolean          default(TRUE), not null
+#  office_phone_valid                   :boolean          default(TRUE), not null
 #
+
 require 'rails_helper'
 require 'shoulda/matchers'
 

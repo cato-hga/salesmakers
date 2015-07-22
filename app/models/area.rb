@@ -13,6 +13,7 @@
 #  personality_assessment_url       :string
 #  area_candidate_sourcing_group_id :integer
 #  email                            :string
+#  active                           :boolean          default(TRUE), not null
 #
 
 class Area < ActiveRecord::Base

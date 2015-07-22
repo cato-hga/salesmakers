@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: roster_verification_sessions
+#
+#  id                :integer          not null, primary key
+#  creator_id        :integer          not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  missing_employees :string
+#
+
 class RosterVerificationSession < ActiveRecord::Base
   validates :creator, presence: true
 
