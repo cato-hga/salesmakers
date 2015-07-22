@@ -1,7 +1,7 @@
 - page_employees = 0
 - page_employees_with_hours = 0
 - for area in @areas do
-  - people = area.people.where "active = true AND person_id != ?", @current_person.id
+  - people = area.people.where "active = true AND person_id != ?", @verifying_for.id
   - for person in people do
     - page_employees += 1
     - shifts = person.shifts.where("date >= ?", Date.today - 1.week)
@@ -9,8 +9,18 @@
     - page_employees_with_hours += 1
 
 - content_for :title do
+  - if @verifying_for != @current_person
+    = "#{@verifying_for.display_name}'s"
   Roster Verification
   %span.small.comment= "(#{pluralize(page_employees, 'employee')}, #{page_employees_with_hours.to_s} with hours in the past week)"
+
+- unless @managed_managers.empty?
+  = form_tag nil, method: :get do
+    .row.full-width
+      .large-11.medium-10.columns
+        = select_tag :manager_id, options_from_collection_for_select(@managed_managers, :id, :display_name, @verifying_for.id)
+      .large-1.medium-2.columns
+        = submit_tag 'Switch', class: [:button, 'full-width']
 
 = form_for @roster_verification_session do |f|
   .widgets
@@ -18,7 +28,7 @@
     - for area in @areas do
       - territory_employees = 0
       - territory_employees_with_hours = 0
-      - people = area.people.where "active = true AND person_id != ?", @current_person.id
+      - people = area.people.where "active = true AND person_id != ?", @verifying_for.id
       - next if people.empty?
       - for person in people do
         - territory_employees += 1

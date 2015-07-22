@@ -1,8 +1,10 @@
 class RosterVerificationSessionsController < ApplicationController
 
   def new
-    @areas = Area.get_direct_management_areas @current_person
-    @roster_verification_session = RosterVerificationSession.new creator: @current_person
+    @verifying_for = params[:manager_id] ? Person.find(params[:manager_id]) : @current_person
+    @managed_managers = @verifying_for.managed_managers.to_a.unshift(@verifying_for).unshift(@current_person).uniq
+    @areas = Area.get_direct_management_areas @verifying_for
+    @roster_verification_session = RosterVerificationSession.new creator: @verifying_for
     @issues = [
         [
             "I don't know who this person is",

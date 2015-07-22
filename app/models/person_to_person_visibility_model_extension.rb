@@ -16,6 +16,22 @@ module PersonToPersonVisibilityModelExtension
     people.flatten
   end
 
+  def managed_managers
+    managers = []
+    for person_area in self.person_areas do
+      next unless person_area.area
+      next unless person_area.manages
+      areas = person_area.area.descendants
+      for area in areas do
+        managers = managers.concat Person.
+                                   joins(:person_areas).
+                                   where("person_areas.area_id = ? AND person_areas.manages = true AND people.active = true",
+                                       area.id)
+      end
+    end
+    managers.flatten.compact
+  end
+
   def directly_managed_team_members
     people = Array.new
     for person_area in self.person_areas do

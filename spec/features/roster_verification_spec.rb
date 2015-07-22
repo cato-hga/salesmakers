@@ -14,7 +14,7 @@ describe 'roster verification' do
 
   let!(:employee_person_area) { create :person_area, area: bottom_area, person: employee }
 
-  let(:manager) { create :person }
+  let(:manager) { create :person, display_name: 'Billy Joel' }
   let!(:manager_person_area) { create :person_area, area: root_area, person: manager, manages: true }
 
   before do
@@ -104,6 +104,40 @@ describe 'roster verification' do
       expect {
         subject
       }.to change(RosterVerification, :count).by 1
+    end
+  end
+
+  describe 'masquerading as another manager' do
+    let(:intermediate_manager) { create :person, display_name: 'Joe Schmoe' }
+    let!(:intermediate_manager_person_area) { create :person_area, area: intermediate_area, person: intermediate_manager, manages: true }
+
+    before { visit new_roster_verification_session_path }
+
+    it 'does not have the employee until switching to masquerade' do
+      expect(page).not_to have_content employee.display_name
+    end
+
+    it 'has the current person in the "Verify for manager" drop-down' do
+      expect(page).to have_selector 'option', text: manager.display_name
+    end
+
+    it 'has managers under the manger in the "Verify for manager" drop-down' do
+      expect(page).to have_selector 'option', text: intermediate_manager.display_name
+    end
+
+    context 'after switching to another manager' do
+      before do
+        select intermediate_manager.display_name, from: 'manager_id'
+        click_on 'Switch'
+      end
+
+      it 'has the correct title when masquerading' do
+        expect(page).to have_selector 'h1', text: "#{intermediate_manager.display_name}'s Roster Verification (1 employee, 1 with hours in the past week)"
+      end
+
+      it 'has the employee listed' do
+        expect(page).to have_content employee.display_name
+      end
     end
   end
 end

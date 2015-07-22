@@ -6,8 +6,8 @@ $(function() {
 		$('.alert.alert-box').removeClass('alert alert-box');
 
 		var active = 0;
-		var terminate = 0;
-		var issue = 0;
+		var terminate = [];
+		var issue = [];
 
 		$('.person').each(function() {
 			if ($(this).find('input[type="radio"]').length == 0) {
@@ -23,10 +23,10 @@ $(function() {
 					active++;
 					break;
 				case 'terminate':
-					terminate++;
+					terminate.push($(this).find('.display_name').text());
 					break;
 				case 'issue':
-					issue++;
+					issue.push($(this).find('.display_name').text());
 					break;
 			}
 		});
@@ -48,10 +48,31 @@ $(function() {
 			return false;
 		}
 
-		var message = "You are about to verify that you have:\r\n" +
-				active.toString() + " active employee(s),\r\n" +
-				terminate.toString() + " employee(s) to terminate, and\r\n" +
-				issue.toString() + " employee(s) with issues needing to be researched.";
+		if (terminate.length > 0) {
+			terminateMessage = "";
+			for (i = 0; i < terminate.length; i++) {
+				terminateMessage += "- TERMINATE " + terminate[i] + "\n";
+			}
+			terminateMessage += "\n";
+		} else {
+			terminateMessage = "- Terminate 0 employees\n\n";
+		}
+
+		if (issue.length > 0) {
+			issueMessage = "";
+			for (i = 0; i < issue.length; i++) {
+				issueMessage += "- REPORT AN ISSUE WITH " + issue[i] + "\n";
+			}
+			issueMessage += "\n";
+		} else {
+			issueMessage = "- Report issues with 0 employees\n\n";
+		}
+
+
+		var message = "You are about to:\n\n" +
+				"- Leave " + active.toString() + " employee(s) active\n\n" +
+				terminateMessage +
+				issueMessage;
 		return confirm(message);
 	});
 

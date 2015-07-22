@@ -877,5 +877,39 @@ RSpec.describe Person, :type => :model do
     end
   end
 
+  describe 'getting managers of managers' do
+    let(:employee) { create :person, supervisor: manager }
+    let(:manager) { create :person }
+    let(:manager_of_manager) { create :person }
+    let(:another_manager_of_manager) { create :person }
+    let(:area_top) { create :area }
+    let!(:area_middle) { create :area, parent: area_top }
+    let(:area_bottom) { create :area, parent: area_middle }
+
+    let!(:employee_person_area) { create :person_area, person: employee, area: area_bottom }
+    let!(:manager_person_area) { create :person_area, person: manager, area: area_bottom, manages: true }
+    let!(:manager_of_manager_person_area) { create :person_area, person: manager_of_manager, area: area_top, manages: true }
+    let!(:another_manager_of_manager_person_area) { create :person_area, person: another_manager_of_manager, area: area_top, manages: true }
+
+    let(:manager_managed_managers) { manager.managed_managers }
+    let(:manager_of_manager_managed_managers) { manager_of_manager.managed_managers }
+
+    it 'returns empty results when the manager does not manage anyone' do
+      expect(manager_managed_managers).to be_empty
+    end
+
+    it 'includes managers under the manager' do
+      expect(manager_of_manager_managed_managers).to include manager
+    end
+
+    it 'does not include regular employees' do
+      expect(manager_of_manager_managed_managers).not_to include employee
+    end
+
+    it 'does not include other managers at the same level' do
+      expect(manager_of_manager_managed_managers).not_to include another_manager_of_manager
+    end
+  end
+
 
 end
