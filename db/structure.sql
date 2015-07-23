@@ -1952,38 +1952,6 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
--- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE employee_call_off_reasons (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    active boolean NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE employee_call_off_reasons_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
-
-
---
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3491,6 +3459,76 @@ ALTER SEQUENCE report_queries_id_seq OWNED BY report_queries.id;
 
 
 --
+-- Name: roster_verification_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roster_verification_sessions (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    missing_employees character varying
+);
+
+
+--
+-- Name: roster_verification_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roster_verification_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roster_verification_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roster_verification_sessions_id_seq OWNED BY roster_verification_sessions.id;
+
+
+--
+-- Name: roster_verifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roster_verifications (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    person_id integer NOT NULL,
+    status integer DEFAULT 0 NOT NULL,
+    last_shift_date date,
+    location_id integer,
+    envelope_guid character varying,
+    roster_verification_session_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    issue character varying
+);
+
+
+--
+-- Name: roster_verifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roster_verifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roster_verifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roster_verifications_id_seq OWNED BY roster_verifications.id;
+
+
+--
 -- Name: sales_performance_ranks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3647,25 +3685,23 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
-    notes text,
-    employee_call_off_reason_id integer,
-    called_off boolean
+    notes text
 );
 
 
@@ -5407,13 +5443,6 @@ ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY employment_end_reasons ALTER COLUMN id SET DEFAULT nextval('employment_end_reasons_id_seq'::regclass);
 
 
@@ -5688,6 +5717,20 @@ ALTER TABLE ONLY radio_shack_location_schedules ALTER COLUMN id SET DEFAULT next
 --
 
 ALTER TABLE ONLY report_queries ALTER COLUMN id SET DEFAULT nextval('report_queries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roster_verification_sessions ALTER COLUMN id SET DEFAULT nextval('roster_verification_sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roster_verifications ALTER COLUMN id SET DEFAULT nextval('roster_verifications_id_seq'::regclass);
 
 
 --
@@ -6417,14 +6460,6 @@ ALTER TABLE ONLY email_messages
 
 
 --
--- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY employee_call_off_reasons
-    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
-
-
---
 -- Name: employment_end_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6742,6 +6777,22 @@ ALTER TABLE ONLY radio_shack_location_schedules
 
 ALTER TABLE ONLY report_queries
     ADD CONSTRAINT report_queries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roster_verification_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roster_verification_sessions
+    ADD CONSTRAINT roster_verification_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roster_verifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roster_verifications
+    ADD CONSTRAINT roster_verifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -9323,21 +9374,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
-INSERT INTO schema_migrations (version) VALUES ('20150622183936');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622184112');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622185318');
-
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623200929');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -9346,8 +9387,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
-
-INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -9362,10 +9401,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150626193106');
 INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
-
-INSERT INTO schema_migrations (version) VALUES ('20150629191123');
-
-INSERT INTO schema_migrations (version) VALUES ('20150629200154');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
@@ -9383,5 +9418,19 @@ INSERT INTO schema_migrations (version) VALUES ('20150713194328');
 
 INSERT INTO schema_migrations (version) VALUES ('20150714132627');
 
+INSERT INTO schema_migrations (version) VALUES ('20150716142107');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716142818');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716194648');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716201630');
+
+INSERT INTO schema_migrations (version) VALUES ('20150717144346');
+
 INSERT INTO schema_migrations (version) VALUES ('20150720140615');
+
+INSERT INTO schema_migrations (version) VALUES ('20150721180921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150723144802');
 

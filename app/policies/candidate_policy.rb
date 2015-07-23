@@ -33,7 +33,7 @@ class CandidatePolicy < ApplicationPolicy
   end
 
   def select_location?
-    create?
+    has_permission? 'select_location'
   end
 
   def set_location_area?
