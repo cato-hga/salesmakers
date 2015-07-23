@@ -10,7 +10,7 @@ module Candidates::Assessments
       flash[:error] = 'Score cannot be greater than 100. Please try again.'
       redirect_to candidate_path(@candidate) and return
     end
-    if @score < 31
+    if @score < 51
       failed_assessment
     else
       passed_assessment
@@ -36,7 +36,7 @@ module Candidates::Assessments
     unmatched_candidate = UnmatchedCandidate.find_by email: @candidate.email
     return unless unmatched_candidate
     person = Person.find_by email: 'retailingw@retaildoneright.com'
-    if unmatched_candidate.score < 31
+    if unmatched_candidate.score < 51
       SprintPersonalityAssessmentProcessing.failed_assessment @candidate, unmatched_candidate.score, person
     else
       SprintPersonalityAssessmentProcessing.passed_assessment @candidate, unmatched_candidate.score, person

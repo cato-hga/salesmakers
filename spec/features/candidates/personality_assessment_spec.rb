@@ -133,7 +133,7 @@ describe 'personality assessment functionality' do
     end
 
     it 'records a passing score correctly' do
-      fill_in 'assessment_score', with: '40'
+      fill_in 'assessment_score', with: '51'
       click_on 'Record Assessment Score'
       other_candidate.reload
       expect(other_candidate.status).to eq('entered') #since this fake candidate hasn't had anything done.
@@ -142,7 +142,7 @@ describe 'personality assessment functionality' do
     end
 
     it 'does not show the form afterwards' do
-      fill_in 'assessment_score', with: '40'
+      fill_in 'assessment_score', with: '51'
       click_on 'Record Assessment Score'
       expect(page).not_to have_selector('input[value="Record Assessment Score"]')
     end
