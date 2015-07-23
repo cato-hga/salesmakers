@@ -2,7 +2,10 @@ require 'rails_helper'
 
 describe 'selecting a Location for a Candidate' do
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-  let(:permission_create) { Permission.new key: 'candidate_create',
+  let(:permission_select_location) { Permission.new key: 'candidate_create',
+                                           permission_group: permission_group,
+                                           description: 'Test Description' }
+  let(:permission_create) { Permission.new key: 'candidate_select_location',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   let(:permission_outsourced) { Permission.new key: 'location_area_outsourced',
@@ -11,7 +14,7 @@ describe 'selecting a Location for a Candidate' do
   let(:position) {
     create :position,
            name: 'Advocate',
-           permissions: [permission_create]
+           permissions: [permission_create, permission_select_location]
   }
   let(:recruiter) { create :person, position: position }
   let(:candidate) {
