@@ -24,4 +24,8 @@ describe VonageCommissionPeriod07012015 do
     subject.cutoff = nil
     expect(subject).not_to be_valid
   end
+
+  it 'responds to vcp07012015_vested_sales_sales' do
+    expect(subject).to respond_to :vcp07012015_vested_sales_sales
+  end
 end

@@ -600,7 +600,10 @@ CREATE TABLE candidates (
     training_session_status integer DEFAULT 0 NOT NULL,
     sprint_roster_status integer,
     time_zone character varying,
-    other_phone character varying
+    other_phone character varying,
+    mobile_phone_valid boolean DEFAULT true NOT NULL,
+    other_phone_valid boolean DEFAULT true NOT NULL,
+    mobile_phone_is_landline boolean DEFAULT false NOT NULL
 );
 
 
@@ -2191,7 +2194,10 @@ CREATE TABLE people (
     vonage_tablet_approval_status integer DEFAULT 0 NOT NULL,
     passed_asset_hours_requirement boolean DEFAULT false NOT NULL,
     sprint_prepaid_asset_approval_status integer DEFAULT 0 NOT NULL,
-    update_position_from_connect boolean DEFAULT true NOT NULL
+    update_position_from_connect boolean DEFAULT true NOT NULL,
+    mobile_phone_valid boolean DEFAULT true NOT NULL,
+    home_phone_valid boolean DEFAULT true NOT NULL,
+    office_phone_valid boolean DEFAULT true NOT NULL
 );
 
 
@@ -2934,6 +2940,40 @@ ALTER SEQUENCE person_pay_rates_id_seq OWNED BY person_pay_rates.id;
 
 
 --
+-- Name: person_punches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE person_punches (
+    id integer NOT NULL,
+    identifier character varying NOT NULL,
+    punch_time timestamp without time zone NOT NULL,
+    in_or_out integer NOT NULL,
+    person_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: person_punches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE person_punches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: person_punches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE person_punches_id_seq OWNED BY person_punches.id;
+
+
+--
 -- Name: poll_question_choices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3416,6 +3456,76 @@ CREATE SEQUENCE report_queries_id_seq
 --
 
 ALTER SEQUENCE report_queries_id_seq OWNED BY report_queries.id;
+
+
+--
+-- Name: roster_verification_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roster_verification_sessions (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    missing_employees character varying
+);
+
+
+--
+-- Name: roster_verification_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roster_verification_sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roster_verification_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roster_verification_sessions_id_seq OWNED BY roster_verification_sessions.id;
+
+
+--
+-- Name: roster_verifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roster_verifications (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    person_id integer NOT NULL,
+    status integer DEFAULT 0 NOT NULL,
+    last_shift_date date,
+    location_id integer,
+    envelope_guid character varying,
+    roster_verification_session_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    issue character varying
+);
+
+
+--
+-- Name: roster_verifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roster_verifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roster_verifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roster_verifications_id_seq OWNED BY roster_verifications.id;
 
 
 --
@@ -5679,6 +5789,13 @@ ALTER TABLE ONLY person_pay_rates ALTER COLUMN id SET DEFAULT nextval('person_pa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY person_punches ALTER COLUMN id SET DEFAULT nextval('person_punches_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY poll_question_choices ALTER COLUMN id SET DEFAULT nextval('poll_question_choices_id_seq'::regclass);
 
 
@@ -5771,6 +5888,20 @@ ALTER TABLE ONLY radio_shack_location_schedules ALTER COLUMN id SET DEFAULT next
 --
 
 ALTER TABLE ONLY report_queries ALTER COLUMN id SET DEFAULT nextval('report_queries_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roster_verification_sessions ALTER COLUMN id SET DEFAULT nextval('roster_verification_sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roster_verifications ALTER COLUMN id SET DEFAULT nextval('roster_verifications_id_seq'::regclass);
 
 
 --
@@ -6735,6 +6866,14 @@ ALTER TABLE ONLY person_pay_rates
 
 
 --
+-- Name: person_punches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY person_punches
+    ADD CONSTRAINT person_punches_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: poll_question_choices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6844,6 +6983,22 @@ ALTER TABLE ONLY radio_shack_location_schedules
 
 ALTER TABLE ONLY report_queries
     ADD CONSTRAINT report_queries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roster_verification_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roster_verification_sessions
+    ADD CONSTRAINT roster_verification_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roster_verifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roster_verifications
+    ADD CONSTRAINT roster_verifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -8032,6 +8187,27 @@ CREATE INDEX index_person_areas_on_person_id ON person_areas USING btree (person
 --
 
 CREATE INDEX index_person_pay_rates_on_person_id ON person_pay_rates USING btree (person_id);
+
+
+--
+-- Name: index_person_punches_on_identifier; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_identifier ON person_punches USING btree (identifier);
+
+
+--
+-- Name: index_person_punches_on_in_or_out; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_in_or_out ON person_punches USING btree (in_or_out);
+
+
+--
+-- Name: index_person_punches_on_punch_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_person_punches_on_punch_time ON person_punches USING btree (punch_time);
 
 
 --
@@ -9482,10 +9658,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150708152321');
 
 INSERT INTO schema_migrations (version) VALUES ('20150709141841');
 
-INSERT INTO schema_migrations (version) VALUES ('20150709180211');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709181749');
-
 INSERT INTO schema_migrations (version) VALUES ('20150709183929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150709193232');
@@ -9495,4 +9667,26 @@ INSERT INTO schema_migrations (version) VALUES ('20150709194414');
 INSERT INTO schema_migrations (version) VALUES ('20150709195124');
 
 INSERT INTO schema_migrations (version) VALUES ('20150709195850');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713194138');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713194328');
+
+INSERT INTO schema_migrations (version) VALUES ('20150714132627');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716142107');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716142818');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716194648');
+
+INSERT INTO schema_migrations (version) VALUES ('20150716201630');
+
+INSERT INTO schema_migrations (version) VALUES ('20150717144346');
+
+INSERT INTO schema_migrations (version) VALUES ('20150720140615');
+
+INSERT INTO schema_migrations (version) VALUES ('20150721180921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150723144802');
 

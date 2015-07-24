@@ -72,7 +72,7 @@ gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'bcrypt', '3.1.10' # Encryption and hashing (for has_secure_password)
-gem 'kiba', '0.5.0' # ETL data processing
+gem 'kiba', '0.6.1' # Was 0.5.0 on 07/24/2015 - ETL data processing
 gem 'google_timezone', git: 'https://github.com/sck-v/google_timezone.git'
 gem 'progress_bar', '1.0.3' # Showing progress for reindexing Solr/Sunspot
 gem 'acts_as_taggable_on', '3.0.0.rc2' # Showing progress for reindexing Solr/Sunspot

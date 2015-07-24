@@ -6,6 +6,7 @@ class VonageCommissionPeriod07012015 < ActiveRecord::Base
   has_many :vcp07012015_hps_sales
   has_many :vcp07012015_hps_shifts
   has_many :vcp07012015_vested_sales_shifts
+  has_many :vcp07012015_vested_sales_sales
 
   private
 
