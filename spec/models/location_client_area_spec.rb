@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: location_client_areas
+#
+#  id             :integer          not null, primary key
+#  location_id    :integer          not null
+#  client_area_id :integer          not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
 require 'rails_helper'
 
 describe LocationClientArea do

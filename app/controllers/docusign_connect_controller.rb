@@ -17,8 +17,10 @@ class DocusignConnectController < ApplicationController
   def incoming
     data = Hash.from_xml request.raw_post
     envelope_id = get_envelope_id(data) || (render nothing: true, status: :unprocessable_entity and return)
-    if JobOfferDetail.where(envelope_guid: envelope_id)
+    if !JobOfferDetail.where(envelope_guid: envelope_id).empty? && !voided?(data)
       nhp(data, envelope_id); return if performed?
+    elsif !RosterVerification.where(envelope_guid: envelope_id).empty? && voided?(data)
+      roster_verification_voided_nos envelope_id; return if performed?
     end
   end
 
@@ -30,6 +32,13 @@ class DocusignConnectController < ApplicationController
     Rails.logger.debug "Advocate: #{advocate_signed_time}"
     Rails.logger.debug "Candidate: #{candidate_signed_time}"
     mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)
+    render nothing: true
+  end
+
+  def roster_verification_voided_nos envelope_id
+    for roster_verification in RosterVerification.where(envelope_guid: envelope_id).all do
+      roster_verification.update envelope_guid: nil
+    end
     render nothing: true
   end
 
@@ -57,6 +66,11 @@ class DocusignConnectController < ApplicationController
     signed = recipient_status.has_key?('Signed') ? recipient_status['Signed'] : nil
     return unless signed
     Time.parse "#{signed} #{time_zone_offset}"
+  end
+
+  def voided?(data)
+    status = data.andand['DocuSignEnvelopeInformation'].andand['EnvelopeStatus'].andand['Status'] || return
+    status == 'Voided'
   end
 
   def mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)

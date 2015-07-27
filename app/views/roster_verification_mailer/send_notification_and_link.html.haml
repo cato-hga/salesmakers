@@ -1,0 +1,12 @@
+%h1 Please Verify Your Roster
+
+Hello
+= @person.first_name + ','
+
+%p
+  According to SalesCenter records, you have
+  - number_of_employees = @managed_team_members.include?(@person) ? @managed_team_members.count - 1 : @managed_team_members.count
+  = pluralize number_of_employees, 'employee'
+  under your management. Please
+  = link_to new_roster_verification_session_url, 'click here'
+  after logging in to SalesCenter to verify the employees on your roster.
