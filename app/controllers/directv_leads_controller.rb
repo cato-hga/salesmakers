@@ -6,6 +6,7 @@ class DirecTVLeadsController < ApplicationController
 
   before_action :set_directv_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to, :dismiss, :destroy]
   before_action :do_authorization, only: [:new, :create]
+  before_action :set_directv_locations, only: [:edit, :update]
   after_action :verify_authorized, only: [:new, :create, :index, :reassign, :dismiss]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
@@ -36,7 +37,12 @@ class DirecTVLeadsController < ApplicationController
 
   def destroy
     @directv_lead = DirecTVLead.find params[:id]
-    reason = DirecTVLeadDismissalReason.find params[:directv_customer][:directv_lead_dismissal_reason_id]
+    begin
+      reason = DirecTVLeadDismissalReason.find params[:directv_customer][:directv_lead_dismissal_reason_id]
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Directv Lead Dismissal reason is required'
+      redirect_to dismiss_directv_customer_directv_lead_path(@directv_customer, @directv_lead) and return
+    end
     comment = params[:directv_customer][:dismissal_comment]
     if @directv_lead.update active: false and @directv_customer.update directv_lead_dismissal_reason_id: reason.id, dismissal_comment: comment
       flash[:notice] = 'Lead succesfully dismissed.'
@@ -95,7 +101,16 @@ class DirecTVLeadsController < ApplicationController
                                          :phone,
                                          :security,
                                          :ok_to_call_and_text,
-                                         :comments
+                                         :comments,
+                                         directv_customer_attributes: [
+                                             :first_name,
+                                             :last_name,
+                                             :location_id,
+                                             :mobile_phone,
+                                             :other_phone,
+                                             :person_id,
+                                             :id
+                                         ]
   end
 
   def do_authorization

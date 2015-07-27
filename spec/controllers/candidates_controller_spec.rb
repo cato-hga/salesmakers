@@ -190,29 +190,48 @@ describe CandidatesController do
 
     context 'success, when the candidate shows as an unmatched candidate' do
       let!(:unmatched_passing_candidate) { create :unmatched_candidate,
-                                                  email: 'unmatched@test.com',
-                                                  score: 82.23 }
+                                                  email: 'unmatched_pass@test.com',
+                                                  score: 51.00 }
+      let!(:unmatched_failing_candidate) { create :unmatched_candidate,
+                                                  email: 'unmatched_fail@test.com',
+                                                  score: 50.99 }
       let!(:administrator) { create :person, email: 'retailingw@retaildoneright.com' }
-      before(:each) do
+
+      it 'assigns the score for the candidate upon creation' do
         post :create,
              candidate: {
                  first_name: 'Test',
                  last_name: 'Candidate',
                  mobile_phone: '7274985180',
-                 email: 'unmatched@test.com',
+                 email: unmatched_passing_candidate.email,
                  zip: '33701',
                  candidate_source_id: source.id
              },
              start_prescreen: 'true'
-      end
-
-      it 'assigns the score for the candidate upon creation' do
-        candidate = Candidate.find_by email: 'unmatched@test.com'
+        candidate = Candidate.find_by email: unmatched_passing_candidate.email
         candidate.reload
         expect(candidate.passed_personality_assessment?).to eq(true)
         expect(candidate.personality_assessment_completed).to eq(true)
-        expect(candidate.personality_assessment_score).to eq(82.23)
+        expect(candidate.personality_assessment_score).to eq(51.00)
         expect(candidate.personality_assessment_status).to eq("qualified")
+      end
+
+      it 'marks disqualified under 51' do
+        post :create,
+             candidate: {
+                 first_name: 'Test',
+                 last_name: 'Candidate',
+                 mobile_phone: '7274985180',
+                 email: unmatched_failing_candidate.email,
+                 zip: '33701',
+                 candidate_source_id: source.id
+             },
+             start_prescreen: 'true'
+        candidate = Candidate.find_by email: unmatched_failing_candidate.email
+        expect(candidate.passed_personality_assessment?).to eq(false)
+        expect(candidate.personality_assessment_completed).to eq(true)
+        expect(candidate.personality_assessment_score).to eq(50.99)
+        expect(candidate.personality_assessment_status).to eq("disqualified")
       end
     end
 
@@ -726,7 +745,7 @@ describe CandidatesController do
       subject do
         put :record_assessment_score,
             id: candidate.id,
-            assessment_score: 30
+            assessment_score: 50.99
         candidate.reload
       end
 
@@ -748,7 +767,7 @@ describe CandidatesController do
 
       it 'sets the personality assessment score' do
         subject
-        expect(candidate.personality_assessment_score).to eq(30)
+        expect(candidate.personality_assessment_score).to eq(50.99)
       end
 
       it 'marks the candidate as inactive' do
@@ -792,7 +811,7 @@ describe CandidatesController do
       subject do
         put :record_assessment_score,
             id: candidate.id,
-            assessment_score: 32
+            assessment_score: 51.00
         candidate.reload
       end
 
@@ -809,7 +828,7 @@ describe CandidatesController do
 
       it 'sets the personality assessment score' do
         subject
-        expect(candidate.personality_assessment_score).to eq(32)
+        expect(candidate.personality_assessment_score).to eq(51.00)
       end
 
       it 'keeps the candidate active' do

@@ -108,15 +108,15 @@ describe 'Comcast Customer CRUD actions' do
 
       it 'displays a mobile phone number' do
         within '#comcast_customer' do
-          expect(page).to have_selector('a', text: '(696) 969-6969')
+          expect(page).to have_content "(#{comcast_customer.mobile_phone[0..2]}) #{comcast_customer.mobile_phone[3..5]}-#{comcast_customer.mobile_phone[6..9]}"
         end
       end
 
       it 'displays an "other phone" number' do
-        comcast_customer.update other_phone: '9876543210'
+        comcast_customer.update other_phone: '8005551001'
         visit comcast_customer_path(comcast_customer)
         within '#comcast_customer' do
-          expect(page).to have_selector('a', text: '(987) 654-3210')
+          expect(page).to have_selector('a', text: '(800) 555-1001')
         end
       end
 

@@ -379,6 +379,27 @@ describe ApplicationHelper do
     expect(output).not_to have_selector('a.send_contact')
   end
 
+  describe 'candidate_contact_link' do
+    let!(:candidate) { create :candidate }
+
+    it 'shows with a valid mobile number' do
+      output = helper.candidate_contact_link candidate
+      expect(output).to have_selector ('a i.fi-megaphone')
+    end
+
+    it 'does not show if the candidate has an invalid mobile number' do
+      candidate.update mobile_phone_valid: false
+      output = helper.candidate_contact_link candidate
+      expect(output).not_to have_selector ('a i.fi-megaphone')
+    end
+
+    it 'does not show if the candidate has a landline for a mobile_phone' do
+      candidate.update mobile_phone_is_landline: true
+      output = helper.candidate_contact_link candidate
+      expect(output).not_to have_selector ('a i.fi-megaphone')
+    end
+  end
+
   describe 'communication log entries' do
     let(:person) { create :person }
     let(:sms_entry) {

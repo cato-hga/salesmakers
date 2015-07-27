@@ -24,6 +24,12 @@ describe 'actions involving People' do
       expect(page).to have_content("Created person #{person.display_name}")
     end
 
+    it 'should have the candidate ID' do
+      candidate = create :candidate, person: person
+      visit person_path(person)
+      expect(page).to have_content candidate.id
+    end
+
     it "should show the person's address" do
       expect(page).to have_content(person_address.line_1)
       expect(page).to have_content(person_address.city)

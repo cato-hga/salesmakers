@@ -2,14 +2,14 @@ class DevicesController < ApplicationController
   include DeviceStateChangesControllerExtension
   include AssetReceiptControllerExtension
 
-  before_action :search_bar
+  before_action :search_bar, except: [:line_edit]
   before_action :set_models_and_providers, only: [:new, :create, :edit]
   before_action :set_device_and_device_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
-  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move]
-  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move]
+  layout 'devices', except: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move, :line_edit]
+  layout 'application', only: [:line_move_results, :line_move_finalize, :line_swap_results, :line_swap_finalize, :line_swap_or_move, :line_edit ]
 
   def index
     authorize Device.new
@@ -49,7 +49,7 @@ class DevicesController < ApplicationController
     @device_notes = @device.device_notes
     authorize @device
     @unlocked_device_states = DeviceState.where locked: false
-    @log_entries = LogEntry.where("(trackable_type = 'Device' AND trackable_id = #{@device.id}) OR (trackable_type = 'DeviceDeployment' AND referenceable_id = #{@device.id})").order('created_at DESC')
+    @log_entries = LogEntry.where("(trackable_type = 'Device' AND trackable_id = #{@device.id}) OR (trackable_type = 'Line' AND referenceable_id = #{@device.id}) OR (trackable_type = 'DeviceDeployment' AND referenceable_id = #{@device.id})").order('created_at DESC')
   end
 
 
@@ -128,6 +128,28 @@ class DevicesController < ApplicationController
     end
   end
 
+  def line_edit
+    @line = Line.find params[:line_id]
+    devices_without_lines = Device.where(line: nil)
+    @search = devices_without_lines.search(params[:q])
+    @devices = @search.result.order('serial').page(params[:page])
+  end
+
+  def line_update
+    line = Line.find params[:line_id]
+    device = Device.find params[:id]
+    if device.update line: line
+    @current_person.log? 'assigned_line',
+                         line,
+                         device
+    flash[:notice] = 'Successfully assigned line to device!'
+    redirect_to device
+    else
+      flash[:error] = 'Line was not assigned to device!'
+      redirect_to device
+    end
+  end
+
   private
 
   def search_bar
@@ -147,7 +169,7 @@ class DevicesController < ApplicationController
   end
 
   def set_models_and_providers
-    @device_models = DeviceModel.all
+    @device_models = DeviceModel.all.joins(:device_manufacturer).order("device_manufacturers.name, name")
     @service_providers = TechnologyServiceProvider.all
   end
 end

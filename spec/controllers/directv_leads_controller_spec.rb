@@ -99,6 +99,15 @@ describe DirecTVLeadsController do
   end
 
   describe 'PATCH update' do
+    let(:location) { create :location, display_name: 'New Location' }
+    let(:project) { create :project, name: 'DirecTV Retail' }
+    let(:person_area) { create :person_area,
+                               person: directv_employee,
+                               area: create(:area,
+                                            project: project) }
+    let!(:location_area) { create :location_area,
+                                  location: location,
+                                  area: person_area.area }
     context 'success' do
       before do
         directv_lead.save
@@ -108,12 +117,27 @@ describe DirecTVLeadsController do
               directv_customer_id: directv_customer.id,
               directv_lead: {
                   follow_up_by: Date.today + 1.week,
-                  ok_to_call_and_text: true
+                  ok_to_call_and_text: true,
+                  directv_customer_attributes: {
+                      first_name: 'Peter',
+                      last_name: 'Ortiz',
+                      location_id: location.id,
+                      mobile_phone: '7777777777',
+                      other_phone: '8888888888',
+                      person_id: directv_employee.id
+                  }
               }
         directv_lead.reload
       end
 
       it 'updates the lead correctly' do
+        customer = directv_lead.directv_customer
+        customer.reload
+        expect(customer.first_name).to eq('Peter')
+        expect(customer.last_name).to eq('Ortiz')
+        expect(customer.location).to eq(location)
+        expect(customer.mobile_phone).to eq('7777777777')
+        expect(customer.other_phone).to eq('8888888888')
         expect(directv_lead.follow_up_by).to eq(Date.today + 1.week)
         expect(directv_lead.ok_to_call_and_text).to eq(true)
       end

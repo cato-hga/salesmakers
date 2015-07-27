@@ -1,9 +1,12 @@
 require 'rails_helper'
 describe 'Candidate creation', :vcr do
   let(:recruiter) { create :person, position: position }
-  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_index] }
+  let(:position) { create :position, name: 'Advocate', permissions: [permission_create, permission_select_location, permission_index] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
   let(:permission_create) { Permission.new key: 'candidate_create',
+                                           permission_group: permission_group,
+                                           description: 'Test Description' }
+  let(:permission_select_location) { Permission.new key: 'candidate_select_location',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   let(:permission_index) { Permission.new key: 'candidate_index',
@@ -108,7 +111,7 @@ describe 'Candidate creation', :vcr do
 
           context 'for candidates with an alternate phone number' do
             before do
-              fill_in 'Other phone', with: '8634396520'
+              fill_in 'Other phone', with: '8005551002'
               click_on 'Save and Select Location'
             end
 
@@ -121,7 +124,7 @@ describe 'Candidate creation', :vcr do
             end
 
             it 'saves the other phone number' do
-              expect(Candidate.first.other_phone).to eq('8634396520')
+              expect(Candidate.first.other_phone).to eq('8005551002')
             end
           end
         end

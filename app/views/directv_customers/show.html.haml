@@ -37,12 +37,18 @@
         - unless lead.comments.blank?
           %p
             %strong Comments:
-            %br/
             %span.comment= lead.comments
-        - if manage
-          = link_to 'Dismiss Lead', dismiss_directv_customer_directv_lead_path(@directv_customer, lead),class: [:button, :alert]
-        - if @current_person.manager_or_hq?
-          = link_to 'Reassign Lead', reassign_directv_customer_directv_lead_path(@directv_customer, lead), class: [:button]
+        - unless lead.active
+          %p
+            %strong Dismissal Reason:
+            = @directv_customer.directv_lead_dismissal_reason.name ? @directv_customer.directv_lead_dismissal_reason.name : "No dismissal reason"
+
+        - if lead.active
+          %p
+            - if manage
+              = link_to 'Dismiss Lead', dismiss_directv_customer_directv_lead_path(@directv_customer, lead),class: [:button, :alert]
+            - if @current_person.manager_or_hq?
+              = link_to 'Reassign Lead', reassign_directv_customer_directv_lead_path(@directv_customer, lead), class: [:button]
 
   - if sale
     .widget#directv_sale

@@ -6,6 +6,7 @@ class ComcastLeadsController < ApplicationController
 
   before_action :set_comcast_customer, only: [:new, :create, :edit, :update, :reassign, :reassign_to, :dismiss, :destroy]
   before_action :do_authorization, only: [:new, :create]
+  before_action :set_comcast_locations, only: [:edit, :update]
   after_action :verify_authorized, only: [:new, :create, :index, :reassign, :dismiss]
   after_action :verify_policy_scoped, only: [:index, :csv]
 
@@ -53,7 +54,12 @@ class ComcastLeadsController < ApplicationController
 
   def destroy
     @comcast_lead = ComcastLead.find params[:id]
-    reason = ComcastLeadDismissalReason.find params[:comcast_customer][:comcast_lead_dismissal_reason_id]
+    begin
+      reason = ComcastLeadDismissalReason.find params[:comcast_customer][:comcast_lead_dismissal_reason_id]
+    rescue ActiveRecord::RecordNotFound
+      flash[:error] = 'Comcast Lead Dismissal reason is required'
+      redirect_to dismiss_comcast_customer_comcast_lead_path(@comcast_customer, @comcast_lead) and return
+    end
     comment = params[:comcast_customer][:dismissal_comment]
     if @comcast_lead.update active: false and @comcast_customer.update comcast_lead_dismissal_reason_id: reason.id, dismissal_comment: comment
       flash[:notice] = 'Lead succesfully dismissed.'
@@ -63,7 +69,11 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customers.errors.full_messsages.join(', ')
+      if @comcast_lead
+        flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customers.errors.full_messsages.join(', ')
+      else
+        flash[:error] = 'Could not dismiss lead.'
+      end
     end
     redirect_to comcast_customers_path
   end
@@ -112,7 +122,16 @@ class ComcastLeadsController < ApplicationController
                                          :phone,
                                          :security,
                                          :ok_to_call_and_text,
-                                         :comments
+                                         :comments,
+                                         comcast_customer_attributes: [
+                                             :first_name,
+                                             :last_name,
+                                             :location_id,
+                                             :mobile_phone,
+                                             :other_phone,
+                                             :person_id,
+                                             :id
+                                         ]
   end
 
   def do_authorization

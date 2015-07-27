@@ -31,12 +31,16 @@
 #  training_session_status                :integer          default(0), not null
 #  sprint_roster_status                   :integer
 #  time_zone                              :string
+#  other_phone                            :string
+#  mobile_phone_valid                     :boolean          default(TRUE), not null
+#  other_phone_valid                      :boolean          default(TRUE), not null
+#  mobile_phone_is_landline               :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'
 
 describe Candidate do
-  let(:candidate) { build :candidate, mobile_phone: '7164158131', personality_assessment_status: :incomplete }
+  let(:candidate) { build :candidate, mobile_phone: '8005551001', personality_assessment_status: :incomplete }
 
   it 'trims the names' do
     candidate.first_name = ' Foo '
@@ -45,6 +49,18 @@ describe Candidate do
     candidate.reload
     expect(candidate.first_name).to eq('Foo')
     expect(candidate.last_name).to eq('Bar')
+  end
+
+  it 'responds to mobile_phone_valid?' do
+    expect(candidate).to respond_to :mobile_phone_valid?
+  end
+
+  it 'responds to other_phone_valid?' do
+    expect(candidate).to respond_to :other_phone_valid?
+  end
+
+  it 'responds to mobile_phone_is_landline?' do
+    expect(candidate).to respond_to :mobile_phone_is_landline?
   end
 
   describe 'validations' do
@@ -196,7 +212,7 @@ describe Candidate do
   end
 
   describe 'uniqueness' do
-    let(:second_candidate) { build :candidate, mobile_phone: '7164158131' }
+    let(:second_candidate) { build :candidate, mobile_phone: '8005551001' }
     it 'has unique mobile phone numbers' do
       candidate.save
       expect(second_candidate).not_to be_valid

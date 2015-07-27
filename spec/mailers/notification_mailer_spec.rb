@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe NotificationMailer do
 
-  let(:person) { create :person }
-  let(:candidate) { create :candidate }
+  let(:person) { create :person, mobile_phone: '7274985180' }
+  let(:candidate) { create :candidate, mobile_phone: '7274985180' }
   let(:recruiter) { create :person, position: position }
   let(:position) {
     create :position,
@@ -12,10 +12,21 @@ describe NotificationMailer do
            twilio_number: "+18635214572"
   }
 
-  let(:person_message) { create :sms_message, from_person: person, to_person: recruiter, inbound: true }
-  let(:candidate_message) { create :sms_message, from_candidate: candidate, to_person: recruiter, inbound: true }
+  let(:person_message) { create :sms_message,
+                                from_person: person,
+                                to_person: recruiter,
+                                from_num: '7274985180',
+                                to_num: '8635214572',
+                                inbound: true }
+  let(:candidate_message) { create :sms_message,
+                                   from_candidate: candidate,
+                                   to_person: recruiter,
+                                   from_num: '7274985180',
+                                   to_num: '8635214572',
+                                   inbound: true }
 
   describe '#sms_reply' do
+
     context 'shared context' do
       let(:mail) { NotificationMailer.sms_reply(person_message) }
       it 'sends from development@retaildoneright.com' do

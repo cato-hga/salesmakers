@@ -26,7 +26,12 @@
 #  vonage_tablet_approval_status        :integer          default(0), not null
 #  passed_asset_hours_requirement       :boolean          default(FALSE), not null
 #  sprint_prepaid_asset_approval_status :integer          default(0), not null
+#  update_position_from_connect         :boolean          default(TRUE), not null
+#  mobile_phone_valid                   :boolean          default(TRUE), not null
+#  home_phone_valid                     :boolean          default(TRUE), not null
+#  office_phone_valid                   :boolean          default(TRUE), not null
 #
+
 require 'rails_helper'
 require 'shoulda/matchers'
 
@@ -54,6 +59,18 @@ RSpec.describe Person, :type => :model do
 
   it 'responds to update_position_from_connect?' do
     expect(person).to respond_to :update_position_from_connect?
+  end
+
+  it 'responds to mobile_phone_valid?' do
+    expect(person).to respond_to :mobile_phone_valid?
+  end
+
+  it 'responds to home_phone_valid?' do
+    expect(person).to respond_to :home_phone_valid?
+  end
+
+  it 'responds to office_phone_valid?' do
+    expect(person).to respond_to :office_phone_valid?
   end
 
   describe 'uniqueness validations' do
@@ -857,6 +874,40 @@ RSpec.describe Person, :type => :model do
         person.update active: true
         candidate.reload
       }.to change(candidate, :active).from(false).to(true)
+    end
+  end
+
+  describe 'getting managers of managers' do
+    let(:employee) { create :person, supervisor: manager }
+    let(:manager) { create :person }
+    let(:manager_of_manager) { create :person }
+    let(:another_manager_of_manager) { create :person }
+    let(:area_top) { create :area }
+    let!(:area_middle) { create :area, parent: area_top }
+    let(:area_bottom) { create :area, parent: area_middle }
+
+    let!(:employee_person_area) { create :person_area, person: employee, area: area_bottom }
+    let!(:manager_person_area) { create :person_area, person: manager, area: area_bottom, manages: true }
+    let!(:manager_of_manager_person_area) { create :person_area, person: manager_of_manager, area: area_top, manages: true }
+    let!(:another_manager_of_manager_person_area) { create :person_area, person: another_manager_of_manager, area: area_top, manages: true }
+
+    let(:manager_managed_managers) { manager.managed_managers }
+    let(:manager_of_manager_managed_managers) { manager_of_manager.managed_managers }
+
+    it 'returns empty results when the manager does not manage anyone' do
+      expect(manager_managed_managers).to be_empty
+    end
+
+    it 'includes managers under the manager' do
+      expect(manager_of_manager_managed_managers).to include manager
+    end
+
+    it 'does not include regular employees' do
+      expect(manager_of_manager_managed_managers).not_to include employee
+    end
+
+    it 'does not include other managers at the same level' do
+      expect(manager_of_manager_managed_managers).not_to include another_manager_of_manager
     end
   end
 

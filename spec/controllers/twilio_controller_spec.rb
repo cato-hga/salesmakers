@@ -3,7 +3,7 @@ require 'rails_helper'
 describe TwilioController do
   include ActiveJob::TestHelper
 
-  let(:from) { '+17274872633' }
+  let(:from) { '+17274985180' }
 
   describe 'POST incoming_voice' do
     before { post :incoming_voice, From: from }
@@ -14,16 +14,18 @@ describe TwilioController do
   end
 
   describe 'POST incoming_sms' do
-    let(:to_person) { create :person }
-    let(:from_person) { create :person, :mobile_two, position: from_person_position }
+    let(:to_person) { create :person, mobile_phone: '7274985180' }
+    let(:from_person) { create :person, mobile_phone: '8137164150', position: from_person_position }
     let(:from_person_position) { create :it_tech_position, :twilio }
     #let(:from_person) { create :administrator_person }
     let!(:outgoing_message) {
       create :sms_message,
              to_num: to_person.mobile_phone,
              to_person_id: to_person.id,
-             from_person_id: from_person.id
+             from_person_id: from_person.id,
+             from_num: from_person.mobile_phone
     }
+
     let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
     before(:example) do

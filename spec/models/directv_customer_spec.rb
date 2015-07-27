@@ -19,7 +19,7 @@
 require 'rails_helper'
 
 describe DirecTVCustomer do
-  subject { build :directv_customer }
+  subject { build :directv_customer, first_name: 'Testbg' }
 
   it 'is valid with correct attributes' do
     expect(subject).to be_valid
@@ -32,6 +32,16 @@ describe DirecTVCustomer do
 
   it 'returns a full name' do
     expect(subject.name).to eq(subject.first_name + ' ' + subject.last_name)
+  end
+
+  context 'uniqueness of mobile phone' do
+    let!(:directv_customer) { create :directv_customer, mobile_phone: '1234567890' }
+
+    subject { build :directv_customer, mobile_phone: '1234567890' }
+
+    it 'validates that the mobile phone is unique' do
+      expect(subject).not_to be_valid
+    end
   end
 
   context 'manageable scope' do

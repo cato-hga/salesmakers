@@ -52,6 +52,38 @@ describe 'candidate show page' do
     expect(page).to have_content(candidate_contact.notes)
   end
 
+  it 'shows the call button' do
+    expect(page).to have_selector 'a', text: 'Call'
+  end
+
+  it 'shows the call button when at least one number is valid' do
+    candidate.update other_phone: '9194445366', mobile_phone_valid: false, other_phone_valid: true
+    visit candidate_path(candidate)
+    expect(page).to have_selector 'a', text: 'Call'
+  end
+
+  it 'shows the text message icon link' do
+    expect(page).to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the text message icon link if the mobile phone number is not valid' do
+    candidate.update mobile_phone_valid: false
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the text message icon link if the mobile phone number is a landline' do
+    candidate.update mobile_phone_is_landline: true
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a i.fi-megaphone'
+  end
+
+  it 'does not show the call button when both phone numbers are invalid' do
+    candidate.update other_phone: '9194445366', mobile_phone_valid: false, other_phone_valid: false
+    visit candidate_path(candidate)
+    expect(page).not_to have_selector 'a', text: 'Call'
+  end
+
   it 'shows the scheduled interview time' do
     expect(page).to have_content(interview.start_time.strftime('%m/%d %l:%M%P %Z'))
   end
@@ -82,6 +114,10 @@ describe 'candidate show page' do
 
   it 'shows the candidates interview answers' do
     expect(page).to have_content('Candidate Interview Answers')
+  end
+
+  it 'shows the candidate ID' do
+    expect(page).to have_content candidate.id
   end
 
   it 'has an edit button for details' do
@@ -142,6 +178,20 @@ describe 'candidate show page' do
         expect(page).to have_content "Last Shift Date: #{third_shift.date.strftime('%A, %b %e')}"
         expect(page).to have_content "Last Shift Location: ##{third_shift.location.store_number} (#{third_shift.location.channel.name}), #{third_shift.location.street_1}, #{third_shift.location.city}, #{third_shift.location.state}"
       end
+    end
+  end
+
+  context 'NHP LogEntry' do
+    let!(:job_offer_detail) { create :job_offer_detail, candidate: candidate }
+    let!(:log_entry_candidate) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'Candidate' }
+    let!(:log_entry_advocate) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'Advocate' }
+    let!(:log_entry_hr) { create :log_entry, action: 'signed_nhp', trackable: job_offer_detail, referenceable: candidate, comment: 'HR' }
+
+    it 'shows the log entries' do
+      visit candidate_path(candidate)
+      expect(page).to have_content('NHP signed by Candidate')
+      expect(page).to have_content('NHP signed by Advocate')
+      expect(page).to have_content('NHP signed by HR')
     end
   end
 end

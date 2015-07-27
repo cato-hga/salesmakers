@@ -184,6 +184,62 @@ class DocusignTemplate < ActiveRecord::Base
     send_envelope(created_envelope['envelopeId'])
   end
 
+  def self.send_blank_nos(person, sender)
+    project = person.person_areas.first.project
+    template = DocusignTemplate.find_by(state: 'FL', project: project, document_type: DocusignTemplate.document_types[:nos]) || return
+    client = DocusignRest::Client.new
+    hash = {
+        status: 'created',
+        email: {
+            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
+        },
+        template_id: template.template_guid,
+        signers: [
+            {
+                name: sender.display_name,
+                email: sender.email,
+                role_name: 'Manager',
+                text_tabs: [
+                    {
+                        label: 'Employee Name',
+                        name: 'Employee Name',
+                        value: "#{person.display_name}",
+                        locked: true
+                    }
+                ]
+            }
+        ]
+    }
+    created_envelope = client.create_envelope_from_template(hash)
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
+  def self.send_blank_paf(person, sender)
+    project = person.person_areas.first.project
+    person_addresses = person.person_addresses
+    state = person_addresses.empty? ? 'FL' : person_addresses.first.state
+    template = DocusignTemplate.find_by(state: state, project: project, document_type: DocusignTemplate.document_types[:paf]) || return
+    client = DocusignRest::Client.new
+    hash = {
+        status: 'created',
+        email: {
+            subject: "#{project.name} - PERSONNEL ACTION FORM FOR: #{person.display_name}"
+        },
+        template_id: template.template_guid,
+        signers: [
+            {
+                name: sender.display_name,
+                email: sender.email,
+                role_name: 'Manager'
+            }
+        ]
+    }
+    created_envelope = client.create_envelope_from_template(hash)
+    return unless created_envelope['envelopeId']
+    send_envelope(created_envelope['envelopeId'])
+  end
+
   def self.send_envelope(envelope_id)
     client = DocusignRest::Client.new
     content_type = { 'Content-Type' => 'application/json' }

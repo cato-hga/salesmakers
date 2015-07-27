@@ -26,9 +26,14 @@
 #  vonage_tablet_approval_status        :integer          default(0), not null
 #  passed_asset_hours_requirement       :boolean          default(FALSE), not null
 #  sprint_prepaid_asset_approval_status :integer          default(0), not null
+#  update_position_from_connect         :boolean          default(TRUE), not null
+#  mobile_phone_valid                   :boolean          default(TRUE), not null
+#  home_phone_valid                     :boolean          default(TRUE), not null
+#  office_phone_valid                   :boolean          default(TRUE), not null
 #
 
 require 'validators/phone_number_validator'
+require 'apis/gateway'
 class Person < ActiveRecord::Base
   include ActiveModel::Validations
   extend NonAlphaNumericRansacker
@@ -40,16 +45,17 @@ class Person < ActiveRecord::Base
   include PersonEmploymentModelExtension
 
   before_validation :generate_display_name
+  before_create :set_phone_validation
 
   has_paper_trail
   nilify_blanks
 
   def self.setup_validations
-    validates :first_name, length: {minimum: 2}
-    validates :last_name, length: {minimum: 2}
-    validates :display_name, length: {minimum: 5}
-    validates :email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, uniqueness: true
-    validates :personal_email, format: {with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address'}, allow_blank: true
+    validates :first_name, length: { minimum: 2 }
+    validates :last_name, length: { minimum: 2 }
+    validates :display_name, length: { minimum: 5 }
+    validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
+    validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
     validates :connect_user_id, uniqueness: true, allow_nil: true
     validates_with PhoneNumberValidator
   end
@@ -92,6 +98,36 @@ class Person < ActiveRecord::Base
 
   def office_phone?
     self.office_phone and self.office_phone != '8005551212'
+  end
+
+  def set_phone_validation
+    return unless Rails.env.production? || Rails.env.staging?
+    if mobile_phone?
+      validation = Gateway.new.number_validation self.mobile_phone
+      if validation.valid && !validation.mobile
+        move_mobile_to_landline
+      elsif !validation.valid
+        self.mobile_phone_valid = false
+      else
+        self.mobile_phone_valid = true
+      end
+    end
+    if home_phone?
+      validation = Gateway.new.number_validation self.home_phone
+      if validation.valid
+        self.home_phone_valid = true
+      else
+        self.home_phone_valid = false
+      end
+    end
+    if office_phone?
+      validation = Gateway.new.number_validation self.office_phone
+      if validation.valid
+        self.office_phone_valid = true
+      else
+        self.office_phone_valid = false
+      end
+    end
   end
 
   def show_details?(people)
@@ -207,6 +243,25 @@ class Person < ActiveRecord::Base
     self.shifts.maximum :date
   end
 
+  def last_shift_location
+    the_last_shift = self.last_shift
+    the_last_shift ? the_last_shift.location : nil
+  end
+
+  def last_shift
+    shifts = self.shifts.order(date: :desc)
+    shifts.empty? ? nil : shifts.first
+  end
+
+  def group_me_groups
+    return [] if self.person_areas.empty?
+    group_me_groups = []
+    for person_area in self.person_areas do
+      group_me_groups.concat person_area.area.find_group_me_groups
+    end
+    group_me_groups
+  end
+
   private
 
   def get_person_area_supervisors(person_area)
@@ -245,4 +300,12 @@ class Person < ActiveRecord::Base
     candidate.update active: false if candidate
   end
 
+  def move_mobile_to_landline
+    if self.home_phone
+      self.office_phone = self.mobile_phone
+    else
+      self.home_phone = self.mobile_phone
+    end
+    self.mobile_phone = nil
+  end
 end

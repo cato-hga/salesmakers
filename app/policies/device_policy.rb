@@ -56,4 +56,12 @@ class DevicePolicy < ApplicationPolicy
   def line_move_finalize?
     line_swap_or_move?
   end
+
+  def line_edit?
+    update?
+  end
+
+  def line_update?
+    line_edit?
+  end
 end

@@ -89,5 +89,32 @@ describe 'Comcast lead destruction' do
       expect(comcast_customer.comcast_lead_dismissal_reason_id).to eq(reason.id)
       expect(comcast_customer.dismissal_comment).to eq('Test Comments!')
     end
+
+    it 'will flash an error message if dismissal reason is left blank' do
+      expect(comcast_customer.comcast_lead_dismissal_reason_id).to be_nil
+      click_on 'Dismiss'
+      expect(page).to have_content('Comcast Lead Dismissal reason is required')
+    end
+
+    context 'an inactive lead' do
+      let!(:inactive_lead) { create :comcast_lead,
+                                    comcast_customer: comcast_customer,
+                                    active: false
+      }
+
+
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(comcast_employee.email)
+        visit comcast_customer_path(comcast_customer)
+      end
+      it 'displays dismissal reason on show page' do
+        expect(page).to have_content('Lead Details')
+        expect(page).to have_selector('strong', text: comcast_customer.comcast_lead_dismissal_reason)
+      end
+      it 'does not show dismissal or reassign button if lead is inactive' do
+        expect(page).not_to have_button 'Dismiss Lead'
+        expect(page).not_to have_button 'Reassign Lead'
+      end
+    end
   end
 end

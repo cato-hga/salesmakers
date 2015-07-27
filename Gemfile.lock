@@ -129,12 +129,11 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
-    active_shipping (1.0.0.pre1)
-      active_utils (~> 3.0.0.pre2)
-      activesupport (>= 3.2)
-      builder
-      i18n
-      json (>= 1.5.1)
+    active_shipping (1.4.2)
+      active_utils (~> 3.0.0)
+      activesupport (>= 3.2, < 5.0.0)
+      nokogiri (>= 1.6)
+      quantified (~> 1.0.1)
     active_utils (3.0.0)
       activesupport (>= 3.2)
       i18n
@@ -485,6 +484,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    quantified (1.0.1)
     rack (1.6.0)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -708,7 +708,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_shipping (= 1.0.0pre1)
+  active_shipping (= 1.4.2)
   activerecord-session_store (= 0.1.1)
   activerecord-sqlserver-adapter (~> 4.2.0)
   acts_as_taggable_on (= 3.0.0.rc2)

@@ -31,7 +31,7 @@ module PersonAssociationsModelExtension
         :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales,
         :candidate_notes, :comcast_customer_notes, :directv_customer_notes,
         :shifts, :person_pay_rates, :person_client_areas, :vcp07012015_hps_sales,
-        :vcp07012015_hps_shifts, :vcp07012015_vested_sales_shifts
+        :vcp07012015_hps_shifts, :vcp07012015_vested_sales_shifts, :roster_verifications, :person_punches
     ]
 
     for has_many_association in has_many_associations do
@@ -49,6 +49,7 @@ module PersonAssociationsModelExtension
     has_many :day_sales_counts, as: :saleable
     has_many :sales_performance_ranks, as: :rankable
     has_many :employees, class_name: 'Person', foreign_key: 'supervisor_id'
+    has_many :roster_verification_sessions, foreign_key: 'creator_id'
     has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
     has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
   end

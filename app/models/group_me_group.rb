@@ -146,6 +146,13 @@ class GroupMeGroup < ActiveRecord::Base
 
   def self.notify_of_assets(hours, automated = false)
     notifier = AssetShippingNotifier.new
-    notifier.process_movements(hours, automated)
+    notifier.process_deployments(hours, automated)
+  end
+
+  def send_message message
+    return unless self.group_num
+    puts 'made it'
+    groupme = GroupMe.new_global
+    groupme.send_message self.group_num.to_s, message
   end
 end

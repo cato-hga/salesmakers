@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: area_types
+# Table name: client_area_types
 #
 #  id         :integer          not null, primary key
 #  name       :string           not null

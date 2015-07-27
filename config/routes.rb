@@ -32,8 +32,8 @@ Rails.application.routes.draw do
       collection do
         post :time_slots, as: 'time_slots'
         post 'schedule/:interview_date/:interview_time',
-            action: :schedule,
-            as: :schedule
+             action: :schedule,
+             as: :schedule
         get 'interview_now'
       end
     end
@@ -182,16 +182,21 @@ Rails.application.routes.draw do
       patch 'repaired',
             action: :repaired,
             as: 'repaired'
+      patch 'line_update/:line_id',
+            action: :line_update,
+            as: :line_update
+
     end
     collection do
       get :csv, to: 'devices#csv', as: :csv, defaults: { format: :csv }
+      get 'line_edit/:line_id', to: 'devices#line_edit', as: :line_edit
     end
-    resources :device_deployments, except: [ :index ] do
+    resources :device_deployments, except: [:index] do
       collection do
         get 'select_user'
         get 'new/:person_id', to: 'device_deployments#new', as: 'new'
         post 'new/:person_id', to: 'device_deployments#create'
-        get  'recoup_notes', to: 'device_deployments#recoup_notes', as: 'recoup_notes'
+        get 'recoup_notes', to: 'device_deployments#recoup_notes', as: 'recoup_notes'
         post 'recoup', to: 'device_deployments#recoup', as: 'recoup'
       end
 
@@ -266,6 +271,9 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
+  post 'minuteworx_punch/begin', to: 'minute_worx_punch_receiver#begin'
+  get 'minuteworx_punch/begin', to: 'minute_worx_punch_receiver#begin'
+
   resources :people, except: [:edit, :destroy] do
     resource :screening, only: [:edit, :update]
     resources :docusign_noses, only: [:new, :create] do
@@ -301,6 +309,8 @@ Rails.application.routes.draw do
       get :csv, as: :csv, defaults: { format: :csv }
     end
   end
+
+  resources :roster_verification_sessions, only: [:new, :create]
 
   get 'sessions/destroy', as: 'logout'
 

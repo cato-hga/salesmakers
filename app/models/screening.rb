@@ -90,7 +90,8 @@ class Screening < ActiveRecord::Base
     if get_fails > 0
       reason = CandidateDenialReason.find_by name: 'Did not pass employment screening'
       candidate.update candidate_denial_reason: reason,
-                       active: false
+                       active: false,
+                       training_session_status: :nos
     else
       candidate.partially_screened! if partially_complete? and not candidate.partially_screened?
       candidate.fully_screened! if complete? and not candidate.fully_screened?

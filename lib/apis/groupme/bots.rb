@@ -53,7 +53,7 @@ module Groupme
       count = 0
       for message in messages do
         count += 1
-        sleep(0.1)
+        sleep(0.5)
         payload = {
             'bot_id' => bot_id,
             'text' => message

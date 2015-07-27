@@ -91,6 +91,7 @@ module LinksHelperExtension
   end
 
   def candidate_contact_link(candidate)
+    return unless candidate.mobile_phone_valid? && !candidate.mobile_phone_is_landline?
     link_to icon('megaphone'), new_sms_message_candidate_url(candidate), class: [:send_contact]
   end
 
@@ -127,10 +128,11 @@ module LinksHelperExtension
     link_to text, 'http://www.fedex.com/Tracking?action=track&tracknumbers=' + tracking_number, target: '_blank'
   end
 
-  def line_link(line)
+  def line_link(line, classes = nil)
+    classes = tack_on_inactive_class(line, classes)
     line_string = line.identifier
     return line_string unless line_string.length == 10
-    link_to '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9], line
+    link_to '(' + line_string[0..2] + ') ' + line_string[3..5] + '-' + line_string[6..9], line, class: classes
   end
 
   def line_display(line)

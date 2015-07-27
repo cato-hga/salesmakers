@@ -13,6 +13,7 @@
 #  personality_assessment_url       :string
 #  area_candidate_sourcing_group_id :integer
 #  email                            :string
+#  active                           :boolean          default(TRUE), not null
 #
 
 class Area < ActiveRecord::Base
@@ -50,6 +51,32 @@ class Area < ActiveRecord::Base
 
   def full_name
     "#{self.project.name} - #{self.name}"
+  end
+
+  def direct_manager
+    person_areas = self.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
+    return person_areas.first.person unless person_areas.empty?
+    parent_area = self.parent
+    until parent_area.nil? || !person_areas.empty?
+      person_areas = parent_area.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
+      parent_area = parent_area.parent
+    end
+    person_areas.empty? ? nil : person_areas.first.person
+  end
+
+  def find_group_me_groups
+    return self.group_me_groups unless self.group_me_groups.empty?
+    parent_group_me_groups = []
+    parent_area = self.parent
+    while parent_group_me_groups.empty? && parent_area do
+      parent_group_me_groups = parent_area.group_me_groups
+      parent_area = parent_area.parent
+    end
+    parent_group_me_groups
+  end
+
+  def group_me_group
+    self.group_me_groups.empty? ? nil : self.group_me_groups.first
   end
 
   private

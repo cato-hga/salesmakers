@@ -73,7 +73,7 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
   protected
 
   def set_level
-    level_keywords = ['rep', 'brand', 'region', 'director', 'territory']
+    level_keywords = ['rep', 'brand', 'market', 'region', 'director', 'territory']
     level_keywords.each do |key|
       if self.has_keyword? key
         @level = key
@@ -115,6 +115,9 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
         'by',
         'rep',
         'territory',
+        'east',
+        'west',
+        'market',
         'region',
         'brand',
         'last',
@@ -124,8 +127,6 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
         'month',
         'yesterday',
         'today',
-        'east',
-        'west',
         'bland',
         'moulison',
         'miller',

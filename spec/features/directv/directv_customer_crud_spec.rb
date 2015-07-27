@@ -108,15 +108,15 @@ describe 'DirecTV Customer CRUD actions' do
 
       it 'displays a mobile phone number' do
         within '#directv_customer' do
-          expect(page).to have_selector('a', text: '(696) 969-6969')
+          expect(page).to have_content "(#{directv_customer.mobile_phone[0..2]}) #{directv_customer.mobile_phone[3..5]}-#{directv_customer.mobile_phone[6..9]}"
         end
       end
 
       it 'displays an "other phone" number' do
-        directv_customer.update other_phone: '9876543210'
+        directv_customer.update other_phone: '8005551001'
         visit directv_customer_path(directv_customer)
         within '#directv_customer' do
-          expect(page).to have_selector('a', text: '(987) 654-3210')
+          expect(page).to have_selector('a', text: '(800) 555-1001')
         end
       end
 
