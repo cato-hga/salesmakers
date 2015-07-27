@@ -3459,76 +3459,6 @@ ALTER SEQUENCE report_queries_id_seq OWNED BY report_queries.id;
 
 
 --
--- Name: roster_verification_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE roster_verification_sessions (
-    id integer NOT NULL,
-    creator_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    missing_employees character varying
-);
-
-
---
--- Name: roster_verification_sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE roster_verification_sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: roster_verification_sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE roster_verification_sessions_id_seq OWNED BY roster_verification_sessions.id;
-
-
---
--- Name: roster_verifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE roster_verifications (
-    id integer NOT NULL,
-    creator_id integer NOT NULL,
-    person_id integer NOT NULL,
-    status integer DEFAULT 0 NOT NULL,
-    last_shift_date date,
-    location_id integer,
-    envelope_guid character varying,
-    roster_verification_session_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    issue character varying
-);
-
-
---
--- Name: roster_verifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE roster_verifications_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: roster_verifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE roster_verifications_id_seq OWNED BY roster_verifications.id;
-
-
---
 -- Name: sales_performance_ranks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4136,6 +4066,17 @@ CREATE TABLE tmp_distances (
 
 CREATE TABLE tmp_sn (
     store_number character varying
+);
+
+
+--
+-- Name: tmp_swas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE tmp_swas (
+    store_number character varying,
+    openings integer,
+    priority integer
 );
 
 
@@ -5894,20 +5835,6 @@ ALTER TABLE ONLY report_queries ALTER COLUMN id SET DEFAULT nextval('report_quer
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY roster_verification_sessions ALTER COLUMN id SET DEFAULT nextval('roster_verification_sessions_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY roster_verifications ALTER COLUMN id SET DEFAULT nextval('roster_verifications_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY sales_performance_ranks ALTER COLUMN id SET DEFAULT nextval('sales_performance_ranks_id_seq'::regclass);
 
 
@@ -6983,22 +6910,6 @@ ALTER TABLE ONLY radio_shack_location_schedules
 
 ALTER TABLE ONLY report_queries
     ADD CONSTRAINT report_queries_pkey PRIMARY KEY (id);
-
-
---
--- Name: roster_verification_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY roster_verification_sessions
-    ADD CONSTRAINT roster_verification_sessions_pkey PRIMARY KEY (id);
-
-
---
--- Name: roster_verifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY roster_verifications
-    ADD CONSTRAINT roster_verifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -9674,19 +9585,7 @@ INSERT INTO schema_migrations (version) VALUES ('20150713194328');
 
 INSERT INTO schema_migrations (version) VALUES ('20150714132627');
 
-INSERT INTO schema_migrations (version) VALUES ('20150716142107');
-
-INSERT INTO schema_migrations (version) VALUES ('20150716142818');
-
-INSERT INTO schema_migrations (version) VALUES ('20150716194648');
-
-INSERT INTO schema_migrations (version) VALUES ('20150716201630');
-
-INSERT INTO schema_migrations (version) VALUES ('20150717144346');
-
 INSERT INTO schema_migrations (version) VALUES ('20150720140615');
-
-INSERT INTO schema_migrations (version) VALUES ('20150721180921');
 
 INSERT INTO schema_migrations (version) VALUES ('20150723144802');
 

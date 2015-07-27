@@ -1,0 +1,13 @@
+- title "#{@person.display_name}'s Compensation for #{@vonage_commission_period07012015.name}"
+- if @vonage_commission_period07012015.hps_start && @vonage_commission_period07012015.hps_end
+  %p
+    HPS period:
+    = @vonage_commission_period07012015.hps_start.strftime('%m/%d/%Y')
+    to
+    = @vonage_commission_period07012015.hps_end.strftime('%m/%d/%Y')
+- if @vonage_commission_period07012015.vested_sales_start && @vonage_commission_period07012015.vested_sales_end
+  %p
+    Vested sales period:
+    = @vonage_commission_period07012015.vested_sales_start.strftime('%m/%d/%Y')
+    to
+    = @vonage_commission_period07012015.vested_sales_end.strftime('%m/%d/%Y')
