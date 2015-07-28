@@ -4,6 +4,8 @@ describe RosterVerificationSessionsController do
   let(:creator) { create :person }
   let(:person) { create :person }
 
+  before { CASClient::Frameworks::Rails::Filter.fake(creator.email) }
+
   describe 'GET new' do
     before { get :new }
 
@@ -18,7 +20,6 @@ describe RosterVerificationSessionsController do
 
   describe 'POST create' do
     subject do
-      CASClient::Frameworks::Rails::Filter.fake(creator.email)
       post :create,
            roster_verification_session: {
                creator_id: creator.id,
