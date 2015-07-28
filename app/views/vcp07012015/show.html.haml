@@ -1,13 +1,136 @@
 - title "#{@person.display_name}'s Compensation for #{@vonage_commission_period07012015.name}"
-- if @vonage_commission_period07012015.hps_start && @vonage_commission_period07012015.hps_end
+
+- has_hps = @vonage_commission_period07012015.hps_start && @vonage_commission_period07012015.hps_end
+- has_vested_sales = @vonage_commission_period07012015.vested_sales_start && @vonage_commission_period07012015.vested_sales_end
+
+- if has_hps
   %p
     HPS period:
     = @vonage_commission_period07012015.hps_start.strftime('%m/%d/%Y')
     to
     = @vonage_commission_period07012015.hps_end.strftime('%m/%d/%Y')
-- if @vonage_commission_period07012015.vested_sales_start && @vonage_commission_period07012015.vested_sales_end
+- if has_vested_sales
   %p
     Vested sales period:
     = @vonage_commission_period07012015.vested_sales_start.strftime('%m/%d/%Y')
     to
     = @vonage_commission_period07012015.vested_sales_end.strftime('%m/%d/%Y')
+
+.widgets
+  - if has_hps
+    - total_hps_hours = 0.0
+    - total_hps_sales = 0
+    .widget
+      .inner
+        %h3 HPS Period Shifts
+        - header = header_row ['Date', 'Location', 'Hours']
+        - rows = []
+        - for shift in @vcp07012015_hps_shifts do
+          - total_hps_hours += shift.hours.round(2)
+          - shift_date = shift.shift.date.strftime '%m/%d/%Y'
+          - location = shift.shift.location ? shift.shift.location.name : ''
+          - hours = shift.hours.round(2).to_s
+          - rows << table_row([shift_date, location, hours])
+        = table header, rows
+    .widget
+      .inner
+        %h3 HPS Period Sales
+        - header = header_row ['Date', 'Location', 'MAC']
+        - rows = []
+        - for sale in @vcp07012015_hps_sales do
+          - total_hps_sales += 1
+          - sale_date = sale.vonage_sale.sale_date.strftime '%m/%d/%Y'
+          - location = sale.vonage_sale.location ? sale.vonage_sale.location.name : ''
+          - mac = sale.vonage_sale.mac
+          - rows << table_row([sale_date, location, mac])
+        = table header, rows
+    - total_hps_sales = 0 if total_hps_hours == 0.0
+    - total_hps = total_hps_sales == 0 ? total_hps_hours : (total_hps_hours / total_hps_sales.to_f).round(2)
+  - if has_vested_sales
+    - total_vested_sales_hours = 0.0
+    - total_vested_sales_sales = 0
+    - total_vested_sales_vested_sales = 0
+    .widget
+      .inner
+        %h3 Vested Sales Period Shifts
+        - header = header_row ['Date', 'Location', 'Hours']
+        - rows = []
+        - for shift in @vcp07012015_vested_sales_shifts do
+          - total_vested_sales_hours += shift.hours.round(2)
+          - shift_date = shift.shift.date.strftime '%m/%d/%Y'
+          - location = shift.shift.location ? shift.shift.location.name : ''
+          - hours = shift.hours.round(2).to_s
+          - rows << table_row([shift_date, location, hours])
+        = table header, rows
+    .widget
+      .inner
+        %h3 Vested Sales Period Sales
+        - header = header_row ['Date', 'Location', 'MAC', 'Vested?']
+        - rows = []
+        - for sale in @vcp07012015_vested_sales_sales do
+          - total_vested_sales_sales += 1
+          - total_vested_sales_vested_sales += 1 if sale.vested?
+          - sale_date = sale.vonage_sale.sale_date.strftime '%m/%d/%Y'
+          - location = sale.vonage_sale.location ? sale.vonage_sale.location.name : ''
+          - mac = sale.vonage_sale.mac
+          - vested = sale.vested? ? icon('check') : ''
+          - rows << table_row([sale_date, location, mac, vested])
+        = table header, rows
+    - vesting_rate = total_vested_sales_sales == 0 ? 0 : (total_vested_sales_vested_sales / total_vested_sales_sales).round
+  - hps_per_hour = 0.0
+  - vested_sales_per_hour = 0.0
+  - if has_hps && has_vested_sales
+    - hps_per_hour = 1.50 if total_hps < 10.0 && vesting_rate >= 63
+    - vested_sales_per_hour = 1.50 if total_hps
+    - hps_per_hour
+  .widget#totals
+    .inner
+      %h3 Totals
+      - if has_hps
+        %hr/
+        #hps
+          %p
+            %strong HPS Period
+          .row.centered_text
+            .large-4.columns
+              .hps_hours
+                %span.large= total_hps_hours.to_s
+                %br/
+                total hours
+            .large-4.columns
+              .hps_sales
+                %span.large= total_hps_sales.to_s
+                %br/
+                total sales
+            .large-4.columns
+              .hps_total
+                %strong.large= total_hps.to_s
+                %br/
+                %strong total HPS
+      -# if has_vested_sales
+      %hr/
+      #vested_sales.vertical_space
+        %p
+          %strong Vested Sales Period
+        .row.centered_text
+          .large-4.columns
+            .hps_hours
+              %span.large= total_vested_sales_sales.to_s
+              %br/
+              total gross sales
+          .large-4.columns
+            .hps_sales
+              %span.large= total_vested_sales_vested_sales.to_s
+              %br/
+              total vested sales
+          .large-4.columns
+            .hps_total
+              %strong.large= vesting_rate.to_s + '%'
+              %br/
+              %strong vesting rate
+      %hr/
+      .total_compensation
+        %p
+          %strong HPS Compensation
+        .row.centered_text
+          .large-4.columns

@@ -20,7 +20,7 @@ describe 'Vonage compensation plan effective 07/01/2015' do
   let!(:vested_sales_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day }
   let!(:hps_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.hps_start + 1.day, person: rep, location: create(:location) }
   let!(:hps_shift_outside) { create :shift, date: vonage_commission_period07012015.hps_end + 1.day, person: rep }
-  let!(:vested_sales_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.vested_sales_start + 1.day, person: rep }
+  let!(:vested_sales_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.vested_sales_start + 1.day, person: rep, location: create(:location) }
   let!(:vested_sales_shift_outside) { create :shift, date: vonage_commission_period07012015.vested_sales_start - 1.day, person: rep }
 
   let!(:vonage_account_status_change) {
@@ -69,11 +69,15 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     end
 
     it 'lists the sale date' do
-      expect(page).to have_content hps_sale.sale_date.strftime('%m/%d/%Y')
+      expect(page).to have_content hps_vonage_sale.sale_date.strftime('%m/%d/%Y')
+    end
+
+    it 'lists the sale location' do
+      expect(page).to have_content hps_vonage_sale.location.name
     end
 
     it 'lists the sale MAC' do
-      expect(page).to have_content hps_sale.vonage_sale.mac
+      expect(page).to have_content hps_vonage_sale.mac
     end
   end
 
@@ -82,16 +86,80 @@ describe 'Vonage compensation plan effective 07/01/2015' do
       expect(page).to have_selector 'h3', text: 'Vested Sales Period Sales'
     end
 
+    it 'has the vested sales shifts widget' do
+      expect(page).to have_selector 'h3', text: 'Vested Sales Period Shifts'
+    end
+
+    it 'lists the shift date' do
+      expect(page).to have_content vested_sales_shift.date.strftime('%m/%d/%Y')
+    end
+
+    it 'lists the shift location' do
+      expect(page).to have_content vested_sales_shift.location.name
+    end
+
+    it 'lists the number of hours for the shift' do
+      expect(page).to have_content vested_sales_shift.hours.round(1).to_s
+    end
+
     it 'lists the sale date' do
-      expect(page).to have_content hps_sale.sale_date.strftime('%m/%d/%Y')
+      expect(page).to have_content vested_sales_vonage_sale.sale_date.strftime('%m/%d/%Y')
+    end
+
+    it 'lists the sale location' do
+      expect(page).to have_content vested_sales_vonage_sale.location.name
     end
 
     it 'lists the sale MAC' do
-      expect(page).to have_content hps_sale.vonage_sale.mac
+      expect(page).to have_content vested_sales_vonage_sale.mac
     end
 
     it 'lists whether the sale was vested or not' do
       expect(page).to have_selector 'i.fi-check'
+    end
+  end
+
+  describe 'compensation totals' do
+    it 'displays the totals widget' do
+      expect(page).to have_selector 'h3', text: 'Totals'
+    end
+
+    it 'has the HPS section' do
+      expect(page).to have_selector 'strong', text: 'HPS Period'
+    end
+
+    it 'has the Vested Sales section' do
+      expect(page).to have_selector 'strong', text: 'Vested Sales Period'
+    end
+
+    it 'has the HPS totals' do
+      within '#totals #hps' do
+        expect(page).to have_selector '.hps_hours', text: '8.0'
+        expect(page).to have_selector '.hps_sales', text: '1'
+        expect(page).to have_selector '.hps_total', text: '8.0'
+      end
+      within '#totals' do
+        expect(page).to have_content '$1.50'
+        expect(page).to have_selector '.total_compensation', text: '$12.00'
+      end
+    end
+
+    it 'has the Vested Sales totals' do
+      within '#totals #vested_sales' do
+        expect(page).to have_selector '.vested_sales_sales', text: '1'
+        expect(page).to have_selector '.vested_sales_vested_sales', text: '1'
+        expect(page).to have_content '100%'
+      end
+      within '#totals' do
+        expect(page).to have_content '$1.50'
+        expect(page).to have_selector '.total_compensation', text: '$1.50'
+      end
+    end
+
+    it 'has the total totals' do
+      within '#totals' do
+        expect(page).to have_content '$13.50'
+      end
     end
   end
 end

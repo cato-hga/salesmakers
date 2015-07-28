@@ -5,10 +5,10 @@ class VCP07012015Controller < ApplicationController
         VonageCommissionPeriod07012015.find(params[:vonage_commission_period07012015_id]) :
         get_current_commission_period
     @person = Person.find params[:person_id]
-    @vcp07012015_hps_shifts = @vonage_commission_period07012015.vcp07012015_hps_shifts
-    @vcp07012015_hps_sales = @vonage_commission_period07012015.vcp07012015_hps_sales
-    @vcp07012015_vested_sales_shifts = @vonage_commission_period07012015.vcp07012015_vested_sales_shifts
-    @vcp07012015_vested_sales_sales = @vonage_commission_period07012015.vcp07012015_vested_sales_sales
+    @vcp07012015_hps_shifts = @vonage_commission_period07012015.vcp07012015_hps_shifts.where(person: @person).joins(:shift).order("shifts.date ASC")
+    @vcp07012015_hps_sales = @vonage_commission_period07012015.vcp07012015_hps_sales.where(person: @person).joins(:vonage_sale).order("vonage_sales.sale_date ASC, mac ASC")
+    @vcp07012015_vested_sales_shifts = @vonage_commission_period07012015.vcp07012015_vested_sales_shifts.where(person: @person).joins(:shift).order("shifts.date ASC")
+    @vcp07012015_vested_sales_sales = @vonage_commission_period07012015.vcp07012015_vested_sales_sales.where(person: @person).joins(:vonage_sale).order("vonage_sales.sale_date ASC, mac ASC")
   end
 
   private
