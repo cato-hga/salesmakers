@@ -9,6 +9,9 @@ class ExceptionNotificationOptions
             sender_address: 'development@retaildoneright.com',
             exception_recipients: %w{smiles@retaildoneright.com aatkinson@retaildoneright.com},
             sections: %w{request person session environment backtrace}
+        },
+        slack: {
+            webhook_url: 'https://hooks.slack.com/services/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'
         }
     }
   end
