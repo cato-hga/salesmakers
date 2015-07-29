@@ -2333,7 +2333,8 @@ CREATE TABLE historical_location_areas (
     distance_to_cor double precision,
     priority integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
 );
 
 
@@ -8407,6 +8408,62 @@ CREATE INDEX index_group_me_users_on_person_id ON group_me_users USING btree (pe
 
 
 --
+-- Name: index_historical_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_areas_on_date ON historical_areas USING btree (date);
+
+
+--
+-- Name: index_historical_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_client_areas_on_date ON historical_client_areas USING btree (date);
+
+
+--
+-- Name: index_historical_location_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_location_areas_on_date ON historical_location_areas USING btree (date);
+
+
+--
+-- Name: index_historical_location_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_location_client_areas_on_date ON historical_location_client_areas USING btree (date);
+
+
+--
+-- Name: index_historical_locations_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_locations_on_date ON historical_locations USING btree (date);
+
+
+--
+-- Name: index_historical_people_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_people_on_date ON historical_people USING btree (date);
+
+
+--
+-- Name: index_historical_person_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_person_areas_on_date ON historical_person_areas USING btree (date);
+
+
+--
+-- Name: index_historical_person_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_person_client_areas_on_date ON historical_person_client_areas USING btree (date);
+
+
+--
 -- Name: index_interview_answers_on_candidate_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -10169,4 +10226,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150728191751');
 INSERT INTO schema_migrations (version) VALUES ('20150728194445');
 
 INSERT INTO schema_migrations (version) VALUES ('20150728194639');
+
+INSERT INTO schema_migrations (version) VALUES ('20150729141222');
+
+INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 

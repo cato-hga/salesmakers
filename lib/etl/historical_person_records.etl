@@ -7,6 +7,14 @@ source HistoricalPersonSource
 
 transform do |row|
   count += 1
+  person_id = row.delete('id')
+  person = Person.find person_id
+
+  supervisor_id = nil
+  supervisor = HistoricalPerson.find_by email: person.supervisor.email, date: Date.current if person.supervisor
+  supervisor_id = supervisor.id if supervisor
+  row['supervisor_id'] = supervisor_id
+
   historical_row = HistoricalPerson.find_or_initialize_by row
 
   historical_row

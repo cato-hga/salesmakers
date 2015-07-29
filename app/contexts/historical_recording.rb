@@ -3,7 +3,12 @@ class HistoricalRecording
     scripts = [
         'historical_area_records.etl',
         'historical_location_records.etl',
-        'historical_person_records.etl'
+        'historical_person_records.etl',
+        'historical_person_area_records.etl',
+        'historical_location_area_records.etl',
+        'historical_client_area_records.etl',
+        'historical_location_client_area_records.etl',
+        'historical_person_client_area_records.etl',
     ]
 
     for script in scripts do

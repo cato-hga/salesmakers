@@ -1,9 +1,9 @@
-require 'etl/historical_area_source'
+require 'etl/simple_source'
 require 'etl/simple_saving_destination'
 
 count = 0
 
-source HistoricalAreaSource
+source SimpleSource, Area
 
 transform do |row|
   count += 1

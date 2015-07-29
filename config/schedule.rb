@@ -65,6 +65,10 @@ every 1.day, at: '4:00 am' do
   runner 'AssetShiftHoursTotaling.new(24.hours, true)'
 end
 
+every 1.day, at: '11:30 pm' do
+  runner 'HistoricalRecording.new.record'
+end
+
 every :wednesday, at: '9:00 am' do
   runner 'AssetShiftHoursTotaling.generate_mailer(true)'
 end
