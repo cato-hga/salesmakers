@@ -81,7 +81,6 @@ gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQ
 gem 'annotate', '2.6.10' # Schema information at the top of model files
 
 gem 'slack-notifier', '1.2.1' # Exception notification on Slack
-gem 'slackistrano', '0.1.9' # Notifications to Slack about Capistrano deployments
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
