@@ -110,6 +110,7 @@
           - mac = sale.vonage_sale.mac
           - rows << table_row([sale_date, location, mac])
         = table header, rows
+    - total_hps_hours = total_hps_hours.round(2)
     - total_hps_sales = 0 if total_hps_hours == 0.0
     - total_hps = total_hps_sales == 0 ? total_hps_hours : (total_hps_hours / total_hps_sales.to_f).round(2)
   - if has_vested_sales
