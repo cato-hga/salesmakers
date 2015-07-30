@@ -76,3 +76,7 @@ end
 every :wednesday, at: '9:00 am' do
   runner 'AssetShiftHoursTotaling.generate_mailer(true)'
 end
+
+every '45 * * * *' do
+  runner 'VonageComp07012015Processing.new.execute'
+end
