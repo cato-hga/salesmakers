@@ -47,6 +47,7 @@ device_states
 poll_questions
 feedbacks
 wall_post_comments
+vcp07012015
 likes
 wall_posts
 profile_experiences

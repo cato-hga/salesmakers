@@ -10,7 +10,7 @@
 = content_for :action_buttons do
   - if show_details
     - if vonage
-      = button_to 'Commissions', commission_person_path(@person), class: [:button, :inline_button]
+      = button_to 'Commissions', vcp07012015_path(@person.id), class: [:button, :inline_button], method: :get
     - if ScreeningPolicy.new(@current_person, Screening.new).update?
       = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
     - if @person.candidate

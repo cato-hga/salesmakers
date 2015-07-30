@@ -14,6 +14,15 @@ describe 'Vonage compensation plan effective 07/01/2015' do
            vested_sales_end: Date.today.beginning_of_month - 1.day,
            cutoff: DateTime.now + 1.day
   }
+  let!(:previous_vonage_commission_period07012015) {
+    create :vonage_commission_period07012015,
+           name: 'Previous Period',
+           hps_start: Date.today.beginning_of_month - 1.month,
+           hps_end: Date.today.end_of_month - 1.month,
+           vested_sales_start: Date.today.beginning_of_month - 1.month - 1.month,
+           vested_sales_end: Date.today.beginning_of_month - 1.day - 1.month,
+           cutoff: DateTime.now + 1.day - 1.month
+  }
   let!(:hps_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day, mac: '117788226644' }
   let!(:hps_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_end + 1.day }
   let!(:vested_sales_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day }
@@ -36,15 +45,15 @@ describe 'Vonage compensation plan effective 07/01/2015' do
   end
 
   it 'has the correct title' do
-    expect(page).to have_selector 'h1', text: "#{rep.display_name}'s Compensation for #{vonage_commission_period07012015.name}"
+    expect(page).to have_selector 'h1', text: "#{rep.display_name}'s Compensation for \"#{vonage_commission_period07012015.name}\""
   end
 
   it 'has the HPS period dates' do
-    expect(page).to have_content "HPS period: #{vonage_commission_period07012015.hps_start.strftime('%m/%d/%Y')} to #{vonage_commission_period07012015.hps_end.strftime('%m/%d/%Y')}"
+    expect(page).to have_content "HPS period: #{vonage_commission_period07012015.hps_start.strftime('%-m/%-d')} to #{vonage_commission_period07012015.hps_end.strftime('%-m/%-d')}"
   end
 
   it 'has the vested sales period dates' do
-    expect(page).to have_content "Vested sales period: #{vonage_commission_period07012015.vested_sales_start.strftime('%m/%d/%Y')} to #{vonage_commission_period07012015.vested_sales_end.strftime('%m/%d/%Y')}"
+    expect(page).to have_content "Vested sales period: #{vonage_commission_period07012015.vested_sales_start.strftime('%-m/%-d')} to #{vonage_commission_period07012015.vested_sales_end.strftime('%-m/%-d')}"
   end
 
   context 'for HPS' do
@@ -57,11 +66,11 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     end
 
     it 'lists the shift date' do
-      expect(page).to have_content hps_shift.date.strftime('%m/%d/%Y')
+      expect(page).to have_content hps_shift.date.strftime('%-m/%-d')
     end
 
     it 'lists the shift location' do
-      expect(page).to have_content hps_shift.location.name
+      expect(page).to have_content "#{hps_shift.location.channel.name} ##{hps_shift.location.store_number}"
     end
 
     it 'lists the number of hours for the shift' do
@@ -69,11 +78,11 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     end
 
     it 'lists the sale date' do
-      expect(page).to have_content hps_vonage_sale.sale_date.strftime('%m/%d/%Y')
+      expect(page).to have_content hps_vonage_sale.sale_date.strftime('%-m/%-d')
     end
 
     it 'lists the sale location' do
-      expect(page).to have_content hps_vonage_sale.location.name
+      expect(page).to have_content "#{hps_vonage_sale.location.channel.name} ##{hps_vonage_sale.location.store_number}"
     end
 
     it 'lists the sale MAC' do
@@ -91,11 +100,11 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     end
 
     it 'lists the shift date' do
-      expect(page).to have_content vested_sales_shift.date.strftime('%m/%d/%Y')
+      expect(page).to have_content vested_sales_shift.date.strftime('%-m/%-d')
     end
 
     it 'lists the shift location' do
-      expect(page).to have_content vested_sales_shift.location.name
+      expect(page).to have_content "#{vested_sales_shift.location.channel.name} ##{vested_sales_shift.location.store_number}"
     end
 
     it 'lists the number of hours for the shift' do
@@ -103,11 +112,11 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     end
 
     it 'lists the sale date' do
-      expect(page).to have_content vested_sales_vonage_sale.sale_date.strftime('%m/%d/%Y')
+      expect(page).to have_content vested_sales_vonage_sale.sale_date.strftime('%-m/%-d')
     end
 
     it 'lists the sale location' do
-      expect(page).to have_content vested_sales_vonage_sale.location.name
+      expect(page).to have_content "#{vested_sales_vonage_sale.location.channel.name} ##{vested_sales_vonage_sale.location.store_number}"
     end
 
     it 'lists the sale MAC' do
@@ -138,10 +147,6 @@ describe 'Vonage compensation plan effective 07/01/2015' do
         expect(page).to have_selector '.hps_sales', text: '1'
         expect(page).to have_selector '.hps_total', text: '8.0'
       end
-      within '#totals' do
-        expect(page).to have_content '$1.50'
-        expect(page).to have_selector '.total_compensation', text: '$12.00'
-      end
     end
 
     it 'has the Vested Sales totals' do
@@ -150,16 +155,25 @@ describe 'Vonage compensation plan effective 07/01/2015' do
         expect(page).to have_selector '.vested_sales_vested_sales', text: '1'
         expect(page).to have_content '100%'
       end
-      within '#totals' do
-        expect(page).to have_content '$1.50'
-        expect(page).to have_selector '.total_compensation', text: '$1.50'
-      end
     end
 
     it 'has the total totals' do
       within '#totals' do
-        expect(page).to have_content '$13.50'
+        expect(page).to have_content '$3.00'
+        expect(page).to have_content '$24.00'
       end
+    end
+  end
+
+  describe 'switching periods' do
+    before do
+      select 'Previous Period', from: 'vonage_commission_period07012015_id'
+      click_on 'Switch'
+    end
+
+    it 'shows the proper paycheck' do
+      expect(page).to have_content "HPS period: #{previous_vonage_commission_period07012015.hps_start.strftime('%-m/%-d')} to #{previous_vonage_commission_period07012015.hps_end.strftime('%-m/%-d')}"
+      expect(page).to have_content "Vested sales period: #{previous_vonage_commission_period07012015.vested_sales_start.strftime('%-m/%-d')} to #{previous_vonage_commission_period07012015.vested_sales_end.strftime('%-m/%-d')}"
     end
   end
 end
