@@ -114,21 +114,8 @@
     - total_hps_sales = 0 if total_hps_hours == 0.0
     - total_hps = total_hps_sales == 0 ? total_hps_hours : (total_hps_hours / total_hps_sales.to_f).round(2)
   - if has_vested_sales
-    - total_vested_sales_hours = 0.0
     - total_vested_sales_sales = 0
     - total_vested_sales_vested_sales = 0
-    .widget
-      .inner
-        %h3 Vested Sales Period Shifts
-        - header = header_row ['Date', 'Location', 'Hours']
-        - rows = []
-        - for shift in @vcp07012015_vested_sales_shifts do
-          - total_vested_sales_hours += shift.hours.round(2)
-          - shift_date = shift.shift.date.strftime '%-m/%-d'
-          - location = shift.shift.location ? "#{shift.shift.location.channel.name} ##{shift.shift.location.store_number}" : ''
-          - hours = shift.hours.round(2).to_s
-          - rows << table_row([shift_date, location, hours])
-        = table header, rows
     .widget
       .inner
         %h3 Vested Sales Period Sales

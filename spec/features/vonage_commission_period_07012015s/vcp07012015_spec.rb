@@ -95,22 +95,6 @@ describe 'Vonage compensation plan effective 07/01/2015' do
       expect(page).to have_selector 'h3', text: 'Vested Sales Period Sales'
     end
 
-    it 'has the vested sales shifts widget' do
-      expect(page).to have_selector 'h3', text: 'Vested Sales Period Shifts'
-    end
-
-    it 'lists the shift date' do
-      expect(page).to have_content vested_sales_shift.date.strftime('%-m/%-d')
-    end
-
-    it 'lists the shift location' do
-      expect(page).to have_content "#{vested_sales_shift.location.channel.name} ##{vested_sales_shift.location.store_number}"
-    end
-
-    it 'lists the number of hours for the shift' do
-      expect(page).to have_content vested_sales_shift.hours.round(1).to_s
-    end
-
     it 'lists the sale date' do
       expect(page).to have_content vested_sales_vonage_sale.sale_date.strftime('%-m/%-d')
     end
