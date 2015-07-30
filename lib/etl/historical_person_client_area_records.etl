@@ -1,0 +1,30 @@
+require 'etl/simple_source'
+require 'etl/simple_saving_destination'
+
+count = 0
+
+source SimpleSource, PersonClientArea
+
+transform do |row|
+  count += 1
+  person_id = row.delete('person_id')
+  person = Person.find_by id: person_id
+  client_area_id = row.delete('client_area_id')
+  client_area = ClientArea.find_by id: client_area_id
+
+  historical_person = HistoricalPerson.find_by email: person.email, date: Date.current if person
+  historical_client_area = HistoricalClientArea.find_by name: client_area.name, client_area_type: client_area.client_area_type, date: Date.current if client_area
+
+  row[:historical_person_id] = historical_person.id if historical_person
+  row[:historical_client_area_id] = historical_client_area.id if historical_client_area
+
+  historical_row = HistoricalPersonClientArea.find_or_initialize_by row
+
+  historical_row
+end
+
+destination SimpleSavingDestination
+
+post_process do
+  ProcessLog.create process_class: "HistoricalRecording", notes: "PersonClientArea", records_processed: count
+end

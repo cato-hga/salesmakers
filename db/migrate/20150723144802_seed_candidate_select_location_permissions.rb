@@ -5,6 +5,7 @@ class SeedCandidateSelectLocationPermissions < ActiveRecord::Migration
                                    key: 'candidate_select_location',
                                    description: 'select a location for candidates'
     create_permission = Permission.find_by key: 'candidate_create'
+    return if create_permission.nil?
     for position in create_permission.positions do
       position.permissions << permission
     end

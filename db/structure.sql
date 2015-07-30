@@ -2240,6 +2240,324 @@ CREATE VIEW headquarters_org_chart_entries AS
 
 
 --
+-- Name: historical_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_areas (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    area_type_id integer NOT NULL,
+    ancestry character varying,
+    project_id integer NOT NULL,
+    connect_salesregion_id character varying,
+    personality_assessment_url character varying,
+    area_candidate_sourcing_group_id integer,
+    email character varying,
+    active boolean DEFAULT true NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_areas_id_seq OWNED BY historical_areas.id;
+
+
+--
+-- Name: historical_client_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_client_areas (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    client_area_type_id integer NOT NULL,
+    ancestry character varying,
+    project_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_client_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_client_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_client_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_client_areas_id_seq OWNED BY historical_client_areas.id;
+
+
+--
+-- Name: historical_location_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_location_areas (
+    id integer NOT NULL,
+    historical_location_id integer NOT NULL,
+    historical_area_id integer NOT NULL,
+    current_head_count integer DEFAULT 0 NOT NULL,
+    potential_candidate_count integer DEFAULT 0 NOT NULL,
+    target_head_count integer DEFAULT 0 NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    hourly_rate double precision,
+    offer_extended_count integer DEFAULT 1 NOT NULL,
+    outsourced boolean,
+    launch_group integer,
+    distance_to_cor double precision,
+    priority integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_location_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_location_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_location_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_location_areas_id_seq OWNED BY historical_location_areas.id;
+
+
+--
+-- Name: historical_location_client_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_location_client_areas (
+    id integer NOT NULL,
+    historical_location_id integer NOT NULL,
+    historical_client_area_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_location_client_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_location_client_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_location_client_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_location_client_areas_id_seq OWNED BY historical_location_client_areas.id;
+
+
+--
+-- Name: historical_locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_locations (
+    id integer NOT NULL,
+    display_name character varying,
+    store_number character varying NOT NULL,
+    street_1 character varying,
+    street_2 character varying,
+    city character varying NOT NULL,
+    state character varying NOT NULL,
+    zip character varying,
+    channel_id integer NOT NULL,
+    latitude double precision,
+    longitude double precision,
+    sprint_radio_shack_training_location_id integer,
+    cost_center character varying,
+    mail_stop character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_locations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_locations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_locations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_locations_id_seq OWNED BY historical_locations.id;
+
+
+--
+-- Name: historical_people; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_people (
+    id integer NOT NULL,
+    first_name character varying NOT NULL,
+    last_name character varying NOT NULL,
+    display_name character varying NOT NULL,
+    email character varying NOT NULL,
+    personal_email character varying,
+    position_id integer,
+    active boolean DEFAULT true NOT NULL,
+    connect_user_id character varying,
+    supervisor_id integer,
+    office_phone character varying,
+    mobile_phone character varying,
+    home_phone character varying,
+    eid integer,
+    groupme_access_token character varying,
+    groupme_token_updated timestamp without time zone,
+    group_me_user_id character varying,
+    last_seen timestamp without time zone,
+    changelog_entry_id integer,
+    vonage_tablet_approval_status integer DEFAULT 0 NOT NULL,
+    passed_asset_hours_requirement boolean DEFAULT false NOT NULL,
+    sprint_prepaid_asset_approval_status integer DEFAULT 0 NOT NULL,
+    update_position_from_connect boolean DEFAULT true NOT NULL,
+    mobile_phone_valid boolean DEFAULT true NOT NULL,
+    home_phone_valid boolean DEFAULT true NOT NULL,
+    office_phone_valid boolean DEFAULT true NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_people_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_people_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_people_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_people_id_seq OWNED BY historical_people.id;
+
+
+--
+-- Name: historical_person_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_person_areas (
+    id integer NOT NULL,
+    historical_person_id integer NOT NULL,
+    historical_area_id integer NOT NULL,
+    manages boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_person_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_person_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_person_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_person_areas_id_seq OWNED BY historical_person_areas.id;
+
+
+--
+-- Name: historical_person_client_areas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE historical_person_client_areas (
+    id integer NOT NULL,
+    historical_person_id integer NOT NULL,
+    historical_client_area_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    date date NOT NULL
+);
+
+
+--
+-- Name: historical_person_client_areas_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE historical_person_client_areas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: historical_person_client_areas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_client_areas.id;
+
+
+--
 -- Name: interview_answers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4618,6 +4936,141 @@ ALTER SEQUENCE vcp07012015_vested_sales_shifts_id_seq OWNED BY vcp07012015_veste
 
 
 --
+-- Name: vcp07012015_hps_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_hps_sales (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    vonage_sale_id integer NOT NULL,
+    person_id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_hps_sales_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_hps_sales_id_seq OWNED BY vcp07012015_hps_sales.id;
+
+
+--
+-- Name: vcp07012015_hps_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_hps_shifts (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    shift_id integer NOT NULL,
+    person_id integer NOT NULL,
+    hours double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_hps_shifts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_hps_shifts_id_seq OWNED BY vcp07012015_hps_shifts.id;
+
+
+--
+-- Name: vcp07012015_vested_sales_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_vested_sales_sales (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    vonage_sale_id integer NOT NULL,
+    person_id integer NOT NULL,
+    vested boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_vested_sales_sales_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_vested_sales_sales_id_seq OWNED BY vcp07012015_vested_sales_sales.id;
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vcp07012015_vested_sales_shifts (
+    id integer NOT NULL,
+    vonage_commission_period07012015_id integer NOT NULL,
+    shift_id integer NOT NULL,
+    person_id integer NOT NULL,
+    hours double precision NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vcp07012015_vested_sales_shifts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vcp07012015_vested_sales_shifts_id_seq OWNED BY vcp07012015_vested_sales_shifts.id;
+
+
+--
 -- Name: version_associations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5661,6 +6114,62 @@ ALTER TABLE ONLY group_me_posts ALTER COLUMN id SET DEFAULT nextval('group_me_po
 --
 
 ALTER TABLE ONLY group_me_users ALTER COLUMN id SET DEFAULT nextval('group_me_users_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_areas ALTER COLUMN id SET DEFAULT nextval('historical_areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_client_areas ALTER COLUMN id SET DEFAULT nextval('historical_client_areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_location_areas ALTER COLUMN id SET DEFAULT nextval('historical_location_areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_location_client_areas ALTER COLUMN id SET DEFAULT nextval('historical_location_client_areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_locations ALTER COLUMN id SET DEFAULT nextval('historical_locations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_people ALTER COLUMN id SET DEFAULT nextval('historical_people_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_person_areas ALTER COLUMN id SET DEFAULT nextval('historical_person_areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY historical_person_client_areas ALTER COLUMN id SET DEFAULT nextval('historical_person_client_areas_id_seq'::regclass);
 
 
 --
@@ -6722,6 +7231,70 @@ ALTER TABLE ONLY group_me_posts
 
 ALTER TABLE ONLY group_me_users
     ADD CONSTRAINT group_me_users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_areas
+    ADD CONSTRAINT historical_areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_client_areas
+    ADD CONSTRAINT historical_client_areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_location_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_location_areas
+    ADD CONSTRAINT historical_location_areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_location_client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_location_client_areas
+    ADD CONSTRAINT historical_location_client_areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_locations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_locations
+    ADD CONSTRAINT historical_locations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_people_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_people
+    ADD CONSTRAINT historical_people_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_person_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_person_areas
+    ADD CONSTRAINT historical_person_areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: historical_person_client_areas_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY historical_person_client_areas
+    ADD CONSTRAINT historical_person_client_areas_pkey PRIMARY KEY (id);
 
 
 --
@@ -7967,6 +8540,62 @@ CREATE INDEX index_group_me_posts_on_person_id ON group_me_posts USING btree (pe
 --
 
 CREATE INDEX index_group_me_users_on_person_id ON group_me_users USING btree (person_id);
+
+
+--
+-- Name: index_historical_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_areas_on_date ON historical_areas USING btree (date);
+
+
+--
+-- Name: index_historical_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_client_areas_on_date ON historical_client_areas USING btree (date);
+
+
+--
+-- Name: index_historical_location_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_location_areas_on_date ON historical_location_areas USING btree (date);
+
+
+--
+-- Name: index_historical_location_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_location_client_areas_on_date ON historical_location_client_areas USING btree (date);
+
+
+--
+-- Name: index_historical_locations_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_locations_on_date ON historical_locations USING btree (date);
+
+
+--
+-- Name: index_historical_people_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_people_on_date ON historical_people USING btree (date);
+
+
+--
+-- Name: index_historical_person_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_person_areas_on_date ON historical_person_areas USING btree (date);
+
+
+--
+-- Name: index_historical_person_client_areas_on_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_historical_person_client_areas_on_date ON historical_person_client_areas USING btree (date);
 
 
 --
@@ -9700,4 +10329,40 @@ INSERT INTO schema_migrations (version) VALUES ('20150720140615');
 INSERT INTO schema_migrations (version) VALUES ('20150721180921');
 
 INSERT INTO schema_migrations (version) VALUES ('20150723144802');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728181149');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728182139');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728182328');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728182625');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728184312');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728190837');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191114');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191231');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191405');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191425');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191524');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191553');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191615');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728191751');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728194445');
+
+INSERT INTO schema_migrations (version) VALUES ('20150728194639');
+
+INSERT INTO schema_migrations (version) VALUES ('20150729141222');
+
+INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 

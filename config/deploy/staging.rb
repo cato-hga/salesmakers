@@ -13,4 +13,6 @@ role :app, %w{deploy@staging.salesmakersinc.com}
 role :web, %w{deploy@staging.salesmakersinc.com}
 role :db, %w{deploy@staging.salesmakersinc.com}
 
+set :announce_on_slack, false
+
 server 'staging.salesmakersinc.com', user: 'deploy', roles: %w{web app}

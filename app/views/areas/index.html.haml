@@ -10,7 +10,7 @@
           .large-4.medium-6.columns.widget
             .inner
               - if area.is_childless?
-                %h3= area.parent.name
+                %h3= area.parent ? area.parent.name : area.name
                 = area_link(area)
               - else
                 - areas = area.descendants.where(active: true).arrange(order: :name)

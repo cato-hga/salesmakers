@@ -134,6 +134,16 @@ namespace :deploy do
     end
   end
 
+  desc 'Announce deployment on Slack'
+  task :announce_on_slack do
+    if fetch(:announce_on_slack)
+      on roles(:app), in: :sequence, wait: 5 do
+        notifier = Slack::Notifier.new 'https://hooks.slack.com/services/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'
+        notifier.ping 'A production deployment has just been completed.'
+      end
+    end
+  end
+
   before :starting, :check_revision
   before :starting, :check_branch_on_production
   before :starting, :silence_inspeqtor
@@ -141,6 +151,7 @@ namespace :deploy do
   after :finishing, :cleanup
   after :finishing, :restart
   after :finishing, :start_inspeqtor
+  after :finishing, :announce_on_slack
 end
 
 after 'deploy:reverted', 'sidekiq:restart'

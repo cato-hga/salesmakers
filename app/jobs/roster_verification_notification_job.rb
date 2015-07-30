@@ -25,6 +25,6 @@ class RosterVerificationNotificationJob < ActiveJob::Base
     for manager in managers.uniq do
       RosterVerificationMailer.send_notification_and_link(manager).deliver_later
     end
-    ProcessLog.create process_class: "EmailBouncebackNotifierJob", records_processed: bounces.count if automated
+    ProcessLog.create process_class: "RosterVerificationNotificationJob", records_processed: managers.uniq.count if automated
   end
 end

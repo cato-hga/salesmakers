@@ -80,6 +80,8 @@ gem 'activerecord-sqlserver-adapter', '~> 4.2.0' # Microsoft SQL Server Adapter
 gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff
 gem 'annotate', '2.6.10' # Schema information at the top of model files
 
+gem 'slack-notifier', '1.2.1' # Exception notification on Slack
+
 group :development do
   gem 'airbrussh', '0.3.0', require: false
   gem 'letter_opener', '1.3.0' # Was 1.2.0 01/21/2015 - Open sent emails in a browser during development
@@ -135,5 +137,5 @@ end
 
 group :production, :staging do
   gem 'rack-cache', '1.2', require: 'rack/cache' # Cache, used by Dragonfly
-  gem 'exception_notification', '4.0.1' # Send notification of uncaught Exceptions to developers (us!)
+  gem 'exception_notification', '4.1.1' # Was 4.0.1 7/29/2015 - Send notification of uncaught Exceptions to developers (us!)
 end
