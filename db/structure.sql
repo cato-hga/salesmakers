@@ -23,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -4801,141 +4829,6 @@ ALTER SEQUENCE uploaded_videos_id_seq OWNED BY uploaded_videos.id;
 
 
 --
--- Name: vcp07012015_hps_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_hps_sales (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    vonage_sale_id integer NOT NULL,
-    person_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_hps_sales_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_hps_sales_id_seq OWNED BY vcp07012015_hps_sales.id;
-
-
---
--- Name: vcp07012015_hps_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_hps_shifts (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    shift_id integer NOT NULL,
-    person_id integer NOT NULL,
-    hours double precision NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_hps_shifts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_hps_shifts_id_seq OWNED BY vcp07012015_hps_shifts.id;
-
-
---
--- Name: vcp07012015_vested_sales_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_vested_sales_sales (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    vonage_sale_id integer NOT NULL,
-    person_id integer NOT NULL,
-    vested boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_vested_sales_sales_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_vested_sales_sales_id_seq OWNED BY vcp07012015_vested_sales_sales.id;
-
-
---
--- Name: vcp07012015_vested_sales_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_vested_sales_shifts (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    shift_id integer NOT NULL,
-    person_id integer NOT NULL,
-    hours double precision NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_vested_sales_shifts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_vested_sales_shifts_id_seq OWNED BY vcp07012015_vested_sales_shifts.id;
-
-
---
 -- Name: version_associations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5034,42 +4927,6 @@ CREATE SEQUENCE vonage_account_status_changes_id_seq
 --
 
 ALTER SEQUENCE vonage_account_status_changes_id_seq OWNED BY vonage_account_status_changes.id;
-
-
---
--- Name: vonage_commission_period07012015s; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vonage_commission_period07012015s (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    hps_start date,
-    hps_end date,
-    vested_sales_start date,
-    vested_sales_end date,
-    cutoff timestamp without time zone NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vonage_commission_period07012015s_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vonage_commission_period07012015s_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vonage_commission_period07012015s_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commission_period07012015s.id;
 
 
 --
@@ -6468,34 +6325,6 @@ ALTER TABLE ONLY uploaded_videos ALTER COLUMN id SET DEFAULT nextval('uploaded_v
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vcp07012015_hps_sales ALTER COLUMN id SET DEFAULT nextval('vcp07012015_hps_sales_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vcp07012015_hps_shifts ALTER COLUMN id SET DEFAULT nextval('vcp07012015_hps_shifts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vcp07012015_vested_sales_sales ALTER COLUMN id SET DEFAULT nextval('vcp07012015_vested_sales_sales_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vcp07012015_vested_sales_shifts ALTER COLUMN id SET DEFAULT nextval('vcp07012015_vested_sales_shifts_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY version_associations ALTER COLUMN id SET DEFAULT nextval('version_associations_id_seq'::regclass);
 
 
@@ -6511,13 +6340,6 @@ ALTER TABLE ONLY versions ALTER COLUMN id SET DEFAULT nextval('versions_id_seq':
 --
 
 ALTER TABLE ONLY vonage_account_status_changes ALTER COLUMN id SET DEFAULT nextval('vonage_account_status_changes_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT nextval('vonage_commission_period07012015s_id_seq'::regclass);
 
 
 --
@@ -7651,38 +7473,6 @@ ALTER TABLE ONLY uploaded_videos
 
 
 --
--- Name: vcp07012015_hps_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vcp07012015_hps_sales
-    ADD CONSTRAINT vcp07012015_hps_sales_pkey PRIMARY KEY (id);
-
-
---
--- Name: vcp07012015_hps_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vcp07012015_hps_shifts
-    ADD CONSTRAINT vcp07012015_hps_shifts_pkey PRIMARY KEY (id);
-
-
---
--- Name: vcp07012015_vested_sales_sales_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vcp07012015_vested_sales_sales
-    ADD CONSTRAINT vcp07012015_vested_sales_sales_pkey PRIMARY KEY (id);
-
-
---
--- Name: vcp07012015_vested_sales_shifts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vcp07012015_vested_sales_shifts
-    ADD CONSTRAINT vcp07012015_vested_sales_shifts_pkey PRIMARY KEY (id);
-
-
---
 -- Name: version_associations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7704,14 +7494,6 @@ ALTER TABLE ONLY versions
 
 ALTER TABLE ONLY vonage_account_status_changes
     ADD CONSTRAINT vonage_account_status_changes_pkey PRIMARY KEY (id);
-
-
---
--- Name: vonage_commission_period07012015s_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vonage_commission_period07012015s
-    ADD CONSTRAINT vonage_commission_period07012015s_pkey PRIMARY KEY (id);
 
 
 --
@@ -10162,16 +9944,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150707200146');
 INSERT INTO schema_migrations (version) VALUES ('20150708152321');
 
 INSERT INTO schema_migrations (version) VALUES ('20150709141841');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709183929');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709193232');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709194414');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709195124');
-
-INSERT INTO schema_migrations (version) VALUES ('20150709195850');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713194138');
 
