@@ -3,6 +3,8 @@ require 'rails_helper'
 describe 'roster verification' do
   let!(:vonage_paycheck) { create :vonage_paycheck, cutoff: Date.tomorrow.to_datetime }
 
+  let(:department) { create :department, name: 'Foobar Department' }
+  let(:position) { create :position, name: 'Foobar Position', department: department }
   let(:employee) { create :person }
   let!(:employment) { create :employment, person: employee }
   let(:location) { create :location }
@@ -14,7 +16,7 @@ describe 'roster verification' do
 
   let!(:employee_person_area) { create :person_area, area: bottom_area, person: employee }
 
-  let(:manager) { create :person, display_name: 'Billy Joel' }
+  let(:manager) { create :person, display_name: 'Billy Joel', position: position }
   let!(:manager_person_area) { create :person_area, area: root_area, person: manager, manages: true }
 
   before do
