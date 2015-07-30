@@ -132,6 +132,9 @@
     .widget
       .inner
         %h3 Vested Sales Period Sales
+        %p
+          Vested sales will change on a daily basis. It takes around 36-37 days for sales to show as completely
+          vested, as there is a 4-to-5-day lag on account data received from Vonage.
         - header = header_row ['Date', 'Location', 'MAC', 'Vested?']
         - rows = []
         - for sale in @vcp07012015_vested_sales_sales do
