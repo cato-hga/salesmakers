@@ -1,4 +1,6 @@
 class ApplicationController < BaseApplicationController
+  rescue_from ActionController::InvalidAuthenticityToken, with: :forbidden
+
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
                 :check_active,
