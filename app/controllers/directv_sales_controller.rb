@@ -10,7 +10,7 @@ class DirecTVSalesController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    shared_index('DirecTV', 'Sale')
+    shared_index('DirecTV', 'Sale', 'order_date DESC')
   end
 
   def new
