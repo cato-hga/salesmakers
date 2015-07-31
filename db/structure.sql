@@ -23,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -4798,141 +4826,6 @@ CREATE SEQUENCE uploaded_videos_id_seq
 --
 
 ALTER SEQUENCE uploaded_videos_id_seq OWNED BY uploaded_videos.id;
-
-
---
--- Name: vcp07012015_hps_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_hps_sales (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    vonage_sale_id integer NOT NULL,
-    person_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_hps_sales_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_hps_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_hps_sales_id_seq OWNED BY vcp07012015_hps_sales.id;
-
-
---
--- Name: vcp07012015_hps_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_hps_shifts (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    shift_id integer NOT NULL,
-    person_id integer NOT NULL,
-    hours double precision NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_hps_shifts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_hps_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_hps_shifts_id_seq OWNED BY vcp07012015_hps_shifts.id;
-
-
---
--- Name: vcp07012015_vested_sales_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_vested_sales_sales (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    vonage_sale_id integer NOT NULL,
-    person_id integer NOT NULL,
-    vested boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_vested_sales_sales_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_vested_sales_sales_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_vested_sales_sales_id_seq OWNED BY vcp07012015_vested_sales_sales.id;
-
-
---
--- Name: vcp07012015_vested_sales_shifts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vcp07012015_vested_sales_shifts (
-    id integer NOT NULL,
-    vonage_commission_period07012015_id integer NOT NULL,
-    shift_id integer NOT NULL,
-    person_id integer NOT NULL,
-    hours double precision NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vcp07012015_vested_sales_shifts_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vcp07012015_vested_sales_shifts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vcp07012015_vested_sales_shifts_id_seq OWNED BY vcp07012015_vested_sales_shifts.id;
 
 
 --
