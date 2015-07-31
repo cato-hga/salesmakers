@@ -27,6 +27,10 @@ class LogEntry < ActiveRecord::Base
 
   default_scope { order('created_at DESC') }
 
+  ransacker :created_at do
+    Arel.sql('date(log_entries.created_at)')
+  end
+
   #:nocov:
   def self.person_onboarded_from_connect(person, creator, created = nil, updated = nil)
     return unless person and creator and person.valid? and creator.valid?
@@ -97,6 +101,7 @@ class LogEntry < ActiveRecord::Base
   def self.for_candidate(candidate)
     self.where("(trackable_type = 'Candidate' AND trackable_id = ?) OR (referenceable_type = 'Candidate' AND referenceable_id = ?)", candidate.id, candidate.id)
   end
+
   #:nocov:
 
   private

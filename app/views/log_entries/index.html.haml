@@ -5,7 +5,8 @@
     = link_to "&times;".html_safe, '#', id: 'hide_search'
     = link_to 'Clear', request.path if params[:q]
     = f.text_field :person_display_name_cont, placeholder: 'Performed By', class: 'form-control'
-    -#= f.collection_select :trackable_type_eq, LogEntry.order(:trackable_type).group(:trackable_type), :trackable_type, :trackable_type, { prompt: 'Type' }, class: 'form-control'
+    = f.text_field :trackable_type_cont, placeholder: 'Type', class: 'form-control'
+    = f.text_field :created_at_date_equals, placeholder: 'MM/DD/YYYY', class: 'form-control'
     = f.submit 'Search', class: 'button'
 
 = render partial: 'shared/log_entries', locals: { log_entries: @log_entries }
