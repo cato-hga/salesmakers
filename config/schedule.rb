@@ -41,11 +41,11 @@ end
 
 every :hour do
   runner 'GroupMeGroup.update_groups(true)'
-  runner 'TimesheetSynchronization.new(Date.today - 22.days - 1.month, Date.today - 22.days).process'
 end
 
 every 3.hours do
   runner 'ConnectUpdater.update_shifts(3.weeks, true)'
+  runner 'VonageComp07012015Processing.new.execute'
 end
 
 every 1.day, at: '12:00 pm' do
@@ -78,5 +78,6 @@ every :wednesday, at: '9:00 am' do
 end
 
 every '45 * * * *' do
+  runner 'TimesheetSynchronization.new(Date.today - 22.days - 1.month, Date.today - 22.days).process'
   runner 'VonageComp07012015Processing.new.execute'
 end
