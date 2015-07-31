@@ -4486,12 +4486,13 @@ CREATE TABLE tmp_sn (
 
 
 --
--- Name: tmp_stores; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: tmp_swas; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE tmp_stores (
+CREATE TABLE tmp_swas (
     store_number character varying,
-    target_head_count integer
+    openings integer,
+    priority integer
 );
 
 
