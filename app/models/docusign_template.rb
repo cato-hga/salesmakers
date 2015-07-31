@@ -191,7 +191,7 @@ class DocusignTemplate < ActiveRecord::Base
     hash = {
         status: 'created',
         email: {
-            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name}"
+            subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name} (#{person.email})"
         },
         template_id: template.template_guid,
         signers: [
