@@ -10,6 +10,7 @@ class VCP07012015Controller < ApplicationController
     @vcp07012015_hps_sales = @vonage_commission_period07012015.vcp07012015_hps_sales.where(person: @person).joins(:vonage_sale).order("vonage_sales.sale_date ASC, mac ASC")
     @vcp07012015_vested_sales_shifts = @vonage_commission_period07012015.vcp07012015_vested_sales_shifts.where(person: @person).joins(:shift).order("shifts.date ASC")
     @vcp07012015_vested_sales_sales = @vonage_commission_period07012015.vcp07012015_vested_sales_sales.where(person: @person).joins(:vonage_sale).order("vonage_sales.sale_date ASC, mac ASC")
+    @total_hours = @person.shifts.sum(:hours)
   end
 
   private

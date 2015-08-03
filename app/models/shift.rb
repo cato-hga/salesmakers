@@ -16,6 +16,7 @@ class Shift < ActiveRecord::Base
   validates :person, presence: true
   validates :date, presence: true
   validates :hours, presence: true
+  validates :training, inclusion: { in: [true, false] }
 
   belongs_to :person
   belongs_to :location
