@@ -160,4 +160,16 @@ describe 'Vonage compensation plan effective 07/01/2015' do
       expect(page).to have_content "Vested sales period: #{previous_vonage_commission_period07012015.vested_sales_start.strftime('%-m/%-d')} to #{previous_vonage_commission_period07012015.vested_sales_end.strftime('%-m/%-d')}"
     end
   end
+
+  context 'no gross sales but has HPS' do
+    it 'has the proper totals' do
+      vonage_account_status_change
+      vested_sales_vonage_sale.destroy
+      visit vcp07012015_path(rep)
+      within '#totals' do
+        expect(page).to have_content '$1.50'
+        expect(page).to have_content '$12.00'
+      end
+    end
+  end
 end

@@ -139,6 +139,7 @@
     - total_per_hour = 1.50 if total_hps < 10.0 && vesting_rate >= 63
     - total_per_hour = 1.50 if total_hps < 11.0 && vesting_rate >= 70
     - total_per_hour = 3.00 if total_hps < 10.0 && vesting_rate >= 70
+    - total_per_hour = 1.50 if total_hps < 11.0 && total_vested_sales_sales == 0
   .widget#totals
     .inner
       %h3 Totals
