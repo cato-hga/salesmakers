@@ -4,7 +4,7 @@ describe 'confirming details' do
   let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission_create, permission_index] }
-  let!(:location_area) { create :location_area, location: location }
+  let!(:location_area) { create :location_area, location: location, target_head_count: 1, priority: 1 }
   let(:location) { create :location, sprint_radio_shack_training_location: training_location }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }
   let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
@@ -42,7 +42,26 @@ describe 'confirming details' do
       expect(candidate.shirt_gender).to eq('Male')
       expect(candidate.training_availability.able_to_attend).to eq(true)
     end
+  end
 
+  describe 'available, but with location full' do
+    before(:each) do
+      allow(candidate).to receive(:passed_personality_assessment?).and_return(true)
+      allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+      select 'Yes', from: 'Is the candidate able to attend the training?'
+      click_on 'Confirm and Save'
+    end
+
+    it 'removes the candidates selected location' do
+      candidate.reload
+      expect(candidate.location_area).to eq(nil)
+    end
+    it 'redirects to the candidates profile page' do
+      expect(current_path).to eq(candidate_path(candidate))
+    end
+    it 'shows the full error on the candidate location page' do
+      expect(page).to have_content 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
+    end
   end
 
   describe 'someone unavailable for training' do

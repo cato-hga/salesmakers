@@ -1,5 +1,10 @@
 module Candidates::Paperwork
   def send_paperwork
+    if @candidate.location_area and @candidate.location_area.head_count_full?
+      @candidate.update location_area: nil
+      flash[:error] = 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
+      redirect_to @candidate and return
+    end
     geocode_if_necessary
     if Rails.env.staging? or Rails.env.development? or Rails.env.test?
       envelope_response = 'STAGING'

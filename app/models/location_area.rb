@@ -73,6 +73,7 @@ class LocationArea < ActiveRecord::Base
   end
 
   def head_count_full?
+    return false unless self.priority
     return true unless (self.priority == 1 or self.priority == 2)
     candidates = number_of_candidates_in_funnel
     return true if self.target_head_count + 1 <= candidates
