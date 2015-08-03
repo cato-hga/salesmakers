@@ -35,8 +35,12 @@ module Groupme
     end
 
     def get_group(group_id)
-      response = doGet '/groups/' + group_id
-      return nil unless response and response['response']
+      begin
+        response = doGet '/groups/' + group_id
+        return nil unless response and response['response']
+      rescue JSON::ParserError
+        return nil
+      end
       response['response']
     end
 

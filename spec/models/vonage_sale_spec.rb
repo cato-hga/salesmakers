@@ -22,6 +22,8 @@ require 'rails_helper'
 describe VonageSale do
   let(:paycheck) {
     create :vonage_paycheck,
+           wages_start: Date.yesterday,
+           wages_end: Date.tomorrow,
            commission_start: Date.yesterday,
            commission_end: Date.tomorrow,
            cutoff: DateTime.now + 2.days

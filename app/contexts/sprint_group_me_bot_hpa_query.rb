@@ -23,8 +23,21 @@ module SprintGroupMeBotHPAQuery
   end
 
   def hpa_parameter_where_clause(parameter_name, parameter_value)
-    "WHERE r.name ILIKE '%#{query_string}%' AND " +
-        hpa_every_where_clause +
+    output = ""
+    case @level
+      when "territory"
+        output += "WHERE r.name ILIKE '%#{query_string}%' AND "
+      when "market"
+        output += "WHERE market.name ILIKE '%#{query_string}%' AND "
+      when "region"
+        if self.has_keyword?('east')
+          output += "WHERE region.name ILIKE '%east region%' AND "
+        else
+          output += "WHERE region.name ILIKE '%west region%' AND "
+        end
+    end
+
+    output += hpa_every_where_clause +
         "#{parameter_name} = '#{parameter_value}' AND " +
         "t.shift_date >= CAST('#{self.start_date}' AS DATE) AND " +
         "t.shift_date < CAST('#{self.end_date}' AS DATE) AND " +
@@ -49,7 +62,9 @@ module SprintGroupMeBotHPAQuery
         left outer join ad_user tl 
         on tl.ad_user_id = r.salesrep_id 
         left outer join ad_user asm 
-        on asm.ad_user_id = tl.supervisor_id 
+        on asm.ad_user_id = tl.supervisor_id
+        left outer join c_salesregion market
+        on market.salesrep_id = asm.ad_user_id
         left outer join ad_user rm 
         on rm.ad_user_id = asm.supervisor_id 
         left outer join c_salesregion region 
@@ -81,6 +96,10 @@ EOF
         self.hpa_from_and_joins +
         "GROUP BY replace(replace(r.name, ' Territory', ''), 'Sprint Prepaid - ', ''), sales.sales ORDER BY replace(replace(r.name, ' Territory', ''), 'Sprint Prepaid - ', ''), sales.sales ) all_of_it " +
         "GROUP BY name ORDER BY name "
+  end
+
+  def hpa_market_query
+    hpa_rep_query
   end
 
   def hpa_region_query

@@ -27,7 +27,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sun, 19 Apr 2015 21:45:10 GMT
+      - Mon, 03 Aug 2015 12:48:37 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
@@ -38,12 +38,12 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.068,"timestamp":1429479910},"response":{"access_token":"aup60AMW1QSYtReJVBTU"}}'
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.015,"timestamp":1438606117},"response":{"access_token":"5xF5sJwB383ZwoTlRKGo"}}'
     http_version: 
-  recorded_at: Sun, 19 Apr 2015 21:45:12 GMT
+  recorded_at: Mon, 03 Aug 2015 12:48:37 GMT
 - request:
     method: get
-    uri: https://www.workmarket.com/api/v1/crm/clients/list?access_token=aup60AMW1QSYtReJVBTU
+    uri: https://www.workmarket.com/api/v1/crm/clients/list?access_token=5xF5sJwB383ZwoTlRKGo
     body:
       encoding: US-ASCII
       string: ''
@@ -60,19 +60,20 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Sun, 19 Apr 2015 21:45:11 GMT
+      - Mon, 03 Aug 2015 12:48:37 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '221'
+      - '477'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.137,"timestamp":1429479910},"response":[{"id":26665,"name":"AAFES","customer_id":"101"},{"id":26661,"name":"Bed
-        Bath and Beyond","customer_id":"100"}]}'
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.115,"timestamp":1438606117},"response":[{"id":26665,"name":"AAFES","customer_id":"101"},{"id":26661,"name":"Bed
+        Bath and Beyond","customer_id":"100"},{"id":30517,"name":"COX Communications","customer_id":""},{"id":28965,"name":"DripDrop","customer_id":""},{"id":30513,"name":"Moshi","customer_id":""},{"id":29605,"name":"Sales
+        makers","customer_id":""},{"id":31385,"name":"Training Vids","customer_id":""}]}'
     http_version: 
-  recorded_at: Sun, 19 Apr 2015 21:45:12 GMT
+  recorded_at: Mon, 03 Aug 2015 12:48:38 GMT
 recorded_with: VCR 2.9.3
