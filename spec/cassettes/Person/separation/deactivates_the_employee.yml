@@ -29,20 +29,20 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 25 Jun 2015 20:23:15 GMT
+      - Mon, 03 Aug 2015 12:50:00 GMT
       Content-Type:
       - application/xml
       Content-Length:
       - '175'
       X-Rate-Limit-Max:
-      - '1'
+      - '250000'
       X-Rate-Limit-Remaining:
-      - '1'
+      - '249993'
       X-Rate-Limit-Resetwindow:
-      - '0'
+      - '21195'
     body:
       encoding: UTF-8
-      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><authResponse><authToken>57db72a6-4f8b-4cc8-add6-f3bbda9cee84-B0vHhsR</authToken><errorCode>0</errorCode></authResponse>
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><authResponse><authToken>f53d2df3-4756-4382-bbab-e19c4528256f-B4s5KWd</authToken><errorCode>0</errorCode></authResponse>
     http_version: 
-  recorded_at: Thu, 25 Jun 2015 20:23:17 GMT
+  recorded_at: Mon, 03 Aug 2015 12:50:00 GMT
 recorded_with: VCR 2.9.3

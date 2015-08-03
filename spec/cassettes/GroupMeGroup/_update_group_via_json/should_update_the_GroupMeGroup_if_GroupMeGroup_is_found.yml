@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.groupme.com/v3/bots?token=1956b1d08a050132df253a66af516754
     body:
       encoding: UTF-8
-      string: '{"bot":{"name":"SalesCenter","group_id":1,"callback_url":"http://salesmakersinc.com/groupme/index.php","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}}'
+      string: '{"bot":{"name":"SalesCenter","group_id":8936279,"callback_url":"http://salesmakersinc.com/groupme/index.php","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e"}}'
     headers:
       Content-Type:
       - application/json
@@ -13,36 +13,37 @@ http_interactions:
       - application/json
   response:
     status:
-      code: 401
-      message: Unauthorized
+      code: 201
+      message: Created
     headers:
       Cache-Control:
-      - no-cache
+      - max-age=0, private, must-revalidate
       Content-Type:
-      - text/html; charset=utf-8
+      - application/json; charset=utf-8
       Date:
-      - Mon, 27 Apr 2015 14:24:02 GMT
+      - Mon, 03 Aug 2015 12:49:41 GMT
+      Etag:
+      - '"69a41bbd728435e694e9477885126a9e"'
       Server:
       - nginx/1.6.2
       Status:
-      - 401 Unauthorized
+      - 201 Created
       Strict-Transport-Security:
       - max-age=31536000
-      X-Rack-Cache:
-      - invalidate, pass
       X-Request-Id:
-      - fa493ea3f30c906be2ee7fdccb3b2a31
+      - 4d2f14dab5c7fd5a4ccf9f4e6c38d555
       X-Runtime:
-      - '0.013946'
+      - '0.019011'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
-      - '1'
+      - '311'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: " "
+      string: '{"meta":{"code":201},"response":{"bot":{"name":"SalesCenter","bot_id":"e768f6c65e67a6d3be6dee46cd","group_id":"8936279","group_name":"SalesMakers
+        Test Playground!","avatar_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","callback_url":"http://salesmakersinc.com/groupme/index.php"}}}'
     http_version: 
-  recorded_at: Mon, 27 Apr 2015 14:24:02 GMT
+  recorded_at: Mon, 03 Aug 2015 12:49:42 GMT
 recorded_with: VCR 2.9.3
