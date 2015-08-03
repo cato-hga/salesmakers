@@ -1,4 +1,4 @@
-- header = header_row ['F/U By', 'Rep', 'Name', 'Saved', 'Phone', 'Converted?', 'Services']
+- header = header_row ['F/U By', 'Rep', 'Name', 'Saved', 'Phone', 'Converted?', 'Services', 'F/U Completed']
 
 - rows = Array.new
 - for lead in leads do
@@ -19,5 +19,6 @@
   - services += icon('web', false, :service_icon) + ' ' if lead.internet?
   - services += icon('telephone', false, :service_icon) + ' ' if lead.phone?
   - services += icon('lock', false, :service_icon) + ' ' if lead.security?
-  - rows << table_row([follow_up_by, rep, name, saved, phone, converted, services])
+  - follow_up_completed = lead.comments.present? ? 'Yes' : 'No'
+  - rows << table_row([follow_up_by, rep, name, saved, phone, converted, services, follow_up_completed])
 = table(header, rows)
