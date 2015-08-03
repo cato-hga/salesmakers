@@ -101,6 +101,7 @@
             - total_hps_hours += shift.hours.round(2)
             - shift_date = shift.shift.date.strftime '%-m/%-d'
             - location = shift.shift.location ? "#{shift.shift.location.channel.name} ##{shift.shift.location.store_number}" : ''
+            - location = shift.shift.training? ? 'Training' : location
             - hours = shift.hours.round(2).to_s
             - rows << table_row([shift_date, location, hours])
           = table header, rows

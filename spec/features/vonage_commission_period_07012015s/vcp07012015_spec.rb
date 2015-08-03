@@ -73,6 +73,12 @@ describe 'Vonage compensation plan effective 07/01/2015' do
       expect(page).to have_content "#{hps_shift.location.channel.name} ##{hps_shift.location.store_number}"
     end
 
+    it 'lists training if the shift is a training shift' do
+      hps_shift.update training: true
+      visit vcp07012015_path(rep)
+      expect(page).to have_content "Training"
+    end
+
     it 'lists the number of hours for the shift' do
       expect(page).to have_content hps_shift.hours.round(1).to_s
     end
