@@ -20,5 +20,9 @@ FactoryGirl.define do
   factory :training_class_attendee do
     association :person
     association :training_class
+    status 0
+    attended false
+    group_me_setup false
+    time_clock_setup false
   end
 end
