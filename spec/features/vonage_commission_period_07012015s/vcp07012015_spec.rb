@@ -28,7 +28,7 @@ describe 'Vonage compensation plan effective 07/01/2015' do
   let!(:vested_sales_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day }
   let!(:vested_sales_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day }
   let!(:hps_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.hps_start + 1.day, person: rep, location: create(:location) }
-  let!(:hps_shift_outside) { create :shift, date: vonage_commission_period07012015.hps_end + 1.day, person: rep }
+  let!(:hps_shift_outside) { create :shift, date: vonage_commission_period07012015.hps_end + 1.day, person: rep, hours: 32.0 }
   let!(:vested_sales_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.vested_sales_start + 1.day, person: rep, location: create(:location) }
   let!(:vested_sales_shift_outside) { create :shift, date: vonage_commission_period07012015.vested_sales_start - 1.day, person: rep }
 
@@ -170,6 +170,14 @@ describe 'Vonage compensation plan effective 07/01/2015' do
         expect(page).to have_content '$1.50'
         expect(page).to have_content '$12.00'
       end
+    end
+  end
+
+  context 'when rep has worked less than 40 hours' do
+    it 'shows that the rep has not worked over 40 hours and is not eligible' do
+      hps_shift_outside.destroy
+      visit vcp07012015_path(rep)
+      expect(page).to have_content 'You must have worked at least 40 hours to be eligible for commission.'
     end
   end
 end
