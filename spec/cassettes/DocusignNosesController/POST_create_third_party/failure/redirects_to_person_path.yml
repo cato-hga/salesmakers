@@ -6,7 +6,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":"created","emailBlurb":null,"emailSubject":"Sprint Postpaid
-        - NOTICE OF SEPARATION FOR: Test User","templateId":"E0D92C92-D229-4C25-9CAF-E258FA990AF5","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser34@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+        - NOTICE OF SEPARATION FOR: Test User","templateId":"E0D92C92-D229-4C25-9CAF-E258FA990AF5","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser812@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
+        Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"","documentId":null,"selected":null}],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
       - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
@@ -30,25 +31,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1431457200'
+      - '1438606800'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '877'
+      - '983'
       Date:
-      - Tue, 12 May 2015 18:58:29 GMT
+      - Mon, 03 Aug 2015 12:42:09 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"0893734b-41f9-437c-b0b1-10c63a6d234d\",\r\n
-        \ \"uri\": \"/envelopes/0893734b-41f9-437c-b0b1-10c63a6d234d\",\r\n  \"statusDateTime\":
-        \"2015-05-12T18:58:29.4670000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"70f8a4a7-6664-4c2a-a484-464f4289878f\",\r\n
+        \ \"uri\": \"/envelopes/70f8a4a7-6664-4c2a-a484-464f4289878f\",\r\n  \"statusDateTime\":
+        \"2015-08-03T12:42:09.1500000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Tue, 12 May 2015 18:58:30 GMT
+  recorded_at: Mon, 03 Aug 2015 12:42:10 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/0893734b-41f9-437c-b0b1-10c63a6d234d
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/70f8a4a7-6664-4c2a-a484-464f4289878f
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -75,12 +76,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 12 May 2015 18:58:31 GMT
+      - Mon, 03 Aug 2015 12:42:11 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Tue, 12 May 2015 18:58:31 GMT
+  recorded_at: Mon, 03 Aug 2015 12:42:11 GMT
 recorded_with: VCR 2.9.3

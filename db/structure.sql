@@ -3999,7 +3999,8 @@ CREATE TABLE shifts (
     hours numeric NOT NULL,
     break_hours numeric DEFAULT 0.0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    training boolean DEFAULT false NOT NULL
 );
 
 
@@ -10258,4 +10259,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150728194639');
 INSERT INTO schema_migrations (version) VALUES ('20150729141222');
 
 INSERT INTO schema_migrations (version) VALUES ('20150729145118');
+
+INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 

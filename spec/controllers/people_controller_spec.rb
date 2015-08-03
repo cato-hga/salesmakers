@@ -302,6 +302,7 @@ describe PeopleController do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(it_tech_person.email)
       allow(controller).to receive(:policy).and_return double(send_asset_form?: true)
+      allow(DocusignTemplate).to receive(:send_ad_hoc_template).and_return '123'
     end
 
     subject do

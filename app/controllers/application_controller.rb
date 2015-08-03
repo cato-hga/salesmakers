@@ -1,5 +1,5 @@
 class ApplicationController < BaseApplicationController
-  rescue_from ActionController::InvalidAuthenticityToken, with: :unprocessable_entity
+  rescue_from ActionController::InvalidAuthenticityToken, with: :redirect_invalid_token
 
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
@@ -15,6 +15,10 @@ class ApplicationController < BaseApplicationController
                 :log_additional_data
 
   protected
+
+  def redirect_invalid_token
+    render file: File.join(Rails.root, 'public/422.html'), status: 422, layout: false
+  end
 
   def setup_new_publishables
     @text_post = TextPost.new

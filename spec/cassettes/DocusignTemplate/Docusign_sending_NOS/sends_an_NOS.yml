@@ -7,17 +7,16 @@ http_interactions:
       encoding: UTF-8
       string: '{"status":"created","emailBlurb":null,"emailSubject":"Test Project
         - NOTICE OF SEPARATION FOR: Test User","templateId":"CD15C02E-B073-44D9-A60A-6514C24949CB","eventNotification":{},"templateRoles":[{"name":"Test
-        Manager","email":"smiles@retaildoneright.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
+        Regional","email":"developers@salesmakersinc.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
         Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null},{"tabLabel":"Last
-        Day Worked","name":"Last Day Worked","value":"04-20-15","documentId":null,"selected":null},{"tabLabel":"Termination
-        Date","name":"Termination Date","value":"04-20-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"This
-        is a test remark that will go over a string length and into a text area length","documentId":null,"selected":null},{"tabLabel":"Location","name":"Location","value":"Event","documentId":null,"selected":null},{"tabLabel":"Eligible
-        for Rehire","name":"Eligible for Rehire","value":"NO","documentId":null,"selected":null},{"tabLabel":"Separation
-        Reason","name":"Separation Reason","value":"M103 Sleeping on the Job","documentId":null,"selected":null}],"checkboxTabs":[]}},{"name":"Test
-        Regional","email":"developers@salesmakersinc.com","roleName":"Regional Manager","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+        Day Worked","name":"Last Day Worked","value":"08-03-15","documentId":null,"selected":null},{"tabLabel":"Termination
+        Date","name":"Termination Date","value":"08-03-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"This
+        is a test remark that will go over a string length and into a text area length","documentId":null,"selected":null},{"tabLabel":"Location","name":"Location","value":false,"documentId":null,"selected":null},{"tabLabel":"Eligible
+        for Rehire","name":"Eligible for Rehire","value":false,"documentId":null,"selected":null},{"tabLabel":"Separation
+        Reason","name":"Separation Reason","value":"M103 Sleeping on the Job","documentId":null,"selected":null}],"checkboxTabs":[]}}]}'
     headers:
       X-Docusign-Authentication:
-      - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
       Accept:
       - json
       Content-Type:
@@ -38,31 +37,31 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1429552800'
+      - '1438606800'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '932'
+      - '981'
       Date:
-      - Mon, 20 Apr 2015 17:31:13 GMT
+      - Mon, 03 Aug 2015 12:49:27 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"cc51f867-d0c1-413a-b427-36951aa1b335\",\r\n
-        \ \"uri\": \"/envelopes/cc51f867-d0c1-413a-b427-36951aa1b335\",\r\n  \"statusDateTime\":
-        \"2015-04-20T17:31:13.5100000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"b9e13398-2331-4fa6-8aa4-40aa71ad7193\",\r\n
+        \ \"uri\": \"/envelopes/b9e13398-2331-4fa6-8aa4-40aa71ad7193\",\r\n  \"statusDateTime\":
+        \"2015-08-03T12:49:27.6970000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Mon, 20 Apr 2015 17:31:14 GMT
+  recorded_at: Mon, 03 Aug 2015 12:49:28 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/cc51f867-d0c1-413a-b427-36951aa1b335
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/b9e13398-2331-4fa6-8aa4-40aa71ad7193
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
     headers:
       X-Docusign-Authentication:
-      - '{"Username":"it@retaildoneright.com","Password":"IT@Supp0rt","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
       Accept:
       - json
       Content-Type:
@@ -83,12 +82,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 20 Apr 2015 17:31:15 GMT
+      - Mon, 03 Aug 2015 12:49:30 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{}'
+      string: "{}"
     http_version: 
-  recorded_at: Mon, 20 Apr 2015 17:31:15 GMT
+  recorded_at: Mon, 03 Aug 2015 12:49:31 GMT
 recorded_with: VCR 2.9.3

@@ -6,10 +6,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":"created","emailBlurb":null,"emailSubject":"Sprint Postpaid
-        - NOTICE OF SEPARATION FOR: Test User","templateId":"CD15C02E-B073-44D9-A60A-6514C24949CB","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser9@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
+        - NOTICE OF SEPARATION FOR: Test User","templateId":"CD15C02E-B073-44D9-A60A-6514C24949CB","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser787@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
         Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null},{"tabLabel":"Last
-        Day Worked","name":"Last Day Worked","value":"05-12-15","documentId":null,"selected":null},{"tabLabel":"Termination
-        Date","name":"Termination Date","value":"05-12-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"Test
+        Day Worked","name":"Last Day Worked","value":"08-03-15","documentId":null,"selected":null},{"tabLabel":"Termination
+        Date","name":"Termination Date","value":"08-03-15","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"Test
         remarks","documentId":null,"selected":null},{"tabLabel":"Location","name":"Location","value":true,"documentId":null,"selected":null},{"tabLabel":"Eligible
         for Rehire","name":"Eligible for Rehire","value":false,"documentId":null,"selected":null},{"tabLabel":"Separation
         Reason","name":"Separation Reason","value":"Test Reason","documentId":null,"selected":null}],"checkboxTabs":[]}}]}'
@@ -36,25 +36,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1431457200'
+      - '1438606800'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '885'
+      - '991'
       Date:
-      - Tue, 12 May 2015 18:58:05 GMT
+      - Mon, 03 Aug 2015 12:41:41 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"65d752d5-458e-4ff9-b58b-bf257511d2fe\",\r\n
-        \ \"uri\": \"/envelopes/65d752d5-458e-4ff9-b58b-bf257511d2fe\",\r\n  \"statusDateTime\":
-        \"2015-05-12T18:58:05.8170000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"74bca133-81d7-4d36-bb7d-ecde2f4e6e2e\",\r\n
+        \ \"uri\": \"/envelopes/74bca133-81d7-4d36-bb7d-ecde2f4e6e2e\",\r\n  \"statusDateTime\":
+        \"2015-08-03T12:41:41.1000000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Tue, 12 May 2015 18:58:06 GMT
+  recorded_at: Mon, 03 Aug 2015 12:41:41 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/65d752d5-458e-4ff9-b58b-bf257511d2fe
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/74bca133-81d7-4d36-bb7d-ecde2f4e6e2e
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -81,12 +81,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Tue, 12 May 2015 18:58:07 GMT
+      - Mon, 03 Aug 2015 12:41:42 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Tue, 12 May 2015 18:58:07 GMT
+  recorded_at: Mon, 03 Aug 2015 12:41:43 GMT
 recorded_with: VCR 2.9.3

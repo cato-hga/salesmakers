@@ -10,7 +10,7 @@ class ComcastSalesController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    shared_index('Comcast', 'Sale')
+    shared_index('Comcast', 'Sale', 'install_date DESC')
   end
 
   def new

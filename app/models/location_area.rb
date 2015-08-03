@@ -80,44 +80,21 @@ class LocationArea < ActiveRecord::Base
   end
 
   def number_of_candidates_in_funnel
-    paperwork_sent_since_june_22 = ActiveRecord::Base.connection.execute(
+    candidates_in_training = ActiveRecord::Base.connection.execute(
         %{
           select
           c.id
           from location_areas la
           left outer join candidates c
             on c.location_area_id = la.id
-          left outer join job_offer_details j
-          on j.sent >= cast('06/22/2015' as timestamp)
-          where j.id is not null
-            and la.id = #{self.id}
-            and c.status >= #{Candidate.statuses[:paperwork_sent]}
-            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} OR
-                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} OR
-                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} OR
-                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
-            and c.active = true
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    in_class_for_629 = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          where c.sprint_radio_shack_training_session_id = 17
-            and (c.training_session_status = #{Candidate.training_session_statuses[:in_class]})
+          left outer join sprint_radio_shack_training_sessions train
+            on train.id = c.sprint_radio_shack_training_session_id
+          where train.start_date > current_date
             and la.id = #{self.id}
             and c.active = true
         }
     ).values.flatten
-    [
-        paperwork_sent_since_june_22,
-        in_class_for_629,
-    ].flatten.uniq.count
+    candidates_in_training.flatten.uniq.count
   end
 
   def self.get_all_location_areas(candidate, current_person)

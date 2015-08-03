@@ -4,6 +4,7 @@ FactoryGirl.define do
     person
     date Date.yesterday
     hours 7.6
+    training false
   end
 
 end

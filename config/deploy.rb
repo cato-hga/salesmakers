@@ -20,6 +20,8 @@ set :pty, false
 set :linked_files, %w{config/database.yml config/nginx.conf config/staging_nginx.conf}
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/sales_charts solr/data}
 
+set :slack_notifier, Slack::Notifier.new('https://hooks.slack.com/services/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')
+
 app_name = 'oneconnect'
 user = 'deploy'
 sudo = '/home/deploy/.rvm/bin/rvmsudo'
@@ -134,16 +136,25 @@ namespace :deploy do
     end
   end
 
-  desc 'Announce deployment on Slack'
-  task :announce_on_slack do
+  desc 'Announce beginning of deployment on Slack'
+  task :announce_beginning_on_slack do
     if fetch(:announce_on_slack)
       on roles(:app), in: :sequence, wait: 5 do
-        notifier = Slack::Notifier.new 'https://hooks.slack.com/services/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'
-        notifier.ping 'A production deployment has just been completed.'
+        fetch(:slack_notifier).ping 'A production deployment has just been started.'
       end
     end
   end
 
+  desc 'Announce end of deployment on Slack'
+  task :announce_end_on_slack do
+    if fetch(:announce_on_slack)
+      on roles(:app), in: :sequence, wait: 5 do
+        fetch(:slack_notifier).ping 'A production deployment has just been completed.'
+      end
+    end
+  end
+
+  before :starting, :announce_beginning_on_slack
   before :starting, :check_revision
   before :starting, :check_branch_on_production
   before :starting, :silence_inspeqtor
@@ -151,7 +162,7 @@ namespace :deploy do
   after :finishing, :cleanup
   after :finishing, :restart
   after :finishing, :start_inspeqtor
-  after :finishing, :announce_on_slack
+  after :finishing, :announce_end_on_slack
 end
 
 after 'deploy:reverted', 'sidekiq:restart'
