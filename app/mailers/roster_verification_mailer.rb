@@ -1,5 +1,5 @@
 class RosterVerificationMailer < ApplicationMailer
-  default from: "notifications@salesmakersinc.com"
+  default from: "managerial@salesmakersinc.com"
 
   def send_notification_and_link(person)
     @person = person
