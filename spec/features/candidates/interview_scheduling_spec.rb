@@ -143,29 +143,74 @@ describe 'Scheduling interviews' do
       it 'does not remove time slots used by another recruiter' do
         expect(page).to have_content '6:30pm'
       end
+
       describe 'when choosing a slot' do
-        before(:each) do
-          within('.inner') do
-            first('.button').click
+        context 'with a recently filled location' do
+          let(:location_area) { create :location_area }
+
+          before(:each) do
+            candidate.update location_area: location_area
+            candidate.reload
+            allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+            within('.inner') do
+              first('.button').click
+            end
+          end
+
+          it 'removes the candidates selected location' do
+            save_and_open_page
+            candidate.reload
+            expect(candidate.location_area).to eq(nil)
+          end
+          it 'redirects to the candidates profile page' do
+            expect(current_path).to eq(candidate_path(candidate))
+          end
+          it 'shows the full error on the candidate location page' do
+            expect(page).to have_content 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
+          end
+
+          it 'schedules the candidate' do
+            candidate.reload
+            expect(InterviewSchedule.count).to eq(3)
+            expect(candidate.status).to eq('interview_scheduled')
+          end
+
+          it 'schedules the correct time (Screw you time zones!)' do
+            candidate.reload
+            time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
+            expect(time.strftime('%H%M%S')).to eq('093000')
+          end
+
+          it 'assigns the person to the schedule' do
+            schedule = InterviewSchedule.find_by candidate: candidate
+            expect(schedule.person).to eq(recruiter)
           end
         end
 
-        it 'schedules the candidate' do
-          candidate.reload
-          expect(InterviewSchedule.count).to eq(3)
-          expect(candidate.status).to eq('interview_scheduled')
-        end
-        it 'renders the new candidate screen' do
-          expect(page).to have_content candidate.name
-        end
-        it 'schedules the correct time (Screw you time zones!)' do
-          candidate.reload
-          time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
-          expect(time.strftime('%H%M%S')).to eq('093000')
-        end
-        it 'assigns the person to the schedule' do
-          schedule = InterviewSchedule.find_by candidate: candidate
-          expect(schedule.person).to eq(recruiter)
+        context 'with a recruitable location' do
+          before(:each) do
+            within('.inner') do
+              first('.button').click
+            end
+          end
+
+          it 'schedules the candidate' do
+            candidate.reload
+            expect(InterviewSchedule.count).to eq(3)
+            expect(candidate.status).to eq('interview_scheduled')
+          end
+          it 'renders the new candidate screen' do
+            expect(page).to have_content candidate.name
+          end
+          it 'schedules the correct time (Screw you time zones!)' do
+            candidate.reload
+            time = candidate.interview_schedules.first.start_time.in_time_zone('Eastern Time (US & Canada)')
+            expect(time.strftime('%H%M%S')).to eq('093000')
+          end
+          it 'assigns the person to the schedule' do
+            schedule = InterviewSchedule.find_by candidate: candidate
+            expect(schedule.person).to eq(recruiter)
+          end
         end
       end
     end
@@ -185,5 +230,4 @@ describe 'Scheduling interviews' do
       #Not testing anything else, handling everything else in the controller
     end
   end
-
 end

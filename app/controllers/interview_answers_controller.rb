@@ -51,6 +51,11 @@ class InterviewAnswersController < ApplicationController
       location_area.update offer_extended_count: location_area.offer_extended_count + 1
     end
     flash[:notice] = 'Interview answers saved.'
+    if @candidate.location_area and @candidate.location_area.head_count_full?
+      @candidate.update location_area: nil
+      flash[:error] = 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
+      redirect_to @candidate and return
+    end
     redirect_to new_candidate_training_availability_path(@candidate)
   end
 
