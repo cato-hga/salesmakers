@@ -158,7 +158,6 @@ describe 'Scheduling interviews' do
           end
 
           it 'removes the candidates selected location' do
-            save_and_open_page
             candidate.reload
             expect(candidate.location_area).to eq(nil)
           end
