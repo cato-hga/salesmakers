@@ -14,7 +14,8 @@ module TimesheetToShiftTranslator
                       location: get_location(timesheet.c_bpartner_location_id),
                       date: timesheet.shift_date.to_date,
                       hours: calculate_hours(timesheet),
-                      break_hours: calculate_breaks(timesheet)
+                      break_hours: calculate_breaks(timesheet),
+                      training: is_training?(timesheet)
     add_to_unmatched(timesheet, shift) unless shift.valid?
     shift
   end
@@ -29,6 +30,16 @@ module TimesheetToShiftTranslator
     breaks = 0.0
     breaks += timesheet.time_docked if timesheet.respond_to?(:time_docked)
     breaks
+  end
+
+  def is_training? timesheet
+    if timesheet.respond_to?(:customer)
+      timesheet.customer.downcase.include?('training')
+    elsif timesheet.respond_to?(:site_name)
+      timesheet.site_name.downcase.include?('training')
+    else
+      false
+    end
   end
 
   def get_person(ad_user_id)

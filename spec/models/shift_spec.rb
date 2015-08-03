@@ -35,4 +35,9 @@ describe Shift do
     subject.hours = nil
     expect(subject).not_to be_valid
   end
+
+  it 'requires an indiciation of whether or not the shift is a training shift' do
+    subject.training = nil
+    expect(subject).not_to be_valid
+  end
 end
