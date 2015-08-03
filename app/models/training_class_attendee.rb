@@ -17,13 +17,12 @@
 #
 
 class TrainingClassAttendee < ActiveRecord::Base
-
   validates :person_id, presence: true
   validates :training_class_id, presence: true
-  validates :attended, presence: true
+  validates :attended, inclusion: { in: [true, false] }
   validates :status, presence: true
-  validates :group_me_setup, presence: true
-  validates :time_clock_setup, presence: true
+  validates :group_me_setup, inclusion: { in: [true, false] }
+  validates :time_clock_setup, inclusion: { in: [true, false] }
 
   belongs_to :person
   belongs_to :training_class
