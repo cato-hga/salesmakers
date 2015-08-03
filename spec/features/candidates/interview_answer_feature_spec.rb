@@ -119,7 +119,7 @@ describe 'Interview answers' do
           fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
           fill_in :interview_answer_last_two_positions, with: 'Last two positions'
         end
-        context 'and job extended' do
+        context 'and job extended, location recruitable' do
           before(:each) do
             click_on 'Extend offer'
           end
@@ -132,6 +132,27 @@ describe 'Interview answers' do
           it 'does not assign a denial reason' do
             candidate.reload
             expect(candidate.candidate_denial_reason).to be_nil
+          end
+        end
+
+        context 'and job extended, location no longer recruitable' do
+          before(:each) do
+            allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+            click_on 'Extend offer'
+          end
+          it 'does not assign a denial reason' do
+            candidate.reload
+            expect(candidate.candidate_denial_reason).to be_nil
+          end
+          it 'removes the candidates selected location' do
+            candidate.reload
+            expect(candidate.location_area).to eq(nil)
+          end
+          it 'redirects to the candidates profile page' do
+            expect(current_path).to eq(candidate_path(candidate))
+          end
+          it 'shows the full error on the candidate location page' do
+            expect(page).to have_content 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
           end
         end
 

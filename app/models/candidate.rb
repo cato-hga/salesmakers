@@ -198,6 +198,10 @@ class Candidate < ActiveRecord::Base
     Candidate.statuses[self.status] == Candidate.statuses[:prescreened]
   end
 
+  def paperwork_already_sent?
+    Candidate.statuses[self.status] >= Candidate.statuses[:paperwork_sent]
+  end
+
   def location_selected?
     return true if self.location_area.present?
     Candidate.statuses[self.status] == Candidate.statuses[:location_selected]
