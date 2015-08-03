@@ -33,9 +33,9 @@ module TimesheetToShiftTranslator
   end
 
   def is_training? timesheet
-    if timesheet.respond_to?(:customer)
+    if timesheet.respond_to?(:customer) && timesheet.customer
       timesheet.customer.downcase.include?('training')
-    elsif timesheet.respond_to?(:site_name)
+    elsif timesheet.respond_to?(:site_name) && timesheet.site_name
       timesheet.site_name.downcase.include?('training')
     else
       false
