@@ -40,7 +40,7 @@ module AreaScopesModelExtension
         if person_area.manages?
           all_areas = all_areas.concat person_area.area.subtree.where(active: true).to_a
         else
-          all_areas << person_area.area if area.active?
+          all_areas << person_area.area if person_area.area.active?
         end
       end
       for area in all_areas.uniq do
