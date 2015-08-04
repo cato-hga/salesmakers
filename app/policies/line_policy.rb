@@ -9,6 +9,10 @@ class LinePolicy < ApplicationPolicy
     update?
   end
 
+  def activate?
+    update?
+  end
+
   def add_state?
     update?
   end

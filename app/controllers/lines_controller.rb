@@ -3,19 +3,19 @@ require 'devices_and_lines/state_handler'
 class LinesController < ApplicationController
   include DevicesAndLines::StateHandler
 
+  before_action :set_line, only: [:show, :deactivate, :activate]
   before_action :search_bar
   before_action :set_line_and_line_state, only: [:remove_state, :add_state]
   before_action :do_authorization, except: [:show]
   after_action :verify_authorized
 
   layout 'lines'
-  
+
   def index
     @lines = @search.result.order('identifier').page(params[:page])
   end
 
   def show
-    @line = Line.find params[:id]
     authorize @line
     @unlocked_line_states = LineState.where locked: false
   end
@@ -58,7 +58,7 @@ class LinesController < ApplicationController
       redirect_to lines_path
     end
   end
-  
+
   def remove_state
     remove_object_state
   end
@@ -84,7 +84,6 @@ class LinesController < ApplicationController
   end
 
   def deactivate
-    @line = Line.find params[:id]
     active_state = LineState.find_or_initialize_by name: 'Active'
     if @line.line_states.delete(active_state)
       devices = Device.where(line: @line)
@@ -99,7 +98,23 @@ class LinesController < ApplicationController
     end
   end
 
+  def activate
+    active_state = LineState.find_by name: 'Active'
+    @line.line_states << active_state
+    if @line.save
+      flash[:notice] = 'Line was successfully activated'
+      redirect_to line_path(@line)
+    else
+      flash[:error] = 'Could not activate this line'
+      redirect_to line_path(@line)
+    end
+  end
+
   private
+
+  def set_line
+    @line = Line.find params[:id]
+  end
 
   def search_bar
     @search = Line.search(params[:q])
