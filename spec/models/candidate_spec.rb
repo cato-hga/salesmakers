@@ -237,6 +237,19 @@ describe Candidate do
     end
   end
 
+  describe '#paperwork_already_sent?' do
+    let(:candidate) { create :candidate }
+    it 'returns true if the candidate has a status above paperwork sent' do
+      expect(candidate.paperwork_already_sent?).to eq(false)
+      candidate.confirmed!
+      expect(candidate.paperwork_already_sent?).to eq(false)
+      candidate.paperwork_sent!
+      expect(candidate.paperwork_already_sent?).to eq(true)
+      candidate.onboarded!
+      expect(candidate.paperwork_already_sent?).to eq(true)
+    end
+  end
+
   describe '#location_selected' do
     let(:location_candidate) { create :candidate }
     let(:location_area) { create :location_area }

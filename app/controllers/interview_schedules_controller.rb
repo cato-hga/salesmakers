@@ -140,6 +140,10 @@ class InterviewSchedulesController < ApplicationController
     @current_person.log? 'scheduled_for_interview',
                          @candidate,
                          @interview_schedule
+    if @candidate.location_area and @candidate.location_area.head_count_full?
+      @candidate.update location_area: nil
+      flash[:error] = 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
+    end
     flash[:notice] = 'Candidate scheduled!'
     redirect_to @candidate
   end
