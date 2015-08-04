@@ -23,6 +23,10 @@ class Line < ActiveRecord::Base
   has_and_belongs_to_many :line_states
 
   has_one :device
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
+
 
   stripping_ransacker(:unstripped_identifier, :identifier)
 

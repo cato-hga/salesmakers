@@ -42,6 +42,10 @@ class Candidate < ActiveRecord::Base
   include CandidateValidationsAndAssocationsExtension
   extend NonAlphaNumericRansacker
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
+
   # NOTE: YOU CANNOT ADD A STATUS IN THE MIDDLE WITHOUT CORRECTING THE STATUSES AFTER IT. ENUM IS NOTHING
   # MORE THAN AN INTEGER, SO THE STATES AFTER THE ONE INSERTED WILL ALL SHIFT BECAUSE THEIR INTEGER VALUE
   # STAYS THE SAME. YOU MUST RUN A MIGRATION TO ADD 1 TO THE VALUE OF ALL RECORDS WITH A STATE THAT'S AFTER
