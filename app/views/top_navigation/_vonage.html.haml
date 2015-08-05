@@ -1,0 +1,7 @@
+- vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
+-if vonage_sale_policy.create?
+  %li.has-dropdown
+    %a{ href: '#' } Vonage
+    %ul.dropdown
+      - if vonage_sale_policy.create?
+        %li= link_to 'Sale Entry', new_vonage_sale_path

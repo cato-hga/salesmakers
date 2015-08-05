@@ -335,6 +335,8 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
+  resources :vonage_sales
+
   # ------------------------- API NAMESPACE --------------------------
 
   namespace :api, defaults: { format: :json } do
