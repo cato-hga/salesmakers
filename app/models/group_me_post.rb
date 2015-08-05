@@ -19,7 +19,7 @@ class GroupMePost < ActiveRecord::Base
 
   belongs_to :group_me_user
   belongs_to :group_me_group
-  has_many :group_me_likes
+  # has_many :group_me_likes
   belongs_to :person
 
   private

@@ -28,6 +28,7 @@ class ComcastLead < ActiveRecord::Base
   setup_validations
   setup_scopes
   belongs_to_associations
+  has_one_assocations
 
   delegate :name, to: :comcast_customer
   delegate :mobile_phone, to: :comcast_customer

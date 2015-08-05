@@ -24,7 +24,7 @@ class Project < ActiveRecord::Base
     has_many :areas
     has_many :client_area_types
     has_many :client_areas
-    has_one :wall, as: :wallable
+    # has_one :wall, as: :wallable
     has_many :day_sales_counts, as: :saleable
   end
 

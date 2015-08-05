@@ -24,6 +24,7 @@ class DirecTVLead < ActiveRecord::Base
   setup_validations
   setup_scopes
   belongs_to_associations
+  has_one_associations
 
   delegate :name, to: :directv_customer
   delegate :mobile_phone, to: :directv_customer
