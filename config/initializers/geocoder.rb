@@ -1,6 +1,6 @@
 Geocoder.configure timeout: 25,
                    lookup: :bing,
-                   api_key: 'AgulBzKtAZ1zYM4HhaClc5EYxDXpOzjAth6gmGLlIrbsEoDPlbwt_i2n7YJ_oYlp'
+                   api_key: 'Akr9CB56R6-AMmvdiqHtnwoLzt7uXPWRJANBqiXyharRgtbkf4TGyc3W7A3VwFnf'
 # Geocoder.configure timeout: 25,
 #                    lookup: :google_premier,
 #                    #lookup: :nominatim,
