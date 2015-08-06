@@ -5,8 +5,8 @@ class UnmatchedVonageSalesMailer < ApplicationMailer
     return if unmatched_sales.empty?
     @unmatched_sales = unmatched_sales
     developer_emails = get_developer_emails || return
-    mail to: developer_emails,
-        subject: 'Unmatched Vonage Sales on Import'
+    handle_send to: developer_emails,
+                subject: 'Unmatched Vonage Sales on Import'
   end
 
   private
