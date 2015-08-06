@@ -94,9 +94,27 @@ class LocationArea < ActiveRecord::Base
           where train.start_date > current_date
             and la.id = #{self.id}
             and c.active = true
+            and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
         }
     ).values.flatten
-    candidates_in_training.flatten.uniq.count
+    paperwork_sent_36_hours = ActiveRecord::Base.connection.execute(
+        %{
+          select
+          c.id
+          from location_areas la
+          left outer join candidates c
+            on c.location_area_id = la.id
+          left outer join job_offer_details j
+          on j.sent >= (current_timestamp - interval '36 hours')
+          where j.id is not null
+            and la.id = #{self.id}
+            and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
+            and c.active = true
+          group by c.id
+          order by c.id
+        }
+    ).values.flatten
+    [candidates_in_training, paperwork_sent_36_hours].flatten.uniq.count
   end
 
   def self.get_all_location_areas(candidate, current_person)
