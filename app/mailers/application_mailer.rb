@@ -2,7 +2,6 @@ class ApplicationMailer < ActionMailer::Base
   default from: "development@retaildoneright.com"
   layout 'mailer'
   add_template_helper ApplicationHelper
-  rescue_from Postmark::InvalidMessageError, with: :ignore_inactive_addresses
 
   protected
 
@@ -21,8 +20,4 @@ class ApplicationMailer < ActionMailer::Base
     return if people.empty?
     people.map { |person| person.email }
   end
-
-  protected
-
-  def ignore_inactive_addresses; end
 end
