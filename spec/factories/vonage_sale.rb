@@ -9,6 +9,7 @@ FactoryGirl.define do
     customer_last_name 'Walker'
     mac '906EBB123456'
     vonage_product
+    person_acknowledged true
     resold false
   end
 

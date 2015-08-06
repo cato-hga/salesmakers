@@ -28,6 +28,7 @@ class VonageSale < ActiveRecord::Base
   validates :customer_last_name, presence: true
   validates :mac, length: { is: 12 }
   validates :vonage_product, presence: true
+  validates :person_acknowledged, acceptance: { accept: true }
 
   belongs_to :person
   belongs_to :location
