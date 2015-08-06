@@ -26,6 +26,7 @@ class Project < ActiveRecord::Base
     has_many :client_areas
     # has_one :wall, as: :wallable
     has_many :day_sales_counts, as: :saleable
+    has_many :shifts
   end
 
   setup_validations
