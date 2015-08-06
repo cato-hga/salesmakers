@@ -45,10 +45,6 @@ describe Shift do
     expect(subject).to respond_to :location
   end
 
-  it 'responds to location_area' do
-    expect(subject).to respond_to :location_area
-  end
-
   it 'responds to project' do
     expect(subject).to respond_to :project
   end
