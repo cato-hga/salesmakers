@@ -5351,6 +5351,42 @@ ALTER SEQUENCE vonage_sales_id_seq OWNED BY vonage_sales.id;
 
 
 --
+-- Name: vonage_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_transfers (
+    id integer NOT NULL,
+    to_person character varying,
+    from_person character varying,
+    vonage_device character varying,
+    "transfer-time" timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    accepted boolean DEFAULT false NOT NULL,
+    "rejection-time" timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_transfers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_transfers_id_seq OWNED BY vonage_transfers.id;
+
+
+--
 -- Name: wall_post_comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6603,6 +6639,13 @@ ALTER TABLE ONLY vonage_sales ALTER COLUMN id SET DEFAULT nextval('vonage_sales_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vonage_transfers ALTER COLUMN id SET DEFAULT nextval('vonage_transfers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY wall_post_comments ALTER COLUMN id SET DEFAULT nextval('wall_post_comments_id_seq'::regclass);
 
 
@@ -7798,6 +7841,14 @@ ALTER TABLE ONLY vonage_sale_payouts
 
 ALTER TABLE ONLY vonage_sales
     ADD CONSTRAINT vonage_sales_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_transfers
+    ADD CONSTRAINT vonage_transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -10266,4 +10317,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
 INSERT INTO schema_migrations (version) VALUES ('20150805182921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806184753');
 

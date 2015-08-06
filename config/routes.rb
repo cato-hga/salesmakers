@@ -335,6 +335,8 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
+  get :vonage_inventory_receiving, to: 'vonage_inventory_receiving#enter_inventory'
+  post :receive_vonage_inventory, to: 'vonage_inventory_receiving#receive_inventory'
   # ------------------------- API NAMESPACE --------------------------
 
   namespace :api, defaults: { format: :json } do

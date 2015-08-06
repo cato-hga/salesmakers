@@ -1,7 +1,7 @@
 class AddVonageInventoryReceivePermission < ActiveRecord::Migration
   def change
     group = PermissionGroup.find_or_create_by name: 'Vonage'
-    permission = Permission.create key: 'vonage_inventory_receive',
+    permission = Permission.create key: 'vonage_inventory_receiving',
                                    permission_group: group,
                                    description: 'Can Receive Vonage Inventory'
 
