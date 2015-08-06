@@ -844,4 +844,50 @@ http_interactions:
       string: " "
     http_version: 
   recorded_at: Mon, 03 Aug 2015 12:39:21 GMT
+- request:
+    method: post
+    uri: https://api.groupme.com/v3/bots/post
+    body:
+      encoding: UTF-8
+      string: '{"bot_id":"00b717f7394d1a846041f8e1a4","text":"[#17] Dontre J Butler:
+        1\n\n***TOTAL: 78"}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 202
+      message: Accepted
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Thu, 06 Aug 2015 14:46:02 GMT
+      Server:
+      - nginx/1.6.2
+      Status:
+      - 202 Accepted
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Request-Id:
+      - 99e8aaf8b1c4bc922f6829a33c827411
+      X-Runtime:
+      - '0.061925'
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Content-Length:
+      - '1'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: " "
+    http_version: 
+  recorded_at: Thu, 06 Aug 2015 14:46:02 GMT
 recorded_with: VCR 2.9.3
