@@ -11,7 +11,7 @@
       = f.label :sale_date, 'Sale Date'
       = f.text_field :sale_date, value: sale_date, placeholder: 'MM/DD/YYYY'
       = f.label :confirmation_number, 'Confirmation Number'
-      = f.text_field :confirmation_number, placeholder: '10 charaters'
+      = f.text_field :confirmation_number, placeholder: '10 characters'
       = f.label :location
       = f.text_field :sale_date, value: sale_date
       = f.label :customer_first_name, 'Customer First Name'
@@ -19,11 +19,15 @@
       = f.label :customer_last_name, 'Customer Last Name'
       = f.text_field :customer_last_name
       = f.label :mac, 'MAC ID'
-      = f.text_field :mac, placeholder: '12 charaters, 0-9 & A-F'
+      = f.text_field :mac, placeholder: '12 characters (0-9 & A-F)'
       = f.label :mac, 'Confirm MAC ID'
       = f.text_field :mac, placeholder: 'Re-enter MAC ID *FROM BOX*'
       = f.label :vonage_product_id, 'Product Type'
       = f.text_field :vonage_product_id
+      = f.label :gift_card_number, 'Gift Card Number'
+      = f.text_field :gift_card_number, placeholder: 'Required for Walmart and Micro Center'
+      = f.label :gift_card_number, 'Gift Card Confirmation'
+      = f.text_field :gift_card_number, placeholder: 'Re-enter the gift card number'
       %p
         = f.check_box :customer_acknowledged
         = f.label :customer_acknowledged, 'I agree to the Gift Card Rules and Regulations as outlined below and this sale either is not made using a gift card or is in accordance with those rules and regulations.'
