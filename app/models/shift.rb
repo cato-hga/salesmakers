@@ -20,6 +20,9 @@ class Shift < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
+  belongs_to :location_area
+  belongs_to :project
+
   has_one :vcp07012015_hps_shift
   has_one :vcp07012015_vested_sales_shift
 
