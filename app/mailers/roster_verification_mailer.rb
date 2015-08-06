@@ -5,8 +5,8 @@ class RosterVerificationMailer < ApplicationMailer
     @person = person
     @managed_team_members = person.directly_managed_team_members
     if @managed_team_members.count > 1
-      mail to: person.email,
-           subject: 'Please Verify Your Roster'
+      handle_send to: person.email,
+                  subject: 'Please Verify Your Roster'
     else
       return
     end
@@ -21,9 +21,9 @@ class RosterVerificationMailer < ApplicationMailer
     return if person_areas.empty?
     project = person_areas.first.area.project
     to_address = project_emails.andand[project.name] || return
-    mail to: to_address,
-         cc: @creator.email,
-         subject: "#{@creator.display_name}'s Exceptions on Roster Verification"
+    handle_send to: to_address,
+                cc: @creator.email,
+                subject: "#{@creator.display_name}'s Exceptions on Roster Verification"
   end
 
   private

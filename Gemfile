@@ -81,6 +81,7 @@ gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQ
 gem 'annotate', '2.6.10' # Schema information at the top of model files
 gem 'slack-notifier', '1.2.1' # Exception notification on Slack
 gem 'regressor', '~> 0.5.5' # Automated regression test generation
+gem 'retryable', '2.0.1' # Ability to retry upon exception
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

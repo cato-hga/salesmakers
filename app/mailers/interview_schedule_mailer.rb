@@ -6,7 +6,7 @@ class InterviewScheduleMailer < ApplicationMailer
     @recruiter = recruiter
     @schedule = schedule
     @cloud_room = cloud_room
-    mail(to: candidate.email, cc: recruiter.email, subject: 'Your interview with SalesMakers, Inc')
+    handle_send to: candidate.email, cc: recruiter.email, subject: 'Your interview with SalesMakers, Inc'
   end
 
   def interview_now_mailer(candidate, recruiter, schedule, cloud_room)
@@ -14,6 +14,6 @@ class InterviewScheduleMailer < ApplicationMailer
     @recruiter = recruiter
     @schedule = schedule
     @cloud_room = cloud_room
-    mail(to: candidate.email, cc: recruiter.email, subject: 'Your interview with SalesMakers, Inc')
+    handle_send to: candidate.email, cc: recruiter.email, subject: 'Your interview with SalesMakers, Inc'
   end
 end

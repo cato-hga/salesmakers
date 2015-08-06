@@ -20,4 +20,16 @@ class ApplicationMailer < ActionMailer::Base
     return if people.empty?
     people.map { |person| person.email }
   end
+
+  protected
+
+  def handle_send options
+    Retryable.retryable(tries: 3, on: Postmark::TimeoutError) do
+      begin
+        mail options
+      rescue Postmark::InvalidMessageError
+        # Do nothing
+      end
+    end
+  end
 end
