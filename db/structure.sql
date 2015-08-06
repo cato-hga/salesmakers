@@ -5103,6 +5103,40 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
+-- Name: vonage_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_devices (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    mac_id character varying,
+    po_number character varying,
+    person_id integer,
+    receive_date timestamp without time zone
+);
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_devices_id_seq OWNED BY vonage_devices.id;
+
+
+--
 -- Name: vonage_paycheck_negative_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6590,6 +6624,13 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vonage_devices ALTER COLUMN id SET DEFAULT nextval('vonage_devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY vonage_paycheck_negative_balances ALTER COLUMN id SET DEFAULT nextval('vonage_paycheck_negative_balances_id_seq'::regclass);
 
 
@@ -7785,6 +7826,14 @@ ALTER TABLE ONLY vonage_account_status_changes
 
 ALTER TABLE ONLY vonage_commission_period07012015s
     ADD CONSTRAINT vonage_commission_period07012015s_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_devices
+    ADD CONSTRAINT vonage_devices_pkey PRIMARY KEY (id);
 
 
 --
@@ -10319,4 +10368,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 INSERT INTO schema_migrations (version) VALUES ('20150805182921');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806184753');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806192315');
 
