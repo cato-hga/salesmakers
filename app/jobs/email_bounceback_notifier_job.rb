@@ -4,8 +4,8 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
   def perform minutes, automated = false
     after_datetime = DateTime.now - minutes.minutes
     client = Postmark::ApiClient.new Postmark.api_token
+    attempts = 1
     begin
-      attempts = 1
       bounces = client.bounces.first(minutes * 4)
       for bounce in bounces do
         if bounce[:bounced_at] and bounce[:bounced_at].to_datetime >= after_datetime
