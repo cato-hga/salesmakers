@@ -10,6 +10,7 @@
 #  break_hours :decimal(, )      default(0.0), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  training    :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'

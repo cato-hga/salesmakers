@@ -16,7 +16,7 @@ describe 'Inventory receiving page' do
 
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-       visit vonage_inventory_receiving_path
+       visit vonage_inventory_receivings_path
     end
 
     it 'shows the You are not authorized page' do
@@ -28,7 +28,7 @@ describe 'Inventory receiving page' do
   context 'for authorized users' do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
-       visit vonage_inventory_receiving_path
+       visit vonage_inventory_receivings_path
     end
 
     it 'shows the Home page' do

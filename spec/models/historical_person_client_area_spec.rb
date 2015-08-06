@@ -1,12 +1,13 @@
 # == Schema Information
 #
-# Table name: person_client_areas
+# Table name: historical_person_client_areas
 #
-#  id             :integer          not null, primary key
-#  person_id      :integer          not null
-#  client_area_id :integer          not null
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id                        :integer          not null, primary key
+#  historical_person_id      :integer          not null
+#  historical_client_area_id :integer          not null
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  date                      :date             not null
 #
 
 require 'rails_helper'

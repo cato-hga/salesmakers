@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: vonage_commission_period07012015s
+#
+#  id                 :integer          not null, primary key
+#  name               :string           not null
+#  hps_start          :date
+#  hps_end            :date
+#  vested_sales_start :date
+#  vested_sales_end   :date
+#  cutoff             :datetime         not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 require 'rails_helper'
 
 describe VonageCommissionPeriod07012015 do
