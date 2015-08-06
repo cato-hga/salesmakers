@@ -22,12 +22,8 @@ class API::V1::LocationsController < API::BaseController
       sleep 0.5
       results = Geocoder.search zip
     end
-    return if results.empty? or
-        not results[0].data or
-        not results[0].data['geometry'] or
-        not results[0].data['geometry']['location']
-    location = results[0].data['geometry']['location']
-    [location['lat'], location['lng']]
+    coordinates = results[0].andand.data.andand['geocodePoints'].andand[0].andand['coordinates']
+    coordinates
   end
 
   def get_nearby(lat_long, project_id = nil)
