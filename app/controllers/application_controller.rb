@@ -12,7 +12,8 @@ class ApplicationController < BaseApplicationController
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
-                :log_additional_data
+                :log_additional_data,
+                :authorize_profiler
 
   protected
 
@@ -41,6 +42,14 @@ class ApplicationController < BaseApplicationController
   end
 
   private
+
+  def authorize_profiler
+    dev = Position.find_by name: 'Software Developer'
+    sdev = Position.find_by name: 'Senior Software Developer'
+    if @current_person.position == dev or @current_person.position == sdev
+      Rack::MiniProfiler.authorize_request
+    end
+  end
 
   def set_comcast_locations
     comcast = Project.find_by name: 'Comcast Retail'
