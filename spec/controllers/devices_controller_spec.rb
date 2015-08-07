@@ -35,6 +35,7 @@ describe DevicesController do
   describe 'POST create' do
     let!(:person) { create :it_tech_person, position: position }
     let(:position) { create :it_tech_position }
+    let!(:active_state) { create :line_state, name: 'Active' }
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
       allow(controller).to receive(:policy).and_return double(create?: true)
