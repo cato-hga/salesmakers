@@ -8396,6 +8396,13 @@ CREATE INDEX index_group_me_posts_on_group_me_user_id ON group_me_posts USING bt
 
 
 --
+-- Name: index_group_me_posts_on_message_num; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_group_me_posts_on_message_num ON group_me_posts USING btree (message_num);
+
+
+--
 -- Name: index_group_me_posts_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -10284,4 +10291,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150806162252');
 INSERT INTO schema_migrations (version) VALUES ('20150807193355');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193852');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
