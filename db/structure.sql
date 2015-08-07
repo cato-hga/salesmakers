@@ -9133,6 +9133,13 @@ CREATE INDEX index_vonage_sales_on_location_id ON vonage_sales USING btree (loca
 
 
 --
+-- Name: index_vonage_sales_on_mac; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_sales_on_mac ON vonage_sales USING btree (mac);
+
+
+--
 -- Name: index_vonage_sales_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -10275,4 +10282,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193355');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193852');
 
