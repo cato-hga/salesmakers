@@ -12,8 +12,8 @@ class ApplicationController < BaseApplicationController
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
-                :log_additional_data,
-                :authorize_profiler
+                :log_additional_data
+  #:authorize_profiler
 
   protected
 
