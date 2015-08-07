@@ -50,6 +50,8 @@ class AssetReceiver
       line = Line.create identifier: self.line_identifier,
                          contract_end_date: self.contract_end_date,
                          technology_service_provider: self.service_provider
+      active_state = LineState.find_by name: 'Active'
+      line.line_states << active_state
       self.creator.log? 'create', line
       device.update line: line
     end

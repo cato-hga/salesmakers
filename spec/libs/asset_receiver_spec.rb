@@ -20,6 +20,7 @@ RSpec.describe 'Asset Receiver' do
   let(:device_identifier) { '98765431' }
   let(:creator) { create :person }
   let(:receiver) { AssetReceiver.new @attrs }
+  let!(:line_state) { create :line_state, name: 'Active' }
 
   describe 'validations' do
     it 'pass with the correct inputs' do
@@ -107,13 +108,13 @@ RSpec.describe 'Asset Receiver' do
   end
 
   describe 'attribute assignment' do
-    before(:each) do
-      receiver.receive
-    end
-
     let(:device) { Device.first }
     let(:line) { Line.first }
     let(:log) { LogEntry.first }
+
+    before(:each) do
+      receiver.receive
+    end
 
     it 'sets the proper service provider' do
       expect(line.technology_service_provider).to eq(service_provider)
@@ -126,6 +127,11 @@ RSpec.describe 'Asset Receiver' do
     end
     it 'sets the proper device line' do
       expect(line.identifier).to eq(line_identifier)
+    end
+
+    it 'sets the line as "active" ' do
+      line.reload
+      expect(line.line_states).to include(line_state)
     end
 
     context 'with serial as identifier (no device_identifier)' do
