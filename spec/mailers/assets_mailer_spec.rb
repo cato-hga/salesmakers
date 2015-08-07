@@ -62,7 +62,8 @@ describe AssetsMailer do
                                   last_name: 'User',
                                   personal_email: 'secondtest@test.com',
                                   devices: [device, second_device],
-                                  device_deployments: [second_device_deployment, second_deployment]
+                                  device_deployments: [second_device_deployment, second_deployment],
+                                  eid: 762
     }
     let(:first_deployment) { create :device_deployment,
                                     device: device,
@@ -115,6 +116,7 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(first_person.display_name)
       expect(mail.body.encoded).to include(first_person.mobile_phone)
       expect(mail.body.encoded).to include(first_person.personal_email)
+      expect(mail.body.encoded).to include(second_person.eid.to_s)
     end
 
     it 'handles not having a phone number for a person' do
@@ -138,7 +140,7 @@ describe AssetsMailer do
   end
 
   describe 'separated_without_assets_mailer' do
-    let!(:person) { create :person, personal_email: 'test@test.com' }
+    let!(:person) { create :person, personal_email: 'test@test.com', eid: 762 }
     let(:mail) { AssetsMailer.separated_without_assets_mailer(person) }
 
     it 'sends an email with correct subject' do
@@ -163,6 +165,7 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(person.display_name)
       expect(mail.body.encoded).to include(person.mobile_phone)
       expect(mail.body.encoded).to include(person.personal_email)
+      expect(mail.body.encoded).to include(person.eid.to_s)
     end
 
     it 'handles not having a phone number for a person' do
@@ -220,7 +223,7 @@ describe AssetsMailer do
   describe 'lost/stolen mailer' do
     let(:device) { create :device, line: line }
     let(:line) { create :line }
-    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
+    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device], eid: 762 }
     let(:mail) { AssetsMailer.lost_or_stolen_mailer(device) }
 
     it 'sends an email with correct subject' do
@@ -250,6 +253,7 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(person.display_name)
       expect(mail.body.encoded).to include(person.mobile_phone)
       expect(mail.body.encoded).to include(person.personal_email)
+      expect(mail.body.encoded).to include(person.eid.to_s)
     end
 
     it 'handles not having a phone number for a person' do
@@ -261,7 +265,7 @@ describe AssetsMailer do
   describe 'found mailer' do
     let(:device) { create :device, line: line }
     let(:line) { create :line }
-    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device] }
+    let!(:person) { create :person, personal_email: 'test@test.com', devices: [device], eid: 762 }
     let(:mail) { AssetsMailer.found_mailer(device) }
 
     it 'sends an email with correct subject' do
@@ -291,6 +295,7 @@ describe AssetsMailer do
       expect(mail.body.encoded).to include(person.display_name)
       expect(mail.body.encoded).to include(person.mobile_phone)
       expect(mail.body.encoded).to include(person.personal_email)
+      expect(mail.body.encoded).to include(person.eid.to_s)
     end
 
     it 'handles not having a phone number for a person' do

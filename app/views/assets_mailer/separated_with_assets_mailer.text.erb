@@ -1,6 +1,6 @@
 Employee with Assets Separated
 
-<%= @person_name %> (<%= @personal_email + ', ' + @person_phone %>) has just been separated from the company and has the following asset(s) in their possession:
+<%= @person_name %> (<%= @personal_email + ', ' + @person_phone + ', EID: ' + @eid %>) has just been separated from the company and has the following asset(s) in their possession:
 
 <% asset_count = 0 %>
 <% for device in @devices do %>
