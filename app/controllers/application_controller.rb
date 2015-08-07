@@ -12,8 +12,8 @@ class ApplicationController < BaseApplicationController
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
-                :log_additional_data
-  #:authorize_profiler
+                :log_additional_data,
+                :authorize_profiler
 
   protected
 
@@ -46,7 +46,7 @@ class ApplicationController < BaseApplicationController
   def authorize_profiler
     dev = Position.find_by name: 'Software Developer'
     sdev = Position.find_by name: 'Senior Software Developer'
-    if @current_person.position == dev or @current_person.position == sdev
+    if @current_person and (@current_person.position == dev or @current_person.position == sdev)
       Rack::MiniProfiler.authorize_request
     end
   end
