@@ -4,7 +4,7 @@
 
 .widget
   .inner
-    = form_for [@vonage_sale] do |f|
+    = form_for @vonage_sale do |f|
       = f.label :person_id, 'Sales Representative'
       = f.text_field :person_id
       - sale_date = short_date(@vonage_sale.sale_date)
@@ -29,8 +29,8 @@
       = f.label :gift_card_number, 'Gift Card Confirmation'
       = f.text_field :gift_card_number, placeholder: 'Re-enter the gift card number'
       %p
-        = f.check_box :customer_acknowledged
-        = f.label :customer_acknowledged, 'I agree to the Gift Card Rules and Regulations as outlined below and this sale either is not made using a gift card or is in accordance with those rules and regulations.'
+        = f.check_box :person_acknowledged
+        = f.label :person_acknowledged, 'I agree to the Gift Card Rules and Regulations as outlined below and this sale either is not made using a gift card or is in accordance with those rules and regulations.'
       = f.submit 'Complete Sale', class: [:button]
 
       %h3 Gift Card Rules and Regulations
