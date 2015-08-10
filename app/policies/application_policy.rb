@@ -1,9 +1,10 @@
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user, :record, :permission_keys
 
-  def initialize(user, record)
+  def initialize(user, record, permission_keys = [])
     @user = user
     @record = record
+    @permission_keys = permission_keys
   end
 
   def index?
@@ -45,13 +46,17 @@ class ApplicationPolicy
   protected
 
   def has_permission?(permission_name)
-    permissioned_object = if @user and @user.is_a?(Person)
-                            @user.position
-                          elsif @user and @user.is_a?(ClientRepresentative)
-                            @user
-                          end || return
     key = @record.class.name.underscore + '_' + permission_name
-    has_key? permissioned_object, key
+    if permission_keys.empty?
+      permissioned_object = if @user and @user.is_a?(Person)
+                              @user.position
+                            elsif @user and @user.is_a?(ClientRepresentative)
+                              @user
+                            end || return
+      has_key? permissioned_object, key
+    else
+      permission_keys.include? key
+    end
   end
 
   def has_key? permissioned_object, key

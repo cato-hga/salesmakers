@@ -1,4 +1,4 @@
-- sprint_sale_policy = SprintSalePolicy.new(@current_person, SprintSale.new)
+- sprint_sale_policy = SprintSalePolicy.new(@current_person, SprintSale.new, @permission_keys)
 - if sprint_sale_policy.scoreboard?
   %li.has-dropdown
     %a{ href: '#' } Sprint
