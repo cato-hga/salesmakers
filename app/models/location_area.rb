@@ -78,12 +78,12 @@ class LocationArea < ActiveRecord::Base
   def head_count_full?
     return false unless self.priority
     return true unless (self.priority == 1 or self.priority == 2)
-    candidates = number_of_candidates_in_funnel
+    candidates = candidates_in_funnel.count
     return true if self.target_head_count + 1 <= candidates
     false
   end
 
-  def number_of_candidates_in_funnel
+  def candidates_in_funnel
     candidates_in_training = ActiveRecord::Base.connection.execute(
         %{
           select
@@ -99,6 +99,7 @@ class LocationArea < ActiveRecord::Base
             and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
         }
     ).values.flatten
+    puts candidates_in_training.inspect
     paperwork_sent_36_hours = ActiveRecord::Base.connection.execute(
         %{
           select
@@ -116,7 +117,8 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    [candidates_in_training, paperwork_sent_36_hours].flatten.uniq.count
+    puts '', paperwork_sent_36_hours.inspect
+    Candidate.where id: [candidates_in_training, paperwork_sent_36_hours].flatten.uniq
   end
 
   def self.get_all_location_areas(candidate, current_person)

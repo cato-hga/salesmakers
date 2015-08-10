@@ -227,14 +227,16 @@ describe 'selecting a Location for a Candidate' do
 
   # TODO: Can't mock the number_of_candidates_in_funnel method for some reason.
   context 'showing the number of candidates in the funnel on location selection' do
+    let!(:candidates) { create_list :candidate, 7 }
+
     before do
       CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
     end
 
     it 'shows the proper number' do
-      allow_any_instance_of(LocationArea).to receive(:number_of_candidates_in_funnel).and_return(17)
+      allow_any_instance_of(LocationArea).to receive(:candidates_in_funnel).and_return(candidates)
       visit select_location_candidate_path candidate, 'false'
-      expect(page).to have_selector 'td', text: '17'
+      expect(page).to have_selector 'td', text: '7'
     end
   end
 
