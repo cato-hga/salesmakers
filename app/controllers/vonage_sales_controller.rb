@@ -1,13 +1,10 @@
 class VonageSalesController < ApplicationController
   before_action :do_authorization, only: [:new, :create]
+  before_action :set_salesmaker, only: [:new, :create]
   after_action :verify_authorized
 
   def new
     @vonage_sale = VonageSale.new
-  end
-
-  def show
-
   end
 
   def create
@@ -20,6 +17,11 @@ class VonageSalesController < ApplicationController
   end
 
   private
+
+  def set_salesmaker
+    @salesmakers = @current_person.managed_team_members
+    @salesmakers = [@current_person] if @salesmakers.empty?
+  end
 
   def vonage_sale_params
     params.require(:vonage_sale).permit :person_id,
