@@ -99,7 +99,6 @@ class LocationArea < ActiveRecord::Base
             and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
         }
     ).values.flatten
-    puts candidates_in_training.inspect
     paperwork_sent_36_hours = ActiveRecord::Base.connection.execute(
         %{
           select
@@ -117,8 +116,11 @@ class LocationArea < ActiveRecord::Base
           order by c.id
         }
     ).values.flatten
-    puts '', paperwork_sent_36_hours.inspect
     Candidate.where id: [candidates_in_training, paperwork_sent_36_hours].flatten.uniq
+  end
+
+  def number_of_candidates_in_funnel
+    candidates_in_funnel.count
   end
 
   def self.get_all_location_areas(candidate, current_person)
