@@ -16,6 +16,8 @@ class PersonArea < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :area
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   has_paper_trail
 

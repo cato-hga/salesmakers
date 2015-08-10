@@ -21,6 +21,9 @@ class DirecTVLead < ActiveRecord::Base
   extend DirecTV::LeadScopes
   extend DirecTV::LeadValidationsAndAssociations
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
+
   setup_validations
   setup_scopes
   belongs_to_associations

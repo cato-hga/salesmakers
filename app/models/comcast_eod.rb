@@ -26,6 +26,8 @@ class ComcastEod < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :person
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   def self.policy_class
     ComcastCustomerPolicy
