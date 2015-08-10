@@ -1,0 +1,13 @@
+- content_for :action_buttons do
+  = new_button new_device_state_path
+
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for device_state in @device_states do
+    - if device_state.locked
+      - name = device_state.name
+    - else
+      - name = link_to device_state.name, edit_device_state_path(device_state)
+    - rows << table_row([name])
+  = table header, rows

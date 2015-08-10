@@ -1,0 +1,9 @@
+- candidate = log_entry.trackable
+dismissed
+= candidate_link candidate
+as a potential candidate with the reason:
+%blockquote
+  - if candidate.candidate_denial_reason
+    = candidate.candidate_denial_reason.name
+  - else
+    N/A

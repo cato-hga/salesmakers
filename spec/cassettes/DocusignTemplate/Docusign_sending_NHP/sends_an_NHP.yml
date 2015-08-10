@@ -1,0 +1,100 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes
+    body:
+      encoding: UTF-8
+      string: '{"status":"created","emailBlurb":"\n              Enclosed are the
+        documents that you must complete as the first stage of your potential employment
+        with SalesMakers, Inc.  This is an electronic process.  Please complete as
+        soon as possible.\n\n              Tips for completing the New Hire Paperwork:\n              ·         When
+        completing the NHP you will need to create and electronic signature\n              ·         You
+        have 30 minutes to complete the NHP before it times out. If needed you can
+        save your progress by selecting \"finish later\".\n              ·         As
+        you complete the NHP please use your legal name as stated on your work authorization
+        document.\n              ·         Click the \"Next\"\" box on the left hand
+        side in order to take you through the required fields, If anything is not
+        applicable to you please type in \"N/A\".\n\n              Please contact
+        your recruiter should you have any questions or problems.\n\n              Your
+        location is set to 555 34th St N, St. Petersburg, FL (store number CCWM4690).\n              Your
+        area is set to A Test Area.\n\n            ","emailSubject":"Test Project
+        Employment Application and New Hire Paperwork for: Test Candidate","templateId":"603E81AB-4DC0-4FBC-9028-46D1FCABDD21","eventNotification":{},"templateRoles":[{"name":"Test
+        Candidate","email":"developers@salesmakersinc.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+    headers:
+      X-Docusign-Authentication:
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      Accept:
+      - json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '198'
+      Content-Type:
+      - application/json; charset=utf-8
+      X-Ratelimit-Reset:
+      - '1438606800'
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Ratelimit-Remaining:
+      - '982'
+      Date:
+      - Mon, 03 Aug 2015 12:49:24 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: "{\r\n  \"envelopeId\": \"b76e9bd1-5a20-4e1c-ae53-5607083047ef\",\r\n
+        \ \"uri\": \"/envelopes/b76e9bd1-5a20-4e1c-ae53-5607083047ef\",\r\n  \"statusDateTime\":
+        \"2015-08-03T12:49:22.0370000Z\",\r\n  \"status\": \"created\"\r\n}"
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:49:24 GMT
+- request:
+    method: put
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/b76e9bd1-5a20-4e1c-ae53-5607083047ef
+    body:
+      encoding: UTF-8
+      string: '{"status":"sent"}'
+    headers:
+      X-Docusign-Authentication:
+      - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
+      Accept:
+      - json
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '2'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Aug 2015 12:49:26 GMT
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: "{}"
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:49:26 GMT
+recorded_with: VCR 2.9.3

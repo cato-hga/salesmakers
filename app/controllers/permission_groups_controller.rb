@@ -1,0 +1,3 @@
+class PermissionGroupsController < ProtectedController
+
+end

@@ -1,0 +1,13 @@
+- title "Update Position for #{@person.display_name}"
+
+.widget
+  .inner
+    %h3 New Position
+    - if @person.errors.any?
+      - @person.errors.full_messages.each do |msg|
+        .alert-box.alert= msg
+    = form_tag update_position_person_path(@person), method: :put do
+      = label_tag :position
+      - person_current_position_id = @person.position ? @person.position.id : nil
+      = select_tag :position_id, options_from_collection_for_select(@positions, :id, :name, person_current_position_id), include_blank: true, id: 'position'
+      = submit_tag 'Save', class: [:button]

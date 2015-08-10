@@ -1,0 +1,82 @@
+@media only print
+  #header,
+  .tab-bar,
+  .mobile_global_search,
+  #show_search,
+  #search_form,
+  .button
+    display: none
+  a[href]:after
+    content: none !important
+
+  h1
+    font-size: 4em
+    i
+      display: none
+  h2
+    font-size: 3em
+  h3
+    font-size: 2em
+
+  .widget
+    width: 100%
+    padding: 0.5em 0
+    margin: 0
+    position: relative !important
+    left: 0px !important
+    top: 0px !important
+    .inner
+      padding: 0
+
+  .widgets
+    height: auto !important
+    .widget
+      width: 100%
+      margin: 0
+      padding: 0.5em 0
+      position: relative !important
+      left: 0px !important
+      top: 0px !important
+
+  html table,
+  html .table,
+  thead,
+  html .tableheader,
+  html table tbody,
+  html .table .tablebody,
+  html table thead th,
+  html table tr td,
+  html .table .tablerow .tablecell,
+  html table thead tr,
+  html .table .tableheader .tablerow,
+  html table tbody tr
+    display: block
+
+  html .table .tableheader .tablerow th, html .table .tablebody .tablerow th, html .table .tablebody .tablerow .tablecell, html .table .tablerow .tablecell
+    display: block
+
+  thead tr, .tableheader .tablerow
+    position: absolute
+    top: -9999px
+    left: -9999px
+
+  tr, .tablerow
+    border: 1px solid #ccc
+
+  td, .tablecell
+    border: none
+    position: relative
+    padding-left: 50%
+
+  td:before, .tablecell:before
+    top: 6px
+    left: 6px
+    width: 45%
+    padding-right: 10px
+    white-space: nowrap
+    font-weight: bold
+
+  .no_print
+    display: none !important
+  a.send_contact
+    display: none

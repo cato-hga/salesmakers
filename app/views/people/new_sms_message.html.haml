@@ -1,0 +1,3 @@
+- title 'Send Message to ' + @person.display_name
+
+= render partial: 'shared/sms_message_form', locals: { path: create_sms_message_person_path(@person) }

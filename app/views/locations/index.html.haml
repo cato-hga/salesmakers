@@ -1,0 +1,33 @@
+- content_for :action_buttons do
+  - if LocationPolicy.new(@current_person, Location.new).new?
+    = new_button new_client_project_location_path(@client, @project)
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form', url: client_project_locations_path(@client, @project) do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+    = f.text_field :location_display_name_cont, placeholder: 'Display name'
+    = f.text_field :location_store_number_cont, placeholder: 'Store number'
+    = f.select :area_id_eq, options_from_collection_for_select(@areas, :id, :name), include_blank: 'All areas'
+    = f.text_field :priority_eq, placeholder: 'Priority'
+    = f.text_field :target_head_count_eq, placeholder: 'Target HC'
+    %br/
+    = f.text_field :location_street_1_cont, placeholder: 'Street address 1'
+    = f.text_field :location_street_2_cont, placeholder: 'Street address 2'
+    = f.text_field :location_city_cont, placeholder: 'City'
+    = f.select :location_state_eq, options_for_select(::UnitedStates), include_blank: 'All states'
+    = f.text_field :location_zip_cont, placeholder: 'ZIP code'
+    = f.submit 'Search', class: [:button, :inline_button]
+    %p.small.comment Recruitable field is calculated on-the-fly and cannot be searched.
+  .top-pagination
+    = paginate @location_areas
+
+.widget
+  .inner
+    = render 'table'
+
+- content_for :footer do
+  - search_params = params[:q] || []
+  .left= csv_link csv_client_project_locations_path(controller: :locations, action: :csv, q: search_params), @search.result.count
+  = paginate @location_areas

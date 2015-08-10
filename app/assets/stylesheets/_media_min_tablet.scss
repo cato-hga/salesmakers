@@ -1,0 +1,46 @@
+@import 'variables';
+
+@media only screen and (min-width: $tablet_cutoff) {
+
+	article {
+		img {
+			max-width: 50%;
+		}
+	}
+
+//	.widget {
+//		.medium-3{
+//			text-align: center;
+//		}
+//	}
+
+	.excerpt {
+		margin-top: 0;
+	}
+
+	.widgets .widget,
+	.top_widgets .widget {
+		width: 46%;
+		margin: 1% 1%;
+	}
+
+	.top_widgets .widget {
+		float: left;
+		&.grid-4 {
+			width: 96%;
+			margin: 0 1%;
+		}
+	}
+
+	.widget.chat {
+		float: right;
+	}
+
+	.widget .comments .wall_post_comment_form .avatar {
+		display: block;
+	}
+
+	.staging_warning {
+		margin-top: 6rem;
+	}
+}

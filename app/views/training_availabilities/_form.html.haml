@@ -1,0 +1,25 @@
+= form_for [@candidate, @training_availability], html: { style: 'display:inline;' }  do |f|
+  .widget
+    .inner
+      %h3 Shirt Information
+      = f.fields_for @candidate do |candidate|
+        = candidate.label :shirt_gender, 'Gender'
+        = candidate.select :shirt_gender, options_for_select([['Male', 'Male'], ['Female', 'Female']], (@candidate.shirt_gender if @candidate.shirt_gender)), include_blank: true
+        = candidate.label :shirt_size
+        = candidate.select :shirt_size, options_for_select([['S', 'S'], ['M', 'M'], ['L', 'L'], ['XL', 'XL'], ['2XL', '2XL'], ['3XL', '3XL'], ['4XL', '4XL']], (@candidate.shirt_size if @candidate.shirt_size)), include_blank: true
+  .widget
+    .inner
+      %h3 Training Attendance
+      %p
+        Training for this position is from Monday through Friday, approx 9am to 6pm, for two weeks. Exact dates, times and locations are currently TBD.
+      = f.label :able_to_attend, 'Is the candidate able to attend the training?'
+      = f.select :able_to_attend, options_for_select([['Yes', true], ['No', false]],  (@training_availability.able_to_attend if @training_availability)), include_blank: true
+      #unable_to_attend(style="display:none;")
+        = f.label :training_unavailability_reason_id, 'Why not?'
+        = f.select :training_unavailability_reason_id, options_from_collection_for_select(@unavailability_reasons, :id, :name), include_blank: true
+        = f.label :comments
+        = f.text_area :comments, value: @comments, rows: 5
+      - if action_name == 'edit' or action_name == 'update'
+        = f.submit 'Update Details', class: [:button, :success ]
+      - else
+        = f.submit 'Confirm and Save', class: [:button, :success]

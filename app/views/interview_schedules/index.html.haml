@@ -1,0 +1,58 @@
+- if Time.now.in_time_zone.to_date != @schedule_date
+  - content_for :action_buttons do
+    = link_to 'Today', interview_schedules_path(Date.today.in_time_zone.to_s), class: [:button, :inline_button]
+%h3
+  = link_to icon('arrow-left'), interview_schedules_path((@schedule_date - 1.day).to_s), id: 'previous_schedule_date'
+  = long_date(@schedule_date)
+  = link_to icon('arrow-right'), interview_schedules_path((@schedule_date + 1.day).to_s), id: 'next_schedule_date'
+.widget
+  .inner
+    .row.full-width
+      .medium-6.columns
+        = select_tag :show_open_time_slots, options_for_select([['Show Open Slots', true], ['Hide Open Slots', false]], cookies[:show_open_time_slots]), class: [:inline_select]
+      .medium-6.columns
+        = select_tag :show_only_missed_interviews, options_for_select([['Show Missed and Completed', false], ['Show Missed Only', true]], cookies[:show_only_missed_interviews]), class: [:inline_select]
+    - if @interview_schedules.empty?
+      %p.comment
+        %strong
+          Nothing to show.
+.widgets
+  - for recruiter in @interview_schedules.keys do
+    - interview_schedules = @interview_schedules[recruiter]
+    - interview_schedule = nil
+    .widget
+      .inner
+        %h3= recruiter.name
+        - dst = 0
+        - dst = 3600 if @schedule_date.to_time.in_time_zone.dst?
+        - offset = Time.zone.utc_offset + dst
+        - time_slot = @schedule_date.to_time.in_time_zone - offset + 9.hours
+        - count = 0
+        - 24.times do
+          - count += 1
+          - interview_schedules.each {|s| interview_schedule = s if s.start_time == time_slot}
+          - if interview_schedule || cookies[:show_open_time_slots] != 'false'
+            - if interview_schedule and !interview_schedule.candidate.interview_answers.empty?
+              - has_answers = true
+            - elsif not interview_schedule
+              - has_answers = true
+            - else
+              - has_answers = false
+            - if cookies[:show_only_missed_interviews] == 'false' || !has_answers
+              .row.interview_schedule_time_slot{ class: count % 2 == 0 ? 'even_row' : '' }
+                .interview_schedule_time.medium-2.small-2.columns
+                  = time_slot.strftime('%-l:%M%P')
+                .interview_schedule_candidate.medium-10.small-10.columns
+                  - if interview_schedule
+                    - candidate = interview_schedule.candidate
+                    = candidate_link(interview_schedule.candidate)
+                    = button_to 'Cancel Interview', candidate_interview_schedule_path(interview_schedule, candidate), data: { confirm: 'This will cancel the interview. Are you sure?' }, method: :delete, class: [:bare_button]
+                    - if candidate.location_area
+                      %span.small.right
+                        = surround '(', ')' do
+                          = project_link candidate.location_area.area.project
+
+                  - else
+                    &nbsp;
+                  - interview_schedule = nil
+          - time_slot += 30.minutes

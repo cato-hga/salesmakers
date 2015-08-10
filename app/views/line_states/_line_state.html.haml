@@ -1,0 +1,4 @@
+.line_state
+  = line_state.name
+  - unless line_state.locked
+    = button_to "&times;".html_safe, remove_state_line_path(@line, line_state), class: [:bare_button, :remove], data: { confirm: 'This action cannot be undone. Are you sure?' }, method: :patch

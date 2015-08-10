@@ -1,0 +1,22 @@
+= form_for @report_query do |f|
+  - if @report_query.errors.any?
+    - @report_query.errors.full_messages.each do |msg|
+      .alert.alert-box= msg
+  = f.label :name, 'Report name'
+  = f.text_field :name
+  = f.label :category_name, 'Category'
+  = f.text_field :category_name
+  = f.label :database_name
+  = f.text_field :database_name
+  = f.label :query
+  = f.text_area :query, rows: 20
+  - unless @report_query.persisted?
+    = f.label :permission_key
+    = f.text_field :permission_key
+  = f.check_box :has_date_range
+  Has date range
+  = f.select :start_date_default, options_for_select([['Today', 'to_date'] |
+    , ['Yesterday', 'yesterday'], ['Beginning of Week', 'beginning_of_week'], |
+    ['Beginning of Month', 'beginning_of_month']], selected: @report_query.start_date_default), |
+    include_blank: true |
+  = f.submit 'Save', class: [:button]

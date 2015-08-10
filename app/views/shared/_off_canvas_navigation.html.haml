@@ -1,0 +1,132 @@
+%nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
+  %section.left-small
+    %a.left-off-canvas-toggle.menu-icon(href="#")
+      %span
+  %section.middle.tab-bar-section
+    %h1.title SalesCenter
+%aside.left-off-canvas-menu
+  %ul.off-canvas-list
+    %li
+      %label Menu
+    -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new).create?
+      %li= link_to 'New Customer', new_comcast_customer_path
+      %li= link_to 'My Customers', comcast_customers_path
+      %li= link_to 'End Of Day', new_comcast_eod_path
+    -else
+      %li
+        = link_to 'Home', root_path
+    - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
+    - if group_count > 0
+      %li= link_to 'GroupMe Post', new_post_group_me_groups_path
+  - sprint_sale_policy = SprintSalePolicy.new(current_person, SprintSale.new)
+  - if sprint_sale_policy.scoreboard?
+    %ul.off-canvas-list
+      %li
+        %label Sprint
+      %li
+        = link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
+  - candidate_policy = CandidatePolicy.new(current_person, Candidate.new)
+  - if candidate_policy.index? or candidate_policy.create?
+    %ul.off-canvas-list
+      %li
+        %label Candidates
+      - if candidate_policy.index?
+        %li
+          = link_to 'New', new_candidate_path
+        %li
+          = link_to 'Search', candidates_path
+        %li
+          = link_to 'Interview Schedules', interview_schedules_path(Date.today.to_s)
+      - if candidate_policy.create?
+        %li
+          = link_to 'New Candidate', new_candidate_path
+      - if CandidatePolicy.new(@current_person, Candidate.new).dashboard?
+        %li
+          = link_to 'Dashboard', dashboard_candidates_path
+  %ul.off-canvas-list
+    %li
+      %label People
+    %li
+      = link_to 'Search', people_path
+    %li
+      = link_to 'Org Chart', org_chart_people_path
+    - if PersonPolicy.new(current_person, Person.new).approval?
+      %li= link_to 'Approve Assets', asset_approval_path
+    - if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new).index?
+      %li= link_to 'SMS Dashboard', sms_daily_checks_path
+    - if PersonPolicy.new(current_person, Person.new).create?
+      %li= link_to 'New', new_person_path
+  - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new)
+  - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new)
+  - if comcast_lead_policy.index? || comcast_sale_policy.index?
+    %ul.off-canvas-list
+      %li
+        %label Comcast Retail
+      - if comcast_lead_policy.index?
+        %li
+          = link_to 'Comcast Leads', comcast_leads_path
+      - if comcast_sale_policy.index?
+        %li
+          = link_to 'Comcast Sales', comcast_sales_path
+  - directv_lead_policy = DirecTVLeadPolicy.new(current_person, DirecTVLead.new)
+  - directv_sale_policy = DirecTVSalePolicy.new(current_person, DirecTVSale.new)
+  - if directv_lead_policy.index? || directv_sale_policy.index?
+    %ul.off-canvas-list
+      %li
+        %label DirecTV Retail
+      - if directv_lead_policy.index?
+        %li
+          = link_to 'DirecTV Leads', directv_leads_path
+      - if directv_sale_policy.index?
+        %li
+          = link_to 'DirecTV Sales', directv_sales_path
+    %ul.off-canvas-list
+      %li
+        %label Reports
+        %li
+          = link_to 'Report List', report_queries_path
+  - if DevicePolicy.new(@current_person, Device.new).index? or |
+    AreaPolicy.new(@current_person, Area.new).index? or |
+    AreaTypePolicy.new(@current_person, AreaType.new).index? or |
+    DepartmentPolicy.new(@current_person, Department.new).index? or |
+    ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
+    LogEntryPolicy.new(@current_person, LogEntry.new).index? or |
+    LocationPolicy.new(@current_person, Location.new).index? |
+    %ul.off-canvas-list
+      - for project in visible_projects
+        %li
+          %label= project.name + ' Admin'
+        - if AreaTypePolicy.new(current_person, AreaType.new).index?
+          %li
+            = link_to 'Area Types', client_project_area_types_path(project.client, project)
+        - if AreaPolicy.new(@current_person, Area.new).index?
+          %li
+            = link_to 'Areas', client_project_areas_path(project.client, project)
+        - if LocationPolicy.new(@current_person, Location.new).index?
+          %li
+            = link_to 'Locations', client_project_locations_path(project.client, project)
+      - admin_links = Array.new
+      - if DevicePolicy.new(@current_person, Device.new).index?
+        - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
+        - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
+        - admin_links << link_to('Device Models', device_models_path)
+      - if LogEntryPolicy.new(@current_person, LogEntry.new).index?
+        - admin_links << link_to(icon('list') + ' Log', lines_path)
+      %ul.off-canvas-list
+        %li
+          %label Administration
+        - for admin_link in admin_links do
+          %li= admin_link
+  %ul.off-canvas-list
+    %li
+      %label= current_person.email
+    %li
+      = link_to icon('x') + ' Sign Out', logout_path
+= form_tag global_search_path, method: :get, class: [:mobile_global_search] do
+  .row
+    .large-12.columns
+      .row.collapse
+        .small-9.columns
+          = text_field_tag :global_search, @global_search, placeholder: 'Global Search'
+        .small-3.columns
+          = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]

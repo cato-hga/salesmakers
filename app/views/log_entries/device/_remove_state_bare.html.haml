@@ -1,0 +1,8 @@
+= surround '"', '"' do
+  log_entry.referenceable.name
+removed from
+= device_link log_entry.trackable
+- if log_entry.comment?
+  with comment:
+  %blockquote
+    = log_entry.comment

@@ -1,0 +1,24 @@
+= mailer_h1 pluralize(@unmatched_sales.count.to_s, 'Unmatched Vonage Sale')
+%p
+  The following sales attempted to be imported into SalesCenter from RBD Connect
+  but were not able to be matched for the indicated reasons. Please troubleshoot
+  and update the records manually if necessary.
+%table(width="100%")
+  %tr
+    %td
+      %strong Sale Date
+    %td
+      %strong Rep
+    %td
+      %strong MAC
+    %td
+      %strong Reason Unmatched
+  - for unmatched_sale in @unmatched_sales do
+    - order = unmatched_sale[:order]
+    - reason = unmatched_sale[:reason]
+    - dateordered = order.dateordered.apply_eastern_offset
+    %tr
+      %td= dateordered.strftime('%m/%d/%Y')
+      %td= order.connect_user.name
+      %td= order.documentno[3..14]
+      %td= reason

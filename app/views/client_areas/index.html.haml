@@ -1,0 +1,27 @@
+- title @project.name + ' Client Areas'
+- if ClientAreaPolicy.new(@current_person, ClientArea.new).new?
+  - content_for :action_buttons do
+    = new_button new_client_project_client_area_path
+- if @client_areas and not @client_areas.empty?
+  .widgets
+    - @client_areas.each_slice(3) do |group|
+      .row.full-width
+        - for client_area in group
+          .large-4.medium-6.columns.widget
+            .inner
+              - if client_area.is_childless?
+                - if client_area.parent
+                  %h3= client_area.parent.name
+                  = client_area.name
+                - else
+                  %h3= client_area.name
+              - else
+                - client_areas = client_area.descendants.arrange(order: :name)
+                %h3= client_area.name
+                = nested_areas client_areas
+        = empty_columns(@client_areas, group, 3, 'widget')
+- else
+  %p
+    No records to show.
+    - if ClientAreaPolicy.new(@current_person, ClientArea.new).new?
+      Create a new Area by using the "New" button.

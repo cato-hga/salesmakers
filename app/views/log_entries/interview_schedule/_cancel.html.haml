@@ -1,0 +1,9 @@
+- candidate = log_entry.referenceable
+.entry_type
+  Interview for
+  .entry_pertains_to= candidate_link candidate
+  was cancelled
+by
+= person_link log_entry.person
+.time_ago
+  = time_ago_in_words(log_entry.created_at) + ' ago'

@@ -1,0 +1,12 @@
+- title @area.name + "'s Wall"
+-# content_for :action_buttons do
+-#= link_to icon('dollar') + ' Sales', sales_client_project_area_path(@area.project.client, @area.project, @area), class: [:button, :inline_button]
+
+= render partial: 'shared/sales_wall_widget', locals: { object: @area }
+
+.widgets
+  = render partial: 'shared/share_form', locals: { wall: @wall, current_person: @current_person, text_post: @text_post,
+                                                   uploaded_image: @uploaded_image, uploaded_video: @uploaded_video,
+                                                   link_post: @link_post, walls: @walls} if @show_share_form
+  = render partial: 'wall_posts/wall_posts', locals: { wall_posts: @wall_posts, visible_walls: @visible_walls,
+                                                       wall: @wall, current_person: @current_person }

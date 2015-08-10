@@ -1,0 +1,12 @@
+app/views/kaminari/_paginator.html.haml:7 - move code into model (page use_count > 2)
+app/controllers/api/v1/people_controller.rb:37 - move model logic into model (@person use_count > 4)
+app/controllers/api/v1/people_controller.rb:37 - move model logic into model (@connect_user use_count > 4)
+app/controllers/device_deployments_controller.rb:16 - move model logic into model (@device_deployment use_count > 4)
+config/routes.rb:14 - needless deep nesting (nested_count > 2)
+config/routes.rb:20 - needless deep nesting (nested_count > 2)
+config/routes.rb:39 - overuse route customizations (customize_count > 3)
+app/models/poll_question.rb:30 - remove unused methods (PollQuestion#start_time_text)
+app/models/poll_question.rb:38 - remove unused methods (PollQuestion#end_time_text)
+app/controllers/device_deployments_controller.rb:16 - replace complex creation with factory method (@device_deployment attribute_assignment_count > 2)
+app/views/layouts/_widget.html.haml:46 - replace instance variable with local variable
+app/controllers/poll_question_choices_controller.rb:4 - use model association (for @poll_question_choice)

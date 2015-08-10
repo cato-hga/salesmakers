@@ -1,0 +1,30 @@
+= link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+= search_form_for @search, id: 'search_form' do |f|
+  = link_to "&times;".html_safe, '#', id: 'hide_search'
+  = link_to 'Clear', request.path if params[:q]
+  = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+  = f.text_field :first_name_cont, placeholder: 'First name'
+  = f.text_field :last_name_cont, placeholder: 'Last name'
+  = f.text_field :created_by_display_name_cont, placeholder: 'Entered by'
+  = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
+  = f.text_field :email_cont, placeholder: 'Email'
+  = f.text_field :zip_cont, placeholder: 'ZIP'
+  - project = Project.find_by_name 'Sprint Postpaid'
+  - selected_area = params['q'] ? params['q']['area_name_eq'] : nil
+  = f.select :location_area_area_id_eq, options_from_collection_for_select(Area.where(project: project), 'id', 'name', selected_area), include_blank: 'Area'
+  = f.text_field :location_area_area_project_name_cont, placeholder: 'Project'
+  %br/
+  = f.text_field :location_area_location_channel_name_cont, placeholder: 'Channel'
+  = f.text_field :location_area_location_display_name_cont, placeholder: 'Location'
+  = f.text_field :location_area_location_store_number_cont, placeholder: 'Store Number'
+  = f.select :candidate_source_id_eq, options_from_collection_for_select(CandidateSource.where(active: true), :id, :name), include_blank: 'Source'
+  - selected_assessment_status = params['q'] ? params['q']['personality_assessment_status_eq'] : nil
+  - assessment_status_options = options_for_select(Candidate.personality_assessment_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_assessment_status)
+  = f.select :personality_assessment_status_eq, assessment_status_options, prompt: 'Assessment Status'
+  - selected_status = params['q'] ? params['q']['status_eq'] : nil
+  - status_options = options_for_select(Candidate.statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
+  = f.select :status_eq, status_options, prompt: 'Status'
+  - selected_session = params['q'] ? params['q']['sprint_radio_shack_training_session_eq'] : nil
+  = f.select :sprint_radio_shack_training_session_id_eq, options_from_collection_for_select(SprintRadioShackTrainingSession.all, 'id', 'name', selected_session ), include_blank: 'Training Session'
+  = f.submit 'Search', class: [:button, :inline_button]

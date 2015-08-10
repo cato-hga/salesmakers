@@ -1,0 +1,38 @@
+- content_for :action_buttons do
+  = new_button new_poll_question_path
+
+.widgets
+  - if @poll_questions
+    - for poll_question in @poll_questions
+      .widget
+        .inner
+          %h3
+            = poll_question.question
+            = edit_button edit_poll_question_path(poll_question)
+            - unless poll_question.locked?
+              = button_to 'Delete', poll_question_path(poll_question), method: :delete, class: 'destroy_poll_question_link'
+          .small.comment
+            = pluralize(poll_question.answers, 'Answer') + ','
+            = succeed ', ' do
+              Start:
+              = poll_question.start_time.strftime('%m/%d/%Y %-l:%M%P')
+            - if poll_question.end_time
+              End:
+              = poll_question.end_time.strftime('%m/%d/%Y %-l:%M%P')
+            - else
+              does not end automatically.
+          .poll_question_help_text= poll_question.help_text if poll_question.help_text
+          .choices
+            %h5 Choices
+            - for poll_question_choice in poll_question.poll_question_choices
+              = render poll_question_choice
+            = form_for [poll_question, @poll_question_choice], remote: true, class: :row do |f|
+              .large-12.columns
+                .row.collapse
+                  .small-10.columns= f.text_field :name, placeholder: 'Name'
+                  .small-2.columns= f.submit 'Add', class: [:button, :postfix]
+            .clearfix
+  - else
+    .widget
+      .inner
+        There are no poll questions yet.

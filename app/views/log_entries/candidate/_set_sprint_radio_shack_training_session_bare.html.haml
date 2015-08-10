@@ -1,0 +1,11 @@
+- candidate = log_entry.trackable
+- training_session = log_entry.referenceable
+Set
+- if training_session
+  %span.comment
+    = surround '"', '"' do
+      = training_session.name
+  as the training session for
+- else
+  no training session for
+= candidate_link candidate

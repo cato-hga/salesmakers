@@ -1,0 +1,33 @@
+require 'etl/vonage_comp07012015_sales_source'
+require 'etl/vcp07012015_hps_sales_destination'
+
+count = 0
+
+pre_process do
+  @period = nil
+  periods = VonageCommissionPeriod07012015.where("cutoff > ?", DateTime.now).order(:cutoff)
+  unless periods.empty?
+    @period = periods.first
+    @period.vcp07012015_hps_sales.destroy_all
+  end
+end
+
+source VonageComp07012015SalesSource, :hps_start, :hps_end
+
+transform do |row|
+  next unless @period
+  count += 1
+
+  hps_sale = Hash.new
+  hps_sale[:vonage_commission_period07012015_id] = @period.id
+  hps_sale[:vonage_sale_id] = row['id']
+  hps_sale[:person_id] = row['person_id']
+
+  hps_sale
+end
+
+destination VCP07012015HPSSalesDestination
+
+post_process do
+  ProcessLog.create process_class: "VonageComp07012015Processing", notes: 'VCP07012015HPSSale', records_processed: count
+end

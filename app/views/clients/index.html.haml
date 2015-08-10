@@ -1,0 +1,16 @@
+- content_for :header do
+  = search_form_for @search, class: 'search_form' do |f|
+    - if not params[:q]
+      = icon('magnifying-glass')
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :name_cont, placeholder: 'Client'
+    = f.submit 'Search', class: 'button'
+
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for client in @clients do
+    - client = link_to client.name, client
+
+    - rows << table_row([client])
+  = table header, rows

@@ -1,0 +1,19 @@
+.top-pagination
+  - unless log_entries.empty?
+    = paginate log_entries, param_name: 'log_entries_page'
+- header = header_row(['Date/Time', 'By', 'Type', 'Entry'])
+- rows = Array.new
+- log_entries.each do |log_entry|
+  - created_at = log_entry.created_at.localtime
+  - trackable = log_entry.trackable
+  - trackable_class = trackable.class
+  - if trackable_class.respond_to?(:model_name)
+    - trackable_class_name = trackable_class.model_name
+  - else
+    - trackable_class_name = log_entry.id.to_s
+  - date_time = friendly_datetime(created_at.in_time_zone)
+  - by = person_link(log_entry.person)
+  - on = NameCase(trackable_class_name.human)
+  - entry = bare_log_entry(log_entry)
+  - rows << table_row([date_time, by, on, entry])
+= table header, rows, false

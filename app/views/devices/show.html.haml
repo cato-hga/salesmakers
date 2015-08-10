@@ -1,0 +1,102 @@
+- write_off = DeviceState.find_by name: 'Written Off'
+- deployed = DeviceState.find_by name: 'Deployed'
+
+
+- title @device.serial
+- content_for :action_buttons do
+  = edit_button edit_device_path(@device)
+  - unless @device.device_states.include? deployed or (@device.device_states.include? write_off or @device.lost_or_stolen?)
+    = link_to 'Deploy', select_user_device_device_deployments_path(@device), class: [:button, :inline_button]
+  - if @device.device_states.include? deployed and not (@device.lost_or_stolen? or @device.written_off?)
+    = link_to 'Recoup', recoup_notes_device_device_deployments_path(@device), class: [:button, :inline_button]
+  - unless @device.written_off?
+    = link_to 'Write Off', write_off_device_path(@device), class: [:button, :inline_button]
+  - if @device.lost_or_stolen? or @device.written_off?
+    = button_to 'Found', found_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This device will no longer be marked as lost or stolen. Are you sure?' }, method: :patch
+  - else
+    = button_to 'Lost/Stolen', lost_stolen_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will report this device as lost or stolen and remove the written off status. Are you sure?' }, method: :patch
+  - if not @device.repairing?
+    = button_to 'Repair', repairing_device_path(@device), class: [:button, :inline_button], data: { confirm: 'This will mark this device as being repaired. Are you sure?' }, method: :patch
+  - if @device.repairing?
+    = button_to 'Repaired', repaired_device_path(@device), class: [:button, :inline_button], method: :patch
+  - if @device.line.present?
+    = link_to 'Swap Line', line_swap_or_move_device_path(@device), class: [:button, :inline_button ]
+
+- unless @device.identifier == @device.serial
+  %h3
+    Secondary ID:
+    = @device.identifier
+.device_states
+  - for device_state in @device.device_states
+    = render device_state
+- if @unlocked_device_states.count > 0
+  .edit_device_states
+    = form_tag add_state_device_path(@device), method: :patch do
+      = select_tag 'device_state_id', options_from_collection_for_select(@unlocked_device_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_device_state_select'
+      = submit_tag '+', class: [:button], id: 'add_device_state'
+.widgets
+  .widget
+    .inner
+      .centered_text
+        = device_image @device
+      %p
+        %strong Model:
+        = @device.device_model.device_model_name
+      %p#line
+        %strong Line:
+        - if @device.line
+          = line_link @device.line
+          -if @device.line.line_states.count > 0
+            - states = Array.new
+            - @device.line.line_states.each do |state|
+              - states << state.name
+            &mdash;
+            %em= states.join(', ')
+          - if @device.line.active?
+            = button_to 'Deactivate Line', deactivate_line_path(@device.line), class: [:button, :tiny, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
+          .centered_text= line_service_provider_image(@device.line)
+        - else
+          None
+  .widget
+    .inner
+      .deployments
+        %h2 Deployments
+        - if @device.device_deployments.count > 0
+          %ul
+            - deployment_count = 1
+            - for deployment in @device.device_deployments
+              %li{class: ('recouped' if deployment.ended.present?)}
+                = person_link(deployment.person)
+                &mdash;
+                = deployment.started.strftime('%m/%d/%Y')
+                to
+                - if deployment.ended.present?
+                  = deployment.ended.strftime('%m/%d/%Y')
+                - else
+                  present
+                - if @device.device_states.include? write_off and deployment_count == 1
+                  &mdash;
+                  %span.red WRITTEN OFF
+              - deployment_count = deployment_count + 1
+        - else
+          %em None
+  .widget
+    .inner
+      .history
+        - if @log_entries and @log_entries.count > 0
+          %h2 History
+          - future = Time.zone.now
+          - for entry in @log_entries
+            .how_long
+              = distance_of_time_in_words(entry.created_at, future, include_seconds: false)
+              - future = entry.created_at
+            = render_log_entry(entry)
+          .clearfix
+
+.widget.no_print
+  .inner
+    = render  'device_notes/form'
+.widget#device_notes
+  .inner
+    %h3 Notes
+    = render partial: 'device_notes/table', locals: { device_notes: @device_notes }

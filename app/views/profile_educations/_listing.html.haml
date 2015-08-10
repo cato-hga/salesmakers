@@ -1,0 +1,28 @@
+- if profile_educations and profile_educations.count > 0
+  - for profile_education in profile_educations do
+    .profile_education
+      .school
+        = profile_education.school
+        - if profile_education.profile.person == current_person
+          = link_to 'Edit', edit_profile_profile_education_path(profile_education.profile, profile_education)
+          = button_to 'Delete', profile_profile_education_path(profile_education.profile, profile_education), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }
+      - if profile_education.degree
+        .degree= profile_education.degree
+      - if profile_education.field_of_study
+        .field_of_study= profile_education.field_of_study
+      .date_range
+        = profile_education.start_year
+        = '-'
+        = profile_education.end_year
+      - if profile_education.activities_societies
+        .vertical_space
+          %strong Activities &amp; Societies:
+          .activities_societies
+            = profile_education.activities_societies
+      - if profile_education.description
+        .vertical_space
+          %strong More info:
+          .description
+            = profile_education.description
+- else
+  %em No previous education added

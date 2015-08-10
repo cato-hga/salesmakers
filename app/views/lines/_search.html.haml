@@ -1,0 +1,13 @@
+= link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+= search_form_for @search, id: 'search_form' do |f|
+  = link_to "&times;".html_safe, '#', id: 'hide_search'
+  = link_to 'Clear', request.path if params[:q]
+  = f.text_field :technology_service_provider_name_cont, placeholder: 'Provider'
+  = f.text_field :unstripped_identifier_cont, placeholder: 'Identifier'
+  = f.text_field :contract_end_date_cont, placeholder: 'Contract End Date'
+  = f.text_field :line_states_name_cont, placeholder: 'State(s)'
+  = f.submit 'search', class: 'button'
+- if @lines
+  .top-pagination
+    = paginate @lines

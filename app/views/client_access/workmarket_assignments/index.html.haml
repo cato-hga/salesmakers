@@ -1,0 +1,51 @@
+- title "#{current_client_rep.client.name} Worker Assignments"
+- view_all = WorkmarketAssignmentPolicy.new(current_client_rep, WorkmarketAssignment.new).view_all?
+
+= content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, url: client_access_worker_assignments_path, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :started_gteq, placeholder: 'Started After'
+    = f.text_field :started_lteq, placeholder: 'Started Before'
+    = f.text_field :ended_gteq, placeholder: 'Ended After'
+    = f.text_field :ended_lteq, placeholder: 'Ended Before'
+    = f.collection_select :project_id_eq, current_client_rep.client.projects, :id, :name, include_blank: 'All Projects'
+    %br/
+    = f.text_field :title_cont, placeholder: 'Title'
+    = f.text_field :worker_name_cont, placeholder: 'Worker'
+    - if view_all
+      = f.text_field :worker_email_cont, placeholder: 'Worker Email'
+    = f.text_field :workmarket_location_name_cont, placeholder: 'Location Name'
+    - if view_all
+      = f.text_field :cost_eq, placeholder: 'Cost ='
+    = f.submit 'Search', class: [:button, :inline_button]
+  .top-pagination
+    = paginate @assignments
+
+.widget
+  .inner
+    - if view_all
+      - headers = header_row ['Started', 'Ended', 'Project', 'Title', 'Worker', 'Worker Email', 'Location', 'Cost', '# Attachments']
+    - else
+      - headers = header_row ['Started', 'Ended', 'Project', 'Title', 'Worker', 'Location', '# Attachments']
+    - rows = []
+    - for assignment in @assignments do
+      - started = friendly_datetime assignment.started
+      - ended = friendly_datetime assignment.ended
+      - project = assignment.project.name
+      - title = link_to assignment.title, client_access_worker_assignment_path(assignment)
+      - worker = assignment.worker_name
+      - worker_email = mail_to assignment.worker_email
+      - location = assignment.workmarket_location ? assignment.workmarket_location.name : ''
+      - cost = number_to_currency assignment.cost
+      - attachment_count = assignment.workmarket_attachments.count.to_s
+      - if view_all
+        - rows << table_row([started, ended, project, title, worker, worker_email, location, cost, attachment_count])
+      - else
+        - rows << table_row([started, ended, project, title, worker, location, attachment_count])
+    = table headers, rows
+
+- content_for :footer do
+  .left= csv_link csv_client_access_worker_assignments_path, @search.result.count
+  = paginate @assignments

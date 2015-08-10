@@ -1,0 +1,48 @@
+- content_for :action_buttons do
+  - if @candidate.active?
+    = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
+- if @interview_answer.errors.any?
+  - @interview_answer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for [@candidate, @interview_answer] do |f|
+      = f.label :work_history, "Candidate's work history:"
+      = f.text_field :work_history
+      = f.label :last_two_positions, "Specifically: What was the candidate's last two positions?"
+      = f.text_field :last_two_positions
+      = f.label :why_in_market, 'Why is candidate in the market?'
+      = f.text_field :why_in_market
+      = f.label :ideal_position, "Candidate's ideal position and responsibilities"
+      = f.text_field :ideal_position
+      = f.label :what_are_you_good_at, "What is the candidate good at"
+      = f.text_field :what_are_you_good_at
+      = f.label :what_are_you_not_good_at, "What is the candidate NOT good at"
+      = f.text_field :what_are_you_not_good_at
+      = f.label :willingness_characteristic, "Candidate willingness description"
+      = f.text_field :willingness_characteristic
+      = f.label :personality_characteristic, "Candidate personality description"
+      = f.text_field :personality_characteristic
+      = f.label :self_motivated_characteristic, "Candidate self motivated description"
+      = f.text_field :self_motivated_characteristic
+      = f.label :compensation_last_job_one, "Candidate's previous compensation (1)"
+      = f.text_field :compensation_last_job_one
+      = f.label :compensation_last_job_two, "Candidate's previous compensation (2)"
+      = f.text_field :compensation_last_job_two
+      = f.label :compensation_last_job_three, "Candidate's previous compensation (3)"
+      = f.text_field :compensation_last_job_three
+      = f.label :compensation_seeking, "Pay rate sought"
+      = f.text_field :compensation_seeking
+      = f.label :hours_looking_to_work, "Hours per week looking to work"
+      = f.text_field :hours_looking_to_work
+      = hidden_field_tag 'extend_offer', 'true'
+      = f.fields_for @candidate do |denial|
+        - if @denial_reasons
+          - denial_reasons = options_from_collection_for_select(@denial_reasons, 'id', 'name')
+        - else
+          - denial_reasons = ''
+        = denial.label :candidate_denial_reason_id, 'IF NOT EXTENDING OFFER: Why was candidate denied'
+        = denial.select :candidate_denial_reason_id, denial_reasons, include_blank: true
+      = f.submit 'Extend offer', class: :button
+      %a.button(href="#" id="submit_do_not_extend_offer") Do not extend offer

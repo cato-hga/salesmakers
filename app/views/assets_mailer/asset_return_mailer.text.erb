@@ -1,0 +1,37 @@
+Please Return Your Company Asset
+
+<%= @person_name + ',' %>
+
+The asset(s) that you were issued will need to be returned to SalesMakers, Inc immediately, per the signed agreement. The assets that were assigned to you by SalesMakers, Inc are listed at the end of this email for your convenience.
+If you do not already have an RMA ("Return Merchandise Authorization") shipping label to return the asset(s), SalesMakers, Inc will provide you with one at our expense, but you must request the label by following the below instructions.
+
+Instructions
+
+Visit http://assetreturns.rbdconnect.com/.
+
+Fill in all required information and any applicable optional information.
+
+Please make sure you box up your asset(s) properly and protect them for shipment. For more information on properly packaging your item, see
+http://www.fedex.com/us/service-guide/our-services/package-shipment/.
+
+Include any accessories (charger, SD Card, etc.) in the same box.
+
+If you have any questions, please don't hesitate to email us.
+
+Best Regards,
+HR Assets Department
+SalesMakers, Inc
+assets@retaildoneright.com
+
+This is an automated message. Do not reply directly to this email, as it will not be seen. Direct all communication through
+assets@retaildoneright.com
+
+Assets On Record
+
+Information
+
+<% for device in @devices do %>
+Type: <%= device.device_model_name %>
+Serial: <%= device.serial %>
+PTN: <%= device.line.present? ? device.line.identifier : 'N/A' %>
+<% end %>

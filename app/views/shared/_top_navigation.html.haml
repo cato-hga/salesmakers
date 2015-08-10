@@ -1,0 +1,49 @@
+.sticky.fixed
+  %nav.top-bar.contain-to-grid.hide-for-medium-down{ data: { topbar: "", options: 'dropdown_autoclose: false' }, role: 'navigation' }
+    %ul.title-area
+      %li
+        %a= link_to image_tag('logo_nav.png', id: 'joyride-logo'), root_path
+    %section.top-bar-section
+      .left
+        %ul.left
+          = render 'top_navigation/people'
+          = render 'top_navigation/candidates'
+          - if Project.number_on_navigation_for_person(@current_person) > 1
+            %li.has-dropdown
+              %a{ href: '#' } Projects
+              %ul.dropdown
+                = render 'top_navigation/projects'
+          - else
+            = render 'top_navigation/projects'
+          - group_count = GroupMeGroupPolicy::Scope.new(@current_person, GroupMeGroup.all).resolve.count
+          - if group_count > 0
+            %li= link_to 'GroupMe Post', new_post_group_me_groups_path
+          %li= link_to 'Reports', report_queries_path
+          - if DevicePolicy.new(@current_person, Device.new).index? or |
+            AreaPolicy.new(@current_person, Area.new).index? or |
+            AreaTypePolicy.new(@current_person, AreaType.new).index? or |
+            DepartmentPolicy.new(@current_person, Department.new).index? or |
+            ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
+            LogEntryPolicy.new(@current_person, LogEntry.new).index? or |
+            LocationPolicy.new(@current_person, Location.new).index? or |
+            SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new).index? |
+            = render 'top_navigation/admin'
+      .right
+        = form_tag global_search_path, method: :get, class: [:inline_block, :left] do
+          .row
+            .large-12.columns
+              .row.collapse
+                .small-9.columns
+                  = text_field_tag :global_search, @global_search, placeholder: 'Search'
+                .small-3.columns
+                  = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
+        %ul.left
+          %li.has-dropdown#joyride-profile
+            = link_to @current_person.email, '#'
+            %ul.dropdown
+              %li
+                = link_to icon('x') + ' Sign Out', logout_path
+- if @staging
+  .staging_warning
+    %h3 You are on our feature and deployment testing server.
+    %p Your saved data will be occasionally erased, DocuSign paperwork will not be sent, and emails will not be sent.

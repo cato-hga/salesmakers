@@ -1,0 +1,9 @@
+Entered Comcast order
+- comcast_sale = log_entry.trackable
+= precede '#' do
+  = comcast_sale.order_number
+- comcast_customer = comcast_sale.comcast_customer
+for
+= comcast_customer_link(comcast_customer)
+in
+%span.comment= comcast_customer.location.name

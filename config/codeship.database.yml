@@ -1,0 +1,30 @@
+development:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  pool: 10
+  username: <%= ENV['PG_USER'] %>
+  template: template1
+  password: <%= ENV['PG_PASSWORD'] %>
+  database: development<%= ENV['TEST_ENV_NUMBER'] %>
+  port: 5432
+  sslmode: disable
+test:
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  pool: 10
+  username: <%= ENV['PG_USER'] %>
+  template: template1
+  password: <%= ENV['PG_PASSWORD'] %>
+  database: test<%= ENV['TEST_ENV_NUMBER'] %>
+  port: 5432
+  sslmode: disable
+rbd_connect_production:
+  adapter: postgresql
+  database: rbd_erp
+  host: rbdconnect.com
+  username: reconnect
+  password: r3C0nn3ct
+  pool: 5
+  encoding: unicode

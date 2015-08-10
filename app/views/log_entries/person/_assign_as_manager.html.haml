@@ -1,0 +1,17 @@
+- trackable = log_entry.trackable
+- referenceable = log_entry.referenceable
+- project = referenceable.project
+- comment = log_entry.comment
+.entry_type
+  Set as Manager of
+  = link_to referenceable.name, client_project_area_path(project.client, project, referenceable)
+  .time_ago
+    = time_ago_in_words(log_entry.created_at) + ' ago'
+.entry_pertains_to= person_link trackable
+by
+= person_link log_entry.person
+- if comment.present? and not comment.blank?
+  with comment
+  %span.comment
+    = surround '"', '"' do
+      = comment

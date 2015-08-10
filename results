@@ -1,0 +1,451 @@
+/home/lumination/.rvm/rubies/ruby-2.1.2/bin/ruby -I/home/lumination/.rvm/gems/ruby-2.1.2/gems/rspec-core-3.1.7/lib:/home/lumination/.rvm/gems/ruby-2.1.2/gems/rspec-support-3.1.2/lib /home/lumination/.rvm/gems/ruby-2.1.2/gems/rspec-core-3.1.7/exe/rspec --pattern spec/\*\*\{,/\*/\*\*\}/\*_spec.rb
+.........****......................................................................................*.............................................*...........................................................**...*.*.........................F...FFFFF.....................................FF......F.F..........................******..........FF......FF*.....FFF.............*...................................*.F...F.FF..............F........................................................................................................................*...**...............*.......................................................*...................................F.............................................................................................................................
+
+Pending:
+  GroupMe API Message #has_image? should return true if a message has attachments of type image
+    # Not yet implemented
+    # ./spec/apis/groupme_spec.rb:67
+  GroupMe API Message #text 
+    # Not yet implemented
+    # ./spec/apis/groupme_spec.rb:71
+  GroupMe API Message #created_at should return the created_at attribute
+    # Not yet implemented
+    # ./spec/apis/groupme_spec.rb:75
+  GroupMe API Message #<=> other 
+    # Not yet implemented
+    # ./spec/apis/groupme_spec.rb:79
+  DevicesController POST create multiple devices success assigns the correct line to the correct device
+    # Not yet implemented
+    # ./spec/controllers/devices_controller_spec.rb:70
+  LinesController POST create success (valid data) should assign the Active line_state
+    # Not yet implemented
+    # ./spec/controllers/lines_controller_spec.rb:48
+  ProfileExperiencesController DELETE destroy failure should not destroy a profile education record
+    # Not yet implemented
+    # ./spec/controllers/profile_experiences_controller_spec.rb:95
+  ProfileExperiencesController DELETE destroy failure should flash an error message
+    # Not yet implemented
+    # ./spec/controllers/profile_experiences_controller_spec.rb:96
+  ProjectsController GET show failure (no wall) should return an error and redirect to :back
+    # Not yet implemented
+    # ./spec/controllers/projects_controller_spec.rb:24
+  ProjectsController GET sales failure should return an error and redirect to :back
+    # Not yet implemented
+    # ./spec/controllers/projects_controller_spec.rb:40
+  Devices CRUD actions GET show for deployed devices should have the name of who the asset is deployed to
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:93
+  Devices CRUD actions GET show for deployed devices should have the name of who deployed the asset
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:94
+  Devices CRUD actions GET show for devices with a line attached should have the devices line
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:98
+  Devices CRUD actions GET show for devices with a line attached should have the devices line_state
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:99
+  Devices CRUD actions GET show for devices with a line attached should have the devices provider image
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:100
+  Devices CRUD actions GET show for devices without a line attached should display "None" for the line
+    # Not yet implemented
+    # ./spec/features/devices/devices_crud_spec.rb:104
+  Line Addition for multiple lines row deletion deletes the row
+    # Not yet implemented
+    # ./spec/features/lines/line_addition_spec.rb:68
+  Front-end poll question behavior without an answer from the current person accepts an answer and displays results
+    # js: true does not work as expected
+    # ./spec/features/poll_questions/poll_question_front_end_spec.rb:14
+  ApplicationHelper displays a sales chart for last month
+    # groupdate gem is complaining
+    # ./spec/helpers/application_helper_spec.rb:354
+  GroupMeGroup.update_group should generate group_json and pass off to .update_group_via_json
+    # Not yet implemented
+    # ./spec/models/group_me_group_spec.rb:13
+  GroupMeGroup.update_groups should update multiple groups
+    # Not yet implemented
+    # ./spec/models/group_me_group_spec.rb:69
+  GroupMeGroup.update_bots 
+    # Not yet implemented
+    # ./spec/models/group_me_group_spec.rb:73
+  GroupMeUser.return_group_me_user should find the Person by their group_me_user_id
+    # Not yet implemented
+    # ./spec/models/group_me_user_spec.rb:34
+  Person#termination_date_invalid? should return true if (what?)
+    # Not yet implemented
+    # ./spec/models/person_spec.rb:155
+
+Failures:
+
+  1) Asset Receiving end-to-end operations for single devices success should accept a single asset with multiple (blank) rows
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_j10950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:47:in `block (5 levels) in <top (required)>'
+
+  2) Asset Receiving end-to-end operations for multiple devices row addition success should add additional lines
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_x10950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:104:in `block (5 levels) in <top (required)>'
+
+  3) Asset Receiving end-to-end operations for multiple devices row addition success should change the Add button to Delete for all but the last row
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_a10950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:104:in `block (5 levels) in <top (required)>'
+
+  4) Asset Receiving end-to-end operations for multiple devices device addition success receives multiple assets
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_I10950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:129:in `block (5 levels) in <top (required)>'
+     # ./spec/features/asset_receiving_spec.rb:143:in `block (5 levels) in <top (required)>'
+
+  5) Asset Receiving end-to-end operations for multiple devices device addition success creates all lines
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_z10950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:129:in `block (5 levels) in <top (required)>'
+     # ./spec/features/asset_receiving_spec.rb:150:in `block (5 levels) in <top (required)>'
+
+  6) Asset Receiving end-to-end operations for multiple devices row deletion deletes the row
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_new']/div[3]/div/div[2]/section[@id='content']/form/div[2]/div/div[@id='assets']/div/div[3]/a because of overlapping element /html/body[@id='action_devices_new']/div[3]/aside[@id='chat_aside'] at position 58, 803; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_ha0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/asset_receiving_spec.rb:164:in `block (5 levels) in <top (required)>'
+
+  7) DeviceStates CRUD actions for destroying destroys a device state
+     Failure/Error: click_on device_state.name
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_device_states_index']/div[3]/div/div[2]/section[@id='content']/section/table/tbody/tr/td/a because of overlapping element /html/body[@id='action_device_states_index']/div[3]/aside[@id='chat_aside'] at position 50, 864; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_sa0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/device_states_crud_spec.rb:83:in `block (3 levels) in <top (required)>'
+     # ./spec/features/device_states_crud_spec.rb:91:in `block (3 levels) in <top (required)>'
+
+  8) DeviceStates CRUD actions for destroying destroys each association of a device with a destroyed device state
+     Failure/Error: click_on device_state.name
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_device_states_index']/div[3]/div/div[2]/section[@id='content']/section/table/tbody/tr/td/a because of overlapping element /html/body[@id='action_device_states_index']/div[3]/aside[@id='chat_aside'] at position 50, 864; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Da0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/device_states_crud_spec.rb:83:in `block (3 levels) in <top (required)>'
+     # ./spec/features/device_states_crud_spec.rb:98:in `block (3 levels) in <top (required)>'
+
+  9) Devices NON-CRUD actions lost/stolen when reporting lost or stolen reports it lost or stolen
+     Failure/Error: click_on 'Lost/Stolen'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_show']/div[3]/div/div[@id='main_container']/header/h1/a[4] because of overlapping element /html/body[@id='action_devices_show']/div[3]/aside[@id='chat_aside'] at position 601, 998; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Ja0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/devices/devices_actions_spec.rb:60:in `block (5 levels) in <top (required)>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:285:in `within'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/devices/devices_actions_spec.rb:59:in `block (4 levels) in <top (required)>'
+     # ./spec/features/devices/devices_actions_spec.rb:69:in `block (4 levels) in <top (required)>'
+
+  10) Devices NON-CRUD actions lost/stolen when reporting found reports as found
+     Failure/Error: click_on 'Found'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_show']/div[3]/div/div[@id='main_container']/header/h1/a[5] because of overlapping element /html/body[@id='action_devices_show']/div[3]/aside[@id='chat_aside'] at position 651, 998; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Pa0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/devices/devices_actions_spec.rb:83:in `block (5 levels) in <top (required)>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:285:in `within'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/devices/devices_actions_spec.rb:82:in `block (4 levels) in <top (required)>'
+     # ./spec/features/devices/devices_actions_spec.rb:92:in `block (4 levels) in <top (required)>'
+
+  11) LineStates CRUD actions for destroying destroys a line state
+     Failure/Error: click_on line_state.name
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_line_states_index']/div[3]/div/div[2]/section[@id='content']/section/table/tbody/tr/td/a because of overlapping element /html/body[@id='action_line_states_index']/div[3]/aside[@id='chat_aside'] at position 66, 864; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_ab0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/line_states_crud_spec.rb:83:in `block (3 levels) in <top (required)>'
+     # ./spec/features/line_states_crud_spec.rb:91:in `block (3 levels) in <top (required)>'
+
+  12) LineStates CRUD actions for destroying destroys each association of a line with a destroyed line state
+     Failure/Error: click_on line_state.name
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_line_states_index']/div[3]/div/div[2]/section[@id='content']/section/table/tbody/tr/td/a because of overlapping element /html/body[@id='action_line_states_index']/div[3]/aside[@id='chat_aside'] at position 66, 864; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_lb0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/line_states_crud_spec.rb:83:in `block (3 levels) in <top (required)>'
+     # ./spec/features/line_states_crud_spec.rb:98:in `block (3 levels) in <top (required)>'
+
+  13) Line Addition for multiple lines row addition should add additional lines
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_lines_new']/div[3]/div/div[2]/section[@id='content']/form[@id='new_line']/div[2]/div/div[@id='lines']/div/div[2]/a because of overlapping element /html/body[@id='action_lines_new']/div[3]/aside[@id='chat_aside'] at position 58, 786; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_qb0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/line_addition_spec.rb:50:in `block (4 levels) in <top (required)>'
+
+  14) Line Addition for multiple lines row addition should change the Add button to Delete for all but the last row
+     Failure/Error: click_on 'Add'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_lines_new']/div[3]/div/div[2]/section[@id='content']/form[@id='new_line']/div[2]/div/div[@id='lines']/div/div[2]/a because of overlapping element /html/body[@id='action_lines_new']/div[3]/aside[@id='chat_aside'] at position 58, 786; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_vb0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/line_addition_spec.rb:50:in `block (4 levels) in <top (required)>'
+
+  15) actions on Lines for deactivation deactivates a line
+     Failure/Error: click_on 'Deactivate'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_lines_show']/div[3]/div/div[@id='main_container']/header/h1/a because of overlapping element /html/body[@id='action_lines_show']/div[3]/aside[@id='chat_aside'] at position 294, 998; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Db0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:66:in `block (4 levels) in <top (required)>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:285:in `within'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:65:in `block (3 levels) in <top (required)>'
+     # ./spec/features/lines/lines_actions_spec.rb:71:in `block (3 levels) in <top (required)>'
+
+  16) actions on Lines for deactivation detaches a line from a device
+     Failure/Error: click_on 'Deactivate'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_lines_show']/div[3]/div/div[@id='main_container']/header/h1/a because of overlapping element /html/body[@id='action_lines_show']/div[3]/aside[@id='chat_aside'] at position 294, 998; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Lb0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:66:in `block (4 levels) in <top (required)>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:285:in `within'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:65:in `block (3 levels) in <top (required)>'
+     # ./spec/features/lines/lines_actions_spec.rb:77:in `block (3 levels) in <top (required)>'
+
+  17) actions on Lines for deactivation from device#show deactivates and detaches the line
+     Failure/Error: click_on 'Deactivate'
+     Capybara::Webkit::ClickFailed:
+       Failed to click element /html/body[@id='action_devices_show']/div[3]/div/div[2]/section[@id='content']/div[2]/div[1]/div/p[@id='line']/a[2] because of overlapping element /html/body[@id='action_devices_show']/div[3]/aside[@id='chat_aside'] at position 311, 932; 
+       A screenshot of the page at the time of the failure has been written to /tmp/click_failed_Qb0950.png
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:275:in `check'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/browser.rb:208:in `command'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:129:in `invoke'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-webkit-1.3.1/lib/capybara/webkit/node.rb:59:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `block in click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/base.rb:84:in `synchronize'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/element.rb:133:in `click'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/node/actions.rb:13:in `click_link_or_button'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:676:in `block (2 levels) in <class:Session>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:87:in `block (5 levels) in <top (required)>'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/session.rb:285:in `within'
+     # /home/lumination/.rvm/gems/ruby-2.1.2/gems/capybara-2.4.4/lib/capybara/dsl.rb:51:in `block (2 levels) in <module:DSL>'
+     # ./spec/features/lines/lines_actions_spec.rb:86:in `block (4 levels) in <top (required)>'
+
+  18) ApplicationHelper link display methods displays a link to an area
+     Failure/Error: expect(link_markup).to have_selector(expected_selector)
+       expected to find css "a[href=\"/clients/19/projects/15/areas/10\"]" but there were no matches
+     # ./spec/helpers/application_helper_spec.rb:45:in `block (3 levels) in <top (required)>'
+
+  19) ApplicationHelper link display methods displays a link to a person
+     Failure/Error: expect(link_markup).to have_selector(expected_selector)
+       expected to find css "a[href=\"/people/131/about\"]" but there were no matches
+     # ./spec/helpers/application_helper_spec.rb:81:in `block (3 levels) in <top (required)>'
+
+  20) ApplicationHelper link display methods displays a link to a person's sales
+     Failure/Error: expect(link_markup).to have_selector(expected_selector)
+       expected to find css "a[href=\"/people/131/sales\"]" but there were no matches
+     # ./spec/helpers/application_helper_spec.rb:98:in `block (3 levels) in <top (required)>'
+
+  21) ApplicationHelper link display methods displays a link to an area's sales
+     Failure/Error: expect(link_markup).to have_selector(expected_selector)
+       expected to find css "a[href=\"/clients/21/projects/17/areas/11/sales\"]" but there were no matches
+     # ./spec/helpers/application_helper_spec.rb:110:in `block (3 levels) in <top (required)>'
+
+  22) ApplicationHelper log entries display in full form
+     Failure/Error: expect(markup).to have_selector(expected_selector)
+       expected to find css "a[href=\"/people/138/about\"]" but there were no matches
+     # ./spec/helpers/application_helper_spec.rb:252:in `block (3 levels) in <top (required)>'
+
+  23) Position should have many permissions
+     Failure/Error: it { should have_many(:permissions) }
+       Expected Position to have a has_many association called permissions (actual association type was has_and_belongs_to_many)
+     # ./spec/models/position_spec.rb:8:in `block (2 levels) in <top (required)>'
+
+Finished in 5 minutes 7 seconds (files took 25.5 seconds to load)
+789 examples, 23 failures, 24 pending
+
+Failed examples:
+
+rspec ./spec/features/asset_receiving_spec.rb:40 # Asset Receiving end-to-end operations for single devices success should accept a single asset with multiple (blank) rows
+rspec ./spec/features/asset_receiving_spec.rb:107 # Asset Receiving end-to-end operations for multiple devices row addition success should add additional lines
+rspec ./spec/features/asset_receiving_spec.rb:111 # Asset Receiving end-to-end operations for multiple devices row addition success should change the Add button to Delete for all but the last row
+rspec ./spec/features/asset_receiving_spec.rb:142 # Asset Receiving end-to-end operations for multiple devices device addition success receives multiple assets
+rspec ./spec/features/asset_receiving_spec.rb:149 # Asset Receiving end-to-end operations for multiple devices device addition success creates all lines
+rspec ./spec/features/asset_receiving_spec.rb:166 # Asset Receiving end-to-end operations for multiple devices row deletion deletes the row
+rspec ./spec/features/device_states_crud_spec.rb:90 # DeviceStates CRUD actions for destroying destroys a device state
+rspec ./spec/features/device_states_crud_spec.rb:96 # DeviceStates CRUD actions for destroying destroys each association of a device with a destroyed device state
+rspec ./spec/features/devices/devices_actions_spec.rb:68 # Devices NON-CRUD actions lost/stolen when reporting lost or stolen reports it lost or stolen
+rspec ./spec/features/devices/devices_actions_spec.rb:91 # Devices NON-CRUD actions lost/stolen when reporting found reports as found
+rspec ./spec/features/line_states_crud_spec.rb:90 # LineStates CRUD actions for destroying destroys a line state
+rspec ./spec/features/line_states_crud_spec.rb:96 # LineStates CRUD actions for destroying destroys each association of a line with a destroyed line state
+rspec ./spec/features/lines/line_addition_spec.rb:53 # Line Addition for multiple lines row addition should add additional lines
+rspec ./spec/features/lines/line_addition_spec.rb:57 # Line Addition for multiple lines row addition should change the Add button to Delete for all but the last row
+rspec ./spec/features/lines/lines_actions_spec.rb:70 # actions on Lines for deactivation deactivates a line
+rspec ./spec/features/lines/lines_actions_spec.rb:76 # actions on Lines for deactivation detaches a line from a device
+rspec ./spec/features/lines/lines_actions_spec.rb:83 # actions on Lines for deactivation from device#show deactivates and detaches the line
+rspec ./spec/helpers/application_helper_spec.rb:37 # ApplicationHelper link display methods displays a link to an area
+rspec ./spec/helpers/application_helper_spec.rb:77 # ApplicationHelper link display methods displays a link to a person
+rspec ./spec/helpers/application_helper_spec.rb:92 # ApplicationHelper link display methods displays a link to a person's sales
+rspec ./spec/helpers/application_helper_spec.rb:102 # ApplicationHelper link display methods displays a link to an area's sales
+rspec ./spec/helpers/application_helper_spec.rb:247 # ApplicationHelper log entries display in full form
+rspec ./spec/models/position_spec.rb:8 # Position should have many permissions

@@ -1,0 +1,9 @@
+%h3
+  Sales
+  %span.small.comment This month
+#saleschart
+  - if @person
+    = this_month_person_sales_chart @person
+  - else
+    = this_month_sales_chart
+

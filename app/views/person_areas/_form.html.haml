@@ -1,0 +1,23 @@
+= form_for [@person, @person_area] do |f|
+
+  - if @person_area.errors.any?
+    - @person_area.errors.full_messages.each do |msg|
+      .alert.alert-box= msg
+
+  .widgets
+    - for project in @projects do
+      .widget
+        .inner
+          %h3
+            = project.name
+            Areas
+          - for area in project.areas.order(:name) do
+            = f.radio_button :area_id, area.id
+            = area.name
+            %br/
+  .widget
+    .inner
+      %p
+        = f.check_box :manages
+        This person manages the selected area
+      = f.submit 'Save', class: [:button]

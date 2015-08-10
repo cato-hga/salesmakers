@@ -1,0 +1,32 @@
+= mailer_h1 'Your Interview'
+
+%p We're excited to have you interview with us! Here are your interview details:
+
+%p= 'Interview Date: ' + long_date(@schedule.interview_date)
+%p= 'Interview Time: ' + @schedule.start_time.in_time_zone.strftime('%l:%M %p %Z')
+
+= mailer_h2 'Online Interview Details'
+
+%p This will be a web-based interview and will require access to the following:
+%ul
+  %li A PC, Mac, iOS, or Android device with a webcam and microphone
+  %li Broadband / High Speed Internet access. Satellite and dial up internet is not supported
+  %li
+    If using a PC or Mac, you will need to use Google Chrome (available for download at
+    = link_to 'google.com/chrome', 'http://www.google.com/chrome/'
+    )
+  %li
+    If using an iOS or Android device, please download the
+    %strong LifeSize Cloud Application
+  %ul
+    %li= link_to 'LifeSize Cloud for IOS', 'https://itunes.apple.com/us/app/lifesize-cloud/id854663434'
+    %li= link_to 'LifeSize Cloud for Android', 'https://play.google.com/store/apps/details?id=com.mirial.lifesizecloud'
+
+%p To start the interview, follow the instructions below:
+%ul
+  %li
+    If using Chrome,
+    = link_to 'CLICK HERE', 'http://client.lifesizecloud.com/#/call'
+    and follow the prompts to allow access to your Camera and Mic. When prompted, enter your name.
+  %li If using the iOS or Android apps, launch the application.
+  %li= "Dial #{@cloud_room} and press the call button"

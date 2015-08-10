@@ -1,0 +1,29 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.scss.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import 'swiper';
+@import 'swiper.3dflow';
+@import 'variables';
+@import 'magnific';
+
+#image_gallery_widget {
+	img {
+		margin: .1em;
+		border: 5px solid #ccc;
+		max-height: 100px;
+	}
+}
+
+#jobs {
+	a {
+		margin: $spacing !important;
+		display: block;
+	}
+}
+
+#poll {
+	input[type=checkbox] {
+		margin-right: $spacing;
+	}
+}

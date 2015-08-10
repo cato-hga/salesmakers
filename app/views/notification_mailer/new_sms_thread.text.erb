@@ -1,0 +1,21 @@
+<% from_person = @sms_message.from_person %>
+<% from_candidate = @sms_message.from_candidate %>
+
+New Text Message Thread Started
+
+<% if from_person %>
+<%= from_person.display_name %>
+<% elsif from_candidate %>
+<%= from_candidate.name %>
+<% else %>
+<%= @sms_message.from_num %>
+has just sent a text message that appears to have started a new thread:
+<% end %>
+
+"<%= @sms_message.message %>"
+
+<% if from_person %>
+Visit this address to reply: <%= new_sms_message_person_url(from_person) %>
+<% elsif from_candidate %>
+Visit this address to reply: <%= new_sms_message_candidate_url(from_candidate) %>
+<% end %>

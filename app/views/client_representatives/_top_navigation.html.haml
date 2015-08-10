@@ -1,0 +1,22 @@
+.sticky.fixed
+  %nav.top-bar.contain-to-grid.hide-for-medium-down{ data: { topbar: "" } }
+    %ul.title-area
+      %li
+        %a= link_to image_tag('logo_nav.png', id: 'joyride-logo'), root_path
+    %section.top-bar-section
+      %ul.left
+        - if WorkmarketAssignmentPolicy.new(current_client_rep, WorkmarketAssignment.new).index?
+          %li
+            = link_to 'Assignments', client_access_worker_assignments_path
+      .right
+        - if current_client_rep
+          %ul.left
+            %li.has-dropdown
+              = link_to current_client_rep.email, '#'
+              %ul.dropdown
+                %li
+                  = link_to icon('x') + ' Sign Out', destroy_session_client_representatives_path, method: :delete
+- if @staging
+  .staging_warning
+    %h3 You are on our feature and deployment testing server.
+    %p Your saved data will be occasionally erased, DocuSign paperwork will not be sent, and emails will not be sent.

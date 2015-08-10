@@ -1,0 +1,31 @@
+= mailer_h1 'Asset Deployed'
+
+- line = @device.line
+
+%p
+  Your company-issued device has just been deployed!
+
+= mailer_h2 'Device Details'
+%table{ style: "width: 100% "}
+  %tr
+    %td
+      %strong
+        %u Type
+    %td
+      %strong
+        %u Serial/Dec
+    - if line
+      %td
+        %strong
+          %u Line
+  %tr
+    %td= @device.device_model_name
+    %td= @device.serial
+    - if line
+      %td= line.identifier
+
+%p
+  You should receive a phone call from FedEx once the device arrives and is ready to be picked up.
+  - if @device_deployment.tracking_number
+    In the meantime, you can click the following tracking number to track your package:
+    = tracking_link @device_deployment.tracking_number

@@ -1,0 +1,62 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://AC96a051482517673481ee177d64d52bcf:806dd03205d48972b9837da98ccf0348@api.twilio.com/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages.json
+    body:
+      encoding: US-ASCII
+      string: To=%2B18635214572&From=%2B17272286225&Body=This+is+a+test+message
+    headers:
+      Accept:
+      - application/json
+      Accept-Charset:
+      - utf-8
+      User-Agent:
+      - twilio-ruby/4.2.1 (ruby/x86_64-linux 2.2.0-p0)
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 201
+      message: CREATED
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - Accept, Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match,
+        If-Unmodified-Since
+      Access-Control-Allow-Methods:
+      - GET, POST, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - ETag
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Mon, 03 Aug 2015 12:38:51 GMT
+      Strict-Transport-Security:
+      - max-age=15768000
+      X-Powered-By:
+      - AT-5000
+      X-Shenanigans:
+      - none
+      Content-Length:
+      - '755'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"sid": "SMe34ee8612ccd4ed6bcbd0b70f57d145b", "date_created": "Mon,
+        03 Aug 2015 12:38:51 +0000", "date_updated": "Mon, 03 Aug 2015 12:38:51 +0000",
+        "date_sent": null, "account_sid": "AC96a051482517673481ee177d64d52bcf", "to":
+        "+18635214572", "from": "+17272286225", "body": "This is a test message",
+        "status": "queued", "num_segments": "1", "num_media": "0", "direction": "outbound-api",
+        "api_version": "2010-04-01", "price": null, "price_unit": "USD", "error_code":
+        null, "error_message": null, "uri": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMe34ee8612ccd4ed6bcbd0b70f57d145b.json",
+        "subresource_uris": {"media": "/2010-04-01/Accounts/AC96a051482517673481ee177d64d52bcf/Messages/SMe34ee8612ccd4ed6bcbd0b70f57d145b/Media.json"}}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:38:52 GMT
+recorded_with: VCR 2.9.3

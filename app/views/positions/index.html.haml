@@ -1,0 +1,16 @@
+- title @department.name + ' Positions'
+
+%section
+  - header = header_row ['Name','Leader?','All Field Visibility?','All Corporate Visibility?']
+  - rows = Array.new
+  - for position in @positions do
+    - if PositionPolicy.new(@current_person, Position.new).update?
+      - position_name = link_to position.name, edit_permissions_department_position_path(position.department, position)
+    - else
+      - position_name = position.name
+    - leadership = position.leadership? ? 'Yes' : 'No'
+    - all_field = position.all_field_visibility? ? 'Yes' : 'No'
+    - all_corporate_visibility = position.all_corporate_visibility? ? 'Yes' : 'No'
+
+    - rows << table_row([position_name,leadership, all_field, all_corporate_visibility])
+  = table header, rows

@@ -1,0 +1,33 @@
+- title 'GroupMe Account Sync'
+
+.widget
+  .inner
+    .group_me_login
+      %h3 We're expanding our GroupMe integrations at SalesMakers!
+
+      %p We're planning on introducing features such as automatic group management, posting more stats and info from SalesCenter and much more.
+
+      %p
+        %strong However, to do this, we need to make sure that everyone's SalesCenter account has been synced to GroupMe.
+
+      %h4 What this syncing will allow us to do:
+      %ul
+        %li Move you to a different group if you move projects/territories or we realign
+        %li Enable our management and Support teams to post directly from SalesCenter
+        %li Allow for direct messages to you from SalesCenter
+        %li
+          Allow you to post messages
+          %strong as you
+          from SalesCenter
+        %li ...and much more is planned!
+
+      %h4 What we will NOT be doing with this sync is:
+      %ul
+        %li View, manage, or log any personal groups you may be in
+        %li Manage any aspect of your account, other than which SalesMakers-owned groups you are in
+        %li Read or access any personal information related to your GroupMe posts
+        %li Post messages as you without your consent
+
+      %p To sync your SalesCenter account with your GroupMe account, click the "Log in with GroupMe" button below, and sign in with your GroupMe information. That's it!
+
+      = link_to 'Log in with GroupMe', auth_group_mes_path, class: :button

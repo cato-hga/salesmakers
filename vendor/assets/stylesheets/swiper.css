@@ -1,0 +1,189 @@
+/* ===============================================================
+Basic Swiper Styles
+================================================================*/
+.swiper-container {
+  margin:0 auto;
+  position:relative;
+  overflow:hidden;
+  -webkit-backface-visibility:hidden;
+  -moz-backface-visibility:hidden;
+  -ms-backface-visibility:hidden;
+  -o-backface-visibility:hidden;
+  backface-visibility:hidden;
+  /* Fix of Webkit flickering */
+  z-index:1;
+}
+.swiper-wrapper {
+  position:relative;
+  width:100%;
+  -webkit-transition-property:-webkit-transform, left, top;
+  -webkit-transition-duration:0s;
+  -webkit-transform:translate3d(0px,0,0);
+  -webkit-transition-timing-function:ease;
+
+  -moz-transition-property:-moz-transform, left, top;
+  -moz-transition-duration:0s;
+  -moz-transform:translate3d(0px,0,0);
+  -moz-transition-timing-function:ease;
+
+  -o-transition-property:-o-transform, left, top;
+  -o-transition-duration:0s;
+  -o-transform:translate3d(0px,0,0);
+  -o-transition-timing-function:ease;
+  -o-transform:translate(0px,0px);
+
+  -ms-transition-property:-ms-transform, left, top;
+  -ms-transition-duration:0s;
+  -ms-transform:translate3d(0px,0,0);
+  -ms-transition-timing-function:ease;
+
+  transition-property:transform, left, top;
+  transition-duration:0s;
+  transform:translate3d(0px,0,0);
+  transition-timing-function:ease;
+
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+
+}
+.swiper-free-mode > .swiper-wrapper {
+  -webkit-transition-timing-function: ease-out;
+  -moz-transition-timing-function: ease-out;
+  -ms-transition-timing-function: ease-out;
+  -o-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  margin: 0 auto;
+}
+.swiper-slide {
+  float: left;
+}
+
+/* IE10 Windows Phone 8 Fixes */
+.swiper-wp8-horizontal {
+  -ms-touch-action: pan-y;
+}
+.swiper-wp8-vertical {
+  -ms-touch-action: pan-x;
+}
+
+/* ===============================================================
+Your custom styles, here you need to specify container's and slide's
+sizes, pagination, etc.
+================================================================*/
+.swiper-container,
+.swiper-placeholder {
+    min-height: 15em;
+}
+
+.swiper-container {
+    text-align: left;
+    padding: 0.5em 0;
+
+}
+
+.swiper-placeholder {
+    width: 100%;
+    text-align: center;
+}
+
+.swiper-placeholder img.loading {
+    margin-top: 19px;
+    margin-bottom: -7.5em;
+}
+
+.swiper-slide {
+    padding: 0 1em 0;
+    /*background-color: #fff;*/
+    color: black;
+    /*-moz-border-radius: 1em;*/
+    /*border-radius: 1em;*/
+    box-shadow: 2px 2px 2px #bbb;
+    background: #ffffff; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ffffff), color-stop(94%, #eaeaea), color-stop(100%, #dddddd)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center, #ffffff 0%, #eaeaea 94%, #dddddd 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', GradientType=1); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.swiper-slide a {
+    color: #d62121;
+}
+
+.swiper-slide .post {
+    font-size: 0.9em;
+}
+
+.swiper-slide .post img {
+    max-height: 13em;
+    float: left;
+    margin-right: 4%;
+    vertical-align: top;
+    max-width: 48%;
+}
+
+.swiper-slide .img_text {
+    max-width: 48%;
+    float: right;
+}
+
+.swiper-slide .author {
+    font-size: 0.8em;
+}
+
+.swiper-slide .actions {
+    margin-top: .5em;
+    font-size: 0.8em;
+}
+
+.swiper-slide .inner {
+    width: 100%;
+    -moz-border-radius: 1em;
+    padding: 1em;
+    min-height: 15em;
+}
+
+.swiper-slide .slide {
+    min-height: 15em;
+}
+.swiper-slide-active {
+    /*border: 1px dotted #d62121;
+    #border-left: 1px dotted #d62121;*/
+    background: white;
+    color: black;
+    box-shadow: 2px 2px 2px #bbb;
+    height: 14.75em;
+
+}
+
+.swiper-slide .avatar {
+    max-height: 5rem;
+    max-width: 5rem;
+    border: 0.25rem solid #ccc;
+    margin-right: 1em;
+    float: right;
+}
+
+.swiper-slide-visible {
+  /* Specific visible slide styling: */
+
+}
+/* ===============================================================
+Pagination Styles
+================================================================*/
+.swiper-pagination-switch {
+  /* Stylize pagination button: */
+
+}
+.swiper-active-switch {
+  /* Specific active button style: */
+
+}
+.swiper-visible-switch {
+  /* Specific visible button style: */
+
+}

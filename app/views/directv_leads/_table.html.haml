@@ -1,0 +1,17 @@
+- header = header_row ['F/U By', 'Rep', 'Name', 'Saved', 'Phone']
+
+- rows = Array.new
+- for lead in leads do
+  - classes = lead.active? ? nil : [:inactive]
+  - follow_up_by = short_date(lead.follow_up_by)
+  - rep = person_link(lead.directv_customer.person)
+  - name = directv_customer_link lead.directv_customer, classes
+  - saved = friendly_datetime(lead.created_at)
+  - mobile_phone = phone_link(lead.mobile_phone, classes)
+  - other_phone = phone_link(lead.other_phone, classes)
+  - phone = ''.html_safe
+  - phone += 'm '.html_safe + mobile_phone if mobile_phone
+  - phone += "<br>".html_safe if mobile_phone and other_phone
+  - phone += 'o '.html_safe + other_phone if other_phone
+  - rows << table_row([follow_up_by, rep, name, saved, phone])
+= table(header, rows)

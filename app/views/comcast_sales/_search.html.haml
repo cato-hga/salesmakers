@@ -1,0 +1,18 @@
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :comcast_install_appointment_install_date_gteq, placeholder: 'Inst. on/after'
+    = f.text_field :comcast_install_appointment_install_date_lteq, placeholder: 'Inst. on/before'
+    = f.text_field :person_display_name_cont, placeholder: 'Rep Name'
+    = f.text_field :order_date_gteq, placeholder: 'Sold on/after'
+    = f.text_field :order_date_lteq, placeholder: 'Sold on/before'
+    = f.text_field :comcast_customer_first_name_cont, placeholder: 'Cust. first name'
+    = f.text_field :comcast_customer_last_name_cont, placeholder: 'Cust. last name'
+    = f.text_field :order_number_cont, placeholder: 'Order #'
+    = f.submit 'search', class: 'button'
+  - if @devices
+    .top-pagination
+      = paginate @devices

@@ -1,0 +1,75 @@
+.row.full-width
+  .large-6.columns.widget
+    .inner
+      %h2
+        My Reports
+        %a= link_to icon('plus') + ' New', new_report_path, class:[:button,:inline_button,:rounded]
+      .neutral.rounded.padded.full-width
+        = link_to 'Team Performance over Month', '#'
+        .small.comment Shows all team members sales and HPS over the last month
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Punchclock Integrity over last week', '#'
+        .small.comment PI trends over last 7 days
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'HPS Comparison - Last 3 weeks', '#'
+        .small.comment HPS by rep, by week for 3 weeks
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Unused Gift Cards - By rep', '#'
+        .small.comment Current unused gift cards per rep
+  .large-6.columns.widget
+    .inner
+      %h2 Shared Reports
+      .neutral.rounded.padded.full-width
+        = link_to 'Store Performance YTD - Market', '#'
+        .small.comment Store performance from Jan 1st, across the market
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Last Month Billable Hours by Team', '#'
+        .small.comment BH for each team in market for previous month
+.row.full-width
+  .large-12.columns
+    %h2 Prepared Reports
+.row.full-width
+  .large-4.columns.widget
+    .inner
+      %h3 Hours Reports
+      .neutral.rounded.padded.full-width
+        = link_to 'Hours Detail', '#'
+        .small.comment Detail list of shifts per rep
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Hours Totals by Rep', '#'
+        .small.comment Total number of hours by rep
+  .large-4.columns.widget
+    .inner
+      %h3 Sales Reports
+      .neutral.rounded.padded.full-width
+        = link_to 'Sales Detail', '#'
+        .small.comment Detailed Sales records
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Sales Totals by Rep', '#'
+        .small.comment Total number of sales per rep
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Sales Totals by Location', '#'
+        .small.comment Total number of sales per location
+  .large-4.columns.widget
+    .inner
+      %h3 Combined Reports
+      .neutral.rounded.padded.full-width
+        = link_to 'Hours, Sales, and HPS by Rep', '#'
+        .small.comment Hours and sales info per rep
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Hours, Sales, and HPS by Location', '#'
+        .small.comment Hours and sales info per location
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Estimated Check Stub', '#'
+        .small.comment Estimated Commission payout
+.row.full-width
+  .large-4.columns.widget
+    .inner
+      %h3 Misc. Reports
+      .neutral.rounded.padded.full-width
+        = link_to 'Current Inventory Detail', '#'
+        .small.comment Current Inventory
+      .neutral.rounded.padded.full-width.vertical_space
+        = link_to 'Gift Card Detail', '#'
+        .small.comment Gift Card status
+

@@ -1,0 +1,25 @@
+= form_for @changelog_entry do |f|
+  - if @changelog_entry.errors.any?
+    - @changelog_entry.errors.full_messages.each do |msg|
+      .alert.alert-box= msg
+  = f.label :heading
+  = f.text_field :heading
+  = f.label :description
+  = f.text_area :description
+  = f.label :released
+  = f.text_field :released, placeholder: 'MM/DD/YYYY H:MM am/pm'
+  = f.label :department_id
+  = f.select :department_id, |
+    options_from_collection_for_select(Department.all, :id, :name), |
+    include_blank: true |
+  = f.label :project_id
+  = f.select :project_id, |
+    options_from_collection_for_select(Project.all, :id, :name), |
+    include_blank: true |
+  = f.check_box :all_hq
+  = f.label :all_hq, 'All HQ?'
+  .clearfix
+  = f.check_box :all_field
+  = f.label :all_field, 'All field?'
+  .clearfix
+  = f.submit 'Save', class: [:button]

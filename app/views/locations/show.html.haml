@@ -1,0 +1,120 @@
+- title @location.name
+
+.widgets
+  .widget
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Channel:
+        = @location.channel.name
+      - if @location.street_1
+        %p
+          %strong Address:
+          %br/
+          = @location.street_1
+          %br/
+          - if @location.street_2
+            = @location.street_2
+            %br/
+          - if @location.city and @location.state
+            - zip_suffix = @location.zip ? ' ' + @location.zip : ''
+          = "#{@location.city}, #{@location.state}#{zip_suffix}"
+      %p
+        %strong Area(s):
+        - if @location.location_areas.empty?
+          N/A
+        - else
+          = @location.location_areas.map {|la| area_link la.area }.join(', ')
+      %p
+        %strong Target head count:
+        - target_hc = 0
+        - @location.location_areas.each {|la| target_hc += la.target_head_count }
+        = target_hc.to_s
+- if CandidatePolicy.new(@current_person, Candidate.new).index?
+  .widget
+    .inner
+      %h3
+        Nearby Candidates
+        %span.small.comment (within 30 miles)
+      = paginate @candidates, param_name: :candidate_page
+      - headers = header_row ['Distance', 'Name', 'Project', 'Channel', 'Location', 'Status', 'Assessment', '']
+      - rows = []
+      - for candidate in @candidates do
+        - distance = @location.geographic_distance(candidate).round(2).to_s
+        - name = candidate_link candidate
+        - project = candidate.location_area ? candidate.location_area.area.project.name : nil
+        - channel = ''
+        - location = ''
+        - location_obj = candidate.location_area ? candidate.location_area.location : nil
+        - channel = location_obj.channel.name if candidate.location_area
+        - if candidate.location_area
+          - if LocationPolicy.new(@current_person, Location.new).index?
+            - location = link_to location_obj.display_name, client_project_location_path(candidate.location_area.area.project.client, candidate.location_area.area.project, location_obj)
+          - else
+            - location = location_obj.display_name
+        - status = ''
+        - status = NameCase(candidate.status.humanize) if candidate.status
+        - if candidate.personality_assessment_status == 'incomplete' or candidate.personality_assessment_status.blank?
+          - assessment = 'Incomplete'
+        - elsif candidate.personality_assessment_status == 'qualified'
+          - assessment = content_tag :span, candidate.personality_assessment_score.to_s, class: [:sm_green]
+        - elsif candidate.personality_assessment_status == 'disqualified' and candidate.personality_assessment_score.blank?
+          - assessment = content_tag :span, 'Disqualified', class: [:sm_red]
+        - else
+          - assessment = content_tag :span, candidate.personality_assessment_score.to_s, class: [:sm_red]
+        - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
+        - onboard_button = link_to 'Onboard', new_from_candidate_people_path(candidate), class: [:button, :inline_button]
+        - rows << table_row([distance, name, project, channel, location, status, assessment, "#{call_button}&nbsp;#{onboard_button}".html_safe])
+      = table headers, rows
+- if PersonPolicy.new(@current_person, Person.new).index?
+  .widget
+    .inner
+      %h3
+        Nearby People
+        %span.small.comment (within 30 miles)
+      = paginate @people, param_name: :person_page
+      - h_hired = 'Hired'
+      - h_termed = 'Term\'d'
+      - h_name = 'Name'
+      - h_position = 'Position'
+      - h_supervisor = 'Supervisor'
+      - h_projects = 'Project(s)'
+      - h_areas = 'Area(s)'
+      - h_hours = 'Total Hours'
+      - h_last_shift = 'Last Shift'
+      - headers = Array.new
+      - if @current_person.hq?
+        - headers << [h_hired, h_termed]
+      - headers << [h_name,h_position,h_supervisor,h_projects,h_areas, h_hours, h_last_shift]
+      - header = header_row headers.flatten
+      - rows = Array.new
+      - for person in @people do
+        - show_details = person.show_details? @visible_people
+        - blocked = content_tag(:div, '-', class: :blocked)
+        - classes = person.active? ? '' : 'inactive'
+        - hire_date = person.hire_date
+        - if hire_date
+          - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+        - else
+          - hired = ''
+        - if person.termination_date_invalid?
+          - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
+        - elsif person.terminated?
+          - termed = show_details ? link_to(person.term_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
+        - else
+          - termed = ''
+        - display_name = person_link person, classes
+        - position_name = person.position_name
+        - position_link = position_name ? link_to(position_name, person, class: classes) : ''
+        - supervisor = person.supervisor ? person_link(person.supervisor, classes) : ''
+        - projects = person.person_areas.empty? ? nil : person.person_areas.map {|pa| pa.area.project.name }.uniq.join(', ')
+        - area = person_area_links person, classes
+        - hours = person.total_hours.round(2).to_s
+        - last_shift = person.last_shift_date
+        - last_shift = last_shift ? short_date(last_shift) : nil
+        - row = Array.new
+        - if @current_person.hq?
+          - row << [hired, termed]
+        - row << [display_name, position_link, supervisor, projects, area, hours, last_shift]
+        - rows << table_row(row.flatten)
+      = table header, rows

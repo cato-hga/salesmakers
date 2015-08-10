@@ -1,23 +1,6 @@
-require 'rake'
-require 'rake/testtask'
-require 'rdoc/task'
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-desc 'Default: run unit tests.'
-task :default => :test
+require File.expand_path('../config/application', __FILE__)
 
-desc 'Test the ancestry plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib'
-  t.libs << 'test'
-  t.pattern = 'test/**/*_test.rb'
-  t.verbose = true
-end
-
-desc 'Generate documentation for the ancestry plugin.'
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'doc'
-  rdoc.title    = 'Ancestry'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
+Rails.application.load_tasks

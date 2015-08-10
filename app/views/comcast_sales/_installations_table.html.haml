@@ -1,0 +1,23 @@
+- header = header_row ['Inst Date', 'Inst Time', 'Rep', 'Sold', 'Customer', 'Phone', 'Order Number', 'Services']
+
+- rows = Array.new
+- for sale in sales do
+  - inst_date = short_date(sale.comcast_install_appointment.install_date)
+  - inst_time = sale.comcast_install_appointment.comcast_install_time_slot.name
+  - rep = person_link sale.person
+  - sold = short_date(sale.order_date)
+  - customer = comcast_customer_link sale.comcast_customer
+  - mobile_phone = phone_link(sale.comcast_customer.mobile_phone)
+  - other_phone = phone_link(sale.comcast_customer.other_phone)
+  - phone = ''.html_safe
+  - phone += 'm '.html_safe + mobile_phone if mobile_phone
+  - phone += "<br>".html_safe if mobile_phone and other_phone
+  - phone += 'o '.html_safe + other_phone if other_phone
+  - order_number = sale.order_number
+  - services = ''.html_safe
+  - services += icon('monitor', false, :service_icon) + ' ' if sale.tv?
+  - services += icon('web', false, :service_icon) + ' ' if sale.internet?
+  - services += icon('telephone', false, :service_icon) + ' ' if sale.phone?
+  - services += icon('lock', false, :service_icon) + ' ' if sale.security?
+  - rows << table_row([inst_date, inst_time, rep, sold, customer, phone, order_number, services])
+= table(header, rows)

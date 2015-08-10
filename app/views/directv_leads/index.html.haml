@@ -1,0 +1,11 @@
+- title 'DirecTV Leads'
+
+= render 'search'
+
+.widget
+  .inner
+    = paginate @directv_leads
+    = render partial: 'directv_leads/table', locals: { leads: @directv_leads }
+- content_for :footer do
+  .left= csv_link csv_directv_leads_path(controller: :directv_leads, action: :index), @search.result.count
+  = paginate @directv_leads

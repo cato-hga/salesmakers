@@ -1,0 +1,42 @@
+// Place all the styles related to the people controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+@import 'magnific';
+
+.tickets {
+	hr {
+		margin: 0.5em auto;
+	}
+	.small.comment {
+		margin: 0 auto 0.5em auto;
+	}
+}
+
+.nested_areas {
+	list-style-type: none;
+}
+
+.nested_areas {
+	.person_link,
+	.person_link a {
+		color: #666;
+		font-size: small;
+	}
+	li.nested_areas {
+		display: none;
+	}
+}
+
+@media only screen and (min-width: $tablet_cutoff) {
+	.nested_areas {
+		margin-left: 2em;
+	}
+}
+
+@media only screen and (min-width: $high_res_cutoff) {
+	.widget.org_chart {
+		width: 48.5%;
+		margin: 0.5%;
+	}
+}

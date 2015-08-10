@@ -1,0 +1,8 @@
+- referenceable = log_entry.referenceable
+- project = referenceable.project
+Assigned
+= person_link log_entry.trackable
+to
+= area_link referenceable
+= surround '(', ')' do
+  = project.name

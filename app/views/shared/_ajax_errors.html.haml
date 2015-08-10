@@ -1,0 +1,6 @@
+-#RailsBestPractices
+-#Not used
+- if object.errors and object.errors.any?
+  - object.errors.full_messages.each do |msg|
+    .alert-box.alert
+      = msg

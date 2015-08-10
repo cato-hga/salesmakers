@@ -1,0 +1,3 @@
+# class ProfileSkillsController < ApplicationController
+#
+# end

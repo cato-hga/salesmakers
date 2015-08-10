@@ -1,0 +1,7 @@
+= form_for theme do |f|
+  = render 'shared/errors', object: f.object
+  = f.label :display_name
+  = f.text_field :display_name
+  = f.label :name
+  = f.text_field :name
+  = f.submit 'Save', class: [:button, :radius]

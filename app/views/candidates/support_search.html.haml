@@ -1,0 +1,75 @@
+- title 'Candidate Support Search'
+
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, url: support_search_candidates_path, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+    -#- selected_filter = params['q'] ? params['q']['status_gteq'] : nil
+    -#= f.select :status_gteq, options_for_select([['Enable', 10], ['Disable', 8]], selected_filter), include_blank: 'Support Filter'
+    = f.text_field :first_name_cont, placeholder: 'First name'
+    = f.text_field :last_name_cont, placeholder: 'Last name'
+    = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
+    = f.text_field :email_cont, placeholder: 'Email'
+    - project = Project.find_by_name 'Sprint Postpaid'
+    - selected_region = params['q'] ? params['q']['area_name_eq'] : nil
+    = f.select :location_area_area_ancestry_eq, options_from_collection_for_select(@regions, :string_id, 'name', selected_region), include_blank: 'Region'
+    - selected_area = params['q'] ? params['q']['area_name_eq'] : nil
+    = f.select :location_area_area_id_eq, options_from_collection_for_select(Area.where(project: project), 'id', 'name', selected_area), include_blank: 'Area'
+    %br/
+    - selected_training_session = params['q'] ? params['q']['sprint_radio_shack_training_session_id_eq'] : nil
+    = f.select :sprint_radio_shack_training_session_id_eq, options_from_collection_for_select(SprintRadioShackTrainingSession.all, :id, :name, selected_training_session), include_blank: 'Training Session'
+    = f.select :sprint_radio_shack_training_session_id_null, [['Show All', false],['Show Only Unscheduled', true]], include_blank: 'Training Scheduled?'
+    - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
+    = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
+    - selected_training_status = params['q'] ? params['q']['training_session_status_eq'] : nil
+    = f.select :training_session_status_eq, options_for_select(Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize).gsub('Nos', 'NOS').gsub('Nclb', 'NCLB'), s[1]]}, selected_training_status), include_blank: 'All Training Statuses'
+    %br/
+    = f.text_field :location_area_location_city_cont, placeholder: 'Location City'
+    = f.text_field :location_area_location_display_name_cont, placeholder: 'Location Name'
+    - selected_status = params['q'] ? params['q']['status_eq'] : nil
+    - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
+    = f.select :status_eq, status_options, prompt: 'Status'
+    = f.select :candidate_drug_test_scheduled_eq, [['Scheduled', true],['Not Scheduled', false]], include_blank: 'Drug Test Status'
+    - selected_sprint_roster = params['q'] ? params['q']['sprint_roster_status_eq'] : nil
+    = f.select :sprint_roster_status_eq, options_for_select(Candidate.sprint_roster_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_sprint_roster), include_blank: 'Sprint Roster Status'
+    = hidden_field_tag :enable_filter, params[:enable_filter]
+    = f.submit 'Search', class: [:button, :inline_button]
+  .top-pagination
+    = paginate @candidates
+.widget
+  .inner
+    - headers = header_row ['Name', 'Email', 'Area', 'Location', 'Availability', 'Available for<br>Training?'.html_safe, 'Training<br>Session &amp; Status'.html_safe, 'Shirt<br>Size'.html_safe, 'Status', '']
+    - rows = []
+    - for candidate in @candidates do
+      - name = candidate_link candidate
+      - email = email_link candidate.email
+      - area = ''
+      - area = area_link(candidate.location_area.area) if candidate.location_area
+      - location = ''
+      - location_obj = candidate.location_area ? candidate.location_area.location : nil
+      - location += location_obj.city + ', ' if location_obj and location_obj.city
+      - location += location_obj.display_name if location_obj and location_obj.display_name
+      - availability = 'Unknown'
+      - if candidate.candidate_availability
+        - availability = render_availability candidate.candidate_availability
+      - attending_training = ''
+      - if candidate.training_availability
+        - a = candidate.training_availability
+        - attending_training = a.able_to_attend? ? 'Yes' : 'No'
+      - training_session = candidate.sprint_radio_shack_training_session
+      - session_name = training_session ? training_session.name.html_safe + '<br>'.html_safe : ''
+      - training_session_status = candidate.training_session_status
+      - training_session_and_status = session_name + "(" + NameCase(training_session_status.humanize).gsub('Nos', 'NOS').gsub('Nclb', 'NCLB') + ")"
+      - shirt_size = ''
+      - if candidate.shirt_gender and candidate.shirt_size
+        - shirt_size = "#{candidate.shirt_gender} #{candidate.shirt_size}"
+      - status = ''
+      - status = NameCase(candidate.status.humanize) if candidate.status
+      - call_button = link_to 'Call', new_call_candidate_candidate_contacts_path(candidate), class: [:button, :inline_button]
+      - rows << table_row([name, email, area, location, availability, attending_training, training_session_and_status, shirt_size, status, call_button])
+    = table headers, rows
+
+- content_for :footer do
+  = paginate @candidates

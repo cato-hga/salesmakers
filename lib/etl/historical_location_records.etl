@@ -1,0 +1,19 @@
+require 'etl/simple_source'
+require 'etl/simple_saving_destination'
+
+count = 0
+
+source SimpleSource, Location
+
+transform do |row|
+  count += 1
+  historical_row = HistoricalLocation.find_or_initialize_by row
+
+  historical_row
+end
+
+destination SimpleSavingDestination
+
+post_process do
+  ProcessLog.create process_class: "HistoricalRecording", notes: "Location", records_processed: count
+end

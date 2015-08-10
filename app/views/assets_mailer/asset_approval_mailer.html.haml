@@ -1,0 +1,21 @@
+= mailer_h1 'Asset Approval Pending'
+
+%strong= @supervisor.name + ','
+%br
+%br
+%p You have new employees that are pending approval on whether or not to send them an asset.
+%p
+  Please visit
+  %a{href: 'https://newcenter.salesmakersinc.com/asset_approvals/approval' } https://newcenter.salesmakersinc.com/asset_approvals/approval
+  or log into SalesCenter 2.0 and click the "Approve Assets" link under People on your navigation to approve or deny the deployment.
+
+%p
+  %strong
+    Employees will not be shipped assets without approval. Please do not reply to this email, it is read only.
+    Enter a support ticket if you have any questions
+
+%br
+%br
+%p Thank you,
+%br
+%strong SalesMakers, Inc IT Department

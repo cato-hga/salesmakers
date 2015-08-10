@@ -1,0 +1,9 @@
+- content_for :action_buttons do
+  = new_button new_theme_path
+- header = header_row ['Display Name','Name']
+- rows = Array.new
+- for theme in @themes do
+  - display_name = link_to theme.display_name, edit_theme_path(theme)
+  - name = link_to theme.name, edit_theme_path(theme)
+  - rows << table_row([display_name, name])
+= table header, rows

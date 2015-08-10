@@ -1,0 +1,9 @@
+- trackable = log_entry.trackable
+Added
+= person_link trackable.person
+to
+- area = trackable.area
+- project = area.project
+= area_link area
+= surround '(', ')' do
+  = project.name

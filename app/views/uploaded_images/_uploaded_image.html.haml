@@ -1,0 +1,6 @@
+- caption = ''
+- if post.publication.publishable.caption?
+  - caption = post.publication.publishable.caption
+  .uploaded_image_caption
+    = post.publication.publishable.caption
+= link_to image_tag(post.publication.publishable.preview.url, alt: caption), post.publication.publishable.image.url, class: :lightbox, title: caption if post.publication.publishable.image_stored?

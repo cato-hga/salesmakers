@@ -1,0 +1,11 @@
+- title 'DirecTV Sales'
+
+= render 'search'
+
+.widget
+  .inner
+    = paginate @directv_sales
+    = render partial: 'directv_sales/installations_table', locals: { sales: @directv_sales }
+- content_for :footer do
+  .left= csv_link csv_directv_sales_path(controller: :directv_sales, action: :index), @search.result.count
+  = paginate @directv_sales

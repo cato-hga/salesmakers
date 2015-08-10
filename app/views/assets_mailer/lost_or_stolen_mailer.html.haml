@@ -1,0 +1,18 @@
+= mailer_h1 'Asset Lost or Stolen'
+
+%p= 'An asset has just been marked as "Lost or Stolen" for ' + @person_name + '(' + @personal_email + ', ' + @person_phone  + ', EID: ' + @eid + '):'
+%table{ style: "width: 100% "}
+  %tr
+    %td
+      %strong
+        %u Type
+    %td
+      %strong
+        %u Serial/Dec
+    %td
+      %strong
+        %u PTN
+  %tr
+    %td= @device.device_model_name
+    %td= @device.serial
+    %td= @device.line.present? ? @device.line.identifier : 'N/A'

@@ -1,0 +1,20 @@
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :name_cont, placeholder: 'Device Model'
+    = f.submit 'Search', class: 'button'
+- content_for :action_buttons do
+  = new_button new_device_model_path
+
+%section
+  - header = header_row ['Manufacturer', 'Model', '']
+  - rows = Array.new
+  - for device_model in @device_models do
+    - manufacturer = link_to device_model.device_manufacturer.name, device_model.device_manufacturer.name
+    - model = link_to device_model.name, device_model.name
+    - edit = edit_button edit_device_model_path(device_model)
+    - rows << table_row([manufacturer, model, edit])
+  = table header, rows

@@ -1,0 +1,10 @@
+- content_for :action_buttons do
+  = new_button new_device_path
+  = link_to 'Edit States', device_states_path, class: [:button, :inline_button]
+
+%section
+  = render 'table'
+
+- content_for :footer do
+  .left= csv_link csv_devices_path(controller: :devices, action: :index), @search.result.count
+  = paginate @devices

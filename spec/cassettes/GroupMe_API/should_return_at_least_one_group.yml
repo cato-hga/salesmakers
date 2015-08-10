@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.groupme.com/v3/groups/8936279?token=1956b1d08a050132df253a66af516754
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Allow-Headers:
+      - Accept, Content-Type, X-Requested-With, X-Access-Token, User-Agent, Pragma,
+        Referrer, Cache-Control, Origin
+      Access-Control-Allow-Methods:
+      - POST, GET, PUT, DELETE, OPTIONS
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '86400'
+      Cache-Control:
+      - must-revalidate, private, max-age=0
+      Content-Type:
+      - application/json;charset=utf-8
+      Date:
+      - Mon, 03 Aug 2015 12:38:12 GMT
+      Server:
+      - nginx/1.6.2
+      X-Gm-Service:
+      - conversations
+      Content-Length:
+      - '1526'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |
+        {"response":{"id":"8936279","group_id":"8936279","name":"SalesMakers Test Playground!","phone_number":"+1 6153788526","type":"private","description":"","image_url":null,"creator_user_id":"12486363","created_at":1404310912,"updated_at":1438543105,"office_mode":false,"share_url":null,"members":[{"user_id":"12486363","nickname":"RBD Information Technology","image_url":"http://i.groupme.com/1127x1127.png.16c0388e077740d287395b74f2b94c97","id":"49737536","muted":false,"autokicked":false},{"user_id":"13909278","nickname":"Anthony Atkinson","image_url":"http://i.groupme.com/1000x1000.png.4f4096fba0674937aa6d0b8c83c5cad1","id":"49740412","muted":true,"autokicked":false},{"user_id":"12486289","nickname":"Stephen Miles","image_url":"http://i.groupme.com/562x391.jpeg.04353f439a1245a8aa4817bb11be41c0","id":"55984244","muted":true,"autokicked":false},{"user_id":"11641940","nickname":"Scott Riker","image_url":"http://i.groupme.com/908x1065.jpeg.1f32cbf6a32b4f03b6264b588d531bdf","id":"69831877","muted":true,"autokicked":false}],"messages":{"count":4740,"last_message_id":"143854310541705548","last_message_created_at":1438543105,"preview":{"nickname":"Anthony Atkinson via SalesCenter 2.0","text":"There were a bunch of punches that did not come through to SalesCenter because the MinuteWorx process was locked, and the bot is catching back up now, and soon the messages will stop.","image_url":"https://i.groupme.com/1127x1127.png.51d265a13ce44925aaa15a4e6a2b7b0e","attachments":[]}},"max_members":200},"meta":{"code":200}}
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:38:12 GMT
+recorded_with: VCR 2.9.3

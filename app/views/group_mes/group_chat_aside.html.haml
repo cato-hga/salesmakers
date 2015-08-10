@@ -1,0 +1,9 @@
+-#= form_tag '/group_mes/post_message', method: :post, remote: true, id: 'group_me_post' do
+-#  .row.chat_entry
+-#    = text_field_tag :message, nil, placeholder: 'Type your message here, and hit "Enter" to submit'
+-#    = submit_tag 'send', type: 'hidden', name: 'chat'
+-#    = hidden_field_tag :group_id, @group_id
+-#%div.group_chat{ data: { group_id: @group_id } }
+-#  - for message in @messages do
+-#    = render 'chat_message', message: message
+-#

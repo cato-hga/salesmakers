@@ -1,0 +1,4 @@
+.device_state
+  = device_state.name
+  - unless device_state.locked
+    = button_to "&times;".html_safe, remove_state_device_path(@device, device_state), class: [:bare_button, :remove], data: { confirm: 'This action cannot be undone. Are you sure?' }, method: :patch

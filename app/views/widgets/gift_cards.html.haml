@@ -1,0 +1,16 @@
+%h3
+  Gift Cards
+  %span.small.comment Current
+- if @person
+  .row.full-width
+    = stat 2, 'Assigned', 'neutral'
+    = stat 1, 'Used and not Entered', 'bad'
+    = stat 2, 'Assigned', 'neutral'
+- else
+  .row.full-width
+    = stat 10, 'On Hand', 'neutral'
+    = stat 9, 'Employees Scheduled', 'neutral'
+    = stat '.9', 'Cards per Employee', 'bad'
+  .row.full-width
+    = stat 2, 'Employees without Cards', 'bad'
+    = stat 0, 'Variance', 'ok'

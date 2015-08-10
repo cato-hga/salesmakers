@@ -1,0 +1,30 @@
+Employee with Assets Separated
+
+<%= @person_name %> (<%= @personal_email + ', ' + @person_phone + ', EID: ' + @eid %>) has just been separated from the company and has the following asset(s) in their possession:
+
+<% asset_count = 0 %>
+<% for device in @devices do %>
+<% asset_count+= 1 %>
+<%= 'Asset' + "#{asset_count}" %>
+
+Information
+Type: <%= device.device_model_name %>
+Serial/Dec: <%= device.serial %>
+PTN: <%= device.line.present? ? device.line.identifier : 'N/A' %>
+<% end %>
+
+History
+<% for deployment in device.device_deployments do %>
+<% if deployment.ended.present? %>
+Date/Time: <%= deployment.ended.strftime('%m/%d/%Y') %>
+<% end %>
+<% if deployment.comment.present? %>
+Description: <%= 'Recouped from ' + deployment.person.display_name + ' : ' + deployment.comment %>
+<% else %>
+Description: <%= 'Recouped from ' + deployment.person.display_name %>
+<% end %>
+
+Date/Time: <%= deployment.started.strftime('%m/%d/%Y') %>
+Description: <%= 'Deployed to ' + deployment.person.display_name %>
+Tracking Number: <%= deployment.tracking_number.present? ? deployment.tracking_number : 'N/A' %>
+<% end %>

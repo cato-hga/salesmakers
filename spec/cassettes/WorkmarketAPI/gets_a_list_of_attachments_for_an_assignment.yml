@@ -1,0 +1,215 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.workmarket.com/api/v1/authorization/request
+    body:
+      encoding: UTF-8
+      string: token=0Ft3BIzVFhfFOP1dFXmq&secret=n5P0ZNrjpIyuUw7KIBdNW7ENT0TmdAQevTQbk7Ow
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, x-http-method-override
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '1800'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 03 Aug 2015 12:48:35 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.015,"timestamp":1438606115},"response":{"access_token":"3FMwufknuKj5zmEAmPGn"}}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:48:35 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/assignments/get?access_token=3FMwufknuKj5zmEAmPGn&id=7570091574
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 03 Aug 2015 12:48:36 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.793,"timestamp":1438606115},"response":{"id":"7570091574","title":"Sales
+        Makers - Retail Assisted Sales - Representing DripDrop","description":"&lt;div&gt;&lt;b&gt;&lt;u&gt;Training
+        Required:&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;Training should take about
+        30 minutes (Rep will be paid for the hour)&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br
+        /&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;b&gt;Assisted Sales - Representing
+        Drip Drop&lt;/b&gt;&lt;/div&gt;&lt;ul&gt;&lt;li&gt;Conduct Assisted Sales
+        events for six (6) hours of actual consumer interaction and Assisted Selling
+        to accommodate entry to the military base, set up and breakdown time, and
+        travel.&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;u&gt;Store
+        Coverage&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;One
+        Assisted Sales event to each store, six (6) hours in length, specifically
+        scheduled&amp;nbsp;&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Projected start date April
+        18, 2015; four consecutive weekends ending on May 9, 2015&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;u&gt;&lt;b&gt;Onsite
+        Requirements&lt;/b&gt;&lt;/u&gt;&lt;/p&gt;&lt;p&gt;Worker (Rep) must have
+        a smart phone.&lt;span&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span&gt;You
+        are asked to purchase a case of 16.9 oz. bottles of water and a box of 3 oz.
+        &amp;quot;dixie&amp;quot; cups from The Exchange, in collaboration with the
+        Store Manager. Cost is not to exceed $15. &amp;nbsp;Please take a photo of
+        your receipt for reimbursement.&lt;/span&gt;&lt;br /&gt;&lt;/p&gt;&lt;div&gt;&lt;b&gt;The
+        attached custom fields MUST be completed before leaving the site.&amp;nbsp;
+        &lt;/b&gt;&lt;br /&gt;&lt;br /&gt;While onsite, you ill need to take the following
+        photos:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Photo of the receipt for your purchase
+        of water and dixie cups&lt;/li&gt;&lt;li&gt;Photo&lt;br /&gt;of the DripDrop
+        product in the regular merchandised inline section&amp;nbsp; &lt;br /&gt;Photo
+        must show what other products DripDrop is merchandised with&lt;/li&gt;&lt;li&gt;Photo
+        of your demo table&lt;/li&gt;&lt;li&gt;Photo of you AND your demo table together
+        (ask someone to take your photo)&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;u&gt;SalesMakers&#39;
+        Provided Supplies/Tools Required for Success:&lt;br /&gt;&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;&lt;ul&gt;&lt;li&gt;SalesMakers
+        to provide lanyards &amp;amp; branded nametags, or other specific professionally
+        produced identification&lt;/li&gt;&lt;li&gt;SalesMakers to provide all samples
+        required for demonstrations&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Materials such
+        as table cards and handouts will be provided&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Training
+        provided in collaboration with SalesMakers&#39; Training group&lt;/li&gt;&lt;li&gt;A
+        Letter of Authorization from DripDrop&#39;s corporate office authorizing SalesMakers&#39;&lt;/li&gt;&lt;li&gt;Brand
+        Ambassadors to be executing activities within approved locations&lt;/li&gt;&lt;/ul&gt;&lt;div&gt;&lt;br
+        /&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;","instructions":"&lt;div&gt;&lt;b&gt;&lt;u&gt;***Please
+        SCHEDULE the assignment with the day &amp;amp; Time you will be onsite from
+        within the suggest window***&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;br
+        /&gt;To schedule your time, FROM A DESKTOP OR LAPTOP COMPUTER:&lt;br /&gt;&lt;ul&gt;&lt;li&gt;In
+        your Work Market assignment, click on the &amp;quot;Gear&amp;quot; icon next
+        to your assignment status.&lt;/li&gt;&lt;li&gt;Click on the &amp;quot;Scheduling&amp;quot;
+        option&lt;/li&gt;&lt;li&gt;Make sure &amp;quot;Schedule time&amp;quot; is
+        selected vs. &amp;quot;Schedule time window&amp;quot;&lt;/li&gt;&lt;li&gt;Enter
+        in the date and time of your arrival&lt;/li&gt;&lt;li&gt;Click on &amp;quot;Update&amp;quot;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;If
+        you have any questions please contact Elisabeth Hillyer.&lt;br /&gt;&lt;div&gt;&lt;u&gt;&lt;b&gt;&lt;br
+        /&gt;Onsite Requirements&lt;/b&gt;&lt;/u&gt;&lt;br /&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;The
+        attached custom fields MUST be completed before leaving the site.&amp;nbsp;
+        &lt;/b&gt;&lt;br /&gt;&lt;br /&gt;Worker (Rep) must have a smart phone.&lt;br
+        /&gt;&lt;br /&gt;&lt;b&gt;While onsite, you ill need to take the following
+        photos:&lt;/b&gt;&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Photo of the receipt for
+        your purchase of water and dixie cups&lt;/li&gt;&lt;li&gt;Photo of the DripDrop
+        product in the regular merchandised inline section&amp;nbsp; Photo must show
+        what other products DripDrop is merchandised with&lt;/li&gt;&lt;li&gt;Photo
+        of your demo table&lt;/li&gt;&lt;li&gt;Photo of you AND your demo table together
+        (ask someone to take your photo)&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div&gt;&lt;div&gt;&lt;div&gt;&lt;b&gt;&lt;u&gt;Custom
+        Fields&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;/div&gt;&lt;div&gt;The
+        customer fields on this assignment must be filled out WHILE ON SITE&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;","desired_skills":"Smart
+        Phone Required","short_url":"http://bit.ly/1cJ1yt1","status":"paid","substatuses":null,"labels":null,"project":10005,"client":26665,"internal_owner":"12369447","assignment_window_start":1429383600,"assignment_window_start_date":"Sat
+        Apr 18 19:00:00 UTC 2015","assignment_window_end":1429405200,"assignment_window_end_date":"Sat
+        Apr 18 19:00:00 UTC 2015","scheduled_start":1429383600,"scheduled_end":1429405200,"resolution":"Sold
+        11/16 boxes","industry":"Promotional Marketing","time_zone":"America/Los_Angeles","required_attachments":4,"location":{"id":3071657,"address_1":"5443
+        DUDLEY BLVD BLDG 911  AAFES","address_2":"","city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},"location_offsite":false,"location_contact":null,"support_contact":{"id":"12369447","first_name":"Elisabeth","last_name":"Hillyer","email":"ehillyer@retaildoneright.com","phone_numbers":[{"phone":"(602)750-7557","extension":null,"type":null}]},"active_resource":{"id":"81231858","first_name":"gilbert","last_name":"escalante","company_name":"Sole
+        Proprietor","email":"gescalante@retaildoneright.com","rating":100,"number_of_ratings":2,"confirmed_onsite":true,"confirmed_date":1429409433,"phone_numbers":[{"phone":"2095347856","extension":null,"type":null}],"address":{"address_1":"5443
+        Dudley Blvd","address_2":null,"city":"McClellan Park","state":"CA","zip":"95652","country":"USA"},"check_in_out":[{"checked_in_on":1429409779,"checked_out_on":1429409794,"created_on":1429409779,"modified_on":1429409794,"note":""}]},"pricing":{"type":"FLAT
+        FEE","spend_limit":95.94,"budget_increases":"-0.0","expense_reimbursements":11.94,"bonuses":0.0,"additional_expenses":11.939999999999998,"flat_price":84.0},"payment":{"max_spend_limit":95.94,"actual_spend_limit":95.94,"buyer_fee":0.0,"total_cost":95.94,"hours_worked":0.0,"paid_on":1430491200000,"payment_due_on":0},"attachments":[{"name":"dripdrop
+        - AAFES Directives - FINAL.pdf","description":"DripDrop visit directives -
+        AAFES","relative_uri":"/asset/addfd72e-7fe0-447a-b7db-3d628b7253cb","uuid":"addfd72e-7fe0-447a-b7db-3d628b7253cb"},{"name":"DripDrop
+        - Letter of Authorization Template v4.pdf","description":"","relative_uri":"/asset/c6ea8e4e-86c0-41b0-aa98-954e559cdf21","uuid":"c6ea8e4e-86c0-41b0-aa98-954e559cdf21"},{"name":"DRIP
+        DROP SCRIPT WC03.pdf","description":"","relative_uri":"/asset/d7124d3f-e787-4623-9d59-8fee0869a461","uuid":"d7124d3f-e787-4623-9d59-8fee0869a461"},{"name":"image.jpg","description":"","relative_uri":"/asset/020986f0-4aca-4af3-bc50-af58d921e9ab","uuid":"020986f0-4aca-4af3-bc50-af58d921e9ab"},{"name":"image.jpg","description":"","relative_uri":"/asset/eeb2b130-627f-42fd-bfb8-5bf5e3164b6c","uuid":"eeb2b130-627f-42fd-bfb8-5bf5e3164b6c"},{"name":"image.jpg","description":"","relative_uri":"/asset/f66aada1-f6d3-4b5a-abce-8bda608ba9e2","uuid":"f66aada1-f6d3-4b5a-abce-8bda608ba9e2"},{"name":"image.jpg","description":"","relative_uri":"/asset/9f1f0b6c-2a90-47bf-80d4-111eedd76cd9","uuid":"9f1f0b6c-2a90-47bf-80d4-111eedd76cd9"}],"history":[{"date":1430491200,"text":"Elisabeth
+        Hillyer updated the status from Invoiced to Paid"},{"date":1429473654,"text":"David
+        Ginn\n\tresolved the label Payment Stopped.\n","resolved_by":null,"label_id":7553,"label_name":"Payment
+        Stopped"},{"date":1429473459,"text":"David Ginn updated the status from Closed
+        to Invoiced"},{"date":1429473459,"text":"David Ginn updated the status from
+        Pending Approval to Closed"},{"date":1429473458,"text":"David Ginn updated
+        the status from Assigned to Pending Approval"},{"date":1429473433,"text":"David
+        Ginn\n\tresolved the label Expense Reimbursement Requested.\n","resolved_by":null,"label_id":34,"label_name":"Expense
+        Reimbursement Requested"},{"date":1429473433,"text":"David Ginn\n\tadded the
+        label Expense Reimbursement Requested.\n","set_by":null,"label_id":34,"label_name":"Expense
+        Reimbursement Requested"},{"date":1429473433,"text":"David Ginn approved an
+        offered\nprice"},{"date":1429473406,"text":"David Ginn updated the status
+        from Invoiced to Assigned"},{"date":1429473406,"text":"David Ginn\n\tadded
+        the label Payment Stopped.\n","set_by":null,"label_id":7553,"label_name":"Payment
+        Stopped"},{"date":1429473327,"text":"David Ginn updated the status from Closed
+        to Invoiced"},{"date":1429473327,"text":"David Ginn updated the status from
+        Pending Approval to Closed"},{"date":1429449039,"text":"gilbert escalante
+        updated the status from Assigned to Pending Approval"},{"date":1429449039,"text":"gilbert
+        escalante\n\tresolved the label Checked Out.\n","resolved_by":null,"label_id":24,"label_name":"Checked
+        Out"},{"date":1429409794,"text":"gilbert escalante\n\tadded the label Checked
+        Out.\n","set_by":null,"label_id":24,"label_name":"Checked Out"},{"date":1429409794,"text":"gilbert
+        escalante\n\tresolved the label Checked In.\n","resolved_by":null,"label_id":23,"label_name":"Checked
+        In"},{"date":1429409779,"text":"gilbert escalante\n\tadded the label Checked
+        In.\n","set_by":null,"label_id":23,"label_name":"Checked In"},{"date":1429409779,"text":"gilbert
+        escalante\n\tresolved the label Worker Late.\n","resolved_by":null,"label_id":27,"label_name":"Worker
+        Late"},{"date":1429409779,"text":"gilbert escalante\n\tresolved the label
+        Worker Confirmed.\n","resolved_by":null,"label_id":25,"label_name":"Worker
+        Confirmed"},{"date":1429409433,"text":"gilbert escalante\n\tadded the label
+        Worker Confirmed.\n","set_by":null,"label_id":25,"label_name":"Worker Confirmed"},{"date":1429409400,"text":"gilbert
+        escalante\n\tadded the label Worker Late.\n","set_by":null,"label_id":27,"label_name":"Worker
+        Late"},{"date":1429409383,"text":"gilbert escalante updated the status from
+        Sent to Assigned"},{"date":1429409383,"text":"gilbert escalante updated their
+        status from open to active"},{"date":1429409383,"text":"David Ginn added a
+        public note: Accepted on behalf of Gilbert"},{"date":1429405599,"text":"Elisabeth
+        Hillyer updated the status from Draft to Sent"},{"date":1429405582,"text":"Assignment
+        created by Elisabeth Hillyer"}],"notes":[{"date":1429473433,"text":"Rep purchased
+        water and cups for event","created_by":"David Ginn","is_private":false,"is_privileged":true},{"date":1429473406,"text":"Added
+        the label Payment Stopped. \nNeeded to add expenses","created_by":"David Ginn","is_private":false,"is_privileged":true},{"date":1429409383,"text":"Accepted
+        on behalf of Gilbert","created_by":"David Ginn","is_private":false,"is_privileged":true}],"custom_fields":[{"id":3089,"name":"DripDrop
+        - AAFES Demo Day Custom Fields","fields":[{"id":25465,"name":"Territory","default":"","required":false,"value":"CA-Sacramento"},{"id":25273,"name":"What
+        was your experience gaining access to the base today?","default":"","required":true,"value":"It
+        was fairly easy to get onto the base."},{"id":25277,"name":"What is the name
+        of the Manager on Duty you interacted with today at The Exchange?","default":"","required":true,"value":"Eli"},{"id":25281,"name":"You
+        are asked to purchase a case of 16.9 oz. bottles of water or 3 1 gallon jugs
+        of water.  Cost is not to exceed $10.","default":"","required":true,"value":"11.94"},{"id":25285,"name":"Were
+        store associates at The Exchange aware of DripDrop and its benefits as an
+        Oral Hydration Solution?","default":"Yes - knew all about the product, Yes
+        - aware of product but knew nothing about it, No awareness of the product","required":true,"value":"Yes
+        - aware of product but knew nothing about it"},{"id":25289,"name":"Where were
+        you able to set up your demo table for your DripDrop event today?","default":"Front
+        of store - inside entrance, Front of store - outside entrance on sidewalk,
+        Inside store - near DripDrop product display, Store would not allow me to
+        borrow a table or one was not available","required":true,"value":"Front of
+        store - inside entrance"},{"id":25293,"name":"Please go to the inline display
+        AT THE START OF YOUR VISIT (planogram #93711, which is on the healthcare aisle)
+        and count how many units of Berry flavor are available?","default":"","required":true,"value":"16"},{"id":25297,"name":"How
+        many consumers would you estimate you interacted with today to discuss DripDrop&#39;s
+        Oral Hydration products and provide a $2 off coupon?","default":"None,1-50,51-100,101-150,151-200,200+","required":true,"value":"1-50"},{"id":25301,"name":"What
+        were the overall impressions from consumers about the DripDrop product?","default":"Positive,Negative","required":true,"value":"Positive"},{"id":25305,"name":"Please
+        explain your answer to above - why were the overall impressions positive or
+        negative?","default":"","required":true,"value":"Because i sold 11 out of
+        the 16 boxes in stock product was well recieved"},{"id":25309,"name":"What
+        activities did consumers say that they would be using the DripDrop product
+        with in their water bottles?","default":"","required":true,"value":"Gardening
+        Sports and Medical reasons"},{"id":26465,"name":"Consumers are sampling Berry
+        today, and is what is typically sold at an AAFES location. What other flavors
+        are being requested today?","default":"Lemon,Watermelon,Coconut,Honey Tea,Orange,Grape,Strawberry","required":true,"value":""},{"id":25317,"name":"Please
+        go to the inline display AT THE END OF YOUR VISIT (planogram #93711, again
+        on the healthcare aisle) and count how many units of Berry flavor are available?","default":"","required":true,"value":"5"},{"id":25321,"name":"Did
+        you clean up your demo table/demo area at the end of your demo event?","default":"Yes,No
+        - Store said they would do it for me","required":true,"value":"Yes"}]}],"parts":null,"pending_offers":[],"declined_resources":[],"questions":[]}}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:48:36 GMT
+recorded_with: VCR 2.9.3

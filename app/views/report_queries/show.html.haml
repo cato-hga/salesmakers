@@ -1,0 +1,37 @@
+- title @report_query.name
+- if ReportQueryPolicy.new(@current_person, ReportQuery.new).update?
+  - content_for :action_buttons do
+    = edit_button edit_report_query_path(@report_query)
+
+= stylesheet_link_tag 'picker'
+= stylesheet_link_tag 'picker.date'
+
+.widget
+  .inner.overflow-x_scroll.freeze_header
+    - if @report_query.has_date_range? && @start_date && @end_date
+      = form_tag nil, method: :get do
+        .row.full-width
+          .medium-5.columns
+            .row.full-width
+              .small-3.columns= label_tag :start_date, 'Start date', class: [:right, :inline]
+              .small-9.columns= text_field_tag :start_date, @start_date, class: [:date_picker]
+          .medium-5.columns
+            .row.full-width
+              .small-3.columns= label_tag :end_date, 'End date', class: [:right, :inline]
+              .small-9.columns= text_field_tag :end_date, @end_date, class: [:date_picker]
+          .medium-2.columns
+            = submit_tag 'Refresh', class: [:button, :full_width]
+    - if @results.count > 0
+      - rows = []
+      - header = header_row @results.columns
+      - for result in @results.rows do
+        - rows << table_row(result)
+      = table header, rows
+    - else
+      .comment Nothing to show.
+
+- content_for :footer do
+  - if @report_query.has_date_range? && @start_date && @end_date
+    .left= csv_link csv_report_query_path(@report_query, start_date: @start_date, end_date: @end_date), @results.count
+  - else
+    .left= csv_link csv_report_query_path(@report_query), @results.count

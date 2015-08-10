@@ -1,0 +1,15 @@
+- title 'Asset Approval'
+
+.widget
+  .inner
+    %h3 Please approve or deny the following employees for asset deployment:
+    - headers = header_row ['Employee Name', 'Email', 'Phone', 'Approve?', 'Deny?']
+    - rows = []
+    - for person in @pending_approval do
+      - name = person.display_name
+      - email = person.email
+      - phone = person.mobile_phone if person.mobile_phone
+      - approve = button_to 'Approve', approve_for_asset_path(person_id: person.id), method: :patch, class: [:button, :inline_button]
+      - deny = button_to 'Deny', deny_for_asset_path(person), method: :patch, class: [:button, :inline_button]
+      - rows << table_row([name, email, phone, approve, deny])
+    = table headers, rows

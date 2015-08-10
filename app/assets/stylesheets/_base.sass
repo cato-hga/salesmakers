@@ -1,0 +1,828 @@
+@import variables
+
+#page_load
+  width: 100%
+  height: 100%
+  z-index: 999
+  background-color: white
+  opacity: 0.6
+  position: fixed
+  top: 0px
+  bottom: 0px
+  right: 0px
+  left: 0px
+  display: none
+  img
+    position: absolute
+    top: 50%
+    left: 50%
+    margin-left: -33px
+    margin-top: -33px
+
+#header
+  nav.top-bar
+    padding-top: $spacing
+    padding-bottom: $spacing !important
+    #popout_notifications
+      width: 30%
+      max-width: none
+      line-height: 1.2em
+      box-shadow: $shadow
+      background-color: #eee
+    .title-area
+      img
+
+        margin-left: $spacing
+    .button.notifications
+      box-shadow: $shadow
+      padding: 1em 4em 1em 2em
+      vertical-align: top
+      margin-left: 1em
+    ul
+      display: inline
+    .top-bar-section
+      ul.left
+        .has-dropdown
+          ul.dropdown
+            min-width: 200px
+            li.has-dropdown
+              & > a:after
+                top: 0.5rem
+            li:not(.has-form)
+              a:not(.button)
+                line-height: 2em
+                height: 2em
+      .divider
+        border-top: 1px solid $sm_blue
+
+.container
+  a
+    color: $sm_dark_blue
+    &.button
+      color: white
+    &.inactive
+      color: $inactive
+  th
+    a
+      color: $sm_blue
+
+
+.inner-wrap,
+p
+  line-height: $line_height
+
+.sm_green
+  color: $sm_green !important
+.sm_red
+  color: $sm_red !important
+.sm_orange
+  color: $sm_orange !important
+
+.candidate_incomplete
+  color: $sm_red !important
+  text-decoration: underline
+
+.alert-box,
+.avatar,
+.widget > .inner
+  box-shadow: $shadow
+  margin-bottom: $spacing
+  &.success
+    color: black
+
+.avatar
+  border: 3px solid #e5e5e5
+
+.widget .avatar
+  max-width: 86px
+
+.stat,
+.breadcrumbs
+  box-shadow: $shadow
+
+.small_avatar
+  @extend .avatar
+  max-height: 5em
+  margin: $spacing / 6 !important
+
+.chat_avatar
+  @extend .avatar
+  width: 52px
+  height: 52px
+  margin: $spacing / 6 !important
+
+.container,
+.slider
+  clear: both
+  margin: auto $spacing
+
+.notices
+  clear: both
+
+nav.top-bar,
+nav.tab-bar
+  border-bottom: 2px solid $sm_blue
+
+.full-width,
+table
+  width: 100%
+  max-width: 100%
+  th
+    input[type=submit]
+      display: none
+  &.row
+    clear: both
+
+table tr td,
+.widget .post_content a
+  -ms-word-break: break-all
+  word-break: break-all
+  word-break: break-word
+  -webkit-hyphens: auto
+  -moz-hyphens: auto
+  hyphens: auto
+  word-wrap: break-word
+  overflow-wrap: break-word
+
+.widget .columns:first-child
+  padding-left: 0
+  margin-left: 0
+
+.widget .column,
+.widget .columns
+  padding-left: 0
+
+.widget .columns:last-child
+  padding-right: 0
+  margin-right: 0
+
+.widget
+  & > .inner
+    padding: 0.9375rem
+    background-color: #fff
+  iframe
+    max-width: 100%
+
+a.close
+  float: right
+  margin: auto $spacing/2
+  font-size: x-large
+  color: #ccc
+
+.inactive,
+.inactive a
+  color: #999
+
+.small
+  font-size: small
+
+.large
+  font-size: 3em
+
+.x-large
+  font-size: 6em
+
+.stat
+  min-height: 8em
+
+.centered_text
+  text-align: center
+
+.centered
+  margin: auto
+
+.neutral
+  background-color: #eee
+  color: black
+  display: inline-block
+
+.ok
+  background-color: $sm_green
+  color: black
+  display: inline-block
+
+.warning
+  background-color: $sm_red
+  color: black
+  display: inline-block
+
+.incomplete .meter
+  background-color: $sm_yellow
+
+.bad
+  background-color: $sm_red
+  color: white
+  display: inline-block
+
+.padded
+  padding: $spacing
+
+.horizontal_padded
+  padding: 0 $spacing
+
+.vertical_padded
+  padding: $spacing 0
+
+.vertical_space
+  margin-top: $spacing
+  clear: both
+
+.large-3, .large-4, .medium-3, .medium-4
+  &.columns.centered_text
+    margin-bottom: $spacing
+
+.right_text_aligned
+  text-align: right
+
+.inline_button
+  vertical-align: middle
+  margin: 0
+  &.show-for-large-up
+    display: inline-block !important
+
+.bottom_spacing
+  margin-bottom: $spacing
+
+#groupme_widget
+  .inner
+    // max-height: $widget_initial_height;
+    overflow-y: scroll
+    .groupme_message
+      border-bottom: 2px dotted $sm_blue
+      padding: $spacing 0
+      img.groupme_avatar
+        vertical-align: top
+        margin-right: 0.5em
+        max-height: 100px
+      .groupme_name
+        font-weight: bold
+        display: block
+        margin-bottom: $spacing
+      .groupme_text
+
+footer
+  &.admin
+    bottom: 0px
+    margin-bottom: 0
+    position: fixed
+    width: 100%
+    height: 45px
+    background-color: white
+    border-top: 2px solid $sm_blue
+    z-index: 1004
+    nav.top-bar
+      padding-top: 0
+      line-height: 1em
+      .button
+        top: 7px
+      .top-bar-section .has-form
+        height: 45px
+
+.record_count
+  margin-bottom: $spacing
+  font-style: italic
+
+body
+  background-color: #e5e5e5
+  min-height: 100%
+
+.breadcrumbs
+  background-color: white
+  li
+    line-height: 2em
+
+.inner-wrap
+  padding-bottom: 65px
+
+.history
+  clear: both
+  .log_entry
+    margin: 1em auto
+    clear: both
+    .entry_type
+      font-size: 1.7em
+      line-height: 1.2em
+      .time_ago
+        font-size: small
+        font-style: italic
+        display: inline
+    .entry_pertains_to
+      font-size: 0.8em
+      font-style: italic
+      margin-bottom: 1em
+    .content
+      padding-top: 0.5em
+      @media only screen and (min-width: $high_res_cutoff)
+  .how_long
+    width: 7em
+    clear: both
+    font-style: italic
+    text-align: center
+
+.call-date-set
+  width: 7em
+  display: inline-block
+  text-align: center
+  border: 1px solid #ccc
+  margin-right: 1em
+  color: black
+  margin-bottom: 1em
+  vertical-align: middle
+  float: left
+  .call-date
+    width: 100%
+    .call-year
+      width: 100%
+      font-size: 1.5em
+      background-color: $sm_blue
+      color: white
+      text-transform: uppercase
+      font-weight: bold
+      padding: 0.1em 0
+    .call-month
+      font-size: 1.2em
+      font-weight: bold
+      margin-bottom: 0.2em
+      text-transform: uppercase
+      width: 100%
+    .call-day
+      font-size: 2.5em
+      font-weight: bold
+      width: 100%
+    .call-weekday
+      font-size: 1.2em
+      font-weight: bold
+      margin-top: 0.2em
+      width: 100%
+    .call-time
+      width: 100%
+      font-size: 1.1em
+      background-color: $sm_blue
+      color: white
+      text-transform: uppercase
+      font-weight: bold
+      padding: 0.1em 0
+
+.comment
+  font-style: italic
+
+#saleschart
+  height: 300px
+
+.widget_loading
+  display: none
+  text-align: center
+  padding-top: 2em
+
+article
+  img.left
+    margin-right: $spacing
+  img.right
+    margin-left: $spacing
+  img
+    max-width: 100%
+    box-shadow: $shadow
+    border: 3px solid #e5e5e5
+
+.excerpt
+  clear: both
+  margin-top: $spacing
+
+.question .inner
+  background-color: $sm_blue
+  color: white
+  border: 5px solid white
+
+.answer .inner
+  border: 5px solid #43ac6a
+
+.accepted_answer, .submitted_answer:hover
+  color: #43ac6a
+  font-weight: bold
+  i
+    font-size: 4em
+
+.answer_text, .question_text
+  margin-top: $spacing
+
+.submitted_answer
+  color: #ccc
+  i
+    font-size: 4em
+
+.votes
+  display: inline-block
+  position: relative
+  margin-left: -1em
+  font-weight: bold
+
+.notification, .question_preview
+  margin: ($spacing / 2) auto
+  padding: ($spacing / 2) 0
+  background-color: white
+  border-bottom: 1px solid #ddd
+  .heading
+    font-size: large
+    display: block
+    margin-bottom: $spacing / 2
+  hr
+    margin: 0.25em auto
+  &:last-child
+    border-bottom: none
+
+.my_questions
+  padding-left: $spacing
+  margin-top: $spacing
+  .small.comment
+    margin-top: $spacing / 2
+  hr
+    margin-top: $spacing
+
+.tags
+  margin-top: $spacing * 2
+  a
+    color: black
+    margin: $spacing $spacing 0 0
+    padding: 0 $spacing 0 0
+    border-right: 1px solid #ddd
+    &:last-child
+      border-right: none
+
+header
+  .tags
+    margin-top: 0
+
+.widget
+  display: inline-block
+  vertical-align: top
+  width: 100%
+  .posted_to
+    font-style: italic
+    font-size: small
+  .comments
+    margin-top: $spacing
+    padding-right: $spacing
+    border-left: 1px solid #ededed
+    padding-left: $spacing * 1.5
+    .wall_post_comment
+      font-size: small
+      .avatar
+        max-height: 3.5em
+        vertical-align: middle
+      hr
+        width: 90%
+        margin: ($spacing / 4) auto
+      .timestamp
+        font-style: italic
+        font-size: xx-small
+        margin-top: $spacing
+        margin-bottom: $spacing * 2
+  .actions
+    margin-top: 1em
+  .show_wall_post_comment_form
+    padding-left: 0
+    margin-left: 0
+  .wall_post_comment_form, .change_wall_form, .wall_post_edit_comment_form
+    display: none
+    margin-top: $spacing
+    .avatar
+      display: none
+
+.widget.chat .strong
+  vertical-align: top
+
+.chat-icon
+  margin-right: $spacing
+  i
+    font-size: xx-large
+    color: $sm_blue
+
+.right-off-canvas-menu
+  background-color: white
+  position: fixed
+  top: 45px
+  bottom: 0
+  overflow-y: auto
+  width: 90%
+
+#chat_aside
+  .timestamp
+    line-height: 1em
+    color: black
+    margin-top: $spacing
+  .content
+    line-height: 1em
+    color: black
+  .group_me_login
+    padding: 10em 2em
+  .group_preview
+    border-bottom: 1px solid #ddd
+    padding: ($spacing / 2) 0
+  .centered_text
+    margin: 0 !important
+  .chat_message
+    @extend .group_preview
+    .timestamp
+      margin-top: 0
+  .chat_loading
+    text-align: center
+    padding-top: 2em
+  h3
+    margin-left: $spacing
+    margin-top: $spacing / 2
+
+#chat_aside a.close
+  display: none
+
+.chat_entry
+  margin-top: $spacing
+  border-bottom: 1px solid #ddd
+  padding: 0 $spacing
+
+.profile_experience, .profile_education
+  margin: $spacing 0
+  line-height: 1.3em
+  border-bottom: 1px solid #ccc
+  &:last-child
+    border-bottom: none
+  .title, .school
+    font-weight: 900
+    font-size: 1.25em
+    a
+      font-size: small
+  .company_name, .degree
+    font-weight: 700
+  .description
+    margin: $spacing / 2
+    font-size: 0.9em
+  .activities_societies
+    margin: $spacing / 2
+    font-size: 0.9em
+
+.xx-small
+  font-size: xx-small
+
+.uploaded_image_caption
+  margin-bottom: $spacing
+  margin-left: $spacing/2
+
+.post_content
+  img
+    box-shadow: $shadow
+
+.post_actions
+  .liked, .own_like
+    i
+      color: #ffcc00
+      text-shadow: 1px 1px 1px black
+      font-size: 1.25em
+  a.unliked
+    color: #ddd
+    text-shadow: 1px 1px 1px black
+    font-size: 1.25em
+    &:hover
+      color: #ffcc00
+
+.emoji
+  width: 20px
+  height: 20px
+  display: inline-block
+
+//This is to fix a padding issue with the top-bar.
+.f-topbar-fixed
+  padding-top: 0 !important
+
+#action_profiles_edit
+  #joyride-profile-alert
+    display: none
+
+.widget
+  .button, select, .tabs dd > a
+    font-size: 0.9em
+  .button, select
+    padding-left: $spacing / 2
+    padding-right: $spacing / 2
+
+h1 .inline_button,
+h2 .inline_button
+  font-size: medium !important
+
+h3 .inline_button,
+h4 .inline_button
+  font-size: small !important
+
+h5 .inline_button,
+h6 .inline_button
+  font-size: x-small !important
+
+.hidden
+  display: none
+
+.top_widgets, .widgets
+  clear: both
+
+a.button.secondary.radius.sale_badge
+  margin-bottom: 0.25em
+  margin-top: 0.25em
+
+.label
+  box-shadow: 1px 1px 2px #999
+  &.success
+    color: black
+
+table
+  td
+    .blocked
+      font-style: italic
+      opacity: 0.5
+
+.poll_question
+  .poll_question_help_text
+    color: #666
+  .choices
+    margin-top: $spacing
+    .choice
+      padding: ($spacing / 2) 0
+      margin: ($spacing / 2) 0
+      border-bottom: 1px solid #eee
+      &:last-of-type
+        border-bottom: 0
+      .choice_radio
+        float: left
+        padding: 0 ($spacing / 2)
+        clear: both
+      .details
+        display: inline-block
+        .choice_name
+          display: inline-block
+          font-weight: bold
+        .choice_help_text
+          display: inline-block
+          color: #666
+          font-size: small
+
+.deploy_button
+  @extend .button
+  margin: auto
+
+.device_states,
+.line_states,
+.edit_device_states,
+.edit_line_states
+  display: inline-block
+  width: auto
+  &.edit_device_states,
+  &.edit_line_states
+    display: inline-block
+    width: auto
+  form
+    display: inline-block
+    select
+      width: auto
+      padding-right: $spacing * 2
+  .device_state,
+  .line_state
+    display: inline-block
+    padding: $spacing / 2
+    border-radius: $spacing / 4
+    margin: 0 ($spacing / 2) ($spacing / 2) 0
+    background-color: white
+    /* border: 1px solid #999 */
+    box-shadow: 1px 1px 2px #333
+    font-size: small
+    .remove
+      font-weight: bold
+      color: black
+
+form
+  div.error
+    color: $sm_blue
+    margin-left: ($spacing / 2)
+    margin-top: ($spacing / 2)
+    font-size: small
+  select.error,
+  input.error
+    border: 1px solid $sm_blue
+    color: $sm_blue
+  #assets
+    div.error
+      margin-bottom: ($spacing / 2)
+
+a.send_contact
+  vertical-align: super
+  background-color: #ccc
+  padding: 0 0.3em
+  display: inline-block
+  border-radius: 0.3em
+  margin-left: 0.2em
+  font-size: 0.8em
+
+h1 a.send_contact
+  font-size: 0.5em
+
+.within_length
+  font-weight: bold
+  padding-top: 0.5rem
+  padding-right: 1rem
+  padding-bottom: 0.5625rem
+  padding-left: 1rem
+
+#physical_address_map
+  width: 100%
+  height: 20em
+  margin-top: 1em
+  border: 5px solid #dfdfdf
+
+#locations_map, #location_map
+  width: 98%
+  height: 35em
+  position: absolute
+
+.staging_warning
+  padding: 1em
+  background: #ffffcc
+  border-bottom: 1px solid black
+  h3
+    color: red
+
+.service_icon
+  font-size: 1.5em
+
+.large-font
+  font-size: 1.5em
+.x-large-font
+  font-size: 2em
+.xx-large-font
+  font-size: 3em
+
+.alert-box
+  &#changelog
+    margin-top: 1em
+  .close
+    top: 1.375rem
+
+.button_to
+  display: inline-block
+  .bare_button
+    background: none !important
+    padding: 0 !important
+    cursor: pointer
+    border: none
+    outline: none
+
+.strikethrough
+  text-decoration: line-through
+
+.full_width
+  width: 100%
+
+.inline_logo
+  height: 1em
+  width: auto
+
+select.autosize_dropdown
+  width: auto
+  padding-right: $spacing
+
+.interview_schedule_time_slot
+  line-height: 1.7em
+  border-top: 1px solid #ddd
+  &:first-of-type
+    border-top: none
+  .send_contact
+    line-height: 1em
+
+.even_row
+  background-color: #f9f9f9
+
+
+.range_count, .total_count
+  text-align: center
+  font-size: 3em
+  line-height: 0.9em
+  &.range_count
+    border-right: 2px solid #ddd
+
+.tiny
+  font-size: 0.7em
+  line-height: 0.7em !important
+
+.inline_block
+  display: inline-block
+
+.top-bar .postfix.button
+  padding-top: 0
+  font-size: 0.75rem
+
+.mobile_global_search
+  background-color: #999
+  padding-top: 1em
+
+.inline_form
+  display: inline-block
+  select
+    width: auto
+    padding-right: $spacing * 2
+
+.vertical_align_middle
+  vertical-align: middle

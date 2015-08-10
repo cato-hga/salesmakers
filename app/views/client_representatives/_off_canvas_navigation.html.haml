@@ -1,0 +1,21 @@
+%nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
+  %section.left-small
+    %a.left-off-canvas-toggle.menu-icon(href="#")
+      %span
+  %section.middle.tab-bar-section
+    %h1.title SalesCenter
+%aside.left-off-canvas-menu
+  %ul.off-canvas-list
+    %li
+      %label Menu
+    %li
+      = link_to 'Home', welcome_client_representatives_path
+    - if WorkmarketAssignmentPolicy.new(current_client_rep, WorkmarketAssignment.new).index?
+      %li
+        = link_to 'Assignments', client_access_worker_assignments_path
+  - if current_client_rep
+    %ul.off-canvas-list
+      %li
+        %label= current_client_rep.email
+      %li
+        = link_to icon('x') + ' Sign Out', destroy_session_client_representatives_path, method: :delete

@@ -1,0 +1,95 @@
+= content_for(:title) { @person.display_name }
+- content_for :action_buttons do
+  %span
+    .show-for-large-up= link_to icon('refresh') + ' Restart Tour', '#', id: 'start_tour_profile', class: [:button, :inline_button]
+.widgets
+  .row.full-width
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 Basic Information
+        - if @person.errors and @person.errors.any?
+          - @person.errors.full_messages.each do |msg|
+            .alert.alert-box= msg
+        = form_for @person do |f|
+          .row.full-width
+            .large-4.medium-6.columns.centered_text= image_tag( avatar_url(@person), class: :avatar )
+            .large-8.medium-6.columns= f.file_field :image, accept: 'image/png,image/jpeg,image/gif', id: 'joyride-avatar'
+          = f.label :personal_email, id: 'joyride-personal-email'
+          = f.text_field :personal_email
+          = f.label :mobile_phone, id: 'joyride-mobile-phone'
+          = f.text_field :mobile_phone
+          = f.label :home_phone
+          = f.text_field :home_phone
+          = f.label :office_phone
+          = f.text_field :office_phone
+          = f.submit 'Save', class: 'button', id: 'joyride-save-basic'
+
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3 OneConnect Profile
+        = form_for @profile, method: :put do |f|
+          = f.label :nickname, id: 'joyride-nickname'
+          = f.text_field :nickname
+          = f.label :bio, 'About me', id: 'joyride-about'
+          = f.text_area :bio, rows: 15
+          = f.submit 'Save', class: 'button'
+
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3#joyride-experience
+          Experience
+          = new_button new_profile_profile_experience_path(@profile)
+        = render partial: 'profile_experiences/listing', locals: { profile_experience: @profile_experiences, current_person: @current_person }
+
+  .row.full-width
+    .widget.large-4.medium-6.columns
+      .inner
+        %h3#joyride-education
+          Education
+          = new_button new_profile_profile_education_path(@profile)
+        = render partial: 'profile_educations/listing', locals: { profile_educations: @profile_educations, current_person: @current_person }
+
+
+  %ol.joyride-list{ data: { joyride: '' } }
+    %li{ data: { id: 'joyride-avatar', text: 'Next', options: 'prev_button: false; tip_location: right' } }
+      %p
+        Upload an avatar here. Make sure it's work-appropriate!
+    %li{ data: { id: 'joyride-personal-email', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        Your personal email address has been updated using what is currently on file with us. Update this if it is incorrect!
+        This will not be visible outside of management
+    %li{ data: { id: 'joyride-mobile-phone', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        Your phone numbers have been updated using what is currently on file with us as well. Please also update these.
+        The phone number we have on file has been imported as a mobile phone, please fix this if it is not! Like your personal email,
+        your phone numbers are not visible outside of management
+    %li{ data: { id: 'joyride-save-basic', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        Select "Save" to save your Basic Information. This will not save anything else on this page, so be careful!
+    %li{ data: { id: 'joyride-nickname', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        If you want, you can enter a nickname here. This will be your name in many areas of OneConnect after you save it.
+        This will NOT change your name for payroll, order entry, and other reasons.
+    %li{ data: { id: 'joyride-about', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        Enter a quick bio about yourself here. Be descriptive!
+    %li{ data: { id: 'joyride-experience', text: 'Next', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        Click here to add previous job experience to your profile...
+    %li{ data: { id: 'joyride-education', text: 'End', prev_text: 'Previous', options: 'tip_location: right' } }
+      %p
+        \...and here to add information about your education. Have fun!
+
+- unless @seen_before_profile
+  :javascript
+    if ($(window).width() >= 1280) {
+      imagesLoaded('body', function() {
+        $(document).foundation('joyride', 'start');
+      });
+    }
+
+
+
+
+
+

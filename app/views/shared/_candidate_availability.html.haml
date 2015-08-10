@@ -1,0 +1,16 @@
+- a = candidate_availability
+.tiny
+  - ma = availability(a, 'M', 'monday')
+  - tua = availability(a, 'Tu', 'tuesday')
+  - wa = availability(a, 'W', 'wednesday')
+  - tha = availability(a, 'Th', 'thursday')
+  - fa = availability(a, 'F', 'friday')
+  - saa = availability(a, 'Sa', 'saturday')
+  - sua = availability(a, 'Su', 'sunday')
+  = ma if ma
+  = tua if tua
+  = wa if wa
+  = tha if tha
+  = fa if fa
+  = saa if saa
+  = sua if sua

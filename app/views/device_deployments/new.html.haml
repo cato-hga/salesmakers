@@ -1,0 +1,18 @@
+- title 'Deploying ' + @device.serial + ' to ' + @person.display_name
+- if @device_deployment.errors.any?
+  %ul
+    - @device_deployment.errors.full_messages.each do |message|
+      %li= message
+- if @current_devices.count > 0
+  %h2 Current Devices Assigned
+  %section
+    = render partial: 'shared/device_deployments', locals: { current_devices: @current_devices }
+%h2 New Deployment Information
+= form_for @device_deployment, url: new_device_device_deployments_path(@device, @person), method: :post do |f|
+  = f.label :tracking_number
+  = f.text_field :tracking_number
+  = f.hidden_field :person_id, value: @person.id
+  = f.hidden_field :device_id, value: @device.id
+  = f.label :comment
+  = f.text_area :comment
+  = f.submit 'Deploy', class: 'button'

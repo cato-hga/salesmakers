@@ -1,0 +1,8 @@
+- if log_entry.referenceable
+  Sent an SMS to
+  = person_link log_entry.referenceable
+- else
+  Sent an SMS
+stating:
+%blockquote
+  = log_entry.comment

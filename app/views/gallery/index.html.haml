@@ -1,0 +1,16 @@
+.thumbs
+  - rows = (@images.count.to_f / 10.to_f).floor
+  - stragglers = @images.count % 10
+  - column = 0
+  - image_count = 0
+  - 10.times do
+    - column += 1
+    .tenth
+      - rows.times do
+        - image_count += 1
+        - image = @images[image_count - 1]
+        %img.thumb{ src: image }
+      - if column <= stragglers and stragglers > 0
+        - image_count += 1
+        - image = @images[image_count - 1]
+        %img.thumb{ src: image }

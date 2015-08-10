@@ -1,0 +1,9 @@
+Sent an SMS to
+= succeed ':' do
+  - if log_entry.trackable.is_a? Person
+    = person_link log_entry.trackable
+  - elsif log_entry.trackable.is_a? Candidate
+    = candidate_link log_entry.trackable
+stating:
+%blockquote
+  = log_entry.comment

@@ -1,0 +1,37 @@
+-#%span#insert_posts_after
+-#- if wall_posts.count < 1
+-#  .widget
+-#    .inner
+-#      .comment There are no posts to show yet.
+-#- counter = 0
+-#- for wall_post in wall_posts do
+-#  - counter += 1
+-#  - if counter == 1
+-#    = display_post wall_post, true
+-#  - else
+-#    = display_post wall_post
+-#:javascript
+-#  var dispatcher = new WebSocketRails(document.location.hostname + ':' + document.location.port + '/websocket');
+-#- if params and params[:controller] and params[:controller] != 'home'
+-#  :javascript
+-#    $(function() {
+-#      var channel_#{wall.id} = dispatcher.subscribe('wall_#{wall.id}');
+-#      channel_#{wall.id}.bind('new', function(data) {
+-#        console.log('Wall #{wall.id} post: ' + JSON.stringify(data));
+-#        if (data.person_id != #{current_person.id}) {
+-#          placePost(data.id);
+-#        }
+-#      });
+-#    });
+-#- elsif params and params[:controller] and params[:controller] == 'home'
+-#  - for visible_wall in visible_walls do
+-#    :javascript
+-#      $(function() {
+-#        var channel_#{visible_wall.id} = dispatcher.subscribe('wall_#{visible_wall.id}');
+-#        channel_#{visible_wall.id}.bind('new', function(data) {
+-#          console.log('Wall #{visible_wall.id} post: ' + JSON.stringify(data));
+-#          if (data.person_id != #{current_person.id}) {
+-#            placePost(data.id);
+-#          }
+-#        });
+-#      });

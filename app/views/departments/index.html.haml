@@ -1,0 +1,13 @@
+- title 'RBD Departments'
+
+%section
+  - header = header_row ['Name']
+  - rows = Array.new
+  - for department in @departments do
+    - if PositionPolicy.new(@current_person, Position.new).index?
+      - department = link_to department.name, department_positions_path(department)
+    - else
+      - department = department.name
+
+    - rows << table_row([department])
+  = table header, rows

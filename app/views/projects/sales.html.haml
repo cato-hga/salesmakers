@@ -1,0 +1,10 @@
+- title @project.name + " Sales"
+- content_for :action_buttons do
+  = link_to icon('thumbnails') + ' Wall', client_project_path(@project.client, @project), class: [:button, :inline_button]
+
+.widgets
+  = render 'shared/sales_widget', object: @project
+  = render 'people_sales_top_10', project: @project
+  = render 'areas_sales_top_10', project: @project
+  - for root in @roots do
+    = render 'shared/sales_widget', object: root, link_to_object: true

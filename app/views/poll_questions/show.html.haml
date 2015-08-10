@@ -1,0 +1,7 @@
+%h3= @poll_question.question
+.small.comment= pluralize @poll_question.answers, 'Answer'
+%h5 Results
+= pie_chart PollQuestionChoice.where(poll_question: @poll_question). |
+  map { |choice| |
+    [choice.name, choice.people.count] |
+  } |

@@ -1,0 +1,42 @@
+= title line_display( @line )
+- content_for :action_buttons do
+  - if @line.active?
+    = button_to 'Deactivate', deactivate_line_path(@line), class: [:button, :inline_button], data: { confirm: 'This will detach the line from all devices. Are you sure?' }, method: :patch
+    - unless @line.device
+      = link_to 'Assign Line to Device', line_edit_devices_path(line_id: @line.id ), class: [:button, :inline_button]
+
+.line_states
+  - for line_state in @line.line_states
+    = render line_state
+  - if @unlocked_line_states.count > 0
+    = form_tag add_state_line_path(@line), method: :patch do
+      = select_tag 'line_state_id', options_from_collection_for_select(@unlocked_line_states, 'id', 'name'), prompt: 'Select state to add', id: 'add_line_state_select'
+      = submit_tag '+', class: [:button], id: 'add_line_state'
+.widgets
+  .widget
+    .inner
+      %h3 Provider
+      .centered_text= line_service_provider_image(@line)
+      - unless @line.contract_end_date == Date.parse('01/01/1901')
+        %strong Contract End Date:
+        = short_date @line.contract_end_date
+
+
+  - if @line.device
+    - device = @line.device
+    .widget
+      .inner
+        %h3 Device
+        .centered_text
+          = device_image device
+        %p
+          %strong Serial:
+          = device_link device
+        %p
+          %strong Model:
+          = device.device_model_name
+        - deployments = device.device_deployments
+        - if deployments.count > 0 and not deployments.first.ended
+          %p
+            %strong Currently Deployed to:
+            = person_link deployments.first.person

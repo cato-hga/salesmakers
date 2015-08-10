@@ -1,0 +1,5 @@
+24-Hour Process History
+
+<% for result in @process_logs do %>
+<%= result['process_class'] %><%= result['notes'] ? ' (' + result['notes'] + ')' : '' %>: <%= result['records_processed'].to_s %> processed
+<% end %>

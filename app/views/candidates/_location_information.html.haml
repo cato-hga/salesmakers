@@ -1,0 +1,22 @@
+.widget
+  .inner
+    %h3 Location Information
+    - location = @candidate.location_area.location
+    - location_area = @candidate.location_area
+    %p
+      %strong Area:
+      = area_link(location_area.area)
+    %p
+      %strong Pay Rate:
+      = location_area.hourly_rate ? number_to_currency(location_area.hourly_rate) : 'N/A'
+    %p
+      %strong Store #:
+      = location.store_number if location.store_number
+      = surround '(', ')' do
+        = location.channel.name
+    %strong Store Address:
+    = location.address
+    %br/
+    %br/
+    %p
+      = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]

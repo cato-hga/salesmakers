@@ -1,0 +1,48 @@
+- if @comcast_sale.errors.any?
+  - @comcast_sale.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    - if converting
+      %h3 Convert to Sale
+    = form_for [@comcast_customer, @comcast_sale] do |f|
+      - order_date = short_date(@comcast_sale.order_date)
+      = f.label :order_date
+      = f.text_field :order_date, value: order_date, placeholder: 'MM/DD/YYYY'
+      = f.label :order_number
+      = f.text_field :order_number
+      = f.label :comcast_former_provider, 'Previous Provider'
+      = f.select :comcast_former_provider, options_from_collection_for_select(@former_providers, 'id', 'name')
+      %fieldset
+        %legend Services
+        .row.full-width
+          .large-3.columns
+            = f.check_box :tv
+            = f.label :tv, 'Television'
+          .large-3.columns
+            = f.check_box :internet
+            = f.label :internet
+          .large-3.columns
+            = f.check_box :phone
+            = f.label :phone
+          .large-3.columns
+            = f.check_box :security
+            = f.label :security
+      %fieldset
+        %legend Installation
+        = f.fields_for :comcast_install_appointment do |a|
+          - appointment = @comcast_sale.comcast_install_appointment
+          - install_date = short_date(appointment.install_date)
+          - selected_slot = appointment.comcast_install_time_slot_id ? appointment.comcast_install_time_slot_id : nil
+          - slots = options_from_collection_for_select(@time_slots, 'id', 'name', selected_slot)
+          = a.label :install_date
+          = a.text_field :install_date, value: install_date, placeholder: 'MM/DD/YYYY'
+          = a.label :comcast_install_time_slot_id, 'Install time slot'
+          = a.select :comcast_install_time_slot_id, slots
+        %p
+          = f.check_box :customer_acknowledged
+          = f.label :customer_acknowledged, 'Customer agrees to receive text message reminder(s) and/or phone calls.'
+      - if converting
+        = f.hidden_field :comcast_lead_id, value: @comcast_customer
+      = f.submit 'Complete Sale', class: [:button]

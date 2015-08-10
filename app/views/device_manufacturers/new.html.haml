@@ -1,0 +1,11 @@
+- content_for :title, 'New Device Manufacturer'
+
+.widget
+  .inner
+    = form_for @device_manufacturer, method: :post do |f|
+      - if @device_manufacturer.errors.any?
+        - @device_manufacturer.errors.full_messages.each do |msg|
+          .alert.alert-box= msg
+      = f.label :name, as: 'Manufacturer Name'
+      = f.text_field :name
+      = f.submit 'Submit', class: 'button'

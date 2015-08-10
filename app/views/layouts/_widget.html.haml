@@ -1,0 +1,53 @@
+- first_post = false unless defined? first_post
+.widget{ class: (defined?(hidden) and hidden ? 'hidden' : ''), id: (first_post ? 'first_post' : '') }
+  .inner
+    .row.full-width
+      .large-3.columns.centered_text
+        = avatar(post.person)
+        %div
+          %strong
+            %span{ id: first_post ? 'first_post_author' : nil }= social_link post.person
+        - unless post.reposted?
+          .posted_to{ id: first_post ? 'first_post_posted_to' : nil }
+            to
+            = wall_link post.wall.wallable
+        .small.comment.centered_text.vertical_space#first_post
+          = time_ago_in_words(post.created_at) + ' ago'
+          .xx-small
+            = friendly_datetime post.created_at
+        - if post.reposted?
+          .small.comment.centered_text.vertical_space
+            Reposted to
+            = wall_link post.wall.wallable
+            = time_ago_in_words(post.updated_at) + ' ago'
+            by
+            = social_link post.reposted_by_person
+            .xx-small
+              = friendly_datetime post.updated_at
+          .vertical_space
+        .post_actions
+          = likes post, first_post
+      .large-9.columns
+        .post_content
+          = yield
+        .comments
+          - for wall_post_comment in post.wall_post_comments do
+            = render partial: 'wall_post_comments/wall_post_comment', locals: { wall_post_comment: wall_post_comment, current_person: current_person }
+        .actions
+          .row.full-width
+            %a.show_wall_post_comment_form.small{ id: first_post ? 'first_post_add_comment' : nil } Add Comment
+            - if walls.count > 1 and visible_people and visible_people.include? post.person and walls.include? post.wall
+              %span.show_change_wall_form
+                \-
+                %a.small{ id: first_post ? 'first_post_visibility' : nil } Change Post Visibility
+            - if WallPostPolicy.new(current_person, post).destroy?(visible_people)
+              \-
+              = button_to 'Delete', wall_post_path(post), method: :delete, data: { confirm: 'Are you sure? This action CANNOT be undone!' }, class: :small, id: first_post ? 'first_post_delete' : nil
+          = render partial: 'wall_post_comments/form', locals: { post: post, current_person: current_person, wall_post_comment: @wall_post_comment }
+          .change_wall_form
+            .row.full-width
+              = hidden_field_tag :wall_post_id, post.id, class: 'change_wall_form_wall_post_id'
+              = collection_select :wall_post, :wall_id, walls.sort_by(&:name), :id, :name, { selected: post.wall.id }, { class: 'large-9 medium-8 small-8 columns change_wall_form_wall_id'}
+            .row.full-width
+              %a.change_wall_submit.button Save
+              %a.cancel Cancel

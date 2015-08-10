@@ -1,0 +1,26 @@
+- headers = header_row(['', 'Project', 'LG', 'Distance', 'City', 'Location', 'Store Number','# Candidates', 'Recruitable?'])
+- rows = []
+- count = 0
+- project = nil
+- for location_area in @location_areas do
+  - next if @candidate.location_area and @candidate.location_area == location_area
+  - location = location_area.location
+  - count += 1
+  - project = project_link location_area.area.project
+  - launch_group = location_area.launch_group ? location_area.launch_group.to_s : ''
+  - if location_area.outsourced?
+    - project += content_tag(:strong, " OUTSOURCED")
+  - link_classes = []
+  - link_classes << :strikethrough if location_area.head_count_full?
+  - path = set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
+  - distance = location_area.head_count_full? ? location.geographic_distance(@candidate).round(2).to_s : link_to(location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes)
+  - city = location.city
+  - candidate_view_all = Permission.find_by key: 'candidate_view_all'
+  - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? ("#{location.channel.name}" + '<br/>' + "#{location.display_name}").html_safe : link_to(("#{location.channel.name}" + '<br/>' + " #{location.display_name}").html_safe, path, class: link_classes)
+  - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.store_number : link_to(location.store_number, path, class: link_classes)
+  - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.address : link_to(location.address, path, class: link_classes)
+  - classes = location_area.outsourced? ? [:outsourced_row] : nil
+  - number_of_candidates = location_area.number_of_candidates_in_funnel
+  - open_to_staff = location_area.head_count_full? ? 'NO' : 'YES'
+  - rows << table_row(["#{count.to_s}.", project, launch_group, distance, city, location_name, store_number, number_of_candidates.to_s, open_to_staff], classes)
+= table headers, rows

@@ -1,0 +1,10 @@
+- title "Dismiss #{@directv_customer.name}"
+
+.widget
+  .inner
+    = form_for @directv_customer, url: directv_customer_directv_lead_path(@directv_customer, @directv_lead), method: :delete do |f|
+      = f.label :directv_lead_dismissal_reason_id, 'Dismissal reason'
+      = f.select :directv_lead_dismissal_reason_id, options_from_collection_for_select(@dismissal_reasons, :id, :name), include_blank: true
+      = f.label :dismissal_comment, 'Comments'
+      = f.text_field :dismissal_comment
+      = f.submit 'Dismiss', class: [:button]

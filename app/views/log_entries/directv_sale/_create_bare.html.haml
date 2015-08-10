@@ -1,0 +1,9 @@
+Entered DirecTV order
+- directv_sale = log_entry.trackable
+= precede '#' do
+  = directv_sale.order_number
+- directv_customer = directv_sale.directv_customer
+for
+= directv_customer_link(directv_customer)
+in
+%span.comment= directv_customer.location.name

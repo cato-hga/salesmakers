@@ -1,0 +1,101 @@
+- title @comcast_customer.name
+
+.widgets
+  .widget#comcast_customer
+    .inner
+      %h3 Basic Information
+      %p
+        %strong Mobile phone:
+        = phone_link @comcast_customer.mobile_phone
+      %p
+        %strong Other phone:
+        = phone_link @comcast_customer.other_phone
+      %p
+        %strong Entered by:
+        = person_link @comcast_customer.person
+      %p
+        %strong Entered:
+        = friendly_datetime(@comcast_customer.created_at)
+      - unless @comcast_customer.comments.blank?
+        %p
+          %strong Comments:
+          %br/
+          %span.comment= @comcast_customer.comments
+  - lead = @comcast_customer.comcast_lead
+  - sale = @comcast_customer.comcast_sale
+  - manage = ComcastCustomer.manageable(@current_person).include?(@comcast_customer)
+  - if lead
+    .widget#comcast_lead
+      .inner
+        %h3
+          Lead Details
+          - if not sale and manage
+            = link_to icon('page-edit') + ' Edit Lead', edit_comcast_customer_comcast_lead_path(@comcast_customer.id, lead.id), class: [:button, :rounded, :inline_button]
+        %p
+          %strong Follow up by:
+          = short_date lead.follow_up_by
+        %p
+          %strong Interested in:
+          - services = Array.new
+          - services << 'Television' if lead.tv?
+          - services << 'Internet' if lead.internet?
+          - services << 'Phone' if lead.phone?
+          - services << 'Security' if lead.security?
+          = services.join ', '
+        - unless lead.comments.blank?
+          %p
+            %strong Comments:
+            %br/
+            %span.comment= lead.comments
+        - unless lead.active
+          %p
+            %strong Dismissal Reason:
+            - if @comcast_customer.comcast_lead_dismissal_reason
+              = @comcast_customer.comcast_lead_dismissal_reason.name
+            - else
+              N/A
+
+        - if lead.active
+          %p
+            - if manage
+              = link_to 'Dismiss Lead', dismiss_comcast_customer_comcast_lead_path(@comcast_customer, lead),class: [:button, :alert]
+            - if @current_person.manager_or_hq?
+              = link_to 'Reassign Lead', reassign_comcast_customer_comcast_lead_path(@comcast_customer, lead), class: [:button]
+  - if sale
+    .widget#comcast_sale
+      .inner
+        %h3 Sale Details
+        %p
+          %strong Order date:
+          = short_date sale.order_date
+        %p
+          %strong Entered by:
+          = person_link sale.person
+        %p
+          %strong Entered:
+          = friendly_datetime sale.created_at
+        %p
+          %strong Order number:
+          = sale.order_number
+        %p
+          %strong Services:
+          - services = Array.new
+          - services << 'Television' if sale.tv?
+          - services << 'Internet' if sale.internet?
+          - services << 'Phone' if sale.phone?
+          - services << 'Security' if sale.security?
+          = services.join ', '
+        %p
+          %strong Installation:
+          - installation = short_date(sale.comcast_install_appointment.install_date)
+          - installation += ' (' + sale.comcast_install_appointment. |
+            comcast_install_time_slot.name + ')' |
+          = installation
+  - elsif ComcastCustomerPolicy.new(@current_person, ComcastCustomer.new).create?
+    - @converting = true
+    = render partial: 'comcast_sales/form', locals: { converting: @converting }
+  = render 'comcast_customer_notes/form'
+.widget#comcast_customer_notes
+  .inner
+    %h3 Notes
+    = render partial: 'comcast_customer_notes/table', locals: { comcast_customer_notes: @comcast_customer.comcast_customer_notes }

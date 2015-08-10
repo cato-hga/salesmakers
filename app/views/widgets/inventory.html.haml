@@ -1,0 +1,17 @@
+%h3
+  Inventory
+  %span.small.comment Current
+- if @person
+  .row.full-width
+    = stat 2, 'On-Hand', 'ok'
+    = stat 1, 'Transfer Not Accepted', 'bad'
+    .large-4.columns
+- else
+  .row.full-width
+    = stat 23, 'On-Hand', 'ok'
+    = stat 52, 'On Order', 'ok'
+    = stat 10, 'In Transit', 'neutral'
+  .row.full-width
+    = stat 17, 'Not Received', 'bad'
+    = stat 2, 'Employees without units', 'bad'
+    .large-4.columns

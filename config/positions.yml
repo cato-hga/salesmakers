@@ -1,0 +1,268 @@
+Vonage:
+  4:
+    Retail:
+      leader: Vonage Retail Territory Manager
+      not_leader: Vonage Retail Sales Specialist
+    Event:
+      leader: Vonage Event Team Leader
+      not_leader: Vonage Event Sales Specialist
+  3:
+    Retail:
+      leader: Vonage Retail Area Sales Manager
+      not_leader: Vonage Retail Sales Specialist
+    Event:
+      leader: Vonage Event Area Sales Manager
+      not_leader: Vonage Event Sales Specialist
+  2:
+    Retail:
+      leader: Vonage Retail Regional Manager
+      not_leader: Vonage Retail Sales Specialist
+    Event:
+      leader: Vonage Event Regional Manager
+      not_leader: Vonage Event Sales Specialist
+  1:
+    Retail:
+      leader: Vonage Retail Regional Vice President
+      not_leader: Vonage Retail Sales Specialist
+    Event:
+      leader: Vonage Event Regional Vice President
+      not_leader: Vonage Event Sales Specialist
+
+Sprint:
+  4:
+    Retail:
+      leader: Sprint Retail Sales Director
+      not_leader: Sprint Retail Sales Specialist
+    Event:
+      leader: Sprint Retail Sales Director
+      not_leader: Sprint Retail Sales Specialist
+  3:
+    Retail:
+      leader: Sprint Retail Sales Director
+      not_leader: Sprint Retail Sales Specialist
+    Event:
+      leader: Sprint Retail Sales Director
+      not_leader: Sprint Retail Sales Specialist
+  2:
+    Retail:
+      leader: Sprint Retail Regional Manager
+      not_leader: Sprint Retail Sales Specialist
+    Event:
+      leader: Sprint Retail Regional Manager
+      not_leader: Sprint Retail Sales Specialist
+  1:
+    Retail:
+      leader: Sprint Retail Regional Vice President
+      not_leader: Sprint Retail Sales Specialist
+    Event:
+      leader: Sprint Retail Regional Vice President
+      not_leader: Sprint Retail Sales Specialist
+
+Sprint Postpaid:
+  4:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  3:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  2:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+  1:
+    Retail:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+    Event:
+      leader: Sprint RadioShack Sales Director
+      not_leader: Sprint RadioShack SalesMaker
+
+Comcast:
+  4:
+    Retail:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+    Event:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+  3:
+    Retail:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+    Event:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+  2:
+    Retail:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+    Event:
+      leader: Comcast Retail Territory Manager
+      not_leader: Comcast Retail Sales Specialist
+  1:
+    Retail:
+      leader: Comcast Retail Regional Vice President
+      not_leader: Comcast Retail Sales Specialist
+    Event:
+      leader: Comcast Retail Regional Vice President
+      not_leader: Comcast Retail Sales Specialist
+
+DirecTV:
+  4:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  3:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  2:
+    Retail:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Territory Manager
+      not_leader: DirecTV Retail Sales Specialist
+  1:
+    Retail:
+      leader: DirecTV Retail Regional Vice President
+      not_leader: DirecTV Retail Sales Specialist
+    Event:
+      leader: DirecTV Retail Regional Vice President
+      not_leader: DirecTV Retail Sales Specialist
+
+Corporate:
+  specialists:
+    4:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    3:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    2:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    1:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+  smsupport:
+    4:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    3:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    2:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+    1:
+      leader: SalesMakers Support Member
+      not_leader: SalesMakers Support Member
+  recruit:
+    4:
+      leader: Advocate Supervisor
+      not_leader: Advocate
+    3:
+      leader: Advocate Supervisor
+      not_leader: Advocate
+    2:
+      leader: Advocate Director
+      not_leader: Advocate
+    1:
+      leader: Advocate Director
+      not_leader: Advocate
+  advocate:
+    4:
+      leader: Advocate Supervisor
+      not_leader: Advocate
+    3:
+      leader: Advocate Supervisor
+      not_leader: Advocate
+    2:
+      leader: Advocate Director
+      not_leader: Advocate
+    1:
+      leader: Advocate Director
+      not_leader: Advocate
+  human:
+    4:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    3:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    2:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+    1:
+      leader: Human Resources Director
+      not_leader: Human Resources Administrator
+  training:
+    4:
+      leader: Trainer
+      not_leader: Trainer
+    3:
+      leader: Trainer
+      not_leader: Trainer
+    2:
+      leader: Trainer
+      not_leader: Trainer
+    1:
+      leader: Trainer
+      not_leader: Trainer
+  technology:
+    4:
+      leader: Information Technology Support Technician
+      not_leader: Information Technology Support Technician
+    3:
+      leader: Information Technology Support Technician
+      not_leader: Information Technology Support Technician
+    2:
+      leader: Information Technology Support Technician
+      not_leader: Information Technology Support Technician
+    1:
+      leader: Information Technology Support Technician
+      not_leader: Information Technology Support Technician
+  operations:
+    4:
+      leader: Operations Coordinator
+      not_leader: Operations Coordinator
+    3:
+      leader: Operations Coordinator
+      not_leader: Operations Coordinator
+    2:
+      leader: Operations Coordinator
+      not_leader: Operations Coordinator
+    1:
+      leader: Operations Coordinator
+      not_leader: Operations Coordinator
+  accounting:
+    4:
+      leader: Accountant
+      not_leader: Accountant
+    3:
+      leader: Accountant
+      not_leader: Accountant
+    2:
+      leader: Accountant
+      not_leader: Accountant
+    1:
+      leader: Accountant
+      not_leader: Accountant

@@ -1,0 +1,19 @@
+<% from_person = @sms_message.from_person %>
+<% from_candidate = @sms_message.from_candidate %>
+
+New Text Message Reply
+
+<% if from_person %>
+<%= from_person.display_name %>
+<% elsif from_candidate %>
+<%= from_candidate.name %>
+has just replied to your previous text message:
+<% end %>
+
+"<%= @sms_message.message %>"
+
+<% if from_candidate %>
+Visit this address to reply: <%= new_sms_message_candidate_url(from_candidate) %>
+<% elsif from_person %>
+Visit this address to reply: <%= new_sms_message_person_url(from_person) %>
+<% end %>

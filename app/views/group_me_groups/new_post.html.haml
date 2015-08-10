@@ -1,0 +1,45 @@
+- title 'Post to GroupMe Group(s)'
+
+- project_groups = Hash.new
+- current_project_name = 'FOOBAR'
+- current_project_groups = []
+- for group_me_group in @group_me_groups do
+  - project_name = group_me_group.area ? group_me_group.area.project.name : 'No Project'
+  - if current_project_name != project_name
+    - project_groups[current_project_name] = current_project_groups
+    - current_project_name = project_name
+    - current_project_groups = []
+  - current_project_groups << group_me_group
+- project_groups[current_project_name] = current_project_groups
+
+.widget
+  .inner
+    = form_tag post_group_me_groups_path, method: :post, multipart: true do
+      - project_groups.except('FOOBAR').each do |project_name, group_me_groups|
+        %fieldset
+          %legend= project_name
+          %p
+            %a.select_all Select All
+            \|
+            %a.select_none Select None
+          - for group_me_group in group_me_groups do
+            - area = group_me_group.area
+            - area_name = area ? "#{area.name} &mdash; ".html_safe : ''
+            = check_box_tag "group_me_group_ids[]", group_me_group.id, false
+            = "#{area_name}\"#{group_me_group.name}\"".html_safe
+            %br/
+      = label_tag 'message', 'Message'
+      = text_area_tag 'message', @message, rows: 5
+      = label_tag 'file', 'Attachment'
+      = file_field_tag 'file'
+      = label_tag 'schedule', 'Schedule'
+      %p#scheduleHelpText
+        %span.small
+          Leave blank to send now. Use your local time. The time zone will be
+          automatically recognized from your computer's time zone.
+          %br/
+          %span.comment
+            Try: "9pm", "tomorrow at noon", "1/27 10:30am", "saturday at 7:10am", "ten minutes from now"
+      = text_field_tag 'schedule', @schedule_when, 'aria-describedby' => 'scheduleHelpText', placeholder: "Don't forget am/pm"
+      = submit_tag 'Post', class: [:button]
+      .within_length.ok 375

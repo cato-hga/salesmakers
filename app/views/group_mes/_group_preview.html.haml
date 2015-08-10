@@ -1,0 +1,21 @@
+-#.row.full-width.group_preview{ data:{ group_id: group['group_id'] } }
+-#  .large-2.columns.centered_text
+-#    - if group['image_url']
+-#      = link_to image_tag(group['image_url'] + '.avatar', class: :chat_avatar), '#', class: :group_link
+-#    - else
+-#      = link_to image_tag('https://app.groupme.com/images/default-avatar.jpg', class: :chat_avatar), '#', class: :group_link
+-#    - if group['messages'] and group['messages']['last_message_created_at']
+-#      .timestamp.small.comment
+-#        = Time.at(group['messages']['last_message_created_at']).strftime '%m/%d/%Y %-l:%M%P'
+-#  .large-9.columns
+-#    .heading
+-#      = link_to group['name'], '#', class: :group_link
+-#    .content.small
+-#      - if group['messages']['preview']['attachments'] and group['messages']['preview']['attachments'].count > 0 and group['messages']['preview']['attachments'][0]['type'] == 'image'
+-#        %strong=  group['messages']['preview']['nickname'] + ' '
+-#        posted an image.
+-#      - else
+-#        %strong=  group['messages']['preview']['nickname'] + ': '
+-#        = groupme_emoji_filter group['messages']['preview']['text'], group['messages']['preview']['attachments']
+-#  .large-1.columns
+-#    %a.close X

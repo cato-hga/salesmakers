@@ -1,0 +1,19 @@
+%h3 Recent and Upcoming Installations
+
+- recent = @comcast_installations.recent_installations
+- upcoming = @comcast_installations.upcoming_installations
+
+- if @comcast_installations.count == 0
+  .comment None.
+- if recent.count > 0
+  #recent_installations
+    %h4
+      Recent
+      %span.small.comment 1 week
+    = render partial: 'comcast_sales/installations_table', locals: { sales: recent }
+- if upcoming.count > 0
+  #upcoming_installations
+    %h4
+      Upcoming
+      %span.small.comment 1 week
+    = render partial: 'comcast_sales/installations_table', locals: { sales: upcoming }

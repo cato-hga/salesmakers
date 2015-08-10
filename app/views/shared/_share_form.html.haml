@@ -1,0 +1,38 @@
+- if wall and wall.wallable != current_person
+  .widget.share_form
+    .inner
+      %dl#post_tabs.tabs{ data: { tab: '' } }
+        %dd.active
+          = link_to 'Text', '#text_tab', id: 'text_tab_link'
+        %dd
+          = link_to 'Photo', '#photos_tab', id: 'photos_tab_link'
+        %dd
+          = link_to 'Video', '#video_tab', id: 'video_tab_link'
+        %dd
+          = link_to 'Link', '#link_tab', id: 'link_tab_link'
+      .tabs-content
+        #text_tab.content.active
+          = form_for text_post, remote: true, authenticity_token: true do |f|
+            = f.text_area :content, placeholder: 'Share some text...', rows: 3
+            .row.full-width
+              .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
+              = collection_select :text_post, :wall_id, walls.sort_by(&:name), :id, :name, { selected: wall.id }, { class: 'large-9 medium-8 small-8 columns' }
+        #photos_tab.content
+          = form_for uploaded_image, remote: true, authenticity_token: true do |f|
+            = f.file_field :image
+            = f.text_field :caption, placeholder: 'Enter image caption'
+            .row.full-width
+              .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
+              = collection_select :uploaded_image, :wall_id, walls.sort_by(&:name), :id, :name, { selected: wall.id }, { class: 'large-9 medium-8 small-8 columns' }
+        #video_tab.content
+          = form_for uploaded_video, remote: true, authenticity_token: true do |f|
+            = f.text_field :url, placeholder: 'Link'
+            .row.full-width
+              .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
+              = collection_select :uploaded_video, :wall_id, walls.sort_by(&:name), :id, :name, { selected: wall.id }, { class: 'large-9 medium-8 small-8 columns' }
+        #link_tab.content
+          = form_for link_post, remote: true, authenticity_token: true do |f|
+            = f.text_field :url, placeholder: 'Link'
+            .row.full-width
+              .large-3.medium-4.small-4.columns= f.submit 'Share', class: 'button full-width'
+              = collection_select :link_post, :wall_id, walls.sort_by(&:name), :id, :name, { selected: wall.id }, { class: 'large-9 medium-8 small-8 columns' }

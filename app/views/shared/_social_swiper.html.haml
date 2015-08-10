@@ -1,0 +1,36 @@
+-#RailsBestPractices
+-#No usages found for this file
+.swiper-container
+  .swiper-wrapper
+    - for message in messages do
+      .swiper-slide
+        .slide.full-width
+          .inner
+            .post
+              - if message.attachments and message.attachments.count > 0
+                %img{ src: message.attachments[0]['url'] }
+              - if message.text
+                - text = message.text.split[0..60].join(' ')
+                %p
+                  = text
+                  - unless text.length == message.text.length
+                    %span.comment ... (More)
+            - if message.avatar
+              .avatar
+                %img{ src: message.avatar }
+            .author
+              %strong Posted by
+              %a=message.author
+              on
+              %em= message.group_name
+              at
+              %em= message.created_at.strftime '%m/%d/%Y %-l:%M%P'
+            .actions
+              %a
+                Like
+                = surround '(', ')' do
+                  = message.likes
+              \/
+              %a Report
+              \/
+              %a Direct Message

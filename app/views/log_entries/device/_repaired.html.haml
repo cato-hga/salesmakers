@@ -1,0 +1,7 @@
+.entry_type
+  Marked as repaired
+  .time_ago
+    = time_ago_in_words(log_entry.created_at) + ' ago'
+.entry_pertains_to= device_link(log_entry.trackable)
+by
+= person_link log_entry.person

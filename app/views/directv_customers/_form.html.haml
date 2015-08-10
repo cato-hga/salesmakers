@@ -1,0 +1,26 @@
+- if @directv_customer.errors.any?
+  - @directv_customer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @directv_customer do |f|
+      - if @directv_locations
+        - options = options_from_collection_for_select(@directv_locations, 'id', 'name')
+      - else
+        - options = ''
+      = f.label :location_id
+      = f.select :location_id, options
+      = f.label :first_name
+      = f.text_field :first_name
+      = f.label :last_name
+      = f.text_field :last_name
+      = f.label :mobile_phone
+      = f.text_field :mobile_phone
+      = f.label :other_phone
+      = f.text_field :other_phone
+      = f.label :comments
+      = f.text_area :comments
+      = hidden_field_tag 'save_as_lead', 'false'
+      = f.submit 'Enter Sale', class: :button
+      %a.button(href="#" id="submit_save_as_lead") Save as Lead

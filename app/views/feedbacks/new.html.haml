@@ -1,0 +1,15 @@
+-#.widget.feedback_form
+-#  .inner
+-#    %h3 Send us feedback!
+-#
+-#    = simple_form_for @feedback do |f|
+-#      -# These hidden fields can be used to pass along debugging information
+-#      = f.hidden_field :person, value: @current_person.display_name
+-#      = f.hidden_field :email, value: @current_person.email
+-#      = f.hidden_field :position, value: @current_person.position.name
+-#      = f.label :subject
+-#      = f.text_field :subject, required: true
+-#      = f.label :message
+-#      = f.text_area :message, required: true
+-#      = f.hidden_field :nickname
+-#      = f.submit 'Send', class: 'button'

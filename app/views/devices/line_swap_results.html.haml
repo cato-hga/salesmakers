@@ -1,0 +1,7 @@
+- title 'Line Swap Results for ' + @device.identifier
+
+#swap_results.widget
+  .inner
+    %p= "#{line_display(@device.line)} will be removed from #{@device.identifier} and replaced by #{line_display(@second_device.line)}"
+    %p= "#{line_display(@second_device.line)} will be removed from #{@second_device.identifier} and replaced by #{line_display(@device.line)}"
+    = button_to 'Confirm Swap', line_swap_finalize_device_path(@device, @second_device), method: :patch, class: ['button']

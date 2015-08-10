@@ -1,0 +1,120 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ */
+
+@import 'foundation_and_overrides';
+@import 'foundation-icons';
+
+@import 'base';
+@import 'media_min_mobile';
+@import 'media_min_tablet';
+@import 'media_max_tablet';
+@import 'media_min_high_res';
+@import 'media_min_hd';
+@import 'print';
+@import 'ns-default';
+@import 'ns-style-growl';
+
+.ns-effect-genie {
+	background: black;
+	opacity: 0.8;
+	p a {
+		text-decoration: underline;
+		font-weight: normal;
+	}
+}
+
+.ns-effect-genie .ns-close::after, .ns-effect-genie .ns-close::before {
+	background: $sm_blue;
+}
+
+/* Putting this here, so that the classes can use foundation variables */
+
+@media only screen {
+	.table {
+		display: table;
+		background: $table-bg;
+		margin-bottom: $table-margin-bottom;
+		border: $table-border-style $table-border-size $table-border-color;
+		width: 100%;
+		//caption {
+		//	background: $table-caption-bg;
+		//	color: $table-caption-font-color;
+		//	font: {
+		//		size: $table-caption-font-size;
+		//		weight: $table-caption-font-weight;
+		//	}
+		//}
+		.tableheader {
+			display: table-header-group;
+			background: $table-head-bg;
+
+			.tablerow {
+				display: table-row;
+				th,
+				.tablecell {
+					display: table-cell;
+					padding: $table-head-padding;
+					font-size: $table-head-font-size;
+					font-weight: $table-head-font-weight;
+					color: $table-head-font-color;
+				}
+			}
+		}
+		//tfoot {
+		//	background: $table-foot-bg;
+		//
+		//	tr {
+		//		th,
+		//		td {
+		//			padding: $table-foot-padding;
+		//			font-size: $table-foot-font-size;
+		//			font-weight: $table-foot-font-weight;
+		//			color: $table-foot-font-color;
+		//		}
+		//	}
+		//}
+		.tablebody {
+			.tablerow {
+				display: table-row;
+				th,
+				.tablecell {
+					display: table-cell;
+					padding: $table-row-padding;
+					font-size: $table-row-font-size;
+					color: $table-row-font-color;
+					text-align: $default-float;
+				}
+
+				&.even,
+				&.alt,
+				&:nth-of-type(even) {
+					background: $table-even-row-bg;
+				}
+			}
+		}
+
+		.tableheader .tablerow th,
+			//tfoot tr th,
+			//tfoot tr td,
+		.tablebody .tablerow th,
+		.tablebody .tablerow .tablecell,
+		.tablerow .tablecell {
+			display: $table-display;
+			line-height: $table-line-height;
+		}
+
+		.tablebody {
+			display: table-row-group;
+		}
+	}
+}

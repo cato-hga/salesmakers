@@ -1,0 +1,771 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://www.workmarket.com/api/v1/authorization/request
+    body:
+      encoding: UTF-8
+      string: token=0Ft3BIzVFhfFOP1dFXmq&secret=n5P0ZNrjpIyuUw7KIBdNW7ENT0TmdAQevTQbk7Ow
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Headers:
+      - Content-Type, x-http-method-override
+      Access-Control-Allow-Methods:
+      - GET, POST, PUT, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Max-Age:
+      - '1800'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 03 Aug 2015 12:48:38 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.015,"timestamp":1438606118},"response":{"access_token":"3BjFAjLYRygnE6OFyvSI"}}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:48:38 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/crm/clients/list?access_token=3BjFAjLYRygnE6OFyvSI
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 03 Aug 2015 12:48:38 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '477'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.164,"timestamp":1438606118},"response":[{"id":26665,"name":"AAFES","customer_id":"101"},{"id":26661,"name":"Bed
+        Bath and Beyond","customer_id":"100"},{"id":30517,"name":"COX Communications","customer_id":""},{"id":28965,"name":"DripDrop","customer_id":""},{"id":30513,"name":"Moshi","customer_id":""},{"id":29605,"name":"Sales
+        makers","customer_id":""},{"id":31385,"name":"Training Vids","customer_id":""}]}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:48:38 GMT
+- request:
+    method: get
+    uri: https://www.workmarket.com/api/v1/crm/locations/list?access_token=3BjFAjLYRygnE6OFyvSI&client_id=26665
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Accept:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 03 Aug 2015 12:48:40 GMT
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":1.08,"timestamp":1438606118},"response":[{"id":2935317,"name":"1010209","location_number":null,"address_1":"787
+        SIXTH ST","address_2":null,"city":"LITTLEROCK AFB","state":"AR","zip":"72099","country":"USA"},{"id":3026441,"name":"1010348","location_number":"","address_1":"455
+        CURTISS RD BLDG 4711","address_2":"","city":"BARKSDALE AFB","state":"LA","zip":"71110","country":"USA"},{"id":3026445,"name":"1010348","location_number":"","address_1":"455
+        CURTISS RD BLDG 4711","address_2":"","city":"BARKSDALE AFB","state":"LA","zip":"71110","country":"USA"},{"id":2935353,"name":"1010348","location_number":null,"address_1":"455
+        CURTISS RD BLDG 4711","address_2":null,"city":"BARKSDALE AFB","state":"LA","zip":"71110","country":"USA"},{"id":2935349,"name":"1010419","location_number":null,"address_1":"7742
+        COLORADO AVE BLDG 850","address_2":null,"city":"FT POLK","state":"LA","zip":"71459","country":"USA"},{"id":2935237,"name":"1010801","location_number":null,"address_1":"BLDG
+        2420 ATTN:STOCKROOM 2503 FUNSTON RD","address_2":null,"city":"FT SAM HOUSTON","state":"TX","zip":"78234","country":"USA"},{"id":2935245,"name":"1010911","location_number":null,"address_1":"630
+        3RD ST WEST BLDG 1068","address_2":null,"city":"RANDOLPH AFB","state":"TX","zip":"78150","country":"USA"},{"id":2935241,"name":"1011001","location_number":null,"address_1":"BLDG
+        1385 2180 REESE ST","address_2":null,"city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":2935233,"name":"1011301","location_number":null,"address_1":"BLDG
+        50004 CLEAR CREEK RD","address_2":null,"city":"FT HOOD","state":"TX","zip":"76544","country":"USA"},{"id":2935309,"name":"1011501","location_number":null,"address_1":"BLDG
+        1801 EXCHANGE PARKWAY","address_2":null,"city":"WACO","state":"TX","zip":"76712","country":"USA"},{"id":2935381,"name":"1011601","location_number":null,"address_1":"260
+        COMMISSARY RD BLDG 7339","address_2":null,"city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":2935385,"name":"1011726","location_number":null,"address_1":"220
+        COMMUNITY CENTER DR. BLDG. 239","address_2":null,"city":"SHEPPARD AFB","state":"TX","zip":"76311","country":"USA"},{"id":2935229,"name":"1011801","location_number":null,"address_1":"BLDG
+        1611 HAAN & MARSHALL RD","address_2":null,"city":"FT BLISS","state":"TX","zip":"79906","country":"USA"},{"id":2935373,"name":"1011901","location_number":null,"address_1":"BLDG
+        1718 MACOMB ROAD","address_2":null,"city":"FT SILL","state":"OK","zip":"73503","country":"USA"},{"id":2935297,"name":"1012001","location_number":null,"address_1":"3360
+        N AVE BLDG 685","address_2":null,"city":"TINKER AFB","state":"OK","zip":"73145","country":"USA"},{"id":3014401,"name":"1012303","location_number":"","address_1":"8001
+        GIBSON BLVD SE BLDG 20170","address_2":"","city":"KIRTLAND AFB","state":"NM","zip":"87117","country":"USA"},{"id":2935365,"name":"1012303","location_number":null,"address_1":"8001
+        GIBSON BLVD SE BLDG 20170","address_2":null,"city":"KIRTLAND AFB","state":"NM","zip":"87117","country":"USA"},{"id":2935285,"name":"1030137","location_number":null,"address_1":"BLDG
+        8-5050 2ND & BUTNER RD","address_2":null,"city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":2935361,"name":"1030205","location_number":null,"address_1":"1350
+        EDWARDS ST","address_2":null,"city":"GOLDSBORO","state":"NC","zip":"27531","country":"USA"},{"id":2935305,"name":"1030404","location_number":null,"address_1":"BLDG
+        4110 MOSEBY STREET","address_2":null,"city":"FT JACKSON","state":"SC","zip":"29207","country":"USA"},{"id":2935377,"name":"1030502","location_number":null,"address_1":"370
+        RHODES AVE","address_2":null,"city":"SUMTER","state":"SC","zip":"29152","country":"USA"},{"id":2935473,"name":"1030705","location_number":null,"address_1":"BLDG
+        1990 101 LAWSON","address_2":null,"city":"CHARLESTON AFB","state":"SC","zip":"29404","country":"USA"},{"id":2935445,"name":"1030905","location_number":null,"address_1":"BR
+        10-01 BUILDING 38200","address_2":null,"city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":2935453,"name":"1031003","location_number":null,"address_1":"982
+        MACON ST","address_2":null,"city":"ROBINS AFB","state":"GA","zip":"31098","country":"USA"},{"id":2935449,"name":"1031126","location_number":null,"address_1":"345
+        LINDQUIST RD BLDG 71 P.O. BOX 3700","address_2":null,"city":"FT STEWART","state":"GA","zip":"31314","country":"USA"},{"id":2935441,"name":"1031211","location_number":null,"address_1":"BLDG
+        9220 MARNE RD","address_2":null,"city":"FT BENNING","state":"GA","zip":"31905","country":"USA"},{"id":2935405,"name":"1031605","location_number":null,"address_1":"355
+        KELLY ST BLDG 1090","address_2":null,"city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":2935397,"name":"1031705","location_number":null,"address_1":"FIFTH
+        AVE BLDG 9214","address_2":null,"city":"FT RUCKER","state":"AL","zip":"36362","country":"USA"},{"id":2935401,"name":"1031905","location_number":null,"address_1":"BLDG
+        3220 ACTON DRIVE","address_2":null,"city":"REDSTONE ARSENAL","state":"AL","zip":"35898","country":"USA"},{"id":2935209,"name":"1032125","location_number":null,"address_1":"BLDG
+        926 3108 N BOUNDARY BLVD","address_2":null,"city":"MACDILL AFB","state":"FL","zip":"33608","country":"USA"},{"id":2935281,"name":"1032215","location_number":null,"address_1":"1221
+        S. PATRICK DR SUITE 101 BLDG 1364","address_2":null,"city":"PATRICK AFB","state":"FL","zip":"32925","country":"USA"},{"id":2935429,"name":"1032216","location_number":null,"address_1":"P.O.
+        BOX 6842  BLDG 926B 3108 NORTH BOUNDARY BLVD","address_2":null,"city":"MACDILL
+        AFB","state":"FL","zip":"33608","country":"USA"},{"id":2935433,"name":"1032240","location_number":null,"address_1":"BLDG
+        924 P.O. BOX 6842","address_2":null,"city":"MACDILL AFB","state":"FL","zip":"33608","country":"USA"},{"id":2935437,"name":"1032254","location_number":null,"address_1":"2908
+        N BOUNDARY BLVD","address_2":null,"city":"MACDILL AFB","state":"FL","zip":"33608","country":"USA"},{"id":2935425,"name":"1032405","location_number":null,"address_1":"220
+        MALL LANE STE 2 BLDG 950","address_2":null,"city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":2935421,"name":"1032462","location_number":null,"address_1":"9301
+        33RD STREET","address_2":null,"city":"DORAL","state":"FL","zip":"33172","country":"USA"},{"id":2935409,"name":"1032513","location_number":null,"address_1":"BLDG
+        1757 MEMORIAL LAKE TRAIL","address_2":null,"city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":2935333,"name":"1032546","location_number":null,"address_1":"BLDG
+        91012","address_2":null,"city":"HURLBURT FIELD","state":"FL","zip":"32544","country":"USA"},{"id":2969721,"name":"1032605","location_number":"","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":2969297,"name":"1032605","location_number":"","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":2935413,"name":"1032653","location_number":null,"address_1":"BLDG
+        1755 STE 1 1511 MEMORIAL LAKETRAIL","address_2":null,"city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":2935417,"name":"1032711","location_number":null,"address_1":"BLDG
+        4310 77TH SPECIAL FORCES WAY","address_2":null,"city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":2969353,"name":"1032749","location_number":"","address_1":"4715
+        HEWES AVE BLDG 23","address_2":"","city":"GULFPORT ANG","state":"MS","zip":"39507","country":"USA"},{"id":2935289,"name":"1040303","location_number":null,"address_1":"BLDG
+        Z3252 1017 CANOPY LANE","address_2":null,"city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":2935201,"name":"1040404","location_number":null,"address_1":"195
+        CHAPPIE JAMES BLVD BLDG 4514","address_2":null,"city":"WASHINGTON","state":"DC","zip":"20032","country":"USA"},{"id":2935217,"name":"1040711","location_number":null,"address_1":"BLDG.
+        2790 MACARTHUR & REECE ROAD","address_2":null,"city":"FT. GEORGE G. MEADE","state":"MD","zip":"20755","country":"USA"},{"id":2969425,"name":"1041302","location_number":"","address_1":"BLDG
+        450 2ND & MCNAIR STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":2935205,"name":"1041716","location_number":null,"address_1":"8651
+        JOHN J KINGMAN BLDG 2321","address_2":null,"city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":2935465,"name":"1043701","location_number":null,"address_1":"10730A
+        ENDURNG FREDOM DR BLDG P-10730A","address_2":null,"city":"FT DRUM","state":"NY","zip":"13602","country":"USA"},{"id":2935469,"name":"1044343","location_number":null,"address_1":"BLDG
+        40 WATERVLIET ARSENAL","address_2":null,"city":"WATERVILIET","state":"NY","zip":"12189","country":"USA"},{"id":2935221,"name":"1044601","location_number":null,"address_1":"GENERAL
+        LEE AVE BLDG 123","address_2":null,"city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":2969445,"name":"1047521","location_number":"","address_1":"BLDG
+        844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3021545,"name":"1047521","location_number":"","address_1":"BLDG
+        844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":2935293,"name":"1061502","location_number":null,"address_1":"BLDG
+        5280,PENDLETON AVE. MAIL STOP 46","address_2":null,"city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":2935393,"name":"1061602","location_number":null,"address_1":"101
+        W SPAATZ RD BUILDING 2465","address_2":null,"city":"FAIRCHILD AFB","state":"WA","zip":"99011","country":"USA"},{"id":2935269,"name":"1063109","location_number":null,"address_1":"23640
+        ''N'' ST","address_2":null,"city":"RIVERSIDE","state":"CA","zip":"92518","country":"USA"},{"id":2935261,"name":"1063302","location_number":null,"address_1":"240
+        W. FITZGERALD AVE.","address_2":null,"city":"EDWARDS AFB","state":"CA","zip":"93524","country":"USA"},{"id":2935265,"name":"1063410","location_number":null,"address_1":"BLDG
+        918 LANGFORD LAKE RD","address_2":null,"city":"FT IRWIN","state":"CA","zip":"92310","country":"USA"},{"id":2935193,"name":"1064102","location_number":null,"address_1":"483
+        N AVIATION BLVD BLDG 252","address_2":null,"city":"EL SEGUNDO","state":"CA","zip":"90245","country":"USA"},{"id":2935389,"name":"1066010","location_number":null,"address_1":"AAFES/DMCR
+        5845 E AVE BLDG 412","address_2":null,"city":"HILL AFB","state":"UT","zip":"84056","country":"USA"},{"id":2935225,"name":"1066221","location_number":null,"address_1":"5691
+        RICKENBACKER RD. BLDG 431","address_2":null,"city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":2969617,"name":"1067100","location_number":"","address_1":"3703
+        Neely Road BLDG 3703-B SOUTHGATE RD","address_2":"","city":"Fort WAINWRIGHT","state":"AK","zip":"99703","country":"USA"},{"id":2935461,"name":"1068412","location_number":null,"address_1":"BLDG
+        1340 7200 PERIMETER  RD","address_2":null,"city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":2935257,"name":"1068560","location_number":null,"address_1":"5405
+        E GRANITE ST BLDG 2527","address_2":null,"city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":2935253,"name":"1068635","location_number":null,"address_1":"3360
+        S. CRAYCROFT RD. BLDG. 2446","address_2":null,"city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":2935321,"name":"1068702","location_number":null,"address_1":"BLDG
+        52030","address_2":null,"city":"FT HUACHUCA","state":"AZ","zip":"85613","country":"USA"},{"id":2935273,"name":"1069205","location_number":null,"address_1":"54
+        Travis Avenue 461 SKYMASTER, BDLG 648","address_2":null,"city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":2935197,"name":"1069401","location_number":null,"address_1":"5443
+        DUDLEY BLVD BLDG 911  AAFES","address_2":null,"city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},{"id":2935369,"name":"1071010","location_number":null,"address_1":"BIRCH
+        ST - BLDG 1250 KITTYHAWK AREA","address_2":null,"city":"WPAFB","state":"OH","zip":"45433","country":"USA"},{"id":2957349,"name":"1072010","location_number":"","address_1":"48
+        DANIEL BOONE ST BLDG 127","address_2":"","city":"FT KNOX","state":"KY","zip":"40121","country":"USA"},{"id":2935457,"name":"1072010","location_number":null,"address_1":"48
+        DANIEL BOONE ST BLDG 127","address_2":null,"city":"FT KNOX","state":"KY","zip":"40121","country":"USA"},{"id":2935301,"name":"1072410","location_number":null,"address_1":"911TH
+        TAG BLDG 300  BROWN STREET","address_2":null,"city":"CORAOPOLIS","state":"PA","zip":"15108","country":"USA"},{"id":2969645,"name":"1073110","location_number":"","address_1":"SELFRIDGE
+        MAIN STORE BLDG # 700 GEORGE AVE","address_2":"","city":"SELFRIDGE ANGB","state":"MI","zip":"48045","country":"USA"},{"id":2935213,"name":"1075010","location_number":null,"address_1":"BLDG
+        1981 207 WEST WINTERS ST.","address_2":null,"city":"SCOTT AFB","state":"IL","zip":"62225","country":"USA"},{"id":2935357,"name":"1075416","location_number":null,"address_1":"143
+        REPLACEMENT AVE BLDG 487","address_2":null,"city":"FT LEONARD WOOD","state":"MO","zip":"65473","country":"USA"},{"id":2935341,"name":"1076210","location_number":null,"address_1":"330
+        KANSAS AVE BLDG 700","address_2":null,"city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":2935337,"name":"1076313","location_number":null,"address_1":"BLDG
+        2210 TROOPER DR","address_2":null,"city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":2935345,"name":"1077006","location_number":null,"address_1":"DERBY
+        CT. BLDG 313.","address_2":null,"city":"MCCONNEL AFB","state":"KS","zip":"67221","country":"USA"},{"id":2935277,"name":"1078110","location_number":null,"address_1":"365
+        N TELLURIDE ST STOP 76","address_2":null,"city":"AURORA","state":"CO","zip":"80011","country":"USA"},{"id":2969693,"name":"1078210","location_number":"","address_1":"BLDG
+        722 MISSLE DRIVE","address_2":"","city":"Cheyenne","state":"WY","zip":"82005","country":"USA"},{"id":2935325,"name":"1079010","location_number":null,"address_1":"6110
+        MARTINEZ STREET","address_2":null,"city":"COLO SPRINGS","state":"CO","zip":"80913","country":"USA"},{"id":2935329,"name":"1079105","location_number":null,"address_1":"BLDG
+        1510 CHILES AVE","address_2":null,"city":"FORT CARSON","state":"CO","zip":"80913","country":"USA"},{"id":3022849,"name":"1079210","location_number":"","address_1":"USAFA
+        BX, BLDG 5124","address_2":"","city":"COLO Springs","state":"CO","zip":"80840","country":"USA"},{"id":2969065,"name":"1079210","location_number":"","address_1":"USAFA
+        BX, BLDG 5124","address_2":"","city":"COLO Springs","state":"CO","zip":"80840","country":"USA"},{"id":2969069,"name":"1079210","location_number":"","address_1":"USAFA
+        BX, BLDG 5124","address_2":"","city":"COLO Springs","state":"CO","zip":"80840","country":"USA"},{"id":3044893,"name":"AAFES
+        - BARKSDALE AFB LA","location_number":"1010348","address_1":"455 CURTISS RD
+        BLDG 4711","address_2":"","city":"BARKSDALE AFB","state":"LA","zip":"71110","country":"USA"},{"id":3143029,"name":"AAFES
+        - BARKSDALE AFB LA","location_number":"1010348","address_1":"455 CURTISS RD
+        BLDG 4711","address_2":"","city":"BARKSDALE AFB","state":"LA","zip":"71110","country":"USA"},{"id":3071589,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601","address_1":"GENERAL LEE AVE BLDG
+        123","address_2":"","city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":3071605,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601","address_1":"GENERAL LEE AVE BLDG
+        123","address_2":"","city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":3071609,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601","address_1":"GENERAL LEE AVE BLDG
+        123","address_2":"","city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":3060445,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601","address_1":"GENERAL LEE AVE BLDG
+        123","address_2":"","city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":3044833,"name":"AAFES
+        - BROOKLYN NY","location_number":"1044601","address_1":"GENERAL LEE AVE BLDG
+        123","address_2":null,"city":"BROOKLYN","state":"NY","zip":"11252","country":"USA"},{"id":3207449,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3501873,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3093337,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3510389,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3511201,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3203033,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":"","city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3044845,"name":"AAFES
+        - CARLISLE PA","location_number":"1047521","address_1":"BLDG 844 SUMNER ROAD","address_2":null,"city":"CARLISLE","state":"PA","zip":"17013","country":"USA"},{"id":3045069,"name":"AAFES
+        - CHARLESTON AFB SC","location_number":"1030705","address_1":"BLDG 1990 101
+        LAWSON","address_2":null,"city":"CHARLESTON AFB","state":"SC","zip":"29404","country":"USA"},{"id":3207641,"name":"AAFES
+        - CHARLESTON AFB SC","location_number":"1030705","address_1":"BLDG 1990 101
+        LAWSON","address_2":"","city":"CHARLESTON AFB","state":"SC","zip":"29404","country":"USA"},{"id":3207645,"name":"AAFES
+        - CHARLESTON AFB SC","location_number":"1030705","address_1":"BLDG 1990 101
+        LAWSON","address_2":"","city":"CHARLESTON AFB","state":"SC","zip":"29404","country":"USA"},{"id":3044985,"name":"AAFES
+        - COLO SPRINGS CO","location_number":"1079010","address_1":"6110 MARTINEZ
+        STREET","address_2":null,"city":"COLO SPRINGS","state":"CO","zip":"80913","country":"USA"},{"id":3151301,"name":"AAFES
+        - COLO SPRINGS CO","location_number":"1079010","address_1":"6110 MARTINEZ
+        STREET","address_2":"","city":"COLO SPRINGS","state":"CO","zip":"80913","country":"USA"},{"id":3079437,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3088785,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3045033,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":null,"city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3207885,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3207905,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3114985,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3114989,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3215609,"name":"AAFES
+        - COLUMBUS AFB COLUMBUS MS","location_number":"1032605","address_1":"BLDG
+        160 SIMLER BLVD","address_2":"","city":"COLUMBUS AFB","state":"MS","zip":"39710","country":"USA"},{"id":3070521,"name":"AAFES
+        - CORAOPOLIS PA","location_number":"1072410","address_1":"911TH TAG BLDG 300  BROWN
+        STREET","address_2":"","city":"CORAOPOLIS","state":"PA","zip":"15108","country":"USA"},{"id":3044841,"name":"AAFES
+        - CORAOPOLIS PA","location_number":"1072410","address_1":"911TH TAG BLDG 300  BROWN
+        STREET","address_2":null,"city":"CORAOPOLIS","state":"PA","zip":"15108","country":"USA"},{"id":3106361,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068635","address_1":"3360 S. CRAYCROFT
+        RD. BLDG. 2446","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3097921,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3080517,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068635","address_1":"3360 S. CRAYCROFT
+        RD. BLDG. 2446","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3106377,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3044965,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068635","address_1":"3360 S. CRAYCROFT
+        RD. BLDG. 2446","address_2":null,"city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3044969,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":null,"city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3114969,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3114973,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3114977,"name":"AAFES
+        - DAVIS MONTHAN AFB AZ","location_number":"1068560","address_1":"5405 E GRANITE
+        ST BLDG 2527","address_2":"","city":"DAVIS MONTHAN AFB","state":"AZ","zip":"85707","country":"USA"},{"id":3151625,"name":"AAFES
+        - DYESS AFB TX","location_number":"1011601","address_1":"260 COMMISSARY RD
+        BLDG 7339","address_2":"","city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":3151433,"name":"AAFES
+        - DYESS AFB TX","location_number":"1011601","address_1":"260 COMMISSARY RD
+        BLDG 7339","address_2":"","city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":3201621,"name":"AAFES
+        - DYESS AFB TX","location_number":"1011601","address_1":"260 COMMISSARY RD
+        BLDG 7339","address_2":"","city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":3151317,"name":"AAFES
+        - DYESS AFB TX","location_number":"1011601","address_1":"260 COMMISSARY RD
+        BLDG 7339","address_2":"","city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":3045077,"name":"AAFES
+        - DYESS AFB TX","location_number":"1011601","address_1":"260 COMMISSARY RD
+        BLDG 7339","address_2":null,"city":"DYESS AFB","state":"TX","zip":"79607","country":"USA"},{"id":3106413,"name":"AAFES
+        - EDWARDS AFB CA","location_number":"1063302","address_1":"240 W. FITZGERALD
+        AVE.","address_2":"","city":"EDWARDS AFB","state":"CA","zip":"93524","country":"USA"},{"id":3044973,"name":"AAFES
+        - EDWARDS AFB CA","location_number":"1063302","address_1":"240 W. FITZGERALD
+        AVE.","address_2":null,"city":"EDWARDS AFB","state":"CA","zip":"93524","country":"USA"},{"id":3159081,"name":"AAFES
+        - EGLIN AFB FL","location_number":"1032513","address_1":"BLDG 1757 MEMORIAL
+        LAKE TRAIL","address_2":"","city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":3077973,"name":"AAFES
+        - EGLIN AFB FL","location_number":"1032513","address_1":"BLDG 1757 MEMORIAL
+        LAKE TRAIL","address_2":"","city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":3207877,"name":"AAFES
+        - EGLIN AFB FL","location_number":"1032513","address_1":"BLDG 1757 MEMORIAL
+        LAKE TRAIL","address_2":"","city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":3207881,"name":"AAFES
+        - EGLIN AFB FL","location_number":"1032513","address_1":"BLDG 1757 MEMORIAL
+        LAKE TRAIL","address_2":"","city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":3044813,"name":"AAFES
+        - EGLIN AFB FL","location_number":"1032513","address_1":"BLDG 1757 MEMORIAL
+        LAKE TRAIL","address_2":null,"city":"EGLIN AFB","state":"FL","zip":"32542","country":"USA"},{"id":3051357,"name":"AAFES
+        - EL SEGUNDO CA","location_number":"1064102","address_1":"483 N AVIATION BLVD
+        BLDG 252","address_2":"","city":"EL SEGUNDO","state":"CA","zip":"90245","country":"USA"},{"id":3044789,"name":"AAFES
+        - EL SEGUNDO CA","location_number":"1064102","address_1":"483 N AVIATION BLVD
+        BLDG 252","address_2":null,"city":"EL SEGUNDO","state":"CA","zip":"90245","country":"USA"},{"id":3150397,"name":"AAFES
+        - FAIRCHILD AFB WA","location_number":"1061602","address_1":"101 W SPAATZ
+        RD BUILDING 2465","address_2":"","city":"FAIRCHILD AFB","state":"WA","zip":"99011","country":"USA"},{"id":3132525,"name":"AAFES
+        - FAIRCHILD AFB WA","location_number":"1061602","address_1":"101 W SPAATZ
+        RD BUILDING 2465","address_2":"","city":"FAIRCHILD AFB","state":"WA","zip":"99011","country":"USA"},{"id":3150033,"name":"AAFES
+        - FAIRCHILD AFB WA","location_number":"1061602","address_1":"101 W SPAATZ
+        RD BUILDING 2465","address_2":"","city":"FAIRCHILD AFB","state":"WA","zip":"99011","country":"USA"},{"id":3045093,"name":"AAFES
+        - FAIRCHILD AFB WA","location_number":"1061602","address_1":"101 W SPAATZ
+        RD BUILDING 2465","address_2":null,"city":"FAIRCHILD AFB","state":"WA","zip":"99011","country":"USA"},{"id":3204165,"name":"AAFES
+        - FE WARREN AFB CHEYENNE WY","location_number":"1078210","address_1":"BLDG
+        722 MISSLE DRIVE","address_2":"","city":"FE WARREN AFB","state":"WY","zip":"82005","country":"USA"},{"id":3045097,"name":"AAFES
+        - FE WARREN AFB CHEYENNE WY","location_number":"1078210","address_1":"BLDG
+        722 MISSLE DRIVE","address_2":null,"city":"FE WARREN AFB","state":"WY","zip":"82005","country":"USA"},{"id":3467365,"name":"AAFES
+        - FORT CARSON CO","location_number":"1079105","address_1":"BLDG 1510 CHILES
+        AVE","address_2":"","city":"FORT CARSON","state":"CO","zip":"80913","country":"USA"},{"id":3044989,"name":"AAFES
+        - FORT CARSON CO","location_number":"1079105","address_1":"BLDG 1510 CHILES
+        AVE","address_2":null,"city":"FORT CARSON","state":"CO","zip":"80913","country":"USA"},{"id":3159513,"name":"AAFES
+        - FORT CARSON CO","location_number":"1079105","address_1":"BLDG 1510 CHILES
+        AVE","address_2":"","city":"FORT CARSON","state":"CO","zip":"80913","country":"USA"},{"id":3159525,"name":"AAFES
+        - FORT CARSON CO","location_number":"1079105","address_1":"BLDG 1510 CHILES
+        AVE","address_2":"","city":"FORT CARSON","state":"CO","zip":"80913","country":"USA"},{"id":3210525,"name":"AAFES
+        - FORT WAINWRIGHT AK","location_number":"1067100","address_1":"3703 Neely
+        Road BLDG 3703-B SOUTHGATE RD","address_2":"","city":"FAIRBANKS","state":"AK","zip":"99703","country":"USA"},{"id":3044949,"name":"AAFES
+        - FORT WAINWRIGHT AK","location_number":"1067100","address_1":"3703 Neely
+        Road BLDG 3703-B SOUTHGATE RD","address_2":null,"city":"FAIRBANKS","state":"AK","zip":"99703","country":"USA"},{"id":3106329,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3508249,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3497521,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3115057,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3097657,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3510349,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3151961,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3071577,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3504733,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3201629,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3510405,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3504777,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3430293,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3114917,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3114921,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3078573,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3504829,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3504833,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3044805,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":null,"city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3466965,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3497965,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3497969,"name":"AAFES
+        - FT BELVOIR VA","location_number":"1041716","address_1":"8651 JOHN J KINGMAN
+        BLDG 2321","address_2":"","city":"FT BELVOIR","state":"VA","zip":"22060","country":"USA"},{"id":3436333,"name":"AAFES
+        - FT BENNING GA","location_number":"1031211","address_1":"BLDG 9220 MARNE
+        RD","address_2":"","city":"FT BENNING","state":"GA","zip":"31905","country":"USA"},{"id":3094365,"name":"AAFES
+        - FT BENNING GA","location_number":"1031211","address_1":"BLDG 9220 MARNE
+        RD","address_2":"","city":"FT BENNING","state":"GA","zip":"31905","country":"USA"},{"id":3044825,"name":"AAFES
+        - FT BENNING GA","location_number":"1031211","address_1":"BLDG 9220 MARNE
+        RD","address_2":null,"city":"FT BENNING","state":"GA","zip":"31905","country":"USA"},{"id":3155465,"name":"AAFES
+        - FT BRAGG NC","location_number":"1040303","address_1":"BLDG Z3252 1017 CANOPY
+        LANE","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3155469,"name":"AAFES
+        - FT BRAGG NC","location_number":"1040303","address_1":"BLDG Z3252 1017 CANOPY
+        LANE","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3088773,"name":"AAFES
+        - FT BRAGG NC","location_number":"1030137","address_1":"BLDG 8-5050 2ND &
+        BUTNER RD","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3085961,"name":"AAFES
+        - FT BRAGG NC","location_number":"1040303","address_1":"BLDG Z3252 1017 CANOPY
+        LANE","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3066789,"name":"AAFES
+        - FT BRAGG NC","location_number":"1030137","address_1":"BLDG 8-5050 2ND &
+        BUTNER RD","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3045045,"name":"AAFES
+        - FT BRAGG NC","location_number":"1040303","address_1":"BLDG Z3252 1017 CANOPY
+        LANE","address_2":null,"city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3044829,"name":"AAFES
+        - FT BRAGG NC","location_number":"1030137","address_1":"BLDG 8-5050 2ND &
+        BUTNER RD","address_2":null,"city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3079421,"name":"AAFES
+        - FT BRAGG NC","location_number":"1040303","address_1":"BLDG Z3252 1017 CANOPY
+        LANE","address_2":"","city":"FT BRAGG","state":"NC","zip":"28307","country":"USA"},{"id":3045057,"name":"AAFES
+        - FT DRUM NY","location_number":"1043701","address_1":"10730A ENDURNG FREDOM
+        DR BLDG P-10730A","address_2":null,"city":"FT DRUM","state":"NY","zip":"13602","country":"USA"},{"id":3207441,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3207445,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3478817,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3106109,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3201605,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3044993,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":null,"city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3434681,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3453673,"name":"AAFES
+        - FT GORDON GA","location_number":"1030905","address_1":"BR 10-01 BUILDING
+        38200","address_2":"","city":"FT GORDON","state":"GA","zip":"30905","country":"USA"},{"id":3044849,"name":"AAFES
+        - FT HOOD TX","location_number":"1011301","address_1":"BLDG 50004 CLEAR CREEK
+        RD","address_2":null,"city":"FT HOOD","state":"TX","zip":"76544","country":"USA"},{"id":3044961,"name":"AAFES
+        - FT HUACHUCA AZ","location_number":"1068702","address_1":"BLDG 52030","address_2":null,"city":"FT
+        HUACHUCA","state":"AZ","zip":"85613","country":"USA"},{"id":3147997,"name":"AAFES
+        - FT HUACHUCA AZ","location_number":"1068702","address_1":"BLDG 52030","address_2":"","city":"FT
+        HUACHUCA","state":"AZ","zip":"85613","country":"USA"},{"id":3044977,"name":"AAFES
+        - FT IRWIN CA","location_number":"1063410","address_1":"BLDG 918 LANGFORD
+        LAKE RD","address_2":null,"city":"FT IRWIN","state":"CA","zip":"92310","country":"USA"},{"id":3106273,"name":"AAFES
+        - FT IRWIN CA","location_number":"1063410","address_1":"BLDG 918 LANGFORD
+        LAKE RD","address_2":"","city":"FT IRWIN","state":"CA","zip":"92310","country":"USA"},{"id":3174689,"name":"AAFES
+        - FT KNOX KY","location_number":"1072010","address_1":"48 DANIEL BOONE ST
+        BLDG 127","address_2":"","city":"FT KNOX","state":"KY","zip":"40121","country":"USA"},{"id":3176545,"name":"AAFES
+        - FT KNOX KY","location_number":"1072010","address_1":"48 DANIEL BOONE ST
+        BLDG 127","address_2":"","city":"FT KNOX","state":"KY","zip":"40121","country":"USA"},{"id":3045013,"name":"AAFES
+        - FT KNOX KY","location_number":"1072010","address_1":"48 DANIEL BOONE ST
+        BLDG 127","address_2":null,"city":"FT KNOX","state":"KY","zip":"40121","country":"USA"},{"id":3467369,"name":"AAFES
+        - FT LEAVENWORTH KS","location_number":"1076210","address_1":"330 KANSAS AVE
+        BLDG 700","address_2":"","city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":3045005,"name":"AAFES
+        - FT LEAVENWORTH KS","location_number":"1076210","address_1":"330 KANSAS AVE
+        BLDG 700","address_2":null,"city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":3160725,"name":"AAFES
+        - FT LEAVENWORTH KS","location_number":"1076210","address_1":"330 KANSAS AVE
+        BLDG 700","address_2":"","city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":3477725,"name":"AAFES
+        - FT LEAVENWORTH KS","location_number":"1076210","address_1":"330 KANSAS AVE
+        BLDG 700","address_2":"","city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":3211509,"name":"AAFES
+        - FT LEAVENWORTH KS","location_number":"1076210","address_1":"330 KANSAS AVE
+        BLDG 700","address_2":"","city":"FT LEAVENWORTH","state":"KS","zip":"66027","country":"USA"},{"id":3151945,"name":"AAFES
+        - FT LEONARD WOOD MO","location_number":"1075416","address_1":"143 REPLACEMENT
+        AVE BLDG 487","address_2":"","city":"FT LEONARD WOOD","state":"MO","zip":"65473","country":"USA"},{"id":3151949,"name":"AAFES
+        - FT LEONARD WOOD MO","location_number":"1075416","address_1":"143 REPLACEMENT
+        AVE BLDG 487","address_2":"","city":"FT LEONARD WOOD","state":"MO","zip":"65473","country":"USA"},{"id":3045029,"name":"AAFES
+        - FT LEONARD WOOD MO","location_number":"1075416","address_1":"143 REPLACEMENT
+        AVE BLDG 487","address_2":null,"city":"FT LEONARD WOOD","state":"MO","zip":"65473","country":"USA"},{"id":3124557,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3124585,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3115145,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3115149,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3119253,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3045049,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":null,"city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3079393,"name":"AAFES
+        - FT LEWIS WA","location_number":"1061502","address_1":"BLDG 5280,PENDLETON
+        AVE. MAIL STOP 46","address_2":"","city":"FT LEWIS","state":"WA","zip":"98433","country":"USA"},{"id":3045017,"name":"AAFES
+        - FT POLK LA","location_number":"1010419","address_1":"7742 COLORADO AVE BLDG
+        850","address_2":null,"city":"FT POLK","state":"LA","zip":"71459","country":"USA"},{"id":3151829,"name":"AAFES
+        - FT POLK LA","location_number":"1010419","address_1":"7742 COLORADO AVE BLDG
+        850","address_2":"","city":"FT POLK","state":"LA","zip":"71459","country":"USA"},{"id":3211533,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313","address_1":"BLDG 2210 TROOPER
+        DR","address_2":"","city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":3151753,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313","address_1":"BLDG 2210 TROOPER
+        DR","address_2":"","city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":3045001,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313","address_1":"BLDG 2210 TROOPER
+        DR","address_2":null,"city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":3151761,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313","address_1":"BLDG 2210 TROOPER
+        DR","address_2":"","city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":3434669,"name":"AAFES
+        - FT RILEY KS","location_number":"1076313","address_1":"BLDG 2210 TROOPER
+        DR","address_2":"","city":"FT RILEY","state":"KS","zip":"66442","country":"USA"},{"id":3044785,"name":"AAFES
+        - FT RUCKER AL","location_number":"1031705","address_1":"FIFTH AVE BLDG 9214","address_2":null,"city":"FT
+        RUCKER","state":"AL","zip":"36362","country":"USA"},{"id":3089057,"name":"AAFES
+        - FT SILL OK","location_number":"1011901","address_1":"BLDG 1718 MACOMB ROAD","address_2":"","city":"FT
+        SILL","state":"OK","zip":"73503","country":"USA"},{"id":3045065,"name":"AAFES
+        - FT SILL OK","location_number":"1011901","address_1":"BLDG 1718 MACOMB ROAD","address_2":null,"city":"FT
+        SILL","state":"OK","zip":"73503","country":"USA"},{"id":3044997,"name":"AAFES
+        - FT STEWART GA","location_number":"1031126","address_1":"345 LINDQUIST RD
+        BLDG 71 P.O. BOX 3700","address_2":null,"city":"FT STEWART","state":"GA","zip":"31314","country":"USA"},{"id":3500829,"name":"AAFES
+        - GULFPORT ANG GULFPORT MS","location_number":"1032749","address_1":"4715
+        HEWES AVE BLDG 23","address_2":"","city":"GULFPORT ANG","state":"MS","zip":"39507","country":"USA"},{"id":3045037,"name":"AAFES
+        - GULFPORT ANG GULFPORT MS","location_number":"1032749","address_1":"4715
+        HEWES AVE BLDG 23","address_2":null,"city":"GULFPORT ANG","state":"MS","zip":"39507","country":"USA"},{"id":3207129,"name":"AAFES
+        - GULFPORT ANG GULFPORT MS","location_number":"1032749","address_1":"4715
+        HEWES AVE BLDG 23","address_2":"","city":"GULFPORT ANG","state":"MS","zip":"39507","country":"USA"},{"id":3088793,"name":"AAFES
+        - HANSCOM AFB MA","location_number":"1043003","address_1":"BLDG 1709 B 100
+        EGLIN ST","address_2":"","city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3089049,"name":"AAFES
+        - HANSCOM AFB MA","location_number":"1043003","address_1":"BLDG 1709 B 100
+        EGLIN ST","address_2":"","city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3045021,"name":"AAFES
+        - HANSCOM AFB MA","location_number":"1043003","address_1":"BLDG 1709 B 100
+        EGLIN ST","address_2":null,"city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3434673,"name":"AAFES
+        - HANSCOM AFB MA","location_number":"1043003","address_1":"BLDG 1709 B 100
+        EGLIN ST","address_2":"","city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3434677,"name":"AAFES
+        - HANSCOM AFB MA","location_number":"1043003","address_1":"BLDG 1709 B 100
+        EGLIN ST","address_2":"","city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3146513,"name":"AAFES
+        - HILL AFB UT","location_number":"1066010","address_1":"AAFES/DMCR 5845 E
+        AVE BLDG 412","address_2":"","city":"HILL AFB","state":"UT","zip":"84056","country":"USA"},{"id":3045089,"name":"AAFES
+        - HILL AFB UT","location_number":"1066010","address_1":"AAFES/DMCR 5845 E
+        AVE BLDG 412","address_2":null,"city":"HILL AFB","state":"UT","zip":"84056","country":"USA"},{"id":3146473,"name":"AAFES
+        - HILL AFB UT","location_number":"1066010","address_1":"AAFES/DMCR 5845 E
+        AVE BLDG 412","address_2":"","city":"HILL AFB","state":"UT","zip":"84056","country":"USA"},{"id":3151305,"name":"AAFES
+        - HURLBURT FIELD FL","location_number":"1032546","address_1":"BLDG 91012","address_2":"","city":"HURLBURT
+        FIELD","state":"FL","zip":"32544","country":"USA"},{"id":3044817,"name":"AAFES
+        - HURLBURT FIELD FL","location_number":"1032546","address_1":"BLDG 91012","address_2":null,"city":"HURLBURT
+        FIELD","state":"FL","zip":"32544","country":"USA"},{"id":3097637,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3093293,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3467057,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3467065,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3497293,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3080529,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3071573,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3497329,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3201649,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3497337,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3088769,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3497373,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3114993,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3044853,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":null,"city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3114997,"name":"AAFES
+        - LACKLAND AFB TX","location_number":"1011001","address_1":"BLDG 1385 2180
+        REESE ST","address_2":"","city":"LACKLAND AFB","state":"TX","zip":"78236","country":"USA"},{"id":3106305,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3430473,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3071661,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3114945,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3114949,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3071685,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3114965,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3201753,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3106293,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":"","city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3044861,"name":"AAFES
+        - LANGLEY AFB VA","location_number":"1042309","address_1":"61 SPAATZ DR. BUILDING
+        290","address_2":null,"city":"LANGLEY AFB","state":"VA","zip":"23665","country":"USA"},{"id":3211541,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":"","city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3446557,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":"","city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3467377,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":"","city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3184273,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":"","city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3477661,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":"","city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3045041,"name":"AAFES
+        - MAFB MT","location_number":"1068412","address_1":"BLDG 1340 7200 PERIMETER  RD","address_2":null,"city":"MAFB","state":"MT","zip":"59402","country":"USA"},{"id":3211561,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605","address_1":"355 KELLY ST BLDG
+        1090","address_2":"","city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":3498285,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605","address_1":"355 KELLY ST BLDG
+        1090","address_2":"","city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":3044957,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605","address_1":"355 KELLY ST BLDG
+        1090","address_2":null,"city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":3467373,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605","address_1":"355 KELLY ST BLDG
+        1090","address_2":"","city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":3215597,"name":"AAFES
+        - MAXWELL AFB AL","location_number":"1031605","address_1":"355 KELLY ST BLDG
+        1090","address_2":"","city":"MAXWELL AFB","state":"AL","zip":"36112","country":"USA"},{"id":3115061,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":"","city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3088753,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":"","city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3114661,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":"","city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3114669,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":"","city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3114673,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":"","city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3045053,"name":"AAFES
+        - MCCHORD AFB NJ","location_number":"1061504","address_1":"504 BARNES BLVD
+        BLDG 504","address_2":null,"city":"MCCHORD AFB","state":"WA","zip":"98438","country":"USA"},{"id":3044877,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401","address_1":"5443 DUDLEY BLVD
+        BLDG 911  AAFES","address_2":"","city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},{"id":3059593,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401","address_1":"5443 DUDLEY BLVD
+        BLDG 911  AAFES","address_2":"","city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},{"id":3071657,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401","address_1":"5443 DUDLEY BLVD
+        BLDG 911  AAFES","address_2":"","city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},{"id":3044793,"name":"AAFES
+        - MCCLELLAN AFB CA","location_number":"1069401","address_1":"5443 DUDLEY BLVD
+        BLDG 911  AAFES","address_2":null,"city":"MCCLELLAN AFB","state":"CA","zip":"95652","country":"USA"},{"id":3451409,"name":"AAFES
+        - MCCONNEL AFB KS","location_number":"1077006","address_1":"DERBY CT. BLDG
+        313.","address_2":"","city":"MCCONNEL AFB","state":"KS","zip":"67221","country":"USA"},{"id":3151933,"name":"AAFES
+        - MCCONNEL AFB KS","location_number":"1077006","address_1":"DERBY CT. BLDG
+        313.","address_2":"","city":"MCCONNEL AFB","state":"KS","zip":"67221","country":"USA"},{"id":3207529,"name":"AAFES
+        - MCCONNEL AFB KS","location_number":"1077006","address_1":"DERBY CT. BLDG
+        313.","address_2":"","city":"MCCONNEL AFB","state":"KS","zip":"67221","country":"USA"},{"id":3045009,"name":"AAFES
+        - MCCONNEL AFB KS","location_number":"1077006","address_1":"DERBY CT. BLDG
+        313.","address_2":null,"city":"MCCONNEL AFB","state":"KS","zip":"67221","country":"USA"},{"id":3207437,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3106337,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3106341,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3171669,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3106389,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3150425,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3106401,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3106405,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3071673,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":"","city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3044837,"name":"AAFES
+        - NELLIS AFB NV","location_number":"1066221","address_1":"5691 RICKENBACKER
+        RD. BLDG 431","address_2":null,"city":"NELLIS AFB","state":"NV","zip":"89191","country":"USA"},{"id":3070517,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215","address_1":"1221 S. PATRICK
+        DR SUITE 101 BLDG 1364","address_2":"","city":"PATRICK AFB","state":"FL","zip":"32925","country":"USA"},{"id":3044809,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215","address_1":"1221 S. PATRICK
+        DR SUITE 101 BLDG 1364","address_2":null,"city":"PATRICK AFB","state":"FL","zip":"32925","country":"USA"},{"id":3102677,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215","address_1":"1221 S. PATRICK
+        DR SUITE 101 BLDG 1364","address_2":"","city":"PATRICK AFB","state":"FL","zip":"32925","country":"USA"},{"id":3101417,"name":"AAFES
+        - PATRICK AFB FL","location_number":"1032215","address_1":"1221 S. PATRICK
+        DR SUITE 101 BLDG 1364","address_2":"","city":"PATRICK AFB","state":"FL","zip":"32925","country":"USA"},{"id":3071681,"name":"AAFES
+        - RANDOLPH AFB TX","location_number":"1010911","address_1":"630 3RD ST WEST
+        BLDG 1068","address_2":"","city":"RANDOLPH AFB","state":"TX","zip":"78150","country":"USA"},{"id":3044857,"name":"AAFES
+        - RANDOLPH AFB TX","location_number":"1010911","address_1":"630 3RD ST WEST
+        BLDG 1068","address_2":null,"city":"RANDOLPH AFB","state":"TX","zip":"78150","country":"USA"},{"id":3211573,"name":"AAFES
+        - REDSTONE ARSENAL AL","location_number":"1031905","address_1":"BLDG 3220
+        ACTON DRIVE","address_2":"","city":"REDSTONE ARSENAL","state":"AL","zip":"35898","country":"USA"},{"id":3044953,"name":"AAFES
+        - REDSTONE ARSENAL AL","location_number":"1031905","address_1":"BLDG 3220
+        ACTON DRIVE","address_2":null,"city":"REDSTONE ARSENAL","state":"AL","zip":"35898","country":"USA"},{"id":3437829,"name":"AAFES
+        - SELFRIDGE ANGB SELFRIDGE MI","location_number":"1073110","address_1":"SELFRIDGE
+        MAIN STORE BLDG # 700 GEORGE AVE","address_2":"","city":"SELFRIDGE ANGB","state":"MI","zip":"48045","country":"USA"},{"id":3177525,"name":"AAFES
+        - SELFRIDGE ANGB SELFRIDGE MI","location_number":"1073110","address_1":"SELFRIDGE
+        MAIN STORE BLDG # 700 GEORGE AVE","address_2":"","city":"SELFRIDGE ANGB","state":"MI","zip":"48045","country":"USA"},{"id":3444365,"name":"AAFES
+        - SELFRIDGE ANGB SELFRIDGE MI","location_number":"1073110","address_1":"SELFRIDGE
+        MAIN STORE BLDG # 700 GEORGE AVE","address_2":"","city":"SELFRIDGE ANGB","state":"MI","zip":"48045","country":"USA"},{"id":3045025,"name":"AAFES
+        - SELFRIDGE ANGB SELFRIDGE MI","location_number":"1073110","address_1":"SELFRIDGE
+        MAIN STORE BLDG # 700 GEORGE AVE","address_2":null,"city":"SELFRIDGE ANGB","state":"MI","zip":"48045","country":"USA"},{"id":3151313,"name":"AAFES
+        - SHEPPARD AFB TX","location_number":"1011726","address_1":"220 COMMUNITY
+        CENTER DR. BLDG. 239","address_2":"","city":"SHEPPARD AFB","state":"TX","zip":"76311","country":"USA"},{"id":3045085,"name":"AAFES
+        - SHEPPARD AFB TX","location_number":"1011726","address_1":"220 COMMUNITY
+        CENTER DR. BLDG. 239","address_2":null,"city":"SHEPPARD AFB","state":"TX","zip":"76311","country":"USA"},{"id":3115065,"name":"AAFES
+        - SUMTER SC","location_number":"1030502","address_1":"370 RHODES AVE","address_2":"","city":"SUMTER","state":"SC","zip":"29152","country":"USA"},{"id":3045073,"name":"AAFES
+        - SUMTER SC","location_number":"1030502","address_1":"370 RHODES AVE","address_2":null,"city":"SUMTER","state":"SC","zip":"29152","country":"USA"},{"id":3115009,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3106349,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3105893,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3151981,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3044981,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":null,"city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3106277,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3115005,"name":"AAFES
+        - TRAVIS AFB CA","location_number":"1069205","address_1":"54 Travis Avenue
+        461 SKYMASTER, BDLG 648","address_2":"","city":"TRAVIS AFB","state":"CA","zip":"94535","country":"USA"},{"id":3201625,"name":"AAFES
+        - TYNDALL AFB FL","location_number":"1032405","address_1":"220 MALL LANE STE
+        2 BLDG 950","address_2":"","city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":3201637,"name":"AAFES
+        - TYNDALL AFB FL","location_number":"1032405","address_1":"220 MALL LANE STE
+        2 BLDG 950","address_2":"","city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":3094429,"name":"AAFES
+        - TYNDALL AFB FL","location_number":"1032405","address_1":"220 MALL LANE STE
+        2 BLDG 950","address_2":"","city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":3044821,"name":"AAFES
+        - TYNDALL AFB FL","location_number":"1032405","address_1":"220 MALL LANE STE
+        2 BLDG 950","address_2":null,"city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":3070677,"name":"AAFES
+        - TYNDALL AFB FL","location_number":"1032405","address_1":"220 MALL LANE STE
+        2 BLDG 950","address_2":"","city":"TYNDALL AFB","state":"FL","zip":"32403","country":"USA"},{"id":3194473,"name":"AAFES
+        - USAFA BX COLORADO SPRINGS CO","location_number":"1079210","address_1":"AAFES,
+        USAFA BX, BLDG 5124","address_2":"","city":"COLO SPRINGS","state":"CO","zip":"80840","country":"USA"},{"id":3044797,"name":"AAFES
+        - USAFA BX COLORADO SPRINGS CO","location_number":"1079210","address_1":"AAFES,
+        USAFA BX, BLDG 5124","address_2":null,"city":"COLO SPRINGS","state":"CO","zip":"80840","country":"USA"},{"id":3102781,"name":"AAFES
+        - WACO TX","location_number":"1011501","address_1":"BLDG 1801 EXCHANGE PARKWAY","address_2":"","city":"WACO","state":"TX","zip":"76712","country":"USA"},{"id":3070525,"name":"AAFES
+        - WACO TX","location_number":"1011501","address_1":"BLDG 1801 EXCHANGE PARKWAY","address_2":"","city":"WACO","state":"TX","zip":"76712","country":"USA"},{"id":3102805,"name":"AAFES
+        - WACO TX","location_number":"1011501","address_1":"BLDG 1801 EXCHANGE PARKWAY","address_2":"","city":"WACO","state":"TX","zip":"76712","country":"USA"},{"id":3045081,"name":"AAFES
+        - WACO TX","location_number":"1011501","address_1":"BLDG 1801 EXCHANGE PARKWAY","address_2":null,"city":"WACO","state":"TX","zip":"76712","country":"USA"},{"id":3044801,"name":"AAFES
+        - WASHINGTON DC","location_number":"1040404","address_1":"195 CHAPPIE JAMES
+        BLVD BLDG 4514","address_2":null,"city":"WASHINGTON","state":"DC","zip":"20032","country":"USA"},{"id":3466885,"name":"AAFES
+        - WPAFB OH","location_number":"1071010","address_1":"BIRCH ST - BLDG 1250
+        KITTYHAWK AREA","address_2":"","city":"WPAFB","state":"OH","zip":"45433","country":"USA"},{"id":3045061,"name":"AAFES
+        - WPAFB OH","location_number":"1071010","address_1":"BIRCH ST - BLDG 1250
+        KITTYHAWK AREA","address_2":null,"city":"WPAFB","state":"OH","zip":"45433","country":"USA"},{"id":3134993,"name":"AAFES-AURORA
+        CO","location_number":"1078110","address_1":"18500 Sixth Ave","address_2":"","city":"AURORA","state":"CO","zip":"80011","country":"USA"},{"id":3115029,"name":"AAFES-AURORA
+        CO","location_number":"1078110","address_1":"365 N TELLURIDE ST","address_2":"STOP
+        76","city":"AURORA","state":"CO","zip":"80011","country":"USA"},{"id":3115033,"name":"AAFES-AURORA
+        CO","location_number":"1078110","address_1":"18500 Sixth Ave","address_2":"","city":"AURORA","state":"CO","zip":"80011","country":"USA"},{"id":3044597,"name":"AAFES-AURORA
+        CO","location_number":"1078110","address_1":"365 N TELLURIDE ST","address_2":"STOP
+        76","city":"AURORA","state":"CO","zip":"80011","country":"USA"},{"id":3044621,"name":"AAFES-FT
+        BLISS TX","location_number":"1011801","address_1":"BLDG 1611 HAAN & MARSHALL
+        RD","address_2":null,"city":"FT BLISS","state":"TX","zip":"79906","country":"USA"},{"id":3044637,"name":"AAFES-FT
+        JACKSON SC","location_number":"1030404","address_1":"BLDG 4110 MOSEBY STREET","address_2":null,"city":"FT
+        JACKSON","state":"SC","zip":"29207","country":"USA"},{"id":3044633,"name":"AAFES-FT
+        SAM HOUSTON TX","location_number":"1010801","address_1":"2503 FUNSTON RD","address_2":"BLDG
+        2420 ATTN:STOCKROOM","city":"FT SAM HOUSTON","state":"TX","zip":"78234","country":"USA"},{"id":3044605,"name":"AAFES-FT.
+        GEORGE G. MEADE MD","location_number":"1040712","address_1":"BLDG. 2790 MACARTHUR
+        & REECE ROAD","address_2":null,"city":"FT. GEORGE G. MEADE","state":"MD","zip":"20755","country":"USA"},{"id":3044609,"name":"AAFES-GOLDSBORO
+        NC","location_number":"1030205","address_1":"1350 EDWARDS ST","address_2":null,"city":"GOLDSBORO","state":"NC","zip":"27531","country":"USA"},{"id":3147793,"name":"AAFES-GOLDSBORO
+        NC","location_number":"1030205","address_1":"1350 EDWARDS ST","address_2":"","city":"GOLDSBORO","state":"NC","zip":"27531","country":"USA"},{"id":3044629,"name":"AAFES-KIRTLAND
+        AFB NM","location_number":"1012303","address_1":"8001 GIBSON BLVD SE","address_2":"BLDG
+        20170","city":"KIRTLAND AFB","state":"NM","zip":"87117","country":"USA"},{"id":3182961,"name":"AAFES-KIRTLAND
+        AFB NM","location_number":"1012303","address_1":"8001 GIBSON BLVD SE","address_2":"BLDG
+        20170","city":"KIRTLAND AFB","state":"NM","zip":"87117","country":"USA"},{"id":3176397,"name":"AAFES-KIRTLAND
+        AFB NM","location_number":"1012303","address_1":"8001 GIBSON BLVD SE","address_2":"BLDG
+        20170","city":"KIRTLAND AFB","state":"NM","zip":"87117","country":"USA"},{"id":3044641,"name":"AAFES-LITTLEROCK
+        AFB AR","location_number":"1010209","address_1":"787 SIXTH ST","address_2":null,"city":"LITTLEROCK
+        AFB","state":"AR","zip":"72099","country":"USA"},{"id":3207465,"name":"AAFES-LITTLEROCK
+        AFB AR","location_number":"1010209","address_1":"787 SIXTH ST","address_2":"","city":"LITTLEROCK
+        AFB","state":"AR","zip":"72099","country":"USA"},{"id":3207909,"name":"AAFES-LITTLEROCK
+        AFB AR","location_number":"1010209","address_1":"787 SIXTH ST","address_2":"","city":"LITTLEROCK
+        AFB","state":"AR","zip":"72099","country":"USA"},{"id":3215601,"name":"AAFES-LITTLEROCK
+        AFB AR","location_number":"1010209","address_1":"787 SIXTH ST","address_2":"","city":"LITTLEROCK
+        AFB","state":"AR","zip":"72099","country":"USA"},{"id":3044593,"name":"AAFES-MACDILL
+        AFB FL","location_number":"1032125","address_1":"3108 N BOUNDARY BLVD","address_2":"BLDG
+        926","city":"MACDILL AFB","state":"FL","zip":"33608","country":"USA"},{"id":3044625,"name":"AAFES-RIVERSIDE
+        CA","location_number":"1063109","address_1":"23640 ''N'' ST","address_2":null,"city":"RIVERSIDE","state":"CA","zip":"92518","country":"USA"},{"id":3044617,"name":"AAFES-ROBINS
+        AFB GA","location_number":"1031003","address_1":"982 MACON ST","address_2":null,"city":"ROBINS
+        AFB","state":"GA","zip":"31098","country":"USA"},{"id":3044601,"name":"AAFES-SCOTT
+        AFB IL","location_number":"1075010","address_1":"207 WEST WINTERS ST.","address_2":"BLDG
+        1981","city":"SCOTT AFB","state":"IL","zip":"62225","country":"USA"},{"id":3044613,"name":"AAFES-TINKER
+        AFB OK","location_number":"1012001","address_1":"3360 N AVE","address_2":"BLDG
+        685","city":"TINKER AFB","state":"OK","zip":"73145","country":"USA"},{"id":3046897,"name":"AAFES-TINKER
+        AFB OK","location_number":"1012001","address_1":"3360 N AVE","address_2":"BLDG
+        685","city":"TINKER AFB","state":"OK","zip":"73145","country":"USA"},{"id":3207813,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302","address_1":"BLDG 450 2ND & MCNAIR
+        STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":3104141,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302","address_1":"BLDG 450 2ND & MCNAIR
+        STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":3207841,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302","address_1":"BLDG 450 2ND & MCNAIR
+        STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":3207845,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302","address_1":"BLDG 450 2ND & MCNAIR
+        STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":3048405,"name":"AAFES,
+        FORT MYER VA","location_number":"1041302","address_1":"BLDG 450 2ND & MCNAIR
+        STREET","address_2":"","city":"FT MYER","state":"VA","zip":"22211","country":"USA"},{"id":3205661,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3048005,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3205197,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3434657,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3434661,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3434665,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3215301,"name":"AAFES,
+        FT LEE VA","location_number":"1042401","address_1":"300 A AVE BLDG 1605","address_2":"","city":"FT
+        LEE","state":"VA","zip":"23801","country":"USA"},{"id":3028121,"name":"AAFES,
+        HANSCOM AFB MA","location_number":"1043003","address_1":"100 EGLIN ST","address_2":"BLDG
+        1709 B","city":"HANSCOM AFB","state":"MA","zip":"01731","country":"USA"},{"id":3030597,"name":"AAFES,
+        MCCHORD AFB","location_number":"1061504","address_1":"504 BARNES BLVD","address_2":"BLDG
+        504","city":"McChord Air Force Base","state":"WA","zip":"98438","country":"USA"},{"id":3078409,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3078421,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3088409,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3077997,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3028157,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3079389,"name":"AAFES,
+        MCGUIRE AFB NJ","location_number":"1046002","address_1":"BLDG 3452 BROIDY
+        ROAD","address_2":"","city":"MCGUIRE AFB","state":"NJ","zip":"08641","country":"USA"},{"id":3040149,"name":"David
+        Ginn","location_number":"","address_1":"3780 Clubview Court Southeast","address_2":"","city":"Conyers","state":"GA","zip":"30094","country":"USA"},{"id":3035653,"name":"Ryan
+        Bullard","location_number":"","address_1":"254 w. 31st St","address_2":"3rd
+        Floor","city":"New York","state":"NY","zip":"10001","country":"USA"},{"id":3031337,"name":"Ryan
+        Bullard","location_number":"","address_1":"254 w. 31st St","address_2":"3rd
+        Floor","city":"New York","state":"NY","zip":"10001","country":"USA"},{"id":3035853,"name":"Ryan
+        Bullard","location_number":"","address_1":"254 w. 31st St","address_2":"3rd
+        Floor","city":"New York","state":"NY","zip":"10001","country":"USA"},{"id":3031285,"name":"Ryan
+        Bullard","location_number":"","address_1":"254 w. 31st St","address_2":"3rd
+        Floor","city":"New York","state":"NY","zip":"10001","country":"USA"},{"id":3031293,"name":"Ryan
+        Bullard","location_number":"","address_1":"254 w. 31st St","address_2":"3rd
+        Floor","city":"New York","state":"NY","zip":"10001","country":"USA"}]}'
+    http_version: 
+  recorded_at: Mon, 03 Aug 2015 12:48:40 GMT
+recorded_with: VCR 2.9.3

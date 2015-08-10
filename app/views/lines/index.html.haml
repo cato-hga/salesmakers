@@ -1,0 +1,22 @@
+- content_for :action_buttons do
+  = new_button new_line_path
+  = link_to 'Edit States', line_states_path, class: [:button, :inline_button]
+
+%section
+  - header = header_row [sort_link(@search, :technology_service_provider_name, 'Provider'),sort_link(@search, :identifier),sort_link(@search, :device_serial, 'Device'),sort_link(@search, :contract_end_date, 'Contract End Date'),'State(s)']
+  - rows = Array.new
+  - for line in @lines do
+    - service_provider = line.technology_service_provider
+    - provider = link_to service_provider.name, '#'
+    - identifier =  line_link line
+    - device_link = line.device ? device_link(line.device) : ''
+    - if line.contract_end_date == Date.parse('01/01/1901')
+      - contract_end_date = ''
+    - else
+    - contract_end_date = line.active? ? link_to(short_date(line.contract_end_date), line) : link_to(short_date(line.contract_end_date), line, class: :inactive)
+    - states = line_state_links line
+    - rows << table_row([provider,identifier,device_link,contract_end_date,states])
+  = table header, rows
+
+- content_for :footer do
+  = paginate @lines

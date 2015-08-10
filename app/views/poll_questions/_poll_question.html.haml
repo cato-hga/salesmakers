@@ -1,0 +1,43 @@
+- question_id = poll_question.id
+.widget.poll_question
+  .inner
+    %h3= poll_question.question
+    - if poll_question.help_text
+      .poll_question_help_text= poll_question.help_text
+    .choices{ data: { poll_question_id: question_id } }
+      - for choice in poll_question.poll_question_choices
+        .choice
+          .choice_radio= radio_button_tag 'poll_question_' + question_id.to_s + '_choice', |
+            choice.id, |
+            false |
+          .details
+            .choice_name= choice.name
+            - if choice.help_text
+              %br/
+              .choice_help_text= choice.help_text
+      = link_to 'Submit', |
+        '#', |
+        class: [:button, :choose_poll_question_choice_button], |
+        id: 'choose_poll_question_' + question_id.to_s |
+:javascript
+  $(function() {
+    $('body').on('click', "#choose_poll_question_#{poll_question.id}", function() {
+      var poll_question_div = $(this).parents('.poll_question .inner');
+      poll_question_div.find('.alert.alert-box').remove();
+      var checked_radio = poll_question_div
+          .find('input[type="radio"]:checked');
+      if (checked_radio.length < 1) {
+        $('<div class="alert alert-box">You must choose an answer.</div>')
+          .insertAfter(poll_question_div.find('h3'));
+          $('.widgets').masonry('layout');
+      } else {
+        poll_question_div.find('a.button').text('Saving...');
+        $.ajax("/poll_questions/#{poll_question.id}/poll_question_choices/" +
+            checked_radio.val() + "/choose")
+          .done(function(data) {
+            poll_question_div.html(data);
+            $('.widgets').masonry('layout');
+          });
+      }
+    });
+  });
