@@ -1980,38 +1980,6 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
--- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE employee_call_off_reasons (
-    id integer NOT NULL,
-    name character varying NOT NULL,
-    active boolean NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE employee_call_off_reasons_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
-
-
---
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4065,25 +4033,23 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
-    notes text,
-    employee_call_off_reason_id integer,
-    called_off boolean
+    notes text
 );
 
 
@@ -6007,13 +5973,6 @@ ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY employment_end_reasons ALTER COLUMN id SET DEFAULT nextval('employment_end_reasons_id_seq'::regclass);
 
 
@@ -7119,14 +7078,6 @@ ALTER TABLE ONLY drop_off_reasons
 
 ALTER TABLE ONLY email_messages
     ADD CONSTRAINT email_messages_pkey PRIMARY KEY (id);
-
-
---
--- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY employee_call_off_reasons
-    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
 
 
 --
@@ -8473,6 +8424,13 @@ CREATE INDEX index_group_me_posts_on_group_me_user_id ON group_me_posts USING bt
 
 
 --
+-- Name: index_group_me_posts_on_message_num; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_group_me_posts_on_message_num ON group_me_posts USING btree (message_num);
+
+
+--
 -- Name: index_group_me_posts_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -9112,6 +9070,34 @@ CREATE INDEX index_versions_on_transaction_id ON versions USING btree (transacti
 
 
 --
+-- Name: index_vonage_account_status_changes_on_account_end_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_account_end_date ON vonage_account_status_changes USING btree (account_end_date);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_mac; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_mac ON vonage_account_status_changes USING btree (mac);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_mac_and_account_end_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_mac_and_account_end_date ON vonage_account_status_changes USING btree (mac, account_end_date);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_status ON vonage_account_status_changes USING btree (status);
+
+
+--
 -- Name: index_vonage_paycheck_negative_balances_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -9179,6 +9165,13 @@ CREATE INDEX index_vonage_sales_on_connect_order_uuid ON vonage_sales USING btre
 --
 
 CREATE INDEX index_vonage_sales_on_location_id ON vonage_sales USING btree (location_id);
+
+
+--
+-- Name: index_vonage_sales_on_mac; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_sales_on_mac ON vonage_sales USING btree (mac);
 
 
 --
@@ -9347,6 +9340,13 @@ CREATE INDEX train_avail_unavail_reason ON training_availabilities USING btree (
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: vasc_maeds; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vasc_maeds ON vonage_account_status_changes USING btree (mac, account_end_date, status);
 
 
 --
@@ -10204,21 +10204,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
-INSERT INTO schema_migrations (version) VALUES ('20150622183936');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622184112');
-
-INSERT INTO schema_migrations (version) VALUES ('20150622185318');
-
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623200929');
-
-INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -10227,8 +10217,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
-
-INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -10243,10 +10231,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150626193106');
 INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
-
-INSERT INTO schema_migrations (version) VALUES ('20150629191123');
-
-INSERT INTO schema_migrations (version) VALUES ('20150629200154');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
@@ -10331,4 +10315,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193355');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193852');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
