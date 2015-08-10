@@ -29,6 +29,8 @@ class DocusignNos < ActiveRecord::Base
   belongs_to :person
   belongs_to :employment_end_reason
   belongs_to :manager, class: Person
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   private
 

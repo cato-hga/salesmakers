@@ -16,6 +16,9 @@ class SprintRadioShackTrainingSession < ActiveRecord::Base
 
   has_many :candidate_sprint_radio_shack_training_sessions
   has_many :candidates, through: :candidate_sprint_radio_shack_training_sessions
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
 
   default_scope { order :name }
 end

@@ -36,4 +36,6 @@ class InterviewAnswer < ActiveRecord::Base
   validates :willingness_characteristic, presence: true
   belongs_to :candidate
   accepts_nested_attributes_for :candidate
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 end
