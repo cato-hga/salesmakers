@@ -257,7 +257,7 @@ class PeopleController < ProtectedController
 
   def filter_results(results)
     return results.where(active: true) unless @current_person.hq?
-    results
+    results.includes(:employments, person_areas: { area: :project })
   end
 
   def setup_onboarding_fields

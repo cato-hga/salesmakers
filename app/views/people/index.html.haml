@@ -13,9 +13,9 @@
     = f.text_field :display_name_cont, placeholder: 'Name'
     = f.text_field :email_cont, placeholder: 'Email'
     = f.text_field :mobile_phone_number_cont, placeholder: 'Phone'
-    - position_name_options = options_for_select(Position.all.map { |n| n.name } )
+    - position_name_options = options_for_select(Position.all.pluck(:name) )
     = f.select :position_name_cont, position_name_options, include_blank: 'Position'
-    - project_name_options = options_for_select(Project.all.map { |n| n.name })
+    - project_name_options = options_for_select(Project.all.pluck(:name))
     = f.select :person_areas_area_project_name_cont, project_name_options, include_blank: 'Project'
     = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
     = f.text_field :areas_name_cont, placeholder: 'Area(s)'
