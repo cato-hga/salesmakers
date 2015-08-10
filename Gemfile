@@ -83,8 +83,6 @@ gem 'slack-notifier', '1.2.1' # Exception notification on Slack
 gem 'regressor', '0.5.7' # Automated regression test generation
 gem 'retryable', '2.0.1' # Ability to retry upon exception
 gem 'rack-mini-profiler', '0.9.7' #Rails speed benchmarks
-gem 'bullet'
-gem 'flamegraph'
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
@@ -107,6 +105,7 @@ group :development do
   gem 'capistrano-rails-console', '0.5.2' # Access to Rails console on remote machine from cap command!
   gem 'capistrano-faster-assets', '1.0.2' # Precompile only the assets that have changed on deploys
   gem 'lol_dba', '2.0.0' # Find missing indexes
+  gem 'bullet', '4.14.7' #SQL query plugin for development
 end
 
 group :test do
