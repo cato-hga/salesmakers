@@ -1,11 +1,11 @@
 %li.has-dropdown
   = link_to 'Admin', '#'
   %ul.dropdown
-    - if DevicePolicy.new(@current_person, Device.new).index?
+    - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index?
       %li= link_to('Devices', devices_path)
       %li= link_to('Lines', lines_path)
       %li= link_to('Device Models', device_models_path)
-    - if AreaPolicy.new(@current_person, Area.new).index? || AreaTypePolicy.new(@current_person, AreaType.new).index?
+    - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index? || AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index?
       %li.divider
       - for project in visible_projects
         - next unless project.areas.count > 0
@@ -16,26 +16,26 @@
             %li.has-dropdown
               %a{ href: "#" } Areas &amp; Locations
               %ul.dropdown
-                - if AreaTypePolicy.new(@current_person, AreaType.new).index?
+                - if AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index?
                   %li
                     = link_to 'Area Types', client_project_area_types_path(project.client, project)
-                - if AreaPolicy.new(@current_person, Area.new).index?
+                - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index?
                   %li
                     = link_to 'Areas', client_project_areas_path(project.client, project)
-                - if ClientAreaPolicy.new(@current_person, ClientArea.new).index?
+                - if ClientAreaPolicy.new(@current_person, ClientArea.new, @permission_keys).index?
                   %li
                     = link_to 'Client Areas', client_project_client_areas_path(project.client, project)
-                - if LocationPolicy.new(@current_person, Location.new).index?
+                - if LocationPolicy.new(@current_person, Location.new, @permission_keys).index?
                   %li
                     = link_to 'Locations', client_project_locations_path(project.client, project)
-            - if SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new).index? and |
+            - if SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new, @permission_keys).index? and |
               project.name == 'Sprint Postpaid' |
               %li= link_to 'Training Sessions', sprint_radio_shack_training_sessions_path
-    - if DepartmentPolicy.new(@current_person, Department.new).index?
+    - if DepartmentPolicy.new(@current_person, Department.new, @permission_keys).index?
       %li.divider
       %li= link_to 'Departments', departments_path
-    - if ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? || LogEntryPolicy.new(@current_person, LogEntry.new).index?
+    - if ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new, @permission_keys).manage? || LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index?
       %li.divider
-      - if ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage?
+      - if ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new, @permission_keys).manage?
         %li= link_to('Changelog', changelog_entries_path)
       %li= link_to('Log', log_entries_path)

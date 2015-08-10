@@ -111,6 +111,8 @@ class ApplicationController < BaseApplicationController
       self.reset_session
       render(:file => File.join(Rails.root, 'public/good_cas_bad_person.html'), :status => 403, :layout => false) and return false
     else
+      position = @current_person ? @current_person.position : nil
+      @permission_keys = position ? position.permissions.select(:key).pluck(:key) : []
       @current_person
     end
   end

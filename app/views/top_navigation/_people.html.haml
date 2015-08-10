@@ -1,15 +1,15 @@
-- if PersonPolicy.new(@current_person, Person.new).index?
+- if PersonPolicy.new(@current_person, Person.new, @permission_keys).index?
   %li.has-dropdown#joyride-people
     = link_to icon('torsos-all') + ' People', '#'
     %ul.dropdown
       %li= link_to 'Search', people_path
       %li= link_to 'Org Chart', org_chart_people_path
-      - if PersonPolicy.new(@current_person, Person.new).approval?
+      - if PersonPolicy.new(@current_person, Person.new, @permission_keys).approval?
         %li.divider
         %li= link_to 'Approve Assets', asset_approval_path
       -#- if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new).index?
       -#  %li.divider
       -#  %li= link_to 'SMS Dashboard', sms_daily_checks_path
-      - if PersonPolicy.new(@current_person, Person.new).create?
+      - if PersonPolicy.new(@current_person, Person.new, @permission_keys).create?
         %li.divider
         %li= link_to 'New', new_person_path
