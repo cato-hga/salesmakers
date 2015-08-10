@@ -24,7 +24,7 @@ describe 'DirecTV leads index' do
     expect(page).to have_content(directv_customer_one.name)
   end
   it 'has section displaying if Lead has been followed up on' do
-    expect(page).to have_content('F/U Completed')
+    expect(page).to have_content('Has Comments')
   end
   it 'displays yes if lead has a comment'do
     directv_lead_one.update comments: 'Test Comment'
