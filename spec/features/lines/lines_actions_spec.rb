@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'actions on Lines' do
   let!(:it_tech) { create :it_tech_person, position: position }
-  let(:position) { create :it_tech_position }
+  let(:position) { create :it_tech_position, permissions: [permission_update, permission_activate, permission_state_update, permission_index] }
   let(:permission_index) { create :permission, key: 'line_index' }
   let(:permission_new) { create :permission, key: 'line_new' }
   let(:permission_update) { create :permission, key: 'line_update' }
@@ -17,6 +17,8 @@ describe 'actions on Lines' do
   let(:permission_state_destroy) { create :permission, key: 'line_state_destroy' }
   let(:permission_state_create) { create :permission, key: 'line_state_create' }
   let(:permission_state_show) { create :permission, key: 'line_state_show' }
+  let(:permission_activate) { create :permission, key: 'line_activate' }
+
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
   end
@@ -28,11 +30,6 @@ describe 'actions on Lines' do
   end
 
   context 'for line states' do
-    before(:each) do
-      it_tech.position.permissions << permission_state_update
-      it_tech.position.permissions << permission_update
-      it_tech.position.permissions << permission_index
-    end
     let(:line) { create :line }
     let!(:locked_line_state) {
       create :line_state,
@@ -103,12 +100,44 @@ describe 'actions on Lines' do
       expect(page).not_to have_content(line.identifier)
     end
 
+    context 'for activation' do
+      let(:device) { create :device }
+      let!(:active_state) { create :line_state, name: 'Active' }
+      let(:line) { create :line }
+
+      subject {
+        within '#main_container header' do
+          click_on 'Activate'
+        end
+      }
+
+      before(:each) do
+        visit line_path(line)
+      end
+
+      it 'shows an Activate button on the deactivated lines#show' do
+        expect(page).to have_button('Activate')
+      end
+
+      it 'activates a line' do
+        subject
+        expect(page).to have_selector('.line_state', text: 'Active')
+      end
+
+      it 'displays a success flash message' do
+        subject
+        expect(page).to have_content('Line was successfully activated')
+      end
+
+      it 'shows a Deactivate button on the line#show page once the line has been activated' do
+        subject
+        expect(page).to have_button('Deactivate')
+      end
+    end
+
     context 'from device#show' do
       let(:device_index) { create :permission, key: 'device_index' }
       let(:device_update) { create :permission, key: 'device_update' }
-      before(:each) do
-        it_tech.position.permissions << permission_update
-      end
       it 'deactivates and detaches the line' do
         visit device_path(device)
         click_on 'Deactivate Line'
