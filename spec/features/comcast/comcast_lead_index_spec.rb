@@ -23,4 +23,18 @@ describe 'Comcast leads index' do
   it 'lists Comcast leads' do
     expect(page).to have_content(comcast_customer_one.name)
   end
+  it 'has section displaying if Lead has been followed up on' do
+    expect(page).to have_content('F/U Completed')
+  end
+  it 'displays yes if lead has a comment' do
+      comcast_lead_one.update comments: 'Test Comment'
+      visit comcast_leads_path
+      expect(page).to have_content('Yes')
+
+  end
+  it 'displays no if lead does not have a comment' do
+      comcast_lead_one.update comments: nil
+      visit comcast_leads_path
+      expect(page).to have_content('No')
+  end
 end
