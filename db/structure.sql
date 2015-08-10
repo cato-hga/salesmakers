@@ -5361,7 +5361,9 @@ CREATE TABLE vonage_sales (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
-    resold boolean DEFAULT false NOT NULL
+    resold boolean DEFAULT false NOT NULL,
+    person_acknowledged boolean DEFAULT false,
+    gift_card_number integer
 );
 
 
@@ -10365,9 +10367,19 @@ INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 
 INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
+INSERT INTO schema_migrations (version) VALUES ('20150805161446');
+
 INSERT INTO schema_migrations (version) VALUES ('20150805182921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150805235212');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806131842');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806184753');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806192315');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193021');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
