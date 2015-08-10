@@ -37,6 +37,8 @@ class DirecTVCustomer < ActiveRecord::Base
   has_one :directv_lead
   has_one :directv_sale
   has_many :directv_customer_notes
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

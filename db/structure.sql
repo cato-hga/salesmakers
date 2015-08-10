@@ -1152,7 +1152,8 @@ CREATE TABLE comcast_leads (
     comments text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    active boolean DEFAULT true NOT NULL
+    active boolean DEFAULT true NOT NULL,
+    completed_follow_up boolean
 );
 
 
@@ -10271,6 +10272,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150717144346');
 INSERT INTO schema_migrations (version) VALUES ('20150720140615');
 
 INSERT INTO schema_migrations (version) VALUES ('20150721180921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150722195317');
 
 INSERT INTO schema_migrations (version) VALUES ('20150723144802');
 

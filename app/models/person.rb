@@ -50,6 +50,10 @@ class Person < ActiveRecord::Base
   has_paper_trail
   nilify_blanks
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
+
   def self.setup_validations
     validates :first_name, length: { minimum: 2 }
     validates :last_name, length: { minimum: 2 }

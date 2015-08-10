@@ -29,7 +29,10 @@ class Device < ActiveRecord::Base
   has_and_belongs_to_many :device_states
   has_many :device_deployments
   has_many :device_notes
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
   has_one :device_manufacturer, through: :device_model
+
 
   stripping_ransacker(:unstripped_identifier, :identifier, true)
   stripping_ransacker(:unstripped_serial, :serial, true)

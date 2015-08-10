@@ -15,6 +15,8 @@ class DeviceModel < ActiveRecord::Base
   validates :device_manufacturer, presence: true
 
   belongs_to :device_manufacturer
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   def device_model_name
     [device_manufacturer.name, name].join ' '

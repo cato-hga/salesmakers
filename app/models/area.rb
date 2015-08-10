@@ -25,6 +25,8 @@ class Area < ActiveRecord::Base
   validates :name, presence: true, length: { minimum: 3 }
   validates :area_type, presence: true
 
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
   has_paper_trail
   has_ancestry
 

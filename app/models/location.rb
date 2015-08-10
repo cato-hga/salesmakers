@@ -39,6 +39,7 @@ class Location < ActiveRecord::Base
   has_many :comcast_customers
   has_many :comcast_eods
   has_many :roster_verifications
+  has_many :log_entries, as: :trackable, dependent: :destroy
   belongs_to :sprint_radio_shack_training_location
 
   def name(show_channel = true)

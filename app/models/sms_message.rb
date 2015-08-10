@@ -29,6 +29,9 @@ class SMSMessage < ActiveRecord::Base
   belongs_to :from_person, class_name: 'Person', foreign_key: 'from_person_id'
   belongs_to :to_candidate, class_name: 'Candidate', foreign_key: 'to_candidate_id'
   belongs_to :from_candidate, class_name: 'Candidate', foreign_key: 'from_candidate_id'
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
 
   default_scope { order(created_at: :desc) }
 
