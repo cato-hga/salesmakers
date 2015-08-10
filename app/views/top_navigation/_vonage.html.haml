@@ -1,0 +1,18 @@
+- vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
+-if vonage_sale_policy.create?
+  - retail = Project.find_by name: 'Vonage Retail'
+  - if @visible_projects.include? retail
+    %li.has-dropdown
+      %a{ href: '#' } Vonage Retail
+      %ul.dropdown
+        %li= link_to 'Sale Entry', new_vonage_sale_path
+
+  - events = Project.find_by name: 'Vonage Events'
+  - if @visible_projects.include? events
+    %li.has-dropdown
+      %a{ href: '#' } Vonage Events
+      %ul.dropdown
+        %li= link_to 'Receiving', '#'
+        %li= link_to 'Reconciliation', '#'
+        %li= link_to 'Reclaim', '#'
+        %li= link_to 'Transfer', '#'

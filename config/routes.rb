@@ -337,6 +337,9 @@ Rails.application.routes.draw do
 
   get :vonage_inventory_receivings, to: 'vonage_inventory_receivings#enter_inventory'
   post :receive_vonage_inventory, to: 'vonage_inventory_receivings#receive_inventory'
+  
+  resources :vonage_sales
+
   # ------------------------- API NAMESPACE --------------------------
 
   namespace :api, defaults: { format: :json } do

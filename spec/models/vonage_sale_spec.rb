@@ -19,6 +19,7 @@
 
 require 'rails_helper'
 
+
 describe VonageSale do
   let(:paycheck) {
     create :vonage_paycheck,
@@ -119,6 +120,11 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
+  it 'requires gift card rules and regulations to be checked for sale completion' do
+    subject.person_acknowledged = false
+    expect(subject).not_to be_valid
+  end
+
   it 'gets sales for a paycheck' do
     subject.save
     expect(described_class.for_paycheck(paycheck).count).to eq(5)
@@ -127,6 +133,14 @@ describe VonageSale do
 
   it 'responds to connect_order' do
     expect(subject).to respond_to(:connect_order)
+  end
+
+  it 'responds to gift_card_number' do
+    expect(subject).to respond_to(:gift_card_number)
+  end
+
+  it 'responds to person_acknowledged' do
+    expect(subject).to respond_to(:person_acknowledged)
   end
 
   describe 'still active checks' do
