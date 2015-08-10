@@ -70,12 +70,10 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     if @current_person
       if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
-        puts 'HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
         @visible_people = session[:visible_people]
         @visible_projects = session[:visible_projects]
         @visible_changelogs = session[:visible_logs]
       else
-        puts 'THEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
         session[:visible_people] = Person.visible(@current_person)
         @visible_people = session[:visible_people]
         session[:visible_projects] = Project.visible(@current_person)
@@ -118,7 +116,7 @@ class ApplicationController < BaseApplicationController
 
   def set_current_user
     @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'hly@retaildoneright.com'
+    #@current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st

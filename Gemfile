@@ -84,6 +84,7 @@ gem 'regressor', '0.5.7' # Automated regression test generation
 gem 'retryable', '2.0.1' # Ability to retry upon exception
 gem 'rack-mini-profiler', '0.9.7' #Rails speed benchmarks
 gem 'bullet'
+gem 'flamegraph'
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false
