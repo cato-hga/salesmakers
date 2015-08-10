@@ -6,12 +6,12 @@ class ApplicationController < BaseApplicationController
                 :check_active,
                 :get_projects,
                 #:setup_default_walls,
-                :set_unseen_changelog_entries,
                 #:set_last_seen,
                 #:set_last_seen_profile,
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
+                :set_unseen_changelog_entries,
                 :log_additional_data,
                 :authorize_profiler
 
@@ -69,11 +69,25 @@ class ApplicationController < BaseApplicationController
 
   def setup_accessibles
     if @current_person
-      @visible_people = Person.visible(@current_person)
-      @visible_projects = Project.visible(@current_person)
+      if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
+        puts 'HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
+        @visible_people = session[:visible_people]
+        @visible_projects = session[:visible_projects]
+        @visible_changelogs = session[:visible_logs]
+      else
+        puts 'THEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
+        session[:visible_people] = Person.visible(@current_person)
+        @visible_people = session[:visible_people]
+        session[:visible_projects] = Project.visible(@current_person)
+        @visible_projects = session[:visible_projects]
+        session[:visible_logs] = ChangelogEntry.visible(@current_person)
+        @visible_changelogs = session[:visible_logs]
+        session[:last_visibility_check] = Time.now
+      end
     else
-      @visible_people = Person.none
-      @visible_projects = Project.none
+      @visible_people ||= Person.none
+      @visible_projects ||= Project.none
+      @visible_changelogs ||= ChangelogEntry.none
     end
     @global_search = params[:global_search]
   end
@@ -83,11 +97,11 @@ class ApplicationController < BaseApplicationController
     return unless @current_person
     changelog_entry_id = @current_person.changelog_entry_id
     if changelog_entry_id
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
+      @unseen_changelog_entries = @visible_changelogs.
           where('id > ?',
                 changelog_entry_id)
     else
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
+      @unseen_changelog_entries = @visible_changelogs.
           where('released >= ?',
                 Time.now - 1.week)
     end
