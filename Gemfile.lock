@@ -6,19 +6,8 @@ GIT
       activesupport
 
 GIT
-  remote: https://github.com/activerecord-hackery/ransack.git
-  revision: c06fb77947b24a412aa60d89a3c1a7b78166f2f3
-  specs:
-    ransack (1.6.6)
-      actionpack (>= 3.0)
-      activerecord (>= 3.0)
-      activesupport (>= 3.0)
-      i18n
-      polyamorous (~> 1.2)
-
-GIT
   remote: https://github.com/airblade/paper_trail.git
-  revision: 7e7a349c42bcc149b2cec5f31c664ad8f652926b
+  revision: 87917e0e78d0295770eb0e61ebd253b1a221b150
   specs:
     paper_trail (4.0.0)
       activerecord (>= 3.0, < 6.0)
@@ -49,13 +38,6 @@ GIT
       jquery-rails
       jstz-rails3-plus
       rails (>= 3.1)
-
-GIT
-  remote: https://github.com/ndbroadbent/ransack_chronic.git
-  revision: d0f65fa16fc66e9f359f5d5bda59cc11567f4352
-  specs:
-    ransack_chronic (1.1.0)
-      chronic (>= 0.6.7)
 
 GIT
   remote: https://github.com/newrelic/rpm.git
@@ -544,6 +526,14 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.0.0)
     rake (10.4.2)
+    ransack (1.6.6)
+      actionpack (>= 3.0)
+      activerecord (>= 3.0)
+      activesupport (>= 3.0)
+      i18n
+      polyamorous (~> 1.2)
+    ransack_chronic (1.1.0)
+      chronic (>= 0.6.7)
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -809,8 +799,8 @@ DEPENDENCIES
   rails (= 4.2.0)
   rails_best_practices (= 1.15.7)
   railties (= 4.2.0)
-  ransack!
-  ransack_chronic!
+  ransack (= 1.6.6)
+  ransack_chronic (= 1.1.0)
   regressor (= 0.5.8)
   render_csv (= 2.0.0)
   responders (= 2.1.0)
