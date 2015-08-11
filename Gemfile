@@ -15,7 +15,7 @@ gem 'responders', '2.0.2' # Required by rails 4.2.0 for respond_to
 gem 'jquery-ui-rails', '5.0.5' #Jquery UI gem
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'chartkick', '1.3.2' # Was 1.2.5 01/21/2015 - Easy Google Charts creation in Rails
-gem 'haml-rails', '0.7.0' # Was 0.5.3 01/21/2015 - HAML template engine
+gem 'haml-rails', '0.9.0' # Was 0.7.0 08/11/2015 - HAML template engine
 gem 'rubycas-client', git: 'git://github.com/rubycas/rubycas-client.git' # CAS client for Ruby
 #gem 'sentient_user', git: 'git://github.com/house9/sentient_user.git' # Allow current_user to work in models
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git' # Tree-based hierarchies for models
