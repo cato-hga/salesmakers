@@ -70,9 +70,9 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     if @current_person
       if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
-        @visible_people = session[:visible_people]
-        @visible_projects = session[:visible_projects]
-        @visible_changelogs = session[:visible_logs]
+        @visible_people ||= session[:visible_people]
+        @visible_projects ||= session[:visible_projects]
+        @visible_changelogs ||= session[:visible_logs]
       else
         session[:visible_people] = Person.visible(@current_person)
         @visible_people = session[:visible_people]
