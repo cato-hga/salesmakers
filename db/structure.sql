@@ -1152,8 +1152,7 @@ CREATE TABLE comcast_leads (
     comments text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    active boolean DEFAULT true NOT NULL,
-    completed_follow_up boolean
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -4001,7 +4000,8 @@ CREATE TABLE shifts (
     break_hours numeric DEFAULT 0.0 NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    training boolean DEFAULT false NOT NULL
+    training boolean DEFAULT false NOT NULL,
+    project_id integer
 );
 
 
@@ -8526,6 +8526,13 @@ CREATE INDEX index_group_me_posts_on_group_me_user_id ON group_me_posts USING bt
 
 
 --
+-- Name: index_group_me_posts_on_message_num; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_group_me_posts_on_message_num ON group_me_posts USING btree (message_num);
+
+
+--
 -- Name: index_group_me_posts_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -9165,6 +9172,34 @@ CREATE INDEX index_versions_on_transaction_id ON versions USING btree (transacti
 
 
 --
+-- Name: index_vonage_account_status_changes_on_account_end_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_account_end_date ON vonage_account_status_changes USING btree (account_end_date);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_mac; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_mac ON vonage_account_status_changes USING btree (mac);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_mac_and_account_end_date; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_mac_and_account_end_date ON vonage_account_status_changes USING btree (mac, account_end_date);
+
+
+--
+-- Name: index_vonage_account_status_changes_on_status; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_account_status_changes_on_status ON vonage_account_status_changes USING btree (status);
+
+
+--
 -- Name: index_vonage_paycheck_negative_balances_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -9232,6 +9267,13 @@ CREATE INDEX index_vonage_sales_on_connect_order_uuid ON vonage_sales USING btre
 --
 
 CREATE INDEX index_vonage_sales_on_location_id ON vonage_sales USING btree (location_id);
+
+
+--
+-- Name: index_vonage_sales_on_mac; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_vonage_sales_on_mac ON vonage_sales USING btree (mac);
 
 
 --
@@ -9400,6 +9442,13 @@ CREATE INDEX train_avail_unavail_reason ON training_availabilities USING btree (
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
+
+
+--
+-- Name: vasc_maeds; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vasc_maeds ON vonage_account_status_changes USING btree (mac, account_end_date, status);
 
 
 --
@@ -10325,8 +10374,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150720140615');
 
 INSERT INTO schema_migrations (version) VALUES ('20150721180921');
 
-INSERT INTO schema_migrations (version) VALUES ('20150722195317');
-
 INSERT INTO schema_migrations (version) VALUES ('20150723144802');
 
 INSERT INTO schema_migrations (version) VALUES ('20150728181149');
@@ -10375,11 +10422,25 @@ INSERT INTO schema_migrations (version) VALUES ('20150805235212');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806131842');
 
+INSERT INTO schema_migrations (version) VALUES ('20150806152041');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806162252');
+
 INSERT INTO schema_migrations (version) VALUES ('20150806184753');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806192315');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
+INSERT INTO schema_migrations (version) VALUES ('20150807193355');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193852');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807194138');
+
 INSERT INTO schema_migrations (version) VALUES ('20150807235009');
+
+INSERT INTO schema_migrations (version) VALUES ('20150810144604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150811132749');
 

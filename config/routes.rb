@@ -335,8 +335,7 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
-  get :vonage_inventory_receivings, to: 'vonage_inventory_receivings#enter_inventory'
-  post :receive_vonage_inventory, to: 'vonage_inventory_receivings#receive_inventory'
+  resources :vonage_devices
   
   resources :vonage_sales
 
