@@ -34,4 +34,7 @@ class ComcastSale < ActiveRecord::Base
   belongs_to_associations
   has_one_assocations
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
+
 end

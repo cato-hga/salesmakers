@@ -14,7 +14,7 @@ module ClientAreaAssociationsModelExtension
   def setup_has_many_assocations
     #has_many :person_client_areas
     #has_many :people, through: :person_client_areas
-    #has_many :location_client_areas
+    has_many :location_client_areas
   end
 
   def setup_has_many_through_associations

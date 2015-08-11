@@ -20,7 +20,7 @@
   - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.store_number : link_to(location.store_number, path, class: link_classes)
   - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.address : link_to(location.address, path, class: link_classes)
   - classes = location_area.outsourced? ? [:outsourced_row] : nil
-  - number_of_candidates = location_area.number_of_candidates_in_funnel
+  - number_of_candidates = location_area.candidates_in_funnel.count
   - open_to_staff = location_area.head_count_full? ? 'NO' : 'YES'
   - rows << table_row(["#{count.to_s}.", project, launch_group, distance, city, location_name, store_number, number_of_candidates.to_s, open_to_staff], classes)
 = table headers, rows

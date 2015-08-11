@@ -40,4 +40,12 @@ describe Shift do
     subject.training = nil
     expect(subject).not_to be_valid
   end
+
+  it 'responds to location' do
+    expect(subject).to respond_to :location
+  end
+
+  it 'responds to project' do
+    expect(subject).to respond_to :project
+  end
 end

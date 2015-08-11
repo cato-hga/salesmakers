@@ -30,6 +30,25 @@
         - target_hc = 0
         - @location.location_areas.each {|la| target_hc += la.target_head_count }
         = target_hc.to_s
+  .widget
+    .inner
+      %h3 Candidates Taking Head Count
+      - location_candidates = @location.location_areas.map {|la| la.candidates_in_funnel}.flatten
+      - if location_candidates.empty?
+        .comment
+          No candidates.
+      - else
+        %table
+          %thead
+            %tr
+              %th Candidate
+              %th Status
+          %tbody
+            - for candidate in location_candidates do
+              %tr
+                %td= candidate_link candidate
+                %td= candidate.status.to_s.humanize
+
 - if CandidatePolicy.new(@current_person, Candidate.new).index?
   .widget
     .inner

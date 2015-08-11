@@ -28,6 +28,8 @@ class RosterVerification < ActiveRecord::Base
   belongs_to :creator, class_name: 'Person'
   belongs_to :person
   belongs_to :location
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
 
   enum status: [:active, :terminate, :issue]
 

@@ -12,7 +12,8 @@ class ApplicationController < BaseApplicationController
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
-                :log_additional_data
+                :log_additional_data,
+                :authorize_profiler
 
   protected
 
@@ -41,6 +42,14 @@ class ApplicationController < BaseApplicationController
   end
 
   private
+
+  def authorize_profiler
+    dev = Position.find_by name: 'Software Developer'
+    sdev = Position.find_by name: 'Senior Software Developer'
+    if @current_person and (@current_person.position == dev or @current_person.position == sdev)
+      Rack::MiniProfiler.authorize_request
+    end
+  end
 
   def set_comcast_locations
     comcast = Project.find_by name: 'Comcast Retail'
@@ -102,6 +111,8 @@ class ApplicationController < BaseApplicationController
       self.reset_session
       render(:file => File.join(Rails.root, 'public/good_cas_bad_person.html'), :status => 403, :layout => false) and return false
     else
+      position = @current_person ? @current_person.position : nil
+      @permission_keys = position ? position.permissions.select(:key).pluck(:key) : []
       @current_person
     end
   end

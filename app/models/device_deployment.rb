@@ -21,6 +21,8 @@ class DeviceDeployment < ActiveRecord::Base
 
   belongs_to :device
   belongs_to :person
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   default_scope { order('started DESC') }
 

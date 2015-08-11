@@ -79,8 +79,10 @@ gem 'acts_as_taggable_on', '3.0.0.rc2' # Showing progress for reindexing Solr/Su
 gem 'activerecord-sqlserver-adapter', '~> 4.2.0' # Microsoft SQL Server Adapter
 gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff
 gem 'annotate', '2.6.10' # Schema information at the top of model files
-
 gem 'slack-notifier', '1.2.1' # Exception notification on Slack
+gem 'regressor', '0.5.7' # Automated regression test generation
+gem 'retryable', '2.0.1' # Ability to retry upon exception
+gem 'rack-mini-profiler', '0.9.7' #Rails speed benchmarks
 
 group :development do
   gem 'airbrussh', '0.3.0', require: false

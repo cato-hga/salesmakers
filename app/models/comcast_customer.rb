@@ -37,6 +37,8 @@ class ComcastCustomer < ActiveRecord::Base
   has_one :comcast_lead
   has_one :comcast_sale
   has_many :comcast_customer_notes
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

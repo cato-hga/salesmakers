@@ -20,7 +20,7 @@ class DailyProcessLogMailer < ApplicationMailer
       group by pl.process_class, pl.notes
       order by pl.process_class, pl.notes
     }
-    mail to: developer_emails,
-        subject: '24-Hour Process History'
+    handle_send to: developer_emails,
+                subject: '24-Hour Process History'
   end
 end

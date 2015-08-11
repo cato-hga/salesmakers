@@ -22,22 +22,23 @@ class API::V1::LocationsController < API::BaseController
       sleep 0.5
       results = Geocoder.search zip
     end
-    return if results.empty? or
-        not results[0].data or
-        not results[0].data['geometry'] or
-        not results[0].data['geometry']['location']
-    location = results[0].data['geometry']['location']
-    [location['lat'], location['lng']]
+    coordinates = results[0].andand.data.andand['geocodePoints'].andand[0].andand['coordinates']
+    coordinates
   end
 
   def get_nearby(lat_long, project_id = nil)
     project_where = project_id ? " AND areas.project_id = #{project_id}" : ''
-    all_locations = Location.
-        joins("LEFT OUTER JOIN location_areas ON locations.id = location_areas.location_id " +
-                  "LEFT OUTER JOIN areas ON location_areas.area_id = areas.id").
+    all_location_areas = LocationArea.
+        joins(:area).
         where('location_areas.target_head_count > 0' + project_where)
-    return [] if all_locations.count(:all) < 1
-    all_locations = Location.where("locations.id IN (#{all_locations.map(&:id).join(',')})")
+    return [] if all_location_areas.count(:all) < 1
+    recruitable_locations = []
+    for location_area in all_location_areas do
+      unless location_area.head_count_full?
+        recruitable_locations << location_area.location
+      end
+    end
+    all_locations = Location.where("locations.id IN (#{recruitable_locations.map(&:id).join(',')})")
     locations = all_locations.near(lat_long, 30)
     if not locations or locations.count(:all) < 5
       locations = all_locations.near(lat_long, 500).first(5)
