@@ -68,26 +68,36 @@ class ApplicationController < BaseApplicationController
   end
 
   def setup_accessibles
-    if @current_person
-      if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
-        @visible_people ||= session[:visible_people]
-        @visible_projects ||= session[:visible_projects]
-        @visible_changelogs ||= session[:visible_logs]
+    def setup_accessibles
+      if @current_person
+        @visible_people ||= Person.visible(@current_person)
+        @visible_projects ||= Project.visible(@current_person)
       else
-        session[:visible_people] = Person.visible(@current_person)
-        @visible_people = session[:visible_people]
-        session[:visible_projects] = Project.visible(@current_person)
-        @visible_projects = session[:visible_projects]
-        session[:visible_logs] = ChangelogEntry.visible(@current_person)
-        @visible_changelogs = session[:visible_logs]
-        session[:last_visibility_check] = Time.now
+        @visible_people = Person.none
+        @visible_projects = Project.none
       end
-    else
-      @visible_people ||= Person.none
-      @visible_projects ||= Project.none
-      @visible_changelogs ||= ChangelogEntry.none
+      @global_search = params[:global_search]
     end
-    @global_search = params[:global_search]
+    # if @current_person
+    #   if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
+    #     @visible_people ||= session[:visible_people]
+    #     @visible_projects ||= session[:visible_projects]
+    #     @visible_changelogs ||= session[:visible_logs]
+    #   else
+    #     session[:visible_people] = Person.visible(@current_person)
+    #     @visible_people = session[:visible_people]
+    #     session[:visible_projects] = Project.visible(@current_person)
+    #     @visible_projects = session[:visible_projects]
+    #     session[:visible_logs] = ChangelogEntry.visible(@current_person)
+    #     @visible_changelogs = session[:visible_logs]
+    #     session[:last_visibility_check] = Time.now
+    #   end
+    # else
+    #   @visible_people ||= Person.none
+    #   @visible_projects ||= Project.none
+    #   @visible_changelogs ||= ChangelogEntry.none
+    # end
+    # @global_search = params[:global_search]
   end
 
   def set_unseen_changelog_entries
@@ -95,11 +105,11 @@ class ApplicationController < BaseApplicationController
     return unless @current_person
     changelog_entry_id = @current_person.changelog_entry_id
     if changelog_entry_id
-      @unseen_changelog_entries = @visible_changelogs.
+      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
           where('id > ?',
                 changelog_entry_id)
     else
-      @unseen_changelog_entries = @visible_changelogs.
+      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
           where('released >= ?',
                 Time.now - 1.week)
     end
