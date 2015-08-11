@@ -70,8 +70,8 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     def setup_accessibles
       if @current_person
-        @visible_people ||= Person.visible(@current_person)
-        @visible_projects ||= Project.visible(@current_person)
+        @visible_people = Person.visible(@current_person)
+        @visible_projects = Project.visible(@current_person)
       else
         @visible_people = Person.none
         @visible_projects = Project.none
