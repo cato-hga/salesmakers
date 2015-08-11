@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/reconnect.iml" filepath="$PROJECT_DIR$/.idea/reconnect.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/salescenter.iml" filepath="$PROJECT_DIR$/.idea/salescenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/salesmakers.iml" filepath="$PROJECT_DIR$/.idea/salesmakers.iml" />
     </modules>
   </component>
