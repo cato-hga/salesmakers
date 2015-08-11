@@ -52,8 +52,8 @@ gem 'postmark-rails', '0.11.0' # Postmark integration. Currently for contact/fee
 gem 'progress_bar', '1.0.3' # Showing progress for reindexing Solr/Sunspot
 gem 'pundit', git: 'https://github.com/elabs/pundit.git' # Role-based authorization
 gem 'rack-mini-profiler', '0.9.7' #Rails speed benchmarks
-gem 'rails', '4.2.0'
-gem 'railties', '4.2.0'
+gem 'rails', '4.2.3'
+gem 'railties', '4.2.3'
 gem 'ransack', '1.6.6' # ActiveRecord search
 gem 'ransack_chronic', '1.1.0' # Use Chronic to parse dates with Ransack search
 gem 'regressor', '0.5.8' # Automated regression test generation
@@ -83,6 +83,7 @@ group :development do
   gem 'awesome_print', '1.6.1' # Pretty console printing
   gem 'better_errors', '2.1.1' # More in-depth error messages and debugging
   gem 'binding_of_caller', '0.7.2' # Required by better_errors
+  gem 'bullet', '4.14.7'
   gem 'capistrano-faster-assets', '1.0.2' # Precompile only the assets that have changed on deploys
   gem 'capistrano-rails-console', '1.0.0' # Access to Rails console on remote machine from cap command!
   gem 'coderay', '1.1.0'
