@@ -19,8 +19,6 @@ class CandidatesController < ApplicationController
   include Candidates::Status
   include Candidates::Training
   include Candidates::Variables #Any methods that are 'get_{something}' go here.
-  include ::NewRelic::Agent::MethodTracer
-
 
   after_action :verify_authorized
   before_action :do_authorization
@@ -53,8 +51,6 @@ class CandidatesController < ApplicationController
     get_hours_information
     setup_sprint_params
   end
-
-  add_method_tracer :show, 'Customer/candidate_show'
 
   def new
     @candidate = Candidate.new
