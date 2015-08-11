@@ -134,6 +134,10 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def show_details_for_ids?(people_ids)
+    people_ids && people_ids.include?(self.id)
+  end
+
   def show_details?(people)
     people and people.include?(self)
   end
