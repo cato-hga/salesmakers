@@ -43,6 +43,7 @@ gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'kiba', '0.6.1' # ETL data processing
 gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
+gem 'newrelic_rpm', git: 'https://github.com/newrelic/rpm.git'
 gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'persistent_httparty', '0.1.2' # Keep connections open when using HTTParty
@@ -114,10 +115,6 @@ group :test do
   gem 'timecop', '0.8.0' # Alter times in testing
   gem 'vcr', '2.9.3' # Store and use real HTTP response data in tests
   gem 'webmock', '1.21.0' # Stubbing of HTTP requests
-end
-
-group :production do
-  gem 'newrelic_rpm', git: 'https://github.com/newrelic/rpm.git'
 end
 
 group :development, :test do
