@@ -25,7 +25,7 @@ describe '(Re)sending paperwork for confirmed candidates' do
 
     it 'sends the paperwork when clicked' do
       click_on 'Send or Resend Paperwork'
-      expect(page).to have_content('Paperwork Sent')
+      expect(page).to have_content('Paperwork sent')
       expect(JobOfferDetail.count).to eq(1)
     end
 

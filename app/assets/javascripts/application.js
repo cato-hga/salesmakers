@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery.cookie
 //= require modernizr
 //= require foundation_new/foundation
 //= require foundation_new/foundation.offcanvas
@@ -25,7 +26,8 @@
 // require websocket_rails/main
 //= require classie
 //= require notificationFx
-//= require browser_timezone_rails/application
+//= require jstz
+//= require browser_timezone_rails/set_time_zone
 //= require map_style
 //= require widgets
 
