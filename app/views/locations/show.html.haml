@@ -108,7 +108,7 @@
       - header = header_row headers.flatten
       - rows = Array.new
       - for person in @people do
-        - show_details = person.show_details? @visible_people
+        - show_details = person.show_details_for_ids? @visible_people_ids
         - blocked = content_tag(:div, '-', class: :blocked)
         - classes = person.active? ? '' : 'inactive'
         - hire_date = person.hire_date
