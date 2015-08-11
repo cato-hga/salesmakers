@@ -31,7 +31,7 @@ class CandidatesController < ApplicationController
   layout 'application', only: [:support_search]
 
   def index
-    @candidates = @search.result.page(params[:page])
+    @candidates = @search.result.page(params[:page]).includes(:location_area)
   end
 
   def support_search
