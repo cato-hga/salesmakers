@@ -73,7 +73,7 @@ gem 'spring-commands-rspec', '1.0.4' # Spring RSpec additions
 gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff
-gem 'twilio-ruby', '4.2.1' # Twilio SMS and Voice library
+gem 'twilio-ruby', '4.3.0' # Twilio SMS and Voice library
 gem 'uglifier', '2.7.1'
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'whenever', '0.9.4' # Background tasks scheduled in a flat ruby file.
