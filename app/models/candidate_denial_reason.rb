@@ -14,4 +14,7 @@ class CandidateDenialReason < ActiveRecord::Base
   validates :name, presence: true
   validates :active, presence: true
 
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
+
 end

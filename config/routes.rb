@@ -264,6 +264,9 @@ Rails.application.routes.draw do
       patch 'deactivate',
             action: :deactivate,
             as: 'deactivate'
+      patch 'activate',
+            action: :activate,
+            as: 'activate'
     end
   end
 

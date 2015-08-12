@@ -1,6 +1,6 @@
-- directv_lead_policy = DirecTVLeadPolicy.new(@current_person, DirecTVLead.new)
-- directv_sale_policy = DirecTVSalePolicy.new(@current_person, DirecTVSale.new)
-- directv_customer_policy = DirecTVCustomerPolicy.new(@current_person, DirecTVCustomer.new)
+- directv_lead_policy = DirecTVLeadPolicy.new(@current_person, DirecTVLead.new, @permission_keys)
+- directv_sale_policy = DirecTVSalePolicy.new(@current_person, DirecTVSale.new, @permission_keys)
+- directv_customer_policy = DirecTVCustomerPolicy.new(@current_person, DirecTVCustomer.new, @permission_keys)
 - if directv_lead_policy.index? || directv_sale_policy.index? || directv_customer_policy.create?
   %li.has-dropdown
     %a{ href: '#' } DirecTV

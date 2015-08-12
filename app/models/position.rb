@@ -24,6 +24,9 @@ class Position < ActiveRecord::Base
   belongs_to :department
   has_many :people
   has_and_belongs_to_many :permissions
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
 
   default_scope { order :name }
 

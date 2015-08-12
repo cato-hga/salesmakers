@@ -6,12 +6,12 @@ class ApplicationController < BaseApplicationController
                 :check_active,
                 :get_projects,
                 #:setup_default_walls,
-                :set_unseen_changelog_entries,
                 #:set_last_seen,
                 #:set_last_seen_profile,
                 #:setup_new_publishables,
                 #:filter_groupme_access_token,
                 :setup_accessibles,
+                :set_unseen_changelog_entries,
                 :log_additional_data,
                 :authorize_profiler
 
@@ -68,14 +68,36 @@ class ApplicationController < BaseApplicationController
   end
 
   def setup_accessibles
-    if @current_person
-      @visible_people = Person.visible(@current_person)
-      @visible_projects = Project.visible(@current_person)
-    else
-      @visible_people = Person.none
-      @visible_projects = Project.none
+    def setup_accessibles
+      if @current_person
+        @visible_people_ids = Person.visible(@current_person).ids
+        @visible_projects = Project.visible(@current_person)
+      else
+        @visible_people_ids = []
+        @visible_projects = Project.none
+      end
+      @global_search = params[:global_search]
     end
-    @global_search = params[:global_search]
+    # if @current_person
+    #   if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
+    #     @visible_people ||= session[:visible_people]
+    #     @visible_projects ||= session[:visible_projects]
+    #     @visible_changelogs ||= session[:visible_logs]
+    #   else
+    #     session[:visible_people] = Person.visible(@current_person)
+    #     @visible_people = session[:visible_people]
+    #     session[:visible_projects] = Project.visible(@current_person)
+    #     @visible_projects = session[:visible_projects]
+    #     session[:visible_logs] = ChangelogEntry.visible(@current_person)
+    #     @visible_changelogs = session[:visible_logs]
+    #     session[:last_visibility_check] = Time.now
+    #   end
+    # else
+    #   @visible_people ||= Person.none
+    #   @visible_projects ||= Project.none
+    #   @visible_changelogs ||= ChangelogEntry.none
+    # end
+    # @global_search = params[:global_search]
   end
 
   def set_unseen_changelog_entries
@@ -103,14 +125,16 @@ class ApplicationController < BaseApplicationController
   end
 
   def set_current_user
-    @current_person = Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'hly@retaildoneright.com'
+    @current_person ||= Person.find_by_email session[:cas_user] if session[:cas_user] #ME
+    #@current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st
       self.reset_session
       render(:file => File.join(Rails.root, 'public/good_cas_bad_person.html'), :status => 403, :layout => false) and return false
     else
+      position = @current_person ? @current_person.position : nil
+      @permission_keys = position ? position.permissions.select(:key).pluck(:key) : []
       @current_person
     end
   end
