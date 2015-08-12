@@ -46,17 +46,18 @@
           %footer
             = yield :footer
       %a.exit-off-canvas
-    :javascript
-      function downloadJSAtOnload() {
-        var element = document.createElement("script");
-        element.src = "#{javascript_url('application')}";
-        document.body.appendChild(element);
-        element = document.createElement("script");
-        element.src = "#{javascript_url(params[:controller])}";
-        document.body.appendChild(element);
-      }
-      if (window.addEventListener)
-        window.addEventListener("load", downloadJSAtOnload, false);
-      else if (window.attachEvent)
-        window.attachEvent("onload", downloadJSAtOnload);
-      else window.onload = downloadJSAtOnload;
+    - unless Rails.env.test?
+      :javascript
+        function downloadJSAtOnload() {
+          var element = document.createElement("script");
+          element.src = "#{javascript_url('application')}";
+          document.body.appendChild(element);
+          element = document.createElement("script");
+          element.src = "#{javascript_url(params[:controller])}";
+          document.body.appendChild(element);
+        }
+        if (window.addEventListener)
+          window.addEventListener("load", downloadJSAtOnload, false);
+        else if (window.attachEvent)
+          window.attachEvent("onload", downloadJSAtOnload);
+        else window.onload = downloadJSAtOnload;
