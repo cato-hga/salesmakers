@@ -160,6 +160,6 @@ module ApplicationHelper
   end
 
   def cache_key_for_navigation
-    Digest::MD5.digest("#{@current_person.position.id}-#{@permission_keys.join(',')}")
+    Digest::MD5.digest("#{@current_person.id}-#{@current_person.position.id}-#{@permission_keys.join(',')}")
   end
 end
