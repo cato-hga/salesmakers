@@ -77,6 +77,7 @@ gem 'twilio-ruby', '4.3.0' # Twilio SMS and Voice library
 gem 'uglifier', '2.7.1'
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'whenever', '0.9.4' # Background tasks scheduled in a flat ruby file.
+gem 'skylight' # Performance monitoring skylight.io
 
 group :development do
   gem 'airbrussh', '0.7.0', require: false
