@@ -11,6 +11,8 @@ Rails.application.config.assets.precompile += %w( picker.css )
 Rails.application.config.assets.precompile += %w( picker.date.css )
 Rails.application.config.assets.precompile += %w( vonage_sales.css )
 Rails.application.config.assets.precompile += %w( vonage_sales.js )
+Rails.application.config.assets.precompile += %w( vonage_devices.css )
+Rails.application.config.assets.precompile += %w( vonage_devices.js )
 
 %w(
 sms_daily_checks

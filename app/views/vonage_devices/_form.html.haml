@@ -1,0 +1,19 @@
+- if @vonage_device.errors.any?
+  - @vonage_device.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @vonage_device do |f|
+      = f.label :person_id, 'Sales Representative'
+      = f.text_field :person_id
+      - sale_date = short_date(@vonage_device.receive_date)
+      = f.label :mac_id, 'MAC ID'
+      = f.text_field :mac_id, placeholder: '12 characters (0-9 & A-F)'
+      = f.label :po_number, 'PO Number'
+      = f.text_field :po_number, placeholder: 'Enter PO Number'
+      = f.label :receive_date, 'Receive Date'
+      = f.text_field :receive_date, value: sale_date, placeholder: 'MM/DD/YYYY'
+
+
+      = f.submit 'Receive', class: [:button]

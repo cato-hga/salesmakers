@@ -14,7 +14,6 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  active              :boolean          default(TRUE), not null
-#  completed_follow_up :boolean
 #
 
 require 'comcast/sales_and_leads'

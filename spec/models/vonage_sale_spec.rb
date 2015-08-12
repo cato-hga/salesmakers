@@ -15,6 +15,8 @@
 #  updated_at          :datetime         not null
 #  connect_order_uuid  :string
 #  resold              :boolean          default(FALSE), not null
+#  person_acknowledged :boolean          default(FALSE)
+#  gift_card_number    :integer
 #
 
 require 'rails_helper'
