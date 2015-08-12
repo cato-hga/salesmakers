@@ -1,4 +1,3 @@
-//= require "application"
 //$(function () {
 //
 //	$.get("/widgets/sales", function (data) {

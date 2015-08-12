@@ -1,4 +1,3 @@
-//= require "application"
 //$(function() {
 //
 //	$('body').on('ajax:beforeSend', '.new_poll_question_choice, .edit_poll_question_choice', function() {

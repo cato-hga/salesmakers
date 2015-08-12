@@ -1,4 +1,3 @@
-//= require "application"
 // require google_jsapi
 // require chartkick
 ////= require masonry.min

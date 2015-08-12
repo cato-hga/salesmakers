@@ -1,4 +1,3 @@
-//= require "application"
 ////= require fieldChooser
 //
 //$(function() {

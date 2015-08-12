@@ -1,4 +1,3 @@
-//= require "application"
 //= require underscore.min
 //= require sms_counter
 

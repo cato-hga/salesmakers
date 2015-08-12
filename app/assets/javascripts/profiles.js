@@ -1,4 +1,3 @@
-//= require "application"
 ////= require foundation_new/foundation.joyride
 //
 //$(function() {

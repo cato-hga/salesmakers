@@ -1,4 +1,3 @@
-//= require "application"
 $(function () {
 
 	$('#new_candidate_contact').on('submit', function () {

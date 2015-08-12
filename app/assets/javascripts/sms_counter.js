@@ -1,4 +1,3 @@
-//= require "application"
 $(function () {
 
 	$('#contact_message').on('input propertychange', function () {

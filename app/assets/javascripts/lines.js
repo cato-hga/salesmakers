@@ -1,4 +1,3 @@
-//= require "application"
 // require wall.js
 //= require 'jquery-ui'
 
