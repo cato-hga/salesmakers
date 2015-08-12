@@ -4,7 +4,6 @@ class ApplicationController < BaseApplicationController
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
                 :check_active,
-                :get_projects,
                 #:setup_default_walls,
                 #:set_last_seen,
                 #:set_last_seen_profile,
@@ -70,11 +69,9 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     def setup_accessibles
       if @current_person
-        @visible_people = Person.visible(@current_person)
-        @visible_people_ids = @visible_people.ids
+        @visible_people_ids = Person.visible(@current_person).ids
         @visible_projects = Project.visible(@current_person)
       else
-        @visible_people = Person.none
         @visible_people_ids = []
         @visible_projects = Project.none
       end
@@ -107,13 +104,12 @@ class ApplicationController < BaseApplicationController
     return unless @current_person
     changelog_entry_id = @current_person.changelog_entry_id
     if changelog_entry_id
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
-          where('id > ?',
-                changelog_entry_id)
+      @unseen_changelog_entries = ChangelogEntry.where('id > ?', changelog_entry_id).
+          visible(@current_person)
+
     else
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
-          where('released >= ?',
-                Time.now - 1.week)
+      @unseen_changelog_entries = ChangelogEntry.where('released >= ?', Time.now - 1.week).
+          visible(@current_person)
     end
   end
 
@@ -149,10 +145,6 @@ class ApplicationController < BaseApplicationController
     if @current_person and not @current_person.active?
       raise ActionController::RoutingError.new('Forbidden')
     end
-  end
-
-  def get_projects
-    @projects = Project.all
   end
 
   helper_method :current_user
