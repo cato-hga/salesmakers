@@ -83,7 +83,8 @@ class ApplicationController < BaseApplicationController
     def cached_visible_people_key
       key = @current_person.id.to_s
       key += '-' + (@current_person.person_areas.empty? ? '' : @current_person.person_areas.maximum(:updated_at).try(:to_s, :number))
-      key + '-' + @current_person.updated_at.try(:to_s, :number)
+      key += '-' + @current_person.updated_at.try(:to_s, :number)
+      kay + '-' + Person.maximum(:updated_at).try(:to_s, :number)
       end
 
     # if @current_person
