@@ -5,7 +5,6 @@
       SalesCenter -
       = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
     = stylesheet_link_tag 'application', params[:controller], media: 'all'
-    = javascript_include_tag 'application', params[:controller]
     = favicon_link_tag '/favicon.ico?v=2'
     = favicon_link_tag 'apple-touch-icon.png', rel: 'apple-touch-icon', type: 'image/png'
     = favicon_link_tag 'apple-touch-icon-precomposed.png', rel: 'apple-touch-icon-precomposed', type: 'image/png'
@@ -53,3 +52,17 @@
       = image_tag 'loading.gif'
       %br
       %em Loading...
+    :javascript
+      function downloadJSAtOnload() {
+        var element = document.createElement("script");
+        element.src = "#{javascript_url('application')}";
+        document.body.appendChild(element);
+        element = document.createElement("script");
+        element.src = "#{javascript_url(params[:controller])}";
+        document.body.appendChild(element);
+      }
+      if (window.addEventListener)
+        window.addEventListener("load", downloadJSAtOnload, false);
+      else if (window.attachEvent)
+        window.attachEvent("onload", downloadJSAtOnload);
+      else window.onload = downloadJSAtOnload;
