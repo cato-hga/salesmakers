@@ -49,6 +49,8 @@ module Reconnect
     config.active_record.schema_format = :sql
 
     config.active_job.queue_adapter = :sidekiq
+
+    config.cache_store = :mem_cache_store
   end
 end
 
