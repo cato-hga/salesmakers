@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/airblade/paper_trail.git
-  revision: 87917e0e78d0295770eb0e61ebd253b1a221b150
+  revision: 7d7af89b2d34a7151f2a397ab75ecf833deca647
   specs:
     paper_trail (4.0.0)
       activerecord (>= 3.0, < 6.0)
