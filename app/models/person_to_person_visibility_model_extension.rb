@@ -81,6 +81,7 @@ module PersonToPersonVisibilityModelExtension
       end
 
       people_ids = people_ids.concat person.team_members.ids
+      people_ids = people_ids.uniq
       return Person.none if people_ids.count < 1
 
       Person.where(id: people_ids)

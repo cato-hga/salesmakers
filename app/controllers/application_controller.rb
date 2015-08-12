@@ -70,11 +70,9 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     def setup_accessibles
       if @current_person
-        @visible_people = Person.visible(@current_person)
-        @visible_people_ids = @visible_people.ids
+        @visible_people_ids = Person.visible(@current_person).ids
         @visible_projects = Project.visible(@current_person)
       else
-        @visible_people = Person.none
         @visible_people_ids = []
         @visible_projects = Project.none
       end
