@@ -283,12 +283,10 @@ describe PrescreenAnswersController do
       end
 
       it 'sends an email to Sprint' do
-        expect {
-          subject
-          perform_enqueued_jobs do
-            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-          end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        message_delivery = instance_double(ActionMailer::MessageDelivery)
+        expect(CandidateFormerRadioShackMailer).to receive(:vetting_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
     end
   end

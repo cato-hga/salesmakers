@@ -12,22 +12,18 @@
         %li.has-dropdown
           %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
           %ul.dropdown
-            -#%li= link_to 'Sales', sales_client_project_path(project.client, project)
-            %li.has-dropdown
-              %a{ href: "#" } Areas &amp; Locations
-              %ul.dropdown
-                - if AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index?
-                  %li
-                    = link_to 'Area Types', client_project_area_types_path(project.client, project)
-                - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index?
-                  %li
-                    = link_to 'Areas', client_project_areas_path(project.client, project)
-                - if ClientAreaPolicy.new(@current_person, ClientArea.new, @permission_keys).index?
-                  %li
-                    = link_to 'Client Areas', client_project_client_areas_path(project.client, project)
-                - if LocationPolicy.new(@current_person, Location.new, @permission_keys).index?
-                  %li
-                    = link_to 'Locations', client_project_locations_path(project.client, project)
+            - if AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index?
+              %li
+                = link_to 'Area Types', client_project_area_types_path(project.client, project)
+            - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index?
+              %li
+                = link_to 'Areas', client_project_areas_path(project.client, project)
+            - if ClientAreaPolicy.new(@current_person, ClientArea.new, @permission_keys).index?
+              %li
+                = link_to 'Client Areas', client_project_client_areas_path(project.client, project)
+            - if LocationPolicy.new(@current_person, Location.new, @permission_keys).index?
+              %li
+                = link_to 'Locations', client_project_locations_path(project.client, project)
             - if SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new, @permission_keys).index? and |
               project.name == 'Sprint Postpaid' |
               %li= link_to 'Training Sessions', sprint_radio_shack_training_sessions_path

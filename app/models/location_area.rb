@@ -97,6 +97,11 @@ class LocationArea < ActiveRecord::Base
             and la.id = #{self.id}
             and c.active = true
             and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
+            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
+
         }
     ).values.flatten
     paperwork_sent_36_hours = ActiveRecord::Base.connection.execute(
@@ -107,10 +112,16 @@ class LocationArea < ActiveRecord::Base
           left outer join candidates c
             on c.location_area_id = la.id
           left outer join job_offer_details j
-          on j.sent >= (current_timestamp - interval '36 hours')
+            on j.candidate_id = c.id
           where j.id is not null
             and la.id = #{self.id}
+            and j.sent >= (current_timestamp - interval '36 hours')
             and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
+            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} AND
+                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
+
             and c.active = true
           group by c.id
           order by c.id

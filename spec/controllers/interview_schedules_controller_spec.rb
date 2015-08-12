@@ -3,6 +3,8 @@ require 'rails_helper'
 describe InterviewSchedulesController do
   include ActiveJob::TestHelper
   let!(:recruiter) { create :person }
+  let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
   end
@@ -41,7 +43,7 @@ describe InterviewSchedulesController do
 
   describe 'POST create' do
     context 'success' do
-      before(:each) do
+      subject(:each) do
         allow(controller).to receive(:policy).and_return double(create?: true)
         post :create,
              interview_date: Date.today.strftime('%Y%m%d'),
@@ -52,35 +54,37 @@ describe InterviewSchedulesController do
       end
 
       it 'schedules the candidate' do
+        subject
         expect(InterviewSchedule.all.count).to eq(1)
       end
 
       it 'creates a log entry' do
+        subject
         expect(LogEntry.all.count).to eq(1)
       end
 
       it 'redirects to the candidate show path' do
+        subject
         expect(response).to redirect_to(candidate_path(candidate))
       end
 
       it 'changes the candidate status' do
+        subject
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
       end
 
       it 'sends emails to the recruiter and candidate' do
-        candidate.reload
-        expect { perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(InterviewScheduleMailer).to receive(:interview_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
     end
 
     context 'reschedule success' do
       let!(:scheduled_candidate) { create :candidate, interview_schedules: [interview], status: 'interview_scheduled' }
       let(:interview) { create :interview_schedule, active: true }
-      before(:each) do
+      subject do
         @time_now = Time.new(Date.today.year, Date.today.month, Date.today.day, 9, 0, 0)
         allow(Time).to receive(:now).and_return(@time_now)
         allow(controller).to receive(:policy).and_return double(create?: true)
@@ -93,6 +97,7 @@ describe InterviewSchedulesController do
       end
 
       it 'schedules the candidate' do
+        subject
         new_interview = InterviewSchedule.find_by interview_date: Date.tomorrow.strftime('%Y%m%d')
         scheduled_candidate.reload
         active_interviews = scheduled_candidate.interview_schedules.where(active: true)
@@ -101,27 +106,29 @@ describe InterviewSchedulesController do
       end
 
       it 'creates a log entry' do
+        subject
         expect(LogEntry.all.count).to eq(2)
       end
 
       it 'redirects to the candidate show path' do
+        subject
         expect(response).to redirect_to(candidate_path(scheduled_candidate))
       end
 
       it 'keeps the candidate status' do
+        subject
         scheduled_candidate.reload
         expect(scheduled_candidate.status).to eq('interview_scheduled')
       end
 
       it 'sends emails to the recruiter and candidate' do
-        scheduled_candidate.reload
-        expect { perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(InterviewScheduleMailer).to receive(:interview_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
 
       it 'deactivates other scheduled interviews' do
+        subject
         scheduled_candidate.reload
         active_interviews = scheduled_candidate.interview_schedules.where(active: true)
         expect(active_interviews.count).to eq(1)
@@ -153,34 +160,40 @@ describe InterviewSchedulesController do
 
   describe 'GET interview_now' do
     context 'success' do
-      before(:each) do
+      subject do
         allow(controller).to receive(:policy).and_return double(interview_now?: true)
         get :interview_now,
             candidate_id: candidate.id
       end
+
       it 'schedules the candidate' do
+        subject
         expect(InterviewSchedule.all.count).to eq(1)
       end
+
       it 'creates a log entry' do
+        subject
         expect(LogEntry.all.count).to eq(1)
       end
 
       it 'redirects to the cinterview answer path' do
+        subject
         expect(response).to redirect_to(new_candidate_interview_answer_path(candidate))
       end
 
       it 'changes the candidate status' do
+        subject
         candidate.reload
         expect(candidate.status).to eq('interview_scheduled')
       end
+
       it 'sends emails to the recruiter and candidate' do
-        candidate.reload
-        expect { perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(InterviewScheduleMailer).to receive(:interview_now_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
     end
+
     context 'failure' do
       before(:each) do
         expect(InterviewSchedule).to receive(:new).and_return(interview_schedule)

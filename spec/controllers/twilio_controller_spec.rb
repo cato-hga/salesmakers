@@ -63,50 +63,29 @@ describe TwilioController do
     end
 
     it 'sends an email to a person being replied to' do
+      expect(NotificationMailer).to receive(:sms_reply).and_return(message_delivery)
+      expect(message_delivery).to receive(:deliver_later)
       subject
-      perform_enqueued_jobs do
-        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-      end
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
-      email = ActionMailer::Base.deliveries.first
-      expect(email.subject).to eq('SMS Reply from ' + to_person.display_name)
-      expect(email.to).to eq([from_person.email])
-      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      expect(source).to match(/This is a sample incoming message/)
     end
 
     it 'sends an email to everyone applicable when not a reply' do
+      expect(NotificationMailer).to receive(:new_sms_thread).and_return(message_delivery)
+      expect(message_delivery).to receive(:deliver_later)
       post :incoming_sms,
            From: '+1' + from_person.mobile_phone,
            To: '+12345678901',
            Body: 'This is a message that starts a new thread.',
            MessageSid: 'SM09876543210987654321'
-      perform_enqueued_jobs do
-        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-      end
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
-      email = ActionMailer::Base.deliveries.first
-      expect(email.subject).to eq('New SMS Thread Started by ' + from_person.display_name)
-      expect(email.to).to eq([from_person.email])
-      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      expect(source).to match(/This is a message that starts a new thread/)
     end
 
-    it 'sends an email when the phone number is not recognized' do\
+    it 'sends an email when the phone number is not recognized' do
+      expect(NotificationMailer).to receive(:new_sms_thread).and_return(message_delivery)
+      expect(message_delivery).to receive(:deliver_later)
       post :incoming_sms,
            From: '+19914488899',
            To: '+12345678901',
            Body: 'This is a message from an unrecognized number.',
            MessageSid: 'SM09876543210987654321'
-      perform_enqueued_jobs do
-        ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-      end
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
-      email = ActionMailer::Base.deliveries.first
-      expect(email.subject).to eq('New SMS Thread Started by (991) 448-8899')
-      expect(email.to).to eq([from_person.email])
-      source = email.body.parts.find {|p| p.content_type.match /html/}.body.raw_source
-      expect(source).to match(/This is a message from an unrecognized number/)
     end
   end
 end
