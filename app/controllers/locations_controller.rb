@@ -46,10 +46,10 @@ class LocationsController < ApplicationController
         where("candidates.status < ?", Candidate.statuses[:onboarded]).
         near(@location, 30).
         page(params[:candidate_page]).
-        per(10)
+        per(10).includes(:location_area)
     @person_addresses = PersonAddress.near(@location, 30)
-    people_ids = @person_addresses.map {|pa| pa.person.id }.uniq
-    @people = Person.where(id: people_ids).page(params[:person_page]).per(10)
+    people_ids = @person_addresses.select(:person_id, :latitude, :longitude).map(&:person_id).uniq
+    @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:employments, { person_areas: :area }, :areas, :supervisor)
     authorize @location
   end
 

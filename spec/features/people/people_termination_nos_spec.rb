@@ -113,9 +113,8 @@ describe "Terminating a Person" do
         expect(page).to have_content 'NOS form initiated'
       end
       it 'creates log entries (person as referencable, trackable is generated object)', :vcr do
-        CASClient::Frameworks::Rails::Filter.fake(correct_manager.email)
-        visit person_path terminating_employee
-        expect(page).to have_content 'Initiated a notice of separation'
+        expect(LogEntry.count).to eq(1)
+        expect(LogEntry.first.action).to eq 'sent_nos'
       end
 
       it 'does not deactivate the person or take any action', :vcr do

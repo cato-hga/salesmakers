@@ -48,15 +48,15 @@ module PersonToPersonVisibilityModelExtension
   end
 
   def team_members
-    people = Array.new
+    people_ids = Array.new
     for person_area in self.person_areas do
       next unless person_area.area
       areas = person_area.area.subtree
       for area in areas do
-        people = people.concat area.people.to_a
+        people_ids = people_ids.concat area.people.ids
       end
     end
-    people.flatten
+    Person.where id: people_ids
   end
 
   def department_members
@@ -67,33 +67,34 @@ module PersonToPersonVisibilityModelExtension
   module ClassMethods
     def visible(person = nil)
       return Person.none unless person
-      people = Array.new
+      people_ids = Array.new
       position = person.position
       return person.team_members unless position
       if position.all_field_visibility?
-        people = people.concat Person.all_field_members
+        people_ids = people_ids.concat Person.unscoped.all_field_members.ids
       end
       if position.all_corporate_visibility?
-        people = people.concat Person.all_hq_members
+        people_ids = people_ids.concat Person.unscoped.all_hq_members.ids
       end
       if position.hq?
-        people = people.concat person.department_members
+        people_ids = people_ids.concat person.department_members.ids
       end
 
-      people = people.concat person.team_members
-      return Person.none if people.count < 1
+      people_ids = people_ids.concat person.team_members.ids
+      people_ids = people_ids.uniq
+      return Person.none if people_ids.count < 1
 
-      Person.where("\"people\".\"id\" IN (#{people.map(&:id).join(',')})")
+      Person.where(id: people_ids)
     end
 
     def all_field_members
-      positions = Position.where(field: true)
-      Person.where(position: positions)
+      position_ids = Position.unscoped.where(field: true).ids
+      Person.where(position_id: position_ids)
     end
 
     def all_hq_members
-      positions = Position.where(hq: true)
-      Person.where(position: positions)
+      position_ids = Position.unscoped.where(hq: true).ids
+      Person.where(position_id: position_ids)
     end
   end
 end

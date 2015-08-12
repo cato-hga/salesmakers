@@ -24,16 +24,16 @@
     - selected_training_availability = params['q'] ? params['q']['training_availability_able_to_attend_eq'] : nil
     = f.select :training_availability_able_to_attend_eq, options_for_select([['Yes', true], ['No', false]], selected_training_availability), include_blank: 'Attending Training'
     - selected_training_status = params['q'] ? params['q']['training_session_status_eq'] : nil
-    = f.select :training_session_status_eq, options_for_select(Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize).gsub('Nos', 'NOS').gsub('Nclb', 'NCLB'), s[1]]}, selected_training_status), include_blank: 'All Training Statuses'
+    = f.select :training_session_status_eq, options_for_select(Candidate.training_session_statuses.map{|s| [NameCase(s[0].humanize, lazy: false).gsub('Nos', 'NOS').gsub('Nclb', 'NCLB'), s[1]]}, selected_training_status), include_blank: 'All Training Statuses'
     %br/
     = f.text_field :location_area_location_city_cont, placeholder: 'Location City'
     = f.text_field :location_area_location_display_name_cont, placeholder: 'Location Name'
     - selected_status = params['q'] ? params['q']['status_eq'] : nil
-    - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_status)
+    - status_options = options_for_select(@statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_status)
     = f.select :status_eq, status_options, prompt: 'Status'
     = f.select :candidate_drug_test_scheduled_eq, [['Scheduled', true],['Not Scheduled', false]], include_blank: 'Drug Test Status'
     - selected_sprint_roster = params['q'] ? params['q']['sprint_roster_status_eq'] : nil
-    = f.select :sprint_roster_status_eq, options_for_select(Candidate.sprint_roster_statuses.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_sprint_roster), include_blank: 'Sprint Roster Status'
+    = f.select :sprint_roster_status_eq, options_for_select(Candidate.sprint_roster_statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_sprint_roster), include_blank: 'Sprint Roster Status'
     = hidden_field_tag :enable_filter, params[:enable_filter]
     = f.submit 'Search', class: [:button, :inline_button]
   .top-pagination

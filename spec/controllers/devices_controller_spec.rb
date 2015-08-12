@@ -3,6 +3,8 @@ require 'rails_helper'
 describe DevicesController do
   include ActiveJob::TestHelper
 
+  let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+
   describe 'GET index' do
     before {
       allow(controller).to receive(:policy).and_return double(index?: true)
@@ -346,12 +348,9 @@ describe DevicesController do
         it 'emails Payroll Assets' do
           device.update person: deployed_person
           device.reload
-          expect {
-            subject
-            perform_enqueued_jobs do
-              ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-            end
-          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(AssetsMailer).to receive(:lost_or_stolen_mailer).with(device).and_return(message_delivery)
+          expect(message_delivery).to receive(:deliver_later)
+          subject
         end
       end
     end
@@ -406,14 +405,12 @@ describe DevicesController do
 
     context 'if deployed' do
       let!(:deployed_person) { create :person }
+
       it 'emails Payroll Assets' do
         device.update person: deployed_person
-        expect {
-          subject
-          perform_enqueued_jobs do
-            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-          end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(AssetsMailer).to receive(:found_mailer).with(device).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
     end
   end

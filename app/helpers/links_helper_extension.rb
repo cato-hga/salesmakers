@@ -80,7 +80,7 @@ module LinksHelperExtension
   def can_send_text?(person)
     person.mobile_phone and
         not person.mobile_phone.include? '8005551212' and
-        person.show_details? @visible_people and
+        person.show_details_for_ids? @visible_people_ids and
         @current_person and
         @current_person.position and
         @current_person.position.hq?

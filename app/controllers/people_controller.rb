@@ -36,7 +36,10 @@ class PeopleController < ProtectedController
 
   def index
     @search = Person.search(params[:q])
-    @people = filter_results(@search.result).page(params[:page])
+    @people = filter_results(@search.result).
+        page(params[:page]).
+        includes(:areas).
+        includes(:most_recent_employment)
   end
 
   def csv

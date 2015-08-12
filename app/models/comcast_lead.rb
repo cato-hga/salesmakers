@@ -29,6 +29,9 @@ class ComcastLead < ActiveRecord::Base
   setup_scopes
   belongs_to_associations
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
+
   delegate :name, to: :comcast_customer
   delegate :mobile_phone, to: :comcast_customer
   delegate :other_phone, to: :comcast_customer

@@ -9,6 +9,7 @@ describe CandidatesController do
   }
   let(:location) { create :location }
   let(:source) { create :candidate_source }
+  let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
   before do
     CASClient::Frameworks::Rails::Filter.fake(recruiter.email)
@@ -429,12 +430,9 @@ describe CandidatesController do
       end
 
       it 'sends the candidate the personality assessment URL' do
-        expect {
-          subject
-          perform_enqueued_jobs do
-            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-          end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(CandidatePrescreenAssessmentMailer).to receive(:assessment_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
 
       it 'creates a log entry' do
@@ -785,12 +783,9 @@ describe CandidatesController do
       end
 
       it 'sends an email to the candidate' do
-        expect {
-          subject
-          perform_enqueued_jobs do
-            ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-          end
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(CandidatePrescreenAssessmentMailer).to receive(:failed_assessment_mailer).and_return(message_delivery)
+        expect(message_delivery).to receive(:deliver_later)
+        subject
       end
 
       it 'cancels any scheduled interviews' do
