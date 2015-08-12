@@ -23,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -5075,6 +5103,40 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
+-- Name: vonage_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_devices (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    mac_id character varying,
+    po_number character varying,
+    person_id integer,
+    receive_date timestamp without time zone
+);
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_devices_id_seq OWNED BY vonage_devices.id;
+
+
+--
 -- Name: vonage_paycheck_negative_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5299,7 +5361,9 @@ CREATE TABLE vonage_sales (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
-    resold boolean DEFAULT false NOT NULL
+    resold boolean DEFAULT false NOT NULL,
+    person_acknowledged boolean DEFAULT false,
+    gift_card_number integer
 );
 
 
@@ -5320,6 +5384,42 @@ CREATE SEQUENCE vonage_sales_id_seq
 --
 
 ALTER SEQUENCE vonage_sales_id_seq OWNED BY vonage_sales.id;
+
+
+--
+-- Name: vonage_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_transfers (
+    id integer NOT NULL,
+    to_person character varying,
+    from_person character varying,
+    vonage_device character varying,
+    "transfer-time" timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    accepted boolean DEFAULT false NOT NULL,
+    "rejection-time" timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_transfers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_transfers_id_seq OWNED BY vonage_transfers.id;
 
 
 --
@@ -6526,6 +6626,13 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vonage_devices ALTER COLUMN id SET DEFAULT nextval('vonage_devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY vonage_paycheck_negative_balances ALTER COLUMN id SET DEFAULT nextval('vonage_paycheck_negative_balances_id_seq'::regclass);
 
 
@@ -6569,6 +6676,13 @@ ALTER TABLE ONLY vonage_sale_payouts ALTER COLUMN id SET DEFAULT nextval('vonage
 --
 
 ALTER TABLE ONLY vonage_sales ALTER COLUMN id SET DEFAULT nextval('vonage_sales_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vonage_transfers ALTER COLUMN id SET DEFAULT nextval('vonage_transfers_id_seq'::regclass);
 
 
 --
@@ -7717,6 +7831,14 @@ ALTER TABLE ONLY vonage_commission_period07012015s
 
 
 --
+-- Name: vonage_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_devices
+    ADD CONSTRAINT vonage_devices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: vonage_paycheck_negative_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7770,6 +7892,14 @@ ALTER TABLE ONLY vonage_sale_payouts
 
 ALTER TABLE ONLY vonage_sales
     ADD CONSTRAINT vonage_sales_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_transfers
+    ADD CONSTRAINT vonage_transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -10284,9 +10414,23 @@ INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 
 INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
+INSERT INTO schema_migrations (version) VALUES ('20150805161446');
+
+INSERT INTO schema_migrations (version) VALUES ('20150805182921');
+
+INSERT INTO schema_migrations (version) VALUES ('20150805235212');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806131842');
+
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806184753');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806192315');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193355');
 
@@ -10294,5 +10438,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150807193852');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
+INSERT INTO schema_migrations (version) VALUES ('20150807235009');
+
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150811132749');
 
