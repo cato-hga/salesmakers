@@ -21,6 +21,9 @@ class InterviewSchedule < ActiveRecord::Base
 
   belongs_to :candidate
   belongs_to :person
+  has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :log_entries, as: :referenceable, dependent: :destroy
+
 
   default_scope { joins(:person).order('people.display_name') }
 

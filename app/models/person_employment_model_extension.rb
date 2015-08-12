@@ -4,21 +4,21 @@ module PersonEmploymentModelExtension
 
   def termination_date_invalid?
     begin
-      not self.employments.empty? and
-          self.employments.first.end and
-          self.employments.first.end.strftime('%Y').to_i < 2008
+      not self.most_recent_employment and
+          self.most_recent_employment.end and
+          self.most_recent_employment.end.strftime('%Y').to_i < 2008
     rescue
       return false
     end
   end
 
   def terminated?
-    self.employments.count > 0 and self.employments.first.end
+    self.employments.count > 0 and self.most_recent_employment.end
   end
 
   def hire_date
     if self.employments.count > 0
-      self.employments.first.start
+      self.most_recent_employment.start
     else
       nil
     end
@@ -28,7 +28,7 @@ module PersonEmploymentModelExtension
     if self.termination_date_invalid?
       nil
     elsif self.terminated?
-      self.employments.first.end
+      self.most_recent_employment.end
     else
       nil
     end

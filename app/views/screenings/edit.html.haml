@@ -13,22 +13,22 @@
     = form_for @screening, method: :put, url: person_screening_path(@person) do |f|
       = f.label :sex_offender_check
       - selected_soc = soc ? Screening.sex_offender_checks[soc] : nil
-      - soc_options = options_for_select(Screening.sex_offender_checks.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_soc)
+      - soc_options = options_for_select(Screening.sex_offender_checks.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_soc)
       = f.select :sex_offender_check, soc_options
 
       = f.label :public_background_check
       - selected_pubc = pubc ? Screening.public_background_checks[pubc] : nil
-      - pubc_options = options_for_select(Screening.public_background_checks.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_pubc)
+      - pubc_options = options_for_select(Screening.public_background_checks.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_pubc)
       = f.select :public_background_check, pubc_options
 
       = f.label :private_background_check
       - selected_privc = privc ? Screening.private_background_checks[privc] : nil
-      - privc_options = options_for_select(Screening.private_background_checks.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_privc)
+      - privc_options = options_for_select(Screening.private_background_checks.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_privc)
       = f.select :private_background_check, privc_options
 
       = f.label :drug_screening
       - selected_drug = drug ? Screening.drug_screenings[drug] : nil
-      - drug_options = options_for_select(Screening.drug_screenings.map{|s| [NameCase(s[0].humanize), s[1]]}, selected_drug)
+      - drug_options = options_for_select(Screening.drug_screenings.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_drug)
       = f.select :drug_screening, drug_options
 
       = f.submit 'Save', class: [:button]

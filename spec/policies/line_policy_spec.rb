@@ -36,6 +36,9 @@ describe LinePolicy do
       permitted_person.position.permissions << permission_update
       expect(policy.deactivate?).to be_truthy }
     specify {
+      permitted_person.position.permissions << permission_update
+      expect(policy.activate?).to be_truthy }
+    specify {
       permitted_person.position.permissions << permission_destroy
       expect(policy.destroy?).to be_truthy }
     specify {
@@ -55,6 +58,7 @@ describe LinePolicy do
     specify { expect(policy.edit?).to be_falsey }
     specify { expect(policy.update?).to be_falsey }
     specify { expect(policy.deactivate?).to be_falsey }
+    specify { expect(policy.activate?).to be_falsey }
     specify { expect(policy.destroy?).to be_falsey }
     specify { expect(policy.add_state?).to be_falsey }
     specify { expect(policy.remove_state?).to be_falsey }

@@ -20,7 +20,6 @@ class CandidatesController < ApplicationController
   include Candidates::Training
   include Candidates::Variables #Any methods that are 'get_{something}' go here.
 
-
   after_action :verify_authorized
   before_action :do_authorization
   before_action :search_bar, except: [:support_search]
@@ -31,7 +30,7 @@ class CandidatesController < ApplicationController
   layout 'application', only: [:support_search]
 
   def index
-    @candidates = @search.result.page(params[:page])
+    @candidates = @search.result.page(params[:page]).includes(:location_area)
   end
 
   def support_search

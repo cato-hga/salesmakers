@@ -44,7 +44,7 @@
         %p
           %strong Personality Assessment:
           %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
-            = NameCase(@candidate.personality_assessment_status)
+            = NameCase(@candidate.personality_assessment_status, lazy: false)
       - if @candidate.personality_assessment_score
         %p
           %strong Personality Assessment Score:
@@ -196,7 +196,7 @@
         = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
           = f.label :status, 'Reconciliation Status'
           - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
-          = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize), s[0]]}, selected_status), include_blank: true
+          = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[0]]}, selected_status), include_blank: true
           = f.submit 'Reconcile', class: :button
   - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
     = render 'training_information'

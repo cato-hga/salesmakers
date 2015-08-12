@@ -35,6 +35,7 @@ class AssetsMailer < ApplicationMailer
   def separated_with_assets_mailer(person)
     @person_name = person.display_name
     @devices = person.devices
+    @eid = person.eid ? person.eid.to_s : 'N/A'
     if person.mobile_phone
       @person_phone = person.mobile_phone
     else
@@ -53,6 +54,7 @@ class AssetsMailer < ApplicationMailer
 
   def separated_without_assets_mailer(person)
     @person_name = person.display_name
+    @eid = person.eid ? person.eid.to_s : 'N/A'
     if person.mobile_phone
       @person_phone = person.mobile_phone
     else
@@ -116,6 +118,7 @@ class AssetsMailer < ApplicationMailer
     person = device.person
     @person_name = person.display_name
     @device = device
+    @eid = person.eid ? person.eid.to_s : 'N/A'
     if person.mobile_phone
       @person_phone = person.mobile_phone
     else

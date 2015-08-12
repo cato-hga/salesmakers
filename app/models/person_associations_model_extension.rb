@@ -22,6 +22,7 @@ module PersonAssociationsModelExtension
     has_one :group_me_user
     has_one :candidate
     has_one :screening
+    has_one :most_recent_employment, -> { order(start: :desc).limit(1) }, class_name: 'Employment'
   end
 
   def setup_has_many
