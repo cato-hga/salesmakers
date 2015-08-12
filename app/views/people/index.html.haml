@@ -13,8 +13,10 @@
     = f.text_field :display_name_cont, placeholder: 'Name'
     = f.text_field :email_cont, placeholder: 'Email'
     = f.text_field :mobile_phone_number_cont, placeholder: 'Phone'
-
-    = f.text_field :position_name_cont, placeholder: 'Position'
+    - position_name_options = options_for_select(Position.all.pluck(:name) )
+    = f.select :position_name_cont, position_name_options, include_blank: 'Position'
+    - project_name_options = options_for_select(Project.all.pluck(:name))
+    = f.select :person_areas_area_project_name_cont, project_name_options, include_blank: 'Project'
     = f.text_field :supervisor_display_name_cont, placeholder: 'Supervisor'
     = f.text_field :areas_name_cont, placeholder: 'Area(s)'
     = f.submit 'Search', class: [:button, :inline_button]
@@ -39,7 +41,7 @@
   - header = header_row headers.flatten
   - rows = Array.new
   - for person in @people do
-    - show_details = person.show_details? @visible_people
+    - show_details = person.show_details_for_ids? @visible_people_ids
     - blocked = content_tag(:div, '-', class: :blocked)
     - classes = person.active? ? '' : 'inactive'
     - hire_date = person.hire_date
@@ -47,7 +49,6 @@
       - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - hired = ''
-    - employments = person.employments
     - if person.termination_date_invalid?
       - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
     - elsif person.terminated?

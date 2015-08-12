@@ -15,7 +15,7 @@ class GroupMeUser < ActiveRecord::Base
   has_and_belongs_to_many :group_me_groups, join_table: :group_me_groups_group_me_users
   belongs_to :person
   has_many :group_me_posts
-  has_many :group_me_likes
+  # has_many :group_me_likes
 
   def self.find_or_create_from_json(json, person = nil)
     return nil unless json

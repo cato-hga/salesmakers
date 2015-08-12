@@ -18,7 +18,7 @@
 
   - for project in @visible_projects
     - next unless project.areas.count > 0
-    - roots = Area.project_roots(project).includes(:person_areas).includes(project: :client)
+    - roots = Area.project_roots(project).includes(project: :client)
     .widget.org_chart
       .inner
         %h3= project.name

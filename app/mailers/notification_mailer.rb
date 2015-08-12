@@ -3,10 +3,10 @@ class NotificationMailer < ApplicationMailer
 
   def sms_reply(sms_message)
     set_sms_variables(sms_message)
-    mail to: sms_message.to_person.email,
-         cc: (sms_message.from_candidate ? 'candidatesms@salesmakersinc.com' : ''),
-         subject: 'SMS Reply from ' +
-             (sms_message.from_person ? sms_message.from_person.display_name : sms_message.from_candidate.name)
+    handle_send to: sms_message.to_person.email,
+                cc: (sms_message.from_candidate ? 'candidatesms@salesmakersinc.com' : ''),
+                subject: 'SMS Reply from ' +
+                    (sms_message.from_person ? sms_message.from_person.display_name : sms_message.from_candidate.name)
   end
 
   def new_sms_thread(sms_message)
@@ -14,9 +14,9 @@ class NotificationMailer < ApplicationMailer
     emails = get_emails_for_sms_message(sms_message)
     return if emails.empty?
     subject = get_subject_from_sms_message(sms_message)
-    mail to: emails,
-         cc: (sms_message.from_candidate ? 'candidatesms@salesmakersinc.com' : ''),
-         subject: subject
+    handle_send to: emails,
+                cc: (sms_message.from_candidate ? 'candidatesms@salesmakersinc.com' : ''),
+                subject: subject
   end
 
   def email_bounceback(bounce)
@@ -26,9 +26,9 @@ class NotificationMailer < ApplicationMailer
     @bounced_subject = bounce[:subject] || return
     @candidate = Candidate.find_by email: @email_address
     recipients = get_emails_for_bouncebacks || return
-    mail to: recipients,
-         from: 'notifications@salesmakersinc.com',
-         subject: 'Email Bounceback'
+    handle_send to: recipients,
+                from: 'notifications@salesmakersinc.com',
+                subject: 'Email Bounceback'
   end
 
   def vonage_hours_with_no_location
@@ -45,17 +45,17 @@ class NotificationMailer < ApplicationMailer
         joins(:connect_user).
         order("ad_user.name ASC")
     return if @timesheets.empty?
-    mail to: emails,
-         subject: 'Vonage Hours with No Location Attached'
+    handle_send to: emails,
+                subject: 'Vonage Hours with No Location Attached'
   end
 
   def simple_mail(to_email, subject, content, html = false)
     content_type = 'text/plain'
     content_type = 'text/html' if html
-    mail to: to_email,
-         subject: subject,
-         body: content,
-         content_type: content_type
+    handle_send to: to_email,
+                subject: subject,
+                body: content,
+                content_type: content_type
   end
 
   private

@@ -105,6 +105,7 @@ describe LegacyVonageSaleImporting do
           reason: 'Confirmation number must be 10 digits in length'
       }]
     }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
     before do
       allow(translator).to receive(:unmatched_sales).
@@ -112,12 +113,9 @@ describe LegacyVonageSaleImporting do
     end
 
     it 'generates an email' do
-      expect {
-        translator.translate_all([connect_order])
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect(UnmatchedVonageSalesMailer).to receive(:unmatched_sales).and_return(message_delivery)
+      expect(message_delivery).to receive(:deliver_later)
+      importer.import
     end
   end
 

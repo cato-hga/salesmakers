@@ -1,6 +1,6 @@
-- comcast_lead_policy = ComcastLeadPolicy.new(@current_person, ComcastLead.new)
-- comcast_sale_policy = ComcastSalePolicy.new(@current_person, ComcastSale.new)
-- comcast_customer_policy = ComcastCustomerPolicy.new(@current_person, ComcastCustomer.new)
+- comcast_lead_policy = ComcastLeadPolicy.new(@current_person, ComcastLead.new, @permission_keys)
+- comcast_sale_policy = ComcastSalePolicy.new(@current_person, ComcastSale.new, @permission_keys)
+- comcast_customer_policy = ComcastCustomerPolicy.new(@current_person, ComcastCustomer.new, @permission_keys)
 - if comcast_lead_policy.index? || comcast_sale_policy.index? || comcast_customer_policy.create?
   %li.has-dropdown
     %a{ href: '#' } Comcast

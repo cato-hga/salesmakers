@@ -15,7 +15,8 @@ module TimesheetToShiftTranslator
                       date: timesheet.shift_date.to_date,
                       hours: calculate_hours(timesheet),
                       break_hours: calculate_breaks(timesheet),
-                      training: is_training?(timesheet)
+                      training: is_training?(timesheet),
+                      project: get_project(timesheet)
     add_to_unmatched(timesheet, shift) unless shift.valid?
     shift
   end
@@ -50,6 +51,10 @@ module TimesheetToShiftTranslator
     c_bpl = ConnectBusinessPartnerLocation.find_by c_bpartner_location_id: c_bpartner_location_id
     return nil unless c_bpl
     Location.return_from_connect_business_partner_location c_bpl
+  end
+
+  def get_project timesheet
+    timesheet.project
   end
 
   def unmatched_timesheets

@@ -77,7 +77,7 @@
                       = person.created_at.strftime('%m/%d/%Y')
                     - else
                       Hired
-                      = person.employments.first.start.strftime('%m/%d/%Y')
+                      = person.most_recent_employment.start.strftime('%m/%d/%Y')
                   .last_shift.small
                     - if last_shift_date || last_shift_location
                       %strong

@@ -1,20 +1,10 @@
-= javascript_include_tag 'google_maps_api.min'
-= javascript_include_tag 'marker_clusterer.min'
-= javascript_include_tag 'gmaps/google'
+= javascript_include_tag "https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0&s=1"
 
 - title "Select Location for #{@candidate.name}"
 - content_for :action_buttons do
   - if @candidate.active?
     = link_to 'Dismiss Candidate', dismiss_candidate_path(@candidate), data: { confirm: 'This will dismiss the candidate. Are you sure?' }, class: [:button, :inline_button]
     = link_to 'No Locations Available - Go to Prescreen', new_candidate_prescreen_answer_path(@candidate), data: { confirm: 'This will skip the location selection and go to prescreening - Are you sure?' }, class: [:button, :inline_button]
-
-:javascript
-  var markers = [];
-  markers.push({
-    "lat": #{html_escape(@candidate.latitude)},
-    "lng": #{html_escape(@candidate.longitude)},
-    "infowindow": "#{html_escape(@candidate.zip)} (Home)"
-  });
 
 .widget
   .inner
@@ -27,53 +17,69 @@
         = f.select :area_project_id_eq, projects, { include_blank: true }, { class: [:autosize_dropdown] }
         = f.submit 'Filter', class: [:button, :inline_button]
     = render 'locations_table'
-.widget
-  .inner
-    #locations_map
-    - location_count = 0
-    - for location_area in @location_areas do
-      - next if @candidate.location_area and @candidate.location_area == location_area
-      - location = location_area.location
-      - target = 0
-      - offers_extended = 0
-      - current = 0
-      - target = location_area.target_head_count if location_area
-      - offers_extended = location_area.offer_extended_count if location_area
-      - current = location_area.current_head_count if location_area
-      - open = target - (current + offers_extended)
-      - location_count += 1
-      - distance = location.geographic_distance(@candidate).round(2)
-      - info_window = location_area.outsourced? ? '<strong>OUTSOURCED</strong><br>'.html_safe : ''.html_safe
-      - info_window += "#{location_count.to_s}. #{location.channel.name}, #{location.display_name}".html_safe
-      - info_window += " (##{location.store_number})<br><br>".html_safe
-      - info_window += "#{distance} miles<br><br>".html_safe
-      - info_window += "#{location.address}<br><br>".html_safe
-      - if location_area.hourly_rate
-        - info_window += "<strong>Hourly Rate: #{number_to_currency(location_area.hourly_rate)}</strong><br><br>".html_safe
-      - info_window += "<strong>Open: #{open}</strong><br><br>".html_safe
-      - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
-      - launch_group = location_area.launch_group ? location_area.launch_group.to_s : ''
-      - marker = location_area.outsourced? ? '/images/red-x.png' : "/images/#{location_area.area.project.name.gsub(' ', '').underscore}#{launch_group}_logo_32x32.png"
-      :javascript
-         markers.push({
-          "lat": #{html_escape(location.latitude)},
-          "lng": #{html_escape(location.longitude)},
-          "picture": {
-            "url": "#{marker}",
-            "width": 32,
-            "height": 32
-          },
-          "infowindow": '#{info_window}'
-        });
-    :javascript
-      handler = Gmaps.build('Google');
-      handler.buildMap({ provider: {
-        client: 'gme-salesmakersinc',
-        styles: mapStyle()
-      }, internal: {id: 'locations_map'}}, function () {
-        handledMarkers = handler.addMarkers(markers);
-        handler.map.centerOn(markers[0]);
-        handler.bounds.extendWith(handledMarkers);
-        handler.fitMapToBounds();
-        // handler.getMap().setZoom(10);
-      });
+#locations_map
+:javascript
+  var infobox;
+  window.map = new Microsoft.Maps.Map(document.getElementById('locations_map'), {credentials: "Akr9CB56R6-AMmvdiqHtnwoLzt7uXPWRJANBqiXyharRgtbkf4TGyc3W7A3VwFnf"});
+
+  function displayInfobox(e) {
+    if (e.targetType == 'pushpin') {
+      infobox.setLocation(e.target.getLocation());
+      infobox.setOptions({ visible: true, title: e.target.Title, description: e.target.Description });
+    }
+  }
+
+  var pushpinLocations = [];
+  var candidatePushpin = new Microsoft.Maps.Pushpin(window.map.getCenter(), null);
+  candidatePushpin.Title = '#{@candidate.first_name} #{@candidate.last_name}';
+  candidatePushpin.Description = '#{html_escape(@candidate.zip)} (Home)';
+  candidatePushpin.setLocation(new Microsoft.Maps.Location(#{html_escape(@candidate.latitude)}, #{html_escape(@candidate.longitude)}));
+  dataLayer = new Microsoft.Maps.EntityCollection();
+  map.entities.push(dataLayer);
+  var infoboxLayer = new Microsoft.Maps.EntityCollection();
+  map.entities.push(infoboxLayer);
+  infobox = new Microsoft.Maps.Infobox(new Microsoft.Maps.Location(#{html_escape(@candidate.latitude)}, #{html_escape(@candidate.longitude)}),
+    { visible: false, offset: new Microsoft.Maps.Point(0, 20), width: 400, height: 225 });
+  infoboxLayer.push(infobox);
+  dataLayer.push(candidatePushpin);
+  Microsoft.Maps.Events.addHandler(candidatePushpin, 'click', displayInfobox);
+- location_count = 0
+- for location_area in @location_areas do
+  - next if @candidate.location_area and @candidate.location_area == location_area
+  - location = location_area.location
+  - target = 0
+  - offers_extended = 0
+  - current = 0
+  - target = location_area.target_head_count if location_area
+  - offers_extended = location_area.offer_extended_count if location_area
+  - current = location_area.current_head_count if location_area
+  - open = target - (current + offers_extended)
+  - location_count += 1
+  - distance = location.geographic_distance(@candidate).round(2)
+  - info_window_title = "#{location_count.to_s}.  ##{location.store_number}"
+  - info_window = "#{location.channel.name}, #{location.display_name}<br>".html_safe
+  - info_window += "<strong>#{distance} miles</strong><br><br>".html_safe
+  - info_window += "#{location.address}<br><br>".html_safe
+  - if location_area.hourly_rate
+    - info_window += "<strong>Hourly Rate: #{number_to_currency(location_area.hourly_rate)}</strong><br>".html_safe
+  - info_window += "<strong>Open: #{open}</strong><br>".html_safe
+  - info_window += link_to 'Choose', set_location_area_candidate_path(@candidate, location_area, @back_to_confirm.to_s)
+  - launch_group = location_area.launch_group ? location_area.launch_group.to_s : ''
+  - marker = location_area.outsourced? ? '/images/red-x.png' : "/images/#{location_area.area.project.name.gsub(' ', '').underscore}#{launch_group}_logo_32x32.png"
+  :javascript
+    var pushpin#{location_count} = new Microsoft.Maps.Pushpin(map.getCenter(), {icon: '#{marker}', width: 32, height: 32});
+    var pushpinLocation = new Microsoft.Maps.Location(#{html_escape(location.latitude)}, #{html_escape(location.longitude)});
+    pushpinLocations.push(pushpinLocation);
+    pushpin#{location_count}.Title = '#{info_window_title}';
+    pushpin#{location_count}.Description = '#{info_window}';
+    candidateInfobox = new Microsoft.Maps.Infobox(location,
+      { visible: false, offset: new Microsoft.Maps.Point(0, 20) });
+    dataLayer.push(pushpin#{location_count});
+    pushpin#{location_count}.setLocation(new Microsoft.Maps.Location(#{html_escape(location.latitude)}, #{html_escape(location.longitude)}));
+    Microsoft.Maps.Events.addHandler(pushpin#{location_count}, 'click', displayInfobox);
+:javascript
+  map.setView({ bounds: Microsoft.Maps.LocationRect.fromLocations(pushpinLocations) });
+  Microsoft.Maps.Events.addHandler(map, 'mousewheel', function(e) {
+    e.handled = true;
+    return true;
+  });

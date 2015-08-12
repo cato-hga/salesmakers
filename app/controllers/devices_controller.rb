@@ -13,7 +13,7 @@ class DevicesController < ApplicationController
 
   def index
     authorize Device.new
-    @devices = @search.result.order('serial').page(params[:page])
+    @devices = @search.result.includes(:person).includes(:line).order('serial').page(params[:page])
   end
 
   def csv

@@ -5,8 +5,8 @@ class UnmatchedShiftsMailer < ApplicationMailer
     return if unmatched_shifts.empty?
     @unmatched_shifts = unmatched_shifts
     developer_emails = get_developer_emails || return
-    mail to: developer_emails,
-        subject: 'Unmatched Shifts on Import'
+    handle_send to: developer_emails,
+                subject: 'Unmatched Shifts on Import'
   end
 
   private

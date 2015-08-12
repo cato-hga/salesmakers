@@ -28,12 +28,9 @@ describe API::V1::LocationsController do
   let(:result) {
     [
         OpenStruct.new(data: {
-                           "geometry" => {
-                               "location" => {
-                                   "lat" => 17.975792,
-                                   "lng" => -66.3814388
-                               }
-                           }
+                           "geocodePoints" => [{
+                                                   "coordinates" => [17.975792, -66.3814388]
+                                               }]
                        })
     ]
   }

@@ -35,6 +35,7 @@ describe SprintPersonalityAssessmentProcessing do
     let!(:rejected_candidate) { create :candidate, email: 'test6@test.com', active: false }
     let!(:job_offer) { create :job_offer_detail, candidate: candidate_with_score }
     let!(:interview) { create :interview_schedule, candidate: failing_candidate, active: true }
+    let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
 
     it 'updates the passing and failing status for matched candidates' do
       expect(passing_candidate.passed_personality_assessment?).to eq(nil)
@@ -119,12 +120,9 @@ describe SprintPersonalityAssessmentProcessing do
     end
 
     it 'emails the candidates who failed' do
-      expect {
-        processor
-        perform_enqueued_jobs do
-          ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-        end
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect(CandidatePrescreenAssessmentMailer).to receive(:failed_assessment_mailer).exactly(:twice).and_return(message_delivery)
+      expect(message_delivery).to receive(:deliver_later).exactly(:twice)
+      processor
     end
 
     it 'generates instances of unmatched candidates and their scores' do

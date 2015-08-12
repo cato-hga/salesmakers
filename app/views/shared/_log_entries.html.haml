@@ -13,7 +13,7 @@
     - trackable_class_name = log_entry.id.to_s
   - date_time = friendly_datetime(created_at.in_time_zone)
   - by = person_link(log_entry.person)
-  - on = NameCase(trackable_class_name.human)
+  - on = NameCase(trackable_class_name.human, lazy: false)
   - entry = bare_log_entry(log_entry)
   - rows << table_row([date_time, by, on, entry])
 = table header, rows, false

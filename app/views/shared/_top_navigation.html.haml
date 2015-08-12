@@ -19,14 +19,14 @@
           - if group_count > 0
             %li= link_to 'GroupMe Post', new_post_group_me_groups_path
           %li= link_to 'Reports', report_queries_path
-          - if DevicePolicy.new(@current_person, Device.new).index? or |
-            AreaPolicy.new(@current_person, Area.new).index? or |
-            AreaTypePolicy.new(@current_person, AreaType.new).index? or |
-            DepartmentPolicy.new(@current_person, Department.new).index? or |
-            ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new).manage? or |
-            LogEntryPolicy.new(@current_person, LogEntry.new).index? or |
-            LocationPolicy.new(@current_person, Location.new).index? or |
-            SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new).index? |
+          - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index? or |
+            AreaPolicy.new(@current_person, Area.new, @permission_keys).index? or |
+            AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index? or |
+            DepartmentPolicy.new(@current_person, Department.new, @permission_keys).index? or |
+            ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new, @permission_keys).manage? or |
+            LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index? or |
+            LocationPolicy.new(@current_person, Location.new, @permission_keys).index? or |
+            SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new, @permission_keys).index? |
             = render 'top_navigation/admin'
       .right
         = form_tag global_search_path, method: :get, class: [:inline_block, :left] do

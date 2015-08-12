@@ -10,4 +10,8 @@ module Comcast::LeadValidationsAndAssociations
     belongs_to :comcast_customer
     accepts_nested_attributes_for :comcast_customer
   end
+
+  def has_one_assocations
+    has_one :comcast_sale
+  end
 end

@@ -132,6 +132,8 @@ describe DeviceDeploymentsController do
     end
 
     describe 'POST recoup' do
+      let(:message_delivery) { instance_double(ActionMailer::MessageDelivery) }
+
       before {
         allow(controller).to receive(:policy).and_return double(recoup?: true)
       }
@@ -170,12 +172,9 @@ describe DeviceDeploymentsController do
         end
 
         it 'sends an email to payroll' do
-          expect {
-            subject
-            perform_enqueued_jobs do
-              ActionMailer::DeliveryJob.new.perform(*enqueued_jobs.first[:args])
-            end
-          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          expect(AssetsMailer).to receive(:recoup_mailer).and_return(message_delivery)
+          expect(message_delivery).to receive(:deliver_later)
+          subject
         end
       end
 

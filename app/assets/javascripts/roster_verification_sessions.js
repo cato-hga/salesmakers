@@ -49,9 +49,12 @@ $(function() {
 		}
 
 		if (terminate.length > 0) {
-			terminateMessage = "";
+			terminateMessage = "- TERMINATE ";
 			for (i = 0; i < terminate.length; i++) {
-				terminateMessage += "- TERMINATE " + terminate[i] + "\n";
+				terminateMessage += terminate[i];
+				if (i != terminate.length - 1) {
+					terminateMessage += ", ";
+				}
 			}
 			terminateMessage += "\n";
 		} else {
@@ -59,9 +62,12 @@ $(function() {
 		}
 
 		if (issue.length > 0) {
-			issueMessage = "";
+			issueMessage = "- REPORT AN ISSUE WITH ";
 			for (i = 0; i < issue.length; i++) {
-				issueMessage += "- REPORT AN ISSUE WITH " + issue[i] + "\n";
+				issueMessage += issue[i];
+				if (i != issue.length - 1) {
+					issueMessage += ", ";
+				}
 			}
 			issueMessage += "\n";
 		} else {

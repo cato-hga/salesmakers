@@ -9,6 +9,7 @@ RSpec.describe 'Asset Receiving' do
   let(:permission_new) { Permission.new key: 'device_new', permission_group: permission_group, description: description }
   let(:permission_create) { Permission.new key: 'device_create', permission_group: permission_group, description: description }
   let(:permission_index) { Permission.new key: 'device_index', permission_group: permission_group, description: description }
+  let!(:active_state) { create LineState, name: 'Active' }
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(creator.email)
   end

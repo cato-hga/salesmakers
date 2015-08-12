@@ -22,6 +22,9 @@ class ReportQuery < ActiveRecord::Base
   validates :permission_key, presence: true
   validates :start_date_default, presence: true, if: :has_date_range?
 
+  has_many :log_entries, as: :trackable, dependent: :destroy
+
+
   nilify_blanks
 
   default_scope { order :category_name, :name }
