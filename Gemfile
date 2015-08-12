@@ -18,6 +18,7 @@ gem 'capistrano-rvm', '0.1.2' # Capistrano RVM integration
 gem 'chartkick', '1.3.2' # Easy Google Charts creation in Rails
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'coffee-script', '2.4.1'
+gem 'dalli', '2.7.4' # Memcached caching
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'dragonfly', '1.0.10' # Image and file storage
 gem 'emoji', '1.0.5' # Automatic emoji embeds
@@ -77,6 +78,7 @@ gem 'twilio-ruby', '4.3.0' # Twilio SMS and Voice library
 gem 'uglifier', '2.7.1'
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'whenever', '0.9.4' # Background tasks scheduled in a flat ruby file.
+gem 'skylight' # Performance monitoring skylight.io
 
 group :development do
   gem 'airbrussh', '0.7.0', require: false
