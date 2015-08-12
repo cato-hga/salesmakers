@@ -28,7 +28,7 @@ require 'sidekiq/testing'
 require 'sunspot/rails/spec_helper'
 require 'rack_session_access/capybara'
 require 'webmock/rspec'
-require 'support/fake_groupme'
+require 'support/fakegroupme/fake_groupme'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
