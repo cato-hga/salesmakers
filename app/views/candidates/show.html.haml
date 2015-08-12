@@ -29,17 +29,17 @@
         %p
           %strong Entered:
           = friendly_datetime(@candidate.created_at)
-      - if @candidate.interview_schedules.any?
-        - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
-          %p
-            .overdue_interview
+        - if @candidate.interview_schedules.any?
+          - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
+            %p
+              .overdue_interview
+                %strong Interview Time:
+                = friendly_datetime(@candidate.interview_schedules.last.start_time)
+                %strong OVERDUE
+          - else
+            %p
               %strong Interview Time:
               = friendly_datetime(@candidate.interview_schedules.last.start_time)
-              %strong OVERDUE
-        - else
-          %p
-            %strong Interview Time:
-            = friendly_datetime(@candidate.interview_schedules.last.start_time)
 
       - if @candidate.personality_assessment_status
         %p
