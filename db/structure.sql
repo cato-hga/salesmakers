@@ -5329,7 +5329,7 @@ CREATE TABLE vonage_sales (
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
     person_acknowledged boolean DEFAULT false,
-    gift_card_number integer
+    gift_card_number character varying
 );
 
 
@@ -10339,4 +10339,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810145636');
+
+INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 

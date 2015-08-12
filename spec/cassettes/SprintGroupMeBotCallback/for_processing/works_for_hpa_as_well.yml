@@ -1456,8 +1456,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"bot_id":"00b717f7394d1a846041f8e1a4","text":"[#15] Dontre J Butler:
-        15.27\n[#16] Romeshia Forte: 16.51\n[#17] India L Johnson: 16.73\n\n***AVERAGE:
-        6.79"}'
+        7.59\n[#16] Batiya R Harris: 8.22\n[#17] kywanna reese: 16.61\n[#18] Farouk
+        Fakunle: 17.46\n[#19] Jahmari Davis: 35.55\n\n***AVERAGE: 7.1"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -1475,17 +1475,17 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Thu, 06 Aug 2015 14:46:15 GMT
+      - Wed, 12 Aug 2015 14:38:33 GMT
       Server:
-      - nginx/1.6.2
+      - nginx/1.8.0
       Status:
       - 202 Accepted
       Strict-Transport-Security:
       - max-age=31536000
       X-Request-Id:
-      - 008e3f024671b08727abb783933f762c
+      - f20c542807b5410745d59c88d29a53e0
       X-Runtime:
-      - '0.062745'
+      - '0.053556'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -1496,5 +1496,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Thu, 06 Aug 2015 14:46:15 GMT
+  recorded_at: Wed, 12 Aug 2015 14:38:33 GMT
 recorded_with: VCR 2.9.3

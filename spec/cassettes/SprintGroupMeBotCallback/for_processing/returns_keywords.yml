@@ -849,8 +849,8 @@ http_interactions:
     uri: https://api.groupme.com/v3/bots/post
     body:
       encoding: UTF-8
-      string: '{"bot_id":"00b717f7394d1a846041f8e1a4","text":"[#17] Dontre J Butler:
-        1\n\n***TOTAL: 78"}'
+      string: '{"bot_id":"00b717f7394d1a846041f8e1a4","text":"[#17] Batiya R Harris:
+        1\n[#18] Antwanette Jones: 1\n\n***TOTAL: 188"}'
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -868,7 +868,7 @@ http_interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Thu, 06 Aug 2015 14:46:02 GMT
+      - Wed, 12 Aug 2015 14:38:28 GMT
       Server:
       - nginx/1.6.2
       Status:
@@ -876,9 +876,9 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       X-Request-Id:
-      - 99e8aaf8b1c4bc922f6829a33c827411
+      - f1db8a172c9c8777a5ee0a012b32bdf7
       X-Runtime:
-      - '0.061925'
+      - '0.059741'
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Content-Length:
@@ -889,5 +889,5 @@ http_interactions:
       encoding: UTF-8
       string: " "
     http_version: 
-  recorded_at: Thu, 06 Aug 2015 14:46:02 GMT
+  recorded_at: Wed, 12 Aug 2015 14:38:28 GMT
 recorded_with: VCR 2.9.3
