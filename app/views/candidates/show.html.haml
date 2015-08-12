@@ -41,38 +41,38 @@
               %strong Interview Time:
               = friendly_datetime(@candidate.interview_schedules.last.start_time)
 
-      - if @candidate.personality_assessment_status
-        %p
-          %strong Personality Assessment:
-          %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
-            = NameCase(@candidate.personality_assessment_status, lazy: false)
-      - if @candidate.personality_assessment_score
-        %p
-          %strong Personality Assessment Score:
-          %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
-            = @candidate.personality_assessment_score
-      - location_area = @candidate.location_area if @candidate.location_area
-      - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-        - unless @candidate.personality_assessment_score.present?
-          = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
-            .row.full-width
-              .medium-5.columns= number_field_tag :assessment_score
-              .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
-      - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
-        - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
+        - if @candidate.personality_assessment_status
           %p
-            %strong Drug Test Scheduled for:
-            %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
-            %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
-        - else
+            %strong Personality Assessment:
+            %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
+              = NameCase(@candidate.personality_assessment_status, lazy: false)
+        - if @candidate.personality_assessment_score
           %p
-            %strong Drug Test Not Scheduled:
-            %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
-      %p
-        - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
-          = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
-        - else
-          %span.sm_red There is no valid phone number for this candidate.
+            %strong Personality Assessment Score:
+            %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
+              = @candidate.personality_assessment_score
+        - location_area = @candidate.location_area if @candidate.location_area
+        - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
+          - unless @candidate.personality_assessment_score.present?
+            = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
+              .row.full-width
+                .medium-5.columns= number_field_tag :assessment_score
+                .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+        - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
+          - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
+            %p
+              %strong Drug Test Scheduled for:
+              %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
+              %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
+          - else
+            %p
+              %strong Drug Test Not Scheduled:
+              %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
+        %p
+          - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
+            = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+          - else
+            %span.sm_red There is no valid phone number for this candidate.
     .widget
       .inner
         %h3 Progress
