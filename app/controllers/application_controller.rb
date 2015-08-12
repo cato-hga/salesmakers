@@ -69,7 +69,9 @@ class ApplicationController < BaseApplicationController
   def setup_accessibles
     def setup_accessibles
       if @current_person
-        @visible_people_ids = Person.visible(@current_person).ids
+        @visible_people_ids = Rails.cache.fetch(cached_visible_people_key) do
+          @visible_people_ids = Person.visible(@current_person).ids
+        end
         @visible_projects = Project.visible(@current_person)
       else
         @visible_people_ids = []
@@ -77,6 +79,13 @@ class ApplicationController < BaseApplicationController
       end
       @global_search = params[:global_search]
     end
+
+    def cached_visible_people_key
+      key = @current_person.id.to_s
+      key += '-' + (@current_person.person_areas.empty? ? '' : @current_person.person_areas.maximum(:updated_at).try(:to_s, :number))
+      key + '-' + @current_person.updated_at.try(:to_s, :number)
+      end
+
     # if @current_person
     #   if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
     #     @visible_people ||= session[:visible_people]
