@@ -49,7 +49,6 @@
       - hired = show_details ? link_to(hire_date.strftime('%-m/%-d/%Y'), person, class: classes) : blocked
     - else
       - hired = ''
-    - employments = person.employments
     - if person.termination_date_invalid?
       - termed = show_details ? link_to('Unknown', person, class: classes) : blocked
     - elsif person.terminated?

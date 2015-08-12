@@ -55,7 +55,7 @@
       - if show_details
         - employments = @person.employments
         - if not @person.active? and employments.count > 0
-          - first_employment = employments.first
+          - first_employment = @person.most_recent_employment
           - employment_end = first_employment.end
           - if employment_end
             %p
@@ -77,7 +77,7 @@
               - else
                 Unknown
         - if employments.count > 0
-          - first_employment = employments.first
+          - first_employment = @person.most_recent_employment
           - employment_start = first_employment.start
           %p
             %strong Hire Date:
