@@ -1,3 +1,4 @@
+//= require "application"
 //= require wall
 //= require picker
 //= require picker.date

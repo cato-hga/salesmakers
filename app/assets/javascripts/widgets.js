@@ -1,3 +1,4 @@
+//= require "application"
 function resizeWidgets() {
 	var width = $(window).width();
 	if (width < 761) {

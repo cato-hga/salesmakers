@@ -1,3 +1,4 @@
+//= require "application"
 // require wall.js
 //= require 'jquery-ui'
 //= require foundation_new/foundation.reveal

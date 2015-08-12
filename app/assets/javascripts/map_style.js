@@ -1,3 +1,4 @@
+//= require "application"
 function mapStyle() {
 	return [
 		{

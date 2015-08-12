@@ -1,3 +1,4 @@
+//= require "application"
 $(function() {
 	$('body').on('click', 'fieldset .select_all', function() {
 		$(this).parents('fieldset').find('input[type="checkbox"]').

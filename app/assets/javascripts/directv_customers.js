@@ -1,3 +1,4 @@
+//= require "application"
 //= require wall.js
 
 $(function () {
