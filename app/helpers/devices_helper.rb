@@ -5,6 +5,6 @@ module DevicesHelper
       return "devices#index-#{DateTime.now.to_s(:number)}"
     end
     page = page ? page : '0'
-    "devices#index-#{page}-#{Device.maximum(:created_at).try(:to_s, :number)}-#{Person.maximum(:updated_at).try(:to_s, :number)}"
+    "devices#index-#{page}-#{DeviceDeployment.maximum(:updated_at)}-#{Device.maximum(:updated_at).try(:to_s, :number)}-#{Person.maximum(:updated_at).try(:to_s, :number)}"
   end
 end
