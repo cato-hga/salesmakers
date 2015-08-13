@@ -68,7 +68,7 @@ describe SprintGroupMeBotCallback do
 
     before { callback.process }
 
-    it 'returns a query string with keywords stripped', :vcr do
+    it 'returns a query string with keywords stripped' do
       expect(callback.query_string).to eq('atlanta')
     end
 

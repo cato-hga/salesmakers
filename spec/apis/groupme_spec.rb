@@ -27,64 +27,41 @@ describe 'GroupMe API' do
 
   describe '#get_messages' do
     it 'should get a list of messages from groups' do
-      groups = groupme.get_first_group
-      group_id = groups['response'][0]['group_id']
-      messages = groupme.get_messages group_id
+      messages = groupme.get_messages "8936279"
       expect(messages.count).to be > 0
     end
 
     it 'should return the max messages, if max is specified' do
-      groups = groupme.get_first_group
-      group_id = groups['response'][0]['group_id']
-      messages = groupme.get_messages group_id, max = 17
+      messages = groupme.get_messages "8936279", max = 17
       expect(messages.count).to eq(17)
     end
   end
-  #
-  # describe '#get_recent_messages' do
-  #   it 'should get a list of recent messages', :vcr do
-  #     messages = groupme.get_recent_messages
-  #     expect(messages.count).to be > 0
-  #   end
-  # end
-  #
-  # it 'should get images', :vcr do
-  #   messages = groupme.get_images
-  #   expect(messages.count).to be > 0
-  # end
-  #
-  # it 'should get the RBD IT account (AKA: Me)', :vcr do
-  #   me = groupme.get_me
-  #   expect(me['id']).to eq('12486363')
-  # end
-  #
-  # it 'should be able to send a text message', :vcr do
-  #   message = groupme.send_message('8936279', 'GroupMe API "send_message" test')
-  #   expect(message).not_to be_nil
-  # end
-  #
-  # it 'should add a bot', :vcr do
-  #   response = groupme.add_bot(SecureRandom.uuid, '8936279')
-  #   expect(response.length).to be > 0
-  #   groupme.destroy_bot response
-  # end
-end
 
-# describe 'GroupMe API Message' do
-#
-#   describe '#has_image?' do
-#     it 'should return true if a message has attachments of type image'
-#   end
-#
-#   describe '#text' do
-#     pending
-#   end
-#
-#   describe '#created_at' do
-#     it 'should return the created_at attribute'
-#   end
-#
-#   describe '#<=> other' do
-#     pending
-#   end
-# end
+  describe '#get_recent_messages' do
+    it 'should get a list of recent messages' do
+      messages = groupme.get_recent_messages
+      expect(messages.count).to be > 0
+    end
+  end
+
+  it 'should get images' do
+    messages = groupme.get_images
+    expect(messages.count).to be > 0
+  end
+
+  it 'should get the RBD IT account (AKA: Me)' do
+    me = groupme.get_me
+    expect(me['id']).to eq('12486363')
+  end
+
+  it 'should be able to send a text message' do
+    message = groupme.send_message('8936279', 'GroupMe API "send_message" test')
+    expect(message).not_to be_nil
+  end
+
+  it 'should add a bot' do
+    response = groupme.add_bot(SecureRandom.uuid, '8936279')
+    expect(response.length).to be > 0
+    groupme.destroy_bot response
+  end
+end
