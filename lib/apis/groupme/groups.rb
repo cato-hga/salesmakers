@@ -56,6 +56,39 @@ module Groupme
       doPost "/groups/#{group_id}/members/add", add_user
     end
 
+    def remove_from_group_by_user_id group_id, user_id
+      return if user_id == '12486363'
+      group_json = get_group group_id || return
+      members = group_json['members'] || return
+      matching = members.find { |hash| hash['user_id'] == user_id } || return
+      membership_id = matching['id'] || return
+      doPost "/groups/#{group_id}/members/#{membership_id}/remove", {}.to_json
+    end
+
+    def move_all_members_from_group_to_group old_group_id, new_group_id
+      old_group_json = get_group old_group_id || return
+      new_group_json = get_group new_group_id || return
+      old_group_members = old_group_json['members'] || return
+      for member in old_group_members do
+        nickname = member['nickname'] || next
+        user_id = member['user_id'] || next
+        membership_id = member['id'] || next
+        add_to_group_by_user_id new_group_id, nickname, user_id
+        next if user_id == '12486363'
+        doPost "/groups/#{old_group_id}/members/#{membership_id}/remove", {}.to_json
+      end
+      get_group new_group_id
+    end
+
+    def change_nickname_in_group group_id, nickname
+      json = {
+          "membership": {
+              "nickname": nickname
+          }
+      }.to_json
+      doPost "/groups/#{group_id}/memberships/update", json
+    end
+
     def clean_groups
       groups = GroupMeGroup.all
       for group in groups do
