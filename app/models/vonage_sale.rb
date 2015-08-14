@@ -26,8 +26,9 @@ class VonageSale < ActiveRecord::Base
   validates :location, presence: true
   validates :customer_first_name, presence: true
   validates :customer_last_name, presence: true
-  validates :mac, length: { is: 12 }
+  validates :mac, format: { with: /\A[0-9A-F]{12}\z/i }, confirmation: true
   validates :vonage_product, presence: true
+  validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true
   validates :person_acknowledged, acceptance: { accept: true }
 
   belongs_to :person
@@ -68,4 +69,5 @@ class VonageSale < ActiveRecord::Base
   def location_area
     self.location_area_for_sale 'Vonage'
   end
+
 end

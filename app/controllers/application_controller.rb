@@ -62,6 +62,12 @@ class ApplicationController < BaseApplicationController
     @directv_locations = directv.locations_for_person @current_person
   end
 
+  def set_vonage_locations
+    vonage = Project.find_by name: 'Vonage Retail'
+    return Location.none unless vonage
+    @vonage_locations = vonage.locations_for_person @current_person
+  end
+
   def current_person_has_position?
     @current_person and @current_person.position
   end
@@ -124,7 +130,7 @@ class ApplicationController < BaseApplicationController
 
   def set_current_user
     @current_person ||= Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-    #@current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
+    #@current_person = Person.find_by_email 'hly@retaildoneright.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st

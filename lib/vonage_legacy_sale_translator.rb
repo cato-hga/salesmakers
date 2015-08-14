@@ -23,6 +23,7 @@ module VonageLegacySaleTranslator
                           connect_order_uuid: order.c_order_id,
                           created_at: order.created.apply_eastern_offset,
                           updated_at: order.updated.apply_eastern_offset,
+                          gift_card_number: '123456789012',
                           person_acknowledged: true
     add_to_unmatched(order, sale) unless sale.valid?
     sale

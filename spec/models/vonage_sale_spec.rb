@@ -80,13 +80,15 @@ describe VonageSale do
     expect(subject).to be_valid
   end
 
-  it 'requires a sale date' do
-    subject.sale_date = nil
+  it 'requires a person' do
+    subject.person = nil
     expect(subject).not_to be_valid
   end
 
-  it 'requires a person' do
-    subject.person = nil
+  it 'requires a valid sale date' do
+    subject.sale_date = nil
+    expect(subject).not_to be_valid
+    subject.sale_date = 'totallywrongdate'
     expect(subject).not_to be_valid
   end
 
@@ -95,8 +97,15 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a location' do
-    subject.location = nil
+  it 'requires a confirmation number to be 10 characters' do
+    subject.confirmation_number = '1234567890'
+    expect(subject).to be_valid
+    subject.confirmation_number = '123456734'
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a MAC' do
+    subject.mac = nil
     expect(subject).not_to be_valid
   end
 
@@ -110,13 +119,29 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a MAC' do
-    subject.mac = nil
+  it 'requires a location' do
+    subject.location = nil
     expect(subject).not_to be_valid
+  end
+
+  it 'requires mac id to be 12 characters (0-9 A-F)' do
+    subject.mac = 'ABCDEF123459A'
+    expect(subject).not_to be_valid
+    subject.mac = 'ABCDEF123459'
+    expect(subject).to be_valid
   end
 
   it 'requires a product' do
     subject.vonage_product = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a gift card to be either 12 or 16 characters' do
+    subject.gift_card_number = 'ab1234567890'
+    expect(subject).to be_valid
+    subject.gift_card_number = 'ab12345678901234'
+    expect(subject).to be_valid
+    subject.gift_card_number = 'ab12345678901'
     expect(subject).not_to be_valid
   end
 
@@ -133,6 +158,10 @@ describe VonageSale do
 
   it 'responds to connect_order' do
     expect(subject).to respond_to(:connect_order)
+  end
+
+  it 'responds to gift_card_number' do
+    expect(subject).to respond_to(:gift_card_number)
   end
 
   it 'responds to gift_card_number' do

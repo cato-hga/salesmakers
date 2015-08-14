@@ -10,6 +10,7 @@ FactoryGirl.define do
     mac '906EBB123456'
     vonage_product
     person_acknowledged true
+    gift_card_number '123456789012'
     resold false
   end
 

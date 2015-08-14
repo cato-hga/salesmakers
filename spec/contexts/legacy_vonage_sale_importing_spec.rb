@@ -117,6 +117,7 @@ describe LegacyVonageSaleImporting do
       expect(message_delivery).to receive(:deliver_later)
       importer.import
     end
+
   end
 
   # I can't figure out how to stub an ActiveRecord relation
