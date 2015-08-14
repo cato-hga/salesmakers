@@ -21,7 +21,7 @@ RSpec.describe GroupMeGroup, :type => :model do
   it { should belong_to(:area) }
   it { should have_many(:group_me_posts) }
 
-  describe '.update_group_via_json', :vcr do
+  describe '.update_group_via_json' do
 
     let(:group_me_group) { create :group_me_group }
     let!(:group_num) { group_me_group.group_num }
