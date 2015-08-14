@@ -49,13 +49,48 @@
       %a.exit-off-canvas
     - unless Rails.env.test?
       :javascript
+        window.whenAvailable = function (name, callback, interval, max_wait) {
+          interval || (interval = 50); // ms
+          max_wait || (max_wait = 5000); // ms
+          var timer,
+            findVarByName = function(name) {
+              var index = 0,
+                parts = name.split('.'),
+                result = window;
+
+              index = 0;
+              try {
+                while (typeof result !== "undefined" && result !== null && index < parts.length) {
+                  result = result[parts[index++]];
+                }
+              }
+              catch (e) {}
+              if (index < parts.length || (typeof result == 'undefined' && result === undefined)) return false;
+              else return true;
+            };
+
+          timer = window.setTimeout(function() {
+            if (findVarByName(name)) {
+              return callback();
+            } else {
+              window.setTimeout(arguments.callee, interval);
+            }
+          }, interval);
+
+          window.setTimeout(function() {
+            clearTimeout(timer);
+          }, max_wait);
+        }
+
         function downloadJSAtOnload() {
           var element = document.createElement("script");
           element.src = "#{javascript_url('application')}";
           document.body.appendChild(element);
-          element = document.createElement("script");
-          element.src = "#{javascript_url(params[:controller])}";
-          document.body.appendChild(element);
+          whenAvailable('jQuery', function() {
+            element = document.createElement("script");
+            element.src = "#{javascript_url(params[:controller])}";
+            document.body.appendChild(element);
+          });
         }
         if (window.addEventListener)
           window.addEventListener("load", downloadJSAtOnload, false);
