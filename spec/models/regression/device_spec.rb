@@ -9,6 +9,7 @@ RSpec.describe Device, regressor: true do
   it { is_expected.to have_one :device_manufacturer }
   it { is_expected.to have_many :device_deployments }
   it { is_expected.to have_many :device_notes }
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

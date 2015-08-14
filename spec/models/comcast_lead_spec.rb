@@ -26,15 +26,6 @@ describe ComcastLead do
   }
   subject { build :comcast_lead }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a comcast_customer_id' do
-    subject.comcast_customer_id = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires at least one service selection' do
     subject.tv = false
     subject.internet = false

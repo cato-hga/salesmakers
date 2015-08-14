@@ -5,7 +5,7 @@ RSpec.describe InterviewAnswer, regressor: true do
   # === Relations ===
   it { is_expected.to belong_to :candidate }
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   it { is_expected.to accept_nested_attributes_for :candidate }

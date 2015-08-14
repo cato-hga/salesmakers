@@ -20,15 +20,6 @@ describe DirecTVSale do
   let!(:other_sale) { create :directv_sale, order_number: '1234567891000' }
   subject { build :directv_sale }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a DirecTV install appointment' do
-    subject.directv_install_appointment = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'does not allow a sale to be future-dated' do
     subject.order_date = Date.today + 1.day
     expect(subject).not_to be_valid
@@ -56,7 +47,6 @@ describe DirecTVSale do
     expect(other_sale).to be_valid
     expect(subject).not_to be_valid
   end
-
 
   it 'does not allow sales to be entered after more than 24 hours', pending: 'temporarily removed' do
     subject.order_date = Date.today

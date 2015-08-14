@@ -7,6 +7,7 @@ RSpec.describe ClientArea, regressor: true do
   it { is_expected.to belong_to :project }
   
   it { is_expected.to have_many :versions }
+  it { is_expected.to have_many :location_client_areas }
 
   # === Nested Attributes ===
   

@@ -5,7 +5,7 @@ RSpec.describe Line, regressor: true do
   # === Relations ===
   it { is_expected.to belong_to :technology_service_provider }
   it { is_expected.to have_one :device }
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

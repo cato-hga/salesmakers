@@ -33,10 +33,12 @@ RSpec.describe VonageSale, regressor: true do
   # === Database (Indexes) ===
   it { is_expected.to have_db_index ["connect_order_uuid"] }
   it { is_expected.to have_db_index ["location_id"] }
+  it { is_expected.to have_db_index ["mac"] }
   it { is_expected.to have_db_index ["person_id"] }
   it { is_expected.to have_db_index ["vonage_product_id"] }
 
   # === Validations (Length) ===
+  
   
 
   # === Validations (Presence) ===

@@ -35,12 +35,10 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-RSpec.describe Person, :type => :model do
+describe Person do
   let(:person) { create :it_tech_person }
+
   it do
-    should ensure_length_of(:first_name).is_at_least(2)
-    should ensure_length_of(:last_name).is_at_least(2)
-    should ensure_length_of(:display_name).is_at_least(5)
     should allow_value('a@b.com').for(:email)
     should allow_value('a@b.com').for(:personal_email)
     should_not allow_value('a@b', 'ab.com').for(:email)
@@ -51,10 +49,6 @@ RSpec.describe Person, :type => :model do
     should_not allow_value('1234567890', '24254', '0123456789').for(:mobile_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:office_phone)
     should_not allow_value('1234567890', '24254', '0123456789').for(:home_phone)
-  end
-
-  it 'responds to person_client_areas' do
-    expect(person).to respond_to(:person_client_areas)
   end
 
   it 'responds to update_position_from_connect?' do

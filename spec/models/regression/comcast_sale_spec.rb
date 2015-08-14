@@ -8,7 +8,7 @@ RSpec.describe ComcastSale, regressor: true do
   it { is_expected.to belong_to :person }
   it { is_expected.to have_one :comcast_former_provider }
   it { is_expected.to have_one :comcast_install_appointment }
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   it { is_expected.to accept_nested_attributes_for :comcast_install_appointment }

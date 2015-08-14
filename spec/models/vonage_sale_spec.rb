@@ -75,58 +75,10 @@ describe VonageSale do
            mac: 'ABCDEF123458'
   }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a sale date' do
-    subject.sale_date = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a person' do
-    subject.person = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a confirmation number' do
-    subject.confirmation_number = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a location' do
-    subject.location = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a customer first name' do
-    subject.customer_first_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a customer last name' do
-    subject.customer_last_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a MAC' do
-    subject.mac = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a product' do
-    subject.vonage_product = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'gets sales for a paycheck' do
     subject.save
     expect(described_class.for_paycheck(paycheck).count).to eq(5)
     expect(described_class.for_paycheck(old_paycheck).count).to eq(0)
-  end
-
-  it 'responds to connect_order' do
-    expect(subject).to respond_to(:connect_order)
   end
 
   describe 'still active checks' do

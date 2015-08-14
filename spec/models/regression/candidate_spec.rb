@@ -14,6 +14,7 @@ RSpec.describe Candidate, regressor: true do
   it { is_expected.to have_one :training_availability }
   it { is_expected.to have_one :sprint_pre_training_welcome_call }
   it { is_expected.to have_one :candidate_drug_test }
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :versions }
   it { is_expected.to have_many :taggings }
   it { is_expected.to have_many :base_tags }
@@ -81,6 +82,9 @@ RSpec.describe Candidate, regressor: true do
   it { is_expected.not_to allow_value(Faker::Lorem.characters(1)).for :first_name }
   it { is_expected.to allow_value(Faker::Lorem.characters(2)).for :last_name }
   it { is_expected.not_to allow_value(Faker::Lorem.characters(1)).for :last_name }
+  
+  
+  
 
   # === Validations (Presence) ===
   it { is_expected.to validate_presence_of :first_name }

@@ -57,7 +57,7 @@ gem 'rails', '4.2.3'
 gem 'railties', '4.2.3'
 gem 'ransack', '1.6.6' # ActiveRecord search
 gem 'ransack_chronic', '1.1.0' # Use Chronic to parse dates with Ransack search
-gem 'regressor', '0.5.8' # Automated regression test generation
+gem 'regressor', git: 'https://github.com/ndea/regressor.git' # Automated regression test generation
 gem 'render_csv', '2.0.0' # CSV file rendering
 gem 'responders', '2.1.0' # Required by rails 4.2.0 for respond_to
 gem 'retryable', '2.0.1' # Ability to retry upon exception

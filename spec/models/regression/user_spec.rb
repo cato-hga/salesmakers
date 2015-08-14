@@ -9,7 +9,9 @@ RSpec.describe User, regressor: true do
   it { is_expected.to have_one :group_me_user }
   it { is_expected.to have_one :candidate }
   it { is_expected.to have_one :screening }
+  it { is_expected.to have_one :most_recent_employment }
   it { is_expected.to have_many :versions }
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :person_areas }
   it { is_expected.to have_many :device_deployments }
   it { is_expected.to have_many :devices }

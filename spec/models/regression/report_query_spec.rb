@@ -5,7 +5,7 @@ RSpec.describe ReportQuery, regressor: true do
   # === Relations ===
   
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   
@@ -34,6 +34,14 @@ RSpec.describe ReportQuery, regressor: true do
   it { is_expected.to validate_presence_of :database_name }
   it { is_expected.to validate_presence_of :query }
   it { is_expected.to validate_presence_of :permission_key }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:has_date_range?).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :start_date_default }
+  end
+
 
   # === Validations (Numericality) ===
   
