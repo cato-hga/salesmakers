@@ -12,9 +12,9 @@
       = f.text_field :sale_date, placeholder: 'MM/DD/YYYY'
       = f.label :confirmation_number, 'Confirmation Number'
       = f.text_field :confirmation_number, placeholder: '10 characters'
-      - options = options_from_collection_for_select(@vonage_locations, :id, :name)
+      - location_options = options_from_collection_for_select(@vonage_locations, :id, :name)
       = f.label :location_id, 'Location'
-      = f.select :location_id, options, include_blank: true
+      = f.select :location_id, location_options, include_blank: true
       = f.label :customer_first_name, 'Customer First Name'
       = f.text_field :customer_first_name
       = f.label :customer_last_name, 'Customer Last Name'

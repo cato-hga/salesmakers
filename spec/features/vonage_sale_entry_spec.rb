@@ -19,7 +19,7 @@ describe 'Vonage Sale entry' do
   let!(:employee_one_area) { create :person_area, person: employee_one, area: area }
   let!(:employee_two_area) { create :person_area, person: employee_two, area: area }
   let!(:manager_area) { create :person_area, person: manager, area: area, manages: true }
-  let!(:vonage_product) { create :vonage_product, name: 'Vonage V-Portal' }
+  let!(:vonage_product) { create :vonage_product, name: 'Vonage Whole Home Kit' }
   let(:vonage_sale) { create :vonage_sale }
 
   subject {
@@ -93,7 +93,7 @@ describe 'Vonage Sale entry' do
       before(:each) do
         subject
         select employee_one.display_name, from: 'Sales Representative'
-        fill_in "Sale Date", with: "08/15/2015"
+        fill_in "Sale Date", with: 2.weeks.ago
         fill_in 'Confirmation Number', with: '123456789'
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
@@ -113,6 +113,7 @@ describe 'Vonage Sale entry' do
         expect(page).to have_content "Mac confirmation doesn't match Mac"
         expect(page).to have_content "Gift card number is invalid"
         expect(page).to have_content "Gift card number confirmation doesn't match Gift card number"
+        expect(page).to have_content "Sale date cannot be dated for more than 2 weeks in the past"
       end
     end
 

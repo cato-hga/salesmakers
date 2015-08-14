@@ -30,6 +30,7 @@ class VonageSale < ActiveRecord::Base
   validates :vonage_product, presence: true
   validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true
   validates :person_acknowledged, acceptance: { accept: true }
+  validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
 
   belongs_to :person
   belongs_to :location
@@ -68,6 +69,11 @@ class VonageSale < ActiveRecord::Base
 
   def location_area
     self.location_area_for_sale 'Vonage'
+  end
+
+  def sale_date_cannot_be_more_than_2_weeks_in_the_past
+    errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if
+        sale_date and sale_date < 2.weeks.ago
   end
 
 end

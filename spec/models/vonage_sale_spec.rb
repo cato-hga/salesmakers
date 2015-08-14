@@ -19,7 +19,6 @@
 
 require 'rails_helper'
 
-
 describe VonageSale do
   let(:paycheck) {
     create :vonage_paycheck,
@@ -90,7 +89,12 @@ describe VonageSale do
     expect(subject).not_to be_valid
     subject.sale_date = 'totallywrongdate'
     expect(subject).not_to be_valid
+    subject.sale_date = 2.weeks.ago
+    expect(subject).not_to be_valid
+    subject.sale_date = 13.days.ago
+    expect(subject).to be_valid
   end
+
 
   it 'requires a confirmation number' do
     subject.confirmation_number = nil
