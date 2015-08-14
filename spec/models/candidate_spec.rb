@@ -280,7 +280,7 @@ describe Candidate do
     it 'raises an exception with unordered arrays' do
       location_areas << far_away_location_area
       location_areas << close_location_area
-      expect { candidate.assign_potential_territory(location_areas) }.to raise_error
+      expect { candidate.assign_potential_territory(location_areas) }.to raise_error(RuntimeError)
     end
   end
 end
