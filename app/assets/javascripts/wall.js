@@ -124,6 +124,8 @@ $(function () {
 //		relayout();
 //		window.new_post_notification.dismiss();
 //	});
+
+	relayout();
 //
 });
 //
