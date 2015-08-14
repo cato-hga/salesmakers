@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: locations
+# Table name: historical_locations
 #
 #  id                                      :integer          not null, primary key
 #  display_name                            :string
@@ -11,13 +11,14 @@
 #  state                                   :string           not null
 #  zip                                     :string
 #  channel_id                              :integer          not null
-#  created_at                              :datetime         not null
-#  updated_at                              :datetime         not null
 #  latitude                                :float
 #  longitude                               :float
 #  sprint_radio_shack_training_location_id :integer
 #  cost_center                             :string
 #  mail_stop                               :string
+#  created_at                              :datetime         not null
+#  updated_at                              :datetime         not null
+#  date                                    :date             not null
 #
 
 require 'rails_helper'

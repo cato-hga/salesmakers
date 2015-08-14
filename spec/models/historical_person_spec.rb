@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: people
+# Table name: historical_people
 #
 #  id                                   :integer          not null, primary key
 #  first_name                           :string           not null
@@ -9,8 +9,6 @@
 #  email                                :string           not null
 #  personal_email                       :string
 #  position_id                          :integer
-#  created_at                           :datetime
-#  updated_at                           :datetime
 #  active                               :boolean          default(TRUE), not null
 #  connect_user_id                      :string
 #  supervisor_id                        :integer
@@ -30,6 +28,9 @@
 #  mobile_phone_valid                   :boolean          default(TRUE), not null
 #  home_phone_valid                     :boolean          default(TRUE), not null
 #  office_phone_valid                   :boolean          default(TRUE), not null
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  date                                 :date             not null
 #
 
 require 'rails_helper'
