@@ -18,7 +18,7 @@
 // require wall
 //= require google_jsapi
 //= require chartkick
-//= require masonry.min
+//= require wall
 //= require underscore.min
 //= require sms_counter
 
@@ -34,10 +34,5 @@ $(function(){
 			$(this).children('i').removeClass('fi-minus').addClass('fi-plus');
 			$('.widgets').masonry('layout');
 		}
-	});
-
-	$('.widgets').masonry({
-		columnWidth: ".widget",
-		itemSelector: ".widget"
 	});
 });
