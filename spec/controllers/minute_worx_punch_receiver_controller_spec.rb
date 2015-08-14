@@ -43,19 +43,19 @@ describe MinuteWorxPunchReceiverController do
       expect(PersonPunch.first.person).to eq person
     end
 
-    describe 'with a GroupMe group' do
-      let(:area) { create :area }
-      let!(:group_me_group) { create :group_me_group, area: area }
-
-      before do
-        PersonArea.create person: person, area: area
-      end
-
-      it 'sends a GroupMe message' do
-        message = "#{person.display_name} just punched in at #{date_and_time.in_time_zone(ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")).strftime('%-l:%M%P')} Eastern."
-        expect_any_instance_of(GroupMeGroup).to receive(:send_message).with(message)
-        subject
-      end
-    end
+    # describe 'with a GroupMe group' do
+    #   let(:area) { create :area }
+    #   let!(:group_me_group) { create :group_me_group, area: area }
+    #
+    #   before do
+    #     PersonArea.create person: person, area: area
+    #   end
+    #
+    #   it 'sends a GroupMe message' do
+    #     message = "#{person.display_name} just punched in at #{date_and_time.in_time_zone(ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")).strftime('%-l:%M%P')} Eastern."
+    #     expect_any_instance_of(GroupMeGroup).to receive(:send_message).with(message)
+    #     subject
+    #   end
+    # end
   end
 end
