@@ -124,8 +124,6 @@ $(function () {
 //		relayout();
 //		window.new_post_notification.dismiss();
 //	});
-
-	relayout();
 //
 });
 //
@@ -216,3 +214,5 @@ function relayout() {
 //		notify(new_post_count);
 //	});
 //}
+
+relayout();
