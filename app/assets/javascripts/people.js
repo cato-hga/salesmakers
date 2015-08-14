@@ -16,10 +16,7 @@
 //});
 
 // require wall
-//= require google_jsapi
-//= require chartkick
 //= require wall
-//= require underscore.min
 //= require sms_counter
 
 $(function(){
