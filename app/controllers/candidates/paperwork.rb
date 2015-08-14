@@ -11,7 +11,7 @@ module Candidates::Paperwork
   private
 
   def do_paperwork_send check_head_count = true
-    if @candidate.location_area and @candidate.location_area.head_count_full?(2) and check_head_count
+    if @candidate.location_area and @candidate.location_area.head_count_full? and check_head_count
       @candidate.update location_area: nil
       flash[:error] = 'The location selected for the candidate was recently filled or is not recruitable. Please select a new, recruitable, location'
       redirect_to @candidate and return
