@@ -16,6 +16,7 @@ describe 'Inventory receiving page' do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
        visit new_vonage_device_path
+
     end
 
     it 'shows the You are not authorized page' do

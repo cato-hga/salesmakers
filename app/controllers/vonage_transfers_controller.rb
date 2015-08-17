@@ -1,0 +1,2 @@
+class VonageTransfersController < ApplicationController
+end
