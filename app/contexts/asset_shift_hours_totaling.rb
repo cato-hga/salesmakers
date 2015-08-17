@@ -31,6 +31,7 @@ class AssetShiftHoursTotaling
     projects = [prepaid, vonretail, vonevents]
     supervisor_for_assets = []
     for person in people_waiting_on_assets
+      next unless person.person_areas.any?
       supervisor_for_assets << person.get_supervisors if projects.include? person.person_areas.first.area.project
     end
     supervisor_for_assets = supervisor_for_assets.uniq.flatten
