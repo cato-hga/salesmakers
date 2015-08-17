@@ -8,8 +8,10 @@
     ID#
     = @candidate.id
 
+
+- cache_key = cache_key_for_candidate(@candidate)
 .widgets
-  - cache(cache_key_for_candidate(@candidate)) do
+  - cache(cache_key) do
     .widget#basic_information
       .inner
         %h3
@@ -190,17 +192,18 @@
             - else
               - ''
         = action if @candidate.active?
-    - if CandidatePolicy.new(@current_person, Candidate.new).set_reconciliation_status?
-      .widget#reconciliation
-        .inner
-          %h3 Candidate Reconciliation
-          = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
-            = f.label :status, 'Reconciliation Status'
-            - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
-            = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[0]]}, selected_status), include_blank: true
-            = f.submit 'Reconcile', class: :button
-    - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
-      = render 'training_information'
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_reconciliation_status?
+    .widget#reconciliation
+      .inner
+        %h3 Candidate Reconciliation
+        = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
+          = f.label :status, 'Reconciliation Status'
+          - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
+          = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[0]]}, selected_status), include_blank: true
+          = f.submit 'Reconcile', class: :button
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
+    = render 'training_information'
+  - cache(cache_key) do
     - if @candidate.location_area
       = render 'location_information'
     - if @candidate.person and @candidate_shifts.present?
