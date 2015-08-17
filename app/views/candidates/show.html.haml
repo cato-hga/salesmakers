@@ -9,15 +9,14 @@
     = @candidate.id
 
 
-- cache_key = cache_key_for_candidate(@candidate)
+- cache_key = cache_key_for_candidate(@candidate) || 'N/A'
 .widgets
-  - cache(cache_key + "-1") do
-    .widget#basic_information
-      .inner
+  .widget#basic_information
+    .inner
+      - cache(cache_key + "-1") do
         %h3
           Basic Information
           = edit_button edit_candidate_path(@candidate)
-
         %p
           %strong Email:
           = email_link @candidate.email
@@ -53,13 +52,13 @@
             %strong Personality Assessment Score:
             %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
               = @candidate.personality_assessment_score
-        - location_area = @candidate.location_area if @candidate.location_area
-        - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-          - unless @candidate.personality_assessment_score.present?
-            = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
-              .row.full-width
-                .medium-5.columns= number_field_tag :assessment_score
-                .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+      - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
+        - unless @candidate.personality_assessment_score.present?
+          = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
+            .row.full-width
+              .medium-5.columns= number_field_tag :assessment_score
+              .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
+      - cache(cache_key + "-2") do
         - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
           - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
             %p
@@ -75,6 +74,7 @@
             = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
           - else
             %span.sm_red There is no valid phone number for this candidate.
+  - cache(cache_key + "-3") do
     .widget
       .inner
         %h3 Progress
@@ -203,7 +203,7 @@
           = f.submit 'Reconcile', class: :button
   - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
     = render 'training_information'
-  - cache(cache_key + "-2") do
+  - cache(cache_key + "-4") do
     - if @candidate.location_area
       = render 'location_information'
     - if @candidate.person and @candidate_shifts.present?
