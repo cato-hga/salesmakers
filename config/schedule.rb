@@ -80,10 +80,6 @@ every '14 0,3,6,9,12,15,18,21 * * *' do
   runner 'ConnectUpdater.update_shifts(2.weeks, true)'
 end
 
-every '14 1,4,7,10,13,16,19,22 * * *' do
-  runner 'VonageComp07012015Processing.new.execute'
-end
-
 every 1.day, at: '11:44 am' do
   runner 'DailyProcessLogMailer.generate.deliver_later'
 end
