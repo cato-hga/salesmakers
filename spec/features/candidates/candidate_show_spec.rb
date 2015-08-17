@@ -130,6 +130,10 @@ describe 'candidate show page' do
     expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
   end
 
+  it 'has a link to the candidates selected location if applicable' do
+    expect(page).to have_content('Candidate Location')
+  end
+
   context 'training sessions' do
     let(:view_all) { view_all = create :permission, key: 'candidate_view_all' }
     let!(:training_session) { create :sprint_radio_shack_training_session }
