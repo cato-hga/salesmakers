@@ -49,7 +49,7 @@ class LocationsController < ApplicationController
         per(10).includes(:location_area)
     @person_addresses = PersonAddress.near(@location, 30)
     people_ids = @person_addresses.select(:person_id, :latitude, :longitude).map(&:person_id).uniq
-    @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:employments, { person_areas: :area }, :areas, :supervisor)
+    @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:most_recent_employment, { person_areas: :area }, :areas, :supervisor)
     authorize @location
   end
 
