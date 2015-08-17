@@ -130,6 +130,7 @@ describe AssetShiftHoursTotaling do
     let(:events_person) { create :person, passed_asset_hours_requirement: true }
     let(:retail_person) { create :person, passed_asset_hours_requirement: true }
     let(:prepaid_person) { create :person, passed_asset_hours_requirement: true }
+    let!(:no_person_area_person) { create :person, passed_asset_hours_requirement: true }
 
     let(:events_area) { create :area, project: events_project }
     let(:retail_area) { create :area, project: retail_project }
@@ -156,6 +157,10 @@ describe AssetShiftHoursTotaling do
       AssetShiftHoursTotaling.generate_mailer
       deliveries = ActionMailer::Base.deliveries
       expect(deliveries.count).to eq(3)
+    end
+
+    it 'handles those without a person_area' do
+
     end
   end
 end
