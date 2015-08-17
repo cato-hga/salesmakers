@@ -11,7 +11,7 @@
 
 - cache_key = cache_key_for_candidate(@candidate)
 .widgets
-  - cache(cache_key) do
+  - cache(cache_key + "-1") do
     .widget#basic_information
       .inner
         %h3
@@ -203,7 +203,7 @@
           = f.submit 'Reconcile', class: :button
   - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
     = render 'training_information'
-  - cache(cache_key) do
+  - cache(cache_key + "-2") do
     - if @candidate.location_area
       = render 'location_information'
     - if @candidate.person and @candidate_shifts.present?
