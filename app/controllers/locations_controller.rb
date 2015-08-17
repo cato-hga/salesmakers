@@ -47,6 +47,15 @@ class LocationsController < ApplicationController
         near(@location, 30).
         page(params[:candidate_page]).
         per(10).includes(:location_area)
+    location_areas = LocationArea.where(location: @location)
+    @location_candidates = Candidate.unscoped.where(location_area: location_areas, active: true)
+    location_shifts = Shift.where('location_id = ? and date > ?', @location.id, Date.today - 15.days)
+    @hours_candidates = []
+    for shift in location_shifts do
+      next unless shift.person and shift.person.candidate
+      candidate = shift.person.candidate
+      @hours_candidates << candidate unless @hours_candidates.include? candidate
+    end
     @person_addresses = PersonAddress.near(@location, 30)
     people_ids = @person_addresses.select(:person_id, :latitude, :longitude).map(&:person_id).uniq
     @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:most_recent_employment, { person_areas: :area }, :areas, :supervisor)
