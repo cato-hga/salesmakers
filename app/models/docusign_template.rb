@@ -186,7 +186,8 @@ class DocusignTemplate < ActiveRecord::Base
 
   def self.send_blank_nos(person, sender)
     project = person.person_areas.first.project
-    template_guid = '8953764B-733D-4A7B-ACD5-74EE97DBD35D'
+    #template_guid = '8953764B-733D-4A7B-ACD5-74EE97DBD35D'
+    template_guid = 'CD15C02E-B073-44D9-A60A-6514C24949CB'
     client = DocusignRest::Client.new
     hash = {
         status: 'created',
