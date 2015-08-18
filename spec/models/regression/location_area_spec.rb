@@ -8,6 +8,7 @@ RSpec.describe LocationArea, regressor: true do
   
   it { is_expected.to have_many :candidates }
   it { is_expected.to have_many :day_sales_counts }
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :versions }
 
   # === Nested Attributes ===

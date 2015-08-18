@@ -44,6 +44,10 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
+  def resend_paperwork?
+    send_paperwork?
+  end
+
   def interview_now?
     create?
   end

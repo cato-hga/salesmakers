@@ -8,14 +8,15 @@
     ID#
     = @candidate.id
 
+
+- cache_key = (cache_key_for_candidate(@candidate) || 'N/A')
 .widgets
-  - cache(cache_key_for_candidate(@candidate)) do
-    .widget#basic_information
-      .inner
+  .widget#basic_information
+    .inner
+      - cache(cache_key + "-1") do
         %h3
           Basic Information
           = edit_button edit_candidate_path(@candidate)
-
         %p
           %strong Email:
           = email_link @candidate.email
@@ -29,50 +30,51 @@
         %p
           %strong Entered:
           = friendly_datetime(@candidate.created_at)
-      - if @candidate.interview_schedules.any?
-        - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
-          %p
-            .overdue_interview
+        - if @candidate.interview_schedules.any?
+          - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
+            %p
+              .overdue_interview
+                %strong Interview Time:
+                = friendly_datetime(@candidate.interview_schedules.last.start_time)
+                %strong OVERDUE
+          - else
+            %p
               %strong Interview Time:
               = friendly_datetime(@candidate.interview_schedules.last.start_time)
-              %strong OVERDUE
-        - else
-          %p
-            %strong Interview Time:
-            = friendly_datetime(@candidate.interview_schedules.last.start_time)
 
-      - if @candidate.personality_assessment_status
-        %p
-          %strong Personality Assessment:
-          %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
-            = NameCase(@candidate.personality_assessment_status, lazy: false)
-      - if @candidate.personality_assessment_score
-        %p
-          %strong Personality Assessment Score:
-          %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
-            = @candidate.personality_assessment_score
-      - location_area = @candidate.location_area if @candidate.location_area
+        - if @candidate.personality_assessment_status
+          %p
+            %strong Personality Assessment:
+            %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
+              = NameCase(@candidate.personality_assessment_status, lazy: false)
+        - if @candidate.personality_assessment_score
+          %p
+            %strong Personality Assessment Score:
+            %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
+              = @candidate.personality_assessment_score
       - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
         - unless @candidate.personality_assessment_score.present?
           = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
             .row.full-width
               .medium-5.columns= number_field_tag :assessment_score
               .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
-      - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
-        - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
-          %p
-            %strong Drug Test Scheduled for:
-            %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
-            %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
-        - else
-          %p
-            %strong Drug Test Not Scheduled:
-            %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
-      %p
-        - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
-          = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
-        - else
-          %span.sm_red There is no valid phone number for this candidate.
+      - cache(cache_key + "-2") do
+        - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
+          - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
+            %p
+              %strong Drug Test Scheduled for:
+              %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
+              %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
+          - else
+            %p
+              %strong Drug Test Not Scheduled:
+              %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
+        %p
+          - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
+            = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+          - else
+            %span.sm_red There is no valid phone number for this candidate.
+  - cache(cache_key + "-3") do
     .widget
       .inner
         %h3 Progress
@@ -181,7 +183,7 @@
               - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
             - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
               - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-                - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+                - link_to 'Resend Paperwork', resend_paperwork_candidate_path(@candidate), class: :button
             - else
               - ''
           - else
@@ -190,17 +192,18 @@
             - else
               - ''
         = action if @candidate.active?
-    - if CandidatePolicy.new(@current_person, Candidate.new).set_reconciliation_status?
-      .widget#reconciliation
-        .inner
-          %h3 Candidate Reconciliation
-          = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
-            = f.label :status, 'Reconciliation Status'
-            - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
-            = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[0]]}, selected_status), include_blank: true
-            = f.submit 'Reconcile', class: :button
-    - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
-      = render 'training_information'
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_reconciliation_status?
+    .widget#reconciliation
+      .inner
+        %h3 Candidate Reconciliation
+        = form_for @candidate_reconciliation, url: set_reconciliation_status_candidate_path(@candidate), method: :put do |f|
+          = f.label :status, 'Reconciliation Status'
+          - selected_status = @candidate.candidate_reconciliations.any? ? @candidate.candidate_reconciliations.last.status : nil
+          = f.select :status,  options_for_select(CandidateReconciliation.statuses.map{|s| [NameCase(s[0].humanize, lazy: false), s[0]]}, selected_status), include_blank: true
+          = f.submit 'Reconcile', class: :button
+  - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
+    = render 'training_information'
+  - cache(cache_key + "-4") do
     - if @candidate.location_area
       = render 'location_information'
     - if @candidate.person and @candidate_shifts.present?

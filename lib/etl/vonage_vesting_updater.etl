@@ -1,0 +1,18 @@
+require 'etl/vonage_sales_source'
+require 'etl/nil_destination'
+
+count = 0
+
+source VonageSalesSource, Date.today - 36.days - 1.month, Date.today - 36.days
+
+transform do |sale|
+  count += 1
+
+  sale.update vested: sale.still_active_on?(sale.sale_date + 32.days)
+end
+
+destination NilDestination
+
+post_process do
+  ProcessLog.create process_class: "VonageVestingUpdater", records_processed: count
+end

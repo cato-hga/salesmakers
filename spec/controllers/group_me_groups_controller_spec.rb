@@ -45,12 +45,12 @@ describe GroupMeGroupsController do
            message: 'This is a test message.'
     end
 
-    it 'redirects to new_post', :vcr do
+    it 'redirects to new_post' do
       subject
       expect(response).to redirect_to(new_post_group_me_groups_path)
     end
 
-    it 'succeeds with an image file', :vcr do
+    it 'succeeds with an image file' do
       post :post,
            group_me_group_ids: [
                group_me_group.id.to_s,
@@ -73,7 +73,7 @@ describe GroupMeGroupsController do
     #   expect(response).to redirect_to(new_post_group_me_groups_path)
     # end
 
-    it 'succeeds on a schedule', :vcr do
+    it 'succeeds on a schedule' do
       schedule_for = Time.now + 10.seconds
       post :post,
            group_me_group_ids: [

@@ -11,17 +11,8 @@
 #
 
 require 'rails_helper'
-require 'shoulda/matchers'
 
-RSpec.describe Project, :type => :model do
-
-  it { should ensure_length_of(:name).is_at_least(4) }
-  it { should validate_presence_of(:client) }
-
-  it { should belong_to :client }
-  it { should have_many :area_types }
-  it { should have_many :areas }
-
+describe Project do
   it 'responds to workmarket_project_num' do
     expect(Project.new).to respond_to(:workmarket_project_num)
   end

@@ -13,6 +13,7 @@ class ConnectUpdater
   def self.update_shifts duration, automated = false
     LegacyMinuteWorxTimesheetImporting.new(duration).import(automated)
     LegacyBlueforceTimesheetImporting.new(duration).import(automated)
+    VonageComp07012015Processing.new.execute
   end
 
 end

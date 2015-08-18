@@ -8,7 +8,7 @@ RSpec.describe SMSMessage, regressor: true do
   it { is_expected.to belong_to :to_candidate }
   it { is_expected.to belong_to :from_candidate }
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   
@@ -36,6 +36,7 @@ RSpec.describe SMSMessage, regressor: true do
   it { is_expected.to have_db_index ["to_person_id"] }
 
   # === Validations (Length) ===
+  
   
 
   # === Validations (Presence) ===

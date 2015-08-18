@@ -7,6 +7,7 @@ RSpec.describe Area, regressor: true do
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :area_candidate_sourcing_group }
   
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :versions }
   it { is_expected.to have_many :person_areas }
   it { is_expected.to have_many :people }

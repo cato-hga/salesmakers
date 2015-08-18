@@ -2,6 +2,7 @@ module CandidatesHelper
 
   def cache_key_for_candidate(candidate)
     key = 'candidate-' + candidate.id.to_s + '-' + candidate.updated_at.try(:utc).try(:to_s, :number)
+    key += "-#{@current_person.position.id.to_s}"
     key += '-' + max_updated(candidate.interview_schedules) unless candidate.interview_schedules.empty?
     key += '-' + candidate.person.screening.updated_at.try(:utc).try(:to_s, :number) if candidate.person and candidate.person.screening
     key += '-' + max_updated(candidate.candidate_reconciliations) unless candidate.candidate_reconciliations.empty?

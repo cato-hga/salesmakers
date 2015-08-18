@@ -6,7 +6,7 @@ RSpec.describe InterviewSchedule, regressor: true do
   it { is_expected.to belong_to :candidate }
   it { is_expected.to belong_to :person }
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

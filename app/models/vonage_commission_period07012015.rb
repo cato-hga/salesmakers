@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: vonage_commission_period07012015s
+#
+#  id                 :integer          not null, primary key
+#  name               :string           not null
+#  hps_start          :date
+#  hps_end            :date
+#  vested_sales_start :date
+#  vested_sales_end   :date
+#  cutoff             :datetime         not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 class VonageCommissionPeriod07012015 < ActiveRecord::Base
   validates :name, length: { minimum: 4 }
   validate :at_least_one_period

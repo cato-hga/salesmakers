@@ -40,6 +40,15 @@ GIT
       rails (>= 3.1)
 
 GIT
+  remote: https://github.com/ndea/regressor.git
+  revision: f65e2c25ecda58a762a0d1e20218f0ced8dd1059
+  specs:
+    regressor (0.5.8)
+      faker (~> 1.3)
+      rails (~> 4.0)
+      shoulda-matchers (~> 2.7.0, >= 2.7.0)
+
+GIT
   remote: https://github.com/newrelic/rpm.git
   revision: cfc684a7fd3730b32f3f896688169c7fe8ea1972
   specs:
@@ -553,10 +562,6 @@ GEM
       parser (~> 2.2)
       rainbow (~> 2.0)
       unparser (~> 0.2.2)
-    regressor (0.5.8)
-      faker (~> 1.3)
-      rails (~> 4.0)
-      shoulda-matchers (~> 2.7.0, >= 2.7.0)
     render_csv (2.0.0)
       rails (>= 3.0)
     request_store (1.2.0)
@@ -810,7 +815,7 @@ DEPENDENCIES
   railties (= 4.2.3)
   ransack (= 1.6.6)
   ransack_chronic (= 1.1.0)
-  regressor (= 0.5.8)
+  regressor!
   render_csv (= 2.0.0)
   responders (= 2.1.0)
   retryable (= 2.0.1)

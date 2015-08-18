@@ -19,35 +19,6 @@ require 'rails_helper'
 describe ReportQuery do
   subject { build :report_query }
 
-  it 'should be valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a name' do
-    subject.name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a category name' do
-    subject.category_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a database name' do
-    subject.database_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a query' do
-    subject.query = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a permission key' do
-    subject.permission_key = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'responds to has_date_range? and has_date_range=' do
     expect(subject).to respond_to :has_date_range?
     expect(subject).to respond_to :has_date_range=
@@ -57,11 +28,4 @@ describe ReportQuery do
     expect(subject).to respond_to :start_date_default
     expect(subject).to respond_to :start_date_default=
   end
-
-  it 'requires a start_date_default if the has_date_range? is true' do
-    subject.has_date_range = true
-    subject.start_date_default = nil
-    expect(subject).not_to be_valid
-  end
-
 end

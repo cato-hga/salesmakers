@@ -4,17 +4,17 @@ require 'apis/groupme'
 describe 'GroupMe API' do
   let(:groupme) { GroupMe.new_global }
 
-  it 'should get a list of groups', :vcr do
+  it 'should get a list of groups' do
     groups = groupme.get_groups
     expect(groups.response.code).to eq('200')
   end
 
-  it 'should return at least one group', :vcr do
+  it 'should return at least one group' do
     group = groupme.get_group '8936279'
     expect(group).not_to be_nil
   end
 
-  it 'should create a group', :vcr do
+  it 'should create a group' do
     expect {
       groupme.create_group 'TEST'
     }.to change(GroupMeGroup, :count).by(1)
@@ -26,65 +26,42 @@ describe 'GroupMe API' do
   # end
 
   describe '#get_messages' do
-    it 'should get a list of messages from groups', :vcr do
-      groups = groupme.get_first_group
-      group_id = groups['response'][0]['group_id']
-      messages = groupme.get_messages group_id
+    it 'should get a list of messages from groups' do
+      messages = groupme.get_messages "8936279"
       expect(messages.count).to be > 0
     end
 
-    it 'should return the max messages, if max is specified', :vcr do
-      groups = groupme.get_first_group
-      group_id = groups['response'][0]['group_id']
-      messages = groupme.get_messages group_id, max = 17
+    it 'should return the max messages, if max is specified' do
+      messages = groupme.get_messages "8936279", max = 17
       expect(messages.count).to eq(17)
     end
   end
 
   describe '#get_recent_messages' do
-    it 'should get a list of recent messages', :vcr do
+    it 'should get a list of recent messages' do
       messages = groupme.get_recent_messages
       expect(messages.count).to be > 0
     end
   end
 
-  it 'should get images', :vcr do
+  it 'should get images' do
     messages = groupme.get_images
     expect(messages.count).to be > 0
   end
 
-  it 'should get the RBD IT account (AKA: Me)', :vcr do
+  it 'should get the RBD IT account (AKA: Me)' do
     me = groupme.get_me
     expect(me['id']).to eq('12486363')
   end
 
-  it 'should be able to send a text message', :vcr do
+  it 'should be able to send a text message' do
     message = groupme.send_message('8936279', 'GroupMe API "send_message" test')
     expect(message).not_to be_nil
   end
 
-  it 'should add a bot', :vcr do
+  it 'should add a bot' do
     response = groupme.add_bot(SecureRandom.uuid, '8936279')
     expect(response.length).to be > 0
     groupme.destroy_bot response
   end
 end
-
-# describe 'GroupMe API Message' do
-#
-#   describe '#has_image?' do
-#     it 'should return true if a message has attachments of type image'
-#   end
-#
-#   describe '#text' do
-#     pending
-#   end
-#
-#   describe '#created_at' do
-#     it 'should return the created_at attribute'
-#   end
-#
-#   describe '#<=> other' do
-#     pending
-#   end
-# end

@@ -10,6 +10,7 @@ RSpec.describe Project, regressor: true do
   it { is_expected.to have_many :client_area_types }
   it { is_expected.to have_many :client_areas }
   it { is_expected.to have_many :day_sales_counts }
+  it { is_expected.to have_many :shifts }
 
   # === Nested Attributes ===
   

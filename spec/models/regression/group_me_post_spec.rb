@@ -27,6 +27,7 @@ RSpec.describe GroupMePost, regressor: true do
   # === Database (Indexes) ===
   it { is_expected.to have_db_index ["group_me_group_id"] }
   it { is_expected.to have_db_index ["group_me_user_id"] }
+  it { is_expected.to have_db_index ["message_num"] }
   it { is_expected.to have_db_index ["person_id"] }
 
   # === Validations (Length) ===
