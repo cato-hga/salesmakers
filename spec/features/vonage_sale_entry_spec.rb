@@ -19,8 +19,7 @@ describe 'Vonage Sale entry' do
   let!(:employee_one_area) { create :person_area, person: employee_one, area: area }
   let!(:employee_two_area) { create :person_area, person: employee_two, area: area }
   let!(:manager_area) { create :person_area, person: manager, area: area, manages: true }
-  let!(:vonage_product) { create :vonage_product, name: 'Vonage Whole Home Kit' }
-  let(:vonage_sale) { create :vonage_sale }
+  let!(:home_kit) { create :vonage_product, name: 'Vonage Whole Home Kit' }
 
   subject {
     CASClient::Frameworks::Rails::Filter.fake(employee_one.email)
@@ -86,54 +85,85 @@ describe 'Vonage Sale entry' do
 
     it 'has a vonage product to select from' do
       subject
-      expect(page).to have_select 'vonage_sale_vonage_product_id', text: vonage_product.name
+      expect(page).to have_select 'vonage_sale_vonage_product_id', text: home_kit.name
+    end
+
+    context 'Product Type Vonage Whole Home Kit' do
+      it 'requires a gift card number' do
+        subject
+        select  employee_one.display_name, from: 'Sales Representative'
+        fill_in 'Sale Date', with: '08/15/2015'
+        fill_in 'Confirmation Number', with: '1234567890'
+        select  location.name, from: 'Location'
+        fill_in 'Customer First Name', with: 'Test'
+        fill_in 'Customer Last Name', with: 'Customer'
+        fill_in 'MAC ID', with: 'ABCDEF123456'
+        fill_in 'Confirm MAC ID', with: 'ABCDEF123456'
+        select  home_kit.name, from: 'Product Type'
+        fill_in 'Gift Card Number', with: ''
+        fill_in 'Confirm Gift Card Number', with: ''
+        page.check 'vonage_sale_person_acknowledged'
+        click_on 'Complete Sale'
+        expect(page).to have_content 'Gift card number must be entered if you have selected the Vonage whole home kit'
+      end
     end
 
     context 'with incorrect data' do
       before(:each) do
         subject
-        select employee_one.display_name, from: 'Sales Representative'
+        select  employee_one.display_name, from: 'Sales Representative'
         fill_in "Sale Date", with: 2.weeks.ago
         fill_in 'Confirmation Number', with: '123456789'
-        select location.name, from: 'Location'
+        select  location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
         fill_in 'Customer Last Name', with: 'Customer'
         fill_in 'MAC ID', with: 'ABCDEF12345'
         fill_in 'Confirm MAC ID', with: 'ABCDEF123457'
-        select vonage_product.name, from: 'Product Type'
+        select  home_kit.name, from: 'Product Type'
         fill_in 'Gift Card Number', with: 'ab123456789'
-        fill_in 'Confirm Gift Card Number', with: 'ab1234567899'
+        fill_in 'Confirm Gift Card Number', with: 'ab123456789'
         page.check('vonage_sale_person_acknowledged')
         click_on 'Complete Sale'
       end
 
       it 'renders :new and displays a clear error message' do
-        expect(page).to have_content "Confirmation number is the wrong length (should be 10 characters)"
-        expect(page).to have_content "Mac is invalid"
+        expect(page).to have_content 'Confirmation number is the wrong length (should be 10 characters)'
+        expect(page).to have_content 'Mac is invalid'
         expect(page).to have_content "Mac confirmation doesn't match Mac"
-        expect(page).to have_content "Gift card number is invalid"
-        expect(page).to have_content "Gift card number confirmation doesn't match Gift card number"
-        expect(page).to have_content "Sale date cannot be dated for more than 2 weeks in the past"
+        expect(page).to have_content 'Gift card number is invalid'
+        expect(page).to have_content 'Sale date cannot be dated for more than 2 weeks in the past'
       end
     end
 
     context 'with all correct data' do
-      it 'successfully creates a vonage sale' do
-        subject
-        select employee_one.display_name, from: 'Sales Representative'
-        fill_in "Sale Date", with: "08/15/2015"
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(employee_one.email)
+        visit new_vonage_sale_path
+      end
+
+      subject {
+        select  employee_one.display_name, from: 'Sales Representative'
+        fill_in 'Sale Date', with: '08/15/2015'
         fill_in 'Confirmation Number', with: '1234567890'
-        select location.name, from: 'Location'
+        select  location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
         fill_in 'Customer Last Name', with: 'Customer'
         fill_in 'MAC ID', with: 'ABCDEF123456'
         fill_in 'Confirm MAC ID', with: 'ABCDEF123456'
-        select vonage_product.name, from: 'Product Type'
+        select  home_kit.name, from: 'Product Type'
         fill_in 'Gift Card Number', with: 'ab1234567890'
         fill_in 'Confirm Gift Card Number', with: 'ab1234567890'
         page.check('vonage_sale_person_acknowledged')
         click_on 'Complete Sale'
+      }
+
+      it 'successfully creates a vonage sale' do
+        subject
         expect(page).to have_content 'Vonage Sale has been successfully created.'
+      end
+
+      it 'raises the VonageSale count by 1' do
+        expect { subject }.to change(VonageSale, :count).by(1)
       end
     end
   end

@@ -48,28 +48,6 @@
       %li
         %label People
       %li
-        %label DirecTV Retail
-      - if directv_lead_policy.index?
-        %li
-          = link_to 'DirecTV Leads', directv_leads_path
-      - if directv_sale_policy.index?
-        %li
-          = link_to 'DirecTV Sales', directv_sales_path
-  - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
-  - if vonage_sale_policy.create?
-    %ul.off-canvas-list
-      - retail = Project.find_by name: 'Vonage Retail'
-      - if @visible_projects.include? retail
-        %label Vonage Retail
-        %li= link_to 'Sale Entry', new_vonage_sale_path
-      - events = Project.find_by name: 'Vonage Events'
-      - if @visible_projects.include? events
-        %label Vonage Events
-        %li= link_to 'Receiving', '#'
-        %li= link_to 'Reconciliation', '#'
-        %li= link_to 'Reclaim', '#'
-        %li= link_to 'Transfer', '#'
-    %ul.off-canvas-list
         = link_to 'Search', people_path
       %li
         = link_to 'Org Chart', org_chart_people_path
@@ -79,6 +57,20 @@
         %li= link_to 'SMS Dashboard', sms_daily_checks_path
       - if PersonPolicy.new(current_person, Person.new, @permission_keys).create?
         %li= link_to 'New', new_person_path
+    - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
+    - if vonage_sale_policy.create?
+      %ul.off-canvas-list
+        - retail = Project.find_by name: 'Vonage Retail'
+        - if @visible_projects.include? retail
+          %label Vonage Retail
+          %li= link_to 'Sale Entry', new_vonage_sale_path
+        - events = Project.find_by name: 'Vonage Events'
+        - if @visible_projects.include? events
+          %label Vonage Events
+          %li= link_to 'Receiving', '#'
+          %li= link_to 'Reconciliation', '#'
+          %li= link_to 'Reclaim', '#'
+          %li= link_to 'Transfer', '#'
     - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new, @permission_keys)
     - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new, @permission_keys)
     - if comcast_lead_policy.index? || comcast_sale_policy.index?
@@ -153,3 +145,4 @@
             = text_field_tag :global_search, @global_search, placeholder: 'Global Search'
           .small-3.columns
             = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
+

@@ -28,9 +28,10 @@ class VonageSale < ActiveRecord::Base
   validates :customer_last_name, presence: true
   validates :mac, format: { with: /\A[0-9A-F]{12}\z/i }, confirmation: true
   validates :vonage_product, presence: true
-  validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true
+  validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true, if: :home_kit_with_gift_card_number?
   validates :person_acknowledged, acceptance: { accept: true }
-  validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
+  validate :sale_date_cannot_be_more_than_2_weeks_in_the_past
+  validate :gift_card_number_required_for_whole_home_kit
 
   belongs_to :person
   belongs_to :location
@@ -71,9 +72,32 @@ class VonageSale < ActiveRecord::Base
     self.location_area_for_sale 'Vonage'
   end
 
+  private
+
   def sale_date_cannot_be_more_than_2_weeks_in_the_past
-    errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if
-        sale_date and sale_date < 2.weeks.ago
+    errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if sale_date and sale_date <= 2.weeks.ago
+  end
+
+  def home_kit?
+    kit = VonageProduct.find_by name: 'Vonage Whole Home Kit'
+    return true if self.vonage_product == kit
+    false
+  end
+
+  def home_kit_with_gift_card_number?
+    return true if home_kit? and !self.gift_card_number.blank?
+    false
+  end
+
+  def whole_home_kit_without_gift_card_number
+    return true if home_kit? and gift_card_number.blank?
+    false
+  end
+
+  def gift_card_number_required_for_whole_home_kit
+    if whole_home_kit_without_gift_card_number
+      errors.add(:gift_card_number, "must be entered if you have selected the Vonage whole home kit")
+    end
   end
 
 end

@@ -74,6 +74,7 @@ describe VonageSale do
     create :vonage_sale,
            mac: 'ABCDEF123458'
   }
+  let(:kit) { create :vonage_product, name: 'Vonage Whole Home Kit'}
 
   it 'is valid with correct attributes' do
     expect(subject).to be_valid
@@ -141,6 +142,7 @@ describe VonageSale do
   end
 
   it 'requires a gift card to be either 12 or 16 characters' do
+    subject.vonage_product = kit
     subject.gift_card_number = 'ab1234567890'
     expect(subject).to be_valid
     subject.gift_card_number = 'ab12345678901234'
@@ -168,8 +170,8 @@ describe VonageSale do
     expect(subject).to respond_to(:gift_card_number)
   end
 
-  it 'responds to gift_card_number' do
-    expect(subject).to respond_to(:gift_card_number)
+  it 'responds to mac' do
+    expect(subject).to respond_to(:mac)
   end
 
   it 'responds to person_acknowledged' do

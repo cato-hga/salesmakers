@@ -2,16 +2,15 @@ class VonageSalesController < ApplicationController
   before_action :do_authorization, only: [:new, :create]
   before_action :set_salesmaker, only: [:new, :create]
   before_action :set_vonage_locations, only: [:new, :create]
+  before_action :set_vonage_product, only: [:new, :create]
   before_action :chronic_time_zones
   after_action :verify_authorized
 
   def new
     @vonage_sale = VonageSale.new
-    @vonage_products = VonageProduct.all
   end
 
   def create
-    @vonage_products = VonageProduct.all
     @vonage_sale = VonageSale.new vonage_sale_params
     sale_date = params.require(:vonage_sale).permit(:sale_date)[:sale_date]
     chronic_time = Chronic.parse(sale_date)
@@ -52,6 +51,10 @@ class VonageSalesController < ApplicationController
 
   def chronic_time_zones
     Chronic.time_class = Time.zone
+  end
+
+  def set_vonage_product
+    @vonage_products = VonageProduct.all
   end
 
 end
