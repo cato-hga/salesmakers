@@ -7,7 +7,7 @@ RSpec.describe DocusignNos, regressor: true do
   it { is_expected.to belong_to :employment_end_reason }
   it { is_expected.to belong_to :manager }
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   
@@ -34,11 +34,47 @@ RSpec.describe DocusignNos, regressor: true do
   
 
   # === Validations (Presence) ===
-  it { is_expected.to validate_presence_of :employment_end_reason_id }
-  it { is_expected.to validate_presence_of :envelope_guid }
-  it { is_expected.to validate_presence_of :last_day_worked }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:third_party).and_return(false)
+    end
+
+    it { is_expected.to validate_presence_of :employment_end_reason_id }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:third_party).and_return(false)
+    end
+
+    it { is_expected.to validate_presence_of :envelope_guid }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:third_party).and_return(false)
+    end
+
+    it { is_expected.to validate_presence_of :last_day_worked }
+  end
+
   it { is_expected.to validate_presence_of :person_id }
-  it { is_expected.to validate_presence_of :termination_date }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:third_party).and_return(false)
+    end
+
+    it { is_expected.to validate_presence_of :termination_date }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:third_party?).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :manager_id }
+  end
+
 
   # === Validations (Numericality) ===
   

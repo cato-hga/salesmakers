@@ -27,6 +27,8 @@ require 'vcr'
 require 'sidekiq/testing'
 require 'sunspot/rails/spec_helper'
 require 'rack_session_access/capybara'
+require 'webmock/rspec'
+require 'support/fakegroupme/fake_groupme'
 
 RSpec.configure do |config|
   # Uncomment the next line to troubleshoot spec times!
@@ -51,6 +53,10 @@ RSpec.configure do |config|
       ::Sunspot.session = ::Sunspot.session.original_session
     end
     DatabaseRewinder.clean
+  end
+
+  config.before(:each) do
+    stub_request(:any, /api.groupme.com/).to_rack(FakeGroupMe)
   end
 end
 

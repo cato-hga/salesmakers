@@ -7,6 +7,7 @@ RSpec.describe SprintRadioShackTrainingSession, regressor: true do
   
   it { is_expected.to have_many :candidate_sprint_radio_shack_training_sessions }
   it { is_expected.to have_many :candidates }
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

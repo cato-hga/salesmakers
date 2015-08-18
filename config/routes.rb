@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       get 'select_location/:back_to_confirm', action: :select_location, as: :select_location
       get 'set_location_area/:location_area_id/:back_to_confirm', action: :set_location_area, as: :set_location_area
       get :send_paperwork, action: :send_paperwork, as: :send_paperwork
+      get :resend_paperwork, action: :resend_paperwork, as: :resend_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
       get :confirm, as: :confirm

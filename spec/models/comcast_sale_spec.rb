@@ -24,10 +24,6 @@ describe ComcastSale do
   let!(:other_sale) { create :comcast_sale, order_number: '1234567891000' }
   subject { build :comcast_sale }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
   it 'does not allow install date to be past-dated' do
     subject.comcast_install_appointment.install_date = Date.yesterday
     expect(subject).not_to be_valid
@@ -52,11 +48,6 @@ describe ComcastSale do
     expect(subject).to be_valid
     subject.security = false; subject.phone = true
     expect(subject).to be_valid
-  end
-
-  it 'requires a Comcast install appointment' do
-    subject.comcast_install_appointment = nil
-    expect(subject).not_to be_valid
   end
 
   it 'does not allow a sale to be future-dated' do

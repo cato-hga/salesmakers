@@ -5329,7 +5329,8 @@ CREATE TABLE vonage_sales (
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
     person_acknowledged boolean DEFAULT false,
-    gift_card_number character varying
+    gift_card_number character varying,
+    vested boolean
 );
 
 
@@ -9352,6 +9353,34 @@ CREATE INDEX vasc_maeds ON vonage_account_status_changes USING btree (mac, accou
 
 
 --
+-- Name: vcp_hps_sales_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_hps_sales_report ON vcp07012015_hps_sales USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_hps_shifts_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_hps_shifts_report ON vcp07012015_hps_shifts USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_vs_sales_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_vs_sales_report ON vcp07012015_vested_sales_sales USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_vs_shifts_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_vs_shifts_report ON vcp07012015_vested_sales_shifts USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
 -- Name: vonage_paycheck_neg_bal_paycheck; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -10341,4 +10370,14 @@ INSERT INTO schema_migrations (version) VALUES ('20150810144604');
 INSERT INTO schema_migrations (version) VALUES ('20150810145636');
 
 INSERT INTO schema_migrations (version) VALUES ('20150812132503');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817134549');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817141749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817153612');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817154022');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 

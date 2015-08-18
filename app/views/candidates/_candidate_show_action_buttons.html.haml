@@ -8,6 +8,11 @@
       = link_to 'Resend Assessment', resend_assessment_candidate_path(@candidate), class: [:button, :inline_button]
   - if @candidate.welcome_call?
     = link_to 'Welcome Call', new_candidate_sprint_pre_training_welcome_call_path(@candidate), class: [:button, :inline_button]
+  - if @candidate.location_area
+    - client = @candidate.location_area.area.project.client
+    - project = @candidate.location_area.area.project
+    - location = @candidate.location_area.location
+    = link_to 'Candidate Location', client_project_location_path(client, project, location), class: [:button, :inline_button]
 - else
   - unless @candidate.person and @candidate.person.active == false
     = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]

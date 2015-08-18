@@ -31,6 +31,7 @@ RSpec.describe PersonAddress, regressor: true do
   # === Validations (Length) ===
   it { is_expected.to allow_value(Faker::Lorem.characters(2)).for :city }
   it { is_expected.not_to allow_value(Faker::Lorem.characters(1)).for :city }
+  
 
   # === Validations (Presence) ===
   it { is_expected.to validate_presence_of :person }

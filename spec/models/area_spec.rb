@@ -19,39 +19,7 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-RSpec.describe Area, :type => :model do
-
-  it { should ensure_length_of(:name).is_at_least(3) }
-  it { should validate_presence_of(:area_type) }
-
-  it { should belong_to(:area_type) }
-  it { should belong_to(:project) }
-  it { should have_many(:person_areas) }
-  it { should have_many(:people).through(:person_areas) }
-
-  #it { should have_one(:wall) }
-
-  # Scope isn't currently used. Test will pass once uncommented
-  # describe 'member_of scope' do
-  #   let(:hq_person) { Person.first }
-  #   let(:non_hq_area) { create :area }
-  #   let(:non_hq_person) { create :person }
-  #   let!(:non_hq_person_area) { create :person_area, area: non_hq_area, person: non_hq_person}
-  #
-  #   context 'for HQ employees' do
-  #     it 'should return all areas a person is a member of' do
-  #       expect(Area.member_of(hq_person)).not_to be_nil
-  #     end
-  #   end
-  #
-  #   context 'for non-hq employees' do
-  #     it 'should return all areas a person is a member of' do
-  #       expect(Area.member_of(non_hq_person)).not_to be_nil
-  #     end
-  #   end
-  # end
-
-  #TODO: Refactor the following two specs to use the RSPEC LET method
+describe Area do
   it ' project_roots scope should return project_roots' do
     proj = Project.first
     expect(Area.project_roots(proj)).not_to be_nil

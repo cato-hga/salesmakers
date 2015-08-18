@@ -12,6 +12,7 @@ RSpec.describe Location, regressor: true do
   it { is_expected.to have_many :comcast_customers }
   it { is_expected.to have_many :comcast_eods }
   it { is_expected.to have_many :roster_verifications }
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

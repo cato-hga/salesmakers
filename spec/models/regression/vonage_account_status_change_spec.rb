@@ -21,7 +21,11 @@ RSpec.describe VonageAccountStatusChange, regressor: true do
   it { is_expected.to have_db_column :updated_at }
 
   # === Database (Indexes) ===
-  
+  it { is_expected.to have_db_index ["account_end_date"] }
+  it { is_expected.to have_db_index ["mac"] }
+  it { is_expected.to have_db_index ["mac", "account_end_date"] }
+  it { is_expected.to have_db_index ["status"] }
+  it { is_expected.to have_db_index ["mac", "account_end_date", "status"] }
 
   # === Validations (Length) ===
   

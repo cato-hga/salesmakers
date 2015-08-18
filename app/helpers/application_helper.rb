@@ -158,4 +158,8 @@ module ApplicationHelper
   def current_client_rep
     controller.current_client_rep
   end
+
+  def cache_key_for_navigation
+    Digest::MD5.digest("#{@current_person.id}-#{@current_person.position.id}-#{@permission_keys.join(',')}")
+  end
 end

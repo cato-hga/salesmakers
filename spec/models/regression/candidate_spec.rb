@@ -14,6 +14,7 @@ RSpec.describe Candidate, regressor: true do
   it { is_expected.to have_one :training_availability }
   it { is_expected.to have_one :sprint_pre_training_welcome_call }
   it { is_expected.to have_one :candidate_drug_test }
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :versions }
   it { is_expected.to have_many :taggings }
   it { is_expected.to have_many :base_tags }
@@ -81,6 +82,9 @@ RSpec.describe Candidate, regressor: true do
   it { is_expected.not_to allow_value(Faker::Lorem.characters(1)).for :first_name }
   it { is_expected.to allow_value(Faker::Lorem.characters(2)).for :last_name }
   it { is_expected.not_to allow_value(Faker::Lorem.characters(1)).for :last_name }
+  
+  
+  
 
   # === Validations (Presence) ===
   it { is_expected.to validate_presence_of :first_name }
@@ -96,7 +100,7 @@ RSpec.describe Candidate, regressor: true do
   # === Enums ===
   it { is_expected.to define_enum_for(:status).with(["entered", "prescreened", "location_selected", "interview_scheduled", "interviewed", "rejected", "accepted", "confirmed", "paperwork_sent", "paperwork_completed_by_candidate", "paperwork_completed_by_advocate", "paperwork_completed_by_hr", "onboarded", "partially_screened", "fully_screened"]) }
   it { is_expected.to define_enum_for(:personality_assessment_status).with(["incomplete", "disqualified", "qualified"]) }
-  it { is_expected.to define_enum_for(:training_session_status).with(["pending", "candidate_confirmed", "shadow_confirmed", "in_class", "completed", "did_not_graduate", "did_not_attend", "not_interested", "reschedule", "nos", "nclb", "transfer", "transfer_reject", "moved_to_other_project"]) }
+  it { is_expected.to define_enum_for(:training_session_status).with(["pending", "candidate_confirmed", "shadow_confirmed", "in_class", "completed", "did_not_graduate", "did_not_attend", "not_interested", "future_training_class", "nos", "nclb", "transfer", "transfer_reject", "moved_to_other_project"]) }
   it { is_expected.to define_enum_for(:sprint_roster_status).with(["roster_status_pending", "sprint_submitted", "sprint_confirmed", "sprint_rejected", "sprint_preconfirmed"]) }
   
 end

@@ -6,6 +6,7 @@ RSpec.describe PersonArea, regressor: true do
   it { is_expected.to belong_to :person }
   it { is_expected.to belong_to :area }
   
+  it { is_expected.to have_many :log_entries }
   it { is_expected.to have_many :versions }
 
   # === Nested Attributes ===
