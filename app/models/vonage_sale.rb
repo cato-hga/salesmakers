@@ -30,8 +30,8 @@ class VonageSale < ActiveRecord::Base
   validates :vonage_product, presence: true
   validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true, if: :home_kit_with_gift_card_number?
   validates :person_acknowledged, acceptance: { accept: true }
-  validate :sale_date_cannot_be_more_than_2_weeks_in_the_past
-  validate :gift_card_number_required_for_whole_home_kit
+  validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
+  validate  :gift_card_number_required_for_whole_home_kit
 
   belongs_to :person
   belongs_to :location

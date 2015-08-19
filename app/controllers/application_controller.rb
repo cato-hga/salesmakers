@@ -62,12 +62,6 @@ class ApplicationController < BaseApplicationController
     @directv_locations = directv.locations_for_person @current_person
   end
 
-  def set_vonage_locations
-    vonage = Project.find_by name: 'Vonage Retail'
-    return Location.none unless vonage
-    @vonage_locations = vonage.locations_for_person @current_person
-  end
-
   def current_person_has_position?
     @current_person and @current_person.position
   end

@@ -27,7 +27,7 @@ class VonageSalesController < ApplicationController
   private
 
   def set_salesmaker
-    @salesmakers = @current_person.managed_team_members
+    @salesmakers = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
     @salesmakers = [@current_person] if @salesmakers.empty?
   end
 
@@ -55,6 +55,24 @@ class VonageSalesController < ApplicationController
 
   def set_vonage_product
     @vonage_products = VonageProduct.all
+  end
+
+  def set_vonage_locations
+    position_ids = Position.where(all_field_visibility: true).ids
+    person_with_all_visibility = Person.where position_id: position_ids
+    if person_with_all_visibility.include? @current_person
+      vonage = Project.find_by name: 'Vonage Retail'
+      return Location.none unless vonage
+      @vonage_locations = vonage.
+          locations.
+          joins("inner join channels on channels.id = locations.channel_id inner join location_areas on location_areas.location_id = locations.id inner join areas on areas.id = location_areas.area_id").
+          where("location_areas.active = true and areas.project_id = ?", vonage.id).
+          order("channels.name, locations.city, locations.display_name, locations.street_1")
+    else
+      vonage = Project.find_by name: 'Vonage Retail'
+      return Location.none unless vonage
+      @vonage_locations = vonage.locations_for_person @current_person
+    end
   end
 
 end
