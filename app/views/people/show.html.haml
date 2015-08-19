@@ -24,6 +24,8 @@
     = link_to 'Edit Position', edit_position_person_path(@person), class: [:button, :inline_button]
   - if PersonAreaPolicy.new(@current_person, PersonArea.new).update?
     = link_to 'Edit Areas', person_person_areas_path(@person), class: [:button, :inline_button]
+  - if PersonPolicy.new(@current_person, Person.new).masquerade?
+    = link_to 'Masquerade', masquerade_person_path(@person), class: [:button, :inline_button, :alert]
 
 - if @person.candidate
   - content_for :header do
