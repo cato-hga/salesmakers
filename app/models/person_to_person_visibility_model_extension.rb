@@ -39,8 +39,8 @@ module PersonToPersonVisibilityModelExtension
       next unless person_area.manages
       areas = person_area.area.subtree
       for area in areas do
-        manager = area.direct_manager
-        next unless manager == self
+        managers = area.direct_managers
+        next unless managers.include?(self)
         people = people.concat area.people.where(active: true).order(:display_name).to_a
       end
     end
