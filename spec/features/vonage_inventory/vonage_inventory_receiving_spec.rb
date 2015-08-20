@@ -13,25 +13,37 @@ describe 'Inventory receiving page' do
 
     let(:unauth_person) { create :person }
 
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-       visit new_vonage_device_path
-
-    end
-
     it 'shows the You are not authorized page' do
+      CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
+      visit new_vonage_device_path
       expect(page).to have_content('Your access does not allow you to view this page')
     end
   end
 
-  context 'for authorized users' do
-    before(:each) do
-      CASClient::Frameworks::Rails::Filter.fake(person.email)
-       visit new_vonage_device_path
+    context 'for authorized users' do
+      # before(:each) do
+      #   CASClient::Frameworks::Rails::Filter.fake(person.email)
+      #    visit new_vonage_device_path
+      # end
+
+      it 'shows the Vonage Inventory Receiving page' do
+        CASClient::Frameworks::Rails::Filter.fake(person.email)
+        visit new_vonage_device_path
+        expect(page).to have_content('Vonage Inventory Receiving')
+      end
     end
 
-    it 'shows the Vonage Inventory Receiving page' do
-      expect(page).to have_content('Vonage Inventory Receiving')
+    describe 'form submission' do
+
+      context 'with all blank data' do
+        it 'renders :new and shows all relevant error messages' do
+          CASClient::Frameworks::Rails::Filter.fake(person.email)
+          visit new_vonage_device_path
+          click_on 'Receive'
+          expect(page).to have_content "Po number is invalid"
+          expect(page).to have_content "Mac is invalid"
+          expect(page).to have_content "Receive date can't be blank"
+        end
+      end
     end
   end
-end

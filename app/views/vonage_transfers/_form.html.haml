@@ -1,0 +1,16 @@
+- if @vonage_transfer.errors.any?
+  - @vonage_transfer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @vonage_transfer do |f|
+      = f.label :to_person, 'Transfer To'
+      = f.text_field :to_person, placeholder: 'Transfer To'
+      = f.label :from_person, 'Transfer From'
+      = f.text_field :from_person, placeholder: 'Transfer From'
+      = f.label :vonage_device_id, 'Device'
+      = f.text_field :vonage_device_id, placeholder: 'Vonage Device'
+      = f.label :transfer-time
+
+

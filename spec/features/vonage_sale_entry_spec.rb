@@ -44,6 +44,7 @@ describe 'Vonage Sale entry' do
   end
 
 
+
   describe 'form submission' do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
