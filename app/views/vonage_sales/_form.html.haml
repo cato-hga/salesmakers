@@ -19,16 +19,16 @@
       = f.text_field :customer_first_name
       = f.label :customer_last_name, 'Customer Last Name'
       = f.text_field :customer_last_name
-      = f.label :mac, 'MAC ID'
-      = f.text_field :mac, placeholder: '12 characters (0-9 & A-F)'
-      = f.label :mac_confirmation, 'Confirm MAC ID'
-      = f.text_field :mac_confirmation, placeholder: 'Re-enter MAC ID *FROM BOX*'
+      = f.label :mac, 'MAC ID', id: 'mac_id'
+      = f.text_field :mac, placeholder: '12 characters (0-9 & A-F)', oncopy: 'return false', onpaste: 'return false'
+      = f.label :mac_confirmation, 'Confirm MAC ID', id: 'mac_id_conf'
+      = f.text_field :mac_confirmation, placeholder: 'Re-enter MAC ID *FROM BOX*', oncopy: 'return false', onpaste: 'return false'
       - vonage_product_options = options_from_collection_for_select(@vonage_products, :id, :name)
       = f.label :vonage_product_id, 'Product Type'
       = f.select :vonage_product_id, vonage_product_options, include_blank: true
-      = f.label :gift_card_number, 'Gift Card Number'
-      = f.text_field :gift_card_number, placeholder: 'Required for Walmart and Micro Center sales'
-      = f.label :gift_card_number_confirmation, 'Confirm Gift Card Number'
+      = f.label :gift_card_number, 'Gift Card Number', id: 'gcn'
+      = f.text_field :gift_card_number, placeholder: 'Required if Whole Home Kit has been selected'
+      = f.label :gift_card_number_confirmation, 'Confirm Gift Card Number', id: 'gcnc'
       = f.text_field :gift_card_number_confirmation, placeholder: 'Re-enter the gift card number'
       %p
         = f.check_box :person_acknowledged

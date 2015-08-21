@@ -43,6 +43,8 @@ class VonageSale < ActiveRecord::Base
   has_many :vonage_account_status_changes, primary_key: 'mac', foreign_key: 'mac'
   has_one :vcp07012015_hps_sale
 
+  nilify_blanks
+
   scope :for_paycheck, ->(paycheck) {
     if paycheck
       where('sale_date >= ? AND sale_date <= ?',
