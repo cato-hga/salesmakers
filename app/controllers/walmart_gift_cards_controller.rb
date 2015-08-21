@@ -33,8 +33,8 @@ class WalmartGiftCardsController < ApplicationController
     end
     WalmartGiftCardCheckJob.perform_later @gift_card_attributes, @current_person
     seconds = (3.175 * @gift_card_attributes.count).round
-    arrival = DateTime.now.in_time_zone + seconds.seconds
-    flash[:notice] = "Cards submitted. Your cards should arrive at around #{arrival.strftime('%-l:%M%P')}."
+    arrival = DateTime.now + seconds.seconds
+    flash[:notice] = "Cards submitted. Your cards should arrive at around #{arrival.in_time_zone.strftime('%-l:%M%P')}."
     redirect_to new_walmart_gift_card_path
   end
 end
