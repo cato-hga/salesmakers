@@ -14,6 +14,41 @@ class WalmartGiftCard < ActiveRecord::Base
 
   belongs_to :vonage_sale
 
+  def self.to_csv
+    attributes = %w{used link challenge_code unique_code pin balance purchase_date purchase_amount store_number}
+
+    CSV.generate(headers: true) do |csv|
+      csv << [
+          'SalesMakers Link',
+          'Used?',
+          'Link',
+          'Challenge Code',
+          'Unique Code',
+          'PIN',
+          'Balance',
+          'Purchase Date',
+          'Purchase Amount',
+          'Store Number',
+          'MAC ID',
+          'SalesMaker'
+      ]
+
+      all.each do |gift_card|
+        csv_atts = []
+        csv_atts << gift_card.link.sub('https://getegiftcard.walmart.com/gift-card/view/', 'http://rbdconnect.com/gc/l/?link=')
+        csv_atts.concat attributes.map{ |attr| gift_card.send attr }
+        if gift_card.vonage_sale
+          csv_atts << gift_card.vonage_sale.mac
+          csv_atts << gift_card.vonage_sale.person.display_name
+        else
+          csv_atts.concat [nil,nil]
+        end
+
+        csv << csv_atts
+      end
+    end
+  end
+
   private
 
   def purchase_today_or_earlier
