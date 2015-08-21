@@ -5,6 +5,7 @@ class WalmartGiftCardCheckJob < ActiveJob::Base
     cards_to_save = []
     for gift_card_attributes in walmart_gift_cards do
       atts = gift_card_attributes.select { |key, value| ['link', 'challenge_code', 'card_number'].include?(key) && value }
+      puts atts.inspect, ''
       gc = WalmartGiftCard.find_or_initialize_by(atts)
       gc.unique_code = gift_card_attributes['unique_code'] if gift_card_attributes['unique_code']
       gc.pin = gift_card_attributes['pin'] if gift_card_attributes['pin']

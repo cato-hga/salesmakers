@@ -52,8 +52,9 @@ module WalmartGiftCards
     end
 
     def set_purchase_info history_elements
-      unless history_elements.css('tr').count > 3
-        self.used = false and return
+      if history_elements.css('tr').count < 4
+        self.used = false
+        return
       end
       purchase_element = history_elements.css('tr')[1]
       purchase_date_elements = purchase_element.css('.TransactDate .BodyM')

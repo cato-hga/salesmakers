@@ -8,6 +8,7 @@ class WalmartGiftCardMailer < ApplicationMailer
     to_emails << person.email
 
     ar_gift_cards = WalmartGiftCard.where(id: gift_cards.map(&:id))
+
     attachments['gift_cards.csv'] = {
         mime_type: 'text/csv',
         content: ar_gift_cards.to_csv
