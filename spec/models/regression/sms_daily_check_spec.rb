@@ -16,10 +16,10 @@
 #   it { is_expected.to have_db_column :date }
 #   it { is_expected.to have_db_column :person_id }
 #   it { is_expected.to have_db_column :sms_id }
-#   it { is_expected.to have_db_column :in_uniform }
-#   it { is_expected.to have_db_column :clocked_in }
+#   it { is_expected.to have_db_column :check_in_uniform }
+#   it { is_expected.to have_db_column :check_in_on_time }
 #   it { is_expected.to have_db_column :check_in_inside_store }
-#   it { is_expected.to have_db_column :clocked_out }
+#   it { is_expected.to have_db_column :check_out_on_time }
 #   it { is_expected.to have_db_column :check_out_inside_store }
 #   it { is_expected.to have_db_column :off_day }
 #   it { is_expected.to have_db_column :created_at }
@@ -27,10 +27,10 @@
 #   it { is_expected.to have_db_column :out_time }
 #   it { is_expected.to have_db_column :in_time }
 #   it { is_expected.to have_db_column :roll_call }
-#   it { is_expected.to have_db_column :punchclock_geotag }
-#   it { is_expected.to have_db_column :iotd_1 }
-#   it { is_expected.to have_db_column :iotd_2 }
-#   it { is_expected.to have_db_column :iotd_3 }
+#   it { is_expected.to have_db_column :blueforce_geotag }
+#   it { is_expected.to have_db_column :accountability_checkin_1 }
+#   it { is_expected.to have_db_column :accountability_checkin_2 }
+#   it { is_expected.to have_db_column :accountability_checkin_3 }
 #   it { is_expected.to have_db_column :sales }
 #   it { is_expected.to have_db_column :notes }
 #

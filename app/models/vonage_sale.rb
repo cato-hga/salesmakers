@@ -15,6 +15,7 @@
 #  updated_at          :datetime         not null
 #  connect_order_uuid  :string
 #  resold              :boolean          default(FALSE), not null
+#  vested              :boolean
 #
 
 class VonageSale < ActiveRecord::Base
