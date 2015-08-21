@@ -25,17 +25,15 @@ class VonageSale < ActiveRecord::Base
   validates :person, presence: true
   validates :confirmation_number, length: { is: 10 }
   validates :location, presence: true
-  validates :customer_first_name, format: { with: /\A[a-zA-Z_\-]+\z/i}, unless: :blank_first_name
+  validates :customer_first_name, format: { with: /\A[a-zA-Z_\-]+\z/i }, unless: :blank_first_name
   validate  :customer_first_name_cannot_be_blank
-  validates :customer_last_name, format: { with: /\A[a-zA-Z_\-]+\z/i}, unless: :blank_last_name
+  validates :customer_last_name, format: { with: /\A[a-zA-Z_\-]+\z/i }, unless: :blank_last_name
   validate  :customer_last_name_cannot_be_blank
   validates :mac, format: { with: /\A[0-9A-F]{12}\z/i }, confirmation: true
   validates :vonage_product, presence: true
   validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true, if: :home_kit_with_gift_card_number?
   validate  :gift_card_number_required_for_whole_home_kit
   validates :person_acknowledged, acceptance: { accept: true }
-
-
 
   belongs_to :person
   belongs_to :location
