@@ -2566,7 +2566,7 @@ CREATE TABLE interview_answers (
     work_history text NOT NULL,
     why_in_market text,
     ideal_position text,
-    what_are_you_good_at text NOT NULL,
+    what_are_you_good_at text,
     what_are_you_not_good_at text,
     compensation_last_job_one text,
     compensation_last_job_two text,
@@ -10343,4 +10343,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820185034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821143712');
 

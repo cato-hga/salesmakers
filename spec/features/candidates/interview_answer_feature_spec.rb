@@ -38,19 +38,15 @@ describe 'Interview answers' do
       expect(page).to have_content(candidate.first_name)
       expect(page).to have_content(candidate.last_name)
       expect(page).to have_content("Candidate's work history")
-      expect(page).to have_content("Specifically: What was the candidate's last two positions?")
-      expect(page).to have_content('Why is candidate in the market')
-      expect(page).to have_content("Candidate's ideal position and responsibilities")
-      expect(page).to have_content('What is the candidate good at')
-      expect(page).to have_content('What is the candidate NOT good at')
+      expect(page).to have_content("What interests the candidate in the position?")
+      expect(page).to have_content('What was the first thing the candidate sold?')
+      expect(page).to have_content("What was the first time the candidate had to build a great working relationship?")
+      expect(page).to have_content('When was a time that the candidate had to rely on teaching to accomplish a goal?')
       expect(page).to have_content('Candidate willingness description')
       expect(page).to have_content('Candidate personality description')
       expect(page).to have_content('Candidate self motivated description')
-      expect(page).to have_content("Candidate's previous compensation (1)")
-      expect(page).to have_content("Candidate's previous compensation (2)")
-      expect(page).to have_content("Candidate's previous compensation (3)")
       expect(page).to have_content('Pay rate sought')
-      expect(page).to have_content('Hours per week looking to work')
+      expect(page).to have_content('Candidate does have flexible availability and can work 20-30 hours per week?')
       expect(page).to have_content('IF NOT EXTENDING OFFER: Why was candidate denied')
       expect(page).to have_button 'Extend offer'
       expect(page).to have_content 'Do not extend offer'
@@ -64,13 +60,11 @@ describe 'Interview answers' do
         it 'displays relevant error messages' do
           expect(page).to have_content "The candidate's interview answers cannot be saved"
           expect(page).to have_content "Work history can't be blank"
-          expect(page).to have_content "Why in market can't be blank"
-          expect(page).to have_content "Ideal position can't be blank"
-          expect(page).to have_content "What are you good at can't be blank"
-          expect(page).to have_content "What are you not good at can't be blank"
-          expect(page).to have_content "Compensation last job one can't be blank"
+          expect(page).to have_content "What interests you can't be blank"
+          expect(page).to have_content "First thing you sold can't be blank"
+          expect(page).to have_content "First building of working relationship can't be blank "
+          expect(page).to have_content "First rely on teaching can't be blank"
           expect(page).to have_content "Compensation seeking can't be blank"
-          expect(page).to have_content "Hours looking to work can't be blank"
         end
 
         it 'renders new' do
@@ -86,14 +80,13 @@ describe 'Interview answers' do
 
         it 'displays relevant error messages' do
           expect(page).to have_content "The candidate's interview answers cannot be saved"
+          expect(page).to have_content "The candidate's interview answers cannot be saved"
           expect(page).to have_content "Work history can't be blank"
-          expect(page).to have_content "Why in market can't be blank"
-          expect(page).to have_content "Ideal position can't be blank"
-          expect(page).to have_content "What are you good at can't be blank"
-          expect(page).to have_content "What are you not good at can't be blank"
-          expect(page).to have_content "Compensation last job one can't be blank"
+          expect(page).to have_content "What interests you can't be blank"
+          expect(page).to have_content "First thing you sold can't be blank"
+          expect(page).to have_content "First building of working relationship can't be blank "
+          expect(page).to have_content "First rely on teaching can't be blank"
           expect(page).to have_content "Compensation seeking can't be blank"
-          expect(page).to have_content "Hours looking to work can't be blank"
           expect(page).to have_content "Denial reason must be selected"
         end
 
@@ -105,19 +98,15 @@ describe 'Interview answers' do
       context 'with valid data' do
         before(:each) do
           fill_in :interview_answer_work_history, with: 'Work History'
-          fill_in :interview_answer_why_in_market, with: 'Why in market'
-          fill_in :interview_answer_ideal_position, with: 'Ideal position'
-          fill_in :interview_answer_what_are_you_good_at, with: 'What are you good at'
-          fill_in :interview_answer_what_are_you_not_good_at, with: 'What are you not good at'
+          fill_in :interview_answer_what_interests_you, with: 'What interests you'
+          fill_in :interview_answer_first_thing_you_sold, with: 'first_thing_you_sold'
+          fill_in :interview_answer_first_building_of_working_relationship, with: 'first_building_of_working_relationship'
+          fill_in :interview_answer_first_rely_on_teaching, with: 'first_rely_on_teaching'
           fill_in :interview_answer_willingness_characteristic, with: 'Willing'
           fill_in :interview_answer_personality_characteristic, with: 'What are you not good at'
           fill_in :interview_answer_self_motivated_characteristic, with: 'What are you not good at'
-          fill_in :interview_answer_compensation_last_job_one, with: 'Comp 1'
-          fill_in :interview_answer_compensation_last_job_two, with: 'Comp 2'
-          fill_in :interview_answer_compensation_last_job_three, with: 'Comp 3'
           fill_in :interview_answer_compensation_seeking, with: 'Seeking comp'
-          fill_in :interview_answer_hours_looking_to_work, with: 'Hours looking to work'
-          fill_in :interview_answer_last_two_positions, with: 'Last two positions'
+          select 'Yes', from: :interview_answer_availability_confirm
         end
         context 'and job extended, location recruitable' do
           before(:each) do

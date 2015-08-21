@@ -45,7 +45,6 @@ RSpec.describe InterviewAnswer, regressor: true do
   it { is_expected.to validate_presence_of :work_history }
   it { is_expected.to validate_presence_of :what_interests_you }
   it { is_expected.to validate_presence_of :first_thing_you_sold }
-  it { is_expected.to validate_presence_of :what_are_you_good_at }
   it { is_expected.to validate_presence_of :first_building_of_working_relationship }
   it { is_expected.to validate_presence_of :compensation_seeking }
   it { is_expected.to validate_presence_of :first_rely_on_teaching }

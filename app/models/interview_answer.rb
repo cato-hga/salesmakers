@@ -26,7 +26,6 @@ class InterviewAnswer < ActiveRecord::Base
   validates :work_history, presence: true
   validates :what_interests_you, presence: true
   validates :first_thing_you_sold, presence: true
-  validates :what_are_you_good_at, presence: true
   validates :first_building_of_working_relationship, presence: true
   validates :compensation_seeking, presence: true
   validates :first_rely_on_teaching, presence: true

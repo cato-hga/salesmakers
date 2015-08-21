@@ -76,20 +76,16 @@ class InterviewAnswersController < ApplicationController
 
   def interview_answer_params
     params.require(:interview_answer).permit :work_history,
-                                             :why_in_market,
-                                             :ideal_position,
-                                             :what_are_you_good_at,
-                                             :what_are_you_not_good_at,
+                                             :what_interests_you,
+                                             :first_thing_you_sold,
+                                             :first_building_of_working_relationship,
+                                             :first_rely_on_teaching,
                                              :willingness_characteristic,
                                              :personality_characteristic,
                                              :self_motivated_characteristic,
-                                             :compensation_last_job_one,
-                                             :compensation_last_job_two,
-                                             :compensation_last_job_three,
                                              :compensation_seeking,
-                                             :hours_looking_to_work,
+                                             :availability_confirm,
                                              :extend_offer,
-                                             :last_two_positions,
                                              candidate_attributes: [:candidate_denial_reason_id]
   end
 
