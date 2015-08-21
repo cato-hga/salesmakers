@@ -30,6 +30,7 @@
       = f.text_field :gift_card_number, placeholder: 'Required if Whole Home Kit has been selected'
       = f.label :gift_card_number_confirmation, 'Confirm Gift Card Number', id: 'gcnc'
       = f.text_field :gift_card_number_confirmation, placeholder: 'Re-enter the gift card number'
+      = f.hidden_field :creator_id, value: @current_person.id
       %p
         = f.check_box :person_acknowledged
         = f.label :person_acknowledged, 'I agree to the Gift Card Rules and Regulations as outlined below and this sale either is not made using a gift card or is in accordance with those rules and regulations.'

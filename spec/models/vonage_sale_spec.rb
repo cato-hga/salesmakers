@@ -15,6 +15,10 @@
 #  updated_at          :datetime         not null
 #  connect_order_uuid  :string
 #  resold              :boolean          default(FALSE), not null
+#  person_acknowledged :boolean          default(FALSE)
+#  gift_card_number    :string
+#  vested              :boolean
+#  creator_id          :integer
 #
 
 require 'rails_helper'
@@ -176,6 +180,10 @@ describe VonageSale do
 
   it 'responds to person_acknowledged' do
     expect(subject).to respond_to(:person_acknowledged)
+  end
+
+  it 'responds to creator_id' do
+    expect(subject).to respond_to(:creator_id)
   end
 
   describe 'still active checks' do

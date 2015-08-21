@@ -5330,7 +5330,8 @@ CREATE TABLE vonage_sales (
     resold boolean DEFAULT false NOT NULL,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
-    vested boolean
+    vested boolean,
+    creator_id integer
 );
 
 
@@ -10382,4 +10383,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
 INSERT INTO schema_migrations (version) VALUES ('20150818202108');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821180815');
 

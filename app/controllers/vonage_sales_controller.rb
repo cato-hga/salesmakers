@@ -42,7 +42,8 @@ class VonageSalesController < ApplicationController
                                         :vonage_product_id,
                                         :gift_card_number,
                                         :gift_card_number_confirmation,
-                                        :person_acknowledged
+                                        :person_acknowledged,
+                                        :creator_id
   end
 
   def do_authorization
