@@ -26,6 +26,7 @@ class PeopleController < ProtectedController
                                         :create_sms_message,
                                         :org_chart,
                                         :show,
+                                        :masquerade,
                                         :update_changelog_entry_id,
                                         :new,
                                         :create,
@@ -105,6 +106,13 @@ class PeopleController < ProtectedController
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
     @asset_form_options = asset_form_options
+  end
+
+  def masquerade
+    @person = Person.find params[:id]
+    authorize Person.new
+    session[:masquerade_as_email] = @person.email
+    redirect_to root_path
   end
 
   def new
