@@ -21,17 +21,21 @@ class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
   validates :sale_date, presence: true
+  validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
   validates :person, presence: true
   validates :confirmation_number, length: { is: 10 }
   validates :location, presence: true
-  validates :customer_first_name, presence: true
-  validates :customer_last_name, presence: true
+  validates :customer_first_name, format: { with: /\A[a-zA-Z_\-]+\z/i}, unless: :blank_first_name
+  validate  :customer_first_name_cannot_be_blank
+  validates :customer_last_name, format: { with: /\A[a-zA-Z_\-]+\z/i}, unless: :blank_last_name
+  validate  :customer_last_name_cannot_be_blank
   validates :mac, format: { with: /\A[0-9A-F]{12}\z/i }, confirmation: true
   validates :vonage_product, presence: true
   validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true, if: :home_kit_with_gift_card_number?
-  validates :person_acknowledged, acceptance: { accept: true }
-  validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
   validate  :gift_card_number_required_for_whole_home_kit
+  validates :person_acknowledged, acceptance: { accept: true }
+
+
 
   belongs_to :person
   belongs_to :location
@@ -75,6 +79,22 @@ class VonageSale < ActiveRecord::Base
   end
 
   private
+
+  def blank_first_name
+    self.customer_first_name.blank?
+  end
+
+  def blank_last_name
+    self.customer_last_name.blank?
+  end
+
+  def customer_first_name_cannot_be_blank
+    errors.add(:customer_first_name, "can't be blank") if blank_first_name
+  end
+
+  def customer_last_name_cannot_be_blank
+    errors.add(:customer_last_name, "can't be blank") if blank_last_name
+  end
 
   def sale_date_cannot_be_more_than_2_weeks_in_the_past
     errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if sale_date and sale_date <= 2.weeks.ago

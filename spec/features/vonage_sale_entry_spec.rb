@@ -62,6 +62,7 @@ describe 'Vonage Sale entry' do
       end
     end
 
+
     context 'a vonage sales representative' do
       it 'can only select their name' do
         subject
@@ -88,8 +89,8 @@ describe 'Vonage Sale entry' do
                                     state: 'FL',
                                     street_1: '555 35th St N' }
       let!(:other_location_area) { create :location_area,
-                                        location: other_location,
-                                        area: all_visibility_area.area }
+                                          location: other_location,
+                                          area: all_visibility_area.area }
       let(:all_visibility_area) { create :person_area, person: vonage_person_with_all_visibility, area: area }
 
       it 'can select from all vonage locations' do
@@ -137,8 +138,8 @@ describe 'Vonage Sale entry' do
         fill_in "Sale Date", with: 2.weeks.ago
         fill_in 'Confirmation Number', with: '123456789'
         select location.name, from: 'Location'
-        fill_in 'Customer First Name', with: 'Test'
-        fill_in 'Customer Last Name', with: 'Customer'
+        fill_in 'Customer First Name', with: 'test customer'
+        fill_in 'Customer Last Name', with: 'customer test'
         fill_in 'MAC ID', with: 'ABCDEF12345'
         fill_in 'Confirm MAC ID', with: 'ABCDEF123457'
         select home_kit.name, from: 'Product Type'
@@ -150,6 +151,8 @@ describe 'Vonage Sale entry' do
 
       it 'renders :new and displays a clear error message' do
         expect(page).to have_content 'Confirmation number is the wrong length (should be 10 characters)'
+        expect(page).to have_content 'Customer first name is invalid'
+        expect(page).to have_content 'Customer last name is invalid'
         expect(page).to have_content 'Mac is invalid'
         expect(page).to have_content "Mac confirmation doesn't match Mac"
         expect(page).to have_content 'Gift card number is invalid'
