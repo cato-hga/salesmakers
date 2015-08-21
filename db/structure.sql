@@ -2564,22 +2564,27 @@ ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_
 CREATE TABLE interview_answers (
     id integer NOT NULL,
     work_history text NOT NULL,
-    why_in_market text NOT NULL,
-    ideal_position text NOT NULL,
+    why_in_market text,
+    ideal_position text,
     what_are_you_good_at text NOT NULL,
-    what_are_you_not_good_at text NOT NULL,
-    compensation_last_job_one character varying NOT NULL,
-    compensation_last_job_two character varying,
-    compensation_last_job_three character varying,
+    what_are_you_not_good_at text,
+    compensation_last_job_one text,
+    compensation_last_job_two text,
+    compensation_last_job_three text,
     compensation_seeking character varying NOT NULL,
-    hours_looking_to_work character varying NOT NULL,
+    hours_looking_to_work text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     candidate_id integer,
     willingness_characteristic text NOT NULL,
     personality_characteristic text NOT NULL,
     self_motivated_characteristic text NOT NULL,
-    last_two_positions text NOT NULL
+    last_two_positions text,
+    what_interests_you text NOT NULL,
+    first_thing_you_sold text NOT NULL,
+    first_building_of_working_relationship text NOT NULL,
+    first_rely_on_teaching text NOT NULL,
+    availability_confirm boolean DEFAULT false NOT NULL
 );
 
 
@@ -10336,4 +10341,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820185034');
 
