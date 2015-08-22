@@ -1,0 +1,7 @@
+- title 'Walmart Gift Card Import/Check'
+
+= form_tag walmart_gift_cards_path, method: :post, id: :gift_card_form do
+  = hidden_field_tag :gift_card_json
+  = submit_tag 'Save', class: [:button, :inline_button]
+%p
+#gift_card_grid

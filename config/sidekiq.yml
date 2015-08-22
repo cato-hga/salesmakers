@@ -7,5 +7,6 @@ production:
   :concurrency: 20
 :queues:
   - default
-  - [mailers, 2]
-  - [group_me, 3]
+  - [gift_card_checks, 4]
+  - [mailers, 3]
+  - [group_me, 2]
