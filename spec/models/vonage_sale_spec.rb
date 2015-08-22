@@ -176,6 +176,15 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
+  it 'only requires gift card numbers for Walmart and Micro Center' do
+    frys_channel = create :channel, name: "Fry's"
+    frys_location = create :location, channel: frys_channel
+    subject.location = frys_location
+    subject.vonage_product = kit
+    subject.gift_card_number = nil
+    expect(subject).to be_valid
+  end
+
   it 'requires gift card rules and regulations to be checked for sale completion' do
     subject.person_acknowledged = false
     expect(subject).not_to be_valid

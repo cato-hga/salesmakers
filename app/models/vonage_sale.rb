@@ -135,6 +135,7 @@ class VonageSale < ActiveRecord::Base
   end
 
   def gift_card_number_required_for_whole_home_kit
+    return unless self.location and ['Walmart', 'Micro Center'].include?(self.location.channel.name)
     if whole_home_kit_without_gift_card_number
       errors.add(:gift_card_number, "must be entered if you have selected the Vonage whole home kit")
     end
