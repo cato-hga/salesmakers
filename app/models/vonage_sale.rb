@@ -24,6 +24,8 @@
 class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
+  attr_writer :import
+
   validates :sale_date, presence: true
   validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
   validates :person, presence: true
@@ -91,6 +93,11 @@ class VonageSale < ActiveRecord::Base
     self.location_area_for_sale 'Vonage'
   end
 
+  def import?
+    return false unless @import
+    true
+  end
+
   private
 
   def blank_first_name
@@ -117,7 +124,7 @@ class VonageSale < ActiveRecord::Base
   end
 
   def sale_date_cannot_be_more_than_2_weeks_in_the_past
-    errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if sale_date and sale_date <= 2.weeks.ago
+    errors.add(:sale_date, "cannot be dated for more than 2 weeks in the past") if sale_date and sale_date <= 2.weeks.ago && !import?
   end
 
   def home_kit?

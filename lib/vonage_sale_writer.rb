@@ -33,5 +33,6 @@ module VonageSaleWriter
                                   gift_card_number: source.gift_card_number,
                                   person_acknowledged: true,
                                   creator: source.creator
+    destination.import = true
   end
 end
