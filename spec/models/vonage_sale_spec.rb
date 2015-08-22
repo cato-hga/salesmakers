@@ -44,7 +44,7 @@ describe VonageSale do
   subject { build :vonage_sale, sale_date: Date.today }
   let(:disconnected_sale) {
     create :vonage_sale,
-           mac: 'ABCDEF123456'
+           mac: vonage_mac_prefix.prefix + '123456'
   }
   let!(:disconnected_status_change) {
     create :vonage_account_status_change,
@@ -55,7 +55,7 @@ describe VonageSale do
   }
   let(:disconnected_after_date_sale) {
     create :vonage_sale,
-           mac: 'ABCDEF123459'
+           mac: vonage_mac_prefix.prefix + '123459'
   }
   let!(:disconnected_after_date_status_change) {
     create :vonage_account_status_change,
@@ -66,7 +66,7 @@ describe VonageSale do
   }
   let(:active_sale) {
     create :vonage_sale,
-           mac: 'ABCDEF123457'
+           mac: vonage_mac_prefix.prefix + '123457'
   }
   let!(:active_status_change) {
     create :vonage_account_status_change,
@@ -76,8 +76,9 @@ describe VonageSale do
   }
   let!(:no_status_sale) {
     create :vonage_sale,
-           mac: 'ABCDEF123458'
+           mac: vonage_mac_prefix.prefix + '123458'
   }
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:kit) { create :vonage_product, name: 'Vonage Whole Home Kit'}
 
   it 'is valid with correct attributes' do
@@ -118,6 +119,26 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
+  it 'requires that the MAC have a valid prefix' do
+    subject.mac = '101010101010'
+    expect(subject).not_to be_valid
+    subject.mac = vonage_mac_prefix.prefix.downcase + '101010'
+    expect(subject).to be_valid
+  end
+
+  it 'does not validate MAC prefixes for Vonage Events sales' do
+    events_channel = create :channel, name: 'Vonage Event Teams'
+    events_location = create :location, channel: events_channel
+    subject.mac = 'ABCDEF123456'
+    subject.location = events_location
+    expect(subject).to be_valid
+  end
+
+  it 'upcases MAC' do
+    subject.mac = '906ebb123456'
+    expect(subject.mac).to eq('906EBB123456')
+  end
+
   it 'requires a customer first name' do
     subject.customer_first_name = nil
     expect(subject).not_to be_valid
@@ -136,7 +157,7 @@ describe VonageSale do
   it 'requires mac id to be 12 characters (0-9 A-F)' do
     subject.mac = 'ABCDEF123459A'
     expect(subject).not_to be_valid
-    subject.mac = 'ABCDEF123459'
+    subject.mac = vonage_mac_prefix.prefix + '123459'
     expect(subject).to be_valid
   end
 

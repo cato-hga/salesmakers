@@ -38,6 +38,7 @@ class VonageSale < ActiveRecord::Base
   validates :gift_card_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }, confirmation: true, if: :home_kit_with_gift_card_number?
   validate  :gift_card_number_required_for_whole_home_kit
   validates :person_acknowledged, acceptance: { accept: true, message: 'gift card rules and regulations must be checked.' }
+  validate :mac_prefix_valid
 
   belongs_to :person
   belongs_to :location
@@ -76,6 +77,14 @@ class VonageSale < ActiveRecord::Base
     false
   end
 
+  def mac= mac
+    if mac
+      self[:mac] = mac.upcase
+    else
+      self[:mac] = nil
+    end
+  end
+
   def location_area
     self.location_area_for_sale 'Vonage'
   end
@@ -88,6 +97,13 @@ class VonageSale < ActiveRecord::Base
 
   def blank_last_name
     self.customer_last_name.blank?
+  end
+
+  def mac_prefix_valid
+    return if self.location and self.location.channel.name == 'Vonage Event Teams'
+    if self.mac && !VonageMacPrefix.find_by(prefix: self.mac[0..5])
+      errors.add :mac, 'has first 6 digits that are not in the known list of valid Vonage MAC prefixes. Please contact support.'
+    end
   end
 
   def customer_first_name_cannot_be_blank
