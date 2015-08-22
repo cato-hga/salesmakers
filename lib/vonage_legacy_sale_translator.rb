@@ -79,10 +79,7 @@ module VonageLegacySaleTranslator
     order_lines = @order.connect_order_lines
     return unless order_lines.first and order_lines.first.connect_product
     product_name = order_lines.first.connect_product.name
-    product = VonageProduct.find_by name: product_name
-    unless product
-      product_name == 'Vonage Product' && @order
-    end
+    VonageProduct.find_by name: product_name
   end
 
   def unmatched_sales
