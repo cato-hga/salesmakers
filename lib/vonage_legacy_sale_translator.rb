@@ -26,6 +26,7 @@ module VonageLegacySaleTranslator
                           gift_card_number: (order.description.blank? ? nil : order.description.strip),
                           person_acknowledged: true,
                           creator: get_creator
+    sale.import = true
     add_to_unmatched(order, sale) unless sale.valid?
     sale
   end
