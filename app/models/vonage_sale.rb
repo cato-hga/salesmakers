@@ -39,8 +39,10 @@ class VonageSale < ActiveRecord::Base
   validate  :gift_card_number_required_for_whole_home_kit
   validates :person_acknowledged, acceptance: { accept: true, message: 'gift card rules and regulations must be checked.' }
   validate :mac_prefix_valid
+  validates :creator, presence: true
 
   belongs_to :person
+  belongs_to :creator, class_name: 'Person'
   belongs_to :location
   belongs_to :vonage_product
   belongs_to :connect_order, foreign_key: 'connect_order_uuid'

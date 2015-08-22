@@ -24,8 +24,10 @@ describe LegacyVonageSaleImporting do
     build_stubbed :connect_order,
                   salesrep_id: connect_user.id,
                   dateordered: Time.now - 1.day,
-                  updated: Time.now - duration + 1.minute
+                  updated: Time.now - duration + 1.minute,
+                  creator: connect_user
   }
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix, prefix: connect_order.documentno[3..8] }
   let(:connect_order_line) { build_stubbed :connect_order_line }
   let(:connect_product) { build_stubbed :connect_product, name: 'Vonage V-Portal' }
   let!(:vonage_product) {

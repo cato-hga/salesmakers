@@ -12,6 +12,7 @@ FactoryGirl.define do
     person_acknowledged true
     gift_card_number 'ab1234567890'
     resold false
+    association :creator, factory: :person
   end
 
 end

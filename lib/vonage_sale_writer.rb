@@ -31,6 +31,7 @@ module VonageSaleWriter
                                   connect_order_uuid: source.connect_order_uuid,
                                   vonage_product: source.vonage_product,
                                   gift_card_number: source.gift_card_number,
-                                  person_acknowledged: true
+                                  person_acknowledged: true,
+                                  creator: source.creator
   end
 end
