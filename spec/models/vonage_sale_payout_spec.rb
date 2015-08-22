@@ -18,6 +18,7 @@
 require 'rails_helper'
 
 describe VonageSalePayout do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:second_paycheck) {
     build :vonage_paycheck,
           wages_start: Date.yesterday,

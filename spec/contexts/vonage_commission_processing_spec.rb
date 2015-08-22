@@ -2,6 +2,7 @@ require 'spec_helper'
 require_relative '../../app/contexts/vonage_commission_processing'
 
 describe VonageCommissionProcessing do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let!(:paycheck) {
     create :vonage_paycheck,
            wages_start: Date.today - 1.week,

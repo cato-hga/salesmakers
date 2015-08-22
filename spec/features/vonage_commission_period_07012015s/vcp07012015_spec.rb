@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Vonage compensation plan effective 07/01/2015' do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:project) { create :project, name: 'Vonage Retail' }
   let(:area) { create :area, project: project }
   let(:rep) { create :person }
@@ -26,6 +27,7 @@ describe 'Vonage compensation plan effective 07/01/2015' do
     previous_vonage_commission_period07012015
   }
   let!(:hps_vonage_sale) {
+    create :vonage_mac_prefix, prefix: '117788'
     hps_vonage_sale = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day, mac: '117788226644'
     hps_vonage_sale.save validate: false
     hps_vonage_sale

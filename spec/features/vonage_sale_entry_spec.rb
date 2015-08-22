@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Vonage Sale entry' do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let!(:vonage_person_with_all_visibility) { create :person, position: position_with_all_visibility }
   let(:manager) { create :person, position: position, display_name: 'Manager' }
   let!(:employee_one) { create :person, position: position, display_name: 'Employee One' }
@@ -58,7 +59,7 @@ describe 'Vonage Sale entry' do
         expect(page).to have_content "Customer last name can't be blank"
         expect(page).to have_content "Mac is invalid"
         expect(page).to have_content "Vonage product can't be blank"
-        expect(page).to have_content "Person acknowledged must be accepted"
+        expect(page).to have_content "Person acknowledged gift card rules and regulations must be checked."
       end
     end
 
@@ -120,8 +121,8 @@ describe 'Vonage Sale entry' do
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
         fill_in 'Customer Last Name', with: 'Customer'
-        fill_in 'MAC ID', with: 'ABCDEF123456'
-        fill_in 'Confirm MAC ID', with: 'ABCDEF123456'
+        fill_in 'MAC ID', with: vonage_mac_prefix.prefix + '123456'
+        fill_in 'Confirm MAC ID', with: vonage_mac_prefix.prefix + '123456'
         select home_kit.name, from: 'Product Type'
         fill_in 'Gift Card Number', with: ''
         fill_in 'Confirm Gift Card Number', with: ''
@@ -140,8 +141,8 @@ describe 'Vonage Sale entry' do
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'test customer'
         fill_in 'Customer Last Name', with: 'customer test'
-        fill_in 'MAC ID', with: 'ABCDEF12345'
-        fill_in 'Confirm MAC ID', with: 'ABCDEF123457'
+        fill_in 'MAC ID', with: vonage_mac_prefix.prefix + '12345'
+        fill_in 'Confirm MAC ID', with: vonage_mac_prefix.prefix + '123457'
         select home_kit.name, from: 'Product Type'
         fill_in 'Gift Card Number', with: 'ab123456789'
         fill_in 'Confirm Gift Card Number', with: 'ab123456789'
@@ -173,8 +174,8 @@ describe 'Vonage Sale entry' do
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
         fill_in 'Customer Last Name', with: 'Customer'
-        fill_in 'MAC ID', with: 'ABCDEF123456'
-        fill_in 'Confirm MAC ID', with: 'ABCDEF123456'
+        fill_in 'MAC ID', with: vonage_mac_prefix.prefix + '123456'
+        fill_in 'Confirm MAC ID', with: vonage_mac_prefix.prefix + '123456'
         select home_kit.name, from: 'Product Type'
         fill_in 'Gift Card Number', with: 'ab1234567890'
         fill_in 'Confirm Gift Card Number', with: 'ab1234567890'
