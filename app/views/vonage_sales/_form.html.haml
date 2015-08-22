@@ -5,14 +5,14 @@
 .widget
   .inner
     = form_for @vonage_sale do |f|
-      - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name)
+      - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name, @vonage_sale.person_id)
       = f.label :person_id, 'Sales Representative'
       = f.select :person_id, person_name_options, include_blank: true
       = f.label :sale_date, 'Sale Date'
       = f.text_field :sale_date, placeholder: 'MM/DD/YYYY'
       = f.label :confirmation_number, 'Confirmation Number'
       = f.text_field :confirmation_number, placeholder: '10 characters'
-      - location_options = options_from_collection_for_select(@vonage_locations, :id, :name)
+      - location_options = options_from_collection_for_select(@vonage_locations, :id, :name, @vonage_sale.location_id)
       = f.label :location_id, 'Location'
       = f.select :location_id, location_options, include_blank: true
       = f.label :customer_first_name, 'Customer First Name'
@@ -23,7 +23,7 @@
       = f.text_field :mac, placeholder: '12 characters (0-9 & A-F)', oncopy: 'return false', onpaste: 'return false'
       = f.label :mac_confirmation, 'Confirm MAC ID', id: 'mac_id_conf'
       = f.text_field :mac_confirmation, placeholder: 'Re-enter MAC ID *FROM BOX*', oncopy: 'return false', onpaste: 'return false'
-      - vonage_product_options = options_from_collection_for_select(@vonage_products, :id, :name)
+      - vonage_product_options = options_from_collection_for_select(@vonage_products, :id, :name, @vonage_sale.vonage_product_id)
       = f.label :vonage_product_id, 'Product Type'
       = f.select :vonage_product_id, vonage_product_options, include_blank: true
       = f.label :gift_card_number, 'Gift Card Number', id: 'gcn'
