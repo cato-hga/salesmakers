@@ -24,7 +24,7 @@
 class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
-  attr_writer :import
+  attr_accessor :import
 
   validates :sale_date, presence: true
   validate  :sale_date_cannot_be_more_than_2_weeks_in_the_past
@@ -94,7 +94,7 @@ class VonageSale < ActiveRecord::Base
   end
 
   def import?
-    return false unless @import
+    return false unless self.import
     true
   end
 
