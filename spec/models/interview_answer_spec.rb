@@ -24,5 +24,5 @@
 
 require 'rails_helper'
 
-RSpec.describe InterviewAnswer, :type => :model do
+describe InterviewAnswer do
 end

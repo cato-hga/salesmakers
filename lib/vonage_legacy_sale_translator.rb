@@ -23,7 +23,10 @@ module VonageLegacySaleTranslator
                           connect_order_uuid: order.c_order_id,
                           created_at: order.created.apply_eastern_offset,
                           updated_at: order.updated.apply_eastern_offset,
-                          person_acknowledged: true
+                          gift_card_number: (order.description.blank? ? nil : order.description.strip),
+                          person_acknowledged: true,
+                          creator: get_creator
+    sale.import = true
     add_to_unmatched(order, sale) unless sale.valid?
     sale
   end
@@ -34,6 +37,10 @@ module VonageLegacySaleTranslator
 
   def get_person
     Person.return_from_connect_user @order.connect_user
+  end
+
+  def get_creator
+    Person.return_from_connect_user @order.creator
   end
 
   def get_confirmation_number

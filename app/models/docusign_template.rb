@@ -186,14 +186,15 @@ class DocusignTemplate < ActiveRecord::Base
 
   def self.send_blank_nos(person, sender)
     project = person.person_areas.first.project
-    template = DocusignTemplate.find_by(state: 'FL', project: project, document_type: DocusignTemplate.document_types[:nos]) || return
+    #template_guid = '8953764B-733D-4A7B-ACD5-74EE97DBD35D'
+    template_guid = 'CD15C02E-B073-44D9-A60A-6514C24949CB'
     client = DocusignRest::Client.new
     hash = {
         status: 'created',
         email: {
             subject: "#{project.name} - NOTICE OF SEPARATION FOR: #{person.display_name} (#{person.email})"
         },
-        template_id: template.template_guid,
+        template_id: template_guid,
         signers: [
             {
                 name: sender.display_name,

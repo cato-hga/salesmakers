@@ -167,21 +167,21 @@ class ConnectUser < ConnectModel
     person = Person.return_from_connect_user self
     from_person = Person.find_by display_name: 'System Administrator'
     if person and from_person
-      gateway.send_text_to_person person, message_one, from_person
+      TextMessageToPersonJob.perform_later person, message_one, from_person
       sleep 0.1
-      gateway.send_text_to_person person, message_two, from_person
+      TextMessageToPersonJob.perform_later person, message_two, from_person
       sleep 0.1
-      gateway.send_text_to_person person, message_three, from_person
+      TextMessageToPersonJob.perform_later person, message_three, from_person
       sleep 0.1
-      gateway.send_text_to_person person, message_four, from_person
+      TextMessageToPersonJob.perform_later person, message_four, from_person
     else
-      gateway.send_text self.person.mobile_phone, message_one
+      SimpleTextMessageJob.perform_later self.person.mobile_phone, message_one
       sleep 0.1
-      gateway.send_text self.person.mobile_phone, message_two
+      SimpleTextMessageJob.perform_later self.person.mobile_phone, message_two
       sleep 0.1
-      gateway.send_text self.person.mobile_phone, message_three
+      SimpleTextMessageJob.perform_later self.person.mobile_phone, message_three
       sleep 0.1
-      gateway.send_text self.person.mobile_phone, message_four
+      SimpleTextMessageJob.perform_later self.person.mobile_phone, message_four
     end
   end
 

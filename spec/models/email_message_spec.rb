@@ -17,30 +17,6 @@ require 'rails_helper'
 describe EmailMessage do
   subject { build :email_message }
 
-  it 'is valid with all required attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a from_email address' do
-    subject.from_email = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a to_email address' do
-    subject.to_email = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a subject' do
-    subject.subject = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires content' do
-    subject.content = nil
-    expect(subject).not_to be_valid
-  end
-
   describe 'saving to_person_id' do
     let!(:person) { create :person, personal_email: '123@fourfivesix.com' }
 

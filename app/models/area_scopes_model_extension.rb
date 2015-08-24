@@ -44,8 +44,8 @@ module AreaScopesModelExtension
         end
       end
       for area in all_areas.uniq do
-        manager = area.direct_manager
-        next unless manager == person
+        managers = area.direct_managers
+        next unless managers.include?(person)
         areas << area
       end
       areas.flatten.compact

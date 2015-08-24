@@ -34,16 +34,11 @@
 #
 
 require 'rails_helper'
-require 'shoulda/matchers'
 
 describe HistoricalPerson do
   subject { create :historical_person }
 
   it do
-    should validate_presence_of(:date)
-    should ensure_length_of(:first_name).is_at_least(2)
-    should ensure_length_of(:last_name).is_at_least(2)
-    should ensure_length_of(:display_name).is_at_least(5)
     should allow_value('a@b.com').for(:email)
     should allow_value('a@b.com').for(:personal_email)
     should_not allow_value('a@b', 'ab.com').for(:email)

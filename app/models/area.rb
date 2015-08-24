@@ -55,15 +55,15 @@ class Area < ActiveRecord::Base
     "#{self.project.name} - #{self.name}"
   end
 
-  def direct_manager
-    person_areas = self.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
-    return person_areas.first.person unless person_areas.empty?
+  def direct_managers
+    person_ids = self.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true").pluck(:person_id)
+    return Person.where(id: person_ids) unless person_ids.empty?
     parent_area = self.parent
-    until parent_area.nil? || !person_areas.empty?
-      person_areas = parent_area.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
+    until parent_area.nil? || !person_ids.empty?
+      person_ids = parent_area.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true").pluck(:person_id)
       parent_area = parent_area.parent
     end
-    person_areas.empty? ? nil : person_areas.first.person
+    person_ids.empty? ? nil : Person.where(id: person_ids)
   end
 
   def find_group_me_groups

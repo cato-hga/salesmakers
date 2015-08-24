@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       get 'select_location/:back_to_confirm', action: :select_location, as: :select_location
       get 'set_location_area/:location_area_id/:back_to_confirm', action: :set_location_area, as: :set_location_area
       get :send_paperwork, action: :send_paperwork, as: :send_paperwork
+      get :resend_paperwork, action: :resend_paperwork, as: :resend_paperwork
       get :new_sms_message, as: :new_sms_message
       post :create_sms_message, as: :create_sms_message
       get :confirm, as: :confirm
@@ -298,6 +299,7 @@ Rails.application.routes.draw do
       get :edit_position, as: :edit_position
       put :update_position, as: :update_position
       post :send_asset_form, as: :send_asset_form
+      get :masquerade, as: :masquerade
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search
@@ -335,6 +337,8 @@ Rails.application.routes.draw do
 
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
+
+  resources :walmart_gift_cards, only: [:new, :create]
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 

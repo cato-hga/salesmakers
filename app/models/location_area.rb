@@ -75,11 +75,11 @@ class LocationArea < ActiveRecord::Base
     location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
   end
 
-  def head_count_full?
+  def head_count_full? padding = 1
     return false unless self.priority
     return true unless (self.priority == 1 or self.priority == 2)
     candidates = candidates_in_funnel.count
-    return true if self.target_head_count + 1 <= candidates
+    return true if self.target_head_count + padding <= candidates
     false
   end
 

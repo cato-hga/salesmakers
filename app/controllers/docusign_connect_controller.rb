@@ -70,7 +70,7 @@ class DocusignConnectController < ApplicationController
 
   def voided?(data)
     status = data.andand['DocuSignEnvelopeInformation'].andand['EnvelopeStatus'].andand['Status'] || return
-    status == 'Voided'
+    status == 'Voided' || status.downcase == 'declined'
   end
 
   def mark_nhp_signed(envelope_id, candidate_signed_time, advocate_signed_time, hr_signed_time)

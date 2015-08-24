@@ -18,15 +18,6 @@
 #
 
 require 'rails_helper'
-require 'shoulda/matchers'
 
 describe HistoricalArea do
-  it { should validate_presence_of(:date) }
-  it { should ensure_length_of(:name).is_at_least(3) }
-  it { should validate_presence_of(:area_type) }
-
-  it { should belong_to(:area_type) }
-  it { should belong_to(:project) }
-  it { should have_many(:historical_person_areas) }
-  it { should have_many(:historical_people).through(:historical_person_areas) }
 end

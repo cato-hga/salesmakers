@@ -30,6 +30,9 @@ module VonageSaleWriter
                                   mac: source.mac,
                                   connect_order_uuid: source.connect_order_uuid,
                                   vonage_product: source.vonage_product,
-                                  person_acknowledged: true
+                                  gift_card_number: source.gift_card_number,
+                                  person_acknowledged: true,
+                                  creator: source.creator
+    destination.import = true
   end
 end

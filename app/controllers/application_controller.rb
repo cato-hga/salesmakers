@@ -4,7 +4,6 @@ class ApplicationController < BaseApplicationController
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
                 :check_active,
-                :get_projects,
                 #:setup_default_walls,
                 #:set_last_seen,
                 #:set_last_seen_profile,
@@ -68,16 +67,24 @@ class ApplicationController < BaseApplicationController
   end
 
   def setup_accessibles
-    def setup_accessibles
-      if @current_person
+    if @current_person
+      @visible_people_ids = Rails.cache.fetch(cached_visible_people_key) do
         @visible_people_ids = Person.visible(@current_person).ids
-        @visible_projects = Project.visible(@current_person)
-      else
-        @visible_people_ids = []
-        @visible_projects = Project.none
       end
-      @global_search = params[:global_search]
+      @visible_projects = Project.visible(@current_person)
+    else
+      @visible_people_ids = []
+      @visible_projects = Project.none
     end
+    @global_search = params[:global_search]
+  end
+
+  def cached_visible_people_key
+    key = @current_person.id.to_s
+    key += '-' + (@current_person.person_areas.empty? ? '' : @current_person.person_areas.maximum(:updated_at).try(:to_s, :number))
+    key += '-' + @current_person.updated_at.try(:to_s, :number)
+    key + '-' + Person.maximum(:updated_at).try(:to_s, :number)
+
     # if @current_person
     #   if session[:last_visibility_check] and session[:last_visibility_check] > 30.minutes.ago
     #     @visible_people ||= session[:visible_people]
@@ -105,13 +112,12 @@ class ApplicationController < BaseApplicationController
     return unless @current_person
     changelog_entry_id = @current_person.changelog_entry_id
     if changelog_entry_id
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
-          where('id > ?',
-                changelog_entry_id)
+      @unseen_changelog_entries = ChangelogEntry.where('id > ?', changelog_entry_id).
+          visible(@current_person)
+
     else
-      @unseen_changelog_entries = ChangelogEntry.visible(@current_person).
-          where('released >= ?',
-                Time.now - 1.week)
+      @unseen_changelog_entries = ChangelogEntry.where('released >= ?', Time.now - 1.week).
+          visible(@current_person)
     end
   end
 
@@ -125,8 +131,12 @@ class ApplicationController < BaseApplicationController
   end
 
   def set_current_user
-      @current_person ||= Person.find_by_email session[:cas_user] if session[:cas_user] #ME
-      # @current_person = Person.find_by_email 'amehta@retaildoneright.com'
+    if session[:masquerade_as_email]
+      @current_person = Person.find_by email: session[:masquerade_as_email]
+    else
+      @current_person ||= Person.find_by email: session[:cas_user] if session[:cas_user] #ME
+    end
+    #@current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st
@@ -147,10 +157,6 @@ class ApplicationController < BaseApplicationController
     if @current_person and not @current_person.active?
       raise ActionController::RoutingError.new('Forbidden')
     end
-  end
-
-  def get_projects
-    @projects = Project.all
   end
 
   helper_method :current_user

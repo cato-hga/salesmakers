@@ -39,6 +39,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.default_url_options = { host: '192.168.1.150:3000' }
 
+  config.cache_store = :null_store
+
   config.log_level = :debug
 
   # Needed for websocket-rails

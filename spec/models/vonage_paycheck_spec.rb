@@ -18,40 +18,6 @@ require 'rails_helper'
 describe VonagePaycheck do
   subject { build :vonage_paycheck }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a name' do
-    subject.name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a wages start date' do
-    subject.wages_start = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a wages end date' do
-    subject.wages_end = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a commission start date' do
-    subject.commission_start = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a commission end date' do
-    subject.commission_end = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a cutoff date and time' do
-    subject.cutoff = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires wages_end to be after wages_start' do
     subject.wages_end = subject.wages_start - 1.day
     expect(subject).not_to be_valid
@@ -155,6 +121,7 @@ describe VonagePaycheck do
   end
 
   describe 'scopes' do
+    let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
     let!(:vonage_sale_payout) {
       subject.save
       create :vonage_sale_payout,

@@ -80,6 +80,28 @@ describe 'roster verification' do
     end
   end
 
+  context 'when the employee has a candidate record with a future training session' do
+    let!(:sprint_radio_shack_training_session) {
+      create :sprint_radio_shack_training_session, start_date: Date.today + 1.day
+    }
+    let!(:candidate) { create :candidate, person: employee, sprint_radio_shack_training_session: sprint_radio_shack_training_session }
+
+    before { visit new_roster_verification_session_path }
+
+    it 'does not show any form fields' do
+      expect(page).not_to have_selector 'input[type="radio"]'
+    end
+
+    it 'shows that the person has a roster pending' do
+      expect(page).to have_selector '.sm_green', text: 'This person has a future training date.'
+    end
+
+    it 'saves' do
+      click_on 'Save'
+      expect(RosterVerification.first.active?).to eq(true)
+    end
+  end
+
   describe 'submission' do
     let!(:missing_employees) { 'John Lee Hooker, Billy Idol' }
 

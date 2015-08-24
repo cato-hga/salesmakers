@@ -50,20 +50,27 @@
               .row
                 .large-7.columns
                   - if person.roster_verifications.where("status = ? AND envelope_guid IS NOT NULL", RosterVerification.statuses[:terminate]).empty?
+                    - candidate = person.candidate
+                    - training_session = candidate ? candidate.sprint_radio_shack_training_session : nil
                     = f.fields_for :roster_verifications, roster_verification do |r|
                       = r.hidden_field :creator_id
                       = r.hidden_field :person_id
-                      = r.radio_button :status, 'active'
-                      Active
-                      = r.radio_button :status, 'terminate'
-                      Terminate
-                      = r.radio_button :status, 'issue'
-                      - if last_shift_date || last_shift_location
-                        = r.hidden_field :last_shift_date
-                        = r.hidden_field :location_id if last_shift_location
-                      Issue
-                      .issue_dropdown
-                        = r.select :issue, options_for_select(@issues), include_blank: 'Select an issue'
+                      - if training_session && training_session.start_date >= Date.current
+                        - roster_verification.status = :active
+                        = r.hidden_field :status
+                        .sm_green.small This person has a future training date.
+                      - else
+                        = r.radio_button :status, 'active'
+                        Active
+                        = r.radio_button :status, 'terminate'
+                        Terminate
+                        = r.radio_button :status, 'issue'
+                        - if last_shift_date || last_shift_location
+                          = r.hidden_field :last_shift_date
+                          = r.hidden_field :location_id if last_shift_location
+                        Issue
+                        .issue_dropdown
+                          = r.select :issue, options_for_select(@issues), include_blank: 'Select an issue'
                   - else
                     .sm_orange.small There is an NOS pending to terminate this person.
                 .large-5.columns

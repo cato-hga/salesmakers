@@ -18,6 +18,7 @@
 require 'rails_helper'
 
 describe VonageSalePayout do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:second_paycheck) {
     build :vonage_paycheck,
           wages_start: Date.yesterday,
@@ -27,30 +28,6 @@ describe VonageSalePayout do
           cutoff: DateTime.now + 1.day
   }
   subject { build :vonage_sale_payout }
-
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a VonageSale' do
-    subject.vonage_sale = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a Person' do
-    subject.person = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a payout' do
-    subject.payout = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a VonagePaycheck' do
-    subject.vonage_paycheck = nil
-    expect(subject).not_to be_valid
-  end
 
   it 'responds to day_62?' do
     expect(subject).to respond_to(:day_62?)

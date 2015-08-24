@@ -18,6 +18,7 @@ gem 'capistrano-rvm', '0.1.2' # Capistrano RVM integration
 gem 'chartkick', '1.3.2' # Easy Google Charts creation in Rails
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'coffee-script', '2.4.1'
+gem 'dalli', '2.7.4' # Memcached caching
 gem 'docusign_rest', '0.1.1' # Docusign API wrapper
 gem 'dragonfly', '1.0.10' # Image and file storage
 gem 'emoji', '1.0.5' # Automatic emoji embeds
@@ -41,6 +42,7 @@ gem 'jquery-ui-rails', '5.0.5' #Jquery UI gem
 gem 'kaminari', git: 'https://github.com/amatsuda/kaminari.git' # Pagination
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'kiba', '0.6.1' # ETL data processing
+gem 'mechanize', '2.7.3' # Automating interaction with websites
 gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
 gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
@@ -56,7 +58,7 @@ gem 'rails', '4.2.3'
 gem 'railties', '4.2.3'
 gem 'ransack', '1.6.6' # ActiveRecord search
 gem 'ransack_chronic', '1.1.0' # Use Chronic to parse dates with Ransack search
-gem 'regressor', '0.5.8' # Automated regression test generation
+gem 'regressor', git: 'https://github.com/ndea/regressor.git' # Automated regression test generation
 gem 'render_csv', '2.0.0' # CSV file rendering
 gem 'responders', '2.1.0' # Required by rails 4.2.0 for respond_to
 gem 'retryable', '2.0.1' # Ability to retry upon exception
@@ -77,6 +79,7 @@ gem 'twilio-ruby', '4.3.0' # Twilio SMS and Voice library
 gem 'uglifier', '2.7.1'
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'whenever', '0.9.4' # Background tasks scheduled in a flat ruby file.
+gem 'skylight' # Performance monitoring skylight.io
 
 group :development do
   gem 'airbrussh', '0.7.0', require: false

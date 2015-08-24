@@ -8,187 +8,190 @@
     ID#
     = @candidate.id
 
+
+- cache_key = (cache_key_for_candidate(@candidate) || 'N/A')
 .widgets
   .widget#basic_information
     .inner
-      %h3
-        Basic Information
-        = edit_button edit_candidate_path(@candidate)
-
-      %p
-        %strong Email:
-        = email_link @candidate.email
-      %p
-        %strong ZIP:
-        = @candidate.zip
-      - if @candidate.location_area
+      - cache(cache_key + "-1") do
+        %h3
+          Basic Information
+          = edit_button edit_candidate_path(@candidate)
         %p
-          %strong Project:
-          = @candidate.location_area.area.project.name
-      %p
-        %strong Entered:
-        = friendly_datetime(@candidate.created_at)
-      - if @candidate.interview_schedules.any?
-        - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
+          %strong Email:
+          = email_link @candidate.email
+        %p
+          %strong ZIP:
+          = @candidate.zip
+        - if @candidate.location_area
           %p
-            .overdue_interview
+            %strong Project:
+            = @candidate.location_area.area.project.name
+        %p
+          %strong Entered:
+          = friendly_datetime(@candidate.created_at)
+        - if @candidate.interview_schedules.any?
+          - if (@candidate.interview_schedules.last.start_time < DateTime.now) and (@candidate.status == 'interview_scheduled')
+            %p
+              .overdue_interview
+                %strong Interview Time:
+                = friendly_datetime(@candidate.interview_schedules.last.start_time)
+                %strong OVERDUE
+          - else
+            %p
               %strong Interview Time:
               = friendly_datetime(@candidate.interview_schedules.last.start_time)
-              %strong OVERDUE
-        - else
-          %p
-            %strong Interview Time:
-            = friendly_datetime(@candidate.interview_schedules.last.start_time)
 
-      - if @candidate.personality_assessment_status
-        %p
-          %strong Personality Assessment:
-          %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
-            = NameCase(@candidate.personality_assessment_status, lazy: false)
-      - if @candidate.personality_assessment_score
-        %p
-          %strong Personality Assessment Score:
-          %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
-            = @candidate.personality_assessment_score
-      - location_area = @candidate.location_area if @candidate.location_area
+        - if @candidate.personality_assessment_status
+          %p
+            %strong Personality Assessment:
+            %span{class: (@candidate.personality_assessment_status == 'qualified' ? 'sm_green' : 'sm_red') }
+              = NameCase(@candidate.personality_assessment_status, lazy: false)
+        - if @candidate.personality_assessment_score
+          %p
+            %strong Personality Assessment Score:
+            %span{class: (@candidate.personality_assessment_score >= 31 ? 'sm_green' : 'sm_red') }
+              = @candidate.personality_assessment_score
       - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
         - unless @candidate.personality_assessment_score.present?
           = form_tag record_assessment_score_candidate_path(@candidate), method: :put do
             .row.full-width
               .medium-5.columns= number_field_tag :assessment_score
               .medium-7.columns= submit_tag 'Record Assessment Score', class: [:button, :inline_button, 'full-width']
-      - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
-        - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
-          %p
-            %strong Drug Test Scheduled for:
-            %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
-            %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
-        - else
-          %p
-            %strong Drug Test Not Scheduled:
-            %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
-      %p
-        - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
-          = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
-        - else
-          %span.sm_red There is no valid phone number for this candidate.
-  .widget
-    .inner
-      %h3 Progress
-      %p.prescreen
-        %strong Prescreening:
-        - unless @candidate.prescreened?
-          %span= link_to 'INCOMPLETE', new_candidate_prescreen_answer_path(@candidate), class: [:sm_red, :candidate_incomplete]
-        - else
-          %span.sm_green COMPLETE
+      - cache(cache_key + "-2") do
+        - if CandidatePolicy.new(@current_person, Candidate.new).support_search?
+          - if @candidate.candidate_drug_test and @candidate.candidate_drug_test.scheduled == true
+            %p
+              %strong Drug Test Scheduled for:
+              %span.sm_green= friendly_datetime(@candidate.candidate_drug_test.test_date)
+              %span.comment.small= link_to 'Change', new_candidate_candidate_drug_test_path(@candidate)
+          - else
+            %p
+              %strong Drug Test Not Scheduled:
+              %span.drug_test_not_scheduled= link_to 'Edit Test Scheduling', new_candidate_candidate_drug_test_path(@candidate)
+        %p
+          - if @candidate.mobile_phone_valid? || (@candidate.other_phone_valid? && @candidate.other_phone)
+            = link_to 'Call', new_call_candidate_candidate_contacts_path(@candidate), class: [:button]
+          - else
+            %span.sm_red There is no valid phone number for this candidate.
+  - cache(cache_key + "-3") do
+    .widget
+      .inner
+        %h3 Progress
+        %p.prescreen
+          %strong Prescreening:
+          - unless @candidate.prescreened?
+            %span= link_to 'INCOMPLETE', new_candidate_prescreen_answer_path(@candidate), class: [:sm_red, :candidate_incomplete]
+          - else
+            %span.sm_green COMPLETE
 
-      %p.location_selection
-        %strong Location Selection:
-        - unless @candidate.location_selected?
-          %span= link_to 'INCOMPLETE', select_location_candidate_path(@candidate, 'false'), class: [:sm_red, :candidate_incomplete]
-        - else
-          %span.sm_green COMPLETE
-      %p
-        %strong Interview Scheduling:
-        - if @candidate.interview_schedules.empty?
-          %span.sm_red= link_to 'INCOMPLETE', new_candidate_interview_schedule_path(@candidate), class: [:sm_red, :candidate_incomplete]
-        - else
-          %span.sm_green COMPLETE
+        %p.location_selection
+          %strong Location Selection:
+          - unless @candidate.location_selected?
+            %span= link_to 'INCOMPLETE', select_location_candidate_path(@candidate, 'false'), class: [:sm_red, :candidate_incomplete]
+          - else
+            %span.sm_green COMPLETE
+        %p
+          %strong Interview Scheduling:
+          - if @candidate.interview_schedules.empty?
+            %span.sm_red= link_to 'INCOMPLETE', new_candidate_interview_schedule_path(@candidate), class: [:sm_red, :candidate_incomplete]
+          - else
+            %span.sm_green COMPLETE
 
-      %p
-        %strong Interview:
-        - if @candidate.interview_answers.empty?
-          %span.sm_red INCOMPLETE
-        - else
-          %span.sm_green COMPLETE
-      - offers = @candidate.job_offer_details
-      %p
-        %strong Confirmation of Details:
-        - if @candidate.training_availability
-          %span.sm_green COMPLETE
-        - else
-          %span.sm_red INCOMPLETE
-      - offers = @candidate.job_offer_details
-      %p
-        %strong Sending Paperwork:
-        - if offers.empty?
-          %span.sm_red INCOMPLETE
-        - else
-          %span.sm_green COMPLETE
-      - status_int = Candidate.statuses[@candidate.status]
-      %p
-        %strong Paperwork Completed by Candidate:
-        - if status_int < 9 and not @candidate.person
-          %span.sm_red INCOMPLETE
-        - else
-          %span.sm_green COMPLETE
-      %p
-        %strong Paperwork Completed by Advocate:
-        - if status_int < 10 and not @candidate.person
-          %span.sm_red INCOMPLETE
-        - else
-          %span.sm_green COMPLETE
-      %p
-        %strong Paperwork Completed by HR:
-        - if status_int < 11 and not @candidate.person
-          %span.sm_red INCOMPLETE
-        - else
-          %span.sm_green COMPLETE
-      %p
-        %strong Onboarded:
-        - if @candidate.person
-          %span.sm_green COMPLETE
-        - else
-          %span.sm_red INCOMPLETE
-      %p
-        %strong Screening:
-        - if @candidate.person and @candidate.person.screening and @candidate.person.screening.complete?
-          %span.sm_green COMPLETE
-        - else
-          %span.sm_red INCOMPLETE
-      - action = ''.html_safe
-      - action = case @candidate.status
-        - when 'entered'
-          - if @candidate.location_selected?
-            - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+        %p
+          %strong Interview:
+          - if @candidate.interview_answers.empty?
+            %span.sm_red INCOMPLETE
           - else
-            - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
-        - when 'prescreened'
-          - if @candidate.location_selected?
-            - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+            %span.sm_green COMPLETE
+        - offers = @candidate.job_offer_details
+        %p
+          %strong Confirmation of Details:
+          - if @candidate.training_availability
+            %span.sm_green COMPLETE
           - else
-            - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
-        - when 'location_selected'
-          - if @candidate.prescreened?
-            - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+            %span.sm_red INCOMPLETE
+        - offers = @candidate.job_offer_details
+        %p
+          %strong Sending Paperwork:
+          - if offers.empty?
+            %span.sm_red INCOMPLETE
           - else
-            - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
-        - when 'interview_scheduled'
-          - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
-        - when 'accepted'
-          - if @candidate.job_offer_details == []
-            - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+            %span.sm_green COMPLETE
+        - status_int = Candidate.statuses[@candidate.status]
+        %p
+          %strong Paperwork Completed by Candidate:
+          - if status_int < 9 and not @candidate.person
+            %span.sm_red INCOMPLETE
           - else
-            - ''
-        - when 'confirmed'
-          - if @candidate.passed_personality_assessment?
-            - link_to 'Send or Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+            %span.sm_green COMPLETE
+        %p
+          %strong Paperwork Completed by Advocate:
+          - if status_int < 10 and not @candidate.person
+            %span.sm_red INCOMPLETE
           - else
-            - ''
-        - when 'paperwork_sent'
-          - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
-          - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
-            - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
-              - link_to 'Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+            %span.sm_green COMPLETE
+        %p
+          %strong Paperwork Completed by HR:
+          - if status_int < 11 and not @candidate.person
+            %span.sm_red INCOMPLETE
           - else
-            - ''
-        - else
-          - if @candidate.training_availability == nil
-            - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
+            %span.sm_green COMPLETE
+        %p
+          %strong Onboarded:
+          - if @candidate.person
+            %span.sm_green COMPLETE
           - else
-            - ''
-      = action if @candidate.active?
+            %span.sm_red INCOMPLETE
+        %p
+          %strong Screening:
+          - if @candidate.person and @candidate.person.screening and @candidate.person.screening.complete?
+            %span.sm_green COMPLETE
+          - else
+            %span.sm_red INCOMPLETE
+        - action = ''.html_safe
+        - action = case @candidate.status
+          - when 'entered'
+            - if @candidate.location_selected?
+              - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+            - else
+              - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
+          - when 'prescreened'
+            - if @candidate.location_selected?
+              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+            - else
+              - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
+          - when 'location_selected'
+            - if @candidate.prescreened?
+              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+            - else
+              - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
+          - when 'interview_scheduled'
+            - link_to 'Interview', new_candidate_interview_answer_path(@candidate), class: :button
+          - when 'accepted'
+            - if @candidate.job_offer_details == []
+              - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+            - else
+              - ''
+          - when 'confirmed'
+            - if @candidate.passed_personality_assessment?
+              - link_to 'Send or Resend Paperwork', send_paperwork_candidate_path(@candidate), class: :button
+            - else
+              - ''
+          - when 'paperwork_sent'
+            - if @candidate.training_availability == nil
+              - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
+            - elsif @candidate.job_offer_details.present? or @candidate.job_offer_details.first.envelope_guid
+              - if CandidatePolicy.new(@current_person, Candidate.new).record_assessment?
+                - link_to 'Resend Paperwork', resend_paperwork_candidate_path(@candidate), class: :button
+            - else
+              - ''
+          - else
+            - if @candidate.training_availability == nil
+              - link_to 'Confirm Details', new_candidate_training_availability_path(@candidate), class: :button
+            - else
+              - ''
+        = action if @candidate.active?
   - if CandidatePolicy.new(@current_person, Candidate.new).set_reconciliation_status?
     .widget#reconciliation
       .inner
@@ -200,15 +203,16 @@
           = f.submit 'Reconcile', class: :button
   - if CandidatePolicy.new(@current_person, Candidate.new).set_sprint_radio_shack_training_session?
     = render 'training_information'
-  - if @candidate.location_area
-    = render 'location_information'
-  - if @candidate.person and @candidate_shifts.present?
-    = render 'candidate_hours'
-  = render 'availability'
-  - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
-    = render 'candidate_details'
-  - unless @candidate.interview_answers.empty?
-    = render 'interview_answers'
+  - cache(cache_key + "-4") do
+    - if @candidate.location_area
+      = render 'location_information'
+    - if @candidate.person and @candidate_shifts.present?
+      = render 'candidate_hours'
+    = render 'availability'
+    - if @candidate.training_availability.present? or @candidate.shirt_gender.present? or @candidate.shirt_size.present?
+      = render 'candidate_details'
+    - unless @candidate.interview_answers.empty?
+      = render 'interview_answers'
   = render 'candidate_notes/form'
 
 

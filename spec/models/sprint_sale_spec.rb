@@ -28,30 +28,6 @@ require 'rails_helper'
 describe SprintSale do
   subject { build :sprint_sale, sale_date: Date.today }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a sale date' do
-    subject.sale_date = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a person' do
-    subject.person = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a location' do
-    subject.location = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires an MEID' do
-    subject.meid = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires that MEID be 4 or 18 characters' do
     subject.meid = 'SWAS'
     expect(subject).to be_valid
@@ -59,21 +35,6 @@ describe SprintSale do
     expect(subject).not_to be_valid
     subject.meid = '123456789012345678'
     expect(subject).to be_valid
-  end
-
-  it 'requires a carrier name' do
-    subject.carrier_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a handset model name' do
-    subject.handset_model_name = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a rate plan name' do
-    subject.rate_plan_name = nil
-    expect(subject).not_to be_valid
   end
 
   it 'requires an upgrade value' do

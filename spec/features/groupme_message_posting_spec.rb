@@ -46,7 +46,7 @@ describe 'GroupMe message posting via bots' do
       expect(page).to have_content(area.project.name)
     end
 
-    it 'posts a message', js: true, vcr: true do
+    it 'posts a message', js: true do
       find('.select_all:first-of-type').click
       fill_in 'Message', with: 'This is a test GroupMe message from a bot.'
       click_on 'Post'
