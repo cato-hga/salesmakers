@@ -112,7 +112,7 @@ class PeopleController < ProtectedController
       @shift_projects << shift.project if shift.project and not @shift_projects.include? shift.project
     end
     for project in @shift_projects
-      instance_variable_set "@#{project.name.squish.downcase.tr(" ", "_")}_hours", @shifts.where(person: @person, project_id: project.id).sum(:hours)
+      instance_variable_set "@#{project.name.squish.downcase.tr(" ", "_")}_hours", @shifts.where(person: @person, project_id: project.id).sum(:hours).round(2)
     end
   end
 
