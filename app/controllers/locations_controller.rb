@@ -94,6 +94,14 @@ class LocationsController < ApplicationController
     end
   end
 
+  def edit_head_counts
+    authorize Location.new
+
+  end
+
+  def update_head_counts
+  end
+
   private
 
   def set_necessary_variables
