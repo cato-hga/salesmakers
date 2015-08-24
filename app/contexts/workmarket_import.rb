@@ -97,7 +97,13 @@ class WorkmarketImport
         if base64
           f.write(Base64.decode64(base64))
         else
-          f.write('')
+          sleep 1
+          base64 = get_attachment_base64(a.guid)
+          if base64
+            f.write(Base64.decode64(base64))
+          else
+            f.write('')
+          end
         end
       end
     end
