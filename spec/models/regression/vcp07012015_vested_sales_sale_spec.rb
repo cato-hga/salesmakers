@@ -22,7 +22,7 @@ RSpec.describe VCP07012015VestedSalesSale, regressor: true do
   it { is_expected.to have_db_column :updated_at }
 
   # === Database (Indexes) ===
-  
+  it { is_expected.to have_db_index ["vonage_commission_period07012015_id", "person_id"] }
 
   # === Validations (Length) ===
   

@@ -23,34 +23,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
-
-
---
--- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -1980,6 +1952,38 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
+-- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE employee_call_off_reasons (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    active boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE employee_call_off_reasons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
+
+
+--
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2057,7 +2061,8 @@ CREATE TABLE group_me_groups (
     avatar_url character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    bot_num character varying
+    bot_num character varying,
+    active boolean DEFAULT true
 );
 
 
@@ -2592,22 +2597,27 @@ ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_
 CREATE TABLE interview_answers (
     id integer NOT NULL,
     work_history text NOT NULL,
-    why_in_market text NOT NULL,
-    ideal_position text NOT NULL,
-    what_are_you_good_at text NOT NULL,
-    what_are_you_not_good_at text NOT NULL,
-    compensation_last_job_one character varying NOT NULL,
-    compensation_last_job_two character varying,
-    compensation_last_job_three character varying,
+    why_in_market text,
+    ideal_position text,
+    what_are_you_good_at text,
+    what_are_you_not_good_at text,
+    compensation_last_job_one text,
+    compensation_last_job_two text,
+    compensation_last_job_three text,
     compensation_seeking character varying NOT NULL,
-    hours_looking_to_work character varying NOT NULL,
+    hours_looking_to_work text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     candidate_id integer,
     willingness_characteristic text NOT NULL,
     personality_characteristic text NOT NULL,
     self_motivated_characteristic text NOT NULL,
-    last_two_positions text NOT NULL
+    last_two_positions text,
+    what_interests_you text NOT NULL,
+    first_thing_you_sold text NOT NULL,
+    first_building_of_working_relationship text NOT NULL,
+    first_rely_on_teaching text NOT NULL,
+    availability_confirm boolean DEFAULT false NOT NULL
 );
 
 
@@ -4033,23 +4043,25 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    check_in_uniform boolean,
-    check_in_on_time boolean,
-    check_in_inside_store boolean,
-    check_out_on_time boolean,
-    check_out_inside_store boolean,
-    off_day boolean,
+    in_uniform boolean DEFAULT false NOT NULL,
+    clocked_in boolean DEFAULT false NOT NULL,
+    check_in_inside_store boolean DEFAULT false NOT NULL,
+    clocked_out boolean DEFAULT false NOT NULL,
+    check_out_inside_store boolean DEFAULT false NOT NULL,
+    off_day boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean,
-    blueforce_geotag boolean,
-    accountability_checkin_1 boolean,
-    accountability_checkin_2 boolean,
-    accountability_checkin_3 boolean,
+    roll_call boolean DEFAULT false NOT NULL,
+    punchclock_geotag boolean DEFAULT false NOT NULL,
+    iotd_1 boolean DEFAULT false NOT NULL,
+    iotd_2 boolean DEFAULT false NOT NULL,
+    iotd_3 boolean DEFAULT false NOT NULL,
     sales integer,
-    notes text
+    notes text,
+    employee_call_off_reason_id integer,
+    called_off boolean
 );
 
 
@@ -5103,6 +5115,37 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
+-- Name: vonage_mac_prefixes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_mac_prefixes (
+    id integer NOT NULL,
+    prefix character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vonage_mac_prefixes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_mac_prefixes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_mac_prefixes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_mac_prefixes_id_seq OWNED BY vonage_mac_prefixes.id;
+
+
+--
 -- Name: vonage_paycheck_negative_balances; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5328,9 +5371,9 @@ CREATE TABLE vonage_sales (
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
+    vested boolean,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
-    vested boolean,
     creator_id integer
 );
 
@@ -5451,6 +5494,48 @@ CREATE SEQUENCE walls_id_seq
 --
 
 ALTER SEQUENCE walls_id_seq OWNED BY walls.id;
+
+
+--
+-- Name: walmart_gift_cards; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE walmart_gift_cards (
+    id integer NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    card_number character varying NOT NULL,
+    link character varying NOT NULL,
+    challenge_code character varying NOT NULL,
+    unique_code character varying,
+    pin character varying NOT NULL,
+    balance double precision DEFAULT 0.0 NOT NULL,
+    purchase_date date,
+    purchase_amount double precision,
+    store_number character varying,
+    vonage_sale_id integer,
+    overridden boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: walmart_gift_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE walmart_gift_cards_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: walmart_gift_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE walmart_gift_cards_id_seq OWNED BY walmart_gift_cards.id;
 
 
 --
@@ -5971,6 +6056,13 @@ ALTER TABLE ONLY drop_off_reasons ALTER COLUMN id SET DEFAULT nextval('drop_off_
 --
 
 ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
 
 
 --
@@ -6558,6 +6650,13 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vonage_mac_prefixes ALTER COLUMN id SET DEFAULT nextval('vonage_mac_prefixes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY vonage_paycheck_negative_balances ALTER COLUMN id SET DEFAULT nextval('vonage_paycheck_negative_balances_id_seq'::regclass);
 
 
@@ -6622,6 +6721,13 @@ ALTER TABLE ONLY wall_posts ALTER COLUMN id SET DEFAULT nextval('wall_posts_id_s
 --
 
 ALTER TABLE ONLY walls ALTER COLUMN id SET DEFAULT nextval('walls_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY walmart_gift_cards ALTER COLUMN id SET DEFAULT nextval('walmart_gift_cards_id_seq'::regclass);
 
 
 --
@@ -7082,6 +7188,14 @@ ALTER TABLE ONLY drop_off_reasons
 
 ALTER TABLE ONLY email_messages
     ADD CONSTRAINT email_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY employee_call_off_reasons
+    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
 
 
 --
@@ -7749,6 +7863,14 @@ ALTER TABLE ONLY vonage_commission_period07012015s
 
 
 --
+-- Name: vonage_mac_prefixes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_mac_prefixes
+    ADD CONSTRAINT vonage_mac_prefixes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: vonage_paycheck_negative_balances_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7826,6 +7948,14 @@ ALTER TABLE ONLY wall_posts
 
 ALTER TABLE ONLY walls
     ADD CONSTRAINT walls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: walmart_gift_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY walmart_gift_cards
+    ADD CONSTRAINT walmart_gift_cards_pkey PRIMARY KEY (id);
 
 
 --
@@ -10236,11 +10366,21 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
+INSERT INTO schema_migrations (version) VALUES ('20150622183936');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622184112');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622185318');
+
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623200929');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -10249,6 +10389,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -10263,6 +10405,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150626193106');
 INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629191123');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629200154');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
@@ -10362,13 +10508,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150807193852');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
-INSERT INTO schema_migrations (version) VALUES ('20150807201044');
-
 INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
-
-INSERT INTO schema_migrations (version) VALUES ('20150810145636');
 
 INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 
@@ -10382,9 +10524,27 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
+INSERT INTO schema_migrations (version) VALUES ('20150817192359');
+
 INSERT INTO schema_migrations (version) VALUES ('20150818202108');
 
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
+INSERT INTO schema_migrations (version) VALUES ('20150820124622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820164413');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820185034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821143712');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821152703');
+
 INSERT INTO schema_migrations (version) VALUES ('20150821180815');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822141202');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822145514');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822164708');
 

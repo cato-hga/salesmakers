@@ -38,19 +38,15 @@ RSpec.describe InterviewAnswersController, :type => :controller do
              candidate_id: candidate.id,
              interview_answer: {
                  work_history: 'Work History',
-                 why_in_market: 'Why in market',
-                 ideal_position: 'Ideal position',
-                 what_are_you_good_at: 'What are you good at',
-                 what_are_you_not_good_at: 'What are you not good at',
+                 what_interests_you: 'What interests you',
+                 first_thing_you_sold: 'first_thing_you_sold',
+                 first_building_of_working_relationship: 'first_building_of_working_relationship',
+                 first_rely_on_teaching: 'first_rely_on_teaching',
                  willingness_characteristic: 'Willing',
                  personality_characteristic: 'Willing',
                  self_motivated_characteristic: 'Willing',
-                 compensation_last_job_one: 'Comp 1',
-                 compensation_last_job_two: 'Comp 2',
-                 compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
-                 hours_looking_to_work: 'Hours looking to work',
-                 last_two_positions: 'Last two positions'
+                 availability_confirm: true
              }
       end
 
@@ -63,7 +59,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       it 'assigns the correct attributes' do
         subject
         answer = InterviewAnswer.first
-        expect(answer.last_two_positions).to eq('Last two positions')
+        expect(answer.first_building_of_working_relationship).to eq('first_building_of_working_relationship')
       end
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
@@ -97,19 +93,15 @@ RSpec.describe InterviewAnswersController, :type => :controller do
              candidate_id: candidate.id,
              interview_answer: {
                  work_history: 'Work History',
-                 why_in_market: 'Why in market',
-                 ideal_position: 'Ideal position',
-                 what_are_you_good_at: 'What are you good at',
-                 what_are_you_not_good_at: 'What are you not good at',
+                 what_interests_you: 'What interests you',
+                 first_thing_you_sold: 'first_thing_you_sold',
+                 first_building_of_working_relationship: 'first_building_of_working_relationship',
+                 first_rely_on_teaching: 'first_rely_on_teaching',
                  willingness_characteristic: 'Willing',
                  personality_characteristic: 'Willing',
                  self_motivated_characteristic: 'Willing',
-                 compensation_last_job_one: 'Comp 1',
-                 compensation_last_job_two: 'Comp 2',
-                 compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
-                 hours_looking_to_work: 'Hours looking to work',
-                 last_two_positions: 'Last two positions'
+                 availability_confirm: true
              }
       end
 
@@ -135,19 +127,15 @@ RSpec.describe InterviewAnswersController, :type => :controller do
              extend_offer: 'false',
              interview_answer: {
                  work_history: 'Work History',
-                 why_in_market: 'Why in market',
-                 ideal_position: 'Ideal position',
-                 what_are_you_good_at: 'What are you good at',
-                 what_are_you_not_good_at: 'What are you not good at',
+                 what_interests_you: 'What interests you',
+                 first_thing_you_sold: 'first_thing_you_sold',
+                 first_building_of_working_relationship: 'first_building_of_working_relationship',
+                 first_rely_on_teaching: 'first_rely_on_teaching',
                  willingness_characteristic: 'Willing',
                  personality_characteristic: 'Willing',
                  self_motivated_characteristic: 'Willing',
-                 compensation_last_job_one: 'Comp 1',
-                 compensation_last_job_two: 'Comp 2',
-                 compensation_last_job_three: 'Comp 3',
                  compensation_seeking: 'Seeking comp',
-                 hours_looking_to_work: 'Hours looking to work',
-                 last_two_positions: 'Last two positions',
+                 availability_confirm: true,
                  candidate: {
                      candidate_denial_reason_id: denial_reason.id
                  }
@@ -162,7 +150,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       it 'assigns the correct attributes' do
         subject
         answer = InterviewAnswer.first
-        expect(answer.last_two_positions).to eq('Last two positions')
+        expect(answer.first_building_of_working_relationship).to eq('first_building_of_working_relationship')
       end
       it 'creates a log entry' do
         expect { subject }.to change(LogEntry, :count).by(2)
