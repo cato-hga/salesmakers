@@ -37,4 +37,8 @@ class PersonPolicy < ApplicationPolicy
   def send_asset_form?
     DevicePolicy.new(@user, Device.new).update?
   end
+
+  def masquerade?
+    has_permission? 'masquerade'
+  end
 end

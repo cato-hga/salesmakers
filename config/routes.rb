@@ -299,6 +299,7 @@ Rails.application.routes.draw do
       get :edit_position, as: :edit_position
       put :update_position, as: :update_position
       post :send_asset_form, as: :send_asset_form
+      get :masquerade, as: :masquerade
     end
     collection do
       match 'search' => 'people#search', via: [:get, :post], as: :search

@@ -1,7 +1,7 @@
 - title "Screening for #{@person.name}"
 
-- soc = @screening.sex_offender_check
-- pubc = @screening.public_background_check
+- @screening.sex_offender_check = 2 if @screening.sex_offender_check == 'sex_offender_check_incomplete'
+- @screening.public_background_check = 2 if @screening.public_background_check == 'public_background_check_incomplete'
 - privc = @screening.private_background_check
 - drug = @screening.drug_screening
 
@@ -11,15 +11,8 @@
       - @screening.errors.full_messages.each do |msg|
         .alert.alert-box= msg
     = form_for @screening, method: :put, url: person_screening_path(@person) do |f|
-      = f.label :sex_offender_check
-      - selected_soc = soc ? Screening.sex_offender_checks[soc] : nil
-      - soc_options = options_for_select(Screening.sex_offender_checks.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_soc)
-      = f.select :sex_offender_check, soc_options
-
-      = f.label :public_background_check
-      - selected_pubc = pubc ? Screening.public_background_checks[pubc] : nil
-      - pubc_options = options_for_select(Screening.public_background_checks.map{|s| [NameCase(s[0].humanize, lazy: false), s[1]]}, selected_pubc)
-      = f.select :public_background_check, pubc_options
+      = hidden_field_tag 'screening[sex_offender_check]', Screening.sex_offender_checks[@screening.sex_offender_check]
+      = hidden_field_tag 'screening[public_background_check]', Screening.public_background_checks[@screening.public_background_check]
 
       = f.label :private_background_check
       - selected_privc = privc ? Screening.private_background_checks[privc] : nil

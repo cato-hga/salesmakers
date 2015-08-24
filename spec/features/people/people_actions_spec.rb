@@ -36,6 +36,10 @@ describe 'actions involving People' do
       expect(page).to have_content(person_address.zip)
     end
 
+    it 'should not have a masquerade button by default' do
+      expect(page).not_to have_selector 'a', text: 'Masquerade'
+    end
+
     it 'should not show commissions for non-Vonage employees' do
       expect(page).not_to have_selector('a', text: 'Commissions')
     end
@@ -52,6 +56,27 @@ describe 'actions involving People' do
       visit people_path
       click_on 'new_action_button'
       expect(page).to have_selector('h1', text: 'New Person')
+    end
+
+    context 'with masquerade permissions' do
+      let(:masquerade_permission) { create :permission, key: 'person_masquerade' }
+      let(:foobar_department) { create :department, name: 'Foobar Department' }
+
+      before do
+        it_tech.position.permissions << masquerade_permission
+        person.position.update department: foobar_department
+        CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+        visit person_path(person)
+      end
+
+      it 'should show the masquerade button' do
+        expect(page).to have_selector 'a', text: 'Masquerade'
+      end
+
+      it 'successfully masquerades' do
+        click_on 'Masquerade'
+        expect(page).to have_selector 'li.has-dropdown', text: person.email
+      end
     end
   end
 
