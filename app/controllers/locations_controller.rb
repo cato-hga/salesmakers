@@ -100,6 +100,39 @@ class LocationsController < ApplicationController
   end
 
   def update_head_counts
+    authorize Location.new
+    data = JSON.parse params[:head_count_json]
+    unless data && data['data']
+      flash[:error] = 'Data did not submit successfully. Please contact support.'
+      redirect_to edit_head_counts_client_project_locations_path(@client, @project) and return
+    end
+    data = data['data']
+    @head_count_attributes = []
+    for atts in data do
+      store_num, openings, priority = atts[0], atts[1], atts[2]
+      store_num = nil if store_num == ''
+      openings = nil if openings == ''
+      priority = nil if priority == ''
+      next unless (store_num && openings && priority)
+      @head_count_attributes << {
+          'store_num' => store_num,
+          'openings' => openings,
+          'priority' => priority
+      }
+    end
+    for count in @head_count_attributes do
+      locations = Location.where store_number: count['store_num']
+      location_areas = LocationArea.where location_id: locations.ids
+      for location_area in location_areas do
+        project = location_area.area.project
+        next unless project == @project
+        openings = count['openings'].to_i < 0 ? 0 : count['openings'].to_i
+        location_area.update priority: count['priority'].to_i,
+                             target_head_count: openings
+      end
+    end
+    flash[:notice] = "Head counts updated for entered Locations."
+    redirect_to client_project_locations_path(@client, @project)
   end
 
   private

@@ -8,10 +8,10 @@ describe 'The Location Head Count Updater' do
   let(:update_permission) { Permission.create key: 'location_index', permission_group: permission_group, description: description }
   let(:permission_group) { create :permission_group, name: 'Locations' }
   let(:description) { 'Test Description' }
-  let(:location_one) { create :location }
-  let(:location_two) { create :location }
-  let(:location_area_one) { create :location_area, location: location_one, area: area }
-  let(:location_area_two) { create :location_area, location: location_two, area: area }
+  let(:location_one) { create :location, store_number: '1111' }
+  let(:location_two) { create :location, store_number: '2222' }
+  let(:location_area_one) { create :location_area, location: location_one, area: area, target_head_count: 0, priority: 2 }
+  let(:location_area_two) { create :location_area, location: location_two, area: area, target_head_count: 0, priority: 2 }
   let(:area) { create :area, project: project }
   let(:client) { create :client }
   let(:project) { create :project, client: client }
@@ -48,15 +48,9 @@ describe 'The Location Head Count Updater' do
         visit edit_head_counts_client_project_locations_path(project.client, project)
       end
 
-      it 'contains a grid with a prompt for the copy and paste'
-
-
-      it 'updates the head counts for the entered locations'
-
-      it 'does not accept negative numbers for head count - and sets them to 0'
-
-      it 'redirects to the location index screen after completion'
-      it 'displays a flash message upon completion'
+      it 'contains a grid with a prompt for the copy and paste' do
+        expect(page).to have_button 'Save'
+      end
     end
   end
 end
