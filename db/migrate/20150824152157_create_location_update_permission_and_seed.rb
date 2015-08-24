@@ -5,11 +5,11 @@ class CreateLocationUpdatePermissionAndSeed < ActiveRecord::Migration
                                         description: 'can edit locations',
                                         permission_group: permission_group
     position = Position.find_by name: 'Senior Software Developer' || return
-    position.permissions << location_update
+    position.permissions << location_update if position
     position = Position.find_by name: 'Software Developer' || return
-    position.permissions << location_update
+    position.permissions << location_update if position
     position = Position.find_by name: 'Juan' || return
-    position.permissions << location_update
+    position.permissions << location_update if position
   end
 
   def down
