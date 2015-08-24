@@ -16,6 +16,7 @@ module TimesheetToShiftTranslator
                       hours: calculate_hours(timesheet),
                       break_hours: calculate_breaks(timesheet),
                       training: is_training?(timesheet),
+                      meeting: is_meeting?(timesheet),
                       project: get_project(timesheet)
     add_to_unmatched(timesheet, shift) unless shift.valid?
     shift
@@ -34,13 +35,29 @@ module TimesheetToShiftTranslator
   end
 
   def is_training? timesheet
-    if timesheet.respond_to?(:customer) && timesheet.customer
-      timesheet.customer.downcase.include?('training')
-    elsif timesheet.respond_to?(:site_name) && timesheet.site_name
-      timesheet.site_name.downcase.include?('training')
-    else
-      false
+    is_training = false
+    if timesheet.connect_business_partner_location && timesheet.connect_business_partner_location.name.downcase.include?('training')
+      is_training = true
     end
+    if timesheet.respond_to?(:customer) && timesheet.customer
+      is_training = timesheet.customer.downcase.include?('training') ? true : is_training
+    elsif timesheet.respond_to?(:site_name) && timesheet.site_name
+      is_training = timesheet.site_name.downcase.include?('training') ? true : is_training
+    end
+    is_training
+  end
+
+  def is_meeting? timesheet
+    is_meeting = false
+    if timesheet.connect_business_partner_location && timesheet.connect_business_partner_location.name.downcase.include?(' meeting')
+      is_meeting = true
+    end
+    if timesheet.respond_to?(:customer) && timesheet.customer
+      is_meeting = timesheet.customer.downcase.include?('meeting') ? true : is_meeting
+    elsif timesheet.respond_to?(:site_name) && timesheet.site_name
+      is_meeting = timesheet.site_name.downcase.include?('meeting') ? true : is_meeting
+    end
+    is_meeting
   end
 
   def get_person(ad_user_id)
