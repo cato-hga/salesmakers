@@ -133,7 +133,10 @@
     .widget
       .inner
         %h3 Hours by Project
-        .small.comment Note: this only shows hours with a project specified, which are hours booked from Jan 1 2015 onwards
+        .small.comment
+          %strong
+            Note:
+          this only shows hours with a project specified, which are hours booked from Jan 1 2015 onward.
         %br
         - if @shift_projects.any?
           - for project in @shift_projects
