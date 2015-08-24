@@ -136,7 +136,7 @@ class ApplicationController < BaseApplicationController
     else
       @current_person ||= Person.find_by email: session[:cas_user] if session[:cas_user] #ME
     end
-    #@current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
+    # @current_person = Person.find_by_email 'mvallejojr@retaildoneright.com'
     if not @current_person and not Rails.env.test?
       st = self.session[:cas_last_valid_ticket]
       CASClient::Frameworks::Rails::Filter.client.ticket_store.cleanup_service_session_lookup(st) if st
