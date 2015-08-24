@@ -23,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -4005,25 +4033,23 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
-    notes text,
-    employee_call_off_reason_id integer,
-    called_off boolean
+    notes text
 );
 
 
@@ -5302,7 +5328,10 @@ CREATE TABLE vonage_sales (
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
-    vested boolean
+    person_acknowledged boolean DEFAULT false,
+    gift_card_number character varying,
+    vested boolean,
+    creator_id integer
 );
 
 
@@ -10315,9 +10344,17 @@ INSERT INTO schema_migrations (version) VALUES ('20150729145118');
 
 INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
+INSERT INTO schema_migrations (version) VALUES ('20150805161446');
+
+INSERT INTO schema_migrations (version) VALUES ('20150805235212');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806131842');
+
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193355');
 
@@ -10325,7 +10362,15 @@ INSERT INTO schema_migrations (version) VALUES ('20150807193852');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
+INSERT INTO schema_migrations (version) VALUES ('20150807201044');
+
+INSERT INTO schema_migrations (version) VALUES ('20150807235009');
+
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150810145636');
+
+INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817134549');
 
@@ -10337,5 +10382,9 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
+INSERT INTO schema_migrations (version) VALUES ('20150818202108');
+
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821180815');
 
