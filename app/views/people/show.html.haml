@@ -129,6 +129,22 @@
           %br/
         = physical_address.city + ', ' + physical_address.state
         = physical_address.zip
+  - if @shifts and show_details
+    .widget
+      .inner
+        %h3 Hours by Project
+        .small.comment Note: this only shows hours with a project specified, which are hours booked from Jan 1 2015 onwards
+        %br
+        - if @shift_projects.any?
+          - for project in @shift_projects
+            %p
+              %strong
+                = project.name + ":"
+              = instance_variable_get "@#{project.name.squish.downcase.tr(" ", "_")}_hours"
+              Hours
+        - else
+          %p No shifts with project information found for this user. They may have shifts, but if so those shifts were not imported with a project identified.
+
 - if show_details
   - if @person.department and @person.department.name.include?('Comcast')
     .widget#leads
