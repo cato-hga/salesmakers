@@ -96,6 +96,8 @@ Rails.application.routes.draw do
       resources :locations, only: [:new, :create, :index, :show] do
         collection do
           get :csv, as: :csv, defaults: { format: :csv }
+          get :edit_head_counts, as: :edit_head_counts
+          patch :update_head_counts, as: :update_head_counts
         end
       end
     end

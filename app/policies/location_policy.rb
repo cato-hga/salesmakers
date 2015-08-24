@@ -8,4 +8,12 @@ class LocationPolicy < ApplicationPolicy
   def csv?
     index?
   end
+
+  def edit_head_counts?
+    has_permission? 'update'
+  end
+
+  def update_head_counts?
+    edit_head_counts?
+  end
 end
