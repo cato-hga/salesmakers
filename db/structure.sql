@@ -3978,7 +3978,8 @@ CREATE TABLE shifts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     training boolean DEFAULT false NOT NULL,
-    project_id integer
+    project_id integer,
+    meeting boolean DEFAULT false NOT NULL
 );
 
 
@@ -10477,4 +10478,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150822141202');
 INSERT INTO schema_migrations (version) VALUES ('20150822145514');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822164708');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824144327');
 
