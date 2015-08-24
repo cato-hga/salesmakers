@@ -74,6 +74,7 @@ end
 
 every '59 * * * *' do
   runner 'VonageComp07012015Processing.new.execute'
+  runner 'PersonAddress.update_from_connect(270, true)'
 end
 
 every '14 0,3,6,9,12,15,18,21 * * *' do
