@@ -21,15 +21,12 @@ describe 'Inventory receiving page' do
   end
 
     context 'for authorized users' do
-      # before(:each) do
-      #   CASClient::Frameworks::Rails::Filter.fake(person.email)
-      #    visit new_vonage_device_path
-      # end
-
+      
       it 'shows the Vonage Inventory Receiving page' do
         CASClient::Frameworks::Rails::Filter.fake(person.email)
         visit new_vonage_device_path
         expect(page).to have_content('Vonage Inventory Receiving')
+
       end
     end
 

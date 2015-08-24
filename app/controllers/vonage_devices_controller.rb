@@ -18,6 +18,7 @@ class VonageDevicesController < ApplicationController
     adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
     @vonage_device.receive_date = adjusted_time
     if @vonage_device.save
+      VonageInventoryMailer.inventory_receiving_mailer(@current_person, @vonage_device).deliver_later
       redirect_to new_vonage_transfer_path
     else
       render :new

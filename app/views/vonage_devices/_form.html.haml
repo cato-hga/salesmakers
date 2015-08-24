@@ -11,9 +11,10 @@
       = f.text_field :receive_date, placeholder: 'MM/DD/YYYY'
       = f.label :mac_id, 'MAC ID'
       = f.text_field :mac_id, placeholder: '12 characters (0-9 & A-F)'
-      .columns.add_delete_button
-      %a.button.postfix.add_row(href='#') Add Device
+
+      .large-1.columns.add_delete_button
+        %a.button.postfix.add_row(href='#') Add
 
 
-      = f.submit 'Receive', class: [:button], id: 'new_vonage_transfer_path'
+      = f.submit 'Receive', class: [:button]
 
