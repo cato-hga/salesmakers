@@ -29,16 +29,15 @@
 
 class InterviewAnswer < ActiveRecord::Base
   validates :work_history, presence: true
-  validates :why_in_market, presence: true
-  validates :ideal_position, presence: true
-  validates :what_are_you_good_at, presence: true
-  validates :what_are_you_not_good_at, presence: true
-  validates :compensation_last_job_one, presence: true
+  validates :what_interests_you, presence: true
+  validates :first_thing_you_sold, presence: true
+  validates :first_building_of_working_relationship, presence: true
   validates :compensation_seeking, presence: true
-  validates :hours_looking_to_work, presence: true
+  validates :first_rely_on_teaching, presence: true
   validates :personality_characteristic, presence: true
   validates :self_motivated_characteristic, presence: true
   validates :willingness_characteristic, presence: true
+  validates :availability_confirm, inclusion: { in: [true, false] }
   belongs_to :candidate
   accepts_nested_attributes_for :candidate
   has_many :log_entries, as: :trackable, dependent: :destroy

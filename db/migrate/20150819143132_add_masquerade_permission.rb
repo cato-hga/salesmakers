@@ -5,9 +5,9 @@ class AddMasqueradePermission < ActiveRecord::Migration
                                    description: 'masquerade as a person',
                                    permission_group: permission_group
     position = Position.find_by name: 'Senior Software Developer' || return
-    position.permissions << masquerade
+    position.permissions << masquerade if position
     position = Position.find_by name: 'Software Developer' || return
-    position.permissions << masquerade
+    position.permissions << masquerade if position
   end
 
   def down

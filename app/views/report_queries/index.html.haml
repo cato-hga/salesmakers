@@ -13,6 +13,6 @@
       .widget
         .inner
           %h3= report_query_category.first
-          - for report_query in report_query_category.last do
-            = link_to report_query.name, report_query_path(report_query)
-            %br/
+          %ul
+            - for report_query in report_query_category.last do
+              %li= link_to report_query.name, report_query_path(report_query)
