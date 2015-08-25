@@ -72,6 +72,7 @@ gem 'sinatra', '1.4.6', require: false
 gem 'slack-notifier', '1.2.1' # Exception notification on Slack
 gem 'spreadsheet', '1.0.4' # Extra functionality for Roo
 gem 'spring-commands-rspec', '1.0.4' # Spring RSpec additions
+gem 'strip_attributes', '1.7.1' # Remove leading and trailing whitespace from string attributes on models
 gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff

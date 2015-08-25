@@ -42,7 +42,7 @@ class VonageSale < ActiveRecord::Base
   validates :person_acknowledged, acceptance: { accept: true, message: 'gift card rules and regulations must be checked.' }
   validate :mac_prefix_valid
   validates :creator, presence: true
-  validate :gift_card_used
+  validate :gift_card_used, unless: :override_card
 
   belongs_to :person
   belongs_to :creator, class_name: 'Person'
@@ -56,7 +56,7 @@ class VonageSale < ActiveRecord::Base
   has_one :vcp07012015_hps_sale
   has_one :walmart_gift_card, primary_key: 'card_number', foreign_key: 'gift_card_number'
 
-  nilify_blanks
+  strip_attributes
 
   scope :for_paycheck, ->(paycheck) {
     if paycheck
@@ -152,8 +152,19 @@ class VonageSale < ActiveRecord::Base
     end
   end
 
+  def override_card
+    return false if import? || !self.gift_card_number
+    override_card = GiftCardOverride.find_by override_card_number: self.gift_card_number
+    return false unless override_card
+    existing_sales = VonageSale.where(gift_card_number: self.gift_card_number)
+    if existing_sales.count > 0
+      errors.add :gift_card_number, 'has already been used as an override before.'
+    end
+    true
+  end
+
   def gift_card_used
-    return if import?
+    return if import? || !self.gift_card_number
     return unless self.location and self.location.channel.name == 'Walmart'
     gift_card = WalmartGiftCard.find_by card_number: self.gift_card_number
     unless gift_card

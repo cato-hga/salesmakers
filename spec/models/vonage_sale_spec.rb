@@ -174,6 +174,7 @@ describe VonageSale do
     let(:micro_center) { create :channel, name: 'Micro Center' }
     let(:walmart_location) { create :location, channel: walmart }
     let(:walmart) { create :channel, name: 'Walmart' }
+    let!(:gift_card_override) { create :gift_card_override }
 
     subject { build :vonage_sale, location: walmart_location }
 
@@ -231,6 +232,17 @@ describe VonageSale do
       expect(subject).not_to be_valid
       used_walmart_gift_card.update store_number: subject.location.store_number
       expect(subject).to be_valid
+    end
+
+    it 'validates an override card' do
+      subject.gift_card_number = gift_card_override.override_card_number
+      expect(subject).to be_valid
+    end
+
+    it 'does not allow an override card to be used more than once' do
+      create :vonage_sale, gift_card_number: gift_card_override.override_card_number
+      subject.gift_card_number = gift_card_override.override_card_number
+      expect(subject).not_to be_valid
     end
   end
 
