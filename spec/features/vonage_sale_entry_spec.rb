@@ -15,7 +15,8 @@ describe 'Vonage Sale entry' do
                                            description: 'Test Description' }
   let(:vonage) { create :project, name: 'Vonage Retail' }
   let(:area) { create :area, project: vonage }
-  let(:location) { create :location }
+  let(:location) { create :location, channel: walmart }
+  let(:walmart) { create :channel, name: 'Walmart' }
   let!(:location_area) { create :location_area,
                                 location: location,
                                 area: employee_one_area.area }
@@ -162,12 +163,15 @@ describe 'Vonage Sale entry' do
     end
 
     context 'with all correct data' do
+      let!(:walmart_gift_card) { create :walmart_gift_card, used: true, store_number: location.store_number }
+
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(employee_one.email)
         visit new_vonage_sale_path
       end
 
       subject {
+        allow_any_instance_of(WalmartGiftCard).to receive(:check).and_return(true)
         select employee_one.display_name, from: 'Sales Representative'
         fill_in 'Sale Date', with: '08/15/2015'
         fill_in 'Confirmation Number', with: '1234567890'
@@ -177,8 +181,8 @@ describe 'Vonage Sale entry' do
         fill_in 'MAC ID', with: vonage_mac_prefix.prefix + '123456'
         fill_in 'Confirm MAC ID', with: vonage_mac_prefix.prefix + '123456'
         select home_kit.name, from: 'Product Type'
-        fill_in 'Gift Card Number', with: 'ab1234567890'
-        fill_in 'Confirm Gift Card Number', with: 'ab1234567890'
+        fill_in 'Gift Card Number', with: walmart_gift_card.card_number
+        fill_in 'Confirm Gift Card Number', with: walmart_gift_card.card_number
         page.check('vonage_sale_person_acknowledged')
         click_on 'Complete Sale'
       }
