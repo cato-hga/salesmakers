@@ -30,6 +30,14 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: https://github.com/jondkinney/docusign_rest.git
+  revision: b626f2dcfeb6c6516cf67cc6fd63b1dce16ebdf6
+  specs:
+    docusign_rest (0.1.1)
+      json
+      multipart-post (>= 1.2)
+
+GIT
   remote: https://github.com/kbaum/browser-timezone-rails.git
   revision: c96ee10e41a447a6b8f4aaaea31c44ff5e43fa61
   specs:
@@ -259,9 +267,6 @@ GEM
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    docusign_rest (0.1.1)
-      json
-      multipart-post (>= 1.2)
     domain_name (0.5.24)
       unf (>= 0.0.5, < 1.0.0)
     dragonfly (1.0.10)
@@ -763,7 +768,7 @@ DEPENDENCIES
   coolline (= 0.5.0)
   dalli (= 2.7.4)
   database_rewinder (= 0.5.3)
-  docusign_rest (= 0.1.1)
+  docusign_rest!
   dragonfly (= 1.0.10)
   emoji (= 1.0.5)
   exception_notification (= 4.1.1)
