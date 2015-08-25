@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: walmart_gift_cards
+#
+#  id              :integer          not null, primary key
+#  used            :boolean          default(FALSE), not null
+#  card_number     :string           not null
+#  link            :string           not null
+#  challenge_code  :string           not null
+#  unique_code     :string
+#  pin             :string           not null
+#  balance         :float            default(0.0), not null
+#  purchase_date   :date
+#  purchase_amount :float
+#  store_number    :string
+#  vonage_sale_id  :integer
+#  overridden      :boolean          default(FALSE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 require 'rails_helper'
 
 describe WalmartGiftCard do

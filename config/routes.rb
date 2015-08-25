@@ -338,7 +338,12 @@ Rails.application.routes.draw do
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 
-  resources :walmart_gift_cards, only: [:new, :create]
+  resources :walmart_gift_cards, only: [:new, :create] do
+    collection do
+      get 'new_override/:person_id', to: 'walmart_gift_cards#new_override', as: :new_override
+      post 'create_override', to: 'walmart_gift_cards#create_override', as: :create_override
+    end
+  end
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 

@@ -2018,6 +2018,41 @@ ALTER SEQUENCE employments_id_seq OWNED BY employments.id;
 
 
 --
+-- Name: gift_card_overrides; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE gift_card_overrides (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    person_id integer NOT NULL,
+    original_card_number character varying,
+    ticket_number character varying,
+    override_card_number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: gift_card_overrides_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE gift_card_overrides_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: gift_card_overrides_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE gift_card_overrides_id_seq OWNED BY gift_card_overrides.id;
+
+
+--
 -- Name: group_me_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2564,22 +2599,27 @@ ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_
 CREATE TABLE interview_answers (
     id integer NOT NULL,
     work_history text NOT NULL,
-    why_in_market text NOT NULL,
-    ideal_position text NOT NULL,
-    what_are_you_good_at text NOT NULL,
-    what_are_you_not_good_at text NOT NULL,
-    compensation_last_job_one character varying NOT NULL,
-    compensation_last_job_two character varying,
-    compensation_last_job_three character varying,
+    why_in_market text,
+    ideal_position text,
+    what_are_you_good_at text,
+    what_are_you_not_good_at text,
+    compensation_last_job_one text,
+    compensation_last_job_two text,
+    compensation_last_job_three text,
     compensation_seeking character varying NOT NULL,
-    hours_looking_to_work character varying NOT NULL,
+    hours_looking_to_work text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     candidate_id integer,
     willingness_characteristic text NOT NULL,
     personality_characteristic text NOT NULL,
     self_motivated_characteristic text NOT NULL,
-    last_two_positions text NOT NULL
+    last_two_positions text,
+    what_interests_you text NOT NULL,
+    first_thing_you_sold text NOT NULL,
+    first_building_of_working_relationship text NOT NULL,
+    first_rely_on_teaching text NOT NULL,
+    availability_confirm boolean DEFAULT false NOT NULL
 );
 
 
@@ -3973,7 +4013,8 @@ CREATE TABLE shifts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     training boolean DEFAULT false NOT NULL,
-    project_id integer
+    project_id integer,
+    meeting boolean DEFAULT false NOT NULL
 );
 
 
@@ -6036,6 +6077,13 @@ ALTER TABLE ONLY employments ALTER COLUMN id SET DEFAULT nextval('employments_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY gift_card_overrides ALTER COLUMN id SET DEFAULT nextval('gift_card_overrides_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY group_me_groups ALTER COLUMN id SET DEFAULT nextval('group_me_groups_id_seq'::regclass);
 
 
@@ -7157,6 +7205,14 @@ ALTER TABLE ONLY employment_end_reasons
 
 ALTER TABLE ONLY employments
     ADD CONSTRAINT employments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gift_card_overrides_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY gift_card_overrides
+    ADD CONSTRAINT gift_card_overrides_pkey PRIMARY KEY (id);
 
 
 --
@@ -10459,6 +10515,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820124622');
 
+INSERT INTO schema_migrations (version) VALUES ('20150820185034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821143712');
+
 INSERT INTO schema_migrations (version) VALUES ('20150821152703');
 
 INSERT INTO schema_migrations (version) VALUES ('20150821180815');
@@ -10468,4 +10528,14 @@ INSERT INTO schema_migrations (version) VALUES ('20150822141202');
 INSERT INTO schema_migrations (version) VALUES ('20150822145514');
 
 INSERT INTO schema_migrations (version) VALUES ('20150822164708');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824144327');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824152157');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824202732');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825145730');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825162909');
 
