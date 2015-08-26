@@ -4046,25 +4046,23 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    in_uniform boolean DEFAULT false NOT NULL,
-    clocked_in boolean DEFAULT false NOT NULL,
-    check_in_inside_store boolean DEFAULT false NOT NULL,
-    clocked_out boolean DEFAULT false NOT NULL,
-    check_out_inside_store boolean DEFAULT false NOT NULL,
-    off_day boolean DEFAULT false NOT NULL,
+    check_in_uniform boolean,
+    check_in_on_time boolean,
+    check_in_inside_store boolean,
+    check_out_on_time boolean,
+    check_out_inside_store boolean,
+    off_day boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean DEFAULT false NOT NULL,
-    punchclock_geotag boolean DEFAULT false NOT NULL,
-    iotd_1 boolean DEFAULT false NOT NULL,
-    iotd_2 boolean DEFAULT false NOT NULL,
-    iotd_3 boolean DEFAULT false NOT NULL,
+    roll_call boolean,
+    blueforce_geotag boolean,
+    accountability_checkin_1 boolean,
+    accountability_checkin_2 boolean,
+    accountability_checkin_3 boolean,
     sales integer,
-    notes text,
-    employee_call_off_reason_id integer,
-    called_off boolean
+    notes text
 );
 
 
@@ -10540,3 +10538,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150824202732');
 INSERT INTO schema_migrations (version) VALUES ('20150825145730');
 
 INSERT INTO schema_migrations (version) VALUES ('20150825162909');
+
+INSERT INTO schema_migrations (version) VALUES ('20150826135152');
+

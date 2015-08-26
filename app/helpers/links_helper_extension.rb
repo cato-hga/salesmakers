@@ -121,6 +121,10 @@ module LinksHelperExtension
     link_to device.serial, device
   end
 
+  def location_link(project, location)
+    link_to location.name, client_project_location_path(project.client, project, location)
+  end
+
   def tracking_link(tracking_number, text = nil)
     if text == nil
       text = tracking_number
