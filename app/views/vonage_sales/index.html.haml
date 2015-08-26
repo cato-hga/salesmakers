@@ -38,7 +38,8 @@
 
 .widget
   .inner
-    = table header, rows
+    = table header, rows, false
 
 - content_for :footer do
+  .left= csv_link csv_vonage_sales_path(params.merge(controller: :vonage_sales, action: :index)), @vonage_sales.count
   = paginate @vonage_sales

@@ -22,4 +22,12 @@ describe VonageSalesController do
       expect(response).to render_template :index
     end
   end
+
+  describe 'GET csv' do
+    before { get :csv }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+  end
 end

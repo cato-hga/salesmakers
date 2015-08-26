@@ -342,7 +342,11 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
-  resources :vonage_sales, only: [:index, :new, :create]
+  resources :vonage_sales, only: [:index, :new, :create] do
+    collection do
+      get :csv, to: 'vonage_sales#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
 
   resources :walmart_gift_cards, only: [:new, :create] do
     collection do

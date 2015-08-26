@@ -6,4 +6,8 @@ class VonageSalePolicy < ApplicationPolicy
       'vonage_sales'
     end
   end
+
+  def csv?
+    index?
+  end
 end
