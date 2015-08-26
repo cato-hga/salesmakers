@@ -24,9 +24,9 @@ module PersonToPersonVisibilityModelExtension
       areas = person_area.area.descendants
       for area in areas do
         managers = managers.concat Person.
-                                   joins(:person_areas).
-                                   where("person_areas.area_id = ? AND person_areas.manages = true AND people.active = true",
-                                       area.id)
+                                       joins(:person_areas).
+                                       where("person_areas.area_id = ? AND person_areas.manages = true AND people.active = true",
+                                             area.id)
       end
     end
     managers.flatten.compact
@@ -62,6 +62,20 @@ module PersonToPersonVisibilityModelExtension
   def department_members
     return Person.none unless self.department
     self.department.people
+  end
+
+  def direct_supervisors
+    manager_ids = []
+    self.person_areas.each do |pa|
+      parent_area = pa.area
+      manager_person_areas = parent_area.person_areas.joins(:person).where("person_areas.manages = true AND people.active = true")
+      while manager_person_areas.empty? && parent_area.parent
+        parent_area = parent_area.parent
+        manager_person_areas = parent_area.person_areas.joins(:person).where("person_areas.manages = true AND people.active = true")
+      end
+      manager_ids.concat manager_person_areas.map { |mpa| mpa.person.id } unless manager_person_areas.empty?
+    end
+    Person.where(id: manager_ids)
   end
 
   module ClassMethods

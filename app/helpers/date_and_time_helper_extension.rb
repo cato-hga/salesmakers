@@ -21,4 +21,8 @@ module DateAndTimeHelperExtension
       datetime.strftime('%m/%d/%Y %l:%M%P %Z')
     end
   end
+
+  def full_datetime(datetime)
+    datetime.strftime('%m/%d/%Y %l:%M%P %Z')
+  end
 end
