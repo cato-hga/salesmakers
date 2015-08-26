@@ -1,1 +1,16 @@
-HI!
+= mailer_h1 pluralize(@vonage_devices.count.to_s, 'Received Devices')
+%p
+  We have received your devices!
+
+%table(width="100%")
+  %tr
+    %td
+      %strong Person
+    %td
+      %strong MAC IDs
+  - for vo_device in @vonage_devices do
+    - person = vo_device.person
+    - macs = vo_device.mac_id
+    %tr
+      %td= person.display_name
+      %td= macs

@@ -2,19 +2,18 @@
   - @vonage_device.errors.full_messages.each do |msg|
     .alert.alert-box= msg
 
-.widget
-  .inner
-    = form_for @vonage_device do |f|
-      = f.label :po_number, 'PO Number'
-      = f.text_field :po_number, placeholder: 'Enter PO Number'
-      = f.label :receive_date, 'Receive Date'
-      = f.text_field :receive_date, placeholder: 'MM/DD/YYYY'
-      = f.label :mac_id, 'MAC ID'
-      = f.text_field :mac_id, placeholder: '12 characters (0-9 & A-F)'
-
-      .large-1.columns.add_delete_button
-        %a.button.postfix.add_row(href='#') Add
-
-
-      = f.submit 'Receive', class: [:button]
+= form_tag vonage_devices_path, method: :post do
+  .widget
+    .inner
+      = label_tag 'PO Number'
+      = text_field_tag 'po_number', nil, placeholder: 'Enter PO Number'
+      = label_tag 'Receive Date'
+      = text_field_tag 'receive_date', nil, placeholder: 'MM/DD/YYYY'
+  .widget
+    .inner
+      .row.full-width.vonage_device
+        .large-11.medium-10.small-7.columns= text_field_tag 'mac_id[]', nil, placeholder: 'MAC ID (12 characters, 0-9 & A-F)', class: 'mac_id'
+        .large-1.medium-2.small-5.columns.add_delete_button
+          %a.button.postfix.add_row Add
+      = submit_tag 'Receive Devices', class: [:button]
 

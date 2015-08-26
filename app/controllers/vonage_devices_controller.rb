@@ -12,13 +12,21 @@ class VonageDevicesController < ApplicationController
   end
 
   def create
-    @vonage_device = VonageDevice.new(vonage_device_params)
-    receive_date = params.require(:vonage_device).permit(:receive_date)[:receive_date]
+    receive_date = params.permit(:receive_date)[:receive_date]
     chronic_time = Chronic.parse(receive_date)
     adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
-    @vonage_device.receive_date = adjusted_time
-    if @vonage_device.save
-      VonageInventoryMailer.inventory_receiving_mailer(@current_person, @vonage_device).deliver_later
+    po_number = vonage_device_params[:po_number]
+    mac_ids = vonage_device_params[:mac_id]
+    @vonage_device_ids = []
+    for mac_id in mac_ids do
+      vonage_device = VonageDevice.create person: @current_person,
+                                          po_number: po_number,
+                                          receive_date: adjusted_time,
+                                          mac_id: mac_id
+      @vonage_device_ids << vonage_device.id
+    end
+    unless @vonage_device_ids.empty?
+      VonageInventoryMailer.inventory_receiving_mailer(@current_person, @vonage_device_ids).deliver_later
       redirect_to new_vonage_transfer_path
     else
       render :new
@@ -28,9 +36,10 @@ class VonageDevicesController < ApplicationController
   private
 
   def vonage_device_params
-    params.require(:vonage_device).permit :person_id,
-                                          :mac_id,
-                                          :po_number
+    params.permit :person_id,
+                  :po_number,
+                  mac_id: []
+
   end
 
   def do_authorization
