@@ -27,7 +27,7 @@ describe VonageSalesController do
     before { get :csv }
 
     it 'returns a success status' do
-      expect(response).to be_success
+      expect(response).to be_redirect
     end
   end
 end
