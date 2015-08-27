@@ -35,6 +35,13 @@ describe 'candidate show page' do
     visit candidate_path(candidate)
   end
 
+  it 'indicates that the person is Project VIP' do
+    candidate.update vip: true
+    visit candidate_path(candidate)
+    within '#basic_information' do
+      expect(page).to have_content 'Project VIP'
+    end
+  end
 
   it 'has a dismissal button' do
     expect(page).to have_content 'Dismiss Candidate'

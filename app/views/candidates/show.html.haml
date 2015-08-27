@@ -17,6 +17,9 @@
         %h3
           Basic Information
           = edit_button edit_candidate_path(@candidate)
+          - if @candidate.vip
+            %br
+            %span.comment.small.round.ok.label.inline_button Project VIP
         %p
           %strong Email:
           = email_link @candidate.email
@@ -93,14 +96,14 @@
             %span.sm_green COMPLETE
         %p
           %strong Interview Scheduling:
-          - if @candidate.interview_schedules.empty?
+          - if @candidate.interview_schedules.empty? and not @candidate.vip
             %span.sm_red= link_to 'INCOMPLETE', new_candidate_interview_schedule_path(@candidate), class: [:sm_red, :candidate_incomplete]
           - else
             %span.sm_green COMPLETE
 
         %p
           %strong Interview:
-          - if @candidate.interview_answers.empty?
+          - if @candidate.interview_answers.empty? and not @candidate.vip
             %span.sm_red INCOMPLETE
           - else
             %span.sm_green COMPLETE

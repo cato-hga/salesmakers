@@ -16,9 +16,10 @@
   - distance = location_area.head_count_full? ? location.geographic_distance(@candidate).round(2).to_s : link_to(location.geographic_distance(@candidate).round(2).to_s, path, class: link_classes)
   - city = location.city
   - candidate_view_all = Permission.find_by key: 'candidate_view_all'
-  - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? ("#{location.channel.name}" + '<br/>' + "#{location.display_name}").html_safe : link_to(("#{location.channel.name}" + '<br/>' + " #{location.display_name}").html_safe, path, class: link_classes)
-  - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.store_number : link_to(location.store_number, path, class: link_classes)
-  - address = (location_area.head_count_full? and not @current_person.position.permissions.include? candidate_view_all) ? location.address : link_to(location.address, path, class: link_classes)
+  - candidate_vip = Permission.find_by key: 'candidate_vip'
+  - location_name = (location_area.head_count_full? and not @current_person.position.permissions.include? (candidate_view_all or candidate_vip)) ? ("#{location.channel.name}" + '<br/>' + "#{location.display_name}").html_safe : link_to(("#{location.channel.name}" + '<br/>' + " #{location.display_name}").html_safe, path, class: link_classes)
+  - store_number = (location_area.head_count_full? and not @current_person.position.permissions.include? (candidate_view_all or candidate_vip)) ? location.store_number : link_to(location.store_number, path, class: link_classes)
+  - address = (location_area.head_count_full? and not @current_person.position.permissions.include? (candidate_view_all or candidate_vip)) ? location.address : link_to(location.address, path, class: link_classes)
   - classes = location_area.outsourced? ? [:outsourced_row] : nil
   - number_of_candidates = location_area.candidates_in_funnel.count
   - open_to_staff = location_area.head_count_full? ? 'NO' : 'YES'
