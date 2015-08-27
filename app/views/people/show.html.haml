@@ -1,6 +1,6 @@
 - page_title = @person.display_name.html_safe
 - page_title = page_title + contact_link(@person) if @person.mobile_phone? and @person.show_details_for_ids? @visible_people_ids and @current_person.position.hq?
-- title page_title
+- title @person.display_name
 - show_details = @person.show_details_for_ids? @visible_people_ids
 - clients = @person.clients
 - vonage = false
