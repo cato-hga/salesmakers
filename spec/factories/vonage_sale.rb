@@ -9,7 +9,10 @@ FactoryGirl.define do
     customer_last_name 'Walker'
     mac '906EBB123456'
     vonage_product
+    person_acknowledged true
+    gift_card_number 'ab1234567890'
     resold false
+    association :creator, factory: :person
   end
 
 end

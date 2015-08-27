@@ -118,7 +118,7 @@ describe RootRedirectsController do
       end
       it 'routes to commissions for retail employees' do
         get :incoming_redirect
-        expect(response).to redirect_to(vcp07012015_path(vonage_employee.id))
+        expect(response).to redirect_to(new_vonage_sale_path)
       end
       it 'returns a redirect for event employees' do
         vonage_position.update department: vonage_events_department
@@ -128,7 +128,7 @@ describe RootRedirectsController do
       it 'routes to commissions for event employees' do
         vonage_position.update department: vonage_events_department
         get :incoming_redirect
-        expect(response).to redirect_to(vcp07012015_path(vonage_employee.id))
+        expect(response).to redirect_to(new_vonage_sale_path)
       end
     end
 

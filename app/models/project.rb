@@ -87,7 +87,7 @@ class Project < ActiveRecord::Base
     for area in self.areas do
       all_locations << area.locations
     end
-    all_locations.flatten.uniq
+    Location.where(id: all_locations.flatten.uniq.map(&:id))
   end
 
   def locations_for_person(person)

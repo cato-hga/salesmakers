@@ -80,6 +80,17 @@ module Groupme
       get_group new_group_id
     end
 
+    def add_all_members_from_one_group_to_another old_group_id, new_group_id
+      old_group_json = get_group old_group_id || return
+      old_group_members = old_group_json['members'] || return
+      for member in old_group_members do
+        nickname = member['nickname'] || next
+        user_id = member['user_id'] || next
+        add_to_group_by_user_id new_group_id, nickname, user_id
+      end
+      get_group new_group_id
+    end
+
     def change_nickname_in_group group_id, nickname
       json = {
           "membership": {

@@ -14,6 +14,7 @@
 require 'rails_helper'
 
 describe VonageRefund do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   subject { build :vonage_refund }
 
   it 'does not allow duplicates' do

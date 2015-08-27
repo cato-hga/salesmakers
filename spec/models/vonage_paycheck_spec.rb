@@ -121,6 +121,7 @@ describe VonagePaycheck do
   end
 
   describe 'scopes' do
+    let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
     let!(:vonage_sale_payout) {
       subject.save
       create :vonage_sale_payout,

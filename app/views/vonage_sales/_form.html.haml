@@ -1,0 +1,70 @@
+- if @vonage_sale.errors.any?
+  - @vonage_sale.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @vonage_sale do |f|
+      - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name, @vonage_sale.person_id)
+      = f.label :person_id, 'Sales Representative'
+      = f.select :person_id, person_name_options, include_blank: true
+      = f.label :sale_date, 'Sale Date'
+      = f.text_field :sale_date, placeholder: 'MM/DD/YYYY'
+      = f.label :confirmation_number, 'Confirmation Number'
+      = f.text_field :confirmation_number, placeholder: '10 characters'
+      - location_options = options_from_collection_for_select(@vonage_locations, :id, :name, @vonage_sale.location_id)
+      = f.label :location_id, 'Location'
+      = f.select :location_id, location_options, include_blank: true
+      = f.label :customer_first_name, 'Customer First Name'
+      = f.text_field :customer_first_name
+      = f.label :customer_last_name, 'Customer Last Name'
+      = f.text_field :customer_last_name
+      = f.label :mac, 'MAC ID', id: 'mac_id'
+      = f.text_field :mac, placeholder: '12 characters (0-9 & A-F)', oncopy: 'return false', onpaste: 'return false'
+      = f.label :mac_confirmation, 'Confirm MAC ID', id: 'mac_id_conf'
+      = f.text_field :mac_confirmation, placeholder: 'Re-enter MAC ID *FROM BOX*', oncopy: 'return false', onpaste: 'return false'
+      - vonage_product_options = options_from_collection_for_select(@vonage_products, :id, :name, @vonage_sale.vonage_product_id)
+      = f.label :vonage_product_id, 'Product Type'
+      = f.select :vonage_product_id, vonage_product_options, include_blank: true
+      = f.label :gift_card_number, 'Gift Card Number', id: 'gcn'
+      = f.text_field :gift_card_number, placeholder: 'Required if Whole Home Kit has been selected'
+      = f.label :gift_card_number_confirmation, 'Confirm Gift Card Number', id: 'gcnc'
+      = f.text_field :gift_card_number_confirmation, placeholder: 'Re-enter the gift card number'
+      = f.hidden_field :creator_id, value: @current_person.id
+      %p
+        = f.check_box :person_acknowledged
+        = f.label :person_acknowledged, 'I agree to the Gift Card Rules and Regulations as outlined below and this sale either is not made using a gift card or is in accordance with those rules and regulations.'
+      = f.submit 'Complete Sale', class: [:button]
+
+      %h3 Gift Card Rules and Regulations
+      %p
+        Below is a list of the rules and regulations in regard to the Gift Card Program. These rules and regulations are unconditional and can only be adjusted by the Senior Vice President of Sales and Operations. NO EXCEPTIONS!
+
+        %h3 Do's for the Gift Cards
+        %ul
+          %li The gift cards can be used to purchase a "Whole Home Kit" or a "V-Portal" from Walmart on behalf of Vonage for their customers.
+          %li A gift card can only be used at a Walmart store or Walmart Supercenter.
+          %li A gift card can only be used ONCE! There are NO EXCEPTIONS!
+
+        %h3 Dont's for the Gift Cards
+        %ul
+          %li Gift cards cannot be used for anything except a V-Portal or Whole Home Kit.
+          %li Gift cards cannot be used for a drink!
+          %li Gift cards cannot be used for food!
+          %li Gift cards cannot be used for groceries!
+          %li A gift card cannot be used more than once!
+          %li A gift card cannot be used at multiple locations!
+          %li A gift card cannot be used on multiple dates!
+          %li A gift card cannot be used at walmart.com, at a Sam's Club or a Neighborhood Market (which is also owned by Walmart and does not sell anything Vonage)!
+          %li DO NOT transfer gift cards between territories EVER!
+          %li Never share a Google Drive spreadsheet with anyone. If there is a new TL, ASM, or RM that needs to be added to the access list, an approval from the VP of Sales needs to be sent to the Director of Operations. NO SALES REPS WILL HAVE ACCESS TO THE GOOGLE DRIVE UNDER ANY CIRCUMSTANCES!
+
+      %p(style="color:red;")
+        <em>All of the above rules are punishable by written action up to and including termination.</em>
+
+      %p
+        If there are any questions in regard to the rules outlined above please submit a help desk ticket for support. To report a rules violation please contact the Human Resources Department at
+        = mail_to "hr@retaildoneright.com"
+
+
+

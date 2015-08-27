@@ -338,7 +338,11 @@ Rails.application.routes.draw do
   post 'twilio/incoming_voice', as: 'incoming_voice_twilio'
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 
+  resources :walmart_gift_cards, only: [:new, :create]
+
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
+
+  resources :vonage_sales
 
   # ------------------------- API NAMESPACE --------------------------
 

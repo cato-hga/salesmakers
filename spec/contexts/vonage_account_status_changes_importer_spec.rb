@@ -8,6 +8,13 @@ describe VonageAccountStatusChangesImporter do
   }
   let(:importer) { described_class.new(File.absolute_path(file.path)) }
 
+  before do
+    create :vonage_mac_prefix, prefix: '0071CC'
+    create :vonage_mac_prefix, prefix: '7429AF'
+    create :vonage_mac_prefix, prefix: '1008B1'
+    create :vonage_mac_prefix, prefix: '8056F2'
+  end
+
   context 'initialization' do
     it 'raises no errors with one argument' do
       expect {
