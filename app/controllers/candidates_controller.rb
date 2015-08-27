@@ -62,6 +62,9 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     get_create_variables
     check_and_handle_unmatched_candidates
+    if @candidate_source == @vip
+      @candidate.vip = true
+    end
     if @select_location or @candidate.candidate_source == @outsourced
       create_and_select_location; return if performed?
     end
