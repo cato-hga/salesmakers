@@ -2,8 +2,8 @@
 %html
   %head
     %title
-      SalesCenter -
       = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+      = '- SalesCenter'
     = stylesheet_link_tag 'application', params[:controller], media: 'all'
     - if Rails.env.test?
       = javascript_include_tag 'application', params[:controller]
