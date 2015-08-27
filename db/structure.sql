@@ -603,7 +603,8 @@ CREATE TABLE candidates (
     other_phone character varying,
     mobile_phone_valid boolean DEFAULT true NOT NULL,
     other_phone_valid boolean DEFAULT true NOT NULL,
-    mobile_phone_is_landline boolean DEFAULT false NOT NULL
+    mobile_phone_is_landline boolean DEFAULT false NOT NULL,
+    vip boolean DEFAULT false NOT NULL
 );
 
 
@@ -3437,7 +3438,9 @@ CREATE TABLE prescreen_answers (
     worked_for_radioshack boolean DEFAULT false NOT NULL,
     former_employment_date_start date,
     former_employment_date_end date,
-    store_number_city_state character varying
+    store_number_city_state character varying,
+    has_sales_experience boolean DEFAULT false,
+    sales_experience_notes text
 );
 
 
@@ -10422,4 +10425,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150824144327');
 INSERT INTO schema_migrations (version) VALUES ('20150824152157');
 
 INSERT INTO schema_migrations (version) VALUES ('20150824202732');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827125401');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827132536');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827154914');
 

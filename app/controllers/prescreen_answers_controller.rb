@@ -110,7 +110,9 @@ class PrescreenAnswersController < ApplicationController
                                              :ok_to_screen,
                                              :visible_tattoos,
                                              :store_number_city_state,
-                                             :worked_for_radioshack
+                                             :worked_for_radioshack,
+                                             :has_sales_experience,
+                                             :sales_experience_notes
     )
   end
 

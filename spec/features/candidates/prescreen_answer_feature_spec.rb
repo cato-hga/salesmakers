@@ -45,6 +45,8 @@ describe 'Prescreen answers' do
       expect(page).to have_content('Candidate has access to reliable transportation')
       expect(page).to have_content('Candidate gave permission for background check and drug screen')
       expect(page).to have_content('Candidate does not have any visible tattoos')
+      expect(page).to have_content('Candidate has 6 months of sales experience or equivalen')
+      expect(page).to have_content('Notes on sales experience')
       expect(page).to have_content('Is this call inbound or outbound?')
       expect(page).to have_button 'Save Answers'
       within('.availability') do
@@ -79,6 +81,8 @@ describe 'Prescreen answers' do
             check :prescreen_answer_reliable_transportation
             check :prescreen_answer_ok_to_screen
             check :prescreen_answer_visible_tattoos
+            check :prescreen_answer_has_sales_experience
+            fill_in :prescreen_answer_sales_experience_notes, with: 'Yes'
             check :candidate_availability_monday_first
             select 'Inbound', from: 'Is this call inbound or outbound?'
             click_on 'Save Answers'
@@ -87,10 +91,12 @@ describe 'Prescreen answers' do
           end
         end
       end
+
       context 'with any prescreen checkboxes missed, and availability selected' do #Person cannot work for us, exits process
         before(:each) do
           select 'No', from: :prescreen_answer_worked_for_radioshack
           check :candidate_availability_monday_first
+          check :prescreen_answer_has_sales_experience
           select 'Outbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
@@ -118,6 +124,8 @@ describe 'Prescreen answers' do
           check :prescreen_answer_ok_to_screen
           check :prescreen_answer_visible_tattoos
           check :candidate_availability_monday_first
+          check :prescreen_answer_has_sales_experience
+          fill_in :prescreen_answer_sales_experience_notes, with: 'Yes'
           select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
@@ -157,6 +165,8 @@ describe 'Prescreen answers' do
           check :prescreen_answer_can_work_weekends
           check :prescreen_answer_reliable_transportation
           check :prescreen_answer_ok_to_screen
+          check :prescreen_answer_has_sales_experience
+          fill_in :prescreen_answer_sales_experience_notes, with: 'Yes'
           select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
@@ -200,6 +210,8 @@ describe 'Prescreen answers' do
         check :prescreen_answer_ok_to_screen
         check :prescreen_answer_visible_tattoos
         check :candidate_availability_monday_first
+        check :prescreen_answer_has_sales_experience
+        fill_in :prescreen_answer_sales_experience_notes, with: 'Yes'
         select 'Inbound', from: 'Is this call inbound or outbound?'
         click_on 'Save Answers'
         expect(current_path).to eq(candidate_path(location_less_candidate))
