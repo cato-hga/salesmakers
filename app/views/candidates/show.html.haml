@@ -161,12 +161,18 @@
               - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
           - when 'prescreened'
             - if @candidate.location_selected?
-              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+              - if @candidate.vip
+                - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+              - else
+                - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
             - else
               - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
           - when 'location_selected'
             - if @candidate.prescreened?
-              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+              - if @candidate.vip
+                - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+              - else
+                - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
             - else
               - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
           - when 'interview_scheduled'
