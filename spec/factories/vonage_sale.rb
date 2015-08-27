@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   sequence :mac do |n|
-    "906EBB1234#{n.to_s.rjust(2, '0')}"
+    "906EBB123#{n.to_s.rjust(3, '0')}"
   end
 
   factory :vonage_sale do

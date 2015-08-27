@@ -30,7 +30,12 @@
           %header
             = render partial: 'shared/changelog_entries', locals: { changelog_entries: @unseen_changelog_entries }
             %h1
-              = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+              - if content_for?(:heading)
+                = yield(:heading)
+              - elsif content_for?(:title)
+                = yield(:title)
+              - else
+                = NameCase(params[:controller].sub('_',' '))
               = yield :action_buttons
             = render partial: 'devices/search'
             = yield :header

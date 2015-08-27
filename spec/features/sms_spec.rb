@@ -6,6 +6,8 @@ describe 'SMS messaging' do
   let(:position) { create :it_tech_position, department: department, permissions: [candidate_index] }
   let(:department) { create :information_technology_department }
   let(:candidate_index) { create :permission, key: 'candidate_index' }
+  let(:rep) { create :person }
+
   before(:each) do
     CASClient::Frameworks::Rails::Filter.fake(person.email)
   end
@@ -21,8 +23,8 @@ describe 'SMS messaging' do
       expect(page).to have_selector('a.send_contact')
     end
 
-    it 'shows for People#about' do
-      visit person_path(person)
+    it 'shows for People#show' do
+      visit person_path(rep)
       expect(page).to have_selector('a.send_contact')
     end
 

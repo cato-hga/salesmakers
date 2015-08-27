@@ -7,7 +7,11 @@
 - postpaid = Project.find_by name: 'Sprint Postpaid'
 - for client in clients do
   - vonage = true if client.name == 'Vonage'
-= content_for :action_buttons do
+
+- content_for :heading do
+  = page_title
+
+- content_for :action_buttons do
   - if show_details
     - if vonage
       = button_to 'Commissions', vcp07012015_path(@person.id), class: [:button, :inline_button], method: :get
