@@ -4,21 +4,20 @@ describe 'Vonage sales actions' do
   let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:manager) { create :person, position: position }
   let(:rep) { create :person, position: position }
-  let(:manager_person_area) { create :person_area, area: area_one, manages: true }
+  let!(:manager_person_area) { create :person_area, area: area_one, person: manager, manages: true }
   let(:area_one) { create :area, project: vonage_retail }
   let(:vonage_retail) { create :project, name: 'Vonage Retail' }
   let(:other_project_area) { create :area, project: other_project }
   let(:other_project) { create :project, name: 'Sprint Retail' }
-  let(:rep_person_area) { create :person_area, area: area_one }
+  let!(:rep_person_area) { create :person_area, area: area_one, person: rep }
   let(:position) { create :position, permissions: [index_permission] }
   let(:index_permission) { create :permission, key: 'vonage_sale_index' }
-
 
   context 'when viewing the index' do
     let(:gift_card_override) { create :gift_card_override }
     let!(:rep_vonage_sale) { create :vonage_sale, person: rep, vested: true, gift_card_number: gift_card_override.override_card_number }
     let(:rep_from_another_area) { create :person }
-    let!(:rep_from_another_area_person_area) { create :person_area, area: area_two }
+    let!(:rep_from_another_area_person_area) { create :person_area, area: area_two, person: rep_from_another_area }
     let(:area_two) { create :area }
     let!(:location_area_one) { create :location_area, area: area_one, location: rep_vonage_sale.location }
     let!(:other_project_location_area) { create :location_area, area: other_project_area, location: rep_vonage_sale.location }
@@ -72,9 +71,33 @@ describe 'Vonage sales actions' do
     end
 
     describe 'as a manager' do
+      before do
+        CASClient::Frameworks::Rails::Filter.fake manager.email
+        visit vonage_sales_path
+      end
+
+      it 'shows the proper devices' do
+        expect(page).to have_content rep_vonage_sale.mac
+      end
+
+      it 'does not show devices from outside the area' do
+        expect(page).not_to have_content rep_from_another_area_vonage_sale.mac
+      end
     end
 
     describe 'as someone with all field visibility' do
+      let(:it_tech) { create :it_tech_person }
+
+      before do
+        it_tech.position.permissions << index_permission
+        CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+        visit vonage_sales_path
+      end
+
+      it 'should display all devices' do
+        expect(page).to have_content rep_vonage_sale.mac
+        expect(page).to have_content rep_from_another_area_vonage_sale.mac
+      end
     end
   end
 end
