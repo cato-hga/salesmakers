@@ -1,0 +1,42 @@
+- if @sprint_sale.errors.any?
+  - @sprint_sale.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+.widget
+  .inner
+    = form_for @sprint_sale, url: new_sprint_sales_path(@project.id) do |f|
+      - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name, @sprint_sale.person_id)
+      = f.label :person_id, 'Sales Representative'
+      = f.select :person_id, person_name_options, include_blank: true
+      = f.label :sale_date
+      = f.text_field :sale_date, placeholder: 'MM/DD/YYYY'
+      - location_options = options_from_collection_for_select(@sprint_locations, :id, :name, @sprint_sale.location_id)
+      = f.label :location_id, 'Location'
+      = f.select :location_id, location_options, include_blank: true
+      = f.label :meid, 'MEID'
+      = f.text_field :meid, placeholder: 'Found on the box', oncopy: "return false", onpaste: "return false"
+      = f.label :meid_confirmation, 'Re-enter MEID to Confirm'
+      = f.text_field :meid_confirmation, oncopy: "return false", onpaste: "return false"
+      = f.label :mobile_phone, 'Mobile Phone Number'
+      = f.text_field :mobile_phone
+      = f.label :upgrade, 'New Service?'
+      = f.select :upgrade, options_for_select([['New Activation', false], ['Upgrade', true]], nil), include_blank: true
+      = f.label :carrier_name, 'Product'
+      = f.text_field :carrier_name
+      = f.label :handset_model_name, 'handset'
+      = f.text_field :handset_model_name
+      = f.label :rate_plan_name, 'Rate Plan'
+      = f.text_field :rate_plan_name
+      = f.label :top_up_card_purchased, 'Was a Top-Up Card purchased?'
+      = f.select :top_up_card_purchased, options_for_select([['Yes', true], ['No', false]], nil), include_blank: true
+      = f.label :top_up_card_amount, 'What was the amount of the Top-Up Card?'
+      = f.number_field :top_up_card_amount
+      = f.label :phone_activated_in_store, 'Was the phone activated in-store?'
+      = f.select :phone_activated_in_store, options_for_select([['Yes', true], ['No', false]], nil), include_blank: true
+      = f.label :reason_not_activated_in_store, "Why wasn't the phone activated in-store?"
+      = f.text_field :reason_not_activated_in_store
+      = f.label :picture_with_customer, 'Did you get a picture with customer?'
+      = f.select :picture_with_customer, options_for_select([['Yes'],['No, Customer refused'],['No, Forgot']], nil), include_blank: true
+      = f.label :comments
+      = f.text_area :comments, size: "30x10"
+      = f.submit 'Complete Sale', class: [:button]

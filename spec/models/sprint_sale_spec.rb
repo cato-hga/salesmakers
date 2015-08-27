@@ -28,6 +28,25 @@ require 'rails_helper'
 describe SprintSale do
   subject { build :sprint_sale, sale_date: Date.today }
 
+  it 'requires a person' do
+    subject.person_id = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a valid sale date'do
+    subject.sale_date = nil
+    expect(subject).not_to be_valid
+    subject.sale_date = Date.today
+    expect(subject).to be_valid
+    subject.sale_date = 'totallywrongdate'
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a location' do
+    subject.location_id = nil
+    expect(subject).not_to be_valid
+  end
+
   it 'requires that MEID be 4 or 18 characters' do
     subject.meid = 'SWAS'
     expect(subject).to be_valid
@@ -37,13 +56,39 @@ describe SprintSale do
     expect(subject).to be_valid
   end
 
+  it 'requires a mobile phone number' do
+    subject.mobile_phone = nil
+    expect(subject).not_to be_valid
+  end
+
   it 'requires an upgrade value' do
     subject.upgrade = nil
     expect(subject).not_to be_valid
   end
 
+  it 'requires a product' do
+    subject.carrier_name = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a handset' do
+    subject.handset_model_name = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a rateplan value' do
+    subject.rate_plan_name = nil
+    expect(subject).not_to be_valid
+  end
+
   it 'requires a top up card purchased value' do
     subject.top_up_card_purchased = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires top_up_card_amount if top up card was purchased' do
+    subject.top_up_card_purchased = true
+    subject.top_up_card_amount = nil
     expect(subject).not_to be_valid
   end
 
@@ -53,6 +98,17 @@ describe SprintSale do
 
   it 'requires a phone activated in store value' do
     subject.phone_activated_in_store = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires reason_not_activated_in_store if phone was not activated in store' do
+    subject.phone_activated_in_store = false
+    subject.reason_not_activated_in_store = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a picture with customer value' do
+    subject.picture_with_customer = nil
     expect(subject).not_to be_valid
   end
 

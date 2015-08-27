@@ -23,6 +23,34 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -2564,22 +2592,27 @@ ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_
 CREATE TABLE interview_answers (
     id integer NOT NULL,
     work_history text NOT NULL,
-    why_in_market text NOT NULL,
-    ideal_position text NOT NULL,
-    what_are_you_good_at text NOT NULL,
-    what_are_you_not_good_at text NOT NULL,
-    compensation_last_job_one character varying NOT NULL,
-    compensation_last_job_two character varying,
-    compensation_last_job_three character varying,
+    why_in_market text,
+    ideal_position text,
+    what_are_you_good_at text,
+    what_are_you_not_good_at text,
+    compensation_last_job_one text,
+    compensation_last_job_two text,
+    compensation_last_job_three text,
     compensation_seeking character varying NOT NULL,
-    hours_looking_to_work character varying NOT NULL,
+    hours_looking_to_work text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     candidate_id integer,
     willingness_characteristic text NOT NULL,
     personality_characteristic text NOT NULL,
     self_motivated_characteristic text NOT NULL,
-    last_two_positions text NOT NULL
+    last_two_positions text,
+    what_interests_you text NOT NULL,
+    first_thing_you_sold text NOT NULL,
+    first_building_of_working_relationship text NOT NULL,
+    first_rely_on_teaching text NOT NULL,
+    availability_confirm boolean DEFAULT false NOT NULL
 );
 
 
@@ -4248,7 +4281,8 @@ CREATE TABLE sprint_sales (
     comments text,
     connect_sprint_sale_id character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    project_id integer
 );
 
 
@@ -5331,9 +5365,9 @@ CREATE TABLE vonage_sales (
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
-    vested boolean,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
+    vested boolean,
     creator_id integer
 );
 
@@ -10437,9 +10471,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150807193852');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807194138');
 
+INSERT INTO schema_migrations (version) VALUES ('20150807201044');
+
 INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150810145636');
 
 INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 
@@ -10461,15 +10499,19 @@ INSERT INTO schema_migrations (version) VALUES ('20150820124622');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820185034');
 
-INSERT INTO schema_migrations (version) VALUES ('20150821141202');
-
 INSERT INTO schema_migrations (version) VALUES ('20150821143712');
-
-INSERT INTO schema_migrations (version) VALUES ('20150821145514');
 
 INSERT INTO schema_migrations (version) VALUES ('20150821152703');
 
 INSERT INTO schema_migrations (version) VALUES ('20150821180815');
 
+INSERT INTO schema_migrations (version) VALUES ('20150822141202');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822145514');
+
 INSERT INTO schema_migrations (version) VALUES ('20150822164708');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824183946');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825144107');
 

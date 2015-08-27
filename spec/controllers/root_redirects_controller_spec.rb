@@ -132,6 +132,38 @@ describe RootRedirectsController do
       end
     end
 
+    describe 'Sprint Sales' do
+      let!(:sprint_employee) { create :person, position: sprint_position }
+      let(:sprint_position) { create :position, department: sprint_prepaid_department }
+      let(:sprint_prepaid_department) { create :department, name: 'Sprint Retail Sales' }
+      let(:sprint_postpaid_department) { create :department, name: 'Sprint RadioShack Sales' }
+      let!(:sprint_postpaid_project) { create :project, name: "Sprint Postpaid" }
+      let!(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(sprint_employee.email)
+      end
+
+      it 'returns a redirect for prepaid employees' do
+        get :incoming_redirect
+        expect(response).to be_redirect
+      end
+      it 'routes to prepaid for prepaid employees' do
+        get :incoming_redirect
+        expect(response).to redirect_to(new_sprint_sales_path(sprint_prepaid_project))
+      end
+      it 'returns a redirect for event employees' do
+        sprint_position.update department: sprint_prepaid_department
+        get :incoming_redirect
+        expect(response).to be_redirect
+      end
+      it 'routes to postpaid for postpaid employees' do
+        sprint_position.update department: sprint_postpaid_department
+        get :incoming_redirect
+        expect(response).to redirect_to(new_sprint_sales_path(sprint_postpaid_project))
+      end
+    end
+
     describe 'not yet implemented department' do
       let(:person) { create :person, position: unknown_position }
       let(:unknown_position) { create :position, department: unknown_department, name: 'Unknown' }

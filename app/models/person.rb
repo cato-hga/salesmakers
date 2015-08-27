@@ -188,7 +188,7 @@ class Person < ActiveRecord::Base
     for person_area in self.person_areas do
       all_locations << person_area.area.all_locations
     end
-    all_locations.flatten.uniq
+    Location.where(id: all_locations.flatten.uniq.map(&:id))
   end
 
   def physical_address

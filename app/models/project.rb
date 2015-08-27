@@ -92,9 +92,9 @@ class Project < ActiveRecord::Base
 
   def locations_for_person(person)
     if person.position.hq?
-      self.locations.sort_by { |l| l.name }
+      self.locations.joins(:channel).order("channels.name ASC, locations.city ASC, locations.display_name ASC")
     else
-      person.locations.sort_by { |l| l.name }
+      person.locations.joins(:channel).order("channels.name ASC, locations.city ASC, locations.display_name ASC")
     end
   end
 

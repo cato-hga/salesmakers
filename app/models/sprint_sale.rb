@@ -25,22 +25,30 @@
 
 class SprintSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
+  before_validation :strip_mobile_phone
 
   validates :sale_date, presence: true
   validates :person, presence: true
   validates :location, presence: true
-  validates :carrier_name, length: { minimum: 1 }
-  validates :handset_model_name, length: { minimum: 1 }
-  validates :rate_plan_name, length: { minimum: 1 }
-  validates :upgrade, inclusion: { in: [true, false ] }
-  validates :top_up_card_purchased, inclusion: { in: [true, false ] }
-  validates :phone_activated_in_store, inclusion: { in: [true, false ] }
-  validate :meid_length
+  validates :meid, confirmation: true
+  validates :mobile_phone, presence: true
+  validates :carrier_name, presence: true
+  validates :handset_model_name, presence: true
+  validates :rate_plan_name, presence: true
+  validates :upgrade, inclusion: { in: [true, false], message: "can't be blank" }
+  validates :top_up_card_purchased, inclusion: { in: [true, false], message: "can't be blank" }
+  validates :top_up_card_amount, presence: true, if: :card_purchased
+  validates :phone_activated_in_store, inclusion: { in: [true, false], message: "can't be blank" }
+  validates :reason_not_activated_in_store, presence: true, if: :not_activated
+  validates :picture_with_customer, presence: true
+  validate  :meid_length
 
   belongs_to :person
   belongs_to :location
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
+
+  nilify_blanks
 
   def location_area
     self.location_area_for_sale 'Sprint'
@@ -52,5 +60,17 @@ class SprintSale < ActiveRecord::Base
     if not self.meid or (self.meid.length != 4 and self.meid.length != 18)
       errors.add :meid, 'must be 18 characters in length'
     end
+  end
+
+  def strip_mobile_phone
+    self.mobile_phone.gsub!(/[^0-9]/, '') if self.mobile_phone
+  end
+
+  def card_purchased
+    self.top_up_card_purchased && self.top_up_card_purchased == true
+  end
+
+  def not_activated
+    self.phone_activated_in_store == false
   end
 end
