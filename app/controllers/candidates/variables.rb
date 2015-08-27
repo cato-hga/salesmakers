@@ -43,7 +43,6 @@ module Candidates::Variables
       next if source == @vip unless @current_person.position.permissions.include? permission
       @sources << source if source.active
     end
-    #@sources = CandidateSource.where active: true
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
   end
 
