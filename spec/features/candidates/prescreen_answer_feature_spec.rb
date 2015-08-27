@@ -168,6 +168,8 @@ describe 'Prescreen answers' do
           check :prescreen_answer_ok_to_screen
           check :prescreen_answer_visible_tattoos
           check :candidate_availability_monday_first
+          check :prescreen_answer_has_sales_experience
+          fill_in :prescreen_answer_sales_experience_notes, with: 'Yes'
           select 'Inbound', from: 'Is this call inbound or outbound?'
           click_on 'Save Answers'
         end
