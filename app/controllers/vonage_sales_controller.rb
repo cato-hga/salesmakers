@@ -1,5 +1,5 @@
 class VonageSalesController < ApplicationController
-  before_action :do_authorization, only: [:new, :create, :index, :csv]
+  before_action :do_authorization, only: [:new, :create, :index, :csv, :show]
   before_action :set_salesmaker, only: [:new, :create]
   before_action :set_vonage_locations, only: [:new, :create]
   before_action :set_vonage_product, only: [:new, :create]
@@ -21,6 +21,12 @@ class VonageSalesController < ApplicationController
         headers['Content-Type'] ||= 'text/csv'
       end
     end
+  end
+
+  def show
+    @vonage_sale = policy_scope(VonageSale).find params[:id]
+    @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number
+    @project = Project.find_by name: 'Vonage Retail'
   end
 
   def new

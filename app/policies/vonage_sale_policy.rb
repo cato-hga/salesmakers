@@ -10,4 +10,8 @@ class VonageSalePolicy < ApplicationPolicy
   def csv?
     index?
   end
+
+  def show?
+    index?
+  end
 end

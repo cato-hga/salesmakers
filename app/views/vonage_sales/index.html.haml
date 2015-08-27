@@ -14,11 +14,13 @@
     = f.text_field :sale_date_lteq, placeholder: 'Sold on/before'
     = f.text_field :person_display_name_cont, placeholder: 'Seller'
     = f.text_field :mac_cont, placeholder: 'MAC'
+    %br/
     = f.text_field :location_store_number_cont, placeholder: 'Store #'
     = f.text_field :location_city_cont, placeholder: 'Store City'
     = f.text_field :location_street_1_cont, placeholder: 'Store Street'
     = f.text_field :customer_first_name_cont, placeholder: 'Customer First Name'
     = f.text_field :customer_last_name_cont, placeholder: 'Customer Last Name'
+    %br/
     = f.text_field :gift_card_number_cont, placeholder: 'Gift Card'
     = select_tag :areas_includes_id, options_from_collection_for_select(@areas, :id, :name, params[:areas_includes_id]), include_blank: 'All Areas'
     = f.select :vested_eq, [['Vested', true],['Not Vested', false]], include_blank: 'All'
@@ -27,7 +29,7 @@
 - for sale in @vonage_sales do
   - date = short_date sale.sale_date
   - seller = person_link sale.person
-  - mac = link_to sale.mac, '#'
+  - mac = vonage_sale_link sale
   - location = location_link @project, sale.location
   - customer = NameCase(sale.customer_first_name + " " + sale.customer_last_name)
   - product = sale.vonage_product.name

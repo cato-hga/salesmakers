@@ -125,6 +125,10 @@ module LinksHelperExtension
     link_to location.name, client_project_location_path(project.client, project, location)
   end
 
+  def vonage_sale_link vonage_sale
+    link_to vonage_sale.mac, vonage_sale
+  end
+
   def tracking_link(tracking_number, text = nil)
     if text == nil
       text = tracking_number

@@ -30,4 +30,16 @@ describe VonageSalesController do
       expect(response).to be_redirect
     end
   end
+
+  describe 'GET show' do
+    before { get :show, id: rep_vonage_sale.id }
+
+    it 'returns a success status' do
+      expect(response).to be_success
+    end
+
+    it 'renders the show template' do
+      expect(response).to render_template :show
+    end
+  end
 end
