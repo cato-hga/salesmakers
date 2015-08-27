@@ -82,8 +82,13 @@ module Candidates::Locations
   end
 
   def candidate_is_prescreened
-    flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
-    redirect_to candidate_path(@candidate)
+    if @candidate.vip
+      flash[:notice] = 'Location chosen successfully.'
+      redirect_to new_candidate_training_availability_path(@candidate)
+    else
+      flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
+      redirect_to candidate_path(@candidate)
+    end
   end
 
   def back_to_confirm

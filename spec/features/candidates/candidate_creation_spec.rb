@@ -7,11 +7,14 @@ describe 'Candidate creation', :vcr do
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   let(:permission_select_location) { Permission.new key: 'candidate_select_location',
-                                           permission_group: permission_group,
-                                           description: 'Test Description' }
+                                                    permission_group: permission_group,
+                                                    description: 'Test Description' }
   let(:permission_index) { Permission.new key: 'candidate_index',
                                           permission_group: permission_group,
                                           description: 'Test Description' }
+  let!(:permission_vip) { Permission.new key: 'candidate_vip',
+                                         permission_group: permission_group,
+                                         description: 'Test Description' }
   let(:location) { create :location }
   let!(:project) { create :project, name: 'Comcast Retail' }
   let!(:source) { create :candidate_source }
@@ -64,6 +67,37 @@ describe 'Candidate creation', :vcr do
       end
 
       context 'with valid data' do
+        context 'for VIPs' do
+          let!(:vip_source) { create :candidate_source, name: 'Project VIP' }
+
+          specify 'the form does not show the Project VIP Source unless the current person has the permission' do
+            within '#content' do
+              expect(page).not_to have_content 'Project VIP'
+            end
+            position.permissions << permission_vip
+            visit new_candidate_path
+            within '#content' do
+              expect(page).to have_content 'Project VIP'
+            end
+          end
+
+          it 'sets the candidate as a VIP if the Project VIP source is selected' do
+            position.permissions << permission_vip
+            visit new_candidate_path
+            within '#content' do
+              fill_in 'First name', with: 'Test'
+              fill_in 'Last name', with: 'Candidate'
+              fill_in 'Mobile phone', with: '727-498-5180'
+              fill_in 'Email address', with: 'test@test.com'
+              fill_in 'Zip Code', with: '33701'
+              select vip_source.name, from: 'Candidate source'
+              click_on 'Save and Select Location'
+            end
+            candidate = Candidate.first
+            expect(candidate.vip).to eq(true)
+          end
+        end
+
         context 'for outsourced employees' do
           before(:each) do
             within '#content' do
@@ -82,6 +116,10 @@ describe 'Candidate creation', :vcr do
           end
           it 'redirects to the prescreen questions page' do
             expect(page).to have_content 'Select Location for'
+          end
+          it 'does not have the candidate as a VIP' do
+            candidate = Candidate.first
+            expect(candidate.vip).to eq(false)
           end
         end
 
@@ -161,6 +199,10 @@ describe 'Candidate creation', :vcr do
             candidate = Candidate.first
             visit candidate_path candidate
             expect(page).to have_content Time.zone.now.strftime('%l:%M%P %Z')
+          end
+          it 'does not have the candidate as a VIP' do
+            candidate = Candidate.first
+            expect(candidate.vip).to eq(false)
           end
         end
       end

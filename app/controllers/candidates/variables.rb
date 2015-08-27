@@ -4,6 +4,7 @@ module Candidates::Variables
 
   def get_create_variables
     @projects = Project.all
+    @candidate_source = []
     @candidate_source = CandidateSource.find_by id: candidate_params[:candidate_source_id]
     @outsourced = CandidateSource.find_by name: 'Outsourced'
     @select_location = params[:select_location] == 'true' ? true : false
@@ -35,7 +36,13 @@ module Candidates::Variables
   end
 
   def get_suffixes_and_sources
-    @sources = CandidateSource.where active: true
+    @sources = []
+    @vip = CandidateSource.find_by name: 'Project VIP'
+    permission = Permission.find_by key: 'candidate_vip'
+    for source in CandidateSource.all
+      next if source == @vip unless @current_person.position.permissions.include? permission
+      @sources << source if source.active
+    end
     @suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']
   end
 

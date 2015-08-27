@@ -140,4 +140,8 @@ class CandidatePolicy < ApplicationPolicy
     return true if @user.position == hr_admin or @user.position == software_dev or @user.position == senior_software
     false
   end
+
+  def assign_vip?
+    has_permission? 'vip'
+  end
 end
