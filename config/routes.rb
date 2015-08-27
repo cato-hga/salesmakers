@@ -348,6 +348,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :vonage_shipped_devices, only: [:new, :create]
+
   resources :walmart_gift_cards, only: [:new, :create] do
     collection do
       get 'new_override/:person_id', to: 'walmart_gift_cards#new_override', as: :new_override
