@@ -12,6 +12,7 @@ class VonageDevicesController < ApplicationController
   end
 
   def create
+    @vonage_device = VonageDevice.new
     receive_date = params.permit(:receive_date)[:receive_date]
     chronic_time = Chronic.parse(receive_date)
     adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
@@ -25,6 +26,7 @@ class VonageDevicesController < ApplicationController
                                           mac_id: mac_id
       @vonage_device_ids << vonage_device.id
     end
+    @vonage_device_ids.compact!
     unless @vonage_device_ids.empty?
       VonageInventoryMailer.inventory_receiving_mailer(@current_person, @vonage_device_ids).deliver_later
       redirect_to new_vonage_transfer_path

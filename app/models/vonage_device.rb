@@ -14,6 +14,7 @@
 class VonageDevice < ActiveRecord::Base
 
   validates :po_number, format: { with: /\A([0-9A-Z]{16}|[0-9A-Z]{12})\z/i }
+  validates :po_number, presence: true
   validates :mac_id, format: { with:/\A[0-9A-F]{12}\z/i }, confirmation: true
   validates :mac_id, uniqueness: true
   validates :receive_date, presence: true

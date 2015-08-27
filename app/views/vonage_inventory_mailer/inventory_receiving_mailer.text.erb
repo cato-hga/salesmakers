@@ -1,0 +1,10 @@
+<%= pluralize @vonage_devices.count.to_s, 'Received Devices' %>
+
+We have received the following device(s).
+
+<% for vo_device in @vonage_devices do %>
+<% person = vo_device.person %>
+<% macs = vo_device.mac_id %>
+PERSON: <%= person.display_name %>
+MAC IDs: <%= macs.mac_id %>
+<% end %>
