@@ -4119,6 +4119,38 @@ ALTER SEQUENCE sms_messages_id_seq OWNED BY sms_messages.id;
 
 
 --
+-- Name: sprint_carriers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_carriers (
+    id integer NOT NULL,
+    name character varying,
+    project_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_carriers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_carriers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_carriers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_carriers_id_seq OWNED BY sprint_carriers.id;
+
+
+--
 -- Name: sprint_group_me_bots; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4149,6 +4181,38 @@ CREATE SEQUENCE sprint_group_me_bots_id_seq
 --
 
 ALTER SEQUENCE sprint_group_me_bots_id_seq OWNED BY sprint_group_me_bots.id;
+
+
+--
+-- Name: sprint_handsets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_handsets (
+    id integer NOT NULL,
+    name character varying,
+    carrier_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_handsets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_handsets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_handsets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_handsets_id_seq OWNED BY sprint_handsets.id;
 
 
 --
@@ -4259,6 +4323,38 @@ ALTER SEQUENCE sprint_radio_shack_training_sessions_id_seq OWNED BY sprint_radio
 
 
 --
+-- Name: sprint_rate_plans; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_rate_plans (
+    id integer NOT NULL,
+    name character varying,
+    carrier_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_rate_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_rate_plans_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_rate_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_rate_plans_id_seq OWNED BY sprint_rate_plans.id;
+
+
+--
 -- Name: sprint_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4283,7 +4379,10 @@ CREATE TABLE sprint_sales (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     project_id integer,
-    number_of_accessories integer
+    number_of_accessories integer,
+    sprint_carrier_id integer,
+    sprint_handset_id integer,
+    sprint_rate_plan_id integer
 );
 
 
@@ -6449,7 +6548,21 @@ ALTER TABLE ONLY sms_messages ALTER COLUMN id SET DEFAULT nextval('sms_messages_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY sprint_carriers ALTER COLUMN id SET DEFAULT nextval('sprint_carriers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY sprint_group_me_bots ALTER COLUMN id SET DEFAULT nextval('sprint_group_me_bots_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sprint_handsets ALTER COLUMN id SET DEFAULT nextval('sprint_handsets_id_seq'::regclass);
 
 
 --
@@ -6471,6 +6584,13 @@ ALTER TABLE ONLY sprint_radio_shack_training_locations ALTER COLUMN id SET DEFAU
 --
 
 ALTER TABLE ONLY sprint_radio_shack_training_sessions ALTER COLUMN id SET DEFAULT nextval('sprint_radio_shack_training_sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sprint_rate_plans ALTER COLUMN id SET DEFAULT nextval('sprint_rate_plans_id_seq'::regclass);
 
 
 --
@@ -7627,11 +7747,27 @@ ALTER TABLE ONLY sms_messages
 
 
 --
+-- Name: sprint_carriers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_carriers
+    ADD CONSTRAINT sprint_carriers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: sprint_group_me_bots_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY sprint_group_me_bots
     ADD CONSTRAINT sprint_group_me_bots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sprint_handsets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_handsets
+    ADD CONSTRAINT sprint_handsets_pkey PRIMARY KEY (id);
 
 
 --
@@ -7656,6 +7792,14 @@ ALTER TABLE ONLY sprint_radio_shack_training_locations
 
 ALTER TABLE ONLY sprint_radio_shack_training_sessions
     ADD CONSTRAINT sprint_radio_shack_training_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sprint_rate_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_rate_plans
+    ADD CONSTRAINT sprint_rate_plans_pkey PRIMARY KEY (id);
 
 
 --
@@ -10517,4 +10661,18 @@ INSERT INTO schema_migrations (version) VALUES ('20150824183946');
 INSERT INTO schema_migrations (version) VALUES ('20150825144107');
 
 INSERT INTO schema_migrations (version) VALUES ('20150827201553');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828134337');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828134938');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828135139');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828143226');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828145315');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828154644');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828175227');
 
