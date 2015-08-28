@@ -12,6 +12,7 @@ module Comcast::SaleValidationsAndAssociations
 
   def belongs_to_associations
     belongs_to :comcast_customer
+    belongs_to :comcast_lead
     belongs_to :person
   end
 

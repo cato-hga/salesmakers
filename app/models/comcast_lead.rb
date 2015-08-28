@@ -28,7 +28,7 @@ class ComcastLead < ActiveRecord::Base
   setup_validations
   setup_scopes
   belongs_to_associations
-  has_one_assocations
+  has_one_associations
 
   has_many :log_entries, as: :trackable, dependent: :destroy
 
