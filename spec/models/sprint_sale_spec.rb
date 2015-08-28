@@ -21,6 +21,8 @@
 #  connect_sprint_sale_id        :string
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
+#  project_id                    :integer
+#  number_of_accessories         :integer
 #
 
 require 'rails_helper'
@@ -104,6 +106,11 @@ describe SprintSale do
   it 'requires reason_not_activated_in_store if phone was not activated in store' do
     subject.phone_activated_in_store = false
     subject.reason_not_activated_in_store = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires number of accessories' do
+    subject.number_of_accessories = nil
     expect(subject).not_to be_valid
   end
 

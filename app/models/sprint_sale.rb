@@ -21,6 +21,8 @@
 #  connect_sprint_sale_id        :string
 #  created_at                    :datetime         not null
 #  updated_at                    :datetime         not null
+#  project_id                    :integer
+#  number_of_accessories         :integer
 #
 
 class SprintSale < ActiveRecord::Base
@@ -40,6 +42,7 @@ class SprintSale < ActiveRecord::Base
   validates :top_up_card_amount, presence: true, if: :card_purchased
   validates :phone_activated_in_store, inclusion: { in: [true, false], message: "can't be blank" }
   validates :reason_not_activated_in_store, presence: true, if: :not_activated
+  validates :number_of_accessories, presence: true
   validates :picture_with_customer, presence: true
   validate  :meid_length
 

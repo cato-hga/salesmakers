@@ -19,6 +19,7 @@ FactoryGirl.define do
     rate_plan_name '$35/monthly'
     top_up_card_purchased false
     phone_activated_in_store true
+    number_of_accessories 1
     picture_with_customer 'No, Forgot'
   end
 

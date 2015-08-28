@@ -84,13 +84,9 @@ class SprintSalesController < ApplicationController
 
   def set_sprint_locations
     if @current_person.position.all_field_visibility?
-      sprint = Project.find_by name: 'Sprint Retail'
-      return Location.none unless sprint
-      @sprint_locations = sprint.locations
+      @sprint_locations = @project.locations
     else
-      sprint = Project.find_by name: 'Sprint Retail'
-      return Location.none unless sprint
-      @sprint_locations = sprint.locations_for_person @current_person
+      @sprint_locations = @project.locations_for_person @current_person
     end
   end
 

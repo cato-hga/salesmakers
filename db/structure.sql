@@ -4282,7 +4282,8 @@ CREATE TABLE sprint_sales (
     connect_sprint_sale_id character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    project_id integer
+    project_id integer,
+    number_of_accessories integer
 );
 
 
@@ -10514,4 +10515,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150822164708');
 INSERT INTO schema_migrations (version) VALUES ('20150824183946');
 
 INSERT INTO schema_migrations (version) VALUES ('20150825144107');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827201553');
 

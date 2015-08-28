@@ -41,7 +41,9 @@ describe WalmartGiftCardsController do
       }.to_json
     }
 
-    before { post :create, gift_card_json: json }
+    before do
+      post :create, gift_card_json: json
+    end
 
     it 'prepares the proper number of gift cards' do
       expect(assigns(:gift_card_attributes).count).to eq(1)
