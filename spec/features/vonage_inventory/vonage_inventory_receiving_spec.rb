@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-describe 'Inventory receiving page' do
+describe 'Inventory Receiving page' do
 
   let(:person) { create :person, position: position }
   let(:position) {create :position, permissions: [permission_create] }
@@ -27,20 +27,6 @@ describe 'Inventory receiving page' do
         visit new_vonage_device_path
         expect(page).to have_content('Vonage Inventory Receiving')
 
-      end
-    end
-
-    describe 'form submission' do
-
-      context 'with all blank data' do
-        it 'renders :new and shows all relevant error messages' do
-          CASClient::Frameworks::Rails::Filter.fake(person.email)
-          visit new_vonage_device_path
-          click_on 'Receive'
-          expect(page).to have_content "Po number is invalid"
-          expect(page).to have_content "Mac is invalid"
-          expect(page).to have_content "Receive date can't be blank"
-        end
       end
     end
   end
