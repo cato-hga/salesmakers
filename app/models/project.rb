@@ -24,8 +24,9 @@ class Project < ActiveRecord::Base
     has_many :areas
     has_many :client_area_types
     has_many :client_areas
-    has_one :wall, as: :wallable
+    # has_one :wall, as: :wallable
     has_many :day_sales_counts, as: :saleable
+    has_many :shifts
   end
 
   setup_validations
@@ -86,7 +87,7 @@ class Project < ActiveRecord::Base
     for area in self.areas do
       all_locations << area.locations
     end
-    Location.where(id: all_locations.flatten.uniq.map(&:id))
+    all_locations.flatten.uniq
   end
 
   def locations_for_person(person)

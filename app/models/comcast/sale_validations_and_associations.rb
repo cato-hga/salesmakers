@@ -17,7 +17,6 @@ module Comcast::SaleValidationsAndAssociations
 
   def has_one_assocations
     has_one :comcast_former_provider
-    has_one :comcast_lead
     has_one :comcast_install_appointment, inverse_of: :comcast_sale
     accepts_nested_attributes_for :comcast_install_appointment
   end

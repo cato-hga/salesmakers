@@ -12,11 +12,11 @@ module DirecTV::SaleValidationsAndAssociations
   def belongs_to_associations
     belongs_to :directv_customer
     belongs_to :person
+    belongs_to :directv_lead
   end
 
   def has_one_assocations
     has_one :directv_former_provider
-    has_one :directv_lead
     has_one :directv_install_appointment, inverse_of: :directv_sale
     accepts_nested_attributes_for :directv_install_appointment
   end

@@ -34,6 +34,9 @@ class ConnectBlueforceTimesheet < RealConnectModel
   belongs_to :connect_user,
            primary_key: 'ad_user_id',
            foreign_key: 'ad_user_id'
+  belongs_to :connect_business_partner_location,
+             primary_key: 'c_bpartner_location_id',
+             foreign_key: 'c_bpartner_location_id'
 
   scope :updated_within_last, ->(duration) {
     return none unless duration
@@ -48,6 +51,24 @@ class ConnectBlueforceTimesheet < RealConnectModel
 
   def shift_date
     self[:shift_date].to_time.remove_eastern_offset
+  end
+
+  def project
+    bpl = self.connect_business_partner_location || return
+    cr = bpl.connect_region || return
+    cp = cr.project || return
+    case cp.name
+      when 'Sprint Postpaid'
+        Project.find_by(name: 'Sprint Postpaid')
+      when 'Sprint'
+        Project.find_by(name: 'Sprint Retail')
+      when 'DirecTV'
+        Project.find_by(name: 'DirecTV Retail')
+      when 'Comcast'
+        Project.find_by(name: 'Comcast Retail')
+      else
+        nil
+    end
   end
 
   def self.this_week

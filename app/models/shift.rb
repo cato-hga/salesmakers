@@ -22,8 +22,10 @@ class Shift < ActiveRecord::Base
 
   belongs_to :person
   belongs_to :location
-  has_one :vcp07012015_hps_shifts
-  has_one :vcp07012015_vested_sales_shifts
+  belongs_to :project
+
+  has_one :vcp07012015_hps_shift
+  has_one :vcp07012015_vested_sales_shift
 
   def self.totals_by_person_for_date_range start_date, end_date
     connection.execute %{
