@@ -1,11 +1,15 @@
 class WalmartGiftCardMailer < ApplicationMailer
   default from: "giftcards@retaildoneright.com"
 
-  def send_card_details gift_cards, person
+  def send_card_details gift_cards, person = nil, subject = 'Walmart Gift Card Details'
     return if gift_cards.empty?
     @gift_card_count = gift_cards.count
     to_emails = get_senior_developer_emails || return
-    to_emails << person.email
+    if person
+      to_emails << person.email
+    else
+      to_emails << 'giftcards@retaildoneright.com'
+    end
 
     ar_gift_cards = WalmartGiftCard.where(id: gift_cards.map(&:id))
 
@@ -15,7 +19,7 @@ class WalmartGiftCardMailer < ApplicationMailer
     }
 
     handle_send to: to_emails,
-                subject: 'Walmart Gift Card Details'
+                subject: subject
   end
 
   def send_rbdc_check_email gift_cards

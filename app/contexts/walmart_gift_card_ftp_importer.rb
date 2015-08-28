@@ -4,6 +4,7 @@ class WalmartGiftCardFTPImporter
   def initialize
     @gift_card_ids = []
     @gift_cards = []
+    @saved_gift_cards = []
     Net::SFTP.start('ftp01.vonage.com', 'aatkinson', password: 'r7p9dbPM') do |sftp|
       if Rails.env.staging? || Rails.env.production?
         dir_path = '/RBD_eGift'
@@ -26,8 +27,9 @@ class WalmartGiftCardFTPImporter
     set_spreadsheet
     return unless @spreadsheet
     process_row_hashes
-    WalmartGiftCardMailer.send_rbdc_check_email(@gift_cards).deliver_now
     store_all_cards
+    WalmartGiftCardMailer.send_rbdc_check_email(@saved_gift_cards).deliver_later
+    WalmartGiftCardMailer.send_card_details(@saved_gift_cards, nil, 'New Gift Cards from Import').deliver_later
     self
   end
 
@@ -68,7 +70,7 @@ class WalmartGiftCardFTPImporter
     walmart_gift_card.check
     sleep 2.5
     if walmart_gift_card.save
-      @gift_card_ids << walmart_gift_card.id
+      @saved_gift_cards << walmart_gift_card
     end
   end
 end

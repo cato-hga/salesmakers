@@ -36,21 +36,21 @@ class WalmartGiftCard < ActiveRecord::Base
   belongs_to :vonage_sale
 
   def self.to_csv
-    attributes = %w{used link challenge_code unique_code card_number pin balance purchase_date purchase_amount store_number}
+    attributes = %w{used link unique_code card_number balance purchase_date purchase_amount store_number}
 
     CSV.generate(headers: true) do |csv|
       csv << [
           'SalesMakers Link',
           'Used?',
           'Links',
-          'Challenge Code',
           'Unique Code',
           'Card Number',
-          'PIN',
           'Balance',
           'Purchase Date',
           'Purchase Amount',
           'Store Number',
+          'Challenge Code',
+          'PIN',
           'MAC ID',
           'SalesMaker'
       ]
@@ -59,7 +59,14 @@ class WalmartGiftCard < ActiveRecord::Base
         csv_atts = []
         csv_atts << gift_card.link.sub('https://getegiftcard.walmart.com/gift-card/view/', 'http://rbdconnect.com/gc/l/?link=')
         csv_atts.concat attributes.map{ |attr| gift_card.send attr }
-        csv_atts[5] = "'" + csv_atts[5]
+        csv_atts[4] = "'" + csv_atts[4]
+        if gift_card.used
+          csv_atts << gift_card.challenge_code
+          csv_atts << gift_card.pin
+        else
+          csv_atts << 'HIDDEN UNTIL USED'
+          csv_atts << 'HIDDEN UNTIL USED'
+        end
         if gift_card.vonage_sale
           csv_atts << gift_card.vonage_sale.mac
           csv_atts << gift_card.vonage_sale.person.display_name
