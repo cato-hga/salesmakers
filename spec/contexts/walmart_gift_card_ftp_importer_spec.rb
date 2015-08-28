@@ -27,4 +27,9 @@ describe WalmartGiftCardFTPImporter, :vcr do
       importer
     }.to change(WalmartGiftCard, :count).by(10)
   end
+
+  it 'sends an email' do
+    expect_any_instance_of(WalmartGiftCardMailer).to receive(:send_rbdc_check_email)
+    importer
+  end
 end

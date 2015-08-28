@@ -42,7 +42,7 @@ class WalmartGiftCard < ActiveRecord::Base
       csv << [
           'SalesMakers Link',
           'Used?',
-          'Link',
+          'Links',
           'Challenge Code',
           'Unique Code',
           'Card Number',

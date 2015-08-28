@@ -2,6 +2,8 @@ require 'net/sftp'
 
 class WalmartGiftCardFTPImporter
   def initialize
+    @gift_card_ids = []
+    @gift_cards = []
     Net::SFTP.start('ftp01.vonage.com', 'aatkinson', password: 'r7p9dbPM') do |sftp|
       if Rails.env.staging? || Rails.env.production?
         dir_path = '/RBD_eGift'
@@ -24,12 +26,14 @@ class WalmartGiftCardFTPImporter
     set_spreadsheet
     return unless @spreadsheet
     process_row_hashes
+    WalmartGiftCardMailer.send_rbdc_check_email(@gift_cards).deliver_now
+    store_all_cards
     self
   end
 
   def process_row_hashes
     for row_hash in @spreadsheet.hashes do
-      translate_and_store(row_hash)
+      @gift_cards << translate(row_hash)
     end
   end
 
@@ -39,12 +43,7 @@ class WalmartGiftCardFTPImporter
     self
   end
 
-  def translate_and_store(row_hash)
-    walmart_gift_card = translate(row_hash) || return
-    store(walmart_gift_card)
-  end
-
-  def translate(row_hash)
+  def translate row_hash
     walmart_gift_card = WalmartGiftCard.new
     row_hash.keys.each do |key|
       case key
@@ -58,11 +57,18 @@ class WalmartGiftCardFTPImporter
     end
     existing_gift_card = WalmartGiftCard.find_by link: walmart_gift_card.link
     walmart_gift_card = existing_gift_card || walmart_gift_card
-    walmart_gift_card.check
     walmart_gift_card
   end
 
-  def store(walmart_gift_card)
-    walmart_gift_card.save
+  def store_all_cards
+    @gift_cards.compact.each { |card| store card }
+  end
+
+  def store walmart_gift_card
+    walmart_gift_card.check
+    sleep 2.5
+    if walmart_gift_card.save
+      @gift_card_ids << walmart_gift_card.id
+    end
   end
 end

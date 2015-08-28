@@ -18,6 +18,17 @@ class WalmartGiftCardMailer < ApplicationMailer
                 subject: 'Walmart Gift Card Details'
   end
 
+  def send_rbdc_check_email gift_cards
+    return if gift_cards.empty?
+    attachments['gift_cards.csv'] = {
+        mime_type: 'text/csv',
+        content: gift_cards.to_csv
+    }
+
+    handle_send to: 'egiftcards@rbdconnect.com',
+                subject: 'Balance Check'
+  end
+
   private
 
   def get_senior_developer_emails
