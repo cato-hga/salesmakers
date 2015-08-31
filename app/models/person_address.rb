@@ -19,7 +19,7 @@
 
 class PersonAddress < ActiveRecord::Base
   geocoded_by :address
-  nilify_blanks
+  strip_attributes
 
   validates :person, presence: true
   validates :line_1, format: { with: /\A\d+(\-)?[A-Za-z]? .{2,}\z/, message: 'must be a valid street address' }

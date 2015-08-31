@@ -29,7 +29,7 @@ class DirecTVCustomer < ActiveRecord::Base
   validates :mobile_phone, uniqueness: true
   validates_with CustomerPhoneValidator
 
-  nilify_blanks
+  strip_attributes
 
   belongs_to :person
   belongs_to :location

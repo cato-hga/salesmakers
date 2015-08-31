@@ -37,6 +37,6 @@ class PrescreenAnswer < ActiveRecord::Base
 
   belongs_to :candidate
 
-  nilify_blanks
+  strip_attributes
 
 end

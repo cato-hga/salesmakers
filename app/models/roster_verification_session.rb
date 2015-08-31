@@ -17,5 +17,5 @@ class RosterVerificationSession < ActiveRecord::Base
 
   accepts_nested_attributes_for :roster_verifications
 
-  nilify_blanks
+  strip_attributes
 end

@@ -25,7 +25,7 @@ class ReportQuery < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
 
 
-  nilify_blanks
+  strip_attributes
 
   default_scope { order :category_name, :name }
 end
