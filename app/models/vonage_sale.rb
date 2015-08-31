@@ -200,7 +200,7 @@ class VonageSale < ActiveRecord::Base
   end
 
   def mac_not_sold_on_same_day
-    return unless self.mac && self.sale_date && !self.persisted?
+    return if !self.mac || !self.sale_date || self.persisted?
     unless VonageSale.where(sale_date: self.sale_date, mac: self.mac).empty?
       errors.add :mac, 'has already been entered as a sale on the same day'
     end
