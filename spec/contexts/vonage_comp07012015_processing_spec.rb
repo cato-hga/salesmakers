@@ -16,10 +16,26 @@ describe VonageComp07012015Processing do
            vested_sales_end: Date.today.beginning_of_month - 1.day,
            cutoff: DateTime.now + 1.day
   }
-  let!(:hps_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day }
-  let!(:hps_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_end + 1.day }
-  let!(:vested_sales_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day }
-  let!(:vested_sales_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day }
+  let!(:hps_vonage_sale) {
+    hps_vonage_sale = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day
+    hps_vonage_sale.save validate: false
+    hps_vonage_sale
+  }
+  let!(:hps_vonage_sale_outside) {
+    hps_vonage_sale_outside = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_end + 1.day
+    hps_vonage_sale_outside.save validate: false
+    hps_vonage_sale_outside
+  }
+  let!(:vested_sales_vonage_sale) {
+    vested_sales_vonage_sale = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day
+    vested_sales_vonage_sale.save validate: false
+    vested_sales_vonage_sale
+  }
+  let!(:vested_sales_vonage_sale_outside) {
+    vested_sales_vonage_sale_outside = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day
+    vested_sales_vonage_sale_outside.save validate: false
+    vested_sales_vonage_sale_outside
+  }
   let!(:hps_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.hps_start + 1.day, person: rep }
   let!(:hps_shift_outside) { create :shift, date: vonage_commission_period07012015.hps_end + 1.day, person: rep }
   let!(:vested_sales_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.vested_sales_start + 1.day, person: rep }

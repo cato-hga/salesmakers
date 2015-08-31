@@ -29,7 +29,7 @@ class DirecTVCustomer < ActiveRecord::Base
   validates :mobile_phone, uniqueness: true
   validates_with CustomerPhoneValidator
 
-  nilify_blanks
+  strip_attributes
 
   belongs_to :person
   belongs_to :location
@@ -38,7 +38,6 @@ class DirecTVCustomer < ActiveRecord::Base
   has_one :directv_sale
   has_many :directv_customer_notes
   has_many :log_entries, as: :trackable, dependent: :destroy
-
 
   scope :manageable, ->(person = nil) {
     return Person.none unless person

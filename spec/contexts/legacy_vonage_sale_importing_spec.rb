@@ -23,10 +23,13 @@ describe LegacyVonageSaleImporting do
   let(:connect_order) {
     build_stubbed :connect_order,
                   salesrep_id: connect_user.id,
-                  updated: Time.now - duration + 1.minute
+                  dateordered: Time.now - 1.day,
+                  updated: Time.now - duration + 1.minute,
+                  creator: connect_user
   }
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix, prefix: connect_order.documentno[3..8] }
   let(:connect_order_line) { build_stubbed :connect_order_line }
-  let(:connect_product) { build_stubbed :connect_product }
+  let(:connect_product) { build_stubbed :connect_product, name: 'Vonage V-Portal' }
   let!(:vonage_product) {
     create :vonage_product,
            name: connect_product.name
@@ -93,6 +96,7 @@ describe LegacyVonageSaleImporting do
     let!(:connect_order) {
       build_stubbed :connect_order,
                     connect_user: connect_user,
+                    dateordered: Time.now - 2.days,
                     c_order_id: 'FF80808233E664900133E664E6350002'
     }
     let(:connect_user) {
@@ -117,6 +121,7 @@ describe LegacyVonageSaleImporting do
       expect(message_delivery).to receive(:deliver_later)
       importer.import
     end
+
   end
 
   # I can't figure out how to stub an ActiveRecord relation

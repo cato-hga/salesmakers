@@ -17,6 +17,9 @@
         %h3
           Basic Information
           = edit_button edit_candidate_path(@candidate)
+          - if @candidate.vip
+            %br
+            %span.comment.small.round.ok.label.inline_button Project VIP
         %p
           %strong Email:
           = email_link @candidate.email
@@ -93,14 +96,14 @@
             %span.sm_green COMPLETE
         %p
           %strong Interview Scheduling:
-          - if @candidate.interview_schedules.empty?
+          - if @candidate.interview_schedules.empty? and not @candidate.vip
             %span.sm_red= link_to 'INCOMPLETE', new_candidate_interview_schedule_path(@candidate), class: [:sm_red, :candidate_incomplete]
           - else
             %span.sm_green COMPLETE
 
         %p
           %strong Interview:
-          - if @candidate.interview_answers.empty?
+          - if @candidate.interview_answers.empty? and not @candidate.vip
             %span.sm_red INCOMPLETE
           - else
             %span.sm_green COMPLETE
@@ -158,12 +161,18 @@
               - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
           - when 'prescreened'
             - if @candidate.location_selected?
-              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+              - if @candidate.vip
+                - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+              - else
+                - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
             - else
               - link_to 'Select Location', select_location_candidate_path(@candidate, 'false'), class: :button
           - when 'location_selected'
             - if @candidate.prescreened?
-              - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
+              - if @candidate.vip
+                - link_to 'Confirm Details and Send Paperwork', new_candidate_training_availability_path(@candidate), class: :button
+              - else
+                - link_to 'Schedule Interview', new_candidate_interview_schedule_path(@candidate), class: :button
             - else
               - link_to 'Prescreen', new_candidate_prescreen_answer_path(@candidate), class: :button
           - when 'interview_scheduled'

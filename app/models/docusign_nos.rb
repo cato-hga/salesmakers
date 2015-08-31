@@ -17,7 +17,6 @@
 #
 
 class DocusignNos < ActiveRecord::Base
-
   validates :eligible_to_rehire, inclusion: { in: [true, false] }, unless: :third_party
   validates :employment_end_reason_id, presence: true, unless: :third_party
   validates :envelope_guid, presence: true, unless: :third_party
@@ -31,6 +30,7 @@ class DocusignNos < ActiveRecord::Base
   belongs_to :manager, class_name: 'Person'
   has_many :log_entries, as: :trackable, dependent: :destroy
 
+  strip_attributes
 
   private
 

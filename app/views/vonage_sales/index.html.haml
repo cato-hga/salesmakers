@@ -1,0 +1,52 @@
+- header = header_row ['Date', 'Seller', 'MAC ID', 'Location', 'Customer', 'Product', 'Gift Card', 'Areas', 'Vested?']
+- rows = []
+
+- content_for :action_buttons do
+  - if VonageSalePolicy.new(@current_person, VonageSale.new).new?
+    = new_button new_vonage_sale_path
+
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :sale_date_gteq, placeholder: 'Sold on/after'
+    = f.text_field :sale_date_lteq, placeholder: 'Sold on/before'
+    = f.text_field :person_display_name_cont, placeholder: 'Seller'
+    = f.text_field :mac_cont, placeholder: 'MAC'
+    %br/
+    = f.text_field :location_store_number_cont, placeholder: 'Store #'
+    = f.text_field :location_city_cont, placeholder: 'Store City'
+    = f.text_field :location_street_1_cont, placeholder: 'Store Street'
+    = f.text_field :customer_first_name_cont, placeholder: 'Customer First Name'
+    = f.text_field :customer_last_name_cont, placeholder: 'Customer Last Name'
+    %br/
+    = f.text_field :gift_card_number_cont, placeholder: 'Gift Card'
+    = select_tag :areas_includes_id, options_from_collection_for_select(@areas, :id, :name, params[:areas_includes_id]), include_blank: 'All Areas'
+    = f.select :vested_eq, [['Vested', true],['Not Vested', false]], include_blank: 'All'
+    = f.submit 'Search', class: [:button, :inline_button]
+
+- for sale in @vonage_sales do
+  - date = short_date sale.sale_date
+  - seller = person_link sale.person
+  - mac = vonage_sale_link sale
+  - location = location_link @project, sale.location
+  - customer = NameCase(sale.customer_first_name + " " + sale.customer_last_name)
+  - product = sale.vonage_product.name
+  - gift_card = sale.gift_card_number ? 'x' + sale.gift_card_number[12..15] : ''
+  - location_areas = sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage Retail'")
+  - areas = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(",<br>".html_safe).html_safe
+  - vested = sale.vested? ? icon('check') : ''
+
+  - rows << table_row([date, seller, mac, location, customer, product, gift_card, areas, vested])
+
+= paginate @vonage_sales
+
+.widget
+  .inner
+    = table header, rows, false
+
+- content_for :footer do
+  - search_params = params[:q] || []
+  .left= csv_link csv_vonage_sales_path(controller: :vonage_sales, action: :index, q: search_params, areas_includes_id: params[:areas_includes_id]), @vonage_sales.count
+  = paginate @vonage_sales

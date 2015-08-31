@@ -42,6 +42,8 @@ class SprintSale < ActiveRecord::Base
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
 
+  strip_attributes
+
   def location_area
     self.location_area_for_sale 'Sprint'
   end

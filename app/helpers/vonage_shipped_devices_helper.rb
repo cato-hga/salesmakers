@@ -1,0 +1,2 @@
+module VonageShippedDevicesHelper
+end

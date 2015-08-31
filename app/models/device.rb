@@ -37,6 +37,8 @@ class Device < ActiveRecord::Base
   stripping_ransacker(:unstripped_identifier, :identifier, true)
   stripping_ransacker(:unstripped_serial, :serial, true)
 
+  strip_attributes
+
   searchable do
     text :identifier, boost: 5.0
     text :serial, boost: 5.0

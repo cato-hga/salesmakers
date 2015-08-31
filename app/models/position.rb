@@ -27,8 +27,9 @@ class Position < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
 
-
   default_scope { order :name }
+
+  strip_attributes
 
   #:nocov:
   def self.return_from_connect_user(connect_user)

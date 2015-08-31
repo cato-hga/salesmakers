@@ -11,7 +11,7 @@
 FactoryGirl.define do
 
   factory :channel do
-    name 'Walmart'
+    name 'Brandsmart'
   end
 
 end

@@ -2,6 +2,7 @@ require 'spec_helper'
 require_relative '../../app/contexts/vonage_commission_processing'
 
 describe VonageCommissionProcessing do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let!(:paycheck) {
     create :vonage_paycheck,
            wages_start: Date.today - 1.week,
@@ -33,16 +34,20 @@ describe VonageCommissionProcessing do
            sale_date: paycheck.commission_start + 1.day
   }
   let(:old_vonage_sale) {
-    create :vonage_sale,
+    old_vonage_sale = build :vonage_sale,
            person: vonage_sale.person,
            sale_date: old_paycheck.commission_start + 1.day,
            mac: 'FEDCBA654321'
+    old_vonage_sale.save validate: false
+    old_vonage_sale
   }
   let(:rev_share_vonage_sale) {
-    create :vonage_sale,
+    rev_share_vonage_sale = build :vonage_sale,
            person: vonage_sale.person,
            sale_date: paycheck.commission_end - 64.days,
            mac: 'FEDFED123123'
+    rev_share_vonage_sale.save validate: false
+    rev_share_vonage_sale
   }
   let!(:rev_share_active_status) {
     create :vonage_account_status_change,
@@ -52,10 +57,12 @@ describe VonageCommissionProcessing do
            status: :active
   }
   let(:rev_share_disconnected_sale) {
-    create :vonage_sale,
+    rev_share_disconnected_sale = build :vonage_sale,
            person: vonage_sale.person,
            sale_date: paycheck.commission_end - 94.days,
            mac: 'FEDFED321321'
+    rev_share_disconnected_sale.save validate: false
+    rev_share_disconnected_sale
   }
   let!(:rev_share_disconnected_status) {
     create :vonage_account_status_change,

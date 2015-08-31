@@ -34,6 +34,8 @@ class Project < ActiveRecord::Base
 
   default_scope { order(:name) }
 
+  strip_attributes
+
   def self.visible(person = nil)
     return Project.none unless person
     return Project.all if person.position and person.position.hq?
@@ -87,7 +89,7 @@ class Project < ActiveRecord::Base
     for area in self.areas do
       all_locations << area.locations
     end
-    all_locations.flatten.uniq
+    Location.where(id: all_locations.flatten.uniq.map(&:id))
   end
 
   def locations_for_person(person)

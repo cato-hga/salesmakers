@@ -106,6 +106,14 @@ class PeopleController < ProtectedController
     @comcast_leads = ComcastLead.person(@person.id)
     @comcast_installations = ComcastSale.person(@person.id)
     @asset_form_options = asset_form_options
+    @shifts = Shift.where(person: @person).includes(:project)
+    @shift_projects = []
+    for shift in @shifts do
+      @shift_projects << shift.project if shift.project and not @shift_projects.include? shift.project
+    end
+    for project in @shift_projects
+      instance_variable_set "@#{project.name.squish.downcase.tr(" ", "_")}_hours", @shifts.where(person: @person, project_id: project.id).sum(:hours).round(2)
+    end
   end
 
   def masquerade

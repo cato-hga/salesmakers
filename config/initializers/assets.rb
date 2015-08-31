@@ -9,6 +9,8 @@ Rails.application.config.assets.precompile += %w( marker_clusterer.min.js )
 Rails.application.config.assets.precompile += %w( gmaps/google.js )
 Rails.application.config.assets.precompile += %w( picker.css )
 Rails.application.config.assets.precompile += %w( picker.date.css )
+Rails.application.config.assets.precompile += %w( vonage_sales.css )
+Rails.application.config.assets.precompile += %w( vonage_sales.js )
 
 %w(
 sms_daily_checks
@@ -82,6 +84,8 @@ reports
 report_queries
 sessions
 themes
+vonage_shipped_devices
+walmart_gift_cards
 widgets ).each do |controller|
   Rails.application.config.assets.precompile += ["#{controller}.css", "#{controller}.js"]
 end

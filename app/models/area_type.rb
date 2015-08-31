@@ -19,6 +19,8 @@ class AreaType < ActiveRecord::Base
 
   default_scope { order :name }
 
+  strip_attributes
+
   def self.get_hash
     {
         at_vrr: AreaType.find_by(name: 'Vonage Retail Region'),

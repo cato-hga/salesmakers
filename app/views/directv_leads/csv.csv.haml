@@ -1,5 +1,5 @@
 - headers = ['F/U By', 'Rep', 'Customer Name', 'Saved', 'Mobile Phone', 'Has Comments?']
-= CSV.generate_line headers
+= CSV.generate_line(headers).html_safe
 - @results.each do |lead|
   = CSV.generate_line([ |
     lead.follow_up_by ? short_date(lead.follow_up_by) : 'N/A', |
@@ -8,4 +8,4 @@
     friendly_datetime(lead.created_at), |
     lead.directv_customer.mobile_phone, |
     lead.comments.present? ? "Yes" : "No" |
-  ]) |
+  ]).html_safe |

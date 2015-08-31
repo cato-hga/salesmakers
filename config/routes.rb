@@ -96,6 +96,8 @@ Rails.application.routes.draw do
       resources :locations, only: [:new, :create, :index, :show] do
         collection do
           get :csv, as: :csv, defaults: { format: :csv }
+          get :edit_head_counts, as: :edit_head_counts
+          patch :update_head_counts, as: :update_head_counts
         end
       end
     end
@@ -339,6 +341,21 @@ Rails.application.routes.draw do
   post 'twilio/incoming_sms', as: 'incoming_sms_twilio'
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
+
+  resources :vonage_sales, only: [:index, :new, :create, :show] do
+    collection do
+      get :csv, to: 'vonage_sales#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
+
+  resources :vonage_shipped_devices, only: [:new, :create]
+
+  resources :walmart_gift_cards, only: [:new, :create] do
+    collection do
+      get 'new_override/:person_id', to: 'walmart_gift_cards#new_override', as: :new_override
+      post 'create_override', to: 'walmart_gift_cards#create_override', as: :create_override
+    end
+  end
 
   # ------------------------- API NAMESPACE --------------------------
 
