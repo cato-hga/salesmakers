@@ -1,0 +1,13 @@
+- title 'Override Gift Card'
+
+.widget
+  .inner
+    .row#override_card_number
+      .medium-3.large-3.columns
+        = @gift_card_override.override_card_number[0..3]
+      .medium-3.large-3.columns
+        = @gift_card_override.override_card_number[4..7]
+      .medium-3.large-3.columns
+        = @gift_card_override.override_card_number[8..11]
+      .medium-3.large-3.columns
+        = @gift_card_override.override_card_number[12..15]

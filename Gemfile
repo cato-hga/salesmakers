@@ -42,6 +42,7 @@ gem 'jquery-ui-rails', '5.0.5' #Jquery UI gem
 gem 'kaminari', git: 'https://github.com/amatsuda/kaminari.git' # Pagination
 gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'kiba', '0.6.1' # ETL data processing
+gem 'mechanize', '2.7.3' # Automating interaction with websites
 gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning

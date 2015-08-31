@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe 'Vonage compensation plan effective 07/01/2015' do
+  let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:project) { create :project, name: 'Vonage Retail' }
   let(:area) { create :area, project: project }
   let(:rep) { create :person }
@@ -15,18 +16,33 @@ describe 'Vonage compensation plan effective 07/01/2015' do
            cutoff: DateTime.now + 1.day
   }
   let!(:previous_vonage_commission_period07012015) {
-    create :vonage_commission_period07012015,
+    previous_vonage_commission_period07012015 = build :vonage_commission_period07012015,
            name: 'Previous Period',
            hps_start: Date.today.beginning_of_month - 1.month,
            hps_end: Date.today.end_of_month - 1.month,
            vested_sales_start: Date.today.beginning_of_month - 1.month - 1.month,
            vested_sales_end: Date.today.beginning_of_month - 1.day - 1.month,
            cutoff: DateTime.now + 1.day - 1.month
+    previous_vonage_commission_period07012015.save validate: false
+    previous_vonage_commission_period07012015
   }
-  let!(:hps_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day, mac: '117788226644' }
+  let!(:hps_vonage_sale) {
+    create :vonage_mac_prefix, prefix: '117788'
+    hps_vonage_sale = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_start + 1.day, mac: '117788226644'
+    hps_vonage_sale.save validate: false
+    hps_vonage_sale
+  }
   let!(:hps_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.hps_end + 1.day }
-  let!(:vested_sales_vonage_sale) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day }
-  let!(:vested_sales_vonage_sale_outside) { create :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day }
+  let!(:vested_sales_vonage_sale) {
+    vested_sales_vonage_sale = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start + 1.day
+    vested_sales_vonage_sale.save validate: false
+    vested_sales_vonage_sale
+  }
+  let!(:vested_sales_vonage_sale_outside) {
+    vested_sales_vonage_sale_outside = build :vonage_sale, person: rep, sale_date: vonage_commission_period07012015.vested_sales_start - 1.day
+    vested_sales_vonage_sale_outside.save validate: false
+    vested_sales_vonage_sale_outside
+  }
   let!(:hps_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.hps_start + 1.day, person: rep, location: create(:location) }
   let!(:hps_shift_outside) { create :shift, date: vonage_commission_period07012015.hps_end + 1.day, person: rep, hours: 32.0 }
   let!(:vested_sales_shift) { create :shift, hours: 8, date: vonage_commission_period07012015.vested_sales_start + 1.day, person: rep, location: create(:location) }

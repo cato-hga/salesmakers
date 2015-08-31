@@ -23,9 +23,11 @@ describe 'Vonage commission compensation' do
   let!(:person_area) { create :person_area, person: person, area: area }
   let(:name) { person.display_name }
   let(:vonage_sale) {
-    create :vonage_sale,
-           person: person,
-           sale_date: paycheck.commission_end - 1.week
+    vonage_sale = build :vonage_sale,
+                        person: person,
+                        sale_date: paycheck.commission_end - 1.week
+    vonage_sale.save validate: false
+    vonage_sale
   }
 
   before { CASClient::Frameworks::Rails::Filter.fake(person.email) }
@@ -83,10 +85,12 @@ describe 'Vonage commission compensation' do
 
   describe 'refunds' do
     let(:another_vonage_sale) {
-        create :vonage_sale,
-               mac: 'FEDCBA654321',
-               person: person,
-               sale_date: paycheck.commission_end - 1.week
+      another_vonage_sale = build :vonage_sale,
+                                  mac: 'FEDCBA654321',
+                                  person: person,
+                                  sale_date: paycheck.commission_end - 1.week
+      another_vonage_sale.save validate: false
+      another_vonage_sale
     }
     let(:change) {
       create :vonage_account_status_change,

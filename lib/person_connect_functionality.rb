@@ -150,6 +150,7 @@ module PersonConnectFunctionality
   module ClassMethods
     def return_from_connect_user(connect_user)
       person = Person.find_by connect_user_id: connect_user.id
+      person = Person.find_by email: 'tbd@salesmakersinc.com' if connect_user.firstname == 'X'
       return person if person
       position = Position.return_from_connect_user connect_user
       person = Person.find_by_email connect_user.email
