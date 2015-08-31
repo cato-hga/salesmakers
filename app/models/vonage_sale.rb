@@ -26,6 +26,14 @@ class VonageSale < ActiveRecord::Base
 
   attr_accessor :import
 
+  before_save do
+    if self.valid? && !self.persisted?
+      VonageSale.where(mac: self.mac).each do |sale|
+        sale.update resold: true
+      end
+    end
+  end
+
   validates :sale_date, presence: true
   validate :sale_date_cannot_be_more_than_2_weeks_in_the_past
   validates :person, presence: true
@@ -43,6 +51,7 @@ class VonageSale < ActiveRecord::Base
   validate :mac_prefix_valid
   validates :creator, presence: true
   validate :gift_card_used, unless: :override_card
+  validate :mac_not_sold_on_same_day
 
   belongs_to :person
   belongs_to :creator, class_name: 'Person'
@@ -55,8 +64,6 @@ class VonageSale < ActiveRecord::Base
   has_many :vonage_account_status_changes, primary_key: 'mac', foreign_key: 'mac'
   has_one :vcp07012015_hps_sale
   has_one :walmart_gift_card, primary_key: 'card_number', foreign_key: 'gift_card_number'
-
-  strip_attributes
 
   strip_attributes
 
@@ -192,4 +199,10 @@ class VonageSale < ActiveRecord::Base
     end
   end
 
+  def mac_not_sold_on_same_day
+    return unless self.mac && self.sale_date && !self.persisted?
+    unless VonageSale.where(sale_date: self.sale_date, mac: self.mac).empty?
+      errors.add :mac, 'has already been entered as a sale on the same day'
+    end
+  end
 end
