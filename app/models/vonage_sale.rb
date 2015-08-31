@@ -27,7 +27,7 @@ class VonageSale < ActiveRecord::Base
   attr_accessor :import
 
   before_save do
-    if self.valid? && !self.persisted?
+    if self.valid? && !self.import?
       VonageSale.where(mac: self.mac).each do |sale|
         sale.update resold: true
       end
