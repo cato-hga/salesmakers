@@ -173,7 +173,7 @@ describe 'Vonage Sale entry' do
       subject {
         allow_any_instance_of(WalmartGiftCard).to receive(:check).and_return(true)
         select employee_one.display_name, from: 'Sales Representative'
-        fill_in 'Sale Date', with: '08/15/2015'
+        fill_in 'Sale Date', with: Date.yesterday.strftime('%m/%d/%Y')
         fill_in 'Confirmation Number', with: '1234567890'
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
