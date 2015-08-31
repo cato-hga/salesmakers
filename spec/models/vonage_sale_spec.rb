@@ -166,23 +166,84 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires a gift card to be either 12 or 16 characters' do
-    subject.vonage_product = kit
-    subject.gift_card_number = 'ab1234567890'
-    expect(subject).to be_valid
-    subject.gift_card_number = 'ab12345678901234'
-    expect(subject).to be_valid
-    subject.gift_card_number = 'ab12345678901'
-    expect(subject).not_to be_valid
-  end
+  describe 'gift card check' do
+    let(:used_walmart_gift_card) { create :walmart_gift_card, used: true, store_number: walmart_location.store_number }
+    let(:used_walmart_gift_card_with_sale_associated) { create :walmart_gift_card, used: true, vonage_sale: create(:vonage_sale) }
+    let(:unused_walmart_gift_card) { create :walmart_gift_card, used: true, vonage_sale: create(:vonage_sale) }
+    let(:micro_center_location) { create :location, channel: micro_center}
+    let(:micro_center) { create :channel, name: 'Micro Center' }
+    let(:walmart_location) { create :location, channel: walmart }
+    let(:walmart) { create :channel, name: 'Walmart' }
+    let!(:gift_card_override) { create :gift_card_override }
 
-  it 'only requires gift card numbers for Walmart and Micro Center' do
-    frys_channel = create :channel, name: "Fry's"
-    frys_location = create :location, channel: frys_channel
-    subject.location = frys_location
-    subject.vonage_product = kit
-    subject.gift_card_number = nil
-    expect(subject).to be_valid
+    subject { build :vonage_sale, location: walmart_location }
+
+    before do
+      # allow(used_walmart_gift_card).to receive(:check).and_return(true)
+      # allow(used_walmart_gift_card_with_sale_associated).to receive(:check).and_return(true)
+      # allow(unused_walmart_gift_card).to receive(:check).and_return(true)
+      allow_any_instance_of(WalmartGiftCard).to receive(:check).and_return(true)
+    end
+
+    it 'requires a gift card to be either 12 or 16 characters' do
+      subject.vonage_product = kit
+      subject.location = micro_center_location
+      subject.gift_card_number = 'ab1234567890'
+      expect(subject).to be_valid
+      subject.location = walmart_location
+      subject.gift_card_number = used_walmart_gift_card.card_number
+      expect(subject).to be_valid
+      subject.location = micro_center_location
+      subject.gift_card_number = 'ab12345678901'
+      expect(subject).not_to be_valid
+    end
+
+    it 'only requires gift card numbers for Walmart and Micro Center' do
+      frys_channel = create :channel, name: "Fry's"
+      frys_location = create :location, channel: frys_channel
+      subject.location = frys_location
+      subject.vonage_product = kit
+      subject.gift_card_number = nil
+      expect(subject).to be_valid
+    end
+
+    it 'is invalid when no gift card can be found' do
+      expect(subject).not_to be_valid
+    end
+
+    it 'is invalid when the gift card has been used and is associated with a VonageSale' do
+      subject.gift_card_number = used_walmart_gift_card_with_sale_associated.card_number
+      expect(subject).not_to be_valid
+    end
+
+    it 'is invalid when the gift card has not been used' do
+      subject.gift_card_number = unused_walmart_gift_card.card_number
+      expect(subject).not_to be_valid
+    end
+
+    it 'is valid when the card has been used and is not yet associated with a VonageSale' do
+      subject.gift_card_number = used_walmart_gift_card.card_number
+      expect(subject).to be_valid
+    end
+
+    it 'validates the gift card location' do
+      used_walmart_gift_card.update store_number: 'blah'
+      subject.gift_card_number = used_walmart_gift_card.card_number
+      expect(subject).not_to be_valid
+      used_walmart_gift_card.update store_number: subject.location.store_number
+      expect(subject).to be_valid
+    end
+
+    it 'validates an override card' do
+      subject.gift_card_number = gift_card_override.override_card_number
+      expect(subject).to be_valid
+    end
+
+    it 'does not allow an override card to be used more than once' do
+      create :vonage_sale, gift_card_number: gift_card_override.override_card_number
+      subject.gift_card_number = gift_card_override.override_card_number
+      expect(subject).not_to be_valid
+    end
   end
 
   it 'requires gift card rules and regulations to be checked for sale completion' do

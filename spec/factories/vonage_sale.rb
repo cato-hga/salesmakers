@@ -1,5 +1,9 @@
 FactoryGirl.define do
 
+  sequence :mac do |n|
+    "906EBB123#{n.to_s.rjust(3, '0')}"
+  end
+
   factory :vonage_sale do
     sale_date Date.yesterday
     person
@@ -7,7 +11,7 @@ FactoryGirl.define do
     location
     customer_first_name 'Johnny'
     customer_last_name 'Walker'
-    mac '906EBB123456'
+    mac { generate :mac }
     vonage_product
     person_acknowledged true
     gift_card_number 'ab1234567890'

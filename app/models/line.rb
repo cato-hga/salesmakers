@@ -26,9 +26,9 @@ class Line < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
 
-
-
   stripping_ransacker(:unstripped_identifier, :identifier)
+
+  strip_attributes
 
   searchable do
     text :identifier, boost: 5.0

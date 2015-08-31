@@ -12,6 +12,7 @@
 #  updated_at  :datetime         not null
 #  training    :boolean          default(FALSE), not null
 #  project_id  :integer
+#  meeting     :boolean          default(FALSE), not null
 #
 
 class Shift < ActiveRecord::Base

@@ -20,5 +20,5 @@ class PersonPunch < ActiveRecord::Base
 
   enum in_or_out: [:in, :out]
 
-  nilify_blanks
+  strip_attributes
 end

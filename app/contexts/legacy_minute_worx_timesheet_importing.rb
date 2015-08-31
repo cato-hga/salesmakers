@@ -14,6 +14,6 @@ class LegacyMinuteWorxTimesheetImporting < TimesheetImporter
   private
 
   def timesheets_for_last(duration)
-    ConnectTimesheet.updated_within_last(duration).order(:shift_date)
+    ConnectTimesheet.updated_within_last(duration).order(:shift_date).includes(:connect_business_partner_location)
   end
 end

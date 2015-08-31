@@ -16,7 +16,7 @@ module Comcast::SaleValidationsAndAssociations
     belongs_to :person
   end
 
-  def has_one_assocations
+  def has_one_associations
     has_one :comcast_former_provider
     has_one :comcast_install_appointment, inverse_of: :comcast_sale
     accepts_nested_attributes_for :comcast_install_appointment

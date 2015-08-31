@@ -99,7 +99,7 @@ class Candidate < ActiveRecord::Base
        ]
 
   has_paper_trail
-  nilify_blanks
+  strip_attributes
   acts_as_taggable
   geocoding_validations
   attribute_validations

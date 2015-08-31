@@ -48,7 +48,7 @@ class Person < ActiveRecord::Base
   before_create :set_phone_validation
 
   has_paper_trail
-  nilify_blanks
+  strip_attributes
 
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy

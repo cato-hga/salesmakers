@@ -2,8 +2,8 @@
 %html
   %head
     %title
-      SalesCenter -
       = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+      = '- SalesCenter'
     = stylesheet_link_tag 'application', params[:controller], media: 'all'
     - if Rails.env.test?
       = javascript_include_tag 'application', params[:controller]
@@ -29,7 +29,12 @@
         .container#main_container
           %header
             %h1
-              = content_for?(:title) ? yield(:title) : NameCase(params[:controller].sub('_',' '))
+              - if content_for?(:heading)
+                = yield(:heading)
+              - elsif content_for?(:title)
+                = yield(:title)
+              - else
+                = NameCase(params[:controller].sub('_',' '))
               = yield :action_buttons
             = yield :header
           .notices

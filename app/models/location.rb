@@ -42,6 +42,8 @@ class Location < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
   belongs_to :sprint_radio_shack_training_location
 
+  strip_attributes
+
   def name(show_channel = true)
     output = ''
     output += self.channel.name + ', ' if show_channel

@@ -181,6 +181,25 @@ describe 'selecting a Location for a Candidate' do
         expect(current_path).to eq(candidate_path(candidate))
       end
     end
+
+    describe 'for candidates that are already prescreened, and are VIPs' do
+      let(:prescreen_answer) { create :prescreen_answer }
+      before(:each) do
+        candidate.update vip: true
+        prescreen_answer.update candidate: candidate
+        prescreen_answer.reload
+        candidate.reload
+      end
+      it 'shows all locations nearby, regardless of head counts' do
+
+      end
+      it 'redirects to candidate confirm' do
+        within first('tbody tr') do
+          click_on "#{location.display_name}"
+        end
+        expect(current_path).to eq(new_candidate_training_availability_path(candidate))
+      end
+    end
   end
 
   describe 'for those with permission to view outsourced doors' do

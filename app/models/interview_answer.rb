@@ -42,4 +42,5 @@ class InterviewAnswer < ActiveRecord::Base
   accepts_nested_attributes_for :candidate
   has_many :log_entries, as: :trackable, dependent: :destroy
 
+  strip_attributes
 end

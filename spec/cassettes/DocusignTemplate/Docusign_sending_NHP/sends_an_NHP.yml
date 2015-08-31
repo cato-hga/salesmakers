@@ -20,7 +20,7 @@ http_interactions:
         location is set to 555 34th St N, St. Petersburg, FL (store number CCWM4690).\n              Your
         area is set to A Test Area.\n\n            ","emailSubject":"Test Project
         Employment Application and New Hire Paperwork for: Test Candidate","templateId":"603E81AB-4DC0-4FBC-9028-46D1FCABDD21","eventNotification":{},"templateRoles":[{"name":"Test
-        Candidate","email":"developers@salesmakersinc.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[]}}]}'
+        Candidate","email":"developers@salesmakersinc.com","roleName":"New Employee","tabs":{"textTabs":[],"checkboxTabs":[],"numberTabs":[],"fullNameTabs":[],"dateTabs":[]}}],"customFields":null}'
     headers:
       X-Docusign-Authentication:
       - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
@@ -44,25 +44,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1438606800'
+      - '1441029600'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '982'
+      - '988'
       Date:
-      - Mon, 03 Aug 2015 12:49:24 GMT
+      - Mon, 31 Aug 2015 13:04:26 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"b76e9bd1-5a20-4e1c-ae53-5607083047ef\",\r\n
-        \ \"uri\": \"/envelopes/b76e9bd1-5a20-4e1c-ae53-5607083047ef\",\r\n  \"statusDateTime\":
-        \"2015-08-03T12:49:22.0370000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"6d017624-ae70-4f98-98cd-0c757ac993ac\",\r\n
+        \ \"uri\": \"/envelopes/6d017624-ae70-4f98-98cd-0c757ac993ac\",\r\n  \"statusDateTime\":
+        \"2015-08-31T13:04:25.4100000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:49:24 GMT
+  recorded_at: Mon, 31 Aug 2015 13:04:27 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/b76e9bd1-5a20-4e1c-ae53-5607083047ef
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/6d017624-ae70-4f98-98cd-0c757ac993ac
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -89,12 +89,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 03 Aug 2015 12:49:26 GMT
+      - Mon, 31 Aug 2015 13:04:29 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:49:26 GMT
+  recorded_at: Mon, 31 Aug 2015 13:04:29 GMT
 recorded_with: VCR 2.9.3

@@ -14,4 +14,6 @@ class PermissionGroup < ActiveRecord::Base
   has_many :permissions
 
   default_scope { order :name }
+
+  strip_attributes
 end

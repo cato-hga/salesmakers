@@ -32,8 +32,10 @@ class PrescreenAnswer < ActiveRecord::Base
   validates :worked_for_sprint, presence: true
   validates :high_school_diploma, presence: true
   validates :visible_tattoos, presence: true
+  validates :has_sales_experience, presence: true
+  validates :sales_experience_notes, length: { minimum: 2 }
 
   belongs_to :candidate
 
-  nilify_blanks
+  strip_attributes
 end

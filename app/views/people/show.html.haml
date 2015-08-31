@@ -1,13 +1,17 @@
 - page_title = @person.display_name.html_safe
 - page_title = page_title + contact_link(@person) if @person.mobile_phone? and @person.show_details_for_ids? @visible_people_ids and @current_person.position.hq?
-- title page_title
+- title @person.display_name
 - show_details = @person.show_details_for_ids? @visible_people_ids
 - clients = @person.clients
 - vonage = false
 - postpaid = Project.find_by name: 'Sprint Postpaid'
 - for client in clients do
   - vonage = true if client.name == 'Vonage'
-= content_for :action_buttons do
+
+- content_for :heading do
+  = page_title
+
+- content_for :action_buttons do
   - if show_details
     - if vonage
       = button_to 'Commissions', vcp07012015_path(@person.id), class: [:button, :inline_button], method: :get
@@ -24,8 +28,10 @@
     = link_to 'Edit Position', edit_position_person_path(@person), class: [:button, :inline_button]
   - if PersonAreaPolicy.new(@current_person, PersonArea.new).update?
     = link_to 'Edit Areas', person_person_areas_path(@person), class: [:button, :inline_button]
+  - if GiftCardOverridePolicy.new(@current_person, GiftCardOverride.new).new_override?
+    = link_to 'Override Card', new_override_walmart_gift_cards_path(@person), class: [:button, :inline_button]
   - if PersonPolicy.new(@current_person, Person.new).masquerade?
-    = link_to 'Masquerade', masquerade_person_path(@person), class: [:button, :inline_button, :alert]
+    = link_to 'Masquerade', masquerade_person_path(@person), class: [:button, :inline_button, :alert] if @person.active?
 
 - if @person.candidate
   - content_for :header do
@@ -129,6 +135,25 @@
           %br/
         = physical_address.city + ', ' + physical_address.state
         = physical_address.zip
+  - if @shifts and show_details
+    .widget
+      .inner
+        %h3 Hours by Project
+        .small.comment
+          %strong
+            Note:
+          this only shows hours with a project specified, which are hours booked from Jan 1, 2015, onward.
+        %br
+        - if @shift_projects.any?
+          - for project in @shift_projects
+            %p
+              %strong
+                = project.name + ":"
+              = instance_variable_get "@#{project.name.squish.downcase.tr(" ", "_")}_hours"
+              Hours
+        - else
+          %p No shifts with project information found for this user. They may have shifts, but&mdash;if so&mdash;those shifts were not imported with a project attached.
+
 - if show_details
   - if @person.department and @person.department.name.include?('Comcast')
     .widget#leads

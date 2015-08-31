@@ -51,7 +51,9 @@ describe PrescreenAnswersController do
               eligible_smart_phone: true,
               worked_for_sprint: true,
               ok_to_screen: true,
-              visible_tattoos: true
+              visible_tattoos: true,
+              has_sales_experience: true,
+              sales_experience_notes: 'YesYesYes'
           },
           candidate_availability: {
               monday_first: true
@@ -129,7 +131,10 @@ describe PrescreenAnswersController do
                 eligible_smart_phone: true,
                 worked_for_sprint: true,
                 ok_to_screen: true,
-                visible_tattoos: true
+                visible_tattoos: true,
+                has_sales_experience: true,
+                sales_experience_notes: 'YesYesYes'
+
             },
             candidate_availability: {
                 monday_first: true
@@ -166,7 +171,9 @@ describe PrescreenAnswersController do
                  reliable_transportation: true,
                  eligible_smart_phone: true,
                  worked_for_sprint: false,
-                 ok_to_screen: true
+                 ok_to_screen: true,
+                 has_sales_experience: true,
+                 sales_experience_notes: 'YesYesYes'
              },
              candidate_availability: {
                  monday_first: true
@@ -206,7 +213,9 @@ describe PrescreenAnswersController do
                  reliable_transportation: true,
                  eligible_smart_phone: true,
                  worked_for_sprint: true,
-                 ok_to_screen: true
+                 ok_to_screen: true,
+                 has_sales_experience: true,
+                 sales_experience_notes: 'YesYesYes'
              },
              candidate_availability: {
                  monday_first: false
@@ -245,7 +254,9 @@ describe PrescreenAnswersController do
                  eligible_smart_phone: true,
                  worked_for_sprint: true,
                  ok_to_screen: true,
-                 visible_tattoos: true
+                 visible_tattoos: true,
+                 has_sales_experience: true,
+                 sales_experience_notes: 'YesYesYes'
              },
              candidate_availability: {
                  monday_first: true
