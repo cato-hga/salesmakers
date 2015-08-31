@@ -64,6 +64,8 @@ describe 'DirecTV lead destruction' do
       within '#directv_lead' do
         click_on 'Dismiss Lead'
 
+
+
       end
     end
 
