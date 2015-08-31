@@ -26,6 +26,8 @@ class ChangelogEntry < ActiveRecord::Base
 
   default_scope { order(released: :desc) }
 
+  strip_attributes
+
   scope :visible, ->(person = nil) {
     return ChangelogEntry.none unless person
     entries = ChangelogEntry.where("department_id IS NULL " +

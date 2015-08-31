@@ -18,6 +18,8 @@ class ClientAreaType < ActiveRecord::Base
 
   default_scope { order :name }
 
+  strip_attributes
+
   def self.get_hash
     {
         at_vrr: ClientAreaType.find_by(name: 'Vonage Retail Region'),

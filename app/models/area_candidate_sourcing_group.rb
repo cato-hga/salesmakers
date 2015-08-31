@@ -15,4 +15,6 @@ class AreaCandidateSourcingGroup < ActiveRecord::Base
   validates :project, presence: true
 
   belongs_to :project
+
+  strip_attributes
 end

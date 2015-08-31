@@ -15,7 +15,7 @@ class DeviceState < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
 
-
-
   default_scope { order :name }
+
+  strip_attributes
 end

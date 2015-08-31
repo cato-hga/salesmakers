@@ -18,6 +18,8 @@ class Department < ActiveRecord::Base
 
   default_scope { order :name }
 
+  strip_attributes
+
   private
 
   # def create_wall

@@ -16,5 +16,5 @@ class CandidateDenialReason < ActiveRecord::Base
 
   has_many :log_entries, as: :referenceable, dependent: :destroy
 
-
+  strip_attributes
 end

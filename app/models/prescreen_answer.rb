@@ -38,5 +38,4 @@ class PrescreenAnswer < ActiveRecord::Base
   belongs_to :candidate
 
   strip_attributes
-
 end

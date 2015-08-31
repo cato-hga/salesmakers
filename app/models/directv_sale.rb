@@ -29,11 +29,8 @@ class DirecTVSale < ActiveRecord::Base
   setup_validations
   belongs_to_associations
   has_one_assocations
+  strip_attributes
 
   has_many :log_entries, as: :trackable, dependent: :destroy
-
-
-
-
 end
 

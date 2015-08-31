@@ -29,6 +29,7 @@ class Area < ActiveRecord::Base
 
   has_paper_trail
   has_ancestry
+  strip_attributes
 
   setup_assocations
 

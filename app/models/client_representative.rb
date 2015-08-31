@@ -22,4 +22,6 @@ class ClientRepresentative < ActiveRecord::Base
   belongs_to :client
 
   has_and_belongs_to_many :permissions
+
+  strip_attributes
 end

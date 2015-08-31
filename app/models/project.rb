@@ -34,6 +34,8 @@ class Project < ActiveRecord::Base
 
   default_scope { order(:name) }
 
+  strip_attributes
+
   def self.visible(person = nil)
     return Project.none unless person
     return Project.all if person.position and person.position.hq?

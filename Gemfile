@@ -44,7 +44,6 @@ gem 'kartograph', '0.2.2' # JSON-to-Object (and vice-versa) mapping
 gem 'kiba', '0.6.1' # ETL data processing
 gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
-gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'persistent_httparty', '0.1.2' # Keep connections open when using HTTParty
 gem 'pg', '0.18.2'
