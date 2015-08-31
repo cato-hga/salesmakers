@@ -4,4 +4,8 @@ class AreaPolicy < ApplicationPolicy
       scope.visible(person)
     end
   end
+
+  def management_scorecard?
+    has_permission? 'management_scorecard'
+  end
 end

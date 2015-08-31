@@ -1,0 +1,25 @@
+- title 'Management Scorecard for ' + @current_person.name
+
+.widgets
+  - @weeks.each do |week|
+    .widget{ id: week[3] }
+      .inner
+        %h3= week[0]
+        %table
+          %thead
+            %tr
+              %th SM
+              %th Hired
+              %th Sales
+              %th Hours
+              %th HPS/HPA
+              %th Refunds
+          %tbody
+            - for person in @people do
+              %tr
+                %td.salesmaker= person_link person
+                %td.hired
+                %td.sales= person.vonage_sales.for_date_range(week[1], week[2]).count.to_s
+                %td.hours
+                %td.hps
+                %td.refunds

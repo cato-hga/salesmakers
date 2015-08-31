@@ -277,6 +277,8 @@ Rails.application.routes.draw do
 
   resources :log_entries, only: [:index]
 
+  get 'management_scorecard/management_scorecard', as: 'management_scorecard'
+
   post 'minuteworx_punch/begin', to: 'minute_worx_punch_receiver#begin'
   get 'minuteworx_punch/begin', to: 'minute_worx_punch_receiver#begin'
 
