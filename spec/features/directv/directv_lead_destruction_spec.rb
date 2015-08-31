@@ -4,6 +4,7 @@ describe 'DirecTV lead destruction' do
   let(:department) { create :department }
   let(:position) { create :directv_sales_position, department: department }
   let(:directv_customer) { create :directv_customer, person: directv_employee }
+  let!(:reason) { create :directv_lead_dismissal_reason }
   let!(:directv_lead) {
     create :directv_lead,
            directv_customer: directv_customer

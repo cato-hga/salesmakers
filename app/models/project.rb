@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: projects
-#
-#  id                     :integer          not null, primary key
-#  name                   :string           not null
-#  client_id              :integer          not null
-#  created_at             :datetime
-#  updated_at             :datetime
-#  workmarket_project_num :string
-#
-
 class Project < ActiveRecord::Base
   #after_save :create_wall
 
@@ -87,14 +75,14 @@ class Project < ActiveRecord::Base
     for area in self.areas do
       all_locations << area.locations
     end
-    all_locations.flatten.uniq
+    Location.where(id: all_locations.flatten.uniq.map(&:id))
   end
 
   def locations_for_person(person)
     if person.position.hq?
-      self.locations.sort_by { |l| l.name }
+      self.locations.joins(:channel).order("channels.name ASC, locations.city ASC, locations.display_name ASC")
     else
-      person.locations.sort_by { |l| l.name }
+      person.locations.joins(:channel).order("channels.name ASC, locations.city ASC, locations.display_name ASC")
     end
   end
 

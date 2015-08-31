@@ -99,6 +99,7 @@ describe 'Vonage Sale entry' do
         visit new_vonage_sale_path
         expect(page).to have_select 'vonage_sale_location_id', text: location.name
         expect(page).to have_select 'vonage_sale_location_id', text: other_location.name
+        
       end
     end
 
@@ -169,7 +170,7 @@ describe 'Vonage Sale entry' do
 
       subject {
         select employee_one.display_name, from: 'Sales Representative'
-        fill_in 'Sale Date', with: '08/15/2015'
+        fill_in 'Sale Date', with: Date.today
         fill_in 'Confirmation Number', with: '1234567890'
         select location.name, from: 'Location'
         fill_in 'Customer First Name', with: 'Test'
