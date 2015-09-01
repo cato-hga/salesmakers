@@ -4,9 +4,13 @@ class ManagementScorecardController < ApplicationController
 
   def management_scorecard
     authorize Area.new
-    @people = policy_scope(Person).
-        joins("left outer join employments on employments.person_id = people.id").
-        where("people.active = true OR employments.end >= ?", Date.today.beginning_of_week - 3.weeks)
+    @area = policy_scope(Area).find params[:id]
+    @people = @area.
+        all_people.
+        joins("left outer join shifts on shifts.person_id = people.id").
+        where("people.active = true AND shifts.date >= ?", Date.today.beginning_of_week - 3.weeks).
+        distinct.
+        includes(:most_recent_employment)
     @weeks = [
         ['This Week', Date.today.beginning_of_week, Date.today, 'this_week'],
         ['Last Week', Date.today.beginning_of_week - 1.week, Date.today.beginning_of_week - 1.day, 'last_week'],

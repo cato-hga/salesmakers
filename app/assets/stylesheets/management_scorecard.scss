@@ -1,3 +1,26 @@
-// Place all the styles related to the management_scorecard controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#this_week,
+#last_week,
+#two_weeks_ago,
+#three_weeks_ago, {
+	border-left: 1px solid #ddd;
+	font-size: 0.75em;
+	.row {
+		margin-left: 0 !important;
+		border-bottom: 1px solid #ddd;
+		.columns {
+			height: 4.5em;
+			vertical-align: middle;
+			padding-top: 1.5em;
+			padding-left: 0.5em;
+			&.pass {
+				background-color: #dfd;
+			}
+			&.fail {
+				background-color: #fdd;
+			}
+		}
+	}
+	h3 {
+		padding-left: 0.5em;
+	}
+}

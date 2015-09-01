@@ -8,8 +8,7 @@ module LinksHelperExtension
   end
 
   def area_link(area)
-    #link_to area.name, client_project_area_url(area.project.client, area.project, area)
-    area.name
+    link_to area.name, management_scorecard_client_project_area_url(area.project.client, area.project, area)
   end
 
   def department_link(department)

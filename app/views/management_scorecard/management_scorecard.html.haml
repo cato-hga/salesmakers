@@ -1,25 +1,157 @@
-- title 'Management Scorecard for ' + @current_person.name
+- title 'Management Scorecard for ' + @area.name
 
-.widgets
-  - @weeks.each do |week|
-    .widget{ id: week[3] }
-      .inner
+- green_sales = 1
+- green_hps = 11.0
+- green_refunds = 0
+
+.widget
+  .inner.row.full-width
+    - people_totals = {}
+    - total_sales = 0
+    - total_hours = 0.0
+    - total_refunds = 0
+    - week_count = 0
+    - @weeks.each do |week|
+      - week_count += 1
+      - week_total_sales = 0
+      - week_total_hours = 0.0
+      - week_total_refunds = 0
+      .large-3.medium-6.columns{ id: week[3] }
         %h3= week[0]
-        %table
-          %thead
-            %tr
+        .row
+          - if week_count == 1
+            .small-4.columns
               %th SM
-              %th Hired
+            .small-2.columns
               %th Sales
+            .small-2.columns
               %th Hours
+            .small-2.columns
               %th HPS/HPA
+            .small-2.columns
               %th Refunds
-          %tbody
-            - for person in @people do
-              %tr
-                %td.salesmaker= person_link person
-                %td.hired
-                %td.sales= person.vonage_sales.for_date_range(week[1], week[2]).count.to_s
-                %td.hours
-                %td.hps
-                %td.refunds
+          - else
+            .small-3.columns
+              %th Sales
+            .small-3.columns
+              %th Hours
+            .small-3.columns
+              %th HPS/HPA
+            .small-3.columns
+              %th Refunds
+        - for person in @people do
+          - sales = person.vonage_sales.for_date_range(week[1], week[2]).count
+          - hours = person.shifts.for_date_range(week[1], week[2]).sum(:hours)
+          - hps = sales == 0 ? hours : hours / sales
+          - refunds = person.vonage_refunds.for_date_range(week[1], week[2]).count
+          - person_totals = people_totals[person] || { sales: 0, hours: 0.0, refunds: 0 }
+          - person_totals[:sales] += sales
+          - week_total_sales += sales
+          - total_sales += sales
+          - person_totals[:hours] += hours
+          - week_total_hours += hours
+          - total_hours += hours
+          - person_totals[:refunds] += refunds
+          - week_total_refunds += refunds
+          - total_refunds += refunds
+          - people_totals[person] = person_totals
+          - sales_class = sales < green_sales && hours > 0.0 ? 'fail' : 'pass'
+          - hps_class = hps <= green_hps ? 'pass' : 'fail'
+          - refunds_class = refunds <= green_refunds ? 'pass' : 'fail'
+          - if sales == 0 && hours == 0
+            - sales_class, hps_class, refunds_class = 'fail', 'fail', 'fail'
+          .row.vertical_space
+            - if week_count == 1
+              .small-4.columns= link_to person.display_name, person
+            .columns{class: "small-#{week_count == 1 ? '2' : '3'} #{sales_class}"}= sales.to_s
+            .columns{class: "small-#{week_count == 1 ? '2' : '3'} #{hps_class}"}= hours.round(2).to_s
+            .columns{class: "small-#{week_count == 1 ? '2' : '3'} #{hps_class}"}= hps.round(2).to_s
+            .columns{class: "small-#{week_count == 1 ? '2' : '3'} #{refunds_class}"}= refunds.to_s
+        .row.vertical_space
+          - if week_count == 1
+            .small-4.columns TOTALS
+          .columns{class: "small-#{week_count == 1 ? '2' : '3'}"}= week_total_sales.to_s
+          .columns{class: "small-#{week_count == 1 ? '2' : '3'}"}= week_total_hours.round(2).to_s
+          .columns{class: "small-#{week_count == 1 ? '2' : '3'}"}= week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2).to_s
+          .columns{class: "small-#{week_count == 1 ? '2' : '3'}"}= week_total_refunds
+  .clearfix
+-#.row.full-width
+-#  - people_totals = {}
+-#  - total_sales = 0
+-#  - total_hours = 0.0
+-#  - total_refunds = 0
+-#  - @weeks.each do |week|
+-#    - week_total_sales = 0
+-#    - week_total_hours = 0.0
+-#    - week_total_refunds = 0
+-#    .large-3.medium-6.columns{ id: week[3] }
+-#      .widget
+-#        .inner
+-#          %h3= week[0]
+-#          .row
+-#            .small-4.columns
+-#              %th SM
+-#            .small-2.columns
+-#              %th Sales
+-#            .small-2.columns
+-#              %th Hours
+-#            .small-2.columns
+-#              %th HPS/HPA
+-#            .small-2.columns
+-#              %th Refunds
+-#          - for person in @people do
+-#            - sales = person.vonage_sales.for_date_range(week[1], week[2]).count
+-#            - hours = person.shifts.for_date_range(week[1], week[2]).sum(:hours)
+-#            - refunds = person.vonage_refunds.for_date_range(week[1], week[2]).count
+-#            - person_totals = people_totals[person] || { sales: 0, hours: 0.0, refunds: 0 }
+-#            - person_totals[:sales] += sales
+-#            - week_total_sales += sales
+-#            - total_sales += sales
+-#            - person_totals[:hours] += hours
+-#            - week_total_hours += hours
+-#            - total_hours += hours
+-#            - person_totals[:refunds] += refunds
+-#            - week_total_refunds += refunds
+-#            - total_refunds += refunds
+-#            - people_totals[person] = person_totals
+-#            .row.vertical_space
+-#              .small-4.columns= person_link person
+-#              .small-2.columns= sales.to_s
+-#              .small-2.columns= hours.round(2).to_s
+-#              .small-2.columns= sales == 0 ? hours.round(2).to_s : (hours / sales).round(2).to_s
+-#              .small-2.columns= refunds.to_s
+-#          .row.vertical_space
+-#            .small-4.columns TOTALS
+-#            .small-2.columns= week_total_sales.to_s
+-#            .small-2.columns= week_total_hours.round(2).to_s
+-#            .small-2.columns= week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2).to_s
+-#            .small-2.columns= week_total_refunds
+.widget
+  .inner
+    %h3 4-Week Totals
+    %table
+      %thead
+        %tr
+          %th SM
+          %th Hired
+          %th Sales
+          %th Hours
+          %th HPS/HPA
+          %th Refunds
+      %tbody
+        - for person in @people do
+          - person_totals = people_totals[person] || { sales: 0, hours: 0.0, refunds: 0 }
+          %tr
+            %td.salesmaker= person_link person
+            %td.hired= person.hire_date ? short_date(person.hire_date) : ''
+            %td.sales= person_totals[:sales].to_s
+            %td.hours= person_totals[:hours].round(2).to_s
+            %td.hps= person_totals[:sales] == 0 ? person_totals[:hours].round(2).to_s : (person_totals[:hours] / person_totals[:sales]).round(2).to_s
+            %td.refunds= person_totals[:refunds].to_s
+        %tr#grand_totals
+          %td TOTAL
+          %td
+          %td.sales= total_sales.to_s
+          %td.hours= total_hours.round(2).to_s
+          %td.hps= total_sales == 0 ? total_hours : (total_hours / total_sales).round(2).to_s
+          %td.refunds= total_refunds.to_s
