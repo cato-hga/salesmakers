@@ -20,6 +20,21 @@ module Candidates::Locations
     end
   end
 
+  def get_override_location
+    @project = @candidate.location_area.area.project
+    @areas = @project.areas
+    @search = LocationArea.joins(:area).where("areas.project_id = #{@project.id}").search(params[:q])
+    @location_areas = @search.result.page(params[:page])
+  end
+
+  def post_override_location
+    location_area = LocationArea.find params[:location_area_id]
+    if @candidate.update location_area: location_area
+      flash[:notice] = 'Location overridden successfully'
+      redirect_to @candidate
+    end
+  end
+
   protected
 
   def create_and_select_location

@@ -1018,4 +1018,26 @@ describe CandidatesController do
       }.to change(LogEntry, :count).by(1)
     end
   end
+
+  describe 'GET get_override_location' do
+    let(:candidate) { create :candidate, location_area: location_area }
+    let(:location_area) { create :location_area }
+
+    before { allow(controller).to receive(:policy).and_return double(get_override_location?: true) }
+
+    subject do
+      get :get_override_location,
+          id: candidate.id
+    end
+
+    it 'is successful' do
+      subject
+      expect(response).to be_success
+    end
+
+    it 'renders the correct template' do
+      subject
+      expect(response).to render_template :get_override_location
+    end
+  end
 end

@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       put :set_sprint_radio_shack_training_session, as: :set_sprint_radio_shack_training_session
       put :set_training_session_status
       put :set_reconciliation_status
+      get :get_override_location
+      patch 'post_override_location/:location_area_id', action: :post_override_location, as: :post_override_location
     end
     collection do
       get :dashboard, as: :dashboard
