@@ -462,6 +462,8 @@ GEM
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.10.3)
     nilify_blanks (1.2.1)
@@ -817,6 +819,7 @@ DEPENDENCIES
   mechanize (= 2.7.3)
   metric_fu (= 4.12.0)
   namecase (= 2.0.0)
+  net-sftp (= 2.1.2)
   newrelic_rpm!
   nilify_blanks (= 1.2.1)
   paper_trail!
