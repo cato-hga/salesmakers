@@ -144,4 +144,12 @@ class CandidatePolicy < ApplicationPolicy
   def assign_vip?
     has_permission? 'vip'
   end
+
+  def get_override_location?
+    assign_vip?
+  end
+
+  def post_override_location?
+    assign_vip?
+  end
 end
