@@ -16,4 +16,8 @@
 
 class VonageTransfer < ActiveRecord::Base
   belongs_to :vonage_device
+
+  def self.policy_class
+    VonageDevicePolicy
+  end
 end
