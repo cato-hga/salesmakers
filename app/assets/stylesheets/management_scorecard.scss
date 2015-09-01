@@ -1,12 +1,32 @@
 #this_week,
 #last_week,
 #two_weeks_ago,
-#three_weeks_ago, {
+#three_weeks_ago,
+#four_week_totals {
 	border-left: 1px solid #ddd;
 	font-size: 0.75em;
+	&#this_week {
+		border-left: none;
+	}
+	&#four_week_totals {
+		.row {
+			.columns {
+				height: 6em;
+				padding-top: 2em;
+			}
+		}
+		#grand_totals {
+			border-top: 5px solid #ddd;
+			font-weight: bold;
+		}
+	}
 	.row {
 		margin-left: 0 !important;
 		border-bottom: 1px solid #ddd;
+		&.week_totals {
+			border-top: 5px solid #ddd;
+			font-weight: bold;
+		}
 		.columns {
 			height: 4.5em;
 			vertical-align: middle;
