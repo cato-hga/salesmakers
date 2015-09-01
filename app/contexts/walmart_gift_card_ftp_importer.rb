@@ -7,7 +7,7 @@ class WalmartGiftCardFTPImporter
     @saved_gift_cards = []
     Net::SFTP.start('ftp01.vonage.com', 'aatkinson', password: 'r7p9dbPM') do |sftp|
       if Rails.env.staging? || Rails.env.production?
-        dir_path = '/RBD_eGift'
+        dir_path = '/rbd_eGift'
       else
         dir_path = '/test'
       end
