@@ -54,7 +54,6 @@ describe RootRedirectsController do
       end
     end
 
-
     describe 'Comcast Sales' do
       let!(:comcast_employee) { create :person, position: comcast_position, email: 'comcastemployee@cc.salesmakersinc.com' }
       let(:comcast_position) { create :position, name: 'Comcast Sales Specialist', department: comcast_department }
@@ -118,7 +117,8 @@ describe RootRedirectsController do
       end
       it 'routes to commissions for retail employees' do
         get :incoming_redirect
-        expect(response).to redirect_to(new_vonage_sale_path)
+        # TODO: expect(response).to redirect_to(new_vonage_sale_path)
+        expect(response).to redirect_to(vcp07012015_path(vonage_employee))
       end
       it 'returns a redirect for event employees' do
         vonage_position.update department: vonage_events_department
@@ -128,7 +128,8 @@ describe RootRedirectsController do
       it 'routes to commissions for event employees' do
         vonage_position.update department: vonage_events_department
         get :incoming_redirect
-        expect(response).to redirect_to(new_vonage_sale_path)
+        # TODO: expect(response).to redirect_to(new_vonage_sale_path)
+        expect(response).to redirect_to(vcp07012015_path(vonage_employee))
       end
     end
 

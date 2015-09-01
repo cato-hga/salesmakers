@@ -139,6 +139,24 @@ describe VonageSale do
     expect(subject.mac).to eq('906EBB123456')
   end
 
+  it 'does not allow duplicate MAC ID sales on the same day' do
+    duplicate = subject.dup
+    duplicate.save
+    expect(subject).not_to be_valid
+  end
+
+  it 'marks previous sales as having been resold' do
+    duplicate = build :vonage_sale
+    duplicate.attributes = subject.attributes
+    duplicate.sale_date = subject.sale_date - 1.day
+    duplicate.save
+    subject.save
+    duplicate.reload
+    subject.reload
+    expect(duplicate.resold?).to eq(true)
+    expect(subject.resold?).to eq(false)
+  end
+
   it 'requires a customer first name' do
     subject.customer_first_name = nil
     expect(subject).not_to be_valid

@@ -18,7 +18,7 @@ transform do |row|
   row[:historical_location_id] = historical_location.id if historical_location
   row[:historical_client_area_id] = historical_client_area.id if historical_client_area
 
-  historical_row = HistoricalLocationClientArea.find_or_initialize_by row
+  historical_row = HistoricalLocationClientArea.new row
 
   historical_row
 end

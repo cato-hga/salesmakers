@@ -2025,7 +2025,7 @@ ALTER SEQUENCE employments_id_seq OWNED BY employments.id;
 CREATE TABLE gift_card_overrides (
     id integer NOT NULL,
     creator_id integer NOT NULL,
-    person_id integer NOT NULL,
+    person_id integer,
     original_card_number character varying,
     ticket_number character varying,
     override_card_number character varying NOT NULL,
@@ -10606,4 +10606,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150827154914');
 INSERT INTO schema_migrations (version) VALUES ('20150827185856');
 
 INSERT INTO schema_migrations (version) VALUES ('20150827191424');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831222001');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 

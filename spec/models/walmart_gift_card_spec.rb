@@ -57,6 +57,11 @@ describe WalmartGiftCard do
     expect(subject).to be_valid
   end
 
+  it 'validates the uniqueness of the card number' do
+    create :walmart_gift_card, card_number: subject.card_number
+    expect(subject).not_to be_valid
+  end
+
   describe 'online card checks', :vcr do
     let(:gift_card) {
       WalmartGiftCard.new link: 'https://getegiftcard.walmart.com/gift-card/view/adnDrpbztK3wINMQLZ1WNDXY2/',
