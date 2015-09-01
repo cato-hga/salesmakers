@@ -1,13 +1,14 @@
 - page_title = @candidate.first_name.html_safe + ' ' + @candidate.last_name.html_safe
 - page_title = page_title + candidate_contact_link(@candidate) if @candidate.mobile_phone? && @candidate.mobile_phone_valid? && !@candidate.mobile_phone_is_landline?
-- title page_title
+- title @candidate.first_name + ' ' + @candidate.last_name
 - content_for :action_buttons do
   = render 'candidate_show_action_buttons'
 - content_for :header do
   %h4(style="clear: both; font-style: italic")
     ID#
     = @candidate.id
-
+- content_for :heading do
+  = page_title
 
 - cache_key = (cache_key_for_candidate(@candidate) || 'N/A')
 .widgets
