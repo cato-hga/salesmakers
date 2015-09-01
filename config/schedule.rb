@@ -44,7 +44,7 @@ every '3,8,13,18,23,28,33,38,43,48,53,58 * * * *' do
   runner 'LegacySprintSaleImporting.new.execute'
 end
 
-every '4,9,14,19,24,29,34,39,44,49,54,59' do
+every '4,9,14,19,24,29,34,39,44,49,54,59 * * * *' do
   runner 'WalmartGiftCardFTPImporter.new'
 end
 
