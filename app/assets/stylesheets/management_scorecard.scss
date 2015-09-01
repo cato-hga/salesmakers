@@ -1,3 +1,5 @@
+@import 'variables';
+
 #this_week,
 #last_week,
 #two_weeks_ago,
@@ -23,7 +25,7 @@
 	.row {
 		margin-left: 0 !important;
 		border-bottom: 1px solid #ddd;
-		&.week_totals {
+		&.totals {
 			border-top: 5px solid #ddd;
 			font-weight: bold;
 		}
@@ -42,5 +44,11 @@
 	}
 	h3 {
 		padding-left: 0.5em;
+	}
+}
+
+@media only screen and (min-width: $tablet_cutoff) {
+	#four_week_totals {
+		font-size: 1.25em;
 	}
 }

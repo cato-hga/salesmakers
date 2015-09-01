@@ -53,17 +53,21 @@
           - if sales == 0 && hours == 0
             - sales_class, hps_class, refunds_class = 'fail', 'fail', 'fail'
           .row.vertical_space
-            .small-4.columns= link_to person.display_name, person
-            .columns{class: "small-2 #{sales_class}"}= sales.to_s
-            .columns{class: "small-2 #{hps_class}"}= hours.round(2).to_s
-            .columns{class: "small-2 #{hps_class}"}= hps.round(2).to_s
-            .columns{class: "small-2 #{refunds_class}"}= refunds.to_s
-        .row.vertical_space.week_totals
+            .small-4.columns.salesmaker= link_to person.display_name, person
+            .columns.sales{class: "small-2 #{sales_class}"}= sales.to_s
+            .columns.hours{class: "small-2 #{hps_class}"}= hours.round(2).to_s
+            .columns.hps{class: "small-2 #{hps_class}"}= hps.round(2).to_s
+            .columns.refunds{class: "small-2 #{refunds_class}"}= refunds.to_s
+        .row.vertical_space.totals
+          - hps = week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2)
+          - sales_class = week_total_sales < green_sales && week_total_hours > 0.0 ? 'fail' : 'pass'
+          - hps_class = hps <= green_hps ? 'pass' : 'fail'
+          - refunds_class = week_total_refunds <= green_refunds ? 'pass' : 'fail'
           .small-4.columns TOTALS
-          .columns.small-2= week_total_sales.to_s
-          .columns.small-2= week_total_hours.round(2).to_s
-          .columns.small-2= week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2).to_s
-          .columns.small-2= week_total_refunds
+          .columns.small-2.sales{class: sales_class}= week_total_sales.to_s
+          .columns.small-2.hours{class: hps_class}= week_total_hours.round(2).to_s
+          .columns.small-2.hps{class: hps_class}= week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2).to_s
+          .columns.small-2.refunds{class: refunds_class}= week_total_refunds
   .clearfix
 .widget
   .inner#four_week_totals
