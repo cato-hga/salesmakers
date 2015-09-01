@@ -24,12 +24,14 @@
 class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
-  attr_accessor :import
+  attr_accessor :import, :skip_resold_callback
 
-  before_save do
-    if self.valid? && !self.import?
-      VonageSale.where(mac: self.mac).each do |sale|
-        sale.update resold: true
+  after_save do
+    unless self.skip_resold_callback
+      VonageSale.where("mac = ? AND NOT id = ?", self.mac, self.id).each do |sale|
+        sale.resold = true
+        sale.skip_resold_callback = true
+        sale.save validate: false
       end
     end
   end
