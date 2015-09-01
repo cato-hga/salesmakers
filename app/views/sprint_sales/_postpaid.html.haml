@@ -25,4 +25,5 @@
       = f.select :picture_with_customer, options_for_select([['Yes'],['No, Customer Refused'],['No, Forgot']], nil), include_blank: true
       = f.label :comments
       = f.text_area :comments, size: "30x10"
+      = f.hidden_field :project_id, value:  @project.id
       = f.submit 'Complete Sale', class: [:button]

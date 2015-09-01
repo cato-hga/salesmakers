@@ -6,15 +6,15 @@
 #  sale_date                     :date             not null
 #  person_id                     :integer          not null
 #  location_id                   :integer          not null
-#  meid                          :string           not null
+#  meid                          :string
 #  mobile_phone                  :string
-#  carrier_name                  :string           not null
+#  carrier_name                  :string
 #  handset_model_name            :string           not null
 #  upgrade                       :boolean          default(FALSE), not null
 #  rate_plan_name                :string           not null
-#  top_up_card_purchased         :boolean          default(FALSE), not null
+#  top_up_card_purchased         :boolean          default(FALSE)
 #  top_up_card_amount            :float
-#  phone_activated_in_store      :boolean          default(FALSE), not null
+#  phone_activated_in_store      :boolean          default(FALSE)
 #  reason_not_activated_in_store :string
 #  picture_with_customer         :string
 #  comments                      :text
@@ -23,19 +23,24 @@
 #  updated_at                    :datetime         not null
 #  project_id                    :integer
 #  number_of_accessories         :integer
+#  sprint_carrier_id             :integer
+#  sprint_handset_id             :integer
+#  sprint_rate_plan_id           :integer
 #
 
 require 'rails_helper'
 
 describe SprintSale do
-  subject { build :sprint_sale, sale_date: Date.today }
+  let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
+  let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }
+  subject { build :sprint_sale, sale_date: Date.today, project: prepaid_project }
 
   it 'requires a person' do
     subject.person_id = nil
     expect(subject).not_to be_valid
   end
 
-  it 'requires a valid sale date'do
+  it 'requires a valid sale date' do
     subject.sale_date = nil
     expect(subject).not_to be_valid
     subject.sale_date = Date.today
@@ -49,27 +54,8 @@ describe SprintSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires that MEID be 4 or 18 characters' do
-    subject.meid = 'SWAS'
-    expect(subject).to be_valid
-    subject.meid = 'SWASH'
-    expect(subject).not_to be_valid
-    subject.meid = '123456789012345678'
-    expect(subject).to be_valid
-  end
-
-  it 'requires a mobile phone number' do
-    subject.mobile_phone = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires an upgrade value' do
     subject.upgrade = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a product' do
-    subject.carrier_name = nil
     expect(subject).not_to be_valid
   end
 
@@ -80,6 +66,22 @@ describe SprintSale do
 
   it 'requires a rateplan value' do
     subject.rate_plan_name = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires that MEID be 18 numbers' do
+    subject.project_id = prepaid_project.id
+    subject.meid = '123456789012345678'
+    expect(subject).to be_valid
+  end
+
+  it 'requires a mobile phone number' do
+    subject.mobile_phone = nil
+    expect(subject).not_to be_valid
+  end
+
+  it 'requires a product' do
+    subject.carrier_name = nil
     expect(subject).not_to be_valid
   end
 
@@ -94,10 +96,6 @@ describe SprintSale do
     expect(subject).not_to be_valid
   end
 
-  it 'responds to top_up_card_amount' do
-    expect(subject).to respond_to(:top_up_card_amount)
-  end
-
   it 'requires a phone activated in store value' do
     subject.phone_activated_in_store = nil
     expect(subject).not_to be_valid
@@ -109,14 +107,13 @@ describe SprintSale do
     expect(subject).not_to be_valid
   end
 
-  it 'requires number of accessories' do
-    subject.number_of_accessories = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires a picture with customer value' do
     subject.picture_with_customer = nil
     expect(subject).not_to be_valid
+  end
+
+  it 'responds to top_up_card_amount' do
+    expect(subject).to respond_to(:top_up_card_amount)
   end
 
   it 'responds to reason_not_activated_in_store' do
@@ -129,5 +126,16 @@ describe SprintSale do
 
   it 'responds to connect_sprint_sale' do
     expect(subject).to respond_to(:connect_sprint_sale)
+  end
+
+  context 'validation for postpaid only' do
+    let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
+    let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }
+    subject { build :sprint_sale, sale_date: Date.today, project: postpaid_project }
+
+    it 'requires number of accessories' do
+      subject.number_of_accessories = nil
+      expect(subject).not_to be_valid
+    end
   end
 end

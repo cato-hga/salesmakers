@@ -29,7 +29,8 @@ describe 'Sprint Sale Entry' do
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let(:sprint_retail) { create :project, name: "Sprint Retail" }
+    let!(:sprint_retail) { create :project, name: "Sprint Retail" }
+    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
     let(:area) { create :area, project: sprint_retail }
     let(:location) { create :location }
     let!(:location_area) { create :location_area,
@@ -38,7 +39,6 @@ describe 'Sprint Sale Entry' do
     let!(:sprint_retail_employee_area) { create :person_area, person: sprint_retail_employee, area: area }
     let!(:sprint_retail_employee_two_area) { create :person_area, person: sprint_retail_employee_two, area: area }
     let!(:sprint_retail_manger_area) { create :person_area, person: sprint_retail_manger, area: area, manages: true }
-    let(:sprint_sale) { create :sprint_sale }
 
     describe 'form submission' do
       before(:each) do
@@ -50,97 +50,102 @@ describe 'Sprint Sale Entry' do
         it 'shows the Sprint Prepaid Sale Entry page' do
           expect(page).to have_content 'Sprint Prepaid Sale Entry'
         end
-      end
 
-      context 'with all blank data' do
-        it 'renders :new_prepaid and shows all relevant error messages' do
-          click_on 'Complete Sale'
-          expect(page).to have_content "Sale date can't be blank"
-          expect(page).to have_content "Person can't be blank"
-          expect(page).to have_content "Person can't be blank"
-          expect(page).to have_content "Mobile phone can't be blank"
-          expect(page).to have_content "Carrier name can't be blank"
-          expect(page).to have_content "Handset model name can't be blank"
-          expect(page).to have_content "Meid must be 18 characters in length"
-          expect(page).to have_content "Upgrade can't be blank"
-          expect(page).to have_content "Rate plan name can't be blank"
-          expect(page).to have_content "Top up card purchased can't be blank"
-          expect(page).to have_content "Phone activated in store can't be blank"
-          expect(page).to have_content "Picture with customer can't be blank"
+        context 'with all blank data' do
+          it 'renders :new_prepaid and shows all relevant error messages' do
+            click_on 'Complete Sale'
+            expect(page).to have_content "Sale date can't be blank"
+            expect(page).to have_content "Person can't be blank"
+            expect(page).to have_content "Person can't be blank"
+            expect(page).to have_content "Mobile phone can't be blank"
+            expect(page).to have_content "Carrier name can't be blank"
+            expect(page).to have_content "Handset model name can't be blank"
+            expect(page).to have_content "Meid can't be blank"
+            expect(page).to have_content "Upgrade can't be blank"
+            expect(page).to have_content "Rate plan name can't be blank"
+            expect(page).to have_content "Top up card purchased can't be blank"
+            expect(page).to have_content "Phone activated in store can't be blank"
+            expect(page).to have_content "Picture with customer can't be blank"
+          end
+
+          it 'does not show error messages related to postpaid' do
+            click_on 'Complete Sale'
+            expect(page).not_to have_content "Number of accessories can't be blank"
+          end
+        end
+
+        context 'has select options for' do
+          it 'Sales Representative' do
+            expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.name
+          end
+
+          it 'Locations' do
+            expect(page).to have_select 'sprint_sale_location_id', text: location.name
+          end
+
+          it 'New Service?' do
+            expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade"
+          end
+
+          it 'Was a Top-Up Card purchased?' do
+            expect(page).to have_select 'sprint_sale_top_up_card_purchased', text: "Yes No"
+          end
+
+          it 'Was the phone activated in-store?' do
+            expect(page).to have_select 'sprint_sale_phone_activated_in_store', text: "Yes No"
+          end
+
+          it 'Did you get a picture with customer?' do
+            expect(page).to have_select 'sprint_sale_picture_with_customer', text: "Yes No, Customer Refused No, Forgot"
+          end
+        end
+
+        context 'Sprint sales rep' do
+          it 'can select their name and the names of the employees they manage' do
+            expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.display_name
+            expect(page).not_to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
+          end
         end
       end
 
-      context 'has select options for' do
-        it 'Sales Representative' do
-          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.name
+      describe 'sprint manager' do
+        before(:each) do
+          CASClient::Frameworks::Rails::Filter.fake(sprint_retail_manger.email)
+          visit new_sprint_sales_path(sprint_retail)
         end
 
-        it 'Locations' do
-          expect(page).to have_select 'sprint_sale_location_id', text: location.name
-        end
-
-        it 'New Service?' do
-          expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade"
-        end
-
-        it 'Was a Top-Up Card purchased?' do
-          expect(page).to have_select 'sprint_sale_top_up_card_purchased', text: "Yes No"
-        end
-
-        it 'Was the phone activated in-store?' do
-          expect(page).to have_select 'sprint_sale_phone_activated_in_store', text: "Yes No"
-        end
-
-        it 'Did you get a picture with customer?' do
-          expect(page).to have_select 'sprint_sale_picture_with_customer', text: "Yes No, Customer Refused No, Forgot"
-        end
-      end
-
-      context 'Sprint sales rep' do
         it 'can select their name and the names of the employees they manage' do
+          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_manger.display_name
           expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.display_name
-          expect(page).not_to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
         end
       end
-    end
 
-    describe 'sprint manager' do
-      before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake(sprint_retail_manger.email)
-        visit new_sprint_sales_path(sprint_retail)
-      end
+      describe 'prepaid person with all field visibility' do
+        let(:sprint_person_with_all_visibility) { create :person, position: position_with_all_visibility }
+        let(:position_with_all_visibility) { create :position,
+                                                    permissions: [permission_create],
+                                                    all_field_visibility: true }
+        let(:other_location) { create :location,
+                                      display_name: '35th St. N',
+                                      store_number: 'DCWM4690',
+                                      city: 'Orlando',
+                                      state: 'FL',
+                                      street_1: '555 35th St N' }
+        let!(:other_location_area) { create :location_area,
+                                            location: other_location,
+                                            area: all_visibility_area.area }
+        let(:all_visibility_area) { create :person_area, person: sprint_person_with_all_visibility, area: area }
 
-      it 'can select their name and the names of the employees they manage' do
-        expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_manger.display_name
-        expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.display_name
-        expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
-      end
-    end
+        before(:each) do
+          CASClient::Frameworks::Rails::Filter.fake(sprint_person_with_all_visibility.email)
+          visit new_sprint_sales_path(sprint_retail)
+        end
 
-    describe 'prepaid person with all field visibility' do
-      let(:sprint_person_with_all_visibility) { create :person, position: position_with_all_visibility }
-      let(:position_with_all_visibility) { create :position,
-                                                  permissions: [permission_create],
-                                                  all_field_visibility: true }
-      let(:other_location) { create :location,
-                                    display_name: '35th St. N',
-                                    store_number: 'DCWM4690',
-                                    city: 'Orlando',
-                                    state: 'FL',
-                                    street_1: '555 35th St N' }
-      let!(:other_location_area) { create :location_area,
-                                          location: other_location,
-                                          area: all_visibility_area.area }
-      let(:all_visibility_area) { create :person_area, person: sprint_person_with_all_visibility, area: area }
-
-      before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake(sprint_person_with_all_visibility.email)
-        visit new_sprint_sales_path(sprint_retail)
-      end
-
-      it 'can select from all sprint locations' do
-        expect(page).to have_select 'sprint_sale_location_id', text: location.name
-        expect(page).to have_select 'sprint_sale_location_id', text: other_location.name
+        it 'can select from all sprint locations' do
+          expect(page).to have_select 'sprint_sale_location_id', text: location.name
+          expect(page).to have_select 'sprint_sale_location_id', text: other_location.name
+        end
       end
     end
   end
@@ -155,7 +160,8 @@ describe 'Sprint Sale Entry' do
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+    let!(:sprint_prepaid) { create :project, name: "Sprint Retail" }
     let(:postpaid_area) { create :area, project: sprint_postpaid }
     let!(:postpaid_employee_area) { create :person_area, person: postpaid_employee, area: postpaid_area }
     let!(:postpaid_employee_two_area) { create :person_area, person: postpaid_employee_two, area: postpaid_area }
@@ -164,6 +170,7 @@ describe 'Sprint Sale Entry' do
     let!(:location_area) { create :location_area,
                                   location: sprint_location,
                                   area: postpaid_employee_area.area }
+
     describe 'form submission' do
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(postpaid_employee.email)
@@ -186,6 +193,15 @@ describe 'Sprint Sale Entry' do
             expect(page).to have_content "Rate plan name can't be blank"
             expect(page).to have_content "Number of accessories can't be blank"
             expect(page).to have_content "Picture with customer can't be blank"
+          end
+
+          it 'does not show error messages related to prepaid' do
+            click_on 'Complete Sale'
+            expect(page).not_to have_content "Mobile phone can't be blank"
+            expect(page).to_not have_content "Carrier name can't be blank"
+            expect(page).not_to have_content "Meid can't be blank"
+            expect(page).not_to have_content "Top up card purchased can't be blank"
+            expect(page).not_to have_content "Phone activated in store can't be blank"
           end
         end
 

@@ -1,0 +1,48 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://services.fiberlink.com/auth-apis/auth/1.0/authenticate/1068247
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <authRequest>
+          <maaS360AdminAuth>
+            <billingID>1068247</billingID>
+            <platformID>3</platformID>
+            <appID>com.1068247.rbd</appID>
+            <appVersion>1.0</appVersion>
+            <appAccessKey>iqu5zKJYBg</appAccessKey>
+            <userName>it@retaildoneright.com</userName>
+            <password>qO7@vDtt</password>
+          </maaS360AdminAuth>
+        </authRequest>
+    headers:
+      Content-Type:
+      - application/xml
+      Accept:
+      - application/xml
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 31 Aug 2015 14:04:37 GMT
+      Content-Type:
+      - application/xml
+      Content-Length:
+      - '175'
+      X-Rate-Limit-Max:
+      - '250000'
+      X-Rate-Limit-Remaining:
+      - '249983'
+      X-Rate-Limit-Resetwindow:
+      - '27221'
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><authResponse><authToken>6798440e-aa50-49d2-8aaa-13692e0cdff7-B7k8DOo</authToken><errorCode>0</errorCode></authResponse>
+    http_version: 
+  recorded_at: Mon, 31 Aug 2015 14:04:37 GMT
+recorded_with: VCR 2.9.3

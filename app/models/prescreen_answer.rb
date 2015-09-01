@@ -19,6 +19,8 @@
 #  former_employment_date_start :date
 #  former_employment_date_end   :date
 #  store_number_city_state      :string
+#  has_sales_experience         :boolean          default(FALSE)
+#  sales_experience_notes       :text
 #
 
 class PrescreenAnswer < ActiveRecord::Base

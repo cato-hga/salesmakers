@@ -57,7 +57,8 @@ class SprintSalesController < ApplicationController
   end
 
   def sprint_sale_params
-    params.require(:sprint_sale).permit :person_id,
+    params.require(:sprint_sale).permit :project_id,
+                                        :person_id,
                                         :location_id,
                                         :meid,
                                         :meid_confirmation,
@@ -70,6 +71,7 @@ class SprintSalesController < ApplicationController
                                         :top_up_card_amount,
                                         :phone_activated_in_store,
                                         :reason_not_activated_in_store,
+                                        :number_of_accessories,
                                         :picture_with_customer,
                                         :comments
   end

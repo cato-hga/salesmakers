@@ -4229,7 +4229,7 @@ ALTER SEQUENCE sprint_group_me_bots_id_seq OWNED BY sprint_group_me_bots.id;
 CREATE TABLE sprint_handsets (
     id integer NOT NULL,
     name character varying,
-    carrier_id integer,
+    sprint_carrier_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -4368,7 +4368,7 @@ ALTER SEQUENCE sprint_radio_shack_training_sessions_id_seq OWNED BY sprint_radio
 CREATE TABLE sprint_rate_plans (
     id integer NOT NULL,
     name character varying,
-    carrier_id integer,
+    sprint_carrier_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -4402,15 +4402,15 @@ CREATE TABLE sprint_sales (
     sale_date date NOT NULL,
     person_id integer NOT NULL,
     location_id integer NOT NULL,
-    meid character varying NOT NULL,
+    meid character varying,
     mobile_phone character varying,
-    carrier_name character varying NOT NULL,
+    carrier_name character varying,
     handset_model_name character varying NOT NULL,
     upgrade boolean DEFAULT false NOT NULL,
     rate_plan_name character varying NOT NULL,
-    top_up_card_purchased boolean DEFAULT false NOT NULL,
+    top_up_card_purchased boolean DEFAULT false,
     top_up_card_amount double precision,
-    phone_activated_in_store boolean DEFAULT false NOT NULL,
+    phone_activated_in_store boolean DEFAULT false,
     reason_not_activated_in_store character varying,
     picture_with_customer character varying,
     comments text,
@@ -10804,4 +10804,12 @@ INSERT INTO schema_migrations (version) VALUES ('20150828145315');
 INSERT INTO schema_migrations (version) VALUES ('20150828154644');
 
 INSERT INTO schema_migrations (version) VALUES ('20150828175227');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831172617');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831173325');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901135638');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901140248');
 

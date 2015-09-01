@@ -21,6 +21,6 @@ FactoryGirl.define do
     phone_activated_in_store true
     number_of_accessories 1
     picture_with_customer 'No, Forgot'
+    association :project
   end
-
 end
