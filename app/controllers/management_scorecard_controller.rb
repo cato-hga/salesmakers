@@ -1,10 +1,9 @@
 class ManagementScorecardController < ApplicationController
   after_action :verify_authorized
-  after_action :verify_policy_scoped
 
   def management_scorecard
     authorize Area.new
-    @area = policy_scope(Area).find params[:id]
+    @area = Area.find params[:id]
     @people = @area.
         all_people.
         joins("left outer join shifts on shifts.person_id = people.id").
