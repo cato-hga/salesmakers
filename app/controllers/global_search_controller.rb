@@ -1,6 +1,6 @@
 class GlobalSearchController < ApplicationController
   def results
-    items_array = ['people', 'candidates', 'devices', 'lines', 'location_areas']
+    items_array = ['people', 'candidates', 'devices', 'lines', 'location_areas', 'vonage_sales']
     for item in items_array do
       item_class = item.classify
       object = Object.const_get(item_class)
