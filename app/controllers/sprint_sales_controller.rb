@@ -7,6 +7,7 @@ class SprintSalesController < ApplicationController
   before_action :set_salesmakers, only: [:new, :create]
   before_action :get_project, only: [:new, :create]
   before_action :do_authorization
+  before_action :set_carrier_based_on_project, only: [:new, :create]
   before_action :set_sprint_locations, only: [:new, :create]
   after_action :verify_authorized
 
@@ -57,23 +58,27 @@ class SprintSalesController < ApplicationController
   end
 
   def sprint_sale_params
-    params.require(:sprint_sale).permit :project_id,
-                                        :person_id,
+    params.require(:sprint_sale).permit :person_id,
                                         :location_id,
                                         :meid,
                                         :meid_confirmation,
                                         :mobile_phone,
-                                        :carrier_name,
-                                        :handset_model_name,
+                                        :sprint_carrier_id,
+                                        :sprint_handset_id,
                                         :upgrade,
-                                        :rate_plan_name,
+                                        :sprint_rate_plan_id,
                                         :top_up_card_purchased,
                                         :top_up_card_amount,
                                         :phone_activated_in_store,
                                         :reason_not_activated_in_store,
                                         :number_of_accessories,
                                         :picture_with_customer,
-                                        :comments
+                                        :comments,
+                                        :project_id
+  end
+
+  def set_carrier_based_on_project
+    @carriers = @project.sprint_carriers
   end
 
   def set_template

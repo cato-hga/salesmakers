@@ -29,7 +29,7 @@ describe 'Sprint Sale Entry' do
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let!(:sprint_retail) { create :project, name: "Sprint Retail" }
+    let!(:sprint_retail) { create :project, name: "Sprint Retail", sprint_carriers: [sprint_retail_carrier] }
     let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
     let(:area) { create :area, project: sprint_retail }
     let(:location) { create :location }
@@ -39,6 +39,15 @@ describe 'Sprint Sale Entry' do
     let!(:sprint_retail_employee_area) { create :person_area, person: sprint_retail_employee, area: area }
     let!(:sprint_retail_employee_two_area) { create :person_area, person: sprint_retail_employee_two, area: area }
     let!(:sprint_retail_manger_area) { create :person_area, person: sprint_retail_manger, area: area, manages: true }
+    let(:sprint_retail_sale) { create :sprint_sale, project: sprint_retail,
+                                      sprint_carrier_id: sprint_retail_carrier,
+                                      sprint_handset_id: sprint_retail_handset,
+                                      sprint_rate_plan_id: sprint_retail_rate_plan }
+    let(:sprint_retail_carrier) { create :sprint_carrier,
+                                         sprint_handsets: [sprint_retail_handset],
+                                         sprint_rate_plans: [sprint_retail_rate_plan] }
+    let(:sprint_retail_handset) { create :sprint_handset }
+    let(:sprint_retail_rate_plan) { create :sprint_rate_plan }
 
     describe 'form submission' do
       before(:each) do
@@ -54,15 +63,15 @@ describe 'Sprint Sale Entry' do
         context 'with all blank data' do
           it 'renders :new_prepaid and shows all relevant error messages' do
             click_on 'Complete Sale'
+            expect(page).to have_content "Person can't be blank"
             expect(page).to have_content "Sale date can't be blank"
-            expect(page).to have_content "Person can't be blank"
-            expect(page).to have_content "Person can't be blank"
-            expect(page).to have_content "Mobile phone can't be blank"
-            expect(page).to have_content "Carrier name can't be blank"
-            expect(page).to have_content "Handset model name can't be blank"
+            expect(page).to have_content "Location can't be blank"
             expect(page).to have_content "Meid can't be blank"
-            expect(page).to have_content "Upgrade can't be blank"
-            expect(page).to have_content "Rate plan name can't be blank"
+            expect(page).to have_content "Mobile phone can't be blank"
+            expect(page).to have_content "or New Activation must be chosen"
+            expect(page).to have_content "Sprint carrier can't be blank"
+            expect(page).to have_content "Sprint handset can't be blank"
+            expect(page).to have_content "Sprint rate plan can't be blank"
             expect(page).to have_content "Top up card purchased can't be blank"
             expect(page).to have_content "Phone activated in store can't be blank"
             expect(page).to have_content "Picture with customer can't be blank"
@@ -87,6 +96,18 @@ describe 'Sprint Sale Entry' do
             expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade"
           end
 
+          it 'Product' do
+            expect(page).to have_select 'sprint_sale_sprint_carrier_id', text: sprint_retail_carrier.name
+          end
+
+          it 'Handset' do
+            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: sprint_retail_handset.name
+          end
+
+          it 'Rate Plan' do
+            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: sprint_retail_rate_plan.name
+          end
+
           it 'Was a Top-Up Card purchased?' do
             expect(page).to have_select 'sprint_sale_top_up_card_purchased', text: "Yes No"
           end
@@ -97,6 +118,34 @@ describe 'Sprint Sale Entry' do
 
           it 'Did you get a picture with customer?' do
             expect(page).to have_select 'sprint_sale_picture_with_customer', text: "Yes No, Customer Refused No, Forgot"
+          end
+        end
+
+        context 'with all correct data' do
+          subject {
+            select sprint_retail_employee.display_name, from: 'Sales Representative'
+            fill_in 'Sale Date', with: Date.yesterday.strftime('%m/%d/%Y')
+            select location.name, from: 'Location'
+            fill_in 'MEID', with: '123456789012345678'
+            fill_in 'Re-enter MEID to Confirm', with: '123456789012345678'
+            fill_in 'Mobile Phone Number', with: '55555555555'
+            select 'Upgrade', from: 'New Service'
+            select sprint_retail_carrier.name, from: 'Product'
+            select sprint_retail_handset.name, from: 'Handset'
+            select sprint_retail_rate_plan.name, from: 'Rate Plan'
+            select 'No', from: 'Was a Top-Up Card purchased?'
+            select 'Yes', from: 'Was the phone activated in-store?'
+            select 'Yes', from: 'Did you get a picture with customer?'
+            click_on 'Complete Sale'
+          }
+
+          it 'successfully creates a sprint sale' do
+            subject
+            expect(page).to have_content 'Sprint Sale has been successfully created.'
+          end
+
+          it 'raises the SprintSale count by 1' do
+            expect { subject }.to change(SprintSale, :count).by(1)
           end
         end
 
@@ -160,7 +209,7 @@ describe 'Sprint Sale Entry' do
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid", sprint_carriers: [sprint_postpaid_carrier] }
     let!(:sprint_prepaid) { create :project, name: "Sprint Retail" }
     let(:postpaid_area) { create :area, project: sprint_postpaid }
     let!(:postpaid_employee_area) { create :person_area, person: postpaid_employee, area: postpaid_area }
@@ -170,6 +219,14 @@ describe 'Sprint Sale Entry' do
     let!(:location_area) { create :location_area,
                                   location: sprint_location,
                                   area: postpaid_employee_area.area }
+    let(:sprint_postpaid_sale) { create :sprint_sale, project: sprint_postpaid,
+                                      sprint_handset_id: sprint_postpaid_handset,
+                                      sprint_rate_plan_id: sprint_postpaid_rate_plan }
+    let(:sprint_postpaid_carrier) { create :sprint_carrier, name: 'Sprint',
+                                           sprint_handsets: [sprint_postpaid_handset],
+                                           sprint_rate_plans: [sprint_postpaid_rate_plan] }
+    let(:sprint_postpaid_handset) { create :sprint_handset, name: 'Apple iPhone 6 Plus' }
+    let(:sprint_postpaid_rate_plan) { create :sprint_rate_plan, name: 'Easy Pay' }
 
     describe 'form submission' do
       before(:each) do
@@ -187,10 +244,10 @@ describe 'Sprint Sale Entry' do
             click_on 'Complete Sale'
             expect(page).to have_content "Sale date can't be blank"
             expect(page).to have_content "Person can't be blank"
-            expect(page).to have_content "Person can't be blank"
-            expect(page).to have_content "Handset model name can't be blank"
-            expect(page).to have_content "Upgrade can't be blank"
-            expect(page).to have_content "Rate plan name can't be blank"
+            expect(page).to have_content "Location can't be blank"
+            expect(page).to have_content "Sprint handset can't be blank"
+            expect(page).to have_content "or New Activation must be chosen"
+            expect(page).to have_content "Sprint rate plan can't be blank"
             expect(page).to have_content "Number of accessories can't be blank"
             expect(page).to have_content "Picture with customer can't be blank"
           end
@@ -218,8 +275,39 @@ describe 'Sprint Sale Entry' do
             expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade/New Phone"
           end
 
+          it 'Handset' do
+            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: sprint_postpaid_handset.name
+          end
+
+          it 'Rate Plan' do
+            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: sprint_postpaid_rate_plan.name
+          end
+
           it 'Did you get a picture with customer?' do
             expect(page).to have_select 'sprint_sale_picture_with_customer', text: "Yes No, Customer Refused No, Forgot"
+          end
+        end
+
+        context 'with all correct data' do
+          subject {
+            select postpaid_employee.display_name, from: 'Sales Representative'
+            fill_in 'Sale Date', with: Date.yesterday.strftime('%m/%d/%Y')
+            select sprint_location.name, from: 'Location'
+            select 'Upgrade', from: 'New Service'
+            select sprint_postpaid_handset.name, from: 'Handset'
+            select sprint_postpaid_rate_plan.name, from: 'Rate Plan'
+            fill_in 'Number of accessories', with: 1
+            select 'Yes', from: 'Did you get a picture with customer?'
+            click_on 'Complete Sale'
+          }
+
+          it 'successfully creates a sprint Postpaid sale' do
+            subject
+            expect(page).to have_content 'Sprint Sale has been successfully created.'
+          end
+
+          it 'raises the SprintSale count by 1' do
+            expect { subject }.to change(SprintSale, :count).by(1)
           end
         end
 

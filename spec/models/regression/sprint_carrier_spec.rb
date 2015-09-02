@@ -5,8 +5,8 @@ RSpec.describe SprintCarrier, regressor: true do
   # === Relations ===
   
   
-  it { is_expected.to have_many :sprint_handset }
-  it { is_expected.to have_many :sprint_rate_plan }
+  it { is_expected.to have_many :sprint_handsets }
+  it { is_expected.to have_many :sprint_rate_plans }
 
   # === Nested Attributes ===
   

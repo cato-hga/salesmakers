@@ -15,10 +15,10 @@
       = f.select :location_id, location_options, include_blank: true
       = f.label :upgrade, 'New Service?'
       = f.select :upgrade, options_for_select([['New Activation', false], ['Upgrade/New Phone', true]], nil), include_blank: true
-      = f.label :handset_model_name, 'Handset'
-      = f.text_field :handset_model_name
-      = f.label :rate_plan_name, 'Rate Plan'
-      = f.text_field :rate_plan_name
+      = f.label :sprint_handset_id, 'Handset'
+      = f.grouped_collection_select :sprint_handset_id, @carriers, :sprint_handsets, :name, :id, :name, include_blank: true
+      = f.label :sprint_rate_plan_id, 'Rate Plan'
+      = f.grouped_collection_select :sprint_rate_plan_id, @carriers, :sprint_rate_plans, :name, :id, :name, include_blank: true
       = f.label :number_of_accessories
       = f.number_field :number_of_accessories, include_blank: true
       = f.label :picture_with_customer, 'Did you get a picture with customer?'

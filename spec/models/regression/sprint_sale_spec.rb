@@ -20,10 +20,7 @@ RSpec.describe SprintSale, regressor: true do
   it { is_expected.to have_db_column :location_id }
   it { is_expected.to have_db_column :meid }
   it { is_expected.to have_db_column :mobile_phone }
-  it { is_expected.to have_db_column :carrier_name }
-  it { is_expected.to have_db_column :handset_model_name }
   it { is_expected.to have_db_column :upgrade }
-  it { is_expected.to have_db_column :rate_plan_name }
   it { is_expected.to have_db_column :top_up_card_purchased }
   it { is_expected.to have_db_column :top_up_card_amount }
   it { is_expected.to have_db_column :phone_activated_in_store }
@@ -64,11 +61,11 @@ RSpec.describe SprintSale, regressor: true do
       allow(subject).to receive(:prepaid_project).and_return(true)
     end
 
-    it { is_expected.to validate_presence_of :carrier_name }
+    it { is_expected.to validate_presence_of :sprint_carrier_id }
   end
 
-  it { is_expected.to validate_presence_of :handset_model_name }
-  it { is_expected.to validate_presence_of :rate_plan_name }
+  it { is_expected.to validate_presence_of :sprint_handset_id }
+  it { is_expected.to validate_presence_of :sprint_rate_plan_id }
   context "with conditions" do
     before do
       allow(subject).to receive(:card_purchased).and_return(true)

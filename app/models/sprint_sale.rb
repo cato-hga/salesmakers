@@ -8,10 +8,7 @@
 #  location_id                   :integer          not null
 #  meid                          :string
 #  mobile_phone                  :string
-#  carrier_name                  :string
-#  handset_model_name            :string           not null
 #  upgrade                       :boolean          default(FALSE), not null
-#  rate_plan_name                :string           not null
 #  top_up_card_purchased         :boolean          default(FALSE)
 #  top_up_card_amount            :float
 #  phone_activated_in_store      :boolean          default(FALSE)
@@ -36,13 +33,13 @@ class SprintSale < ActiveRecord::Base
   validates :sale_date, presence: true
   validates :location, presence: true
   validates :meid, format: { with: /\A[0-9]{18}\z/i, message: 'must be 18 numbers in length' },
-            confirmation: true, if: :meid_blank
+            confirmation: true, if: :meid_not_blank
   validate :meid_cannot_be_blank, if: :prepaid_project
   validates :mobile_phone, presence: true, if: :prepaid_project
-  validates :upgrade, inclusion: { in: [true, false], message: "can't be blank" }
-  validates :carrier_name, presence: true, if: :prepaid_project
-  validates :handset_model_name, presence: true
-  validates :rate_plan_name, presence: true
+  validates :upgrade, inclusion: { in: [true, false], message: "or New Activation must be chosen" }
+  validates :sprint_carrier_id, presence: true, if: :prepaid_project
+  validates :sprint_handset_id, presence: true
+  validates :sprint_rate_plan_id, presence: true
   validates :top_up_card_purchased, inclusion: { in: [true, false], message: "can't be blank" }
   validates :top_up_card_amount, presence: true, if: :card_purchased
   validates :phone_activated_in_store, inclusion: { in: [true, false], message: "can't be blank" }
@@ -55,6 +52,10 @@ class SprintSale < ActiveRecord::Base
   belongs_to :location
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
+
+  has_one :sprint_carrier
+  has_one :sprint_handset
+  has_one :sprint_rate_plan
 
   strip_attributes
 
@@ -74,7 +75,7 @@ class SprintSale < ActiveRecord::Base
 
   private
 
-  def meid_blank
+  def meid_not_blank
     !self.meid.blank?
   end
 
@@ -92,11 +93,15 @@ class SprintSale < ActiveRecord::Base
     end
   end
 
+  def project_cannot_be_blank
+    if self.prepaid_project
+      errors.add("New Service can't be blank") if self.upgrade.blank?
+    end
+  end
+
   def not_activated
     if self.prepaid_project
       self.phone_activated_in_store == false
     end
   end
 end
-
-

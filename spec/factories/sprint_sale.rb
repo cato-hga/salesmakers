@@ -13,10 +13,10 @@ FactoryGirl.define do
     location
     meid { generate :meid }
     mobile_phone { generate :mobile_phone }
-    carrier_name 'Boost Mobile'
-    handset_model_name 'LG Volt'
+    sprint_carrier_id 'Boost Mobile'
+    sprint_handset_id 'LG Volt'
     upgrade false
-    rate_plan_name '$35/monthly'
+    sprint_rate_plan_id '$35/monthly'
     top_up_card_purchased false
     phone_activated_in_store true
     number_of_accessories 1

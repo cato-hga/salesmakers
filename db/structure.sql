@@ -4404,10 +4404,7 @@ CREATE TABLE sprint_sales (
     location_id integer NOT NULL,
     meid character varying,
     mobile_phone character varying,
-    carrier_name character varying,
-    handset_model_name character varying NOT NULL,
     upgrade boolean DEFAULT false NOT NULL,
-    rate_plan_name character varying NOT NULL,
     top_up_card_purchased boolean DEFAULT false,
     top_up_card_amount double precision,
     phone_activated_in_store boolean DEFAULT false,
@@ -10812,4 +10809,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150831173325');
 INSERT INTO schema_migrations (version) VALUES ('20150901135638');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901140248');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901195436');
 

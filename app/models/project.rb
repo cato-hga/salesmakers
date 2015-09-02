@@ -27,6 +27,7 @@ class Project < ActiveRecord::Base
     # has_one :wall, as: :wallable
     has_many :day_sales_counts, as: :saleable
     has_many :shifts
+    has_many :sprint_carriers
   end
 
   setup_validations

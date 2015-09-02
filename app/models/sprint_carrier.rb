@@ -11,7 +11,7 @@
 
 class SprintCarrier < ActiveRecord::Base
 
-  has_many :sprint_handset
-  has_many :sprint_rate_plan
+  has_many :sprint_handsets
+  has_many :sprint_rate_plans
 
 end

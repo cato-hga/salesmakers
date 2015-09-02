@@ -8,10 +8,7 @@
 #  location_id                   :integer          not null
 #  meid                          :string
 #  mobile_phone                  :string
-#  carrier_name                  :string
-#  handset_model_name            :string           not null
 #  upgrade                       :boolean          default(FALSE), not null
-#  rate_plan_name                :string           not null
 #  top_up_card_purchased         :boolean          default(FALSE)
 #  top_up_card_amount            :float
 #  phone_activated_in_store      :boolean          default(FALSE)
@@ -43,10 +40,10 @@ describe SprintSale do
   it 'requires a valid sale date' do
     subject.sale_date = nil
     expect(subject).not_to be_valid
-    subject.sale_date = Date.today
-    expect(subject).to be_valid
     subject.sale_date = 'totallywrongdate'
     expect(subject).not_to be_valid
+    subject.sale_date = Date.today
+    expect(subject).to be_valid
   end
 
   it 'requires a location' do
@@ -60,12 +57,12 @@ describe SprintSale do
   end
 
   it 'requires a handset' do
-    subject.handset_model_name = nil
+    subject.sprint_handset_id = nil
     expect(subject).not_to be_valid
   end
 
   it 'requires a rateplan value' do
-    subject.rate_plan_name = nil
+    subject.sprint_rate_plan_id = nil
     expect(subject).not_to be_valid
   end
 
@@ -81,7 +78,7 @@ describe SprintSale do
   end
 
   it 'requires a product' do
-    subject.carrier_name = nil
+    subject.sprint_carrier_id = nil
     expect(subject).not_to be_valid
   end
 
