@@ -1,7 +1,7 @@
 - title "Searching '#{params[:global_search]}'"
 
 - if (!@people && !@candidates && !@devices && !@lines && !@vonage_sales) || |
-  (@people.empty? && @candidates.empty? && @devices.empty? && @lines.empty? && @vonage_sales.empty?) |
+  ((@people && @people.empty?) && (@candidates && @candidates.empty?) && (@devices && @devices.empty?) && (@lines && @lines.empty?) && (@vonage_sales && @vonage_sales.empty?)) |
   .widget
     .inner
       No results.
