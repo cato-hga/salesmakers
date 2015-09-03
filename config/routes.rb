@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       resources :areas, only: [:index, :show] do
         member do
           get :sales, as: :sales
+          get :management_scorecard, to: 'management_scorecard#management_scorecard', as: :management_scorecard
         end
       end
       resources :channels

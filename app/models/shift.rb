@@ -28,6 +28,10 @@ class Shift < ActiveRecord::Base
   has_one :vcp07012015_hps_shift
   has_one :vcp07012015_vested_sales_shift
 
+  scope :for_date_range, ->(start_date, end_date) {
+    where "date >= ? AND date <= ?", start_date, end_date
+  }
+
   def self.totals_by_person_for_date_range start_date, end_date
     connection.execute %{
       select

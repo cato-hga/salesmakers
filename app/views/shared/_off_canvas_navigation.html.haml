@@ -58,19 +58,23 @@
       - if PersonPolicy.new(current_person, Person.new, @permission_keys).create?
         %li= link_to 'New', new_person_path
     - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
-    - if vonage_sale_policy.create?
+    - walmart_gift_card_policy = WalmartGiftCardPolicy.new(@current_person, WalmartGiftCard.new)
+    - retail = Project.find_by name: 'Vonage Retail'
+    - if @visible_projects.include?(retail) && (walmart_gift_card_policy.new? || vonage_sale_policy.new? || vonage_sale_policy.index?)
       %ul.off-canvas-list
-        - retail = Project.find_by name: 'Vonage Retail'
-        - if @visible_projects.include? retail
+        %li
           %label Vonage Retail
+        - if vonage_sale_policy.new?
           %li= link_to 'Sale Entry', new_vonage_sale_path
-        - events = Project.find_by name: 'Vonage Events'
-        - if @visible_projects.include? events
-          %label Vonage Events
-          %li= link_to 'Receiving', '#'
-          %li= link_to 'Reconciliation', '#'
-          %li= link_to 'Reclaim', '#'
-          %li= link_to 'Transfer', '#'
+        - if vonage_sale_policy.index?
+          %li= link_to 'Vonage Sales', vonage_sales_path
+        -#- events = Project.find_by name: 'Vonage Events'
+        -#- if @visible_projects.include? events
+        -#  %label Vonage Events
+        -#  %li= link_to 'Receiving', '#'
+        -#  %li= link_to 'Reconciliation', '#'
+        -#  %li= link_to 'Reclaim', '#'
+        -#  %li= link_to 'Transfer', '#'
     - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new, @permission_keys)
     - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new, @permission_keys)
     - if comcast_lead_policy.index? || comcast_sale_policy.index?

@@ -1,14 +1,8 @@
 - w = defined?(width) ? width : 12
-- if object.is_a? Project
-  - l = sales_client_project_path object.client, object
-- elsif object.is_a? Client
-  - l = sales_client_path object
-- elsif object.is_a? Person
-  - l = sales_person_path object
-- elsif object.is_a? Area
-  - l = sales_client_project_area_path object.project.client, object.project, object
-- else
-  l = ''
+- rankings = @area.sales_performance_ranks.order(day: :desc).first
+- rankings_last_week = @area.sales_performance_ranks.where("day < ?", Date.today.beginning_of_week).order(day: :desc).first
+- rankings_last_month = @area.sales_performance_ranks.where("day < ?", Date.today.beginning_of_month).order(day: :desc).first
+
 .widget{ class: 'grid-' + w.to_s }
   .inner
     .row.full-width
@@ -19,21 +13,46 @@
       %div{ class: (w < 12) ? 'large-9 columns' : '' }
         - if w == 12
           %strong Sales:
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.today.sum(:sales)
           today
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.yesterday.sum(:sales)
           yesterday
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.this_week.sum(:sales)
           this week
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.last_week.sum(:sales)
           last week
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.this_month.sum(:sales)
           this month
-        %a.button.secondary.radius.sale_badge{ href: l }
+        .label.secondary.radius.sale_badge
           %strong= object.day_sales_counts.last_month.sum(:sales)
           last month
+    - if rankings
+      .row.full-width
+        - if w < 12
+          .large-3.columns
+            %div(style="vertical-align: middle; margin-top: 0.25em; margin-bottom: 0.25em")
+              %strong= object.name + ':'
+        %div{ class: (w < 12) ? 'large-9 columns' : '' }
+          %strong Rankings:
+          .label.secondary.radius.sale_badge
+            %strong= '#' + (rankings.day_rank.nil? ? '0' : rankings.day_rank.to_s)
+            today
+          .label.secondary.radius.sale_badge
+            %strong= '#' + (rankings.week_rank.nil? ? '0' : rankings.week_rank.to_s)
+            this week
+          - if rankings_last_week
+            .label.secondary.radius.sale_badge
+              %strong= '#' + (rankings_last_week.week_rank.nil? ? '0' : rankings_last_week.week_rank.to_s)
+              last week
+          .label.secondary.radius.sale_badge
+            %strong= '#' + (rankings.month_rank.nil? ? '0' : rankings.month_rank.to_s)
+            this month
+          - if rankings_last_month
+            .label.secondary.radius.sale_badge
+              %strong= '#' + (rankings_last_month.month_rank.nil? ? '0' : rankings_last_month.month_rank.to_s)
+              last month

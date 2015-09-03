@@ -36,6 +36,14 @@ class VonageSale < ActiveRecord::Base
     end
   end
 
+  searchable do
+    text :customer_first_name
+    text :customer_last_name
+    text :confirmation_number, boost: 7.0
+    text :mac, boost: 7.0
+    text :gift_card_number, boost: 7.0
+  end
+
   validates :sale_date, presence: true
   validate :sale_date_cannot_be_more_than_2_weeks_in_the_past
   validates :person, presence: true

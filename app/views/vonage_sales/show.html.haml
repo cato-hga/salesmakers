@@ -24,6 +24,9 @@
         %strong Customer:
         = NameCase([@vonage_sale.customer_first_name, @vonage_sale.customer_last_name].join(' '))
       %p
+        %strong Confirmation Number:
+        = @vonage_sale.confirmation_number
+      %p
         %strong Product Type:
         = @vonage_sale.vonage_product.name
       %p

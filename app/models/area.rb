@@ -48,6 +48,12 @@ class Area < ActiveRecord::Base
     LocationArea.where area_id: self.subtree_ids
   end
 
+  def all_people
+    subtrees = self.subtree_ids
+    return Person.none if subtrees.empty?
+    Person.joins(:person_areas).where "person_areas.area_id in (#{subtrees.join(',')})"
+  end
+
   def string_id
     "#{id.to_s}"
   end
