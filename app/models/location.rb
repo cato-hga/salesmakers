@@ -44,6 +44,14 @@ class Location < ActiveRecord::Base
 
   strip_attributes
 
+  scope :nearest, ->(object, miles, limit) {
+    locations = near(object, miles)
+    if not locations or locations.count(:all) < limit
+      locations = near(object, 500).first(limit)
+    end
+    locations
+  }
+
   def name(show_channel = true)
     output = ''
     output += self.channel.name + ', ' if show_channel
