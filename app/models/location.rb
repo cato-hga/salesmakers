@@ -40,6 +40,7 @@ class Location < ActiveRecord::Base
   has_many :comcast_eods
   has_many :roster_verifications
   has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :shifts
   belongs_to :sprint_radio_shack_training_location
 
   strip_attributes
