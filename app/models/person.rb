@@ -106,32 +106,7 @@ class Person < ActiveRecord::Base
 
   def set_phone_validation
     return unless Rails.env.production? || Rails.env.staging?
-    if mobile_phone?
-      validation = Gateway.new.number_validation self.mobile_phone
-      if validation.valid && !validation.mobile
-        move_mobile_to_landline
-      elsif !validation.valid
-        self.mobile_phone_valid = false
-      else
-        self.mobile_phone_valid = true
-      end
-    end
-    if home_phone?
-      validation = Gateway.new.number_validation self.home_phone
-      if validation.valid
-        self.home_phone_valid = true
-      else
-        self.home_phone_valid = false
-      end
-    end
-    if office_phone?
-      validation = Gateway.new.number_validation self.office_phone
-      if validation.valid
-        self.office_phone_valid = true
-      else
-        self.office_phone_valid = false
-      end
-    end
+    ['mobile', 'home', 'office'].each { |type| validate_individual_phone_number type }
   end
 
   def show_details_for_ids?(people_ids)
@@ -271,6 +246,19 @@ class Person < ActiveRecord::Base
   end
 
   private
+
+  def validate_individual_phone_number type
+    if self.public_send("#{type}_phone?".to_sym)
+      validation = Gateway.new.number_validation self.public_send("#{type}_phone".to_sym)
+      if validation.valid && !validation.mobile && type == 'mobile'
+        move_mobile_to_landline
+      elsif !validation.valid
+        self.public_send("#{type}_phone_valid=".to_sym, false)
+      else
+        self.public_send("#{type}_phone_valid=".to_sym, true)
+      end
+    end
+  end
 
   def get_person_area_supervisors(person_area)
     area = person_area.area

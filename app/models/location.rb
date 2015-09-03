@@ -40,9 +40,18 @@ class Location < ActiveRecord::Base
   has_many :comcast_eods
   has_many :roster_verifications
   has_many :log_entries, as: :trackable, dependent: :destroy
+  has_many :shifts
   belongs_to :sprint_radio_shack_training_location
 
   strip_attributes
+
+  scope :nearest, ->(object, miles, limit) {
+    locations = near(object, miles)
+    if not locations or locations.count(:all) < limit
+      locations = near(object, 500).first(limit)
+    end
+    locations
+  }
 
   def name(show_channel = true)
     output = ''

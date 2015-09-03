@@ -258,5 +258,4 @@ describe 'selecting a Location for a Candidate' do
       expect(page).to have_selector 'td', text: '7'
     end
   end
-
 end
