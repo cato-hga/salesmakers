@@ -155,23 +155,13 @@ class PeopleController < ProtectedController
     @positions = Position.all.order :name
     @person = policy_scope(Person).find params[:id]
     authorize @person
-    unless params[:position_id]
+    if params[:position_id]
+      old_position = @person.position
+      new_position = Position.find params[:position_id]
+      handle_position_switch old_position, new_position
+    else
       flash[:error] = 'You must select a position'
       redirect_to edit_position_person_path(@person)
-    end
-    old_position = @person.position
-    new_position = Position.find params[:position_id]
-    if @person.update position: new_position, update_position_from_connect: false
-      @current_person.log? 'update_position',
-                           @person,
-                           new_position,
-                           nil,
-                           nil,
-                           "from #{old_position.name} to #{new_position.name}"
-      flash[:notice] = 'Position saved successfully.'
-      redirect_to person_path(@person)
-    else
-      render :edit_position
     end
   end
 
@@ -333,6 +323,21 @@ class PeopleController < ProtectedController
         template_guid_and_subject.split('|')[1] + @person.display_name,
         template_guid_and_subject.split('|')[2]
     ]
+  end
+
+  def handle_position_switch old_position, new_position
+    if @person.update position: new_position, update_position_from_connect: false
+      @current_person.log? 'update_position',
+                           @person,
+                           new_position,
+                           nil,
+                           nil,
+                           "from #{old_position.name} to #{new_position.name}"
+      flash[:notice] = 'Position saved successfully.'
+      redirect_to person_path(@person)
+    else
+      render :edit_position
+    end
   end
 
   def link_candidate_to_person(hash)
