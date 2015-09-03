@@ -85,7 +85,7 @@ class LocationArea < ActiveRecord::Base
 
   def candidates_in_funnel
     non_rejected_candidates_in_location_area = Candidate.
-        active.
+        all_active.
         where(location_area: self).
         where.not(sprint_roster_status: Candidate.sprint_roster_statuses[:sprint_rejected],
                   training_session_status: Candidate.inactive_training_session_statuses)

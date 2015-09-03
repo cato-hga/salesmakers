@@ -2,7 +2,7 @@ module ActiveRecordExtension
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def active
+    def all_active
       where active: true
     end
   end
