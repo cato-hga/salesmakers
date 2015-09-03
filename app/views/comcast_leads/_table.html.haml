@@ -2,7 +2,8 @@
 
 - rows = Array.new
 - for lead in leads do
-  - classes = lead.active? ? nil : [:inactive]
+  - classes = lead.overdue_by_ten ? nil : [:lead_overdue_ten]
+  - classes = lead.overdue_by_twenty_one ? [:lead_overdue_twenty_one] : classes
   - follow_up_by = short_date(lead.follow_up_by)
   - rep = person_link(lead.comcast_customer.person)
   - name = comcast_customer_link lead.comcast_customer, classes
@@ -20,5 +21,5 @@
   - services += icon('telephone', false, :service_icon) + ' ' if lead.phone?
   - services += icon('lock', false, :service_icon) + ' ' if lead.security?
   - follow_up_completed = lead.comments.present? ? 'Yes' : 'No'
-  - rows << table_row([follow_up_by, rep, name, saved, phone, converted, services, follow_up_completed])
+  - rows << table_row([follow_up_by, rep, name, saved, phone, converted, services, follow_up_completed], classes)
 = table(header, rows)

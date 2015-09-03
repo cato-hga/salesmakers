@@ -54,6 +54,26 @@ RSpec.describe DirecTVLead, :type => :model do
     expect(subject.directv_customer_other_phone).to eq(subject.directv_customer.other_phone)
   end
 
+  describe '.overdue_by_ten' do
+    it 'returns true if the follow up date is 10 days in the past' do
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 10.days
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 11.days
+      expect(entered_lead.overdue_by_ten).to eq(true)
+    end
+  end
+
+  describe '.overdue_by_twenty_one' do
+    it 'returns true if the follow up date is 10 days in the past' do
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 21.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 22.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(true)
+    end
+  end
+
   describe 'scopes' do
     let!(:overdue_lead) {
       lead = build :directv_lead, follow_up_by: Date.yesterday

@@ -71,6 +71,16 @@ class ComcastLead < ActiveRecord::Base
     true
   end
 
+  def overdue_by_ten
+    return true if self.follow_up_by < (Date.today - 10.days)
+    false
+  end
+
+  def overdue_by_twenty_one
+    return true if self.follow_up_by < (Date.today - 21.days)
+    false
+  end
+
   private
 
   def no_past_follow_up_by_date
