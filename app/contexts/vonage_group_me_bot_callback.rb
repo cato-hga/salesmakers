@@ -1,17 +1,14 @@
 require 'apis/groupme'
 require 'group_me_bot_query'
-require_relative 'sprint_group_me_bot_query'
 require_relative 'group_me_bot_sales_messages'
-require_relative 'sprint_group_me_bot_help'
-require_relative 'sprint_group_me_bot_sales_query'
-require_relative 'sprint_group_me_bot_hpa_query'
+require_relative 'vonage_group_me_bot_help'
+require_relative 'vonage_group_me_bot_sales_query'
 
-class SprintGroupMeBotCallback < SprintGroupMeBotQuery
+class VonageGroupMeBotCallback
   include GroupMeBotQuery
-  include SprintGroupMeBotHelp
-  include SprintGroupMeBotHPAQuery
+  include VonageGroupMeBotHelp
   include GroupMeBotSalesMessages
-  include SprintGroupMeBotSalesQuery
+  include VonageGroupMeBotSalesQuery
 
   attr_accessor :query_string,
                 :keywords
@@ -24,7 +21,7 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
 
   def process
     return unless @callback and @callback.group_id
-    group_me_bot = SprintGroupMeBot.find_by group_num: @callback.group_id
+    group_me_bot = VonageGroupMeBot.find_by group_num: @callback.group_id
     return unless group_me_bot
     @bot_id = group_me_bot.bot_num
     return unless bot_id
@@ -36,20 +33,17 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
     if self.has_keyword?('help')
       GroupMe.new_global.post_messages_with_bot(help_messages, bot_id)
     elsif self.has_keyword?('s')
-      message = ['Enter sales at http://sprint.rbdconnect.com/']
+      message = ['Enter sales at http://v.rbdconnect.com/']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
     elsif self.has_keyword?('schedule')
       message = ['Schedule your new SalesMaker for training at http://goo.gl/zH8cOi !']
       GroupMe.new_global.post_messages_with_bot(message, bot_id)
-    elsif self.has_keyword?('training')
-      message = ['https://docs.google.com/a/retaildoneright.com/forms/d/1QP2zs_r_wO77eOYBYVinpGBvIcY0931T3SBapjZYXmE/viewform']
-      GroupMe.new_global.post_messages_with_bot(message, bot_id)
     else
-      self.sales_and_hpa_messages
+      self.sales_messages
     end
   end
 
-  def sales_and_hpa_messages
+  def sales_messages
     set_level
     determine_date_range
     generate_message_content
@@ -57,22 +51,16 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
   end
 
   def generate_message_content
-    if self.has_keyword? 'hpa'
-      @results = hpa_query
-      check_environment
-      @messages = hpa_generate_messages(@results)
-    else
-      @results = sales_query
-      check_environment
-      @messages = sales_generate_messages(@results)
-    end
+    @results = query
+    check_environment
+    @messages = sales_generate_messages(@results)
     @messages
   end
 
   protected
 
   def set_level
-    level_keywords = ['rep', 'brand', 'market', 'region', 'director', 'territory']
+    level_keywords = ['rep', 'market', 'region', 'territory']
     level_keywords.each do |key|
       if self.has_keyword? key
         @level = key
@@ -83,26 +71,19 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
     end
   end
 
-  def hpa_query
-    query 'hpa'
-  end
-
-  def sales_query
-    query 'sales'
-  end
-
-  def query(type = 'sales')
-    select = self.send(type + '_' + @level + '_query')
-    select = self.send(type + '_wrap_query', (select))
-    begin
-      tries ||= 3
-      connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
-      sleep 0.1
-      results = connection.execute(select)
-    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
-      sleep 0.1
-      retry unless (tries -= 1).zero?
-    end
+  def query
+    select = self.send('sales_' + @level + '_query')
+    select = self.send('sales_wrap_query', (select))
+    results = ActiveRecord::Base.connection.execute select.to_s
+    # begin
+    #   tries ||= 3
+    #   connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
+    #   sleep 0.1
+    #   results = connection.execute(select)
+    # rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
+    #   sleep 0.1
+    #   retry unless (tries -= 1).zero?
+    # end
     results
   end
 
@@ -114,11 +95,8 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
         'by',
         'rep',
         'territory',
-        'east',
-        'west',
         'market',
         'region',
-        'brand',
         'last',
         'this',
         'week',
@@ -126,22 +104,15 @@ class SprintGroupMeBotCallback < SprintGroupMeBotQuery
         'month',
         'yesterday',
         'today',
-        'bland',
-        'moulison',
-        'miller',
-        'willison',
-        'sprint',
-        'director',
+        'vonage',
         'no',
-        'upgrades',
-        'activations',
+        'sales',
         'and',
         'with',
         's',
         'referral',
         'schedule',
         'training',
-        'hpa'
     ]
   end
 
