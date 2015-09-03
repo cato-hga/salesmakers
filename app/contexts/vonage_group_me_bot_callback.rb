@@ -1,11 +1,10 @@
 require 'apis/groupme'
 require 'group_me_bot_query'
-require_relative 'vonage_group_me_bot_query'
 require_relative 'group_me_bot_sales_messages'
 require_relative 'vonage_group_me_bot_help'
 require_relative 'vonage_group_me_bot_sales_query'
 
-class VonageGroupMeBotCallback < VonageGroupMeBotQuery
+class VonageGroupMeBotCallback
   include GroupMeBotQuery
   include VonageGroupMeBotHelp
   include GroupMeBotSalesMessages
@@ -61,7 +60,7 @@ class VonageGroupMeBotCallback < VonageGroupMeBotQuery
   protected
 
   def set_level
-    level_keywords = ['rep', 'brand', 'market', 'region', 'director', 'territory']
+    level_keywords = ['rep', 'market', 'region', 'territory']
     level_keywords.each do |key|
       if self.has_keyword? key
         @level = key
@@ -75,7 +74,7 @@ class VonageGroupMeBotCallback < VonageGroupMeBotQuery
   def query
     select = self.send('sales_' + @level + '_query')
     select = self.send('sales_wrap_query', (select))
-    results = connection.execute(select)
+    results = ActiveRecord::Base.connection.execute select.to_s
     # begin
     #   tries ||= 3
     #   connection = ConnectDatabaseConnection.establish_connection(:rbd_connect_production).connection
@@ -96,8 +95,6 @@ class VonageGroupMeBotCallback < VonageGroupMeBotQuery
         'by',
         'rep',
         'territory',
-        'east',
-        'west',
         'market',
         'region',
         'last',
@@ -109,7 +106,7 @@ class VonageGroupMeBotCallback < VonageGroupMeBotQuery
         'today',
         'vonage',
         'no',
-        'activations',
+        'sales',
         'and',
         'with',
         's',
