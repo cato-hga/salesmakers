@@ -109,9 +109,13 @@ class LocationArea < ActiveRecord::Base
         joins(:location_areas).
         where('location_areas.target_head_count > 0')
     return LocationArea.none if all_locations.count(:all) < 1
-    locations = all_locations.nearest candidate, 30, 5
-    location_areas = LocationArea.all_active.where location: locations
-    LocationAreaPolicy::Scope.new(current_person, location_areas).resolve
+    locations = all_locations.near(candidate, 30)
+    if not locations or locations.count(:all) < 5
+      locations = all_locations.near(candidate, 500).first(5)
+    end
+    return LocationArea.none if locations.empty?
+    location_areas = locations.map { |l| l.location_areas }.flatten
+    LocationAreaPolicy::Scope.new(current_person, LocationArea.where("location_areas.id IN (#{location_areas.map(&:id).join(',')}) AND location_areas.active = true")).resolve
   end
 
   def change_counts candidate_status_integer, change_by
