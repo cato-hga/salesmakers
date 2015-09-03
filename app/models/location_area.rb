@@ -110,7 +110,7 @@ class LocationArea < ActiveRecord::Base
         where('location_areas.target_head_count > 0')
     return LocationArea.none if all_locations.count(:all) < 1
     locations = all_locations.nearest candidate, 30, 5
-    location_areas = LocationArea.active.where location: locations
+    location_areas = LocationArea.all_active.where location: locations
     LocationAreaPolicy::Scope.new(current_person, location_areas).resolve
   end
 
