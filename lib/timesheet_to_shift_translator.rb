@@ -17,7 +17,8 @@ module TimesheetToShiftTranslator
                       break_hours: calculate_breaks(timesheet),
                       training: is_training?(timesheet),
                       meeting: is_meeting?(timesheet),
-                      project: get_project(timesheet)
+                      project: get_project(timesheet),
+                      note: get_note(timesheet)
     add_to_unmatched(timesheet, shift) unless shift.valid?
     shift
   end
@@ -72,6 +73,10 @@ module TimesheetToShiftTranslator
 
   def get_project timesheet
     timesheet.project
+  end
+
+  def get_note timesheet
+    timesheet.respond_to?(:customer) ? timesheet.customer : nil
   end
 
   def unmatched_timesheets

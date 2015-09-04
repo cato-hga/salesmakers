@@ -22,4 +22,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'DirecTV'
   inflect.acronym 'VCP07012015'
   inflect.acronym 'HPS'
+  inflect.acronym 'UQube'
 end

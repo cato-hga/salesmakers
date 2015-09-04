@@ -336,6 +336,8 @@ GEM
       activerecord (>= 3.2, < 4.3)
       activesupport (>= 3.2, < 4.3)
     googlecharts (1.6.10)
+    gpgme (2.0.9)
+      mini_portile (>= 0.5.0)
     griddler (1.2.1)
       htmlentities
       rails (>= 3.2.0)
@@ -800,6 +802,7 @@ DEPENDENCIES
   goldiloader (= 0.0.9)
   google_timezone!
   googlecharts (= 1.6.10)
+  gpgme (= 2.0.9)
   griddler (= 1.2.1)
   griddler-postmark (= 1.0.0)
   groupdate (= 2.4.0)
