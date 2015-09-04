@@ -74,6 +74,11 @@ class SprintSalesController < ApplicationController
                                         :number_of_accessories,
                                         :picture_with_customer,
                                         :comments,
+                                        :five_intl_connect,
+                                        :ten_intl_connect,
+                                        :insurance,
+                                        :virgin_data_share_add_on_amount,
+                                        :virgin_data_share_add_on_description,
                                         :project_id
   end
 

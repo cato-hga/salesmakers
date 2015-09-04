@@ -2,27 +2,32 @@
 #
 # Table name: sprint_sales
 #
-#  id                            :integer          not null, primary key
-#  sale_date                     :date             not null
-#  person_id                     :integer          not null
-#  location_id                   :integer          not null
-#  meid                          :string
-#  mobile_phone                  :string
-#  upgrade                       :boolean          default(FALSE), not null
-#  top_up_card_purchased         :boolean          default(FALSE)
-#  top_up_card_amount            :float
-#  phone_activated_in_store      :boolean          default(FALSE)
-#  reason_not_activated_in_store :string
-#  picture_with_customer         :string
-#  comments                      :text
-#  connect_sprint_sale_id        :string
-#  created_at                    :datetime         not null
-#  updated_at                    :datetime         not null
-#  project_id                    :integer
-#  number_of_accessories         :integer
-#  sprint_carrier_id             :integer
-#  sprint_handset_id             :integer
-#  sprint_rate_plan_id           :integer
+#  id                                   :integer          not null, primary key
+#  sale_date                            :date             not null
+#  person_id                            :integer          not null
+#  location_id                          :integer          not null
+#  meid                                 :string
+#  mobile_phone                         :string
+#  upgrade                              :boolean          default(FALSE), not null
+#  top_up_card_purchased                :boolean          default(FALSE)
+#  top_up_card_amount                   :float
+#  phone_activated_in_store             :boolean          default(FALSE)
+#  reason_not_activated_in_store        :string
+#  picture_with_customer                :string
+#  comments                             :text
+#  connect_sprint_sale_id               :string
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  project_id                           :integer
+#  number_of_accessories                :integer
+#  sprint_carrier_id                    :integer
+#  sprint_handset_id                    :integer
+#  sprint_rate_plan_id                  :integer
+#  five_intl_connect                    :boolean
+#  ten_intl_connect                     :boolean
+#  insurance                            :boolean
+#  virgin_data_share_add_on_amount      :float
+#  virgin_data_share_add_on_description :text
 #
 
 require 'rails_helper'
@@ -39,6 +44,8 @@ describe SprintSale do
 
   it 'requires a valid sale date' do
     subject.sale_date = nil
+    expect(subject).not_to be_valid
+    subject.sale_date = 32.days.ago
     expect(subject).not_to be_valid
     subject.sale_date = 'totallywrongdate'
     expect(subject).not_to be_valid
@@ -119,6 +126,26 @@ describe SprintSale do
 
   it 'responds to comments' do
     expect(subject).to respond_to(:comments)
+  end
+
+  it 'responds to five_intl_connect' do
+    expect(subject).to respond_to(:five_intl_connect)
+  end
+
+  it 'responds to ten_intl_connect' do
+    expect(subject).to respond_to(:ten_intl_connect)
+  end
+
+  it 'responds to insurance' do
+    expect(subject).to respond_to(:insurance)
+  end
+
+  it 'responds to virgin_data_share_add_on_amount' do
+    expect(subject).to respond_to(:virgin_data_share_add_on_amount)
+  end
+
+  it 'responds to virgin_data_share_add_on_description' do
+    expect(subject).to respond_to(:virgin_data_share_add_on_description)
   end
 
   it 'responds to connect_sprint_sale' do

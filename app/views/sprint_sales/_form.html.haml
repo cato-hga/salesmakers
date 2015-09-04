@@ -4,7 +4,7 @@
 
 .widget
   .inner
-    = form_for @sprint_sale, url: new_sprint_sales_path(@project.id) do |f|
+    = form_for @sprint_sale, id: 'prepaidSaleForm', url: new_sprint_sales_path(@project.id) do |f|
       - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name, @sprint_sale.person_id)
       = f.label :person_id, 'Sales Representative'
       = f.select :person_id, person_name_options, include_blank: true
@@ -30,15 +30,44 @@
       = f.grouped_collection_select :sprint_rate_plan_id, @carriers, :sprint_rate_plans, :name, :id, :name, include_blank: true
       = f.label :top_up_card_purchased, 'Was a Top-Up Card purchased?'
       = f.select :top_up_card_purchased, options_for_select([['Yes', true], ['No', false]], nil), include_blank: true
-      = f.label :top_up_card_amount, 'What was the amount of the Top-Up Card?'
+      = f.label :top_up_card_amount, 'What was the amount of the Top-Up Card?', id: 'top_up_amount'
       = f.number_field :top_up_card_amount
       = f.label :phone_activated_in_store, 'Was the phone activated in-store?'
       = f.select :phone_activated_in_store, options_for_select([['Yes', true], ['No', false]], nil), include_blank: true
-      = f.label :reason_not_activated_in_store, "Why wasn't the phone activated in-store?"
+      = f.label :reason_not_activated_in_store, "Why wasn't the phone activated in-store?", id: 'phone_not_activated'
       = f.text_field :reason_not_activated_in_store
       = f.label :picture_with_customer, 'Did you get a picture with customer?'
       = f.select :picture_with_customer, options_for_select([['Yes'],['No, Customer Refused'],['No, Forgot']], nil), include_blank: true
       = f.label :comments
       = f.text_area :comments, size: "30x10"
       = f.hidden_field :project_id, value:  @project.id
+      .boost#additional_features
+        %br
+        %h3 Additional Features
+        %hr
+        %label.checkbox
+          = f.check_box :five_intl_connect
+          = t("$5 Int'l Connect")
+          %div
+          = f.check_box :ten_intl_connect
+          = t("$10 Int'l Connect")
+          %div
+          = f.check_box :insurance
+          = t("Insurance")
+      .virgin_mobile_data_share#add_ons
+        %br
+        %h3 Virgin Mobile Data Share Add-ons
+        %hr
+          = f.label :virgin_data_share_add_on_amount, 'Add-on amount (optional)'
+          - options = options_for_select([['$2', 2], ['$2.50', 2.5], ['$3', 3], ['$5', 5], ['$10', 10], ['$15', 15], ['$20', 20],
+          ['$25', 25], ['$35', 35], ['$65', 65], ['$85', 85]])
+          = f.select :virgin_data_share_add_on_amount, options, include_blank: true
+          = f.label :virgin_data_share_add_on_description, 'Add-on description (optional)'
+          = f.text_area :virgin_data_share_add_on_description, size: "30x5"
       = f.submit 'Complete Sale', class: [:button]
+
+      %p
+        Be sure to enter all information correctly in order to prevent problems with your sales.
+
+      %p
+        <b>Locations:</b> Be sure to choose the location that you're in because locations are one of the only things that cannot be changed about sales once they've been entered. If you sold at more than one location, submit only sales from one location each time you submit your sales and repeat the process for the other locations.

@@ -4418,7 +4418,12 @@ CREATE TABLE sprint_sales (
     number_of_accessories integer,
     sprint_carrier_id integer,
     sprint_handset_id integer,
-    sprint_rate_plan_id integer
+    sprint_rate_plan_id integer,
+    five_intl_connect boolean,
+    ten_intl_connect boolean,
+    insurance boolean,
+    virgin_data_share_add_on_amount double precision,
+    virgin_data_share_add_on_description text
 );
 
 
@@ -10811,4 +10816,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150901135638');
 INSERT INTO schema_migrations (version) VALUES ('20150901140248');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901195436');
+
+INSERT INTO schema_migrations (version) VALUES ('20150903154424');
 

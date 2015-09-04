@@ -83,6 +83,26 @@ describe 'Sprint Sale Entry' do
           end
         end
 
+        context 'with incorrect data' do
+          subject {
+            fill_in 'Sale Date', with: 32.days.ago
+            fill_in 'MEID', with: '12345678901234567'
+            fill_in 'Re-enter MEID to Confirm', with: '12345678901234566'
+            select 'Yes', from: 'Was a Top-Up Card purchased?'
+            select 'No', from: 'Was the phone activated in-store?'
+            click_on 'Complete Sale'
+          }
+
+          it 'renders :new_prepaid and displays a clear error message' do
+            subject
+            expect(page).to have_content "Meid must be 18 numbers in length"
+            expect(page).to have_content "Meid confirmation doesn't match Meid"
+            expect(page).to have_content "Top up card amount can't be blank"
+            expect(page).to have_content "Reason not activated in store can't be blank"
+            expect(page).to have_content "Sale date cannot be dated for more than 1 month in the past"
+          end
+        end
+
         context 'has select options for' do
           it 'Sales Representative' do
             expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.name
@@ -259,6 +279,18 @@ describe 'Sprint Sale Entry' do
             expect(page).not_to have_content "Meid can't be blank"
             expect(page).not_to have_content "Top up card purchased can't be blank"
             expect(page).not_to have_content "Phone activated in store can't be blank"
+          end
+        end
+
+        context 'with incorrect data' do
+          subject {
+            fill_in 'Sale Date', with: 32.days.ago
+            click_on 'Complete Sale'
+          }
+
+          it 'renders :new_postpaid and displays a clear error message' do
+            subject
+            expect(page).to have_content "Sale date cannot be dated for more than 1 month in the past"
           end
         end
 
