@@ -45,7 +45,7 @@ every '3,8,13,18,23,28,33,38,43,48,53,58 * * * *' do
 end
 
 every '4,9,14,19,24,29,34,39,44,49,54,59 * * * *' do
-  runner 'WalmartGiftCardFTPImporter.new'
+  runner 'WalmartGiftCardFTPImporter.new.inspect'
 end
 
 every '4,19,34,49 * * * *' do
