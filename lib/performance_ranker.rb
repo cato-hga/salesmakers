@@ -1,37 +1,42 @@
 class PerformanceRanker
 
   def self.rank_sales class_name, automated = false, start_date = Date.today - 1.month, end_date = Date.today
-    @total_count = 0
-    for project in Project.all do
-      if class_name == 'Area'
-        for area_type in project.area_types do
+    begin
+      RunningProcess.running! self
+      @total_count = 0
+      for project in Project.all do
+        if class_name == 'Area'
+          for area_type in project.area_types do
+            (start_date..end_date).each do |day|
+              day_sales = query_sales class_name.downcase, project, day, day, area_type
+              process_rankings day_sales, day, :day_rank, class_name
+              week_sales = query_sales class_name.downcase, project, day.beginning_of_week, day, area_type
+              process_rankings week_sales, day, :week_rank, class_name
+              month_sales = query_sales class_name.downcase, project, day.beginning_of_month, day, area_type
+              process_rankings month_sales, day, :month_rank, class_name
+              year_sales = query_sales class_name.downcase, project, day.beginning_of_year, day, area_type
+              process_rankings year_sales, day, :year_rank, class_name
+            end
+          end
+        else
           (start_date..end_date).each do |day|
-            day_sales = query_sales class_name.downcase, project, day, day, area_type
+            day_sales = query_sales class_name.downcase, project, day, day
             process_rankings day_sales, day, :day_rank, class_name
-            week_sales = query_sales class_name.downcase, project, day.beginning_of_week, day, area_type
+            week_sales = query_sales class_name.downcase, project, day.beginning_of_week, day
             process_rankings week_sales, day, :week_rank, class_name
-            month_sales = query_sales class_name.downcase, project, day.beginning_of_month, day, area_type
+            month_sales = query_sales class_name.downcase, project, day.beginning_of_month, day
             process_rankings month_sales, day, :month_rank, class_name
-            year_sales = query_sales class_name.downcase, project, day.beginning_of_year, day, area_type
+            year_sales = query_sales class_name.downcase, project, day.beginning_of_year, day
             process_rankings year_sales, day, :year_rank, class_name
           end
         end
-      else
-        (start_date..end_date).each do |day|
-          day_sales = query_sales class_name.downcase, project, day, day
-          process_rankings day_sales, day, :day_rank, class_name
-          week_sales = query_sales class_name.downcase, project, day.beginning_of_week, day
-          process_rankings week_sales, day, :week_rank, class_name
-          month_sales = query_sales class_name.downcase, project, day.beginning_of_month, day
-          process_rankings month_sales, day, :month_rank, class_name
-          year_sales = query_sales class_name.downcase, project, day.beginning_of_year, day
-          process_rankings year_sales, day, :year_rank, class_name
-        end
       end
+      ProcessLog.create process_class: "PerformanceRanker",
+                        records_processed: @total_count,
+                        notes: class_name if automated
+    ensure
+      RunningProcess.shutdown! self
     end
-    ProcessLog.create process_class: "PerformanceRanker",
-                      records_processed: @total_count,
-                      notes: class_name if automated
   end
 
   def self.query_sales(type, project, start_date, end_date, area_type = nil)

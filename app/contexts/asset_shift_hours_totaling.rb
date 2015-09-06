@@ -1,8 +1,14 @@
 class AssetShiftHoursTotaling
 
   def initialize(duration, automated = false)
-    @duration = duration
-    generate_totals automated
+    return if RunningProcess.running? self
+    begin
+      RunningProcess.running! self
+      @duration = duration
+      generate_totals automated
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   def generate_totals automated = false

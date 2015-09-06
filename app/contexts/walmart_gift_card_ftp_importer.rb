@@ -2,25 +2,31 @@ require 'net/sftp'
 
 class WalmartGiftCardFTPImporter
   def initialize
-    @gift_card_ids = []
-    @gift_cards = []
-    @saved_gift_cards = []
-    Net::SFTP.start('ftp01.vonage.com', 'aatkinson', password: 'r7p9dbPM') do |sftp|
-      if Rails.env.staging? || Rails.env.production?
-        dir_path = '/rbd_eGift'
-      else
-        dir_path = '/test'
+    return if RunningProcess.running? self
+    begin
+      RunningProcess.running! self
+      @gift_card_ids = []
+      @gift_cards = []
+      @saved_gift_cards = []
+      Net::SFTP.start('ftp01.vonage.com', 'aatkinson', password: 'r7p9dbPM') do |sftp|
+        if Rails.env.staging? || Rails.env.production?
+          dir_path = '/rbd_eGift'
+        else
+          dir_path = '/test'
+        end
+        sftp.dir.glob(dir_path, '*.xlsx') do |file|
+          temp_file = Tempfile.new(['giftcards', '.xlsx'])
+          sftp.download! "#{dir_path}/#{file.name}", temp_file.path
+          @file = File.new(temp_file.path)
+          begin_processing
+          sftp.rename! "#{dir_path}/#{file.name}",
+                       "#{dir_path}/imported/#{DateTime.now.strftime('%Y%m%d%H%M%S')}-#{file.name}" unless Rails.env.test?
+        end
       end
-      sftp.dir.glob(dir_path, '*.xlsx') do |file|
-        temp_file = Tempfile.new(['giftcards', '.xlsx'])
-        sftp.download! "#{dir_path}/#{file.name}", temp_file.path
-        @file = File.new(temp_file.path)
-        begin_processing
-        sftp.rename! "#{dir_path}/#{file.name}",
-                     "#{dir_path}/imported/#{DateTime.now.strftime('%Y%m%d%H%M%S')}-#{file.name}" unless Rails.env.test?
-      end
+      self
+    ensure
+      RunningProcess.shutdown! self
     end
-    self
   end
 
   def begin_processing
