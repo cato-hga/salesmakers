@@ -11,6 +11,7 @@ module WalmartGiftCards
         set_card_number_and_pin
       end
       tries = 1
+      self.balance = nil
       until self.balance || tries > 3
         tries += 1
         set_balance_and_history if self.card_number && self.pin
