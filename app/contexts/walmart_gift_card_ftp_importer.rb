@@ -23,7 +23,7 @@ class WalmartGiftCardFTPImporter
                        "#{dir_path}/imported/#{DateTime.now.strftime('%Y%m%d%H%M%S')}-#{file.name}" unless Rails.env.test?
         end
       end
-      for file in files do
+      for file in @files do
         @file = file
         begin_processing
       end
