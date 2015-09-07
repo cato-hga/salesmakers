@@ -74,7 +74,6 @@ class WalmartGiftCardFTPImporter
 
   def store walmart_gift_card
     walmart_gift_card.check
-    sleep 2.5
     if walmart_gift_card.save
       @saved_gift_cards << walmart_gift_card
     end

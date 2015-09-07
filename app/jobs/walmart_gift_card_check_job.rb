@@ -15,7 +15,6 @@ class WalmartGiftCardCheckJob < ActiveJob::Base
     for gift_card in cards_to_save do
       gift_card.check
       gift_card.save
-      sleep 2.5
     end
 
     WalmartGiftCardMailer.send_card_details(cards_to_save, person).deliver_later if person
