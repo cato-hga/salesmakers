@@ -52,19 +52,23 @@ class WalmartGiftCardFTPImporter
   end
 
   def translate row_hash
-    walmart_gift_card = WalmartGiftCard.new
+    unique_code = nil
+    link = nil
+    challenge_code = nil
     row_hash.keys.each do |key|
       case key
         when "Unique ID"
-          walmart_gift_card.unique_code = row_hash[key]
+          unique_code = row_hash[key]
         when "URL"
-          walmart_gift_card.link = row_hash[key]
+          link = row_hash[key]
         when "Challenge Code"
-          walmart_gift_card.challenge_code = row_hash[key]
+          challenge_code = row_hash[key]
       end
     end
-    existing_gift_card = WalmartGiftCard.find_by link: walmart_gift_card.link
-    walmart_gift_card = existing_gift_card || walmart_gift_card
+    return unless unique_code && link && challenge_code
+    walmart_gift_card = WalmartGiftCard.find_or_initialize_by unique_code: unique_code,
+                                                              link: link,
+                                                              challenge_code: challenge_code
     walmart_gift_card
   end
 
