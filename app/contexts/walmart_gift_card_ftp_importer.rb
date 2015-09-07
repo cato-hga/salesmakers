@@ -5,6 +5,7 @@ class WalmartGiftCardFTPImporter
     return if RunningProcess.running? self
     begin
       RunningProcess.running! self
+      @files = []
       @gift_card_ids = []
       @gift_cards = []
       @saved_gift_cards = []
@@ -17,11 +18,14 @@ class WalmartGiftCardFTPImporter
         sftp.dir.glob(dir_path, '*.xlsx') do |file|
           temp_file = Tempfile.new(['giftcards', '.xlsx'])
           sftp.download! "#{dir_path}/#{file.name}", temp_file.path
-          @file = File.new(temp_file.path)
-          begin_processing
+          files << File.new(temp_file.path)
           sftp.rename! "#{dir_path}/#{file.name}",
                        "#{dir_path}/imported/#{DateTime.now.strftime('%Y%m%d%H%M%S')}-#{file.name}" unless Rails.env.test?
         end
+      end
+      for file in files do
+        @file = file
+        begin_processing
       end
       self
     ensure
