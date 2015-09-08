@@ -1,9 +1,9 @@
 class SimpleSpreadsheet
-  attr_reader :header_row, :rows, :hashes
+  attr_reader :header_row, :rows, :hashes, :headerless
 
-  def initialize(roo_spreadsheet)
+  def initialize(roo_spreadsheet, headerless = false)
     @roo_spreadsheet = roo_spreadsheet
-    @header_row, @rows, @hashes = [], [], []
+    @headerless, @header_row, @rows, @hashes = headerless, [], [], []
     process
   end
 
@@ -14,11 +14,20 @@ class SimpleSpreadsheet
   end
 
   def set_header_and_rows(longest_row_length)
+    has_headers = false
     @roo_spreadsheet.each_row_streaming do |row|
       next unless has_coordinate?(row)
-      if row.length == longest_row_length and @header_row.empty?
+      if row.length == longest_row_length && @header_row.empty? && !@headerless && !has_headers
         @header_row = @roo_spreadsheet.row(row.first.coordinate.row)
+        has_headers = true
         next
+      elsif @headerless && !has_headers
+        columns = 0
+        longest_row_length.times do
+          @header_row << columns
+          columns += 1
+        end
+        has_headers = true
       end
       @rows << @roo_spreadsheet.row(row.first.coordinate.row) unless @header_row.empty?
     end
