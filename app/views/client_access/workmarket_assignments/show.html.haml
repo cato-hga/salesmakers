@@ -52,7 +52,7 @@
   - non_image_attachments = []
   - image_attachments = []
   - for attachment in @assignment.workmarket_attachments do
-    - if /\A.*(jpeg|jpg|gif|png)\Z/.match(attachment.filename).nil?
+    - if /\A.*(jpeg|jpg|gif|png|JPEG|JPG|GIF|PNG)\Z/.match(attachment.filename).nil?
       - non_image_attachments << attachment
     - else
       - image_attachments << attachment
