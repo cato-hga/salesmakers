@@ -3,7 +3,9 @@ module WalmartGiftCards
     CARD_QUERY_PAGE = 'https://www.walmart.com/cservice/ProcessShoppingCard.do'
 
     def check
-      return if link.blank? or challenge_code.blank?
+      return if link.blank?
+      existing_card = WalmartGiftCard.find_by link: link
+      self.attributes = existing_card.attributes if existing_card
       @agent = Mechanize.new
       tries = 1
       until (self.card_number && self.pin) || tries > 3
