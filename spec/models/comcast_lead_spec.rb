@@ -24,6 +24,8 @@ describe ComcastLead do
     lead.save validate: false
     lead
   }
+  let(:note) { build :comcast_customer_note, comcast_customer: entered_lead.comcast_customer }
+
   subject { build :comcast_lead }
 
   it 'requires at least one service selection' do
@@ -75,22 +77,71 @@ describe ComcastLead do
   end
 
   describe '.overdue_by_ten' do
-    it 'returns true if the follow up date is 10 days in the past' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
       expect(entered_lead.overdue_by_ten).to eq(false)
       entered_lead.update follow_up_by: Date.today - 10.days
       expect(entered_lead.overdue_by_ten).to eq(false)
       entered_lead.update follow_up_by: Date.today - 11.days
       expect(entered_lead.overdue_by_ten).to eq(true)
     end
+    it 'returns true if the last note was 10 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      note.update created_at: Date.today - 10.days
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      note.update created_at: Date.today - 11.days
+      expect(entered_lead.overdue_by_ten).to eq(true)
+    end
   end
 
   describe '.overdue_by_twenty_one' do
-    it 'returns true if the follow up date is 10 days in the past' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
       expect(entered_lead.overdue_by_twenty_one).to eq(false)
       entered_lead.update follow_up_by: Date.today - 21.days
       expect(entered_lead.overdue_by_twenty_one).to eq(false)
       entered_lead.update follow_up_by: Date.today - 22.days
       expect(entered_lead.overdue_by_twenty_one).to eq(true)
+    end
+    it 'returns true if the last note was 21 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      note.update created_at: Date.today - 21.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      note.update created_at: Date.today - 22.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(true)
+    end
+  end
+
+  describe '.overdue_by_thirty_five' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 35.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 36.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(true)
+    end
+    it 'returns true if the last note was 35 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      note.update created_at: Date.today - 35.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      note.update created_at: Date.today - 36.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(true)
+    end
+  end
+
+  describe '.comcast_old_lead_deactivate' do
+    let!(:reason) { create :comcast_lead_dismissal_reason, name: '35 days without follow up' }
+    let!(:admin) { create :person, email: 'retailingw@retaildoneright.com' }
+    it 'deactivates leads that have been inactive for 35 days' do
+      entered_lead.update follow_up_by: Date.today - 36.days
+      expect(entered_lead.active).to eq(true)
+      entered_lead.comcast_old_lead_deactivate
+      entered_lead.reload
+      expect(entered_lead.active).to eq(false)
+      expect(entered_lead.comcast_customer.comcast_lead_dismissal_reason).to eq(reason)
+      expect(entered_lead.comcast_customer.dismissal_comment).to eq('Auto-closed after 35 days of inactivity')
+      expect(LogEntry.count).to eq(1)
     end
   end
 

@@ -19,9 +19,11 @@
 require 'comcast/sales_and_leads'
 require 'comcast/lead_validations_and_associations'
 require 'comcast/lead_scopes'
+require 'sales_leads_customers/sales_leads_customers_model_extension'
 
 class ComcastLead < ActiveRecord::Base
   include Comcast::SalesAndLeads
+  include SalesLeadsCustomersModelExtension
   extend Comcast::LeadScopes
   extend Comcast::LeadValidationsAndAssociations
 
@@ -72,13 +74,34 @@ class ComcastLead < ActiveRecord::Base
   end
 
   def overdue_by_ten
-    return true if self.follow_up_by < (Date.today - 10.days)
+    if self.comcast_customer.comcast_customer_notes.any?
+      return true if self.comcast_customer.comcast_customer_notes.last.created_at < (Date.today - 10.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 10.days)
+    end
     false
   end
 
   def overdue_by_twenty_one
-    return true if self.follow_up_by < (Date.today - 21.days)
+    if self.comcast_customer.comcast_customer_notes.any?
+      return true if self.comcast_customer.comcast_customer_notes.last.created_at < (Date.today - 21.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 21.days)
+    end
     false
+  end
+
+  def overdue_by_thirty_five
+    if self.comcast_customer.comcast_customer_notes.any?
+      return true if self.comcast_customer.comcast_customer_notes.last.created_at < (Date.today - 35.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 35.days)
+    end
+    false
+  end
+
+  def comcast_old_lead_deactivate
+    deactivate_old_lead('Comcast')
   end
 
   private

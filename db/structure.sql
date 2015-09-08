@@ -3890,6 +3890,37 @@ ALTER SEQUENCE roster_verifications_id_seq OWNED BY roster_verifications.id;
 
 
 --
+-- Name: running_processes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE running_processes (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: running_processes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE running_processes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: running_processes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE running_processes_id_seq OWNED BY running_processes.id;
+
+
+--
 -- Name: sales_performance_ranks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4017,7 +4048,8 @@ CREATE TABLE shifts (
     updated_at timestamp without time zone NOT NULL,
     training boolean DEFAULT false NOT NULL,
     project_id integer,
-    meeting boolean DEFAULT false NOT NULL
+    meeting boolean DEFAULT false NOT NULL,
+    note character varying
 );
 
 
@@ -6494,6 +6526,13 @@ ALTER TABLE ONLY roster_verifications ALTER COLUMN id SET DEFAULT nextval('roste
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY running_processes ALTER COLUMN id SET DEFAULT nextval('running_processes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY sales_performance_ranks ALTER COLUMN id SET DEFAULT nextval('sales_performance_ranks_id_seq'::regclass);
 
 
@@ -7685,6 +7724,14 @@ ALTER TABLE ONLY roster_verification_sessions
 
 ALTER TABLE ONLY roster_verifications
     ADD CONSTRAINT roster_verifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: running_processes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY running_processes
+    ADD CONSTRAINT running_processes_pkey PRIMARY KEY (id);
 
 
 --
@@ -10660,4 +10707,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150831222001');
 INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901153130');
+
+INSERT INTO schema_migrations (version) VALUES ('20150903193541');
+
+INSERT INTO schema_migrations (version) VALUES ('20150904133422');
+
+INSERT INTO schema_migrations (version) VALUES ('20150906172013');
 
