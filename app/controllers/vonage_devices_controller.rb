@@ -4,15 +4,25 @@ class VonageDevicesController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @vonage_device = VonageDevice.all
+    @vonage_devices = VonageDevice.all
   end
 
   def new
     @vonage_device = VonageDevice.new
+
+  end
+
+  def transfer
+    @vonage_transfer = VonageTransfer.new
+  end
+
+  def do_transfer
+
   end
 
   def create
     @vonage_device = VonageDevice.new
+    @vonage_transfer = VonageTransfer.new
     receive_date = params.permit(:receive_date)[:receive_date]
     chronic_time = Chronic.parse(receive_date)
     adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
@@ -29,7 +39,7 @@ class VonageDevicesController < ApplicationController
     @vonage_device_ids.compact!
     unless @vonage_device_ids.empty?
       VonageInventoryMailer.inventory_receiving_mailer(@current_person, @vonage_device_ids).deliver_later
-      redirect_to new_vonage_transfer_path
+      redirect_to transfer_vonage_devices_path
     else
       render :new
     end

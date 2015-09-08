@@ -342,10 +342,13 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
-  resources :vonage_devices
+  resources :vonage_devices do
+    collection do
+      get :transfer, as: :transfer
+      post :do_transfer
+    end
+  end
 
-  resources :vonage_transfers
-  
   resources :vonage_sales
 
   # ------------------------- API NAMESPACE --------------------------

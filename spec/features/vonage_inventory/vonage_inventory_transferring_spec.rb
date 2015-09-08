@@ -14,7 +14,7 @@ describe 'Inventory Transferring page' do
 
     it 'shows the you are not authorized page' do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-      visit new_vonage_transfer_path
+      visit transfer_vonage_devices_path
       expect(page).to have_content('Your access does not allow you to view this page')
     end
   end
@@ -22,7 +22,7 @@ describe 'Inventory Transferring page' do
 
       it 'shows the Vonage Inventory Transferring page' do
         CASClient::Frameworks::Rails::Filter.fake(person.email)
-        visit new_vonage_transfer_path
+        visit transfer_vonage_devices_path
         expect(page).to have_content('Vonage Inventory Transferring')
 
       end

@@ -4,4 +4,8 @@ class VonageDevicePolicy < ApplicationPolicy
   #     scope
   #   end
   # end
+
+  def transfer?
+    has_permission? 'transfer'
+  end
 end

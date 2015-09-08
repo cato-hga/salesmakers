@@ -1,0 +1,19 @@
+- if @vonage_transfer.errors.any?
+  - @vonage_transfer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
+
+- title "Vonage Inventory Transferring"
+= form_tag transfer_vonage_devices_path, method: :get do
+  .widget
+    .inner
+      = label_tag 'To Person'
+      = text_field_tag 'to_person', nil, placeholder: 'Sender'
+      = label_tag 'From Person'
+      = text_field_tag 'from_person', nil, placeholder: 'Receiver'
+      = label_tag 'IDs'
+      = text_field_tag 'vonage_device_id'
+
+  .widget
+    .inner
+      = label_tag 'Transfer Time'
+      = text_field_tag 'transfer_time', nil, placeholder: 'Time of Transfer'
