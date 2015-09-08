@@ -18,7 +18,7 @@ class WalmartGiftCardFTPImporter
         sftp.dir.glob(dir_path, '*.xlsx') do |file|
           temp_file = Tempfile.new(['giftcards', '.xlsx'])
           sftp.download! "#{dir_path}/#{file.name}", temp_file.path
-          files << File.new(temp_file.path)
+          @files << File.new(temp_file.path)
           sftp.rename! "#{dir_path}/#{file.name}",
                        "#{dir_path}/imported/#{DateTime.now.strftime('%Y%m%d%H%M%S')}-#{file.name}" unless Rails.env.test?
         end
