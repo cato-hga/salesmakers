@@ -20,3 +20,6 @@
     %br/
     %p
       = link_to 'Change Location', select_location_candidate_path(@candidate, 'false'), class: [:button]
+      - vip = Permission.find_by key: 'candidate_vip'
+      - if @current_person.position.permissions.include? vip
+        = link_to 'Override Location', get_override_location_candidate_path(@candidate), class: [:button, :inline_button, :alert]

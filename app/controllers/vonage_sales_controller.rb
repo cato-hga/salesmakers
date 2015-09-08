@@ -9,6 +9,7 @@ class VonageSalesController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :show]
 
   def index
+    @last_import = VonageSale.maximum(:created_at)
     @vonage_sales = @vonage_sales.page(params[:page])
     @areas = policy_scope(@project.areas).order(:name)
   end

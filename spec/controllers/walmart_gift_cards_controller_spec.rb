@@ -87,7 +87,7 @@ describe WalmartGiftCardsController do
     end
   end
 
-  describe 'POST create' do
+  describe 'POST create', :vcr do
     let(:json) {
       {
           data: [

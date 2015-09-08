@@ -9,8 +9,8 @@ var hot = new Handsontable(container, {
 	data: data,
 	minSpareRows: 1,
 	colHeaders: [
-		'Link',
-		'Challenge Code',
+		'Link (Required)',
+		'Challenge Code (for New Cards)',
 		'Gift Card Number (Optional)',
 		'PIN (Optional)',
 		'Unique Code (Optional)'

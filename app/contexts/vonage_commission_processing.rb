@@ -14,16 +14,22 @@ class VonageCommissionProcessing
   include NegativeBalances
 
   def process automated = false, paycheck = nil
-    @count = 0
-    @paycheck = paycheck || get_paycheck
-    return unless @paycheck
-    generate_payouts
-    change_manager_payouts
-    clear_existing_payouts
-    save_payouts
-    process_negative_balances
-    ProcessLog.create process_class: "VonageCommissionProcessing", records_processed: @count if automated
-    self
+    return if RunningProcess.running? self
+    begin
+      RunningProcess.running! self
+      @count = 0
+      @paycheck = paycheck || get_paycheck
+      return unless @paycheck
+      generate_payouts
+      change_manager_payouts
+      clear_existing_payouts
+      save_payouts
+      process_negative_balances
+      ProcessLog.create process_class: "VonageCommissionProcessing", records_processed: @count if automated
+      self
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   private

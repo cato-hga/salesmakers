@@ -43,6 +43,7 @@ comcast_leads
 root_redirects
 device_manufacturers
 device_models
+management_scorecard
 roster_verification_sessions
 line_states
 device_states

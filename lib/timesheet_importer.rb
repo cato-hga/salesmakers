@@ -5,13 +5,18 @@ class TimesheetImporter
   end
 
   def import automated = false
-    timesheets = timesheets_for_last(@duration).order(:shift_date)
-    self.extend TimesheetToShiftTranslator
-    shifts = self.translate_all(timesheets)
-    self.extend ShiftWriter
-    self.clear_and_write_all shifts
-    self.send_unmatched
-    ProcessLog.create process_class: "TimesheetImporter", records_processed: shifts.count if automated
+    begin
+      RunningProcess.running! self
+      timesheets = timesheets_for_last(@duration).order(:shift_date)
+      self.extend TimesheetToShiftTranslator
+      shifts = self.translate_all(timesheets)
+      self.extend ShiftWriter
+      self.clear_and_write_all shifts
+      self.send_unmatched
+      ProcessLog.create process_class: "TimesheetImporter", records_processed: shifts.count if automated
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   def send_unmatched

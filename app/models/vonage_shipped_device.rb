@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: vonage_shipped_devices
+#
+#  id               :integer          not null, primary key
+#  active           :boolean          default(TRUE), not null
+#  po_number        :string           not null
+#  carrier          :string
+#  tracking_number  :string
+#  ship_date        :date             not null
+#  mac              :string           not null
+#  device_type      :string
+#  vonage_device_id :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 class VonageShippedDevice < ActiveRecord::Base
   before_validation :upcase_mac
 

@@ -35,6 +35,7 @@
 #  mobile_phone_valid                     :boolean          default(TRUE), not null
 #  other_phone_valid                      :boolean          default(TRUE), not null
 #  mobile_phone_is_landline               :boolean          default(FALSE), not null
+#  vip                                    :boolean          default(FALSE), not null
 #
 
 class Candidate < ActiveRecord::Base
@@ -114,6 +115,15 @@ class Candidate < ActiveRecord::Base
   end
 
   default_scope { order(:first_name, :last_name) }
+
+  def self.inactive_training_session_statuses
+    [
+        Candidate.training_session_statuses[:transfer],
+        Candidate.training_session_statuses[:transfer_reject],
+        Candidate.training_session_statuses[:nos],
+        Candidate.training_session_statuses[:moved_to_other_project]
+    ]
+  end
 
   def strip_phone_number
     self.mobile_phone = mobile_phone.strip.gsub /[^0-9]/, '' if mobile_phone.present?

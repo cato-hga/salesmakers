@@ -111,6 +111,16 @@ class Project < ActiveRecord::Base
         ],
         sprint: [
             'sprint_sale_index'
+        ],
+        directv: [
+            'directv_customer_create',
+            'directv_lead_index',
+            'directv_sale_index'
+        ],
+        vonage_retail: [
+            'vonage_sale_index',
+            'vonage_sale_create',
+            'walmart_gift_card_create'
         ]
     }
     visible_projects = []

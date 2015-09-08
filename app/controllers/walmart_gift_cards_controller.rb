@@ -39,7 +39,7 @@ class WalmartGiftCardsController < ApplicationController
       pin = nil if pin == ''
       unique_code = nil if unique_code == ''
       pin = pin.rjust(4, '0') if pin
-      next unless (link && challenge_code) || (card_number && pin)
+      next unless link || (card_number && pin)
       @gift_card_attributes << {
           'link' => link,
           'challenge_code' => challenge_code,

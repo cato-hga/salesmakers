@@ -26,8 +26,8 @@ class CandidatesController < ApplicationController
   before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
-  layout 'candidates', except: [:support_search]
-  layout 'application', only: [:support_search]
+  layout 'candidates', except: [:support_search, :get_override_location, :post_override_location]
+  layout 'application', only: [:support_search, :get_override_location, :post_override_location]
 
   def index
     @candidates = @search.result.page(params[:page]).includes(:location_area)

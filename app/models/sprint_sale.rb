@@ -44,6 +44,10 @@ class SprintSale < ActiveRecord::Base
 
   strip_attributes
 
+  scope :for_date_range, ->(start_date, end_date) {
+    where "sale_date >= ? AND sale_date <= ?", start_date, end_date
+  }
+
   def location_area
     self.location_area_for_sale 'Sprint'
   end

@@ -24,7 +24,25 @@
 class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
-  attr_accessor :import
+  attr_accessor :import, :skip_resold_callback
+
+  after_save do
+    unless self.skip_resold_callback
+      VonageSale.where("mac = ? AND NOT id = ?", self.mac, self.id).each do |sale|
+        sale.resold = true
+        sale.skip_resold_callback = true
+        sale.save validate: false
+      end
+    end
+  end
+
+  searchable do
+    text :customer_first_name
+    text :customer_last_name
+    text :confirmation_number, boost: 7.0
+    text :mac, boost: 7.0
+    text :gift_card_number, boost: 7.0
+  end
 
   validates :sale_date, presence: true
   validate :sale_date_cannot_be_more_than_2_weeks_in_the_past
@@ -43,6 +61,7 @@ class VonageSale < ActiveRecord::Base
   validate :mac_prefix_valid
   validates :creator, presence: true
   validate :gift_card_used, unless: :override_card
+  validate :mac_not_sold_on_same_day
 
   belongs_to :person
   belongs_to :creator, class_name: 'Person'
@@ -55,8 +74,6 @@ class VonageSale < ActiveRecord::Base
   has_many :vonage_account_status_changes, primary_key: 'mac', foreign_key: 'mac'
   has_one :vcp07012015_hps_sale
   has_one :walmart_gift_card, primary_key: 'card_number', foreign_key: 'gift_card_number'
-
-  strip_attributes
 
   strip_attributes
 
@@ -192,4 +209,10 @@ class VonageSale < ActiveRecord::Base
     end
   end
 
+  def mac_not_sold_on_same_day
+    return if !self.mac || !self.sale_date || self.import?
+    unless VonageSale.where(sale_date: self.sale_date, mac: self.mac).empty?
+      errors.add :mac, 'has already been entered as a sale on the same day'
+    end
+  end
 end

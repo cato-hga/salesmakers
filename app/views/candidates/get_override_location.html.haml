@@ -1,0 +1,41 @@
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form', url: get_override_location_candidate_path(@candidate) do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.select :active_eq, [['Active', true],['Inactive', false]], include_blank: 'All'
+    = f.text_field :location_display_name_cont, placeholder: 'Display name'
+    = f.text_field :location_store_number_cont, placeholder: 'Store number'
+    = f.select :area_id_eq, options_from_collection_for_select(@areas, :id, :name), include_blank: 'All areas'
+    = f.text_field :priority_eq, placeholder: 'Priority'
+    = f.text_field :target_head_count_eq, placeholder: 'Target HC'
+    %br/
+    = f.text_field :location_street_1_cont, placeholder: 'Street address 1'
+    = f.text_field :location_street_2_cont, placeholder: 'Street address 2'
+    = f.text_field :location_city_cont, placeholder: 'City'
+    = f.select :location_state_eq, options_for_select(::UnitedStates), include_blank: 'All states'
+    = f.text_field :location_zip_cont, placeholder: 'ZIP code'
+    = f.submit 'Search', class: [:button, :inline_button]
+    %p.small.comment Recruitable field is calculated on-the-fly and cannot be searched.
+  .top-pagination
+    = paginate @location_areas
+
+- header = header_row ['Channel', 'Display name', 'Store #', 'Address', 'Area', 'Priority', 'Target HC', '# Candidates', 'Recruitable', 'Assign']
+- rows = []
+- for location_area in @location_areas do
+  - location = location_area.location
+  - area = location_area.area
+  - location_url = client_project_location_path(area.project.client, area.project, location)
+  - classes = tack_on_inactive_class(location_area, nil)
+  - channel_name = location.channel.name
+  - display_name = link_to location.display_name, location_url, class: classes
+  - store_number = link_to location.store_number, location_url, class: classes
+  - address = link_to location.address, location_url, class: classes
+  - area = area_link location_area.area
+  - priority = location_area.priority.to_s
+  - target_head_count = location_area.target_head_count.to_s
+  - number_of_candidates = location_area.candidates_in_funnel.count
+  - recruitable = location_area.head_count_full? ? 'No' : 'Yes'
+  - assign = button_to 'Assign', post_override_location_candidate_path(@candidate, location_area.id), method: :patch, class: [:button, :inline_button]
+  - rows << table_row([channel_name, display_name, store_number, address, area, priority, target_head_count, number_of_candidates.to_s, recruitable, assign])
+= table header, rows

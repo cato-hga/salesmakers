@@ -1,17 +1,23 @@
 class SaleImporter
   #:nocov:
   def initialize automated = false, start_date = (Time.zone.now - 1.month).to_date, end_date = Time.zone.now.to_date
-    started = Time.now
-    @start_date = start_date
-    @end_date = end_date
-    @count = 0
-    import_vonage
-    import_sprint
-    DaySalesCount.where('day >= ? AND day <= ? AND updated_at < ?',
-                        @start_date,
-                        @end_date,
-                        started).destroy_all
-    ProcessLog.create process_class: "SaleImporter", records_processed: @count if automated
+    return if RunningProcess.running? self
+    begin
+      RunningProcess.running! self
+      started = Time.now
+      @start_date = start_date
+      @end_date = end_date
+      @count = 0
+      import_vonage
+      import_sprint
+      DaySalesCount.where('day >= ? AND day <= ? AND updated_at < ?',
+                          @start_date,
+                          @end_date,
+                          started).destroy_all
+      ProcessLog.create process_class: "SaleImporter", records_processed: @count if automated
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   private

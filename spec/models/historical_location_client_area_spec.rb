@@ -14,10 +14,4 @@ require 'rails_helper'
 
 describe HistoricalLocationClientArea do
   subject { build :historical_location_client_area }
-
-  it 'does not allow duplicates' do
-    subject.save
-    duplicate = subject.dup
-    expect(duplicate).not_to be_valid
-  end
 end

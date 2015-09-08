@@ -3,14 +3,33 @@ module WalmartGiftCards
     CARD_QUERY_PAGE = 'https://www.walmart.com/cservice/ProcessShoppingCard.do'
 
     def check
-      return if link.blank? or challenge_code.blank?
+      return if link.blank?
+      existing_card = WalmartGiftCard.find_by link: link
+      self.attributes = existing_card.attributes if existing_card
       @agent = Mechanize.new
-      set_card_number_and_pin unless self.card_number && self.pin
-      set_balance_and_history if self.card_number && self.pin
+      tries = 1
+      until (self.card_number && self.pin) || tries > 3
+        tries += 1
+        set_card_number_and_pin
+      end
+      tries = 1
+      self.balance = nil
+      until self.balance || tries > 3
+        tries += 1
+        set_balance_and_history if self.card_number && self.pin
+      end
     end
 
     def set_card_number_and_pin
-      page = @agent.get(link)
+      sleep 1.25
+      tries = 1
+      begin
+        page = @agent.get(link)
+      rescue
+        tries += 1
+        sleep 2.5
+        retry unless tries > 3
+      end
       return if page.forms.empty?
       form = page.forms.first
       form.value = challenge_code
@@ -23,13 +42,21 @@ module WalmartGiftCards
     end
 
     def set_balance_and_history
+      sleep 1.25
       params = {
           'GetCardBalance.x' => '90',
           'GetCardBalance.y' => '8',
           'cardNumber' => self.card_number,
           'pin' => self.pin
       }
-      history_page = post_form_data CARD_QUERY_PAGE, params || return
+      tries = 1
+      begin
+        history_page = post_form_data CARD_QUERY_PAGE, params || return
+      rescue
+        tries += 1
+        sleep 2.5
+        retry unless tries > 3
+      end
       # TODO: setting of VonageProduct
       doc = Nokogiri::HTML history_page
       history_elements = doc.css '.CheckCardBalance' || return

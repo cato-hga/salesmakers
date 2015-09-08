@@ -49,10 +49,15 @@ class NotificationMailer < ApplicationMailer
                 subject: 'Vonage Hours with No Location Attached'
   end
 
-  def simple_mail(to_email, subject, content, html = false)
+  def simple_mail(to_emails, subject, content, html = false, attachment_array = nil)
     content_type = 'text/plain'
     content_type = 'text/html' if html
-    handle_send to: to_email,
+    if attachment_array && !attachment_array.empty?
+      for attachment in attachment_array do
+        attachments[File.basename(attachment)] = File.read(attachment)
+      end
+    end
+    handle_send to: to_emails,
                 subject: subject,
                 body: content,
                 content_type: content_type

@@ -30,13 +30,21 @@ RSpec.describe GiftCardOverride, regressor: true do
       allow(subject).to receive(:ticket_number).and_return(false)
     end
 
+
   end
 
   
 
   # === Validations (Presence) ===
   it { is_expected.to validate_presence_of :creator }
-  it { is_expected.to validate_presence_of :person }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:import?).and_return(false)
+    end
+
+    it { is_expected.to validate_presence_of :person }
+  end
+
   context "with conditions" do
     before do
       allow(subject).to receive(:original_card_number).and_return(false)

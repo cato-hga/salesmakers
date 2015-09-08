@@ -28,8 +28,9 @@
     = link_to 'Edit Position', edit_position_person_path(@person), class: [:button, :inline_button]
   - if PersonAreaPolicy.new(@current_person, PersonArea.new).update?
     = link_to 'Edit Areas', person_person_areas_path(@person), class: [:button, :inline_button]
-  - if GiftCardOverridePolicy.new(@current_person, GiftCardOverride.new).new_override?
-    = link_to 'Override Card', new_override_walmart_gift_cards_path(@person), class: [:button, :inline_button]
+  -# TODO: Reimplement when Vonage finished
+  -# if GiftCardOverridePolicy.new(@current_person, GiftCardOverride.new).new_override?
+    -#= link_to 'Override Card', new_override_walmart_gift_cards_path(@person), class: [:button, :inline_button]
   - if PersonPolicy.new(@current_person, Person.new).masquerade?
     = link_to 'Masquerade', masquerade_person_path(@person), class: [:button, :inline_button, :alert] if @person.active?
 

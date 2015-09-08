@@ -336,6 +336,8 @@ GEM
       activerecord (>= 3.2, < 4.3)
       activesupport (>= 3.2, < 4.3)
     googlecharts (1.6.10)
+    gpgme (2.0.9)
+      mini_portile (>= 0.5.0)
     griddler (1.2.1)
       htmlentities
       rails (>= 3.2.0)
@@ -462,8 +464,13 @@ GEM
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     netrc (0.10.3)
+    nilify_blanks (1.2.1)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     notiffany (0.0.7)
@@ -795,6 +802,7 @@ DEPENDENCIES
   goldiloader (= 0.0.9)
   google_timezone!
   googlecharts (= 1.6.10)
+  gpgme (= 2.0.9)
   griddler (= 1.2.1)
   griddler-postmark (= 1.0.0)
   groupdate (= 2.4.0)
@@ -814,7 +822,9 @@ DEPENDENCIES
   mechanize (= 2.7.3)
   metric_fu (= 4.12.0)
   namecase (= 2.0.0)
+  net-sftp (= 2.1.2)
   newrelic_rpm!
+  nilify_blanks (= 1.2.1)
   paper_trail!
   parallel_tests (= 1.6.1)
   persistent_httparty (= 0.1.2)

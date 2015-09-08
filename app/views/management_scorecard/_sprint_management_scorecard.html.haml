@@ -1,0 +1,104 @@
+- green_sales = 1
+- green_activations = 1
+- green_hpa = 2.5
+
+.widget
+  .inner.row.full-width
+    - people_totals = {}
+    - total_sales = 0
+    - total_activations = 0
+    - total_hours = 0.0
+    - week_count = 0
+    - @weeks.each do |week|
+      - week_count += 1
+      - week_total_sales = 0
+      - week_total_activations = 0
+      - week_total_hours = 0.0
+      .large-3.medium-6.columns{ id: week[3] }
+        %h3= week[0]
+        .row
+          .small-4.columns
+            %th SM
+          .small-2.columns
+            %th Sales
+          .small-2.columns
+            %th Activations
+          .small-2.columns
+            %th Hours
+          .small-2.columns
+            %th HPA
+        - for person in @people do
+          - sales = person.sprint_sales.for_date_range(week[1], week[2]).count
+          - activations = person.sprint_sales.for_date_range(week[1], week[2]).where(phone_activated_in_store: true, upgrade: false).count
+          - hours = person.shifts.for_date_range(week[1], week[2]).sum(:hours)
+          - hpa = activations == 0 ? hours : hours / activations
+          - person_totals = people_totals[person] || { sales: 0, activations: 0, hours: 0.0 }
+          - person_totals[:sales] += sales
+          - week_total_sales += sales
+          - total_sales += sales
+          - person_totals[:activations] += activations
+          - week_total_activations += activations
+          - total_activations += activations
+          - person_totals[:hours] += hours
+          - week_total_hours += hours
+          - total_hours += hours
+          - people_totals[person] = person_totals
+          - sales_class = sales < green_sales && hours > 0.0 ? 'fail' : 'pass'
+          - activations_class = activations < green_activations && hours > 0.0 ? 'fail' : 'pass'
+          - hpa_class = hpa <= green_hpa ? 'pass' : 'fail'
+          - if sales == 0 && hours == 0
+            - sales_class, activations_class, hpa_class = 'fail', 'fail', 'fail'
+          .row.vertical_space
+            .small-4.columns.salesmaker= link_to person.display_name, person
+            .columns.sales{class: "small-2 #{sales_class}"}= sales.to_s
+            .columns.activations{class: "small-2 #{activations_class}"}= activations.to_s
+            .columns.hours{class: "small-2 #{hpa_class}"}= hours.round(2).to_s
+            .columns.hps{class: "small-2 #{hpa_class}"}= hpa.round(2).to_s
+        .row.vertical_space.totals
+          - hpa = week_total_sales == 0 ? week_total_hours : (week_total_hours / week_total_sales).round(2)
+          - sales_class = week_total_sales < green_sales && week_total_hours > 0.0 ? 'fail' : 'pass'
+          - activations_class = week_total_activations < green_activations && week_total_hours > 0.0 ? 'fail' : 'pass'
+          - hpa_class = hpa <= green_hpa ? 'pass' : 'fail'
+          .small-4.columns TOTALS
+          .columns.small-2.sales{class: sales_class}= week_total_sales.to_s
+          .columns.small-2.activations{class: activations_class}= week_total_activations.to_s
+          .columns.small-2.hours{class: hpa_class}= week_total_hours.round(2).to_s
+          .columns.small-2.hps{class: hpa_class}= hpa.to_s
+  .clearfix
+.widget
+  .inner#four_week_totals
+    %h3 4-Week Totals
+    .row.full-width
+      .small-2.columns SM
+      .small-2.columns Hired
+      .small-2.columns Sales
+      .small-2.columns Activations
+      .small-2.columns Hours
+      .small-2.columns HPA
+    - for person in @people do
+      - person_totals = people_totals[person] || { sales: 0, hours: 0.0, refunds: 0 }
+      - sales = person_totals[:sales]
+      - activations = person_totals[:activations]
+      - hours = person_totals[:hours]
+      - hpa = activations == 0 ? hours : (hours / activations).round(2)
+      - sales_class = sales < green_sales && hours > 0.0 ? 'fail' : 'pass'
+      - activations_class = activations < green_activations && hours > 0.0 ? 'fail' : 'pass'
+      - hpa_class = hpa <= green_hpa ? 'pass' : 'fail'
+      .row.full-width
+        .small-2.columns.salesmaker= link_to person.display_name, person
+        .small-2.columns.hired= person.hire_date ? short_date(person.hire_date) : ''
+        .small-2.columns.sales{class: sales_class}= person_totals[:sales].to_s
+        .small-2.columns.activations{class: activations_class}= person_totals[:activations].to_s
+        .small-2.columns.hours{class: hpa_class}= person_totals[:hours].round(2).to_s
+        .small-2.columns.hps{class: hpa_class}= hpa.to_s
+    .row.full-width#grand_totals
+      - hpa = total_sales == 0 ? total_hours : (total_hours / total_sales).round(2)
+      - sales_class = total_sales < green_sales && total_hours > 0.0 ? 'fail' : 'pass'
+      - activations_class = total_activations < green_activations && total_hours > 0.0 ? 'fail' : 'pass'
+      - hpa_class = hpa <= green_hpa ? 'pass' : 'fail'
+      .small-2.columns TOTAL
+      .small-2.columns
+      .small-2.columns.sales{class: sales_class}= total_sales.to_s
+      .small-2.columns.activations{class: activations_class}= total_activations.to_s
+      .small-2.columns.hours{class: hpa_class}= total_hours.round(2).to_s
+      .small-2.columns.hps{class: hpa_class}= hpa.to_s

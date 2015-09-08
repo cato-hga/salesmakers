@@ -4,7 +4,7 @@
 #
 #  id                   :integer          not null, primary key
 #  creator_id           :integer          not null
-#  person_id            :integer          not null
+#  person_id            :integer
 #  original_card_number :string
 #  ticket_number        :string
 #  override_card_number :string           not null
