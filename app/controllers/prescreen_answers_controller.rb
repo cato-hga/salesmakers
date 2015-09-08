@@ -89,7 +89,10 @@ class PrescreenAnswersController < ApplicationController
   end
 
   def check_and_handle_location
-    if @candidate.location_selected?
+    if @candidate.location_selected? and @candidate.vip
+      flash[:notice] = 'Answers and Availability saved'
+      redirect_to new_candidate_training_availability_path(@candidate)
+    elsif @candidate.location_selected?
       flash[:notice] = 'Answers and Availability saved'
       redirect_to new_candidate_interview_schedule_path(@candidate)
     else
@@ -110,7 +113,9 @@ class PrescreenAnswersController < ApplicationController
                                              :ok_to_screen,
                                              :visible_tattoos,
                                              :store_number_city_state,
-                                             :worked_for_radioshack
+                                             :worked_for_radioshack,
+                                             :has_sales_experience,
+                                             :sales_experience_notes
     )
   end
 

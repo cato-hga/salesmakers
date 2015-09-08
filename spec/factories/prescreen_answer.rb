@@ -11,5 +11,7 @@ FactoryGirl.define do
     high_school_diploma true
     ok_to_screen true
     visible_tattoos true
+    has_sales_experience true
+    sales_experience_notes 'Test Notes'
   end
 end

@@ -47,6 +47,7 @@ comcast_leads
 root_redirects
 device_manufacturers
 device_models
+management_scorecard
 roster_verification_sessions
 line_states
 device_states
@@ -88,6 +89,7 @@ reports
 report_queries
 sessions
 themes
+vonage_shipped_devices
 walmart_gift_cards
 widgets ).each do |controller|
   Rails.application.config.assets.precompile += ["#{controller}.css", "#{controller}.js"]

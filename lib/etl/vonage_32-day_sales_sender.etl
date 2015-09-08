@@ -1,0 +1,11 @@
+require 'etl/uqube_sales_source'
+require 'etl/vonage_email_destination'
+require 'etl/uqube_translator'
+
+source UQubeSalesSource, DateTime.now.beginning_of_day - 32.days, DateTime.now.beginning_of_day
+do_transformation
+destination VonageEmailDestination, "RBD_32-day-retail_#{Date.current.strftime('%m%d%Y')}.csv", @headers
+
+post_process do
+  ProcessLog.create process_class: "Vonage32DaySalesSender", records_processed: @count
+end

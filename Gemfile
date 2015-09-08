@@ -19,7 +19,7 @@ gem 'chartkick', '1.3.2' # Easy Google Charts creation in Rails
 gem 'chronic', '0.10.2' # Natural language date/time parse
 gem 'coffee-script', '2.4.1'
 gem 'dalli', '2.7.4' # Memcached caching
-gem 'docusign_rest', '0.1.1' # Docusign API wrapper
+gem 'docusign_rest', git: 'https://github.com/jondkinney/docusign_rest.git' # Docusign API wrapper
 gem 'dragonfly', '1.0.10' # Image and file storage
 gem 'emoji', '1.0.5' # Automatic emoji embeds
 gem 'facter', '2.4.4' # Get number of CPUs to automatically set puma workers
@@ -27,6 +27,7 @@ gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size
 gem 'faye', '1.1.2' # GroupMe client websockets
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
 gem 'geocoder', '1.2.9' # Geocoding
+gem 'gpgme', '2.0.9', require: false # PGP encryption and decryption
 gem 'gmaps4rails', '2.1.2' # Google Maps
 gem 'goldiloader', '0.0.9' # Automatic eager loading
 gem 'googlecharts', '1.6.10' # Google charts, duh.
@@ -45,6 +46,7 @@ gem 'kiba', '0.6.1' # ETL data processing
 gem 'mechanize', '2.7.3' # Automating interaction with websites
 gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
+gem 'net-sftp', '2.1.2' # SFTP client for ruby
 gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
 gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
 gem 'persistent_httparty', '0.1.2' # Keep connections open when using HTTParty
@@ -72,6 +74,7 @@ gem 'sinatra', '1.4.6', require: false
 gem 'slack-notifier', '1.2.1' # Exception notification on Slack
 gem 'spreadsheet', '1.0.4' # Extra functionality for Roo
 gem 'spring-commands-rspec', '1.0.4' # Spring RSpec additions
+gem 'strip_attributes', '1.7.1' # Remove leading and trailing whitespace from string attributes on models
 gem 'sunspot_rails', '2.2.0' # Full text search
 gem 'sunspot_solr', '2.2.0' # Full text search
 gem 'tiny_tds', git: 'https://github.com/rails-sqlserver/tiny_tds.git' # Ruby SQL server stuff

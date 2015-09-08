@@ -7,10 +7,16 @@ class WorkmarketImport
   end
 
   def execute automated = false
-    start_location_import
-    start_assignment_import
-    ProcessLog.create process_class: "WorkmarketImport", records_processed: @count if automated
-    self
+    return if RunningProcess.running? self
+    begin
+      RunningProcess.running! self
+      start_location_import
+      start_assignment_import
+      ProcessLog.create process_class: "WorkmarketImport", records_processed: @count if automated
+      self
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   def start_location_import
@@ -93,7 +99,18 @@ class WorkmarketImport
       a.save
       FileUtils.mkdir_p 'public/uploads/' + a.guid
       File.open("public/uploads/#{a.guid}/#{a.filename}", 'wb') do |f|
-        f.write(Base64.decode64(get_attachment_base64(a.guid)))
+        base64 = get_attachment_base64(a.guid)
+        if base64
+          f.write(Base64.decode64(base64))
+        else
+          sleep 1
+          base64 = get_attachment_base64(a.guid)
+          if base64
+            f.write(Base64.decode64(base64))
+          else
+            f.write('')
+          end
+        end
       end
     end
   end

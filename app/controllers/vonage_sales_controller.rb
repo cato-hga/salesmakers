@@ -1,10 +1,34 @@
 class VonageSalesController < ApplicationController
-  before_action :do_authorization, only: [:new, :create]
+  before_action :do_authorization, only: [:new, :create, :index, :csv, :show]
   before_action :set_salesmaker, only: [:new, :create]
   before_action :set_vonage_locations, only: [:new, :create]
   before_action :set_vonage_product, only: [:new, :create]
   before_action :chronic_time_zones
+  before_action :search_sales, only: [:index, :csv]
   after_action :verify_authorized
+  after_action :verify_policy_scoped, only: [:index, :show]
+
+  def index
+    @last_import = VonageSale.maximum(:created_at)
+    @vonage_sales = @vonage_sales.page(params[:page])
+    @areas = policy_scope(@project.areas).order(:name)
+  end
+
+  def csv
+    respond_to do |format|
+      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"vonage_sales_#{date_time_string}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
+  end
+
+  def show
+    @vonage_sale = policy_scope(VonageSale).find params[:id]
+    @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number
+    @project = Project.find_by name: 'Vonage Retail'
+  end
 
   def new
     @vonage_sale = VonageSale.new
@@ -46,8 +70,34 @@ class VonageSalesController < ApplicationController
                                         :creator_id
   end
 
+  def filter_result result
+    if params[:areas_includes_id].blank?
+      return result
+    end
+    result.joins(%{
+                    left outer join locations l on l.id = vonage_sales.location_id
+                    left outer join location_areas la on la.location_id = l.id
+                    left outer join areas a on a.id = la.area_id
+                    left outer join projects p on p.id = a.project_id
+                  }).where(%{
+                    p.name = 'Vonage Retail'
+                    and la.active = true
+                    and '#{params[:areas_includes_id]}' = ANY (string_to_array(cast(a.id as character varying) || '/' || a.ancestry, '/'))
+                  })
+  end
+
   def do_authorization
     authorize VonageSale.new
+  end
+
+  def search_sales
+    @search = policy_scope(VonageSale).
+        joins(:person).
+        order("sale_date DESC, people.display_name ASC, customer_first_name ASC, customer_last_name ASC").
+        search(params[:q])
+    @project = Project.find_by name: 'Vonage Retail'
+    @vonage_sales = filter_result(@search.result).
+        includes(:person, :location)
   end
 
   def chronic_time_zones

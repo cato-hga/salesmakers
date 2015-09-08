@@ -26,8 +26,8 @@ class CandidatesController < ApplicationController
   before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
-  layout 'candidates', except: [:support_search]
-  layout 'application', only: [:support_search]
+  layout 'candidates', except: [:support_search, :get_override_location, :post_override_location]
+  layout 'application', only: [:support_search, :get_override_location, :post_override_location]
 
   def index
     @candidates = @search.result.page(params[:page]).includes(:location_area)
@@ -62,6 +62,9 @@ class CandidatesController < ApplicationController
     @candidate = Candidate.new candidate_params.merge(created_by: @current_person)
     get_create_variables
     check_and_handle_unmatched_candidates
+    if @candidate_source == @vip
+      @candidate.vip = true
+    end
     if @select_location or @candidate.candidate_source == @outsourced
       create_and_select_location; return if performed?
     end

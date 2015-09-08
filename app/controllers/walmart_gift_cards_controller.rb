@@ -5,6 +5,23 @@ class WalmartGiftCardsController < ApplicationController
     authorize WalmartGiftCard.new
   end
 
+  def new_override
+    authorize GiftCardOverride.new
+    @person = Person.find params[:person_id]
+    @gift_card_override = GiftCardOverride.new creator: @current_person, person: @person
+    if @person == @current_person
+      render file: File.join(Rails.root, 'public/403.html'), status: 403, layout: false and return
+    end
+  end
+
+  def create_override
+    authorize GiftCardOverride.new
+    @gift_card_override = GiftCardOverride.new gift_card_override_params
+    @gift_card_override.override_card_number = rand(1000000000000000..9999999999999999).to_s
+    render :new_override and return unless @gift_card_override.save
+    @current_person.log? 'create', @gift_card_override
+  end
+
   def create
     authorize WalmartGiftCard.new
     data = JSON.parse params[:gift_card_json]
@@ -22,7 +39,7 @@ class WalmartGiftCardsController < ApplicationController
       pin = nil if pin == ''
       unique_code = nil if unique_code == ''
       pin = pin.rjust(4, '0') if pin
-      next unless (link && challenge_code) || (card_number && pin)
+      next unless link || (card_number && pin)
       @gift_card_attributes << {
           'link' => link,
           'challenge_code' => challenge_code,
@@ -36,5 +53,11 @@ class WalmartGiftCardsController < ApplicationController
     arrival = DateTime.now + seconds.seconds
     flash[:notice] = "Cards submitted. Your cards should arrive at around #{arrival.in_time_zone.strftime('%-l:%M%P')}."
     redirect_to new_walmart_gift_card_path
+  end
+
+  private
+
+  def gift_card_override_params
+    params.require(:gift_card_override).permit :creator_id, :person_id, :original_card_number, :ticket_number
   end
 end

@@ -21,6 +21,10 @@ class VonageRefund < ActiveRecord::Base
   belongs_to :vonage_account_status_change
   belongs_to :person
 
+  scope :for_date_range, ->(start_date, end_date) {
+    where "refund_date >= ? AND refund_date <= ?", start_date, end_date
+  }
+
   def payout
     payouts = VonageSalePayout.where(vonage_sale: self.vonage_sale,
                                      person: self.person)

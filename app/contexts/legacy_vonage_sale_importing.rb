@@ -4,13 +4,23 @@ class LegacyVonageSaleImporting
   end
 
   def import_for_date_range start_date, end_date, automated = false
-    orders = sales_for_date_range start_date, end_date
-    import_orders orders, automated
+    begin
+      RunningProcess.running! self
+      orders = sales_for_date_range start_date, end_date
+      import_orders orders, automated
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   def import automated = false
-    orders = sales_for_last @duration
-    import_orders orders, automated
+    begin
+      RunningProcess.running! self
+      orders = sales_for_last @duration
+      import_orders orders, automated
+    ensure
+      RunningProcess.shutdown! self
+    end
   end
 
   def import_orders orders, automated = false

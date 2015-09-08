@@ -12,6 +12,10 @@ describe 'actions involving People' do
     let(:project) { create :project, name: 'Other Project', client: client }
     let(:area) { create :area, project: project }
     let!(:person_area) { create :person_area, person: person, area: area }
+    let(:project_one) { create :project, name: 'Project One' }
+    let(:project_two) { create :project, name: 'Project Two' }
+    let!(:shift_one) { create :shift, project: project_one, hours: 11.2, person: person }
+    let!(:shift_two) { create :shift, project: project_two, hours: 12.5, person: person }
 
     before do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -56,6 +60,13 @@ describe 'actions involving People' do
       visit people_path
       click_on 'new_action_button'
       expect(page).to have_selector('h1', text: 'New Person')
+    end
+
+    it 'shows hours by projects for different projects' do
+      expect(page).to have_content 'Project One'
+      expect(page).to have_content '11.2 Hours'
+      expect(page).to have_content 'Project Two'
+      expect(page).to have_content '12.5 Hours'
     end
 
     context 'with masquerade permissions' do

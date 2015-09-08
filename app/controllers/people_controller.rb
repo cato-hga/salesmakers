@@ -32,7 +32,7 @@ class PeopleController < ProtectedController
                                         :create,
                                         :send_asset_form
                                     ]
-  before_action :find_person, only: [:sales, :commission]
+  before_action :find_person, only: [:sales, :commission, :send_asset_form]
   before_action :setup_onboarding_fields, only: [:new, :create]
 
   def index
@@ -101,11 +101,10 @@ class PeopleController < ProtectedController
   def show
     @person = Person.find params[:id]
     @log_entries = @person.related_log_entries.page(params[:log_entries_page]).per(10)
-    @communication_log_entries = @person.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
-    @candidate_contacts = @person.candidate_contacts
-    @comcast_leads = ComcastLead.person(@person.id)
-    @comcast_installations = ComcastSale.person(@person.id)
     @asset_form_options = asset_form_options
+    set_communication_variables
+    set_comcast_variables
+    set_shift_variables
   end
 
   def masquerade
@@ -156,23 +155,13 @@ class PeopleController < ProtectedController
     @positions = Position.all.order :name
     @person = policy_scope(Person).find params[:id]
     authorize @person
-    unless params[:position_id]
+    if params[:position_id]
+      old_position = @person.position
+      new_position = Position.find params[:position_id]
+      handle_position_switch old_position, new_position
+    else
       flash[:error] = 'You must select a position'
       redirect_to edit_position_person_path(@person)
-    end
-    old_position = @person.position
-    new_position = Position.find params[:position_id]
-    if @person.update position: new_position, update_position_from_connect: false
-      @current_person.log? 'update_position',
-                           @person,
-                           new_position,
-                           nil,
-                           nil,
-                           "from #{old_position.name} to #{new_position.name}"
-      flash[:notice] = 'Position saved successfully.'
-      redirect_to person_path(@person)
-    else
-      render :edit_position
     end
   end
 
@@ -204,33 +193,14 @@ class PeopleController < ProtectedController
 
   def send_asset_form
     authorize Person.new
-    person = Person.find params[:id]
-    template_guid_and_subject = params.permit(:template_guid_and_subject)[:template_guid_and_subject]
-    if template_guid_and_subject.blank? or not template_guid_and_subject.include?('|')
+    template_guid, subject, role_name = *split_guid_and_subject
+    if template_guid.nil?
       flash[:error] = 'You must select a form before clicking "Send Form".'
-      redirect_to person_path(person) and return
+      redirect_to person_path(@person) and return
     end
-    template_guid, subject, role_name = template_guid_and_subject.split('|')[0], template_guid_and_subject.split('|')[1] + person.display_name, template_guid_and_subject.split('|')[2]
-    signers = [
-        {
-            name: person.display_name,
-            email: person.email,
-            role_name: role_name
-        }
-    ]
-    envelope_response = DocusignTemplate.send_ad_hoc_template template_guid, subject, signers
-    if envelope_response
-      flash[:notice] = 'Asset form sent successully.'
-      @current_person.log? 'send_asset_form',
-                           person,
-                           nil,
-                           nil,
-                           nil,
-                           subject
-    else
-      flash[:error] = 'Could not send asset form. Please report this error to the development team.'
-    end
-    redirect_to person_path(person)
+    envelope_response = DocusignTemplate.send_ad_hoc_template template_guid, subject, set_signers_for_asset_form(role_name)
+    handle_asset_form_envelope_response envelope_response, subject
+    redirect_to person_path(@person)
   end
 
   private
@@ -298,6 +268,76 @@ class PeopleController < ProtectedController
         |s| [s, s]
     }
     @params = params
+  end
+
+  def set_communication_variables
+    @communication_log_entries = @person.communication_log_entries.page(params[:communication_log_entries_page]).per(10)
+    @candidate_contacts = @person.candidate_contacts
+  end
+
+  def set_comcast_variables
+    @comcast_leads = ComcastLead.person(@person.id)
+    @comcast_installations = ComcastSale.person(@person.id)
+  end
+
+  def set_shift_variables
+    @shifts = Shift.where(person: @person).includes(:project)
+    @shift_projects = []
+    for shift in @shifts do
+      @shift_projects << shift.project if shift.project and not @shift_projects.include? shift.project
+    end
+    for project in @shift_projects
+      instance_variable_set "@#{project.name.squish.downcase.tr(" ", "_")}_hours", @shifts.where(person: @person, project_id: project.id).sum(:hours).round(2)
+    end
+  end
+
+  def set_signers_for_asset_form role_name
+    [
+        {
+            name: @person.display_name,
+            email: @person.email,
+            role_name: role_name
+        }
+    ]
+  end
+
+  def handle_asset_form_envelope_response envelope_response, subject
+    if envelope_response
+      flash[:notice] = 'Asset form sent successully.'
+      @current_person.log? 'send_asset_form',
+                           @person,
+                           nil,
+                           nil,
+                           nil,
+                           subject
+    else
+      flash[:error] = 'Could not send asset form. Please report this error to the development team.'
+    end
+  end
+
+  def split_guid_and_subject
+    template_guid_and_subject = params.permit(:template_guid_and_subject)[:template_guid_and_subject]
+    return [nil, nil, nil] if template_guid_and_subject.blank? or not template_guid_and_subject.include?('|')
+    [
+        template_guid_and_subject.split('|')[0],
+        template_guid_and_subject.split('|')[1] + @person.display_name,
+        template_guid_and_subject.split('|')[2]
+    ]
+  end
+
+  def handle_position_switch old_position, new_position
+    if @person.update position: new_position, update_position_from_connect: false
+      @current_person.log? 'update_position',
+                           @person,
+                           new_position,
+                           nil,
+                           nil,
+                           "from #{old_position.name} to #{new_position.name}"
+      flash[:notice] = 'Position saved successfully.'
+      redirect_to person_path(@person)
+    else
+      render :edit_position
+    end
   end
 
   def link_candidate_to_person(hash)

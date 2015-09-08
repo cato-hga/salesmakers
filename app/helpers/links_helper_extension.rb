@@ -8,8 +8,7 @@ module LinksHelperExtension
   end
 
   def area_link(area)
-    #link_to area.name, client_project_area_url(area.project.client, area.project, area)
-    area.name
+    link_to area.name, management_scorecard_client_project_area_url(area.project.client, area.project, area)
   end
 
   def department_link(department)
@@ -119,6 +118,14 @@ module LinksHelperExtension
 
   def device_link(device)
     link_to device.serial, device
+  end
+
+  def location_link(project, location)
+    link_to location.name, client_project_location_path(project.client, project, location)
+  end
+
+  def vonage_sale_link vonage_sale
+    link_to vonage_sale.mac, vonage_sale
   end
 
   def tracking_link(tracking_number, text = nil)

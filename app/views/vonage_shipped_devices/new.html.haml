@@ -1,0 +1,7 @@
+- title 'Import Vonage Shipped Devices'
+
+= form_tag vonage_shipped_devices_path, method: :post, id: :vonage_shipped_device_form do
+  = hidden_field_tag :vonage_shipped_devices_json
+  = submit_tag 'Save', class: [:button, :inline_button]
+%p
+#vonage_shipped_devices_grid

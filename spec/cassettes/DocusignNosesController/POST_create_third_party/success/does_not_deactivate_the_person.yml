@@ -6,8 +6,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"status":"created","emailBlurb":null,"emailSubject":"Sprint Postpaid
-        - NOTICE OF SEPARATION FOR: Test User","templateId":"E0D92C92-D229-4C25-9CAF-E258FA990AF5","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser804@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
-        Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null},{"tabLabel":"Remarks","name":"Remarks","value":"","documentId":null,"selected":null}],"checkboxTabs":[]}}]}'
+        - NOTICE OF SEPARATION FOR: Test User","templateId":"E0D92C92-D229-4C25-9CAF-E258FA990AF5","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser74@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
+        Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null,"locked":true},{"tabLabel":"Remarks","name":"Remarks","value":"","documentId":null,"selected":null,"locked":false}],"checkboxTabs":[],"numberTabs":[],"fullNameTabs":[],"dateTabs":[]}}],"customFields":null}'
     headers:
       X-Docusign-Authentication:
       - '{"Username":"it@retaildoneright.com","Password":"reta!lPr0s","IntegratorKey":"RETA-116c6b7d-09cf-4c4e-876c-65cbf19aaacc"}'
@@ -31,25 +31,25 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       X-Ratelimit-Reset:
-      - '1438606800'
+      - '1441029600'
       X-Ratelimit-Limit:
       - '1000'
       X-Ratelimit-Remaining:
-      - '987'
+      - '993'
       Date:
-      - Mon, 03 Aug 2015 12:41:55 GMT
+      - Mon, 31 Aug 2015 13:03:03 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
-      string: "{\r\n  \"envelopeId\": \"78142de1-096a-4d3a-8ce3-427d67496d5a\",\r\n
-        \ \"uri\": \"/envelopes/78142de1-096a-4d3a-8ce3-427d67496d5a\",\r\n  \"statusDateTime\":
-        \"2015-08-03T12:41:55.5430000Z\",\r\n  \"status\": \"created\"\r\n}"
+      string: "{\r\n  \"envelopeId\": \"079d738c-f0c3-46ac-ba99-bc59c524b043\",\r\n
+        \ \"uri\": \"/envelopes/079d738c-f0c3-46ac-ba99-bc59c524b043\",\r\n  \"statusDateTime\":
+        \"2015-08-31T13:03:03.2200000Z\",\r\n  \"status\": \"created\"\r\n}"
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:41:56 GMT
+  recorded_at: Mon, 31 Aug 2015 13:03:04 GMT
 - request:
     method: put
-    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/78142de1-096a-4d3a-8ce3-427d67496d5a
+    uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes/079d738c-f0c3-46ac-ba99-bc59c524b043
     body:
       encoding: UTF-8
       string: '{"status":"sent"}'
@@ -76,12 +76,12 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Mon, 03 Aug 2015 12:41:58 GMT
+      - Mon, 31 Aug 2015 13:03:05 GMT
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: UTF-8
       string: "{}"
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:41:58 GMT
+  recorded_at: Mon, 31 Aug 2015 13:03:06 GMT
 recorded_with: VCR 2.9.3

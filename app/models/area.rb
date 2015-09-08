@@ -29,6 +29,7 @@ class Area < ActiveRecord::Base
 
   has_paper_trail
   has_ancestry
+  strip_attributes
 
   setup_assocations
 
@@ -45,6 +46,12 @@ class Area < ActiveRecord::Base
 
   def all_location_areas
     LocationArea.where area_id: self.subtree_ids
+  end
+
+  def all_people
+    subtrees = self.subtree_ids
+    return Person.none if subtrees.empty?
+    Person.joins(:person_areas).where "person_areas.area_id in (#{subtrees.join(',')})"
   end
 
   def string_id

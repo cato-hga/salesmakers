@@ -35,6 +35,7 @@
 #  mobile_phone_valid                     :boolean          default(TRUE), not null
 #  other_phone_valid                      :boolean          default(TRUE), not null
 #  mobile_phone_is_landline               :boolean          default(FALSE), not null
+#  vip                                    :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'

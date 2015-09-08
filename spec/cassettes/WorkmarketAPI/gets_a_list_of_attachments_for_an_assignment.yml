@@ -27,7 +27,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 03 Aug 2015 12:48:35 GMT
+      - Mon, 31 Aug 2015 13:04:44 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
@@ -38,12 +38,12 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.015,"timestamp":1438606115},"response":{"access_token":"3FMwufknuKj5zmEAmPGn"}}'
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.042,"timestamp":1441026283},"response":{"access_token":"Sr098p0juvrbg8PTcbyR"}}'
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:48:35 GMT
+  recorded_at: Mon, 31 Aug 2015 13:04:44 GMT
 - request:
     method: get
-    uri: https://www.workmarket.com/api/v1/assignments/get?access_token=3FMwufknuKj5zmEAmPGn&id=7570091574
+    uri: https://www.workmarket.com/api/v1/assignments/get?access_token=Sr098p0juvrbg8PTcbyR&id=7570091574
     body:
       encoding: US-ASCII
       string: ''
@@ -60,7 +60,7 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Mon, 03 Aug 2015 12:48:36 GMT
+      - Mon, 31 Aug 2015 13:04:44 GMT
       Server:
       - nginx/1.4.6 (Ubuntu)
       Vary:
@@ -71,7 +71,7 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.793,"timestamp":1438606115},"response":{"id":"7570091574","title":"Sales
+      string: '{"meta":{"errors":[],"status_code":200,"version":1,"execution_time":0.494,"timestamp":1441026284},"response":{"id":"7570091574","title":"Sales
         Makers - Retail Assisted Sales - Representing DripDrop","description":"&lt;div&gt;&lt;b&gt;&lt;u&gt;Training
         Required:&lt;/u&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;Training should take about
         30 minutes (Rep will be paid for the hour)&lt;/div&gt;&lt;div&gt;&lt;br /&gt;&lt;/div&gt;&lt;div&gt;&lt;br
@@ -211,5 +211,5 @@ http_interactions:
         you clean up your demo table/demo area at the end of your demo event?","default":"Yes,No
         - Store said they would do it for me","required":true,"value":"Yes"}]}],"parts":null,"pending_offers":[],"declined_resources":[],"questions":[]}}'
     http_version: 
-  recorded_at: Mon, 03 Aug 2015 12:48:36 GMT
+  recorded_at: Mon, 31 Aug 2015 13:04:45 GMT
 recorded_with: VCR 2.9.3

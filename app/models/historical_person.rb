@@ -40,9 +40,8 @@ class HistoricalPerson < ActiveRecord::Base
   validates :first_name, length: { minimum: 2 }
   validates :last_name, length: { minimum: 2 }
   validates :display_name, length: { minimum: 5 }
-  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, uniqueness: true
+  validates :email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }
   validates :personal_email, format: { with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z][A-Za-z]+\z/, message: 'must be a valid email address' }, allow_blank: true
-  validates :connect_user_id, uniqueness: true, allow_nil: true
   validates_with PhoneNumberValidator
 
   belongs_to :supervisor, class_name: 'HistoricalPerson'

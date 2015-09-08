@@ -26,6 +26,8 @@ class VonagePaycheck < ActiveRecord::Base
   has_many :vonage_sale_payouts
   has_many :vonage_paycheck_negative_balances
 
+  strip_attributes
+
   def negative_balance_for_person(person)
     balance = 0.00
     balances = self.vonage_paycheck_negative_balances.where(person: person)

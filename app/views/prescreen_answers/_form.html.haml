@@ -54,6 +54,14 @@
       %p
         = f.check_box :ok_to_screen
         = f.label :ok_to_screen, 'Candidate gave permission for background check and drug screen'
+      %fieldset
+        %legend Previous Sales Experience
+        %p
+          = f.check_box :has_sales_experience
+          = f.label :has_sales_experience, 'Candidate has 6 months of sales experience or equivalent'
+        %p
+          = f.label :sales_experience_notes, 'Notes on sales experience'
+          = f.text_field :sales_experience_notes
       %p.row.full-width
       .availability
         = fields_for @candidate_availability do |avail|

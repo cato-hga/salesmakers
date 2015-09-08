@@ -17,7 +17,6 @@
 #
 
 class RadioShackLocationSchedule < ActiveRecord::Base
-
   validates :active, presence: true
   validates :name, presence: true
   validates :monday, presence: true

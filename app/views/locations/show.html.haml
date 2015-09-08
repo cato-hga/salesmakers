@@ -24,7 +24,7 @@
         - if @location.location_areas.empty?
           N/A
         - else
-          = @location.location_areas.map {|la| area_link la.area }.join(', ')
+          = @location.location_areas.map {|la| area_link la.area }.join(', '.html_safe)
       %p
         %strong Target head count:
         - target_hc = 0
