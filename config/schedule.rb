@@ -114,7 +114,8 @@ every 1.day, at: '11:24 pm' do
 end
 
 every 1.day, at: '1:30 am' do
-  runner 'ComcastLead'
+  runner 'ComcastLead.comcast_old_lead_deactivate'
+  runner 'DirecTVLead.directv_old_lead_deactivate'
 end
 
 every :monday, at: '12:54 pm' do
