@@ -24,14 +24,7 @@ $(document).ready(function () {
 		}
 	}
 
-	$("#sprint_sale_upgrade").change(function () {
-		checkForUpgrade();
-	});
-
-	$('#prepaid #sprint_sale_sprint_handset_id optgroup').hide();
-	$("#prepaid #sprint_sale_sprint_rate_plan_id optgroup").hide();
-
-	$("#prepaid #sprint_sale_sprint_carrier_id").change(function () {
+	function carrierChange() {
 		$('#prepaid #sprint_sale_sprint_handset_id optgroup').hide();
 		$('#prepaid #sprint_sale_sprint_handset_id').val('');
 		var carriers = $('#prepaid #sprint_sale_sprint_carrier_id :selected').text();
@@ -42,27 +35,9 @@ $(document).ready(function () {
 		var carriers = $('#prepaid #sprint_sale_sprint_carrier_id :selected').text();
 		$("#prepaid #sprint_sale_sprint_rate_plan_id optgroup[label='" + carriers + "']").show();
 		checkForUpgrade();
-	});
+	}
 
-	$('#top_up_amount').hide();
-	$('#prepaid #sprint_sale_top_up_card_amount').hide();
-
-	$('#prepaid #sprint_sale_top_up_card_purchased').change(function () {
-		var top_up_card_was_purchased = $('#prepaid #sprint_sale_top_up_card_purchased').val() == 'true';
-		if (top_up_card_was_purchased) {
-			$('#prepaid #sprint_sale_top_up_card_amount').show();
-			$('#top_up_amount').show();
-		} else {
-			$('#prepaid #sprint_sale_top_up_card_amount').val('');
-			$('#prepaid #sprint_sale_top_up_card_amount').hide();
-			$('#top_up_amount').hide();
-		}
-	});
-
-	$('#phone_not_activated').hide();
-	$('#prepaid #sprint_sale_reason_not_activated_in_store').hide();
-
-	$('#prepaid #sprint_sale_phone_activated_in_store').change(function () {
+	function phoneActivatedInStoreChange() {
 		var top_up_card_was_purchased = $('#prepaid #sprint_sale_phone_activated_in_store').val() == 'false';
 		if (top_up_card_was_purchased) {
 			$('#prepaid #sprint_sale_reason_not_activated_in_store').show();
@@ -72,6 +47,43 @@ $(document).ready(function () {
 			$('#prepaid #sprint_sale_reason_not_activated_in_store').hide();
 			$('#phone_not_activated').hide();
 		}
+	}
+
+	function topUpCardPurchasedChange() {
+		var top_up_card_was_purchased = $('#prepaid #sprint_sale_top_up_card_purchased').val() == 'true';
+		if (top_up_card_was_purchased) {
+			$('#prepaid #sprint_sale_top_up_card_amount').show();
+			$('#top_up_amount').show();
+		} else {
+			$('#prepaid #sprint_sale_top_up_card_amount').val('');
+			$('#prepaid #sprint_sale_top_up_card_amount').hide();
+			$('#top_up_amount').hide();
+		}
+	}
+
+	$("#sprint_sale_upgrade").change(function () {
+		checkForUpgrade();
+	});
+
+	$('#prepaid #sprint_sale_sprint_handset_id optgroup').hide();
+	$("#prepaid #sprint_sale_sprint_rate_plan_id optgroup").hide();
+
+	$("#prepaid #sprint_sale_sprint_carrier_id").change(function () {
+		carrierChange();
+	});
+
+	$('#top_up_amount').hide();
+	$('#prepaid #sprint_sale_top_up_card_amount').hide();
+
+	$('#prepaid #sprint_sale_top_up_card_purchased').change(function () {
+		topUpCardPurchasedChange();
+	});
+
+	$('#phone_not_activated').hide();
+	$('#prepaid #sprint_sale_reason_not_activated_in_store').hide();
+
+	$('#prepaid #sprint_sale_phone_activated_in_store').change(function () {
+		phoneActivatedInStoreChange();
 	});
 
 	$('#additional_features').hide();
@@ -98,4 +110,7 @@ $(document).ready(function () {
 			$('#add_ons').show();
 		}
 	});
+
+	phoneActivatedInStoreChange();
+	topUpCardPurchasedChange();
 });

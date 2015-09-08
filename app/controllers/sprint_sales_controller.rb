@@ -30,8 +30,8 @@ class SprintSalesController < ApplicationController
 
   def create
     @sprint_sale = SprintSale.new sprint_sale_params
-    sale_date = params.require(:sprint_sale).permit(:sale_date)[:sale_date]
-    chronic_time = Chronic.parse(sale_date)
+    @sale_date = params.require(:sprint_sale).permit(:sale_date)[:sale_date]
+    chronic_time = Chronic.parse(@sale_date)
     adjusted_time = chronic_time.present? ? chronic_time.in_time_zone : nil
     @sprint_sale.sale_date = adjusted_time
     if @sprint_sale.save
@@ -96,7 +96,7 @@ class SprintSalesController < ApplicationController
 
   def set_sprint_locations
     if @current_person.position.all_field_visibility?
-      @sprint_locations = @project.locations
+      @sprint_locations = @project.locations.ordered_by_name
     else
       @sprint_locations = @project.locations_for_person @current_person
     end

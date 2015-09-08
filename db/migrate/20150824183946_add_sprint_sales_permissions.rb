@@ -1,6 +1,6 @@
 class AddSprintSalesPermissions < ActiveRecord::Migration
   def change
-    group = PermissionGroup.create name: 'Sprint'
+    group = PermissionGroup.find_or_create_by name: 'Sprint'
     permission = Permission.create key: 'sprint_sale_create',
                                    permission_group: group,
                                    description: 'Can enter a sprint sale'

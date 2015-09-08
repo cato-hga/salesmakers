@@ -26,6 +26,10 @@ class Location < ActiveRecord::Base
                      location.street_1.present? and location.street_1_changed?
                    }
 
+  scope :ordered_by_name, -> {
+    joins(:channel).order("channels.name ASC, locations.city ASC, locations.display_name ASC")
+  }
+
   has_paper_trail
 
   validates :store_number, presence: true
