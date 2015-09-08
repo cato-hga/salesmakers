@@ -70,9 +70,9 @@ class WalmartGiftCardFTPImporter
       end
     end
     return unless link && challenge_code
-    walmart_gift_card = WalmartGiftCard.find_or_initialize_by unique_code: unique_code,
-                                                              link: link,
+    walmart_gift_card = WalmartGiftCard.find_or_initialize_by link: link,
                                                               challenge_code: challenge_code
+    walmart_gift_card.unique_code = unique_code if unique_code
     walmart_gift_card
   end
 
