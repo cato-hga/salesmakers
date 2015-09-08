@@ -69,7 +69,7 @@ class WalmartGiftCardFTPImporter
           challenge_code = row_hash[key]
       end
     end
-    return unless unique_code && link && challenge_code
+    return unless link && challenge_code
     walmart_gift_card = WalmartGiftCard.find_or_initialize_by unique_code: unique_code,
                                                               link: link,
                                                               challenge_code: challenge_code
