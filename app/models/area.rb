@@ -29,6 +29,7 @@ class Area < ActiveRecord::Base
 
   has_paper_trail
   has_ancestry
+  strip_attributes
 
   setup_assocations
 
@@ -47,6 +48,12 @@ class Area < ActiveRecord::Base
     LocationArea.where area_id: self.subtree_ids
   end
 
+  def all_people
+    subtrees = self.subtree_ids
+    return Person.none if subtrees.empty?
+    Person.joins(:person_areas).where "person_areas.area_id in (#{subtrees.join(',')})"
+  end
+
   def string_id
     "#{id.to_s}"
   end
@@ -55,15 +62,15 @@ class Area < ActiveRecord::Base
     "#{self.project.name} - #{self.name}"
   end
 
-  def direct_manager
-    person_areas = self.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
-    return person_areas.first.person unless person_areas.empty?
+  def direct_managers
+    person_ids = self.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true").pluck(:person_id)
+    return Person.where(id: person_ids) unless person_ids.empty?
     parent_area = self.parent
-    until parent_area.nil? || !person_areas.empty?
-      person_areas = parent_area.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true")
+    until parent_area.nil? || !person_ids.empty?
+      person_ids = parent_area.person_areas.joins(:person).where("people.active = true AND person_areas.manages = true").pluck(:person_id)
       parent_area = parent_area.parent
     end
-    person_areas.empty? ? nil : person_areas.first.person
+    person_ids.empty? ? nil : Person.where(id: person_ids)
   end
 
   def find_group_me_groups

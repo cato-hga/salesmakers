@@ -5,7 +5,7 @@ RSpec.describe DeviceState, regressor: true do
   # === Relations ===
   
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

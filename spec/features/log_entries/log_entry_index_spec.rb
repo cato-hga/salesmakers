@@ -19,7 +19,7 @@ describe 'log_entries index' do
     within '#main_container' do
       find('input[value="Search"]').click
     end
-    expect(page).to have_content(person.name)
+    expect(page).to have_content(it_tech.name)
   end
 
   it 'searches for types' do

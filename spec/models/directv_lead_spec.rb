@@ -22,15 +22,6 @@ RSpec.describe DirecTVLead, :type => :model do
   }
   subject { build :directv_lead }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a directv_customer_id' do
-    subject.directv_customer_id = nil
-    expect(subject).not_to be_valid
-  end
-
   it 'requires that the follow up date be in the future' do
     subject.follow_up_by = Date.current
     expect(subject).not_to be_valid

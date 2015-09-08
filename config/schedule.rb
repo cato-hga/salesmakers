@@ -22,13 +22,13 @@
 set :path, '/opt/oneconnect/current'
 
 # 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
-# 1 1 1 1 1 1 1 2 1 1 1  2  1  1  1  1
+# 1 1 1 1 2 1 1 2 1 2 1  2  1  1  2  1
 # 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
-# 1  1  1  1     1  2  1        2  1  1     1
+# 1  1  1  2  1  1  2  1  1     2  1  1  1  1
 # 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
-# 1  1  1  1     1  2  1  1  1  2  1  1
+# 1  1  1  2     1  2  1  2  1  2  1  1  1
 # 46 47 48 49 50 51 52 53 54 55 56 57 58 59
-# 1  1  1  1     1  1  1        2  1  1  1
+# 1  1  1  2     1  1  1  1     2  1  1  2
 
 # ------------------------------------ MINUTES OF EVERY HOUR ----------------------------------------
 
@@ -42,6 +42,10 @@ end
 
 every '3,8,13,18,23,28,33,38,43,48,53,58 * * * *' do
   runner 'LegacySprintSaleImporting.new.execute'
+end
+
+every '4,9,14,19,24,29,34,39,44,49,54,59 * * * *' do
+  runner 'WalmartGiftCardFTPImporter.new.inspect'
 end
 
 every '4,19,34,49 * * * *' do
@@ -74,14 +78,11 @@ end
 
 every '59 * * * *' do
   runner 'VonageComp07012015Processing.new.execute'
+  runner 'PersonAddress.update_from_connect(270, true)'
 end
 
 every '14 0,3,6,9,12,15,18,21 * * *' do
   runner 'ConnectUpdater.update_shifts(2.weeks, true)'
-end
-
-every '14 1,4,7,10,13,16,19,22 * * *' do
-  runner 'VonageComp07012015Processing.new.execute'
 end
 
 every 1.day, at: '11:44 am' do
@@ -90,6 +91,10 @@ end
 
 every 1.day, at: '12:15 pm' do
   runner 'NotificationMailer.vonage_hours_with_no_location.deliver_later'
+end
+
+every 1.day, at: '3:20 pm' do
+  runner 'VonageVestingUpdater.new.update'
 end
 
 every 1.day, at: '5:15 pm' do

@@ -6,6 +6,7 @@ RSpec.describe Position, regressor: true do
   it { is_expected.to belong_to :department }
   
   it { is_expected.to have_many :people }
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   

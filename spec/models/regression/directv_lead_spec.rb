@@ -5,7 +5,7 @@ RSpec.describe DirecTVLead, regressor: true do
   # === Relations ===
   it { is_expected.to belong_to :directv_customer }
   it { is_expected.to have_one :directv_sale }
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   it { is_expected.to accept_nested_attributes_for :directv_customer }

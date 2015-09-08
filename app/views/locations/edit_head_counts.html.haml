@@ -1,0 +1,7 @@
+- title 'Update Head Counts for ' + @project.name
+
+= form_tag update_head_counts_client_project_locations_path(@client, @project), method: :patch, id: :head_count_form do
+  = hidden_field_tag :head_count_json
+  = submit_tag 'Save', class: [:button, :inline_button]
+%p
+#head_count_grid

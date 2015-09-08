@@ -4,6 +4,7 @@ RSpec.describe ConnectTimesheet, regressor: true do
 
   # === Relations ===
   it { is_expected.to belong_to :connect_user }
+  it { is_expected.to belong_to :connect_business_partner_location }
   
   
 

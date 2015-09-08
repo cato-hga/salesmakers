@@ -32,7 +32,8 @@ class ComcastSale < ActiveRecord::Base
   set_scopes
   setup_validations
   belongs_to_associations
-  has_one_assocations
+  has_one_associations
+  strip_attributes
 
   has_many :log_entries, as: :trackable, dependent: :destroy
 

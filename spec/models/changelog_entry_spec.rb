@@ -19,35 +19,6 @@ require 'rails_helper'
 describe ChangelogEntry do
   subject { build :changelog_entry }
 
-  it 'is valid with correct attributes' do
-    expect(subject).to be_valid
-  end
-
-  it 'requires a heading' do
-    subject.heading = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a heading at least 5 characters in length' do
-    subject.heading = '1234'
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a description' do
-    subject.description = nil
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a description at least 20 characters long' do
-    subject.description = 'a' * 19
-    expect(subject).not_to be_valid
-  end
-
-  it 'requires a released datetime' do
-    subject.released = nil
-    expect(subject).not_to be_valid
-  end
-
   describe 'visibility' do
     let(:department) { build_stubbed :department }
     let(:project) { build_stubbed :project }

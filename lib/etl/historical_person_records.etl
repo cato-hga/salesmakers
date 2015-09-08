@@ -15,7 +15,7 @@ transform do |row|
   supervisor_id = supervisor.id if supervisor
   row['supervisor_id'] = supervisor_id
 
-  historical_row = HistoricalPerson.find_or_initialize_by row
+  historical_row = HistoricalPerson.new row
 
   historical_row
 end

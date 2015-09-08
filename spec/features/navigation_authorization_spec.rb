@@ -6,6 +6,8 @@ describe 'Navigation Authorization' do
   let(:comcast_project) { create :project, name: 'Comcast Retail' }
   let(:vonage_project) { create :project, name: 'Vonage Retail' }
   let!(:vonage_area) { create :area, project: vonage_project }
+  let(:vonage_event_project) { create :project, name: 'Vonage Events' }
+  let!(:vonage_event_area) { create :area, project: vonage_event_project }
 
   describe 'for top-navigation' do
     describe 'for comcast employees' do
@@ -50,6 +52,41 @@ describe 'Navigation Authorization' do
         end
       end
     end
+
+    # TODO: Reimplement when Vonage finished
+    # describe 'for a vonage employee' do
+    #   let(:vonage_employee) { create :person, position: position }
+    #   let(:position) { create :position, permissions: [permission_create] }
+    #   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #   let(:permission_create) { Permission.new key: 'vonage_sale_create',
+    #                                            permission_group: permission_group,
+    #                                            description: 'Test Description' }
+    #   let(:retail_person_area) { create :person_area,
+    #                                     person: vonage_employee,
+    #                                     area: vonage_area }
+    #   let(:events_person_area) { create :person_area,
+    #                                     person: vonage_employee,
+    #                                     area: vonage_event_area }
+    #
+    #   it 'that has retail access will only see Vonage Retail' do
+    #     vonage_employee.person_areas << retail_person_area
+    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+    #     visit root_path
+    #     within('.top-bar') do
+    #       expect(page).to have_content('Vonage Retail')
+    #     end
+    #   end
+    #
+    #   it 'that has retail access will only see Vonage Event' do
+    #     vonage_employee.person_areas << events_person_area
+    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+    #     visit root_path
+    #     within('.top-bar') do
+    #       expect(page).to have_content('Vonage Events')
+    #     end
+    #   end
+    # end
+
 
     describe 'for administrators' do
       let(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
@@ -198,6 +235,42 @@ describe 'Navigation Authorization' do
       end
     end
 
+    # TODO: Reimplement when Vonage finished
+    # describe 'for a vonage employee' do
+    #   let(:vonage_employee) { create :person, position: position }
+    #   let(:position) { create :position, permissions: [permission_create] }
+    #   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #   let(:permission_create) { Permission.new key: 'vonage_sale_create',
+    #                                            permission_group: permission_group,
+    #                                            description: 'Test Description' }
+    #   let(:retail_person_area) { create :person_area,
+    #                                     person: vonage_employee,
+    #                                     area: vonage_area }
+    #   let(:events_person_area) { create :person_area,
+    #                                     person: vonage_employee,
+    #                                     area: vonage_event_area }
+    #
+    #   it 'that has retail access will only see Vonage Retail' do
+    #     vonage_employee.person_areas << retail_person_area
+    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+    #     page.current_window.resize_to '640', '480'
+    #     visit root_path
+    #     within('.left-off-canvas-menu') do
+    #       expect(page).to have_content('Vonage Retail')
+    #     end
+    #   end
+    #
+    #   it 'that has retail access will only see Vonage Event' do
+    #     vonage_employee.person_areas << events_person_area
+    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+    #     page.current_window.resize_to '640', '480'
+    #     visit root_path
+    #     within('.left-off-canvas-menu') do
+    #       expect(page).to have_content('Vonage Events')
+    #     end
+    #   end
+    # end
+
     describe 'for recruiters' do
       let(:recruiter) { create :person, position: position }
       let(:position) { create :position, name: 'Advocate', department: department, permissions: [permission_create, permission_index] }
@@ -266,8 +339,8 @@ describe 'Navigation Authorization' do
                                                             permission_group: permissions.permission_group,
                                                             description: 'Test Description' }
       let!(:area_index_permission) { Permission.create key: 'area_index',
-                                                            permission_group: permissions.permission_group,
-                                                            description: 'Test Description' }
+                                                       permission_group: permissions.permission_group,
+                                                       description: 'Test Description' }
 
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(it_employee.email)

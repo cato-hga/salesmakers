@@ -21,6 +21,8 @@ class ClientArea < ActiveRecord::Base
   has_paper_trail
   has_ancestry
 
+  strip_attributes
+
   setup_assocations
 
   default_scope { joins('LEFT OUTER JOIN projects ON projects.id = client_areas.project_id').

@@ -10,7 +10,6 @@
 #
 
 class AreaType < ActiveRecord::Base
-
   validates :name, presence: true, length: { minimum: 3 }
   validates :project, presence: true
 
@@ -18,6 +17,8 @@ class AreaType < ActiveRecord::Base
   has_many :areas
 
   default_scope { order :name }
+
+  strip_attributes
 
   def self.get_hash
     {

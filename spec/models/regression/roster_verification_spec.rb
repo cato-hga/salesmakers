@@ -8,7 +8,7 @@ RSpec.describe RosterVerification, regressor: true do
   it { is_expected.to belong_to :person }
   it { is_expected.to belong_to :location }
   
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   
@@ -37,6 +37,14 @@ RSpec.describe RosterVerification, regressor: true do
   it { is_expected.to validate_presence_of :person }
   it { is_expected.to validate_presence_of :status }
   it { is_expected.to validate_presence_of :roster_verification_session }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:issue?).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :issue }
+  end
+
 
   # === Validations (Numericality) ===
   

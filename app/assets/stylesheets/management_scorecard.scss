@@ -1,0 +1,54 @@
+@import 'variables';
+
+#this_week,
+#last_week,
+#two_weeks_ago,
+#three_weeks_ago,
+#four_week_totals {
+	border-left: 1px solid #ddd;
+	font-size: 0.75em;
+	&#this_week {
+		border-left: none;
+	}
+	&#four_week_totals {
+		.row {
+			.columns {
+				height: 6em;
+				padding-top: 2em;
+			}
+		}
+		#grand_totals {
+			border-top: 5px solid #ddd;
+			font-weight: bold;
+		}
+	}
+	.row {
+		margin-left: 0 !important;
+		border-bottom: 1px solid #ddd;
+		&.totals {
+			border-top: 5px solid #ddd;
+			font-weight: bold;
+		}
+		.columns {
+			height: 4.5em;
+			vertical-align: middle;
+			padding-top: 1.5em;
+			padding-left: 0.5em;
+			&.pass {
+				background-color: #dfd;
+			}
+			&.fail {
+				background-color: #fdd;
+			}
+		}
+	}
+	h3 {
+		padding-left: 0.5em;
+	}
+}
+
+@media only screen and (min-width: $tablet_cutoff) {
+	#four_week_totals {
+		font-size: 1.25em;
+	}
+}

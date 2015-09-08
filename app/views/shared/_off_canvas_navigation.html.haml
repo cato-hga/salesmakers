@@ -1,132 +1,152 @@
-%nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
-  %section.left-small
-    %a.left-off-canvas-toggle.menu-icon(href="#")
-      %span
-  %section.middle.tab-bar-section
-    %h1.title SalesCenter
-%aside.left-off-canvas-menu
-  %ul.off-canvas-list
-    %li
-      %label Menu
-    -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new, @permission_keys).create?
-      %li= link_to 'New Customer', new_comcast_customer_path
-      %li= link_to 'My Customers', comcast_customers_path
-      %li= link_to 'End Of Day', new_comcast_eod_path
-    -else
-      %li
-        = link_to 'Home', root_path
-    - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
-    - if group_count > 0
-      %li= link_to 'GroupMe Post', new_post_group_me_groups_path
-  - sprint_sale_policy = SprintSalePolicy.new(current_person, SprintSale.new, @permission_keys)
-  - if sprint_sale_policy.scoreboard?
+- cache("2015-08-12 16-07 off_canvas_navigation " + cache_key_for_navigation) do
+  %nav.tab-bar.show-for-medium-down{ data: { topbar: '' } }
+    %section.left-small
+      %a.left-off-canvas-toggle.menu-icon(href="#")
+        %span
+    %section.middle.tab-bar-section
+      %h1.title SalesCenter
+  %aside.left-off-canvas-menu
     %ul.off-canvas-list
       %li
-        %label Sprint
-      %li
-        = link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
-  - candidate_policy = CandidatePolicy.new(current_person, Candidate.new, @permission_keys)
-  - if candidate_policy.index? or candidate_policy.create?
-    %ul.off-canvas-list
-      %li
-        %label Candidates
-      - if candidate_policy.index?
+        %label Menu
+      -if ComcastCustomerPolicy.new(current_person, ComcastCustomer.new, @permission_keys).create?
+        %li= link_to 'New Customer', new_comcast_customer_path
+        %li= link_to 'My Customers', comcast_customers_path
+        %li= link_to 'End Of Day', new_comcast_eod_path
+      -else
         %li
-          = link_to 'New', new_candidate_path
-        %li
-          = link_to 'Search', candidates_path
-        %li
-          = link_to 'Interview Schedules', interview_schedules_path(Date.today.to_s)
-      - if candidate_policy.create?
-        %li
-          = link_to 'New Candidate', new_candidate_path
-      - if CandidatePolicy.new(@current_person, Candidate.new, @permission_keys).dashboard?
-        %li
-          = link_to 'Dashboard', dashboard_candidates_path
-  %ul.off-canvas-list
-    %li
-      %label People
-    %li
-      = link_to 'Search', people_path
-    %li
-      = link_to 'Org Chart', org_chart_people_path
-    - if PersonPolicy.new(current_person, Person.new, @permission_keys).approval?
-      %li= link_to 'Approve Assets', asset_approval_path
-    - if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new, @permission_keys).index?
-      %li= link_to 'SMS Dashboard', sms_daily_checks_path
-    - if PersonPolicy.new(current_person, Person.new, @permission_keys).create?
-      %li= link_to 'New', new_person_path
-  - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new, @permission_keys)
-  - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new, @permission_keys)
-  - if comcast_lead_policy.index? || comcast_sale_policy.index?
-    %ul.off-canvas-list
-      %li
-        %label Comcast Retail
-      - if comcast_lead_policy.index?
-        %li
-          = link_to 'Comcast Leads', comcast_leads_path
-      - if comcast_sale_policy.index?
-        %li
-          = link_to 'Comcast Sales', comcast_sales_path
-  - directv_lead_policy = DirecTVLeadPolicy.new(current_person, DirecTVLead.new, @permission_keys)
-  - directv_sale_policy = DirecTVSalePolicy.new(current_person, DirecTVSale.new, @permission_keys)
-  - if directv_lead_policy.index? || directv_sale_policy.index?
-    %ul.off-canvas-list
-      %li
-        %label DirecTV Retail
-      - if directv_lead_policy.index?
-        %li
-          = link_to 'DirecTV Leads', directv_leads_path
-      - if directv_sale_policy.index?
-        %li
-          = link_to 'DirecTV Sales', directv_sales_path
-    %ul.off-canvas-list
-      %li
-        %label Reports
-        %li
-          = link_to 'Report List', report_queries_path
-  - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index? or |
-    AreaPolicy.new(@current_person, Area.new, @permission_keys).index? or |
-    AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index? or |
-    DepartmentPolicy.new(@current_person, Department.new, @permission_keys).index? or |
-    ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new, @permission_keys).manage? or |
-    LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index? or |
-    LocationPolicy.new(@current_person, Location.new, @permission_keys).index? |
-    %ul.off-canvas-list
-      - for project in visible_projects
-        %li
-          %label= project.name + ' Admin'
-        - if AreaTypePolicy.new(current_person, AreaType.new, @permission_keys).index?
-          %li
-            = link_to 'Area Types', client_project_area_types_path(project.client, project)
-        - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index?
-          %li
-            = link_to 'Areas', client_project_areas_path(project.client, project)
-        - if LocationPolicy.new(@current_person, Location.new, @permission_keys).index?
-          %li
-            = link_to 'Locations', client_project_locations_path(project.client, project)
-      - admin_links = Array.new
-      - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index?
-        - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
-        - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
-        - admin_links << link_to('Device Models', device_models_path)
-      - if LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index?
-        - admin_links << link_to(icon('list') + ' Log', lines_path)
+          = link_to 'Home', root_path
+      - group_count = GroupMeGroupPolicy::Scope.new(current_person, GroupMeGroup.all).resolve.count
+      - if group_count > 0
+        %li= link_to 'GroupMe Post', new_post_group_me_groups_path
+    - sprint_sale_policy = SprintSalePolicy.new(current_person, SprintSale.new, @permission_keys)
+    - if sprint_sale_policy.scoreboard?
       %ul.off-canvas-list
         %li
-          %label Administration
-        - for admin_link in admin_links do
-          %li= admin_link
-  %ul.off-canvas-list
-    %li
-      %label= current_person.email
-    %li
-      = link_to icon('x') + ' Sign Out', logout_path
-= form_tag global_search_path, method: :get, class: [:mobile_global_search] do
-  .row
-    .large-12.columns
-      .row.collapse
-        .small-9.columns
-          = text_field_tag :global_search, @global_search, placeholder: 'Global Search'
-        .small-3.columns
-          = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
+          %label Sprint
+        %li
+          = link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
+    - candidate_policy = CandidatePolicy.new(current_person, Candidate.new, @permission_keys)
+    - if candidate_policy.index? or candidate_policy.create?
+      %ul.off-canvas-list
+        %li
+          %label Candidates
+        - if candidate_policy.index?
+          %li
+            = link_to 'New', new_candidate_path
+          %li
+            = link_to 'Search', candidates_path
+          %li
+            = link_to 'Interview Schedules', interview_schedules_path(Date.today.to_s)
+        - if candidate_policy.create?
+          %li
+            = link_to 'New Candidate', new_candidate_path
+        - if CandidatePolicy.new(@current_person, Candidate.new, @permission_keys).dashboard?
+          %li
+            = link_to 'Dashboard', dashboard_candidates_path
+    %ul.off-canvas-list
+      %li
+        %label People
+      %li
+        = link_to 'Search', people_path
+      %li
+        = link_to 'Org Chart', org_chart_people_path
+      - if PersonPolicy.new(current_person, Person.new, @permission_keys).approval?
+        %li= link_to 'Approve Assets', asset_approval_path
+      - if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new, @permission_keys).index?
+        %li= link_to 'SMS Dashboard', sms_daily_checks_path
+      - if PersonPolicy.new(current_person, Person.new, @permission_keys).create?
+        %li= link_to 'New', new_person_path
+    - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
+    - walmart_gift_card_policy = WalmartGiftCardPolicy.new(@current_person, WalmartGiftCard.new)
+    - retail = Project.find_by name: 'Vonage Retail'
+    - if @visible_projects.include?(retail) && (walmart_gift_card_policy.new? || vonage_sale_policy.new? || vonage_sale_policy.index?)
+      %ul.off-canvas-list
+        %li
+          %label Vonage Retail
+        - if vonage_sale_policy.new?
+          %li= link_to 'Sale Entry', new_vonage_sale_path
+        - if vonage_sale_policy.index?
+          %li= link_to 'Vonage Sales', vonage_sales_path
+        -#- events = Project.find_by name: 'Vonage Events'
+        -#- if @visible_projects.include? events
+        -#  %label Vonage Events
+        -#  %li= link_to 'Receiving', '#'
+        -#  %li= link_to 'Reconciliation', '#'
+        -#  %li= link_to 'Reclaim', '#'
+        -#  %li= link_to 'Transfer', '#'
+    - comcast_lead_policy = ComcastLeadPolicy.new(current_person, ComcastLead.new, @permission_keys)
+    - comcast_sale_policy = ComcastSalePolicy.new(current_person, ComcastSale.new, @permission_keys)
+    - if comcast_lead_policy.index? || comcast_sale_policy.index?
+      %ul.off-canvas-list
+        %li
+          %label Comcast Retail
+        - if comcast_lead_policy.index?
+          %li
+            = link_to 'Comcast Leads', comcast_leads_path
+        - if comcast_sale_policy.index?
+          %li
+            = link_to 'Comcast Sales', comcast_sales_path
+    - directv_lead_policy = DirecTVLeadPolicy.new(current_person, DirecTVLead.new, @permission_keys)
+    - directv_sale_policy = DirecTVSalePolicy.new(current_person, DirecTVSale.new, @permission_keys)
+    - if directv_lead_policy.index? || directv_sale_policy.index?
+      %ul.off-canvas-list
+        %li
+          %label DirecTV Retail
+        - if directv_lead_policy.index?
+          %li
+            = link_to 'DirecTV Leads', directv_leads_path
+        - if directv_sale_policy.index?
+          %li
+            = link_to 'DirecTV Sales', directv_sales_path
+      %ul.off-canvas-list
+        %li
+          %label Reports
+          %li
+            = link_to 'Report List', report_queries_path
+    - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index? or |
+      AreaPolicy.new(@current_person, Area.new, @permission_keys).index? or |
+      AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index? or |
+      DepartmentPolicy.new(@current_person, Department.new, @permission_keys).index? or |
+      ChangelogEntryPolicy.new(@current_person, ChangelogEntry.new, @permission_keys).manage? or |
+      LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index? or |
+      LocationPolicy.new(@current_person, Location.new, @permission_keys).index? |
+      %ul.off-canvas-list
+        - for project in visible_projects
+          %li
+            %label= project.name + ' Admin'
+          - if AreaTypePolicy.new(current_person, AreaType.new, @permission_keys).index?
+            %li
+              = link_to 'Area Types', client_project_area_types_path(project.client, project)
+          - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index?
+            %li
+              = link_to 'Areas', client_project_areas_path(project.client, project)
+          - if LocationPolicy.new(@current_person, Location.new, @permission_keys).index?
+            %li
+              = link_to 'Locations', client_project_locations_path(project.client, project)
+        - admin_links = Array.new
+        - if DevicePolicy.new(@current_person, Device.new, @permission_keys).index?
+          - admin_links << link_to(icon('laptop') + ' Devices', devices_path)
+          - admin_links << link_to(icon('telephone') + ' Lines', lines_path)
+          - admin_links << link_to('Device Models', device_models_path)
+        - if LogEntryPolicy.new(@current_person, LogEntry.new, @permission_keys).index?
+          - admin_links << link_to(icon('list') + ' Log', lines_path)
+        %ul.off-canvas-list
+          %li
+            %label Administration
+          - for admin_link in admin_links do
+            %li= admin_link
+    %ul.off-canvas-list
+      %li
+        %label= current_person.email
+      %li
+        = link_to icon('x') + ' Sign Out', logout_path
+  = form_tag global_search_path, method: :get, class: [:mobile_global_search] do
+    .row
+      .large-12.columns
+        .row.collapse
+          .small-9.columns
+            = text_field_tag :global_search, @global_search, placeholder: 'Global Search'
+          .small-3.columns
+            = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
+

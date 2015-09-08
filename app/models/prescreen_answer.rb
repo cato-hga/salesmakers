@@ -19,6 +19,8 @@
 #  former_employment_date_start :date
 #  former_employment_date_end   :date
 #  store_number_city_state      :string
+#  has_sales_experience         :boolean          default(FALSE)
+#  sales_experience_notes       :text
 #
 
 class PrescreenAnswer < ActiveRecord::Base
@@ -32,8 +34,10 @@ class PrescreenAnswer < ActiveRecord::Base
   validates :worked_for_sprint, presence: true
   validates :high_school_diploma, presence: true
   validates :visible_tattoos, presence: true
+  validates :has_sales_experience, presence: true
+  validates :sales_experience_notes, length: { minimum: 2 }
 
   belongs_to :candidate
 
-  nilify_blanks
+  strip_attributes
 end

@@ -5,7 +5,7 @@ RSpec.describe ComcastLead, regressor: true do
   # === Relations ===
   it { is_expected.to belong_to :comcast_customer }
   it { is_expected.to have_one :comcast_sale }
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   it { is_expected.to accept_nested_attributes_for :comcast_customer }

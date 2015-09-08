@@ -14,6 +14,8 @@ class Client < ActiveRecord::Base
   has_many :projects
   has_many :day_sales_counts, as: :saleable
 
+  strip_attributes
+
   def self.vonage?(person)
     name_includes_string? person, 'Vonage'
   end

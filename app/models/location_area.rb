@@ -75,59 +75,29 @@ class LocationArea < ActiveRecord::Base
     location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
   end
 
-  def head_count_full?
+  def head_count_full? padding = 1
     return false unless self.priority
     return true unless (self.priority == 1 or self.priority == 2)
     candidates = candidates_in_funnel.count
-    return true if self.target_head_count + 1 <= candidates
+    return true if self.target_head_count + padding <= candidates
     false
   end
 
   def candidates_in_funnel
-    candidates_in_training = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          left outer join sprint_radio_shack_training_sessions train
-            on train.id = c.sprint_radio_shack_training_session_id
-          where train.start_date > current_date
-            and la.id = #{self.id}
-            and c.active = true
-            and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
-            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
-
-        }
-    ).values.flatten
-    paperwork_sent_36_hours = ActiveRecord::Base.connection.execute(
-        %{
-          select
-          c.id
-          from location_areas la
-          left outer join candidates c
-            on c.location_area_id = la.id
-          left outer join job_offer_details j
-            on j.candidate_id = c.id
-          where j.id is not null
-            and la.id = #{self.id}
-            and j.sent >= (current_timestamp - interval '36 hours')
-            and c.sprint_roster_status != #{Candidate.sprint_roster_statuses[:sprint_rejected]}
-            and (c.training_session_status != #{Candidate.training_session_statuses[:transfer]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:transfer_reject]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:nos]} AND
-                  c.training_session_status != #{Candidate.training_session_statuses[:moved_to_other_project]})
-
-            and c.active = true
-          group by c.id
-          order by c.id
-        }
-    ).values.flatten
-    Candidate.where id: [candidates_in_training, paperwork_sent_36_hours].flatten.uniq
+    non_rejected_candidates_in_location_area = Candidate.
+        all_active.
+        where(location_area: self).
+        where.not(sprint_roster_status: Candidate.sprint_roster_statuses[:sprint_rejected],
+                  training_session_status: Candidate.inactive_training_session_statuses)
+    candidates_in_training_ids = non_rejected_candidates_in_location_area.
+        joins(:sprint_radio_shack_training_session).
+        where("sprint_radio_shack_training_sessions.start_date > ?", Date.today).
+        ids
+    paperwork_sent_36_hours_ids = non_rejected_candidates_in_location_area.
+        joins(:job_offer_details).
+        where("job_offer_details.sent >= ?", DateTime.now - 36.hours).
+        ids
+    Candidate.where id: [candidates_in_training_ids, paperwork_sent_36_hours_ids].flatten.uniq
   end
 
   def number_of_candidates_in_funnel
@@ -139,7 +109,6 @@ class LocationArea < ActiveRecord::Base
         joins(:location_areas).
         where('location_areas.target_head_count > 0')
     return LocationArea.none if all_locations.count(:all) < 1
-    all_locations = Location.where("locations.id IN (#{all_locations.map(&:id).join(',')})")
     locations = all_locations.near(candidate, 30)
     if not locations or locations.count(:all) < 5
       locations = all_locations.near(candidate, 500).first(5)

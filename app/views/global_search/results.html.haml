@@ -1,6 +1,7 @@
 - title "Searching '#{params[:global_search]}'"
 
-- unless @people || @candidates || @devices || @lines
+- if (!@people && !@candidates && !@devices && !@lines && !@vonage_sales) || |
+  ((@people && @people.empty?) && (@candidates && @candidates.empty?) && (@devices && @devices.empty?) && (@lines && @lines.empty?) && (@vonage_sales && @vonage_sales.empty?)) |
   .widget
     .inner
       No results.
@@ -134,3 +135,24 @@
       .inner
         %h3 Locations
         = render 'locations/table'
+  - if @vonage_sales and not @vonage_sales.empty?
+    .widget
+      .inner
+        %h3 Vonage Sales
+        - header = header_row ['Date', 'Seller', 'MAC ID', 'Location', 'Customer', 'Product', 'Gift Card', 'Areas', 'Vested?']
+        - rows = Array.new
+        - for sale in @vonage_sales do
+          - date = short_date sale.sale_date
+          - seller = person_link sale.person
+          - mac = vonage_sale_link sale
+          - location = location_link @project, sale.location
+          - customer = NameCase(sale.customer_first_name + " " + sale.customer_last_name)
+          - product = sale.vonage_product.name
+          - gift_card = sale.gift_card_number ? 'x' + sale.gift_card_number[12..15] : ''
+          - location_areas = sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage Retail'")
+          - areas = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(",<br>".html_safe).html_safe
+          - vested = sale.vested? ? icon('check') : ''
+
+          - rows << table_row([date, seller, mac, location, customer, product, gift_card, areas, vested])
+        = table header, rows
+        = paginate @vonage_sales_query.hits

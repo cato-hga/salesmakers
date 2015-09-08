@@ -1,0 +1,11 @@
+require 'etl/uqube_sales_source'
+require 'etl/uqube_destination'
+require 'etl/uqube_translator'
+
+source UQubeSalesSource, DateTime.now.beginning_of_day - 1.days, DateTime.now.beginning_of_day
+do_transformation
+destination UQubeDestination, "Retail_RBD_#{Date.current.strftime('%m%d%Y')}.txt", @headers
+
+post_process do
+  ProcessLog.create process_class: "UQubeSalesFeedUploader", records_processed: @count
+end

@@ -17,6 +17,7 @@ class DeviceModel < ActiveRecord::Base
   belongs_to :device_manufacturer
   has_many :log_entries, as: :trackable, dependent: :destroy
 
+  strip_attributes
 
   def device_model_name
     [device_manufacturer.name, name].join ' '

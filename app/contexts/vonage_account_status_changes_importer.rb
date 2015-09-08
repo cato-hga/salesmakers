@@ -2,6 +2,7 @@ class VonageAccountStatusChangesImporter
   def initialize(file)
     @file = File.new(file)
     begin_processing
+    VonageVestingUpdater.new.update
     self
   end
 

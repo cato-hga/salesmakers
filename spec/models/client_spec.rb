@@ -11,11 +11,7 @@
 require 'rails_helper'
 require 'shoulda/matchers'
 
-RSpec.describe Client, :type => :model do
-
-  it { should ensure_length_of(:name).is_at_least(2) }
-
-  it { should have_many(:projects) }
+describe Client do
 
   describe 'individual client booleans' do
     let(:vonage_client) { create :client, name: 'Vonage' }
@@ -39,4 +35,5 @@ RSpec.describe Client, :type => :model do
       expect(Client.vonage?(person)).to be_falsey
     end
   end
+
 end

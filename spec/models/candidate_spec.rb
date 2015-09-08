@@ -35,6 +35,7 @@
 #  mobile_phone_valid                     :boolean          default(TRUE), not null
 #  other_phone_valid                      :boolean          default(TRUE), not null
 #  mobile_phone_is_landline               :boolean          default(FALSE), not null
+#  vip                                    :boolean          default(FALSE), not null
 #
 
 require 'rails_helper'
@@ -64,19 +65,6 @@ describe Candidate do
   end
 
   describe 'validations' do
-    it 'requires a first name at least 2 characters long' do
-      candidate.first_name = 'a'
-      expect(candidate).not_to be_valid
-    end
-    it 'requires a last name at least 2 characters long' do
-      candidate.last_name = 'a'
-      expect(candidate).not_to be_valid
-    end
-    it 'requires a mobile phone' do
-      candidate.mobile_phone = nil
-      expect(candidate).not_to be_valid
-    end
-
     it 'responds to other_phone' do
       expect(candidate).to respond_to(:other_phone)
     end
@@ -107,27 +95,12 @@ describe Candidate do
       expect(candidate).to be_valid
     end
 
-    it 'requires an email address' do
-      candidate.email = nil
-      expect(candidate).not_to be_valid
-    end
-
     it 'requires a zip code exactly 5 digits long' do
       candidate.zip = nil
       expect(candidate).not_to be_valid
       candidate.zip = '1234'
       expect(candidate).not_to be_valid
       candidate.zip = '123456'
-      expect(candidate).not_to be_valid
-    end
-
-    it 'requires a created_by Person' do
-      candidate.created_by = nil
-      expect(candidate).not_to be_valid
-    end
-
-    it 'requires a source' do
-      candidate.candidate_source_id = nil
       expect(candidate).not_to be_valid
     end
 
@@ -308,7 +281,7 @@ describe Candidate do
     it 'raises an exception with unordered arrays' do
       location_areas << far_away_location_area
       location_areas << close_location_area
-      expect { candidate.assign_potential_territory(location_areas) }.to raise_error
+      expect { candidate.assign_potential_territory(location_areas) }.to raise_error(RuntimeError)
     end
   end
 end

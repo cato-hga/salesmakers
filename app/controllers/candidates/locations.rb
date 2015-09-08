@@ -20,6 +20,21 @@ module Candidates::Locations
     end
   end
 
+  def get_override_location
+    @project = @candidate.location_area.area.project
+    @areas = @project.areas
+    @search = LocationArea.joins(:area).where("areas.project_id = #{@project.id}").search(params[:q])
+    @location_areas = @search.result.page(params[:page])
+  end
+
+  def post_override_location
+    location_area = LocationArea.find params[:location_area_id]
+    if @candidate.update location_area: location_area
+      flash[:notice] = 'Location overridden successfully'
+      redirect_to @candidate
+    end
+  end
+
   protected
 
   def create_and_select_location
@@ -82,8 +97,13 @@ module Candidates::Locations
   end
 
   def candidate_is_prescreened
-    flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
-    redirect_to candidate_path(@candidate)
+    if @candidate.vip
+      flash[:notice] = 'Location chosen successfully.'
+      redirect_to new_candidate_training_availability_path(@candidate)
+    else
+      flash[:notice] = 'Location chosen successfully. You were redirected to the candidate page because the candidate was already prescreened'
+      redirect_to candidate_path(@candidate)
+    end
   end
 
   def back_to_confirm

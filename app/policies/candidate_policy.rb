@@ -44,6 +44,10 @@ class CandidatePolicy < ApplicationPolicy
     create?
   end
 
+  def resend_paperwork?
+    send_paperwork?
+  end
+
   def interview_now?
     create?
   end
@@ -135,5 +139,17 @@ class CandidatePolicy < ApplicationPolicy
     senior_software = Position.find_by name: 'Senior Software Developer'
     return true if @user.position == hr_admin or @user.position == software_dev or @user.position == senior_software
     false
+  end
+
+  def assign_vip?
+    has_permission? 'vip'
+  end
+
+  def get_override_location?
+    assign_vip?
+  end
+
+  def post_override_location?
+    assign_vip?
   end
 end

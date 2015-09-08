@@ -23,34 +23,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
-
-
---
--- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -631,7 +603,8 @@ CREATE TABLE candidates (
     other_phone character varying,
     mobile_phone_valid boolean DEFAULT true NOT NULL,
     other_phone_valid boolean DEFAULT true NOT NULL,
-    mobile_phone_is_landline boolean DEFAULT false NOT NULL
+    mobile_phone_is_landline boolean DEFAULT false NOT NULL,
+    vip boolean DEFAULT false NOT NULL
 );
 
 
@@ -2046,6 +2019,41 @@ ALTER SEQUENCE employments_id_seq OWNED BY employments.id;
 
 
 --
+-- Name: gift_card_overrides; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE gift_card_overrides (
+    id integer NOT NULL,
+    creator_id integer NOT NULL,
+    person_id integer,
+    original_card_number character varying,
+    ticket_number character varying,
+    override_card_number character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: gift_card_overrides_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE gift_card_overrides_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: gift_card_overrides_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE gift_card_overrides_id_seq OWNED BY gift_card_overrides.id;
+
+
+--
 -- Name: group_me_groups; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2592,22 +2600,27 @@ ALTER SEQUENCE historical_person_client_areas_id_seq OWNED BY historical_person_
 CREATE TABLE interview_answers (
     id integer NOT NULL,
     work_history text NOT NULL,
-    why_in_market text NOT NULL,
-    ideal_position text NOT NULL,
-    what_are_you_good_at text NOT NULL,
-    what_are_you_not_good_at text NOT NULL,
-    compensation_last_job_one character varying NOT NULL,
-    compensation_last_job_two character varying,
-    compensation_last_job_three character varying,
+    why_in_market text,
+    ideal_position text,
+    what_are_you_good_at text,
+    what_are_you_not_good_at text,
+    compensation_last_job_one text,
+    compensation_last_job_two text,
+    compensation_last_job_three text,
     compensation_seeking character varying NOT NULL,
-    hours_looking_to_work character varying NOT NULL,
+    hours_looking_to_work text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     candidate_id integer,
     willingness_characteristic text NOT NULL,
     personality_characteristic text NOT NULL,
     self_motivated_characteristic text NOT NULL,
-    last_two_positions text NOT NULL
+    last_two_positions text,
+    what_interests_you text NOT NULL,
+    first_thing_you_sold text NOT NULL,
+    first_building_of_working_relationship text NOT NULL,
+    first_rely_on_teaching text NOT NULL,
+    availability_confirm boolean DEFAULT false NOT NULL
 );
 
 
@@ -3427,7 +3440,9 @@ CREATE TABLE prescreen_answers (
     worked_for_radioshack boolean DEFAULT false NOT NULL,
     former_employment_date_start date,
     former_employment_date_end date,
-    store_number_city_state character varying
+    store_number_city_state character varying,
+    has_sales_experience boolean DEFAULT false,
+    sales_experience_notes text
 );
 
 
@@ -3875,6 +3890,37 @@ ALTER SEQUENCE roster_verifications_id_seq OWNED BY roster_verifications.id;
 
 
 --
+-- Name: running_processes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE running_processes (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: running_processes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE running_processes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: running_processes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE running_processes_id_seq OWNED BY running_processes.id;
+
+
+--
 -- Name: sales_performance_ranks; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4001,7 +4047,9 @@ CREATE TABLE shifts (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     training boolean DEFAULT false NOT NULL,
-    project_id integer
+    project_id integer,
+    meeting boolean DEFAULT false NOT NULL,
+    note character varying
 );
 
 
@@ -5103,25 +5151,24 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
--- Name: vonage_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: vonage_group_me_bots; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE vonage_devices (
+CREATE TABLE vonage_group_me_bots (
     id integer NOT NULL,
+    group_num character varying NOT NULL,
+    bot_num character varying NOT NULL,
+    area_id integer NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    mac_id character varying,
-    po_number character varying,
-    person_id integer,
-    receive_date timestamp without time zone
+    updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: vonage_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: vonage_group_me_bots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE vonage_devices_id_seq
+CREATE SEQUENCE vonage_group_me_bots_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -5130,10 +5177,41 @@ CREATE SEQUENCE vonage_devices_id_seq
 
 
 --
--- Name: vonage_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: vonage_group_me_bots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE vonage_devices_id_seq OWNED BY vonage_devices.id;
+ALTER SEQUENCE vonage_group_me_bots_id_seq OWNED BY vonage_group_me_bots.id;
+
+
+--
+-- Name: vonage_mac_prefixes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_mac_prefixes (
+    id integer NOT NULL,
+    prefix character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: vonage_mac_prefixes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_mac_prefixes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_mac_prefixes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_mac_prefixes_id_seq OWNED BY vonage_mac_prefixes.id;
 
 
 --
@@ -5362,8 +5440,10 @@ CREATE TABLE vonage_sales (
     updated_at timestamp without time zone NOT NULL,
     connect_order_uuid character varying,
     resold boolean DEFAULT false NOT NULL,
+    vested boolean,
     person_acknowledged boolean DEFAULT false,
-    gift_card_number integer
+    gift_card_number character varying,
+    creator_id integer
 );
 
 
@@ -5387,27 +5467,29 @@ ALTER SEQUENCE vonage_sales_id_seq OWNED BY vonage_sales.id;
 
 
 --
--- Name: vonage_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: vonage_shipped_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE TABLE vonage_transfers (
+CREATE TABLE vonage_shipped_devices (
     id integer NOT NULL,
-    to_person character varying,
-    from_person character varying,
-    vonage_device character varying,
-    "transfer-time" timestamp without time zone NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    po_number character varying NOT NULL,
+    carrier character varying,
+    tracking_number character varying,
+    ship_date date NOT NULL,
+    mac character varying NOT NULL,
+    device_type character varying,
+    vonage_device_id integer,
     created_at timestamp without time zone NOT NULL,
-    accepted boolean DEFAULT false NOT NULL,
-    "rejection-time" timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
 
 
 --
--- Name: vonage_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: vonage_shipped_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE vonage_transfers_id_seq
+CREATE SEQUENCE vonage_shipped_devices_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -5416,10 +5498,10 @@ CREATE SEQUENCE vonage_transfers_id_seq
 
 
 --
--- Name: vonage_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: vonage_shipped_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE vonage_transfers_id_seq OWNED BY vonage_transfers.id;
+ALTER SEQUENCE vonage_shipped_devices_id_seq OWNED BY vonage_shipped_devices.id;
 
 
 --
@@ -5519,6 +5601,48 @@ CREATE SEQUENCE walls_id_seq
 --
 
 ALTER SEQUENCE walls_id_seq OWNED BY walls.id;
+
+
+--
+-- Name: walmart_gift_cards; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE walmart_gift_cards (
+    id integer NOT NULL,
+    used boolean DEFAULT false NOT NULL,
+    card_number character varying NOT NULL,
+    link character varying NOT NULL,
+    challenge_code character varying NOT NULL,
+    unique_code character varying,
+    pin character varying NOT NULL,
+    balance double precision DEFAULT 0.0 NOT NULL,
+    purchase_date date,
+    purchase_amount double precision,
+    store_number character varying,
+    vonage_sale_id integer,
+    overridden boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: walmart_gift_cards_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE walmart_gift_cards_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: walmart_gift_cards_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE walmart_gift_cards_id_seq OWNED BY walmart_gift_cards.id;
 
 
 --
@@ -6059,6 +6183,13 @@ ALTER TABLE ONLY employments ALTER COLUMN id SET DEFAULT nextval('employments_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY gift_card_overrides ALTER COLUMN id SET DEFAULT nextval('gift_card_overrides_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY group_me_groups ALTER COLUMN id SET DEFAULT nextval('group_me_groups_id_seq'::regclass);
 
 
@@ -6395,6 +6526,13 @@ ALTER TABLE ONLY roster_verifications ALTER COLUMN id SET DEFAULT nextval('roste
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY running_processes ALTER COLUMN id SET DEFAULT nextval('running_processes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY sales_performance_ranks ALTER COLUMN id SET DEFAULT nextval('sales_performance_ranks_id_seq'::regclass);
 
 
@@ -6626,7 +6764,14 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vonage_devices ALTER COLUMN id SET DEFAULT nextval('vonage_devices_id_seq'::regclass);
+ALTER TABLE ONLY vonage_group_me_bots ALTER COLUMN id SET DEFAULT nextval('vonage_group_me_bots_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vonage_mac_prefixes ALTER COLUMN id SET DEFAULT nextval('vonage_mac_prefixes_id_seq'::regclass);
 
 
 --
@@ -6682,7 +6827,7 @@ ALTER TABLE ONLY vonage_sales ALTER COLUMN id SET DEFAULT nextval('vonage_sales_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vonage_transfers ALTER COLUMN id SET DEFAULT nextval('vonage_transfers_id_seq'::regclass);
+ALTER TABLE ONLY vonage_shipped_devices ALTER COLUMN id SET DEFAULT nextval('vonage_shipped_devices_id_seq'::regclass);
 
 
 --
@@ -6704,6 +6849,13 @@ ALTER TABLE ONLY wall_posts ALTER COLUMN id SET DEFAULT nextval('wall_posts_id_s
 --
 
 ALTER TABLE ONLY walls ALTER COLUMN id SET DEFAULT nextval('walls_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY walmart_gift_cards ALTER COLUMN id SET DEFAULT nextval('walmart_gift_cards_id_seq'::regclass);
 
 
 --
@@ -7183,6 +7335,14 @@ ALTER TABLE ONLY employments
 
 
 --
+-- Name: gift_card_overrides_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY gift_card_overrides
+    ADD CONSTRAINT gift_card_overrides_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: group_me_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7567,6 +7727,14 @@ ALTER TABLE ONLY roster_verifications
 
 
 --
+-- Name: running_processes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY running_processes
+    ADD CONSTRAINT running_processes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: sales_performance_ranks_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7831,11 +7999,19 @@ ALTER TABLE ONLY vonage_commission_period07012015s
 
 
 --
--- Name: vonage_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: vonage_group_me_bots_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY vonage_devices
-    ADD CONSTRAINT vonage_devices_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY vonage_group_me_bots
+    ADD CONSTRAINT vonage_group_me_bots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_mac_prefixes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_mac_prefixes
+    ADD CONSTRAINT vonage_mac_prefixes_pkey PRIMARY KEY (id);
 
 
 --
@@ -7895,11 +8071,11 @@ ALTER TABLE ONLY vonage_sales
 
 
 --
--- Name: vonage_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: vonage_shipped_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
-ALTER TABLE ONLY vonage_transfers
-    ADD CONSTRAINT vonage_transfers_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY vonage_shipped_devices
+    ADD CONSTRAINT vonage_shipped_devices_pkey PRIMARY KEY (id);
 
 
 --
@@ -7924,6 +8100,14 @@ ALTER TABLE ONLY wall_posts
 
 ALTER TABLE ONLY walls
     ADD CONSTRAINT walls_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: walmart_gift_cards_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY walmart_gift_cards
+    ADD CONSTRAINT walmart_gift_cards_pkey PRIMARY KEY (id);
 
 
 --
@@ -9452,6 +9636,34 @@ CREATE INDEX vasc_maeds ON vonage_account_status_changes USING btree (mac, accou
 
 
 --
+-- Name: vcp_hps_sales_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_hps_sales_report ON vcp07012015_hps_sales USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_hps_shifts_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_hps_shifts_report ON vcp07012015_hps_shifts USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_vs_sales_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_vs_sales_report ON vcp07012015_vested_sales_sales USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
+-- Name: vcp_vs_shifts_report; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX vcp_vs_shifts_report ON vcp07012015_vested_sales_shifts USING btree (vonage_commission_period07012015_id, person_id);
+
+
+--
 -- Name: vonage_paycheck_neg_bal_paycheck; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -10416,8 +10628,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
 INSERT INTO schema_migrations (version) VALUES ('20150805161446');
 
-INSERT INTO schema_migrations (version) VALUES ('20150805182921');
-
 INSERT INTO schema_migrations (version) VALUES ('20150805235212');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806131842');
@@ -10425,10 +10635,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150806131842');
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
-
-INSERT INTO schema_migrations (version) VALUES ('20150806184753');
-
-INSERT INTO schema_migrations (version) VALUES ('20150806192315');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
@@ -10442,5 +10648,67 @@ INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
 
-INSERT INTO schema_migrations (version) VALUES ('20150811132749');
+INSERT INTO schema_migrations (version) VALUES ('20150812132503');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817134549');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817141749');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817153612');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817154022');
+
+INSERT INTO schema_migrations (version) VALUES ('20150817181149');
+
+INSERT INTO schema_migrations (version) VALUES ('20150818202108');
+
+INSERT INTO schema_migrations (version) VALUES ('20150819143132');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820124622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820185034');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821143712');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821152703');
+
+INSERT INTO schema_migrations (version) VALUES ('20150821180815');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822141202');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822145514');
+
+INSERT INTO schema_migrations (version) VALUES ('20150822164708');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824144327');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824152157');
+
+INSERT INTO schema_migrations (version) VALUES ('20150824202732');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825145730');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825162909');
+
+INSERT INTO schema_migrations (version) VALUES ('20150826135152');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827125401');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827132536');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827154914');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827185856');
+
+INSERT INTO schema_migrations (version) VALUES ('20150827191424');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831222001');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901135945');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901153130');
+
+INSERT INTO schema_migrations (version) VALUES ('20150904133422');
+
+INSERT INTO schema_migrations (version) VALUES ('20150906172013');
 

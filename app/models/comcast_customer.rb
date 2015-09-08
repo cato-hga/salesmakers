@@ -29,7 +29,7 @@ class ComcastCustomer < ActiveRecord::Base
   validates_with CustomerPhoneValidator
   validates :mobile_phone, uniqueness: true
 
-  nilify_blanks
+  strip_attributes
 
   belongs_to :person
   belongs_to :location

@@ -1,0 +1,12 @@
+- title 'New Override Gift Card for ' + @person.display_name
+
+.widget
+  .inner
+    = form_for @gift_card_override, url: create_override_walmart_gift_cards_path, method: :post do |f|
+      = f.hidden_field :person_id
+      = f.hidden_field :creator_id
+      = f.label :original_card_number
+      = f.text_field :original_card_number, maxlength: 16
+      = f.label :ticket_number
+      = f.text_field :ticket_number
+      = f.submit 'Generate', class: [:button]

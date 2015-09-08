@@ -42,6 +42,12 @@ class SprintSale < ActiveRecord::Base
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
 
+  strip_attributes
+
+  scope :for_date_range, ->(start_date, end_date) {
+    where "sale_date >= ? AND sale_date <= ?", start_date, end_date
+  }
+
   def location_area
     self.location_area_for_sale 'Sprint'
   end

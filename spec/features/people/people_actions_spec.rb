@@ -12,6 +12,10 @@ describe 'actions involving People' do
     let(:project) { create :project, name: 'Other Project', client: client }
     let(:area) { create :area, project: project }
     let!(:person_area) { create :person_area, person: person, area: area }
+    let(:project_one) { create :project, name: 'Project One' }
+    let(:project_two) { create :project, name: 'Project Two' }
+    let!(:shift_one) { create :shift, project: project_one, hours: 11.2, person: person }
+    let!(:shift_two) { create :shift, project: project_two, hours: 12.5, person: person }
 
     before do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
@@ -36,6 +40,10 @@ describe 'actions involving People' do
       expect(page).to have_content(person_address.zip)
     end
 
+    it 'should not have a masquerade button by default' do
+      expect(page).not_to have_selector 'a', text: 'Masquerade'
+    end
+
     it 'should not show commissions for non-Vonage employees' do
       expect(page).not_to have_selector('a', text: 'Commissions')
     end
@@ -52,6 +60,34 @@ describe 'actions involving People' do
       visit people_path
       click_on 'new_action_button'
       expect(page).to have_selector('h1', text: 'New Person')
+    end
+
+    it 'shows hours by projects for different projects' do
+      expect(page).to have_content 'Project One'
+      expect(page).to have_content '11.2 Hours'
+      expect(page).to have_content 'Project Two'
+      expect(page).to have_content '12.5 Hours'
+    end
+
+    context 'with masquerade permissions' do
+      let(:masquerade_permission) { create :permission, key: 'person_masquerade' }
+      let(:foobar_department) { create :department, name: 'Foobar Department' }
+
+      before do
+        it_tech.position.permissions << masquerade_permission
+        person.position.update department: foobar_department
+        CASClient::Frameworks::Rails::Filter.fake(it_tech.email)
+        visit person_path(person)
+      end
+
+      it 'should show the masquerade button' do
+        expect(page).to have_selector 'a', text: 'Masquerade'
+      end
+
+      it 'successfully masquerades' do
+        click_on 'Masquerade'
+        expect(page).to have_selector 'li.has-dropdown', text: person.email
+      end
     end
   end
 

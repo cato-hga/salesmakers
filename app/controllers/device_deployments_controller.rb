@@ -1,5 +1,3 @@
-require 'apis/gateway'
-
 class DeviceDeploymentsController < ApplicationController
   def select_user
     @device = Device.find params[ :device_id ]
@@ -90,7 +88,6 @@ class DeviceDeploymentsController < ApplicationController
     AssetsMailer.asset_deployed(@person, @device_deployment).deliver_later
     message = "Your company-issued asset has just been deployed and will ship with the next FedEx pick-up! " +
         "Check your company email for details."
-    gateway = Gateway.new
-    gateway.send_text_to_person @person, message, @current_person
+    TextMessageToPersonJob.perform_later @person, message, @current_person
   end
 end

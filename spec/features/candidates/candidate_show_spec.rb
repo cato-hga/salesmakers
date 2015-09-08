@@ -35,6 +35,13 @@ describe 'candidate show page' do
     visit candidate_path(candidate)
   end
 
+  it 'indicates that the person is Project VIP' do
+    candidate.update vip: true
+    visit candidate_path(candidate)
+    within '#basic_information' do
+      expect(page).to have_content 'Project VIP'
+    end
+  end
 
   it 'has a dismissal button' do
     expect(page).to have_content 'Dismiss Candidate'
@@ -128,6 +135,10 @@ describe 'candidate show page' do
 
   it 'does not show the training session form for those without permission' do
     expect(page).not_to have_selector('#new_sprint_radio_shack_training_session')
+  end
+
+  it 'has a link to the candidates selected location if applicable' do
+    expect(page).to have_content('Candidate Location')
   end
 
   context 'training sessions' do

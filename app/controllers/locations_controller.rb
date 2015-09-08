@@ -39,17 +39,16 @@ class LocationsController < ApplicationController
 
   def show
     @location = Location.find params[:id]
-    #candidate_ids = order_by_distance(Candidate.near(@location, 30)).map {|c| c.id}.uniq
-    #@candidates = Candidate.unscoped.where(id: candidate_ids).page(params[:candidate_page]).per(10)
     @candidates = Candidate.
         unscoped.
         where("candidates.status < ?", Candidate.statuses[:onboarded]).
         near(@location, 30).
         page(params[:candidate_page]).
         per(10).includes(:location_area)
-    @person_addresses = PersonAddress.near(@location, 30)
-    people_ids = @person_addresses.select(:person_id, :latitude, :longitude).map(&:person_id).uniq
-    @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:employments, { person_areas: :area }, :areas, :supervisor)
+    @location_candidates = Candidate.unscoped.all_active.where(location_area: @location.location_areas)
+    set_candidates_with_hours
+    people_ids = PersonAddress.near(@location, 30).select(:person_id, :latitude, :longitude).map(&:person_id).uniq
+    @people = Person.where(id: people_ids).page(params[:person_page]).per(10).includes(:most_recent_employment, { person_areas: :area }, :areas, :supervisor)
     authorize @location
   end
 
@@ -61,28 +60,28 @@ class LocationsController < ApplicationController
   def create
     authorize Location.new
     @location = Location.new location_params
-    unless @area_id
-      flash[:error] = 'Area cannot be blank'
-      render :new and return
+    return unless area_present_for_creation?
+    return unless client_area_present_for_creation?
+    handle_location_saving
+  end
+
+  def edit_head_counts
+    authorize Location.new
+
+  end
+
+  def update_head_counts
+    authorize Location.new
+    data = JSON.parse params[:head_count_json]
+    unless data && data['data']
+      flash[:error] = 'Data did not submit successfully. Please contact support.'
+      redirect_to edit_head_counts_client_project_locations_path(@client, @project) and return
     end
-    unless @client_area_id
-      flash[:error] = 'Client area cannot be blank'
-      render :new and return
-    end
-    if @location.save
-      location_area = LocationArea.create location: @location,
-                                          area_id: @area_id,
-                                          priority: params[:priority] ? params[:priority].to_i : nil,
-                                          target_head_count: params[:target_head_count] ? params[:target_head_count].to_i : 0
-      location_client_area = LocationClientArea.create location: @location, client_area_id: @client_area_id
-      @current_person.log? 'create',
-                           @location,
-                           location_area
-      flash[:notice] = 'Location successfully saved.'
-      redirect_to new_client_project_location_path(@client, @project)
-    else
-      render :new
-    end
+    data = data['data']
+    head_count_attributes data
+    persist_updated_head_counts
+    flash[:notice] = "Head counts updated for entered Locations."
+    redirect_to client_project_locations_path(@client, @project)
   end
 
   private
@@ -95,6 +94,79 @@ class LocationsController < ApplicationController
     @area_id = params.andand[:area_id]
     @client_area_id = params.andand[:client_area_id]
     @states = ::UnitedStates
+  end
+
+  def set_candidates_with_hours
+    location_shifts = @location.shifts.where('date > ?', Date.today - 15.days)
+    @hours_candidates = []
+    for shift in location_shifts do
+      next unless shift.person and shift.person.candidate
+      candidate = shift.person.candidate
+      @hours_candidates << candidate unless @hours_candidates.include? candidate
+    end
+  end
+
+  def head_count_attributes data
+    @head_count_attributes = []
+    for atts in data do
+      store_num, openings, priority = atts[0], atts[1], atts[2]
+      store_num = nil if store_num == ''
+      openings = nil if openings == ''
+      priority = nil if priority == ''
+      next unless (store_num && openings && priority)
+      @head_count_attributes << {
+          'store_num' => store_num,
+          'openings' => openings,
+          'priority' => priority
+      }
+    end
+  end
+
+  def persist_updated_head_counts
+    for count in @head_count_attributes do
+      locations = Location.where store_number: count['store_num']
+      location_areas = LocationArea.where location_id: locations.ids
+      for location_area in location_areas do
+        project = location_area.area.project
+        next unless project == @project
+        openings = count['openings'].to_i < 0 ? 0 : count['openings'].to_i
+        location_area.update priority: count['priority'].to_i,
+                             target_head_count: openings
+      end
+    end
+  end
+
+  def area_present_for_creation?
+    unless @area_id
+      flash[:error] = 'Area cannot be blank'
+      render :new and return
+    end
+    true
+  end
+
+  def client_area_present_for_creation?
+    unless @client_area_id
+      flash[:error] = 'Client area cannot be blank'
+      render :new and return
+    end
+    true
+  end
+
+  def handle_location_saving
+    if @location.save
+      location_area = LocationArea.create location: @location,
+                                          area_id: @area_id,
+                                          priority: params[:priority] ? params[:priority].to_i : nil,
+                                          target_head_count: params[:target_head_count] ? params[:target_head_count].to_i : 0
+      LocationClientArea.create location: @location, client_area_id: @client_area_id
+      @current_person.log? 'create',
+                           @location,
+                           location_area
+      flash[:notice] = 'Location successfully saved.'
+      redirect_to new_client_project_location_path(@client, @project)
+    else
+      render :new
+    end
   end
 
   def location_params

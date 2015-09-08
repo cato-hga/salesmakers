@@ -3,8 +3,27 @@ class LegacyVonageSaleImporting
     @duration = duration
   end
 
+  def import_for_date_range start_date, end_date, automated = false
+    begin
+      RunningProcess.running! self
+      orders = sales_for_date_range start_date, end_date
+      import_orders orders, automated
+    ensure
+      RunningProcess.shutdown! self
+    end
+  end
+
   def import automated = false
-    orders = sales_for_last(@duration)
+    begin
+      RunningProcess.running! self
+      orders = sales_for_last @duration
+      import_orders orders, automated
+    ensure
+      RunningProcess.shutdown! self
+    end
+  end
+
+  def import_orders orders, automated = false
     self.extend VonageLegacySaleTranslator
     sales = self.translate_all(orders)
     self.extend VonageSaleWriter
@@ -13,6 +32,16 @@ class LegacyVonageSaleImporting
   end
 
   private
+
+  def sales_for_date_range start_date, end_date
+    ConnectOrder.
+        where("dateordered >= ? AND dateordered <= ?", start_date, end_date.to_datetime.end_of_day).
+        sales.
+        includes(:connect_order_lines,
+              :connect_business_partner,
+              :connect_business_partner_location,
+              :connect_user)
+  end
 
   def sales_for_last(duration)
     ConnectOrder.updated_within_last(duration).sales.

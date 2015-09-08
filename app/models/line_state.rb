@@ -15,4 +15,6 @@ class LineState < ActiveRecord::Base
   has_and_belongs_to_many :lines
 
   default_scope { order :name }
+
+  strip_attributes
 end

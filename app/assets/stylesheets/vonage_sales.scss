@@ -1,0 +1,8 @@
+.account_status_change {
+	padding: 0.5em 0;
+	margin: auto 1em;
+	border-bottom: 1px solid #eee;
+	&:last-child {
+		border-bottom: 0;
+	}
+}

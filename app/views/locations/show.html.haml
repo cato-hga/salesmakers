@@ -24,7 +24,7 @@
         - if @location.location_areas.empty?
           N/A
         - else
-          = @location.location_areas.map {|la| area_link la.area }.join(', ')
+          = @location.location_areas.map {|la| area_link la.area }.join(', '.html_safe)
       %p
         %strong Target head count:
         - target_hc = 0
@@ -50,6 +50,32 @@
                 %td= candidate.status.to_s.humanize
 
 - if CandidatePolicy.new(@current_person, Candidate.new).index?
+  .widget#candidates_with_location
+    .inner
+      %h3
+        Candidates Assigned To Location
+        %span.small.comment (active only)
+      - headers = header_row ['Name', 'Status']
+      - rows = []
+      - for candidate in @location_candidates do
+        - name = candidate_link candidate
+        - status = ''
+        - status = NameCase(candidate.status.humanize) if candidate.status
+        - rows << table_row([name,status])
+      = table headers, rows
+  .widget#candidates_with_hours
+    .inner
+      %h3
+        Candidates With Hours Booked At Location
+        %span.small.comment (within 2 weeks)
+      - headers = header_row ['Name', 'Status']
+      - rows = []
+      - for candidate in @hours_candidates do
+        - name = candidate_link candidate
+        - status = ''
+        - status = NameCase(candidate.status.humanize) if candidate.status
+        - rows << table_row([name,status])
+      = table headers, rows
   .widget
     .inner
       %h3

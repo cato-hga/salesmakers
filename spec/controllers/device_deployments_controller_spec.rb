@@ -82,7 +82,7 @@ describe DeviceDeploymentsController do
       end
 
       it 'creates a log entry for the deployment' do
-        expect{ subject }.to change(LogEntry, :count).by(2)
+        expect{ subject }.to change(LogEntry, :count).by(1)
       end
     end
 

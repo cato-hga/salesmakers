@@ -5,6 +5,8 @@ class RealConnectModel < ActiveRecord::Base
   before_create :set_create_audit, :set_update_audit, :set_active
   before_update :set_update_audit
 
+  belongs_to :creator, class_name: 'ConnectUser', primary_key: 'ad_user_id', foreign_key: 'createdby'
+
   def self.time_zone_aware_attributes
     false
   end

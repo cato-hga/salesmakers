@@ -1,5 +1,6 @@
 class PersonAreasController < ApplicationController
   after_action :verify_authorized
+  before_action :set_projects
 
   def index
     authorize PersonArea.new
@@ -74,5 +75,9 @@ class PersonAreasController < ApplicationController
 
   def person_area_params
     params.require(:person_area).permit :area_id, :manages
+  end
+
+  def set_projects
+    @projects = Project.all
   end
 end

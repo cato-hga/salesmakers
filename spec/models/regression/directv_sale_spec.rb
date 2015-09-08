@@ -8,7 +8,7 @@ RSpec.describe DirecTVSale, regressor: true do
   it { is_expected.to belong_to :directv_lead }
   it { is_expected.to have_one :directv_former_provider }
   it { is_expected.to have_one :directv_install_appointment }
-  
+  it { is_expected.to have_many :log_entries }
 
   # === Nested Attributes ===
   it { is_expected.to accept_nested_attributes_for :directv_install_appointment }

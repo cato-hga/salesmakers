@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: people
+# Table name: historical_people
 #
 #  id                                   :integer          not null, primary key
 #  first_name                           :string           not null
@@ -9,8 +9,6 @@
 #  email                                :string           not null
 #  personal_email                       :string
 #  position_id                          :integer
-#  created_at                           :datetime
-#  updated_at                           :datetime
 #  active                               :boolean          default(TRUE), not null
 #  connect_user_id                      :string
 #  supervisor_id                        :integer
@@ -30,19 +28,17 @@
 #  mobile_phone_valid                   :boolean          default(TRUE), not null
 #  home_phone_valid                     :boolean          default(TRUE), not null
 #  office_phone_valid                   :boolean          default(TRUE), not null
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  date                                 :date             not null
 #
 
 require 'rails_helper'
-require 'shoulda/matchers'
 
 describe HistoricalPerson do
   subject { create :historical_person }
 
   it do
-    should validate_presence_of(:date)
-    should ensure_length_of(:first_name).is_at_least(2)
-    should ensure_length_of(:last_name).is_at_least(2)
-    should ensure_length_of(:display_name).is_at_least(5)
     should allow_value('a@b.com').for(:email)
     should allow_value('a@b.com').for(:personal_email)
     should_not allow_value('a@b', 'ab.com').for(:email)
