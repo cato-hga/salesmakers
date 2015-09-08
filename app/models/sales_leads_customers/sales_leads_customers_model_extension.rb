@@ -18,10 +18,12 @@ module SalesLeadsCustomersModelExtension
       self.update active: false
       dismissal_reason_project_sym = Object.const_get "#{project}LeadDismissalReason"
       dismissal_reason_sym = ("#{project.downcase}_lead_dismissal_reason")
-      customer_sym = ("#{project.downcase}_customer")
+      customer_sym = ("#{project.downcase}_customer").to_sym
       reason = dismissal_reason_project_sym.find_by name: '35 days without follow up'
-      self.send(customer_sym).dismissal_reason_sym = reason
-      self.send(customer_sym).dismissal_comment = 'Auto-closed after 35 days of inactivity'
+      customer = self.send(customer_sym)
+      customer.send("#{dismissal_reason_sym}=", reason)
+      customer.dismissal_comment = 'Auto-closed after 35 days of inactivity'
+      customer.save
       admin = Person.find_by email: 'retailingw@retaildoneright.com'
       admin.log? 'destroy',
                  self,
