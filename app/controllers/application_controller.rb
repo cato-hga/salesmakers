@@ -16,6 +16,11 @@ class ApplicationController < BaseApplicationController
 
   protected
 
+  rescue_from Exception do |ex|
+    ActiveSupport::Notifications.instrument "exception.action_controller", message: ex.message, inspect: ex.inspect, backtrace: ex.backtrace
+    raise ex
+  end if !Rails.env.test?
+
   def redirect_invalid_token
     render file: File.join(Rails.root, 'public/422.html'), status: 422, layout: false
   end

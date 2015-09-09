@@ -1,0 +1,151 @@
+log4r_config:
+  # define all loggers:
+  loggers:
+    # Unused *_rails loggers
+    - name          : development_rails
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - stdout
+    - name          : staging_rails
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - stdout
+    - name          : production_rails
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - stdout
+    # Development
+    - name          : development_active_record
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - stdout
+    - name          : development_controllers
+      level         : DEBUG
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - stdout
+    - name          : development_errors
+      level         : ERROR
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - stdout
+    - name          : development_mailers
+      level         : DEBUG
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - stdout
+    # Staging
+    - name          : staging_active_record
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - active_record_file
+    - name          : staging_controllers
+      level         : INFO
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - controllers_file
+    - name          : staging_errors
+      level         : ERROR
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - errors_file
+    - name          : staging_mailers
+      level         : INFO
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - mailers_file
+    # Production
+    - name          : production_active_record
+      level         : DEBUG
+      trace         : 'false'
+      outputters    :
+      - stderr
+      - active_record_file
+    - name          : production_controllers
+      level         : INFO
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - controllers_file
+    - name          : production_errors
+      level         : ERROR
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - errors_file
+    - name          : production_mailers
+      level         : INFO
+      trace         : 'true'
+      outputters    :
+      - stderr
+      - mailers_file
+  outputters:
+  - type: StdoutOutputter
+    name: stdout
+    formatter:
+      date_pattern: '%m/%d/%Y %H:%M:%S.%L'
+      pattern     : '[%c] [%d] [%l]: %m'
+      type        : PatternFormatter
+  - type: StderrOutputter
+    name: stderr
+    level: ERROR
+    formatter:
+      date_pattern: '%m/%d/%Y %H:%M:%S.%L'
+      pattern     : '[%c] [%d] [%l]: %m'
+      type        : PatternFormatter
+  - type        : RollingFileOutputter
+    name        : active_record_file
+    level       : DEBUG
+    trunc       : 86400
+    maxsize     : 100000000
+    filename    : "log/active_record.log"
+    formatter   :
+      date_pattern: '%m/%d/%Y %H:%M:%S'
+      pattern     : "[%d] [%l]: %m"
+      type        : PatternFormatter
+  - type        : RollingFileOutputter
+    name        : mailers_file
+    level       : INFO
+    trunc       : 86400
+    maxsize     : 50000000
+    filename    : "log/mailers.log"
+    formatter   :
+      date_pattern: '%m/%d/%Y %H:%M:%S'
+      pattern     : "[%d] [%l]: %m"
+      type        : PatternFormatter
+  - type        : RollingFileOutputter
+    name        : controllers_file
+    level       : INFO
+    trunc       : 86400
+    maxsize     : 50000000
+    filename    : "log/controllers.log"
+    formatter   :
+      date_pattern: '%m/%d/%Y %H:%M:%S'
+      pattern     : "[%d] [%l]: %m"
+      type        : PatternFormatter
+  - type        : RollingFileOutputter
+    name        : errors_file
+    level       : ERROR
+    trunc       : 86400
+    maxsize     : 50000000
+    filename    : "log/errors.log"
+    formatter   :
+      date_pattern: '%m/%d/%Y %H:%M:%S'
+      pattern     : "[%d] [%l]: %m"
+      type        : PatternFormatter
