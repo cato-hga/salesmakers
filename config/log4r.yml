@@ -109,41 +109,37 @@ log4r_config:
       date_pattern: '%m/%d/%Y %H:%M:%S.%L'
       pattern     : '[%c] [%d] [%l]: %m'
       type        : PatternFormatter
-  - type        : RollingFileOutputter
+  - type        : FileOutputter
     name        : active_record_file
     level       : DEBUG
-    trunc       : 86400
-    maxsize     : 100000000
+    trunc       : 'false'
     filename    : "log/active_record.log"
     formatter   :
       date_pattern: '%m/%d/%Y %H:%M:%S'
       pattern     : "[%d] [%l]: %m"
       type        : PatternFormatter
-  - type        : RollingFileOutputter
+  - type        : FileOutputter
     name        : mailers_file
     level       : INFO
-    trunc       : 86400
-    maxsize     : 50000000
+    trunc       : 'false'
     filename    : "log/mailers.log"
     formatter   :
       date_pattern: '%m/%d/%Y %H:%M:%S'
       pattern     : "[%d] [%l]: %m"
       type        : PatternFormatter
-  - type        : RollingFileOutputter
+  - type        : FileOutputter
     name        : controllers_file
     level       : INFO
-    trunc       : 86400
-    maxsize     : 50000000
+    trunc       : 'false'
     filename    : "log/controllers.log"
     formatter   :
       date_pattern: '%m/%d/%Y %H:%M:%S'
       pattern     : "[%d] [%l]: %m"
       type        : PatternFormatter
-  - type        : RollingFileOutputter
+  - type        : FileOutputter
     name        : errors_file
     level       : ERROR
-    trunc       : 86400
-    maxsize     : 50000000
+    trunc       : 'false'
     filename    : "log/errors.log"
     formatter   :
       date_pattern: '%m/%d/%Y %H:%M:%S'
