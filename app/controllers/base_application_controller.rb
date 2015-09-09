@@ -12,9 +12,9 @@ class BaseApplicationController < ActionController::Base
     if ex.is_a?(Pundit::NotAuthorizedError)
       permission_denied
     else
-      raise ex
+      raise ex unless Rails.env.test?
     end
-  end if !Rails.env.test?
+  end
 
   protected
 
