@@ -7,6 +7,10 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require 'log4r'
+require 'log4r/yamlconfigurator'
+require 'log4r/outputter/datefileoutputter'
+include Log4r
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
