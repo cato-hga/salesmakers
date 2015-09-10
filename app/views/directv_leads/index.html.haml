@@ -5,7 +5,8 @@
 .widget
   .inner
     = paginate @directv_leads
-    = render partial: 'directv_leads/table', locals: { leads: @directv_leads }
+    - header = header_row [sort_link(@search, :follow_up_by, 'F/U By'), sort_link(@search, 'directv_customer.person', 'Rep'), sort_link(@search, 'directv_customer.name', 'Name'), sort_link(@search, :created_at, 'Saved'), 'Phone', 'Has Comments']
+    = render partial: 'directv_leads/table', locals: { leads: @directv_leads, header: header }
 - content_for :footer do
   .left= csv_link csv_directv_leads_path(controller: :directv_leads, action: :index), @search.result.count
   = paginate @directv_leads

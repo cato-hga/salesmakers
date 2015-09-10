@@ -5,19 +5,20 @@
 - overdue = @directv_leads.overdue
 - upcoming = @directv_leads.upcoming
 - not_upcoming_or_overdue = @directv_leads.not_upcoming_or_overdue
+- header = header_row ['F/U By', 'Rep', 'Name', 'Saved', 'Phone', 'Has Comments']
 
 - if @directv_leads.count == 0
   .comment None.
 - if overdue.count > 0
   #overdue_leads
     %h4 Overdue
-    = render partial: 'directv_leads/table', locals: { leads: overdue }
+    = render partial: 'directv_leads/table', locals: { leads: overdue, header: header }
 - if upcoming.count > 0
   #upcoming_leads
     %h4
       Upcoming
       %span.small.comment 1 week
-    = render partial: 'directv_leads/table', locals: { leads: upcoming }
+    = render partial: 'directv_leads/table', locals: { leads: upcoming, header: header }
 - if not_upcoming_or_overdue.count > 0
   %h4 Other Leads
-  = render partial: 'directv_leads/table', locals: { leads: not_upcoming_or_overdue }
+  = render partial: 'directv_leads/table', locals: { leads: not_upcoming_or_overdue, header: header }
