@@ -90,6 +90,15 @@ Rails.application.configure do
   # Do not deliver mail from staging (use true for testing)
   config.action_mailer.perform_deliveries = true
 
+  # Logging
+  log4r_config = YAML.load_file File.new(Rails.root.join('config', 'log4r.yml'))
+  log_cfg = YamlConfigurator
+  log_cfg.decode_yaml log4r_config['log4r_config']
+
+  config.logger = Log4r::Logger["#{Rails.env}_rails"]
+  config.log_level = :unknown
+  ActiveRecord::Base.logger = Logger.new('/dev/null')
+
   config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.hash('STAGING')
 end
 

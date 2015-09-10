@@ -23,6 +23,12 @@ GIT
       activesupport (>= 3.0.0)
 
 GIT
+  remote: https://github.com/colbygk/log4r.git
+  revision: 4e041411c289963d997ee1ebd06fd9875eb40de5
+  specs:
+    log4r (1.1.11)
+
+GIT
   remote: https://github.com/elabs/pundit.git
   revision: 9bb0f8380243a74bfebccf53e319a0c21fcaee85
   specs:
@@ -818,6 +824,7 @@ DEPENDENCIES
   kiba (= 0.6.1)
   launchy (= 2.4.3)
   letter_opener (= 1.4.1)
+  log4r!
   lol_dba (= 2.0.0)
   mechanize (= 2.7.3)
   metric_fu (= 4.12.0)

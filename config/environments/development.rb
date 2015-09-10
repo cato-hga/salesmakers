@@ -10,7 +10,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
+  config.consider_all_requests_local = true
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
@@ -41,7 +41,14 @@ Rails.application.configure do
 
   config.cache_store = :null_store
 
-  config.log_level = :debug
+  # Logging
+  log4r_config = YAML.load_file File.new(Rails.root.join('config', 'log4r.yml'))
+  log_cfg = YamlConfigurator
+  log_cfg.decode_yaml log4r_config['log4r_config']
+
+  config.logger = Log4r::Logger["#{Rails.env}_rails"]
+  config.log_level = :unknown
+  ActiveRecord::Base.logger = Logger.new('/dev/null')
 
   # Needed for websocket-rails
   config.middleware.delete Rack::Lock
