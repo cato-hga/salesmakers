@@ -92,7 +92,9 @@ class DirecTVLead < ActiveRecord::Base
   end
 
   def directv_old_lead_deactivate
-    deactivate_old_lead('DirecTV')
+    for lead in DirecTVLead.where(active: true)
+      deactivate_old_lead('DirecTV', lead)
+    end
   end
 
   private

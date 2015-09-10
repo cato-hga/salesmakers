@@ -101,7 +101,9 @@ class ComcastLead < ActiveRecord::Base
   end
 
   def comcast_old_lead_deactivate
-    deactivate_old_lead('Comcast')
+    for lead in ComcastLead.where(active: true)
+      deactivate_old_lead('Comcast', lead)
+    end
   end
 
   private
