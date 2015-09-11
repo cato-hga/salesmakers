@@ -7,28 +7,22 @@
     %ul.dropdown
       - if vonage_sale_policy.new?
         %li= link_to 'Sale Entry', new_vonage_sale_path
-
-  - events = Project.find_by name: 'Vonage Events'
-  - if @visible_projects.include? events
-    %li.has-dropdown
-      %a{ href: '#' } Vonage Events
-      %ul.dropdown
-        %li= link_to 'Receive', new_vonage_device_path
-        %li= link_to 'Transfer', transfer_vonage_devices_path
-        %li= link_to 'Reclaim', '#'
-        %li= link_to 'Reconciliation', '#'
       - if vonage_sale_policy.index?
         %li= link_to 'Vonage Sales', vonage_sales_path
       - if walmart_gift_card_policy.new?
         %li.divider
         %li= link_to 'Gift Card Import/Balance Check', new_walmart_gift_card_path
--#
--#- events = Project.find_by name: 'Vonage Events'
--#- if @visible_projects.include? events
--#  %li.has-dropdown
--#    %a{ href: '#' } Vonage Events
--#    %ul.dropdown
--#      %li= link_to 'Receiving', '#'
--#      %li= link_to 'Reconciliation', '#'
--#      %li= link_to 'Reclaim', '#'
--#      %li= link_to 'Transfer', '#'
+
+- events = Project.find_by name: 'Vonage Events'
+- if @visible_projects.include? events
+  %li.has-dropdown
+    %a{ href: '#' } Vonage Events
+    %ul.dropdown
+      - if vonage_sale_policy.index?
+        %li= link_to 'Vonage Sales', vonage_sales_path
+      - if vonage_sale_policy.new?
+        %li= link_to 'Sale Entry', new_vonage_sale_path
+      %li= link_to 'Receive', new_vonage_device_path
+      %li= link_to 'Transfer', transfer_vonage_devices_path
+      %li= link_to 'Reconciliation', '#'
+      %li= link_to 'Reclaim', '#'

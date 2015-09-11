@@ -9,5 +9,6 @@ describe 'Factory Girl' do
     end
 
     FactoryGirl.lint factories_to_lint
+    
   end
 end

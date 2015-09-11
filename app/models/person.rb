@@ -52,6 +52,7 @@ class Person < ActiveRecord::Base
 
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
+  has_many :vonage_devices
 
 
   def self.setup_validations

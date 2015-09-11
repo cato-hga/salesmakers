@@ -18,8 +18,7 @@ class RootRedirectsController < ApplicationController
     end
     if department.name == 'Vonage Retail Sales' or
         department.name == 'Vonage Event Sales'
-      # TODO: redirect_to new_vonage_sale_path and return
-      redirect_to vcp07012015_path(@current_person) and return
+      redirect_to new_vonage_sale_path and return
     end
     if department.name == 'Executives'
       redirect_to people_path and return

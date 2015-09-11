@@ -1,19 +1,25 @@
-- if @vonage_transfer.errors.any?
-  - @vonage_transfer.errors.full_messages.each do |msg|
-    .alert.alert-box= msg
+-#- if @vonage_transfer.errors.any?
+-#  - @vonage_transfer.errors.full_messages.each do |msg|
+-#    .alert.alert-box= msg
 
 - title "Vonage Inventory Transferring"
-= form_tag transfer_vonage_devices_path, method: :get do
+= form_tag do_transfer_vonage_devices_path, method: :post do
   .widget
     .inner
+      - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :display_name )
+      = hidden_field_tag 'from_person',  @current_person.id
       = label_tag 'To Person'
-      = text_field_tag 'to_person', nil, placeholder: 'Sender'
-      = label_tag 'From Person'
-      = text_field_tag 'from_person', nil, placeholder: 'Receiver'
-      = label_tag 'IDs'
-      = text_field_tag 'vonage_device_id'
-
+      = select_tag :to_person, person_name_options, include_blank: true
   .widget
     .inner
-      = label_tag 'Transfer Time'
-      = text_field_tag 'transfer_time', nil, placeholder: 'Time of Transfer'
+      - header = header_row ['Mac Id(s)', 'Transfer Device']
+      - rows = Array.new
+      - count = 0
+      - for macs in @vonage_devices do
+        - transfer_id =  check_box_tag 'vonage_devices[]', macs.id, false, { multiple: true, id: "vonage_devices#{count}" }
+        - mac = macs.mac_id
+        - rows << table_row([mac, transfer_id])
+        - count += 1
+      = table(header, rows)
+      = submit_tag "Transfer ", class: [:button]
+

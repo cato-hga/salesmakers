@@ -2047,7 +2047,7 @@ ALTER SEQUENCE employments_id_seq OWNED BY employments.id;
 
 
 --
--- Name: gift_card_overrides; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- Name: gift_card_overrides; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE gift_card_overrides (
@@ -5572,15 +5572,14 @@ ALTER SEQUENCE vonage_shipped_devices_id_seq OWNED BY vonage_shipped_devices.id;
 
 CREATE TABLE vonage_transfers (
     id integer NOT NULL,
-    to_person character varying,
-    from_person character varying,
-    vonage_device character varying,
     created_at timestamp without time zone NOT NULL,
     accepted boolean DEFAULT false NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     vonage_device_id integer,
     transfer_time timestamp without time zone,
-    rejection_time timestamp without time zone
+    rejection_time timestamp without time zone,
+    to_person_id integer,
+    from_person_id integer
 );
 
 
@@ -10858,4 +10857,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150901153130');
 INSERT INTO schema_migrations (version) VALUES ('20150904133422');
 
 INSERT INTO schema_migrations (version) VALUES ('20150906172013');
+
+INSERT INTO schema_migrations (version) VALUES ('20150910142356');
+
+INSERT INTO schema_migrations (version) VALUES ('20150911145402');
 

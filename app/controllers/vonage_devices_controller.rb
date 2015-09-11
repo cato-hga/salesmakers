@@ -14,10 +14,36 @@ class VonageDevicesController < ApplicationController
 
   def transfer
     @vonage_transfer = VonageTransfer.new
+    set_vonage_employees
+    @vonage_devices = @current_person.vonage_devices
   end
 
-  def do_transfer
 
+  def do_transfer
+    to_person = Person.find params[:to_person]
+    vonage_device_ids = params[:vonage_devices]
+    invalids = 0
+    invalid_macs = []
+    for device in vonage_device_ids do
+      vonage_device = VonageDevice.find device
+      transfer = VonageTransfer.new to_person: to_person,
+                                    from_person: @current_person,
+                                    vonage_device: vonage_device,
+                                    transfer_time: DateTime.now
+      if transfer.save
+        vonage_device.update person: to_person
+      else
+        invalid_macs << vonage_device.mac_id
+        invalids += 1
+      end
+    end
+    if invalids = 0
+      #SUCCESS
+      redirect_to transfer_vonage_devices_path
+    else
+      flash[:error] = "The following MAC ID's could not be transferred. Please submit a support ticket with a screenshot of this page. #{invalid_macs.join(', ')}"
+      redirect_to transfer_vonage_devices_path
+    end
   end
 
   def create
@@ -46,6 +72,10 @@ class VonageDevicesController < ApplicationController
   end
 
   private
+
+  def set_vonage_employees
+    @vonage_employees = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
+  end
 
   def vonage_device_params
     params.permit :person_id,

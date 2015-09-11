@@ -1,6 +1,6 @@
-- if @vonage_device.errors.any?
-  - @vonage_device.errors.full_messages.each do |msg|
-    .alert.alert-box= msg
+-#- if @vonage_device.errors.any?
+-#  - @vonage_device.errors.full_messages.each do |msg|
+-#    .alert.alert-box= msg
 
 = form_tag vonage_devices_path, method: :post do
   .widget

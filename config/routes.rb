@@ -350,7 +350,7 @@ Rails.application.routes.draw do
   resources :vonage_devices do
     collection do
       get :transfer, as: :transfer
-      post :do_transfer
+      post :do_transfer, as: :do_transfer
     end
   end
 
