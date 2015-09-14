@@ -1,0 +1,45 @@
+- title "Shifts"
+
+- header = header_row ['Date', 'Person', 'Project', 'Area', 'Location', 'Hours', 'Training?', 'Meeting?']
+- rows = []
+
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :date_gteq, placeholder: 'Date on/after'
+    = f.text_field :date_lteq, placeholder: 'Date on/before'
+    = f.text_field :person_display_name_cont, placeholder: 'Employee name'
+    = f.text_field :hours_gt, placeholder: 'Hours above'
+    = f.text_field :hours_lt, placeholder: 'Hours below'
+    = f.text_field :location_store_number_cont, placeholder: 'Store #'
+    %br/
+    = f.select :person_person_areas_area_project_id_eq, options_from_collection_for_select(@projects, :id, :name, @search.person_person_areas_area_project_id_eq), include_blank: 'All Projects'
+    = grouped_collection_select nil, :location_in_area_id, @projects, :areas, :name, :id, :name, include_blank: 'All Areas', selected: @area_id
+    = f.select :training_eq, [['Training', true],['Non-training', false]], include_blank: 'All'
+    = f.select :meeting_eq, [['Meeting', true],['Non-meeting', false]], include_blank: 'All'
+    = f.submit 'Search', class: [:button, :inline_button]
+
+- for shift in @shifts do
+  - date = short_date shift.date
+  - person = person_link shift.person
+  - person_areas = shift.person.person_areas
+  - main_project = person_areas.empty? ? nil : person_areas.first.area.project
+  - location = main_project && shift.location ? location_link(main_project, shift.location) : ''
+  - project = main_project ? main_project.name : ''
+  - area_location_areas = shift.location && main_project ? shift.location.location_areas.joins(:area).where("areas.project_id = ?", main_project.id) : nil
+  - area = area_location_areas && !area_location_areas.empty? ? area_link(area_location_areas.first.area) : ''
+  - hours = shift.hours.round(2).to_s
+  - training = shift.training? ? icon('check') : ''
+  - meeting = shift.meeting? ? icon('check') : ''
+  - rows << table_row([date, person, project, area, location, hours, training, meeting])
+
+= paginate @shifts
+
+.widget
+  .inner
+    = table header, rows
+
+- content_for :footer do
+  = paginate @shifts

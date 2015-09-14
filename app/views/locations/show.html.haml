@@ -5,6 +5,9 @@
     .inner
       %h3 Basic Information
       %p
+        %strong Store #:
+        = @location.store_number
+      %p
         %strong Channel:
         = @location.channel.name
       - if @location.street_1

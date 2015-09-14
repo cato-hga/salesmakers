@@ -84,6 +84,7 @@ questions
 reports
 report_queries
 sessions
+shifts
 themes
 vonage_shipped_devices
 walmart_gift_cards
