@@ -1,6 +1,6 @@
 - title "Shifts"
 
-- header = header_row ['Date', 'Person', 'Project', 'Area', 'Location', 'Hours', 'Training?', 'Meeting?']
+- header = header_row ['Date', 'Person', 'Project', 'Area(s)', 'Location', 'Hours', 'Training?', 'Meeting?']
 - rows = []
 
 - content_for :header do
@@ -28,8 +28,8 @@
   - main_project = person_areas.empty? ? nil : person_areas.first.area.project
   - location = main_project && shift.location ? location_link(main_project, shift.location) : ''
   - project = main_project ? main_project.name : ''
-  - area_location_areas = shift.location && main_project ? shift.location.location_areas.joins(:area).where("areas.project_id = ?", main_project.id) : nil
-  - area = area_location_areas && !area_location_areas.empty? ? area_link(area_location_areas.first.area) : ''
+  - area_location_areas = shift.location && main_project ? shift.location.location_areas.joins(:area).where("areas.project_id = ?", main_project.id) : []
+  - area = area_location_areas.map { |la| la.area.ancestors.map { |a| area_link(a) } << area_link(la.area) }.join(",<br>".html_safe).html_safe
   - hours = shift.hours.round(2).to_s
   - training = shift.training? ? icon('check') : ''
   - meeting = shift.meeting? ? icon('check') : ''
@@ -42,4 +42,6 @@
     = table header, rows
 
 - content_for :footer do
+- search_params = params[:q] || []
+  .left= csv_link csv_shifts_path(controller: :shifts, action: :index, q: search_params, location_in_area_id: params[:location_in_area_id]), @search.result.count
   = paginate @shifts

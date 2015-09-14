@@ -36,7 +36,7 @@ module LinksHelperExtension
   def csv_link(path, record_count)
     if record_count >= 1000
       data_attributes = {
-          confirm: 'Exporting this many records could take a while. After clicking OK, please wait for the export to complete.',
+          confirm: 'Exporting this many records could take a while. After clicking OK, please wait for the export to complete, or you may click "Cancel" to refine your search.',
           attachment: true
       }
     else
