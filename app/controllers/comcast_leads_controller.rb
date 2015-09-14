@@ -67,13 +67,7 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      if !@comcast_lead || @comcast_lead.nil?
-        flash[:error] = 'Could not dismiss lead.'
-      elsif @comcast_lead && @comcast_lead.errors.any?
-        flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', ') + @comcast_customers.errors.full_messsages.join(', ')
-      else
-        flash[:error] = 'Could not dismiss lead.'
-      end
+      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customer.errors.full_messsages.join(', ')
     end
     redirect_to comcast_customers_path
   end
@@ -137,4 +131,5 @@ class ComcastLeadsController < ApplicationController
   def do_authorization
     authorize ComcastCustomer.new
   end
+
 end
