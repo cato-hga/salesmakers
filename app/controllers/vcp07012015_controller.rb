@@ -1,7 +1,8 @@
 class VCP07012015Controller < ApplicationController
 
   def show
-    @vonage_commission_period07012015s = VonageCommissionPeriod07012015.where("hps_start < ?", Date.current).order(cutoff: :desc)
+    current_period = VonageCommissionPeriod07012015.where("cutoff > ?", DateTime.now).order(:cutoff).first
+    @vonage_commission_period07012015s = VonageCommissionPeriod07012015.where("cutoff <= ?", current_period.cutoff).order(cutoff: :desc)
     @vonage_commission_period07012015 = params[:vonage_commission_period07012015_id] ?
         VonageCommissionPeriod07012015.find(params[:vonage_commission_period07012015_id]) :
         get_current_commission_period
