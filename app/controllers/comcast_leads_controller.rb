@@ -11,9 +11,7 @@ class ComcastLeadsController < ApplicationController
   after_action :verify_policy_scoped, only: [:index, :csv]
 
   def index
-    @search = policy_scope(ComcastLead).search(params[:q])
-    @comcast_leads = @search.result.page(params[:page])
-    authorize ComcastLead.new
+    shared_index('Comcast', 'Lead')
   end
 
   def new
@@ -69,11 +67,7 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      if @comcast_lead.nil?
-        flash[:error] = 'Could not dismiss lead.'
-      else
-        flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customers.errors.full_messsages.join(', ')
-      end
+      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customer.errors.full_messsages.join(', ')
     end
     redirect_to comcast_customers_path
   end
@@ -137,4 +131,5 @@ class ComcastLeadsController < ApplicationController
   def do_authorization
     authorize ComcastCustomer.new
   end
+
 end

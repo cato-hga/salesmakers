@@ -2412,7 +2412,8 @@ CREATE TABLE historical_location_areas (
     priority integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    date date NOT NULL
+    date date NOT NULL,
+    bilingual boolean DEFAULT false
 );
 
 
@@ -2920,7 +2921,8 @@ CREATE TABLE location_areas (
     outsourced boolean DEFAULT false NOT NULL,
     launch_group integer,
     distance_to_cor double precision,
-    priority integer
+    priority integer,
+    bilingual boolean DEFAULT false
 );
 
 
@@ -10750,7 +10752,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901153130');
 
+INSERT INTO schema_migrations (version) VALUES ('20150903193541');
+
 INSERT INTO schema_migrations (version) VALUES ('20150904133422');
 
 INSERT INTO schema_migrations (version) VALUES ('20150906172013');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914193736');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914201054');
 

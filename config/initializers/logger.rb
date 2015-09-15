@@ -66,12 +66,6 @@ if !Rails.env.test?
     }
   end
 
-  # SQL logging
-  ActiveSupport::Notifications.subscribe "sql.active_record" do |name, start, finish, id, payload|
-    logger = Log4r::Logger["#{Rails.env}_active_record"]
-    logger.debug { "(#{time_in_ms(start,finish)}) #{payload[:sql]}" }
-  end
-
   # Mailer logging
   ActiveSupport::Notifications.subscribe "deliver.action_mailer" do |name, start, finish, id, payload|
     logger = Log4r::Logger["#{Rails.env}_mailers"]

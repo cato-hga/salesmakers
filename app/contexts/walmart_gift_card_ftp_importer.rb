@@ -37,6 +37,7 @@ class WalmartGiftCardFTPImporter
     set_spreadsheet
     return unless @spreadsheet
     process_row_hashes
+    WalmartGiftCardMailer.send_card_pickup_email(@gift_cards.count).deliver_later unless @gift_cards.empty?
     store_all_cards
     WalmartGiftCardMailer.send_rbdc_check_email(@saved_gift_cards).deliver_later
     WalmartGiftCardMailer.send_card_details(@saved_gift_cards, nil, 'New Gift Cards from Import').deliver_later

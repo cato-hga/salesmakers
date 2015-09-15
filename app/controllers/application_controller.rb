@@ -35,8 +35,15 @@ class ApplicationController < BaseApplicationController
   end
 
   def log_additional_data
+    if @current_person
+      @exception_person = @current_person
+    elsif session[:cas_user]
+      @exception_person = Person.find_by email: session[:cas_user]
+    else
+      @exception_person = nil
+    end
     request.env["exception_notifier.exception_data"] = {
-        person: @person
+        exception_person: @exception_person
     }
   end
 

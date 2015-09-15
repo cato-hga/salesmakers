@@ -4,7 +4,7 @@ describe 'DirecTV leads index' do
   let(:area) { create :area }
   let(:person) { create :directv_employee }
   let!(:person_area) { create :person_area, person: person, area: area }
-  let(:directv_customer_one) { create :directv_customer, person: person }
+  let(:directv_customer_one) { create :directv_customer, first_name: 'Im Inactive', person: person }
   let(:directv_customer_two) { create :directv_customer, person: person }
   let!(:directv_lead_one) { create :directv_lead, directv_customer: directv_customer_one }
   let!(:directv_lead_two) { create :directv_lead, directv_customer: directv_customer_two }
@@ -35,5 +35,13 @@ describe 'DirecTV leads index' do
     directv_lead_one.update comments: nil
     visit directv_leads_path
     expect(page).to have_content('No')
+  end
+
+  it 'does not display inactive leads' do
+    visit directv_leads_path
+    expect(page).to have_content directv_customer_one.name
+    directv_lead_one.update active: false
+    visit directv_leads_path
+    expect(page).not_to have_content directv_customer_one.name
   end
 end

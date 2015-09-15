@@ -39,12 +39,12 @@ class Project < ActiveRecord::Base
   def self.visible(person = nil)
     return Project.none unless person
     return Project.all if person.position and person.position.hq?
-    projects = Array.new
+    project_ids = Array.new
     for person_area in person.person_areas do
       next unless person_area.area
-      projects << person_area.area.project unless projects.include? person_area.area.project
+      project_ids << person_area.area.project_id unless project_ids.include? person_area.area.project_id
     end
-    projects
+    Project.where id: project_ids.uniq
   end
 
   def self.location_areas(project)

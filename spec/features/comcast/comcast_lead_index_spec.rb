@@ -4,7 +4,7 @@ describe 'Comcast leads index' do
   let(:area) { create :area }
   let(:person) { create :comcast_employee }
   let!(:person_area) { create :person_area, person: person, area: area }
-  let(:comcast_customer_one) { create :comcast_customer, person: person }
+  let(:comcast_customer_one) { create :comcast_customer, first_name: 'Im inactive!', person: person }
   let(:comcast_customer_two) { create :comcast_customer, person: person }
   let!(:comcast_lead_one) { create :comcast_lead, comcast_customer: comcast_customer_one }
   let!(:comcast_lead_two) { create :comcast_lead, comcast_customer: comcast_customer_two }
@@ -36,5 +36,13 @@ describe 'Comcast leads index' do
       comcast_lead_one.update comments: nil
       visit comcast_leads_path
       expect(page).to have_content('No')
+  end
+
+  it 'does not display inactive leads' do
+    visit comcast_leads_path
+    expect(page).to have_content comcast_customer_one.name
+    comcast_lead_one.update active: false
+    visit comcast_leads_path
+    expect(page).not_to have_content comcast_customer_one.name
   end
 end

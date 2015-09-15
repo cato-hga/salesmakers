@@ -10,7 +10,7 @@ class PersonUpdater
   end
 
   def update
-    return unless @connect_user and @person and @updater
+    return unless @connect_user && @person && @updater && !@connect_user.firstname == 'X'
     update_employment
     update_position
     update_person_areas

@@ -21,12 +21,6 @@ log4r_config:
       - stderr
       - stdout
     # Development
-    - name          : development_active_record
-      level         : DEBUG
-      trace         : 'false'
-      outputters    :
-      - stderr
-      - stdout
     - name          : development_controllers
       level         : DEBUG
       trace         : 'true'
@@ -46,12 +40,6 @@ log4r_config:
       - stderr
       - stdout
     # Staging
-    - name          : staging_active_record
-      level         : DEBUG
-      trace         : 'false'
-      outputters    :
-      - stderr
-      - active_record_file
     - name          : staging_controllers
       level         : INFO
       trace         : 'true'
@@ -71,12 +59,6 @@ log4r_config:
       - stderr
       - mailers_file
     # Production
-    - name          : production_active_record
-      level         : DEBUG
-      trace         : 'false'
-      outputters    :
-      - stderr
-      - active_record_file
     - name          : production_controllers
       level         : INFO
       trace         : 'true'

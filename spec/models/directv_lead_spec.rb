@@ -20,7 +20,10 @@ RSpec.describe DirecTVLead, :type => :model do
     lead.save validate: false
     lead
   }
+
+  let(:note) { build :directv_customer_note, directv_customer: entered_lead.directv_customer }
   subject { build :directv_lead }
+
 
   it 'requires that the follow up date be in the future' do
     subject.follow_up_by = Date.current
@@ -52,6 +55,75 @@ RSpec.describe DirecTVLead, :type => :model do
 
   it 'reflects the DirecTVCustomer other phone as directv_customer_other_phone' do
     expect(subject.directv_customer_other_phone).to eq(subject.directv_customer.other_phone)
+  end
+
+  describe '.overdue_by_ten' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 10.days
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 11.days
+      expect(entered_lead.overdue_by_ten).to eq(true)
+    end
+    it 'returns true if the last note was 10 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      note.update created_at: Date.today - 10.days
+      expect(entered_lead.overdue_by_ten).to eq(false)
+      note.update created_at: Date.today - 11.days
+      expect(entered_lead.overdue_by_ten).to eq(true)
+    end
+  end
+
+  describe '.overdue_by_twenty_one' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 21.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 22.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(true)
+    end
+    it 'returns true if the last note was 21 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      note.update created_at: Date.today - 21.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(false)
+      note.update created_at: Date.today - 22.days
+      expect(entered_lead.overdue_by_twenty_one).to eq(true)
+    end
+  end
+
+  describe '.overdue_by_thirty_five' do
+    it 'returns true if the follow up date is 10 days in the past if there are no notes' do
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 35.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      entered_lead.update follow_up_by: Date.today - 36.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(true)
+    end
+    it 'returns true if the last note was 35 days in the past or more' do
+      note.save
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      note.update created_at: Date.today - 35.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(false)
+      note.update created_at: Date.today - 36.days
+      expect(entered_lead.overdue_by_thirty_five).to eq(true)
+    end
+  end
+
+  describe '.directv_old_lead_deactivate' do
+    let!(:reason) { create :directv_lead_dismissal_reason, name: '35 days without follow up' }
+    let!(:admin) { create :person, email: 'retailingw@retaildoneright.com' }
+    it 'deactivates leads that have been inactive for 35 days' do
+      entered_lead.update follow_up_by: Date.today - 36.days
+      expect(entered_lead.active).to eq(true)
+      entered_lead.directv_old_lead_deactivate
+      entered_lead.reload
+      expect(entered_lead.active).to eq(false)
+      expect(entered_lead.directv_customer.directv_lead_dismissal_reason).to eq(reason)
+      expect(entered_lead.directv_customer.dismissal_comment).to eq('Auto-closed after 35 days of inactivity')
+      expect(LogEntry.count).to eq(1)
+    end
   end
 
   describe 'scopes' do

@@ -324,6 +324,11 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy', as: 'logout'
 
+  resources :shifts, only: [:index] do
+    collection do
+      get :csv, to: 'shifts#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
   resources :sms_daily_checks, only: [:index]
 
   put 'sms_daily_checks/update', to: 'sms_daily_checks#update', as: :update_sms_daily_check
