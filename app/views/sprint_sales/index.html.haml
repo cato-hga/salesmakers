@@ -14,13 +14,19 @@
     = f.text_field :sale_date_gteq, placeholder: 'Sold on/after'
     = f.text_field :sale_date_lteq, placeholder: 'Sold on/before'
     = f.text_field :person_display_name_cont, placeholder: 'Seller'
-    = f.text_field :meid_cont, placeholder: 'MAC'
+    = f.text_field :meid_cont, placeholder: 'MEID'
+    = f.text_field :mobile_phone_cont, placeholder: 'Mobile phone #'
+    %br/
+    = f.select :sprint_carrier_id_eq, options_from_collection_for_select(@sprint_carriers, :id, :name, @search.sprint_carrier_id_eq), include_blank: 'All Carriers'
+    = f.select :sprint_handset_id_eq, options_from_collection_for_select(@sprint_handsets, :id, :name, @search.sprint_handset_id_eq), include_blank: 'All Handsets'
+    = f.select :sprint_rate_plan_id_eq, options_from_collection_for_select(@sprint_rate_plans, :id, :name, @search.sprint_rate_plan_id_eq), include_blank: 'All Rate Plans'
+    = f.select :phone_activated_in_store_eq, options_for_select([['Activated', true], ['Not Activated', false]], @search.phone_activated_in_store_eq), include_blank: 'Activated or Not'
+    = f.select :upgrade_eq, options_for_select([['Upgrade', true], ['Non-upgrade', false]], @search.upgrade_eq), include_blank: 'Upgrades or Not'
     %br/
     = f.text_field :location_store_number_cont, placeholder: 'Store #'
     = f.text_field :location_city_cont, placeholder: 'Store City'
     = f.text_field :location_street_1_cont, placeholder: 'Store Street'
-    %br/
-    = select_tag :areas_includes_id, options_from_collection_for_select(@areas, :id, :name, params[:areas_includes_id]), include_blank: 'All Areas'
+    = grouped_collection_select nil, :location_in_area_id, @projects, :areas, :name, :id, :name, include_blank: 'All Areas', selected: @area_id
     = f.submit 'Search', class: [:button, :inline_button]
 
 - for sale in @sprint_sales do

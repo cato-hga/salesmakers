@@ -13,8 +13,6 @@ class SprintSalesController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
-    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
     @last_import = SprintSale.maximum(:created_at)
     @sprint_sales = @sprint_sales.page(params[:page])
     @areas = []
@@ -89,12 +87,35 @@ class SprintSalesController < ApplicationController
     authorize SprintSale.new
   end
 
+  def area_params
+    params.permit :location_in_area_id
+  end
+
   def search_sales
-    @search = policy_scope(SprintSale).
+    @sprint_carriers = SprintCarrier.all.order(:name)
+    @sprint_handsets = SprintHandset.all.order(:name)
+    @sprint_rate_plans = SprintRatePlan.all.order(:name)
+    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
+    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
+    @projects = Project.where("name = ? OR name = ?", 'Sprint Retail', 'Sprint Postpaid').includes(:areas, :client)
+    @area_id = area_params[:location_in_area_id]
+    area = @area_id.blank? ? nil : Area.find(@area_id)
+    sprint_sales = policy_scope(SprintSale)
+    if area
+      if area.descendant_ids.empty?
+        sprint_sales = sprint_sales.none
+      else
+        sprint_sales = sprint_sales.
+            joins(location: :location_areas).
+            where("location_areas.area_id IN (#{area.descendant_ids.join(',')})")
+      end
+    end
+    @search = sprint_sales.
+        search(params[:q])
+    @sprint_sales = @search.
+        result.
         joins(:person).
         order("sale_date DESC, people.display_name ASC").
-        search(params[:q])
-    @sprint_sales = filter_result(@search.result).
         includes(:person, :location)
   end
 
