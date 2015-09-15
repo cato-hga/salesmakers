@@ -31,6 +31,8 @@ class SprintSalesController < ApplicationController
   end
 
   def show
+    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
+    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
     @sprint_sale = policy_scope(SprintSale).find params[:id]
   end
 
