@@ -34,6 +34,8 @@ class SprintSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
   before_validation :strip_mobile_phone
 
+  attr_writer :import
+
   validates :person, presence: true
   validates :sale_date, presence: true
   validates :location, presence: true
@@ -51,7 +53,7 @@ class SprintSale < ActiveRecord::Base
   validates :reason_not_activated_in_store, presence: true, if: :not_activated
   validates :number_of_accessories, presence: true, if: :postpaid_project
   validates :picture_with_customer, presence: true
-  validate  :sale_date_cannot_be_more_than_1_month_in_the_past
+  validate  :sale_date_cannot_be_more_than_1_month_in_the_past, unless: :import?
 
   belongs_to :person
   belongs_to :project
@@ -81,6 +83,11 @@ class SprintSale < ActiveRecord::Base
   def postpaid_project
     postpaid = Project.find_by(name: 'Sprint Postpaid')
     self.project_id == postpaid.id if postpaid
+  end
+
+  def import?
+    return false unless @import
+    @import
   end
 
   private

@@ -145,24 +145,20 @@ describe RootRedirectsController do
         CASClient::Frameworks::Rails::Filter.fake(sprint_employee.email)
       end
 
-      it 'returns a redirect for prepaid employees' do
-        get :incoming_redirect
-        expect(response).to be_redirect
-      end
-      it 'routes to prepaid for prepaid employees' do
-        get :incoming_redirect
-        expect(response).to redirect_to(new_sprint_sales_path(sprint_prepaid_project))
-      end
-      it 'returns a redirect for event employees' do
-        sprint_position.update department: sprint_prepaid_department
-        get :incoming_redirect
-        expect(response).to be_redirect
-      end
-      it 'routes to postpaid for postpaid employees' do
-        sprint_position.update department: sprint_postpaid_department
-        get :incoming_redirect
-        expect(response).to redirect_to(new_sprint_sales_path(sprint_postpaid_project))
-      end
+      # TODO: Re-enable after Sprint switchover
+      # it 'returns a redirect for prepaid employees' do
+      #   get :incoming_redirect
+      #   expect(response).to be_redirect
+      # end
+      # it 'routes to prepaid for prepaid employees' do
+      #   get :incoming_redirect
+      #   expect(response).to redirect_to(new_sprint_sales_path(sprint_prepaid_project))
+      # end
+      # it 'routes to postpaid for postpaid employees' do
+      #   sprint_position.update department: sprint_postpaid_department
+      #   get :incoming_redirect
+      #   expect(response).to redirect_to(new_sprint_sales_path(sprint_postpaid_project))
+      # end
     end
 
     describe 'not yet implemented department' do

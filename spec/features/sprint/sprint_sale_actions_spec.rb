@@ -74,10 +74,6 @@ describe 'Sprint sales actions' do
         expect(page).to have_content area_one.name
       end
 
-      it 'does not have the location area name of other projects' do
-        expect(page).not_to have_content other_project_area.name
-      end
-
       it 'indicates new activations' do
         expect(page).to have_selector 'i[class="fi-check"]'
       end

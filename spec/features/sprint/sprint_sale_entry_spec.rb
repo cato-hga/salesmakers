@@ -304,7 +304,7 @@ describe 'Sprint Sale Entry' do
           end
 
           it 'New Service?' do
-            expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade/New Phone"
+            expect(page).to have_select 'sprint_sale_upgrade', text: "New Activation Upgrade"
           end
 
           it 'Handset' do
