@@ -1,0 +1,53 @@
+- header = header_row ['Date', 'Seller', 'MEID', 'Carrier', 'Handset', 'Rate Plan', 'Location', 'Areas']
+- rows = []
+
+- content_for :action_buttons do
+  - if SprintSalePolicy.new(@current_person, SprintSale.new).new?
+    -# TODO: re-enable upon Sprint launch
+    -#= new_button new_vonage_sale_path
+
+- content_for :header do
+  = link_to icon('magnifying-glass'), '#', id: 'show_search'
+  = search_form_for @search, id: 'search_form' do |f|
+    = link_to "&times;".html_safe, '#', id: 'hide_search'
+    = link_to 'Clear', request.path if params[:q]
+    = f.text_field :sale_date_gteq, placeholder: 'Sold on/after'
+    = f.text_field :sale_date_lteq, placeholder: 'Sold on/before'
+    = f.text_field :person_display_name_cont, placeholder: 'Seller'
+    = f.text_field :meid_cont, placeholder: 'MAC'
+    %br/
+    = f.text_field :location_store_number_cont, placeholder: 'Store #'
+    = f.text_field :location_city_cont, placeholder: 'Store City'
+    = f.text_field :location_street_1_cont, placeholder: 'Store Street'
+    %br/
+    = select_tag :areas_includes_id, options_from_collection_for_select(@areas, :id, :name, params[:areas_includes_id]), include_blank: 'All Areas'
+    = f.submit 'Search', class: [:button, :inline_button]
+
+- for sale in @sprint_sales do
+  - date = short_date sale.sale_date
+  - seller = person_link sale.person
+  - meid = sprint_sale_link sale
+  - carrier = sale.sprint_carrier.name
+  - handset = sale.sprint_handset.name
+  - rate_plan = sale.sprint_rate_plan.name
+  - location_areas = sale.location.location_areas.joins(area: :project).where("projects.id = ? OR projects.id = ?", @sprint_prepaid.id, @sprint_postpaid.id)
+  - location_area = location_areas.empty? ? nil : location_areas.first
+  - location = location_area ? location_link(location_area.area.project, sale.location) : ''
+  - location_areas = location_area ? sale.location.location_areas.joins(area: :project).where("projects.id = ?", location_area.area.project.id) : nil
+  - areas = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(",<br>".html_safe).html_safe
+
+  - rows << table_row([date, seller, meid, carrier, handset, rate_plan, location, areas])
+
+= paginate @sprint_sales
+
+.widget
+  .inner
+    .comment
+      Last imported sale entered:
+      = friendly_datetime @last_import.in_time_zone
+    = table header, rows, false
+
+- content_for :footer do
+  - search_params = params[:q] || []
+  .left= csv_link csv_sprint_sales_path(controller: :sprint_sales, action: :index, q: search_params, areas_includes_id: params[:areas_includes_id]), @sprint_sales.count
+  = paginate @sprint_sales

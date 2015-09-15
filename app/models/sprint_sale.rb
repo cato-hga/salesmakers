@@ -59,9 +59,9 @@ class SprintSale < ActiveRecord::Base
   belongs_to :connect_sprint_sale,
              primary_key: 'rsprint_sale_id'
 
-  has_one :sprint_carrier
-  has_one :sprint_handset
-  has_one :sprint_rate_plan
+  belongs_to :sprint_carrier
+  belongs_to :sprint_handset
+  belongs_to :sprint_rate_plan
 
   strip_attributes
 

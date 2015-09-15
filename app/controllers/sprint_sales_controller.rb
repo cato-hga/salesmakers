@@ -7,9 +7,32 @@ class SprintSalesController < ApplicationController
   before_action :set_salesmakers, only: [:new, :create]
   before_action :get_project, only: [:new, :create]
   before_action :do_authorization
+  before_action :search_sales, only: [:index, :csv]
   before_action :set_carrier_based_on_project, only: [:new, :create]
   before_action :set_sprint_locations, only: [:new, :create]
   after_action :verify_authorized
+
+  def index
+    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
+    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
+    @last_import = SprintSale.maximum(:created_at)
+    @sprint_sales = @sprint_sales.page(params[:page])
+    @areas = []
+  end
+
+  def csv
+    respond_to do |format|
+      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"sprint_sales_#{date_time_string}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
+  end
+
+  def show
+    @sprint_sale = policy_scope(SprintSale).find params[:id]
+  end
 
   def new
     @sprint_sale = SprintSale.new
@@ -44,8 +67,33 @@ class SprintSalesController < ApplicationController
 
   private
 
+  def filter_result result
+    if params[:areas_includes_id].blank?
+      return result
+    end
+    result.joins(%{
+                    left outer join locations l on l.id = sprint_sales.location_id
+                    left outer join location_areas la on la.location_id = l.id
+                    left outer join areas a on a.id = la.area_id
+                    left outer join projects p on p.id = a.project_id
+                  }).where(%{
+                    (p.name = 'Sprint Retail' OR p.name = 'Sprint Postpaid')
+                    and la.active = true
+                    and '#{params[:areas_includes_id]}' = ANY (string_to_array(cast(a.id as character varying) || '/' || a.ancestry, '/'))
+                  })
+  end
+
   def do_authorization
     authorize SprintSale.new
+  end
+
+  def search_sales
+    @search = policy_scope(SprintSale).
+        joins(:person).
+        order("sale_date DESC, people.display_name ASC").
+        search(params[:q])
+    @sprint_sales = filter_result(@search.result).
+        includes(:person, :location)
   end
 
   def set_salesmakers

@@ -124,6 +124,10 @@ module LinksHelperExtension
     link_to location.name, client_project_location_path(project.client, project, location)
   end
 
+  def sprint_sale_link sprint_sale
+    link_to sprint_sale.meid, sprint_sale
+  end
+
   def vonage_sale_link vonage_sale
     link_to vonage_sale.mac, vonage_sale
   end

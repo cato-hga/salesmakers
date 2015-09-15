@@ -337,8 +337,9 @@ Rails.application.routes.draw do
 
   resources :sprint_radio_shack_training_sessions, only: [:index, :new, :create, :edit, :update]
 
-  resources :sprint_sales, only: [:index] do
+  resources :sprint_sales, only: [:index, :show] do
     collection do
+      get :csv, to: 'sprint_sales#csv', as: :csv, defaults: { format: :csv }
       get :scoreboard, as: :scoreboard
       get 'new/:project_id', to: 'sprint_sales#new', as: :new
       post 'new/:project_id', to: 'sprint_sales#create', as: :create
