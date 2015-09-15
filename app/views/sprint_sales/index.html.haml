@@ -18,8 +18,8 @@
     = f.text_field :mobile_phone_cont, placeholder: 'Mobile phone #'
     %br/
     = f.select :sprint_carrier_id_eq, options_from_collection_for_select(@sprint_carriers, :id, :name, @search.sprint_carrier_id_eq), include_blank: 'All Carriers'
-    = f.select :sprint_handset_id_eq, options_from_collection_for_select(@sprint_handsets, :id, :name, @search.sprint_handset_id_eq), include_blank: 'All Handsets'
-    = f.select :sprint_rate_plan_id_eq, options_from_collection_for_select(@sprint_rate_plans, :id, :name, @search.sprint_rate_plan_id_eq), include_blank: 'All Rate Plans'
+    = grouped_collection_select :q, :sprint_handset_id_eq, @sprint_carriers, :sprint_handsets, :name, :id, :name, include_blank: 'All Handsets', selected: @search.sprint_handset_id_eq
+    = grouped_collection_select :q, :sprint_rate_plan_id_eq, @sprint_carriers, :sprint_rate_plans, :name, :id, :name, include_blank: 'All Rate Plans', selected: @search.sprint_rate_plan_id_eq
     = f.select :phone_activated_in_store_eq, options_for_select([['Activated', true], ['Not Activated', false]], @search.phone_activated_in_store_eq), include_blank: 'Activated or Not'
     = f.select :upgrade_eq, options_for_select([['Upgrade', true], ['Non-upgrade', false]], @search.upgrade_eq), include_blank: 'Upgrades or Not'
     %br/
