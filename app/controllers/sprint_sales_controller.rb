@@ -19,6 +19,11 @@ class SprintSalesController < ApplicationController
   end
 
   def csv
+    if @sprint_sales.count >= 10000
+      flash[:error] = 'There were more than 10,000 sales returned from your search. This is too large. ' +
+          'Please further refine your search to export the sales to CSV.'
+      redirect_to :back and return
+    end
     respond_to do |format|
       format.html { redirect_to self.send((controller_name + '_path').to_sym) }
       format.csv do
