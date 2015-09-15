@@ -30,5 +30,4 @@ describe SprintSalesController do
       end
     end
   end
-
 end

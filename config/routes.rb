@@ -340,6 +340,8 @@ Rails.application.routes.draw do
   resources :sprint_sales, only: [:index] do
     collection do
       get :scoreboard, as: :scoreboard
+      get 'new/:project_id', to: 'sprint_sales#new', as: :new
+      post 'new/:project_id', to: 'sprint_sales#create', as: :create
     end
   end
 
