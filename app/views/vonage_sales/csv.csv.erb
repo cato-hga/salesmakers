@@ -13,7 +13,7 @@
                                                                                                                          sale.location.address,
                                                                                                                          customer_name,
                                                                                                                          sale.vonage_product.name,
-                                                                                                                         sale.gift_card_number,
+                                                                                                                         sale.gift_card_number ? "'" + sale.gift_card_number : nil,
                                                                                                                          sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage'").map { |la| la.area.ancestors.map { |a| a.name } << la.area.name }.join(", "),
                                                                                                                          sale.vonage_account_status_changes.where("created_at > ? AND status = 0", sale.created_at).empty? ? 'No' : 'Yes',
                                                                                                                          sale.vested? ? 'Yes' : 'No'
