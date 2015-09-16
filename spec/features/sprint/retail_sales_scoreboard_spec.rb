@@ -11,6 +11,8 @@ describe 'Sprint Retail sales scoreboard' do
   let(:region) { create :area, project: project, area_type: region_type }
   let(:project) { create :project, client: client }
   let!(:client) { create :client, name: 'Sprint' }
+  let!(:sprint_retail) { create :project, name: "Sprint Retail" }
+  let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
 
   let(:permission) { create :permission, key: 'sprint_sale_index' }
   let!(:viewer) { create :person, position: position }

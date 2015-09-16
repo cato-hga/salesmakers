@@ -13,6 +13,7 @@
 #  training    :boolean          default(FALSE), not null
 #  project_id  :integer
 #  meeting     :boolean          default(FALSE), not null
+#  note        :string
 #
 
 require 'rails_helper'

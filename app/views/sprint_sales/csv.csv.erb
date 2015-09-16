@@ -1,0 +1,16 @@
+<% headers = ['Date', 'Seller', 'Seller Email', 'Entered', 'MEID', 'Carrier', 'Handset', 'Rate Plan', 'Store Number', 'Address', 'Mobile #', 'Areas', 'Activated?', 'Upgrade?'] %><%= CSV.generate_line(headers).html_safe %><% @sprint_sales.each do |sale| %><%= CSV.generate_line([
+                                                                                                                         short_date(sale.sale_date),
+                                                                                                                         NameCase(sale.person.display_name),
+                                                                                                                         sale.person.email,
+                                                                                                                         full_datetime(sale.created_at.in_time_zone),
+                                                                                                                         "'" + sale.meid,
+                                                                                                                         sale.sprint_carrier.name,
+                                                                                                                         sale.sprint_handset.name,
+                                                                                                                         sale.sprint_rate_plan.name,
+                                                                                                                         sale.location.store_number,
+                                                                                                                         sale.location.address,
+                                                                                                                         sale.mobile_phone,
+                                                                                                                         sale.location.location_areas.joins(area: :project).where("projects.id = ?", sale.sprint_carrier.project_id).map { |la| la.area.ancestors.map { |a| a.name } << la.area.name }.join(", "),
+                                                                                                                         sale.phone_activated_in_store? ? 'Yes' : 'No',
+                                                                                                                         sale.upgrade? ? 'Yes' : 'No'
+                                                                                                                 ]).html_safe %><% end %>

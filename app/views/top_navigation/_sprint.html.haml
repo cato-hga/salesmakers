@@ -1,7 +1,16 @@
 - sprint_sale_policy = SprintSalePolicy.new(@current_person, SprintSale.new, @permission_keys)
-- if sprint_sale_policy.scoreboard?
+- if sprint_sale_policy.create? || sprint_sale_policy.scoreboard? || sprint_sale_policy.index?
   %li.has-dropdown
     %a{ href: '#' } Sprint
     %ul.dropdown
       - if sprint_sale_policy.scoreboard?
         %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
+      - if sprint_sale_policy.index?
+        %li= link_to 'Sprint Sales', sprint_sales_path
+      - prepaid = Project.find_by(name: 'Sprint Retail')
+      -# if sprint_sale_policy.create?
+        - if @visible_projects.include? prepaid
+          %li= link_to 'Prepaid Sale Entry', new_sprint_sales_path(prepaid.id)
+        - postpaid = Project.find_by(name: 'Sprint Postpaid')
+        - if @visible_projects.include? postpaid
+          %li= link_to 'Postpaid Sale Entry', new_sprint_sales_path(postpaid.id)
