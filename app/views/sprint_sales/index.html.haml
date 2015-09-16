@@ -41,7 +41,7 @@
   - location_area = location_areas.empty? ? nil : location_areas.first
   - location = location_area ? location_link(location_area.area.project, sale.location) : ''
   - location_areas = location_area ? sale.location.location_areas.joins(area: :project).where("projects.id = ?", location_area.area.project.id) : nil
-  - areas = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(",<br>".html_safe).html_safe
+  - areas = location_areas.map { |la| la.area.ancestors.map { |a| area_link(a) } << area_link(la.area) }.join(",<br>".html_safe).html_safe
   - activated = sale.phone_activated_in_store? ? icon('check') : ''
   - upgrade = sale.upgrade? ? icon('check') : ''
 

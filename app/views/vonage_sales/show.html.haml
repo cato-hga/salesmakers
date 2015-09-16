@@ -32,7 +32,7 @@
       %p
         %strong Areas:
         - location_areas = @vonage_sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage'")
-        = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(", ").html_safe
+        = location_areas.map { |la| la.area.ancestors.map { |a| area_link(a) } << area_link(la.area) }.join(", ").html_safe
   .widget
     .inner
       %h3 Vonage Account Information
