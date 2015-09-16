@@ -351,6 +351,8 @@ Rails.application.routes.draw do
     collection do
       get :transfer, as: :transfer
       post :do_transfer, as: :do_transfer
+      get :accept, as: :accept
+      post :do_accept, as: :do_accept
     end
   end
 

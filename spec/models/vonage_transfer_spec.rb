@@ -14,21 +14,23 @@
 #  rejected         :boolean          default(FALSE), not null
 #
 
-class VonageTransfer < ActiveRecord::Base
+require 'rails_helper'
 
-  validates :vonage_device, presence: true
-  validates :from_person, presence: true, on: :do_transfer
-  validates :to_person, presence: true
+describe VonageTransfer do
+  subject { build :vonage_transfer }
 
+  it 'requires a to person' do
+    subject.to_person = nil
+    expect(subject).not_to be_valid
+  end
 
-  belongs_to :vonage_device
-  belongs_to :to_person, class_name: 'Person'
-  belongs_to :from_person, class_name: 'Person'
+  it 'requires a from person' do
+    subject.from_person = nil
+    expect(subject).not_to be_valid
+  end
 
-
-
-
-  def self.policy_class
-    VonageDevicePolicy
+  it 'requires a vonage device' do
+    subject.vonage_device = nil
+    expect(subject).not_to be_valid
   end
 end

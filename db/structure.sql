@@ -5579,7 +5579,8 @@ CREATE TABLE vonage_transfers (
     transfer_time timestamp without time zone,
     rejection_time timestamp without time zone,
     to_person_id integer,
-    from_person_id integer
+    from_person_id integer,
+    rejected boolean DEFAULT false NOT NULL
 );
 
 
@@ -10861,4 +10862,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150906172013');
 INSERT INTO schema_migrations (version) VALUES ('20150910142356');
 
 INSERT INTO schema_migrations (version) VALUES ('20150911145402');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914135604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915133353');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915195229');
 

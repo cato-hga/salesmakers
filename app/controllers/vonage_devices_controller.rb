@@ -9,7 +9,6 @@ class VonageDevicesController < ApplicationController
 
   def new
     @vonage_device = VonageDevice.new
-
   end
 
   def transfer
@@ -20,10 +19,18 @@ class VonageDevicesController < ApplicationController
 
 
   def do_transfer
+    if params[:to_person].blank?
+      flash[:error] = "Must select an employee."
+      redirect_to transfer_vonage_devices_path and return
+    end
     to_person = Person.find params[:to_person]
     vonage_device_ids = params[:vonage_devices]
     invalids = 0
     invalid_macs = []
+    if vonage_device_ids == nil
+      flash[:error] = "Must select Mac Id(s)"
+      redirect_to transfer_vonage_devices_path and return
+    end
     for device in vonage_device_ids do
       vonage_device = VonageDevice.find device
       transfer = VonageTransfer.new to_person: to_person,
@@ -37,13 +44,22 @@ class VonageDevicesController < ApplicationController
         invalids += 1
       end
     end
-    if invalids = 0
+
+
+    if invalids == 0
       #SUCCESS
       redirect_to transfer_vonage_devices_path
     else
       flash[:error] = "The following MAC ID's could not be transferred. Please submit a support ticket with a screenshot of this page. #{invalid_macs.join(', ')}"
       redirect_to transfer_vonage_devices_path
     end
+  end
+
+  def accept
+    @vonage_transfer = VonageTransfer.where("to_person_id = ? and (accepted = false and rejected = false)", @current_person.id)
+  end
+
+  def do_accept
   end
 
   def create
@@ -73,6 +89,7 @@ class VonageDevicesController < ApplicationController
 
   private
 
+
   def set_vonage_employees
     @vonage_employees = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
   end
@@ -91,4 +108,5 @@ class VonageDevicesController < ApplicationController
   def chronic_time_zones
     Chronic.time_class = Time.zone
   end
+
 end

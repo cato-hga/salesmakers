@@ -1,6 +1,6 @@
--#- if @vonage_transfer.errors.any?
--#  - @vonage_transfer.errors.full_messages.each do |msg|
--#    .alert.alert-box= msg
+- if @vonage_transfer.errors.any?
+  - @vonage_transfer.errors.full_messages.each do |msg|
+    .alert.alert-box= msg
 
 - title "Vonage Inventory Transferring"
 = form_tag do_transfer_vonage_devices_path, method: :post do

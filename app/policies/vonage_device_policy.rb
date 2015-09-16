@@ -13,4 +13,12 @@ class VonageDevicePolicy < ApplicationPolicy
   def do_transfer?
     transfer?
   end
+
+  def accept?
+    has_permission? 'accept'
+  end
+
+  def accept_do?
+    accept?
+  end
 end

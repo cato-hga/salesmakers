@@ -16,6 +16,11 @@ describe 'Inventory Transferring page' do
   let!(:vonage_device1) { create :vonage_device, person: manager, mac_id: '723556789abc' }
   let!(:vonage_device2) { create :vonage_device, person: person2, mac_id: '223456789abc' }
   let!(:vonage_device3) { create :vonage_device, person: manager, mac_id: '323456789abc' }
+  let!(:vonage_device4) { create :vonage_device, person: person1, mac_id: '864456789abc' }
+  let!(:vonage_device5) { create :vonage_device, person: person1, mac_id: '238456789abc' }
+
+
+
 
   let(:position) { create :position, permissions:[permission_transfer] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group'}
