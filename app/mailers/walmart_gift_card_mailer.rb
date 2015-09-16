@@ -10,7 +10,7 @@ class WalmartGiftCardMailer < ApplicationMailer
 
     puts to_emails.inspect
 
-    seconds = (3.175 * @gift_card_count).round
+    seconds = (4.25 * @gift_card_count).round
     @arrival = (DateTime.now + seconds.seconds).in_time_zone 'Eastern Time (US & Canada)'
 
     handle_send to: to_emails,
