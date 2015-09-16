@@ -5,7 +5,7 @@ rbh = Client.find_by name: 'Retail Business Holdings'
 sprint = Client.find_by name: 'Sprint'
 comcast = Client.find_by name: 'Comcast'
 
-vonage_retail = Project.find_by name: 'Vonage Retail',
+vonage_retail = Project.find_by name: 'Vonage',
                                 client: vonage
 vonage_events = Project.find_by name: 'Vonage Events',
                                 client: vonage
@@ -16,11 +16,11 @@ sprint_retail = Project.find_by name: 'Sprint Retail',
 comcast_retail = Project.find_by name: 'Comcast Retail',
                             client: comcast
 
-vrr = AreaType.find_by name: 'Vonage Retail Region',
+vrr = AreaType.find_by name: 'Vonage Region',
                        project: vonage_retail
-vrm = AreaType.find_by name: 'Vonage Retail Market',
+vrm = AreaType.find_by name: 'Vonage Market',
                        project: vonage_retail
-vrt = AreaType.find_by name: 'Vonage Retail Territory',
+vrt = AreaType.find_by name: 'Vonage Territory',
                        project: vonage_retail
 ver = AreaType.find_by name: 'Vonage Event Region',
                        project: vonage_events

@@ -35,7 +35,7 @@ class SeedVonageRepSalePayoutBrackets < ActiveRecord::Migration
                                         sales_minimum: 15,
                                         sales_maximum: 99
     end
-    project = Project.find_by(name: 'Vonage Retail')
+    project = Project.find_by(name: 'Vonage')
     area = Area.find_by(name: 'Pilot Retail Region')
     return unless area
     VonageRepSalePayoutBracket.create per_sale: 0.00,
@@ -59,7 +59,7 @@ class SeedVonageRepSalePayoutBrackets < ActiveRecord::Migration
   private
 
   def get_retail_and_event_regions
-    project = Project.find_by(name: 'Vonage Retail')
+    project = Project.find_by(name: 'Vonage')
     return [] unless project
     retail_and_event_regions = []
     retail_and_event_regions << Area.find_by(name: 'Central Retail Region', project: project)

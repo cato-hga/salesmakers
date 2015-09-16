@@ -70,11 +70,11 @@
         %li= link_to 'New', new_person_path
     - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
     - walmart_gift_card_policy = WalmartGiftCardPolicy.new(@current_person, WalmartGiftCard.new)
-    - retail = Project.find_by name: 'Vonage Retail'
+    - retail = Project.find_by name: 'Vonage'
     - if @visible_projects.include?(retail) && (walmart_gift_card_policy.new? || vonage_sale_policy.new? || vonage_sale_policy.index?)
       %ul.off-canvas-list
         %li
-          %label Vonage Retail
+          %label Vonage
         -# if vonage_sale_policy.new?
           %li= link_to 'Sale Entry', new_vonage_sale_path
         - if vonage_sale_policy.index?
@@ -124,6 +124,7 @@
       LocationPolicy.new(@current_person, Location.new, @permission_keys).index? |
       %ul.off-canvas-list
         - for project in visible_projects
+          - next if !project.active? || project.areas.empty?
           %li
             %label= project.name + ' Admin'
           - if AreaTypePolicy.new(current_person, AreaType.new, @permission_keys).index?

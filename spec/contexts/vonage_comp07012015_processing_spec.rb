@@ -3,7 +3,7 @@ require 'rails_helper'
 describe VonageComp07012015Processing do
   let(:processor) { described_class.new }
 
-  let(:project) { create :project, name: 'Vonage Retail' }
+  let(:project) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: project }
   let(:rep) { create :person }
   let!(:person_area) { create :person_area, area: area, person: rep }

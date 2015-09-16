@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ProjectPolicy do
 
   let(:sprint_retail_project) { create :project, name: 'Sprint Retail'}
-  let(:vonage_retail_project) { create :project, name: 'Vonage Retail' }
+  let(:vonage_retail_project) { create :project, name: 'Vonage' }
 
   let(:tampa) { create :area, project: vonage_retail_project }
 

@@ -34,7 +34,7 @@
   - customer = NameCase(sale.customer_first_name + " " + sale.customer_last_name)
   - product = sale.vonage_product.name
   - gift_card = sale.gift_card_number ? 'x' + sale.gift_card_number[12..15] : ''
-  - location_areas = sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage Retail'")
+  - location_areas = sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage'")
   - areas = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(",<br>".html_safe).html_safe
   - vested = sale.vested? ? icon('check') : ''
 

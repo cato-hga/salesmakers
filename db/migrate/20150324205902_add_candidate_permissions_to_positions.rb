@@ -14,11 +14,11 @@ class AddCandidatePermissionsToPositions < ActiveRecord::Migration
                                                      description: "Can view candidates",
                                                      permission_group: permission_group
 
-    pos_vrrm = Position.find_by_name 'Vonage Retail Regional Manager'
-    pos_vrasm = Position.find_by_name 'Vonage Retail Area Sales Manager'
+    pos_vrrm = Position.find_by_name 'Vonage Regional Manager'
+    pos_vrasm = Position.find_by_name 'Vonage Area Sales Manager'
     pos_ops = Position.find_by_name 'Operations Coordinator'
     pos_srsd = Position.find_by_name 'Sprint Retail Sales Director'
-    pos_vrtm = Position.find_by_name 'Vonage Retail Territory Manager'
+    pos_vrtm = Position.find_by_name 'Vonage Territory Manager'
     pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
     positions = [pos_vrrm, pos_vrasm, pos_ops, pos_srsd, pos_vrtm, pos_vetl]
 
@@ -38,11 +38,11 @@ class AddCandidatePermissionsToPositions < ActiveRecord::Migration
                                                      description: "Can view candidates",
                                                      permission_group: permission_group
 
-    pos_vrrm = Position.find_by_name 'Vonage Retail Regional Manager'
-    pos_vrasm = Position.find_by_name 'Vonage Retail Area Sales Manager'
+    pos_vrrm = Position.find_by_name 'Vonage Regional Manager'
+    pos_vrasm = Position.find_by_name 'Vonage Area Sales Manager'
     pos_ops = Position.find_by_name 'Operations Coordinator'
     pos_srsd = Position.find_by_name 'Sprint Retail Sales Director'
-    pos_vrtm = Position.find_by_name 'Vonage Retail Territory Manager'
+    pos_vrtm = Position.find_by_name 'Vonage Territory Manager'
     pos_vetl = Position.find_by_name 'Vonage Event Team Leader'
     positions = [pos_vrrm, pos_vrasm, pos_ops, pos_srsd, pos_vrtm, pos_vetl]
 

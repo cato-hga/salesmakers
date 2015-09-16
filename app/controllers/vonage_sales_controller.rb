@@ -27,7 +27,7 @@ class VonageSalesController < ApplicationController
   def show
     @vonage_sale = policy_scope(VonageSale).find params[:id]
     @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number
-    @project = Project.find_by name: 'Vonage Retail'
+    @project = Project.find_by name: 'Vonage'
   end
 
   def new
@@ -80,7 +80,7 @@ class VonageSalesController < ApplicationController
                     left outer join areas a on a.id = la.area_id
                     left outer join projects p on p.id = a.project_id
                   }).where(%{
-                    p.name = 'Vonage Retail'
+                    p.name = 'Vonage'
                     and la.active = true
                     and '#{params[:areas_includes_id]}' = ANY (string_to_array(cast(a.id as character varying) || '/' || a.ancestry, '/'))
                   })
@@ -95,7 +95,7 @@ class VonageSalesController < ApplicationController
         joins(:person).
         order("sale_date DESC, people.display_name ASC, customer_first_name ASC, customer_last_name ASC").
         search(params[:q])
-    @project = Project.find_by name: 'Vonage Retail'
+    @project = Project.find_by name: 'Vonage'
     @vonage_sales = filter_result(@search.result).
         includes(:person, :location)
   end
@@ -112,7 +112,7 @@ class VonageSalesController < ApplicationController
     position_ids = Position.where(all_field_visibility: true).ids
     person_with_all_visibility = Person.where position_id: position_ids
     if person_with_all_visibility.include? @current_person
-      vonage = Project.find_by name: 'Vonage Retail'
+      vonage = Project.find_by name: 'Vonage'
       return Location.none unless vonage
       @vonage_locations = vonage.
           locations.
@@ -120,7 +120,7 @@ class VonageSalesController < ApplicationController
           where("location_areas.active = true and areas.project_id = ?", vonage.id).
           order("channels.name, locations.city, locations.display_name, locations.street_1")
     else
-      vonage = Project.find_by name: 'Vonage Retail'
+      vonage = Project.find_by name: 'Vonage'
       return Location.none unless vonage
       @vonage_locations = vonage.locations_for_person @current_person
     end

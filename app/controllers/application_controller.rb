@@ -78,7 +78,7 @@ class ApplicationController < BaseApplicationController
       @visible_people_ids = Rails.cache.fetch(cached_visible_people_key) do
         @visible_people_ids = Person.visible(@current_person).ids
       end
-      @visible_projects = Project.visible(@current_person)
+      @visible_projects = Project.visible(@current_person).includes(:areas)
     else
       @visible_people_ids = []
       @visible_projects = Project.none

@@ -26,7 +26,7 @@ class AreaUpdater
   end
 
   def self.setup_projects
-    @vonage_retail = Project.find_by name: 'Vonage Retail',
+    @vonage_retail = Project.find_by name: 'Vonage',
                                      client: @vonage
     @vonage_events = Project.find_by name: 'Vonage Events',
                                      client: @vonage
@@ -51,11 +51,11 @@ class AreaUpdater
   end
 
   def self.setup_vonage_area_types
-    @vrr = AreaType.find_by name: 'Vonage Retail Region',
+    @vrr = AreaType.find_by name: 'Vonage Region',
                             project: @vonage_retail
-    @vrm = AreaType.find_by name: 'Vonage Retail Market',
+    @vrm = AreaType.find_by name: 'Vonage Market',
                             project: @vonage_retail
-    @vrt = AreaType.find_by name: 'Vonage Retail Territory',
+    @vrt = AreaType.find_by name: 'Vonage Territory',
                             project: @vonage_retail
     @ver = AreaType.find_by name: 'Vonage Event Region',
                             project: @vonage_events

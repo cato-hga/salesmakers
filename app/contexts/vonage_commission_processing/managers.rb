@@ -10,7 +10,7 @@ module Managers
 
   def determine_vonage_managers
     @vonage_managers = []
-    projects = [Project.find_by(name: 'Vonage Retail'), Project.find_by(name: 'Vonage Events')]
+    projects = [Project.find_by(name: 'Vonage'), Project.find_by(name: 'Vonage Events')]
     for project in projects do
       for area in project.areas do
         management_person_areas = area.person_areas.where(manages: true)

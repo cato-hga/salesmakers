@@ -105,8 +105,8 @@ describe RootRedirectsController do
     describe 'Vonage Sales' do
       let!(:vonage_employee) { create :person, position: vonage_position, email: 'vonagerep@vg.salesmakersinc.com' }
       let(:vonage_position) { create :position, name: 'Vonage Position', department: vonage_retail_department }
-      let(:vonage_retail_department) { create :department, name: 'Vonage Retail Sales' }
-      let(:vonage_events_department) { create :department, name: 'Vonage Retail Sales' }
+      let(:vonage_retail_department) { create :department, name: 'Vonage Sales' }
+      let(:vonage_events_department) { create :department, name: 'Vonage Sales' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
 

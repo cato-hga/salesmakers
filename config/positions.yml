@@ -1,29 +1,29 @@
 Vonage:
   4:
     Retail:
-      leader: Vonage Retail Territory Manager
-      not_leader: Vonage Retail Sales Specialist
+      leader: Vonage Territory Manager
+      not_leader: Vonage Sales Specialist
     Event:
       leader: Vonage Event Team Leader
       not_leader: Vonage Event Sales Specialist
   3:
     Retail:
-      leader: Vonage Retail Area Sales Manager
-      not_leader: Vonage Retail Sales Specialist
+      leader: Vonage Area Sales Manager
+      not_leader: Vonage Sales Specialist
     Event:
       leader: Vonage Event Area Sales Manager
       not_leader: Vonage Event Sales Specialist
   2:
     Retail:
-      leader: Vonage Retail Regional Manager
-      not_leader: Vonage Retail Sales Specialist
+      leader: Vonage Regional Manager
+      not_leader: Vonage Sales Specialist
     Event:
       leader: Vonage Event Regional Manager
       not_leader: Vonage Event Sales Specialist
   1:
     Retail:
-      leader: Vonage Retail Regional Vice President
-      not_leader: Vonage Retail Sales Specialist
+      leader: Vonage Regional Vice President
+      not_leader: Vonage Sales Specialist
     Event:
       leader: Vonage Event Regional Vice President
       not_leader: Vonage Event Sales Specialist

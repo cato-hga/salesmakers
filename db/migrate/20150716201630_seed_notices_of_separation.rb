@@ -4,7 +4,7 @@ class SeedNoticesOfSeparation < ActiveRecord::Migration
     directv = Project.find_by name: 'DirecTV Retail'
     sprint_prepaid = Project.find_by name: 'Sprint Retail'
     vonage_events = Project.find_by name: 'Vonage Events'
-    vonage_retail = Project.find_by name: 'Vonage Retail'
+    vonage_retail = Project.find_by name: 'Vonage'
     t = DocusignTemplate.create template_guid: 'DF06A6E0-2F29-4231-AAFC-8388DA4272F0',
                                 state: 'FL',
                                 document_type: :nos,

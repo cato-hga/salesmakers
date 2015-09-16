@@ -31,7 +31,7 @@
         = @vonage_sale.vonage_product.name
       %p
         %strong Areas:
-        - location_areas = @vonage_sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage Retail'")
+        - location_areas = @vonage_sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage'")
         = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(", ").html_safe
   .widget
     .inner

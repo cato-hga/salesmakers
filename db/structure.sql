@@ -3656,7 +3656,8 @@ CREATE TABLE projects (
     client_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    workmarket_project_num character varying
+    workmarket_project_num character varying,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -10905,4 +10906,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150915144551');
 INSERT INTO schema_migrations (version) VALUES ('20150915154050');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916140224');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164745');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164834');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916174731');
 

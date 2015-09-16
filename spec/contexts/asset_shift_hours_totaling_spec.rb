@@ -28,7 +28,7 @@ describe AssetShiftHoursTotaling do
     let(:forty_person) { create :person, display_name: 'Forty', passed_asset_hours_requirement: true, vonage_tablet_approval_status: 0 }
     let!(:forty_person_area) { create :person_area, area: forty_area, person: forty_person }
     let(:forty_area) { create :area, project: forty_project }
-    let(:forty_project) { create :project, name: 'Vonage Retail' }
+    let(:forty_project) { create :project, name: 'Vonage' }
     let!(:forty_shift) { create :shift, person: forty_person, date: Date.today - 3.hours, hours: 41 }
 
     let(:qualified_person) { create :person, display_name: 'Qualified', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 2 }
@@ -137,7 +137,7 @@ describe AssetShiftHoursTotaling do
     let(:prepaid_area) { create :area, project: prepaid_project }
 
     let(:events_project) { create :project, name: 'Vonage Events' }
-    let(:retail_project) { create :project, name: 'Vonage Retail' }
+    let(:retail_project) { create :project, name: 'Vonage' }
     let(:prepaid_project) { create :project, name: 'Sprint Retail' }
 
     let!(:events_person_area) { create :person_area, person: events_person, area: events_area, manages: false }
