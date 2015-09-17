@@ -152,6 +152,10 @@ describe SprintSale do
     expect(subject).to respond_to(:connect_sprint_sale)
   end
 
+  it 'responds to photo' do
+    expect(subject).to respond_to :photo
+  end
+
   context 'validation for postpaid only' do
     let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
     let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }

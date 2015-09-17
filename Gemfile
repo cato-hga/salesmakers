@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'activerecord-session_store', '0.1.1' # Store session data in database instead of cookies
 gem 'activerecord-sqlserver-adapter', '~> 4.2.3' # Microsoft SQL Server Adapter
 gem 'acts_as_taggable_on', '3.0.0.rc2' # Showing progress for reindexing Solr/Sunspot
+gem 'ahoy_matey', '1.2.1' # Analytics and visit tracking information
 gem 'ancestry', git: 'https://github.com/stefankroes/ancestry.git' # Tree-based hierarchies for models
 gem 'andand', '1.3.3' # Navigate nested hashes without getting NoMethodErrors
 gem 'annotate', '2.6.10' # Schema information at the top of model files

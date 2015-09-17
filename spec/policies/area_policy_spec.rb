@@ -13,7 +13,7 @@ describe AreaPolicy do
   let(:sales_specialist) { build_stubbed :position }
   let(:territory_manager) {
     build_stubbed :position,
-           name: 'Vonage Retail Area Sales Manager',
+           name: 'Vonage Area Sales Manager',
            leadership: true
   }
   let(:software_developer) {

@@ -25,7 +25,7 @@ describe PersonPolicy do
 
   let(:territory_manager) {
     build_stubbed :position,
-           name: 'Vonage Retail Territory Manager',
+           name: 'Vonage Territory Manager',
            leadership: true
   }
 

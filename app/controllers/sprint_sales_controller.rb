@@ -155,7 +155,8 @@ class SprintSalesController < ApplicationController
                                         :insurance,
                                         :virgin_data_share_add_on_amount,
                                         :virgin_data_share_add_on_description,
-                                        :project_id
+                                        :project_id,
+                                        :photo
   end
 
   def set_carrier_based_on_project

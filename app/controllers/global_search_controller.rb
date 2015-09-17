@@ -1,6 +1,6 @@
 class GlobalSearchController < ApplicationController
   def results
-    @project = Project.find_by name: 'Vonage Retail'
+    @project = Project.find_by name: 'Vonage'
     items_array = ['people', 'candidates', 'devices', 'lines', 'location_areas', 'vonage_sales']
     for item in items_array do
       item_class = item.classify

@@ -4,6 +4,7 @@ class ApplicationController < BaseApplicationController
   before_action CASClient::Frameworks::Rails::Filter
   before_action :set_current_user,
                 :check_active,
+                :record_action_event,
                 #:setup_default_walls,
                 #:set_last_seen,
                 #:set_last_seen_profile,
@@ -14,7 +15,17 @@ class ApplicationController < BaseApplicationController
                 :log_additional_data,
                 :authorize_profiler
 
+  def current_user
+    @current_person
+  end
+
   protected
+
+  def record_action_event
+    unless params[:controller].blank? || params[:action].blank?
+      ahoy.track "#{params[:controller]}##{params[:action]}"
+    end
+  end
 
   def redirect_invalid_token
     render file: File.join(Rails.root, 'public/422.html'), status: 422, layout: false
@@ -78,7 +89,7 @@ class ApplicationController < BaseApplicationController
       @visible_people_ids = Rails.cache.fetch(cached_visible_people_key) do
         @visible_people_ids = Person.visible(@current_person).ids
       end
-      @visible_projects = Project.visible(@current_person)
+      @visible_projects = Project.visible(@current_person).includes(:areas)
     else
       @visible_people_ids = []
       @visible_projects = Project.none
@@ -154,10 +165,6 @@ class ApplicationController < BaseApplicationController
       @permission_keys = position ? position.permissions.select(:key).pluck(:key) : []
       @current_person
     end
-  end
-
-  def current_user
-    @current_person
   end
 
   def check_active

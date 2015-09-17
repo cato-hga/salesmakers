@@ -26,10 +26,10 @@ class SeedGroupMeGroupPostPermissions < ActiveRecord::Migration
 
   def get_positions
     pos_admin = Position.find_by_name 'System Administrator'
-    pos_vrrvp = Position.find_by_name 'Vonage Retail Regional Vice President'
-    pos_vrrm = Position.find_by_name 'Vonage Retail Regional Manager'
-    pos_vrasm = Position.find_by_name 'Vonage Retail Area Sales Manager'
-    pos_vrtm = Position.find_by_name 'Vonage Retail Territory Manager'
+    pos_vrrvp = Position.find_by_name 'Vonage Regional Vice President'
+    pos_vrrm = Position.find_by_name 'Vonage Regional Manager'
+    pos_vrasm = Position.find_by_name 'Vonage Area Sales Manager'
+    pos_vrtm = Position.find_by_name 'Vonage Territory Manager'
 
     pos_vervp = Position.find_by_name 'Vonage Event Regional Vice President'
     pos_verm = Position.find_by_name 'Vonage Event Regional Manager'

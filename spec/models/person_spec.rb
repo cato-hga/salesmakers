@@ -770,7 +770,7 @@ describe Person do
     let(:person) { create :person, passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
     let!(:person_area) { create :person_area, area: area, person: person }
     let(:area) { create :area, project: von_project }
-    let(:von_project) { create :project, name: 'Vonage Retail' }
+    let(:von_project) { create :project, name: 'Vonage' }
     let(:other_project) { create :project, name: 'Other Retail' }
     let(:sprint_prepaid) { create :project, name: 'Sprint Retail' }
     it 'returns true if the person has passed asset hours requirement' do

@@ -1,5 +1,5 @@
 puts "Updating Areas' GroupMe group numbers..."
-vr = Project.find_by name: 'Vonage Retail'
+vr = Project.find_by name: 'Vonage'
 ve = Project.find_by name: 'Vonage Events'
 sr = Project.find_by name: 'Sprint Retail'
 

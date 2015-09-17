@@ -75,3 +75,8 @@
           = number_to_currency @sprint_sale.top_up_card_amount
         - else
           N/A
+  - if @sprint_sale.photo
+    .widget
+      .inner
+        %h3 Photo
+        = image_tag @sprint_sale.photo.url if @sprint_sale.photo_stored?

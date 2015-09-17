@@ -13,7 +13,7 @@ describe 'Vonage Sale entry' do
   let(:permission_create) { Permission.new key: 'vonage_sale_create',
                                            permission_group: permission_group,
                                            description: 'Test Description' }
-  let(:vonage) { create :project, name: 'Vonage Retail' }
+  let(:vonage) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: vonage }
   let(:location) { create :location, channel: walmart }
   let(:walmart) { create :channel, name: 'Walmart' }

@@ -49,7 +49,7 @@ class ConnectTimesheet < RealConnectModel
     bpl = self.connect_business_partner_location || return
     cr = bpl.connect_region || return
     division = cr.division || return
-    division.name == 'Vonage Events Division' ? Project.find_by(name: 'Vonage Events') : Project.find_by(name: 'Vonage Retail')
+    division.name == 'Vonage Events Division' ? Project.find_by(name: 'Vonage Events') : Project.find_by(name: 'Vonage')
   end
 
   def self.this_week

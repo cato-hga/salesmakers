@@ -4,7 +4,7 @@ describe 'Navigation Authorization' do
   let!(:comcast_area) { create :area, project: comcast_project }
   let(:comcast_person_area) { create :person_area, area: comcast_area, person: comcast_employee }
   let(:comcast_project) { create :project, name: 'Comcast Retail' }
-  let(:vonage_project) { create :project, name: 'Vonage Retail' }
+  let(:vonage_project) { create :project, name: 'Vonage' }
   let!(:vonage_area) { create :area, project: vonage_project }
   let(:vonage_event_project) { create :project, name: 'Vonage Events' }
   let!(:vonage_event_area) { create :area, project: vonage_event_project }
@@ -68,12 +68,12 @@ describe 'Navigation Authorization' do
     #                                     person: vonage_employee,
     #                                     area: vonage_event_area }
     #
-    #   it 'that has retail access will only see Vonage Retail' do
+    #   it 'that has retail access will only see Vonage' do
     #     vonage_employee.person_areas << retail_person_area
     #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
     #     visit root_path
     #     within('.top-bar') do
-    #       expect(page).to have_content('Vonage Retail')
+    #       expect(page).to have_content('Vonage')
     #     end
     #   end
     #
@@ -302,13 +302,13 @@ describe 'Navigation Authorization' do
     #                                     person: vonage_employee,
     #                                     area: vonage_event_area }
     #
-    #   it 'that has retail access will only see Vonage Retail' do
+    #   it 'that has retail access will only see Vonage' do
     #     vonage_employee.person_areas << retail_person_area
     #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
     #     page.current_window.resize_to '640', '480'
     #     visit root_path
     #     within('.left-off-canvas-menu') do
-    #       expect(page).to have_content('Vonage Retail')
+    #       expect(page).to have_content('Vonage')
     #     end
     #   end
     #
@@ -465,7 +465,7 @@ describe 'Navigation Authorization' do
       it 'contains links to the sales page for all projects' do
         within('.left-off-canvas-menu') do
           expect(page).to have_content('COMCAST RETAIL')
-          expect(page).to have_content('VONAGE RETAIL')
+          expect(page).to have_content('VONAGE')
         end
       end
       it 'contains links to Areas' do

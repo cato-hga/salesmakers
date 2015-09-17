@@ -23,7 +23,7 @@ RSpec.describe AssetApprovalsController, :type => :controller do
     context 'Vonage asset' do
       let(:approving_person) { create :person }
       let(:denying_person) { create :person }
-      let!(:project) { create :project, name: 'Vonage Retail' }
+      let!(:project) { create :project, name: 'Vonage' }
       let!(:area) { create :area, project: project }
       let!(:person_area_one) { create :person_area, area: area, person: approving_person }
       let!(:person_area_two) { create :person_area, area: area, person: denying_person }

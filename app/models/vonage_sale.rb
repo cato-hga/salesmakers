@@ -25,6 +25,7 @@ class VonageSale < ActiveRecord::Base
   include SaleAreaAndLocationAreaExtension
 
   attr_accessor :import, :skip_resold_callback
+  dragonfly_accessor :photo
 
   after_save do
     unless self.skip_resold_callback

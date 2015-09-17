@@ -70,7 +70,7 @@ describe VonageCommissionProcessing do
            account_start_date: paycheck.commission_start - 62.days,
            account_end_date: paycheck.commission_start - 22.days
   }
-  let(:vonage_retail) { create :project, name: 'Vonage Retail' }
+  let(:vonage_retail) { create :project, name: 'Vonage' }
   let!(:vonage_events) { create :project, name: 'Vonage Events' }
   let(:area) { create :area, project: vonage_retail }
   let(:sub_area) { create :area, name: 'Sub-area', project: vonage_retail }

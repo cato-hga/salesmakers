@@ -13,10 +13,10 @@ describe 'Vonage commission compensation' do
            commission_end: Date.new(2015, 1, 14),
            cutoff: Time.now - 23.hours
   }
-  let(:department) { create :department, name: 'Vonage Retail Sales' }
+  let(:department) { create :department, name: 'Vonage Sales' }
   let(:position) {
     create :position,
-           name: 'Vonage Retail Sales Specialist',
+           name: 'Vonage Sales Specialist',
            department: department
   }
   let(:person) { create :person, position: position }

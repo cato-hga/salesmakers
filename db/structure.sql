@@ -88,6 +88,20 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: ahoy_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ahoy_events (
+    id uuid NOT NULL,
+    visit_id uuid,
+    person_id integer,
+    name character varying,
+    properties json,
+    "time" timestamp without time zone
+);
+
+
+--
 -- Name: answer_upvotes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -3698,7 +3712,8 @@ CREATE TABLE projects (
     client_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    workmarket_project_num character varying
+    workmarket_project_num character varying,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -4471,7 +4486,9 @@ CREATE TABLE sprint_sales (
     ten_intl_connect boolean,
     insurance boolean,
     virgin_data_share_add_on_amount double precision,
-    virgin_data_share_add_on_description text
+    virgin_data_share_add_on_description text,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -5227,6 +5244,40 @@ ALTER SEQUENCE versions_id_seq OWNED BY versions.id;
 
 
 --
+-- Name: visits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    id uuid NOT NULL,
+    visitor_id uuid,
+    ip character varying,
+    user_agent text,
+    referrer text,
+    landing_page text,
+    person_id integer,
+    referring_domain character varying,
+    search_keyword character varying,
+    browser character varying,
+    os character varying,
+    device_type character varying,
+    screen_height integer,
+    screen_width integer,
+    country character varying,
+    region character varying,
+    city character varying,
+    postal_code character varying,
+    latitude numeric,
+    longitude numeric,
+    utm_source character varying,
+    utm_medium character varying,
+    utm_term character varying,
+    utm_content character varying,
+    utm_campaign character varying,
+    started_at timestamp without time zone
+);
+
+
+--
 -- Name: vonage_account_status_changes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5624,7 +5675,9 @@ CREATE TABLE vonage_sales (
     vested boolean,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
-    creator_id integer
+    creator_id integer,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -7140,6 +7193,14 @@ ALTER TABLE ONLY workmarket_locations ALTER COLUMN id SET DEFAULT nextval('workm
 
 
 --
+-- Name: ahoy_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ahoy_events
+    ADD CONSTRAINT ahoy_events_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: answer_upvotes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8260,6 +8321,14 @@ ALTER TABLE ONLY versions
 
 
 --
+-- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: vonage_account_status_changes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8482,6 +8551,27 @@ CREATE INDEX gm_groups_and_users ON group_me_groups_group_me_users USING btree (
 --
 
 CREATE INDEX gm_users_and_groups ON group_me_groups_group_me_users USING btree (group_me_user_id, group_me_group_id);
+
+
+--
+-- Name: index_ahoy_events_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_person_id ON ahoy_events USING btree (person_id);
+
+
+--
+-- Name: index_ahoy_events_on_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_time ON ahoy_events USING btree ("time");
+
+
+--
+-- Name: index_ahoy_events_on_visit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_visit_id ON ahoy_events USING btree (visit_id);
 
 
 --
@@ -9646,6 +9736,13 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON versions USING btree (it
 --
 
 CREATE INDEX index_versions_on_transaction_id ON versions USING btree (transaction_id);
+
+
+--
+-- Name: index_visits_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_person_id ON visits USING btree (person_id);
 
 
 --
@@ -11076,4 +11173,20 @@ INSERT INTO schema_migrations (version) VALUES ('20150915154050');
 INSERT INTO schema_migrations (version) VALUES ('20150915195229');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916140224');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164745');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164834');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916174731');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916184946');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917125243');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917125244');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917153426');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917154806');
 

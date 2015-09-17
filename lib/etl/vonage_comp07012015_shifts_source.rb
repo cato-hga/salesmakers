@@ -1,7 +1,7 @@
 class VonageComp07012015ShiftsSource
   def initialize start_date_attribute, end_date_attribute
     @period = get_commission_period
-    vonage_retail = Project.find_by name: 'Vonage Retail'
+    vonage_retail = Project.find_by name: 'Vonage'
     vonage_events = Project.find_by name: 'Vonage Events'
     people = vonage_retail.active_people
     people = people.concat(vonage_events.active_people).flatten if vonage_events
