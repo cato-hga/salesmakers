@@ -1,5 +1,5 @@
 def time_in_ms(start, finish)
-  return ( ((finish - start).to_f * 100000).round / 100.0 )
+  return (((finish - start).to_f * 100000).round / 100.0)
 end
 
 if !Rails.env.test?
@@ -58,7 +58,11 @@ if !Rails.env.test?
       end
     end
 
-    logger.info { "PARAMS: #{payload[:params].to_json }" }
+    params = payload[:params]
+    params = params.delete('photo') if params
+    params = params.delete('image') if params
+    params = params.delete('file') if params
+    logger.info { "PARAMS: #{params.to_json }" }
     logger.debug {
       db = (payload[:db_runtime] * 100).round/100.0 rescue "-"
       view = (payload[:view_runtime] * 100).round/100.0 rescue "-"
@@ -69,7 +73,7 @@ if !Rails.env.test?
   # Mailer logging
   ActiveSupport::Notifications.subscribe "deliver.action_mailer" do |name, start, finish, id, payload|
     logger = Log4r::Logger["#{Rails.env}_mailers"]
-    logger.info { "#{payload[:mailer]} - \"#{payload[:subject]}\" (#{payload[:to].join(', ')}) from #{payload[:from].join(', ')}"}
+    logger.info { "#{payload[:mailer]} - \"#{payload[:subject]}\" (#{payload[:to].join(', ')}) from #{payload[:from].join(', ')}" }
   end
 
   # Exception stack trace logging

@@ -101,3 +101,8 @@
           %strong Purchase Store #:
           = @walmart_gift_card.store_number
         = link_to 'View Gift Card Page', @walmart_gift_card.link.sub('https://getegiftcard.walmart.com/gift-card/view/', 'http://rbdconnect.com/gc/l/?link='), class: [:button]
+  - if @vonage_sale.photo
+    .widget
+      .inner
+        %h3 Photo
+        = image_tag @vonage_sale.photo.url if @vonage_sale.photo_stored?

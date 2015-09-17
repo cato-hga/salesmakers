@@ -184,6 +184,10 @@ describe VonageSale do
     expect(subject).not_to be_valid
   end
 
+  it 'responds to photo' do
+    expect(subject).to respond_to :photo
+  end
+
   describe 'gift card check' do
     let(:used_walmart_gift_card) { create :walmart_gift_card, used: true, store_number: walmart_location.store_number }
     let(:used_walmart_gift_card_with_sale_associated) { create :walmart_gift_card, used: true, vonage_sale: create(:vonage_sale) }

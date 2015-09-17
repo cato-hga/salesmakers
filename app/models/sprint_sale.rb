@@ -35,6 +35,7 @@ class SprintSale < ActiveRecord::Base
   before_validation :strip_mobile_phone
 
   attr_writer :import
+  dragonfly_accessor :photo
 
   validates :person, presence: true
   validates :sale_date, presence: true

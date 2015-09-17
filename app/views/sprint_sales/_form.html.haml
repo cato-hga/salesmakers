@@ -45,6 +45,10 @@
       = f.select :picture_with_customer, options_for_select([['Yes'],['No, Customer Refused'],['No, Forgot']], picture_with_customer_selected), include_blank: true
       = f.label :comments
       = f.text_area :comments, size: "30x10"
+      %fieldset
+        %legend Photo Upload
+        %p.small.comment Attach a photo to your sale.
+        = f.file_field :photo
       = f.hidden_field :project_id, value:  @project.id
       .boost#additional_features
         %br

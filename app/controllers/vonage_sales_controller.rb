@@ -67,7 +67,8 @@ class VonageSalesController < ApplicationController
                                         :gift_card_number,
                                         :gift_card_number_confirmation,
                                         :person_acknowledged,
-                                        :creator_id
+                                        :creator_id,
+                                        :photo
   end
 
   def filter_result result

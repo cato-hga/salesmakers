@@ -4444,7 +4444,9 @@ CREATE TABLE sprint_sales (
     ten_intl_connect boolean,
     insurance boolean,
     virgin_data_share_add_on_amount double precision,
-    virgin_data_share_add_on_description text
+    virgin_data_share_add_on_description text,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -5597,7 +5599,9 @@ CREATE TABLE vonage_sales (
     vested boolean,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
-    creator_id integer
+    creator_id integer,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -11010,4 +11014,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150916184946');
 INSERT INTO schema_migrations (version) VALUES ('20150917125243');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917125244');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917153426');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917154806');
 
