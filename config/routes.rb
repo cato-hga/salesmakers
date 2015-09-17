@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   patch 'asset_approvals/approve/:person_id', to: 'asset_approvals#approve', as: :approve_for_asset
   patch 'asset_approvals/deny/:person_id', to: 'asset_approvals#deny', as: :deny_for_asset
 
+  get 'attachments/new/:attachable_id/:attachable_type', to: 'attachments#new', as: :new_attachment
+  post 'attachments', to: 'attachments#create', as: :create_attachment
+
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
     resources :candidate_availabilities, only: [:new, :create, :edit, :update]

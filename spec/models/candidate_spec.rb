@@ -64,6 +64,10 @@ describe Candidate do
     expect(candidate).to respond_to :mobile_phone_is_landline?
   end
 
+  it 'responds to attachments' do
+    expect(candidate).to respond_to :attachments
+  end
+
   describe 'validations' do
     it 'responds to other_phone' do
       expect(candidate).to respond_to(:other_phone)

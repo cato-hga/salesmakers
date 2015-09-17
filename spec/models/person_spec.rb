@@ -67,6 +67,10 @@ describe Person do
     expect(person).to respond_to :office_phone_valid?
   end
 
+  it 'responds to attachments' do
+    expect(person).to respond_to :attachments
+  end
+
   describe 'uniqueness validations' do
     let(:second_person) { create :person }
 

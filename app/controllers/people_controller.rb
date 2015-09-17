@@ -100,6 +100,7 @@ class PeopleController < ProtectedController
 
   def show
     @person = Person.find params[:id]
+    @attachments = @person.attachments
     @log_entries = @person.related_log_entries.page(params[:log_entries_page]).per(10)
     @asset_form_options = asset_form_options
     set_communication_variables

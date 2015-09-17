@@ -47,6 +47,7 @@ class CandidatesController < ApplicationController
 
   def show
     @candidate = Candidate.find params[:id]
+    @attachments = @candidate.attachments
     get_show_variables
     get_hours_information
     setup_sprint_params

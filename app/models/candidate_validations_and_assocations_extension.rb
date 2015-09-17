@@ -99,6 +99,7 @@ module CandidateValidationsAndAssocationsExtension
       has_many :candidate_reconciliations
       has_many :candidate_notes
       has_many :candidate_sprint_radio_shack_training_sessions
+      has_many :attachments, as: :attachable
     end
 
     def has_many_through_associations

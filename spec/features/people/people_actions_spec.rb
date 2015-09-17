@@ -69,6 +69,17 @@ describe 'actions involving People' do
       expect(page).to have_content '12.5 Hours'
     end
 
+    it 'does not show attachments without any' do
+      expect(page).not_to have_selector 'h3', text: 'Attachments'
+    end
+
+    it 'shows attachments' do
+      attachment = create :attachment, attachable: person, person: person
+      visit person_path(person)
+      expect(page).to have_selector 'h3', text: 'Attachments'
+      expect(page).to have_content attachment.name
+    end
+
     context 'with masquerade permissions' do
       let(:masquerade_permission) { create :permission, key: 'person_masquerade' }
       let(:foobar_department) { create :department, name: 'Foobar Department' }

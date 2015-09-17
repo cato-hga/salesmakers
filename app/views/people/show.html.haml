@@ -31,6 +31,7 @@
   -# TODO: Reimplement when Vonage finished
   -# if GiftCardOverridePolicy.new(@current_person, GiftCardOverride.new).new_override?
     -#= link_to 'Override Card', new_override_walmart_gift_cards_path(@person), class: [:button, :inline_button]
+  = link_to 'Attach File', new_attachment_path(@person.id, @person.class.name), class: [:button, :inline_button]
   - if PersonPolicy.new(@current_person, Person.new).masquerade?
     = link_to 'Masquerade', masquerade_person_path(@person), class: [:button, :inline_button, :alert] if @person.active?
 
@@ -154,6 +155,7 @@
               Hours
         - else
           %p No shifts with project information found for this user. They may have shifts, but&mdash;if so&mdash;those shifts were not imported with a project attached.
+  = render 'attachments/widgets'
 
 - if show_details
   - if @person.department and @person.department.name.include?('Comcast')
