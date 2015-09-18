@@ -36,6 +36,7 @@
 #  other_phone_valid                      :boolean          default(TRUE), not null
 #  mobile_phone_is_landline               :boolean          default(FALSE), not null
 #  vip                                    :boolean          default(FALSE), not null
+#  project_id                             :integer
 #
 
 class Candidate < ActiveRecord::Base
@@ -43,9 +44,11 @@ class Candidate < ActiveRecord::Base
   include CandidateValidationsAndAssocationsExtension
   extend NonAlphaNumericRansacker
 
+  # TODO: Remove when SWAS is not the only project, favoring a project selection if one is not already selected
+  before_validation :set_default_project
+
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
-
 
   # NOTE: YOU CANNOT ADD A STATUS IN THE MIDDLE WITHOUT CORRECTING THE STATUSES AFTER IT. ENUM IS NOTHING
   # MORE THAN AN INTEGER, SO THE STATES AFTER THE ONE INSERTED WILL ALL SHIFT BECAUSE THEIR INTEGER VALUE
@@ -243,5 +246,13 @@ class Candidate < ActiveRecord::Base
     closest_location_area = ordered_location_areas.first
     closest_area = closest_location_area.area
     self.update potential_area: closest_area
+  end
+
+  private
+
+  def set_default_project
+    p = Project.find_by name: 'Sprint Postpaid'
+    return unless p
+    self.project = p
   end
 end

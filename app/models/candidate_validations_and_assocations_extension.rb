@@ -75,6 +75,7 @@ module CandidateValidationsAndAssocationsExtension
 
     def belongs_to_associations
       belongs_to :location_area
+      belongs_to :project
       belongs_to :person
       belongs_to :candidate_source
       belongs_to :candidate_denial_reason
@@ -99,6 +100,7 @@ module CandidateValidationsAndAssocationsExtension
       has_many :candidate_reconciliations
       has_many :candidate_notes
       has_many :candidate_sprint_radio_shack_training_sessions
+      has_many :attachments, as: :attachable
     end
 
     def has_many_through_associations

@@ -8,6 +8,7 @@
 #  created_at             :datetime
 #  updated_at             :datetime
 #  workmarket_project_num :string
+#  active                 :boolean          default(TRUE), not null
 #
 
 require 'rails_helper'

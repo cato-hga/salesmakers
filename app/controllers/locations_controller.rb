@@ -26,7 +26,7 @@ class LocationsController < ApplicationController
                ],
                add_methods: [
                    :number_of_candidates_in_funnel,
-                   :head_count_full?,
+                   :recruitable?,
                    :channel_name,
                    :store_number,
                    :display_name,

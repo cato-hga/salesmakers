@@ -13,6 +13,6 @@
   - priority = location_area.priority.to_s
   - target_head_count = location_area.target_head_count.to_s
   - number_of_candidates = location_area.candidates_in_funnel.count
-  - recruitable = location_area.head_count_full? ? 'No' : 'Yes'
+  - recruitable = location_area.recruitable? ? 'Yes' : 'No'
   - rows << table_row([channel_name, display_name, store_number, address, area, priority, target_head_count, number_of_candidates.to_s, recruitable])
 = table header, rows

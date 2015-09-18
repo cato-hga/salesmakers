@@ -13,6 +13,7 @@ Rails.application.config.assets.precompile += %w( vonage_sales.css )
 Rails.application.config.assets.precompile += %w( vonage_sales.js )
 
 %w(
+attachments
 sms_daily_checks
 client_areas
 directv_leads

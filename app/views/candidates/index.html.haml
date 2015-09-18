@@ -14,4 +14,6 @@
     = render 'table'
 
 - content_for :footer do
+- search_params = params[:q] || []
+  .left= csv_link csv_candidates_path(controller: :candidates, action: :index, q: search_params), @candidates.count
   = paginate @candidates

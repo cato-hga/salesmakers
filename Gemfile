@@ -100,6 +100,7 @@ group :development do
   gem 'hirb', '0.7.3' # Pretty console printing of model information
   gem 'letter_opener', '1.4.1' # Open sent emails in a browser during development
   gem 'lol_dba', '2.0.0' # Find missing indexes
+  gem 'meta_request', '0.3.4' # Allows the Rails chrome extension
   gem 'parallel_tests', '1.6.1' # Parallel testing
   gem 'pry', '0.10.1' # Provides an alternative console; also really cool binding.pry debug
   gem 'rails_best_practices', '1.15.7' #Gem to output best practices

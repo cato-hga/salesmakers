@@ -151,7 +151,7 @@ describe 'Scheduling interviews' do
           before(:each) do
             candidate.update location_area: location_area
             candidate.reload
-            allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+            allow_any_instance_of(LocationArea).to receive(:recruitable?).and_return(false)
             within('.inner') do
               first('.button').click
             end

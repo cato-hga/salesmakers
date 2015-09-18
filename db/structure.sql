@@ -88,6 +88,40 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: abstract_prescreen_answers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE abstract_prescreen_answers (
+    id integer NOT NULL,
+    candidate_id integer NOT NULL,
+    person_id integer NOT NULL,
+    project_id integer NOT NULL,
+    answers json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: abstract_prescreen_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE abstract_prescreen_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: abstract_prescreen_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE abstract_prescreen_answers_id_seq OWNED BY abstract_prescreen_answers.id;
+
+
+--
 -- Name: ahoy_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -268,6 +302,42 @@ CREATE SEQUENCE areas_id_seq
 --
 
 ALTER SEQUENCE areas_id_seq OWNED BY areas.id;
+
+
+--
+-- Name: attachments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE attachments (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    attachable_id integer NOT NULL,
+    attachable_type character varying NOT NULL,
+    attachment_uid character varying,
+    attachment_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    person_id integer NOT NULL
+);
+
+
+--
+-- Name: attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE attachments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE attachments_id_seq OWNED BY attachments.id;
 
 
 --
@@ -660,7 +730,8 @@ CREATE TABLE candidates (
     mobile_phone_valid boolean DEFAULT true NOT NULL,
     other_phone_valid boolean DEFAULT true NOT NULL,
     mobile_phone_is_landline boolean DEFAULT false NOT NULL,
-    vip boolean DEFAULT false NOT NULL
+    vip boolean DEFAULT false NOT NULL,
+    project_id integer
 );
 
 
@@ -6062,6 +6133,13 @@ ALTER SEQUENCE workmarket_locations_id_seq OWNED BY workmarket_locations.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY abstract_prescreen_answers ALTER COLUMN id SET DEFAULT nextval('abstract_prescreen_answers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY answer_upvotes ALTER COLUMN id SET DEFAULT nextval('answer_upvotes_id_seq'::regclass);
 
 
@@ -6091,6 +6169,13 @@ ALTER TABLE ONLY area_types ALTER COLUMN id SET DEFAULT nextval('area_types_id_s
 --
 
 ALTER TABLE ONLY areas ALTER COLUMN id SET DEFAULT nextval('areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attachments ALTER COLUMN id SET DEFAULT nextval('attachments_id_seq'::regclass);
 
 
 --
@@ -7193,6 +7278,14 @@ ALTER TABLE ONLY workmarket_locations ALTER COLUMN id SET DEFAULT nextval('workm
 
 
 --
+-- Name: abstract_prescreen_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY abstract_prescreen_answers
+    ADD CONSTRAINT abstract_prescreen_answers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ahoy_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -7238,6 +7331,14 @@ ALTER TABLE ONLY area_types
 
 ALTER TABLE ONLY areas
     ADD CONSTRAINT areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY attachments
+    ADD CONSTRAINT attachments_pkey PRIMARY KEY (id);
 
 
 --
@@ -11187,4 +11288,12 @@ INSERT INTO schema_migrations (version) VALUES ('20150917125244');
 INSERT INTO schema_migrations (version) VALUES ('20150917153426');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917154806');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917160756');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917161243');
+
+INSERT INTO schema_migrations (version) VALUES ('20150918130721');
+
+INSERT INTO schema_migrations (version) VALUES ('20150918131000');
 

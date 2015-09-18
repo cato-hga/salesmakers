@@ -34,7 +34,7 @@ class API::V1::LocationsController < API::BaseController
     return [] if all_location_areas.count(:all) < 1
     recruitable_locations = []
     for location_area in all_location_areas do
-      unless location_area.head_count_full?
+      if location_area.recruitable?
         recruitable_locations << location_area.location
       end
     end

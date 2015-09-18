@@ -12,7 +12,9 @@ describe 'Interview answers' do
                                          description: 'Test Description' }
   let(:candidate) { create :candidate, location_area: location_area }
   let!(:denial_reason) { create :candidate_denial_reason }
-  let(:location_area) { create :location_area }
+  let(:location_area) { create :location_area, area: area }
+  let(:area) { create :area, project: project }
+  let(:project) { create :project, name: 'Sprint Postpaid' }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
@@ -126,7 +128,7 @@ describe 'Interview answers' do
 
         context 'and job extended, location no longer recruitable' do
           before(:each) do
-            allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+            allow_any_instance_of(LocationArea).to receive(:recruitable?).and_return(false)
             click_on 'Extend offer'
           end
           it 'does not assign a denial reason' do
