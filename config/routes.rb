@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       get :dashboard, as: :dashboard
       get :support_search, as: :support_search
       post 'support_search/:enable_filter', action: :support_search, as: :support_search_filter
+      get :csv, to: 'candidates#csv', as: :csv, defaults: { format: :csv }
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do

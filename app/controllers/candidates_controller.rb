@@ -23,7 +23,7 @@ class CandidatesController < ApplicationController
   after_action :verify_authorized
   before_action :do_authorization
   before_action :search_bar, except: [:support_search]
-  before_action :get_candidate, except: [:index, :support_search, :dashboard, :new, :create]
+  before_action :get_candidate, except: [:index, :csv, :support_search, :dashboard, :new, :create]
   before_action :get_suffixes_and_sources, only: [:new, :create, :edit, :update]
 
   layout 'candidates', except: [:support_search, :get_override_location, :post_override_location]
@@ -31,6 +31,17 @@ class CandidatesController < ApplicationController
 
   def index
     @candidates = @search.result.page(params[:page]).includes(:location_area)
+  end
+
+  def csv
+    @candidates = @search.result
+    respond_to do |format|
+      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"candidates_#{date_time_string}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
   end
 
   def support_search

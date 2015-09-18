@@ -12,6 +12,10 @@ class CandidatePolicy < ApplicationPolicy
     end
   end
 
+  def csv?
+    index?
+  end
+
   def view_all?
     has_permission? 'view_all'
   end
