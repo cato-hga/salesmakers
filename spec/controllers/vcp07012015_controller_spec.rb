@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe VCP07012015Controller do
-  let(:project) { create :project, name: 'Vonage Retail' }
+  let(:project) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: project }
   let(:rep) { create :person }
   let!(:person_area) { create :person_area, area: area, person: rep }

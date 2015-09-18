@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe VonageSalesController do
-  let!(:project) { create :project, name: 'Vonage Retail' }
+  let!(:project) { create :project, name: 'Vonage' }
   let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
   let(:rep) { create :person, position: position }
   let(:gift_card_override) { create :gift_card_override }

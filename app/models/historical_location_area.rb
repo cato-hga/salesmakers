@@ -18,6 +18,7 @@
 #  created_at                :datetime         not null
 #  updated_at                :datetime         not null
 #  date                      :date             not null
+#  bilingual                 :boolean          default(FALSE)
 #
 
 class HistoricalLocationArea < ActiveRecord::Base

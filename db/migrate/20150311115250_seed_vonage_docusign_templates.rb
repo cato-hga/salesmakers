@@ -37,7 +37,7 @@ class SeedVonageDocusignTemplates < ActiveRecord::Migration
     t << { state: 'UT', template_guid: '799478FE-A631-459A-856A-23B0739BCD6E' }
     t << { state: 'VA', template_guid: '541DA653-22A1-4779-90C6-FC5886887F90' }
     t << { state: 'WI', template_guid: '8BBF9F1D-B77B-45BB-86CF-B939C6A824BA' }
-    vr = Project.find_by name: 'Vonage Retail'
+    vr = Project.find_by name: 'Vonage'
     ve = Project.find_by name: 'Vonage Events'
     for template in t do
       DocusignTemplate.find_or_create_by template.merge project: vr, document_type: :nhp
@@ -46,7 +46,7 @@ class SeedVonageDocusignTemplates < ActiveRecord::Migration
   end
 
   def self.down
-    vr = Project.find_by name: 'Vonage Retail'
+    vr = Project.find_by name: 'Vonage'
     ve = Project.find_by name: 'Vonage Events'
     DocusignTemplate.where(project: vr).destroy_all
     DocusignTemplate.where(project: ve).destroy_all

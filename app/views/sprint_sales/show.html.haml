@@ -1,0 +1,82 @@
+- title @sprint_sale.meid
+
+- project = @sprint_sale.sprint_carrier.name == 'Sprint Postpaid' ? @sprint_postpaid : @sprint_prepaid
+
+.widgets
+  .widget
+    .inner
+      %h3 Basic Information
+      %p.comment
+        = @sprint_sale.sprint_carrier.name
+        \-
+        = @sprint_sale.sprint_handset.name
+        = surround '(', ')' do
+          = @sprint_sale.sprint_rate_plan.name
+      %p
+        %strong Sale date:
+        = short_date @sprint_sale.sale_date
+      %p
+        %strong Entered:
+        = full_datetime @sprint_sale.created_at.in_time_zone
+      %p
+        %strong Sold by:
+        = person_link @sprint_sale.person
+      %p
+        %strong Location:
+        = location_link project, @sprint_sale.location
+      %p
+        %strong Areas:
+        - location_areas = @sprint_sale.location.location_areas.joins(area: :project).where("projects.id = ?", project.id)
+        = location_areas.map { |la| la.area.ancestors.map { |a| area_link(a) } << area_link(la.area) }.join(", ").html_safe
+      %p
+        %strong Mobile phone:
+        - if @sprint_sale.mobile_phone && @sprint_sale.mobile_phone.length == 10
+          = phone_link @sprint_sale.mobile_phone
+        - else
+          N/A
+      %p
+        %strong Activated in store?:
+        - if @sprint_sale.phone_activated_in_store?
+          = icon('check')
+        - else
+          = icon('x')
+      - unless @sprint_sale.phone_activated_in_store?
+        %p
+          %strong Reason not activated:
+          = @sprint_sale.reason_not_activated_in_store
+  .widget
+    .inner
+      %h3 Extras
+      %p
+        %strong Number of accessories:
+        - if @sprint_sale.number_of_accessories
+          = @sprint_sale.number_of_accessories.to_s
+        - else
+          0
+      %p
+        %strong Insurance?:
+        - if @sprint_sale.insurance?
+          = icon('check')
+        - else
+          = icon('x')
+      %p
+        %strong Int'l. connect:
+        - if @sprint_sale.five_intl_connect? && @sprint_sale.ten_intl_connect?
+          $5, $10
+        - elsif @sprint_sale.five_intl_connect?
+          $5
+        - elsif @sprint_sale.ten_intl_connect?
+          $10
+        - else
+          N/A
+      %p
+        %strong Top-Up card amount:
+        - if @sprint_sale.top_up_card_amount
+          = number_to_currency @sprint_sale.top_up_card_amount
+        - else
+          N/A
+  - if @sprint_sale.photo
+    .widget
+      .inner
+        %h3 Photo
+        = image_tag @sprint_sale.photo.url if @sprint_sale.photo_stored?

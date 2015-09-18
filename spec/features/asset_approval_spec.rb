@@ -18,7 +18,7 @@ describe 'Approving or Denying assets' do
   let!(:sprint_manager_area) { create :person_area, person: sprint_manager, area: sprint_area, manages: true }
   let!(:manager_area) { create :person_area, person: manager, area: area, manages: true }
   let(:area) { create :area, project: vonage }
-  let(:vonage) { create :project, name: 'Vonage Retail' }
+  let(:vonage) { create :project, name: 'Vonage' }
   let(:sprint_area) { create :area, project: sprint }
   let(:sprint) { create :project, name: 'Sprint Retail' }
   describe 'for unauthorized users' do

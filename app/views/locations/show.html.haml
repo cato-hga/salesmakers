@@ -5,6 +5,9 @@
     .inner
       %h3 Basic Information
       %p
+        %strong Store #:
+        = @location.store_number
+      %p
         %strong Channel:
         = @location.channel.name
       - if @location.street_1
@@ -24,7 +27,7 @@
         - if @location.location_areas.empty?
           N/A
         - else
-          = @location.location_areas.map {|la| area_link la.area }.join(', '.html_safe)
+          = @location.location_areas.map {|la| area_link la.area }.join(', ').html_safe
       %p
         %strong Target head count:
         - target_hc = 0

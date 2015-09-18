@@ -84,6 +84,15 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Logging
+  log4r_config = YAML.load_file File.new(Rails.root.join('config', 'log4r.yml'))
+  log_cfg = YamlConfigurator
+  log_cfg.decode_yaml log4r_config['log4r_config']
+
+  config.logger = Log4r::Logger["#{Rails.env}_rails"]
+  config.log_level = :unknown
+  ActiveRecord::Base.logger = Logger.new('/dev/null')
+
   config.action_mailer.default_url_options = { host: 'newcenter.salesmakersinc.com' }
   config.middleware.use ExceptionNotification::Rack, ExceptionNotificationOptions.hash('PRODUCTION')
 end

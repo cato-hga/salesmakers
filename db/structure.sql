@@ -46,6 +46,20 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: ahoy_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ahoy_events (
+    id uuid NOT NULL,
+    visit_id uuid,
+    person_id integer,
+    name character varying,
+    properties json,
+    "time" timestamp without time zone
+);
+
+
+--
 -- Name: answer_upvotes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -212,6 +226,42 @@ CREATE SEQUENCE areas_id_seq
 --
 
 ALTER SEQUENCE areas_id_seq OWNED BY areas.id;
+
+
+--
+-- Name: attachments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE attachments (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    attachable_id integer NOT NULL,
+    attachable_type character varying NOT NULL,
+    attachment_uid character varying,
+    attachment_name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    person_id integer NOT NULL
+);
+
+
+--
+-- Name: attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE attachments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE attachments_id_seq OWNED BY attachments.id;
 
 
 --
@@ -2370,7 +2420,8 @@ CREATE TABLE historical_location_areas (
     priority integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    date date NOT NULL
+    date date NOT NULL,
+    bilingual boolean DEFAULT false
 );
 
 
@@ -2878,7 +2929,8 @@ CREATE TABLE location_areas (
     outsourced boolean DEFAULT false NOT NULL,
     launch_group integer,
     distance_to_cor double precision,
-    priority integer
+    priority integer,
+    bilingual boolean DEFAULT false
 );
 
 
@@ -3654,7 +3706,8 @@ CREATE TABLE projects (
     client_id integer NOT NULL,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    workmarket_project_num character varying
+    workmarket_project_num character varying,
+    active boolean DEFAULT true NOT NULL
 );
 
 
@@ -4162,6 +4215,38 @@ ALTER SEQUENCE sms_messages_id_seq OWNED BY sms_messages.id;
 
 
 --
+-- Name: sprint_carriers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_carriers (
+    id integer NOT NULL,
+    name character varying,
+    project_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_carriers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_carriers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_carriers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_carriers_id_seq OWNED BY sprint_carriers.id;
+
+
+--
 -- Name: sprint_group_me_bots; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4192,6 +4277,38 @@ CREATE SEQUENCE sprint_group_me_bots_id_seq
 --
 
 ALTER SEQUENCE sprint_group_me_bots_id_seq OWNED BY sprint_group_me_bots.id;
+
+
+--
+-- Name: sprint_handsets; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_handsets (
+    id integer NOT NULL,
+    name character varying,
+    sprint_carrier_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_handsets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_handsets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_handsets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_handsets_id_seq OWNED BY sprint_handsets.id;
 
 
 --
@@ -4302,6 +4419,38 @@ ALTER SEQUENCE sprint_radio_shack_training_sessions_id_seq OWNED BY sprint_radio
 
 
 --
+-- Name: sprint_rate_plans; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sprint_rate_plans (
+    id integer NOT NULL,
+    name character varying,
+    sprint_carrier_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: sprint_rate_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sprint_rate_plans_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sprint_rate_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sprint_rate_plans_id_seq OWNED BY sprint_rate_plans.id;
+
+
+--
 -- Name: sprint_sales; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4310,21 +4459,30 @@ CREATE TABLE sprint_sales (
     sale_date date NOT NULL,
     person_id integer NOT NULL,
     location_id integer NOT NULL,
-    meid character varying NOT NULL,
+    meid character varying,
     mobile_phone character varying,
-    carrier_name character varying NOT NULL,
-    handset_model_name character varying NOT NULL,
     upgrade boolean DEFAULT false NOT NULL,
-    rate_plan_name character varying NOT NULL,
-    top_up_card_purchased boolean DEFAULT false NOT NULL,
+    top_up_card_purchased boolean DEFAULT false,
     top_up_card_amount double precision,
-    phone_activated_in_store boolean DEFAULT false NOT NULL,
+    phone_activated_in_store boolean DEFAULT false,
     reason_not_activated_in_store character varying,
     picture_with_customer character varying,
     comments text,
     connect_sprint_sale_id character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    project_id integer,
+    number_of_accessories integer,
+    sprint_carrier_id integer,
+    sprint_handset_id integer,
+    sprint_rate_plan_id integer,
+    five_intl_connect boolean,
+    ten_intl_connect boolean,
+    insurance boolean,
+    virgin_data_share_add_on_amount double precision,
+    virgin_data_share_add_on_description text,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -5080,6 +5238,40 @@ ALTER SEQUENCE versions_id_seq OWNED BY versions.id;
 
 
 --
+-- Name: visits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    id uuid NOT NULL,
+    visitor_id uuid,
+    ip character varying,
+    user_agent text,
+    referrer text,
+    landing_page text,
+    person_id integer,
+    referring_domain character varying,
+    search_keyword character varying,
+    browser character varying,
+    os character varying,
+    device_type character varying,
+    screen_height integer,
+    screen_width integer,
+    country character varying,
+    region character varying,
+    city character varying,
+    postal_code character varying,
+    latitude numeric,
+    longitude numeric,
+    utm_source character varying,
+    utm_medium character varying,
+    utm_term character varying,
+    utm_content character varying,
+    utm_campaign character varying,
+    started_at timestamp without time zone
+);
+
+
+--
 -- Name: vonage_account_status_changes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5443,7 +5635,9 @@ CREATE TABLE vonage_sales (
     vested boolean,
     person_acknowledged boolean DEFAULT false,
     gift_card_number character varying,
-    creator_id integer
+    creator_id integer,
+    photo_uid character varying,
+    photo_name character varying
 );
 
 
@@ -5820,6 +6014,13 @@ ALTER TABLE ONLY area_types ALTER COLUMN id SET DEFAULT nextval('area_types_id_s
 --
 
 ALTER TABLE ONLY areas ALTER COLUMN id SET DEFAULT nextval('areas_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY attachments ALTER COLUMN id SET DEFAULT nextval('attachments_id_seq'::regclass);
 
 
 --
@@ -6575,7 +6776,21 @@ ALTER TABLE ONLY sms_messages ALTER COLUMN id SET DEFAULT nextval('sms_messages_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY sprint_carriers ALTER COLUMN id SET DEFAULT nextval('sprint_carriers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY sprint_group_me_bots ALTER COLUMN id SET DEFAULT nextval('sprint_group_me_bots_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sprint_handsets ALTER COLUMN id SET DEFAULT nextval('sprint_handsets_id_seq'::regclass);
 
 
 --
@@ -6597,6 +6812,13 @@ ALTER TABLE ONLY sprint_radio_shack_training_locations ALTER COLUMN id SET DEFAU
 --
 
 ALTER TABLE ONLY sprint_radio_shack_training_sessions ALTER COLUMN id SET DEFAULT nextval('sprint_radio_shack_training_sessions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY sprint_rate_plans ALTER COLUMN id SET DEFAULT nextval('sprint_rate_plans_id_seq'::regclass);
 
 
 --
@@ -6887,6 +7109,14 @@ ALTER TABLE ONLY workmarket_locations ALTER COLUMN id SET DEFAULT nextval('workm
 
 
 --
+-- Name: ahoy_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ahoy_events
+    ADD CONSTRAINT ahoy_events_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: answer_upvotes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6924,6 +7154,14 @@ ALTER TABLE ONLY area_types
 
 ALTER TABLE ONLY areas
     ADD CONSTRAINT areas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY attachments
+    ADD CONSTRAINT attachments_pkey PRIMARY KEY (id);
 
 
 --
@@ -7783,11 +8021,27 @@ ALTER TABLE ONLY sms_messages
 
 
 --
+-- Name: sprint_carriers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_carriers
+    ADD CONSTRAINT sprint_carriers_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: sprint_group_me_bots_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY sprint_group_me_bots
     ADD CONSTRAINT sprint_group_me_bots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sprint_handsets_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_handsets
+    ADD CONSTRAINT sprint_handsets_pkey PRIMARY KEY (id);
 
 
 --
@@ -7812,6 +8066,14 @@ ALTER TABLE ONLY sprint_radio_shack_training_locations
 
 ALTER TABLE ONLY sprint_radio_shack_training_sessions
     ADD CONSTRAINT sprint_radio_shack_training_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sprint_rate_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sprint_rate_plans
+    ADD CONSTRAINT sprint_rate_plans_pkey PRIMARY KEY (id);
 
 
 --
@@ -7980,6 +8242,14 @@ ALTER TABLE ONLY version_associations
 
 ALTER TABLE ONLY versions
     ADD CONSTRAINT versions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
 
 
 --
@@ -8189,6 +8459,27 @@ CREATE INDEX gm_groups_and_users ON group_me_groups_group_me_users USING btree (
 --
 
 CREATE INDEX gm_users_and_groups ON group_me_groups_group_me_users USING btree (group_me_user_id, group_me_group_id);
+
+
+--
+-- Name: index_ahoy_events_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_person_id ON ahoy_events USING btree (person_id);
+
+
+--
+-- Name: index_ahoy_events_on_time; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_time ON ahoy_events USING btree ("time");
+
+
+--
+-- Name: index_ahoy_events_on_visit_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_ahoy_events_on_visit_id ON ahoy_events USING btree (visit_id);
 
 
 --
@@ -9353,6 +9644,13 @@ CREATE INDEX index_versions_on_item_type_and_item_id ON versions USING btree (it
 --
 
 CREATE INDEX index_versions_on_transaction_id ON versions USING btree (transaction_id);
+
+
+--
+-- Name: index_visits_on_person_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_person_id ON visits USING btree (person_id);
 
 
 --
@@ -10684,7 +10982,11 @@ INSERT INTO schema_migrations (version) VALUES ('20150824144327');
 
 INSERT INTO schema_migrations (version) VALUES ('20150824152157');
 
+INSERT INTO schema_migrations (version) VALUES ('20150824183946');
+
 INSERT INTO schema_migrations (version) VALUES ('20150824202732');
+
+INSERT INTO schema_migrations (version) VALUES ('20150825144107');
 
 INSERT INTO schema_migrations (version) VALUES ('20150825145730');
 
@@ -10702,13 +11004,73 @@ INSERT INTO schema_migrations (version) VALUES ('20150827185856');
 
 INSERT INTO schema_migrations (version) VALUES ('20150827191424');
 
+INSERT INTO schema_migrations (version) VALUES ('20150827201553');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828134337');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828134938');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828135139');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828143226');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828145315');
+
+INSERT INTO schema_migrations (version) VALUES ('20150828175227');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831172617');
+
+INSERT INTO schema_migrations (version) VALUES ('20150831173325');
+
 INSERT INTO schema_migrations (version) VALUES ('20150831222001');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901135638');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 
+INSERT INTO schema_migrations (version) VALUES ('20150901140248');
+
 INSERT INTO schema_migrations (version) VALUES ('20150901153130');
+
+INSERT INTO schema_migrations (version) VALUES ('20150901195436');
+
+INSERT INTO schema_migrations (version) VALUES ('20150903154424');
+
+INSERT INTO schema_migrations (version) VALUES ('20150903160000');
+
+INSERT INTO schema_migrations (version) VALUES ('20150903193541');
 
 INSERT INTO schema_migrations (version) VALUES ('20150904133422');
 
 INSERT INTO schema_migrations (version) VALUES ('20150906172013');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914193736');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914201054');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915144551');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915154050');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916140224');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164745');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916164834');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916174731');
+
+INSERT INTO schema_migrations (version) VALUES ('20150916184946');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917125243');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917125244');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917153426');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917154806');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917160756');
+
+INSERT INTO schema_migrations (version) VALUES ('20150917161243');
 

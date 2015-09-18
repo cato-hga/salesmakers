@@ -184,7 +184,7 @@ module PersonConnectFunctionality
     end
 
     def update_from_connect minutes, automated = false
-      connect_users = ConnectUser.where('updated >= ?', (Time.now - minutes.minutes).apply_eastern_offset)
+      connect_users = ConnectUser.where("updated >= ? AND firstname != 'X'", (Time.now - minutes.minutes).apply_eastern_offset)
       for connect_user in connect_users do
         PersonUpdater.new(connect_user).update
       end

@@ -36,7 +36,7 @@ module LinksHelperExtension
   def csv_link(path, record_count)
     if record_count >= 1000
       data_attributes = {
-          confirm: 'Exporting this many records could take a while. After clicking OK, please wait for the export to complete.',
+          confirm: 'Exporting this many records could take a while. After clicking OK, please wait for the export to complete, or you may click "Cancel" to refine your search.',
           attachment: true
       }
     else
@@ -122,6 +122,10 @@ module LinksHelperExtension
 
   def location_link(project, location)
     link_to location.name, client_project_location_path(project.client, project, location)
+  end
+
+  def sprint_sale_link sprint_sale
+    link_to sprint_sale.meid, sprint_sale
   end
 
   def vonage_sale_link vonage_sale

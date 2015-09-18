@@ -16,9 +16,10 @@ describe CandidatesController do
   end
 
   describe 'GET index' do
-    before {
+    before do
       allow(controller).to receive(:policy).and_return double(index?: true)
-      get :index }
+      get :index
+    end
 
     it 'returns a success status' do
       expect(response).to be_success
@@ -26,6 +27,17 @@ describe CandidatesController do
 
     it 'renders the index template' do
       expect(response).to render_template(:index)
+    end
+  end
+
+  describe 'GET csv' do
+    before do
+      allow(controller).to receive(:policy).and_return double(csv?: true)
+      get :csv
+    end
+
+    it 'redirects' do
+      expect(response).to be_redirect
     end
   end
 

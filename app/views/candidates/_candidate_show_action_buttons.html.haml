@@ -18,3 +18,4 @@
     = button_to 'Reactivate Candidate', reactivate_candidate_path(@candidate), data: { confirm: 'This will re-activate the candidate. Are you sure?' }, method: :patch, class: [:button, :inline_button]
 - if @candidate.person
   = link_to 'Person Profile', person_path(@candidate.person), class: [:button, :inline_button]
+= link_to 'Attach File', new_attachment_path(@candidate.id, @candidate.class.name), class: [:button, :inline_button]

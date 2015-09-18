@@ -8,7 +8,7 @@
     - if AreaPolicy.new(@current_person, Area.new, @permission_keys).index? || AreaTypePolicy.new(@current_person, AreaType.new, @permission_keys).index?
       %li.divider
       - for project in visible_projects
-        - next unless project.areas.count > 0
+        - next if !project.active? || project.areas.empty?
         %li.has-dropdown
           %a{ href: '#' }= project.name #link_to project.name, client_project_path(project.client, project)
           %ul.dropdown

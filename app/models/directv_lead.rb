@@ -15,10 +15,13 @@
 require 'directv/sales_and_leads'
 require 'directv/lead_validations_and_associations'
 require 'directv/lead_scopes'
+require 'sales_leads_customers/sales_leads_customers_model_extension'
+
 
 class DirecTVLead < ActiveRecord::Base
   include DirecTV::SalesAndLeads
   extend DirecTV::LeadScopes
+  include SalesLeadsCustomersModelExtension
   extend DirecTV::LeadValidationsAndAssociations
 
   has_many :log_entries, as: :trackable, dependent: :destroy
@@ -58,6 +61,39 @@ class DirecTVLead < ActiveRecord::Base
       self.directv_customer.other_phone
     else
       nil
+    end
+  end
+
+  def overdue_by_ten
+    if self.directv_customer.directv_customer_notes.any?
+      return true if self.directv_customer.directv_customer_notes.last.created_at < (Date.today - 10.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 10.days)
+    end
+    false
+  end
+
+  def overdue_by_twenty_one
+    if self.directv_customer.directv_customer_notes.any?
+      return true if self.directv_customer.directv_customer_notes.last.created_at < (Date.today - 21.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 21.days)
+    end
+    false
+  end
+
+  def overdue_by_thirty_five
+    if self.directv_customer.directv_customer_notes.any?
+      return true if self.directv_customer.directv_customer_notes.last.created_at < (Date.today - 35.days)
+    else
+      return true if self.follow_up_by and self.follow_up_by < (Date.today - 35.days)
+    end
+    false
+  end
+
+  def directv_old_lead_deactivate
+    for lead in DirecTVLead.where(active: true)
+      deactivate_old_lead('DirecTV', lead)
     end
   end
 

@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.cookie
+//= require ahoy
 //= require modernizr
 //= require foundation_new/foundation
 //= require foundation_new/foundation.offcanvas

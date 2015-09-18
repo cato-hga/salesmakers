@@ -7,7 +7,14 @@ class BaseApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  rescue_from Pundit::NotAuthorizedError, with: :permission_denied
+  rescue_from Exception do |ex|
+    ActiveSupport::Notifications.instrument "exception.action_controller", message: ex.message, inspect: ex.inspect, backtrace: ex.backtrace
+    if ex.is_a?(Pundit::NotAuthorizedError)
+      permission_denied
+    else
+      raise ex unless Rails.env.test?
+    end
+  end
 
   protected
 

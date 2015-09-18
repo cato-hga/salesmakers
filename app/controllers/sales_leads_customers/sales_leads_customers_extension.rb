@@ -2,7 +2,11 @@ module SalesLeadsCustomersExtension
 
   def shared_index(client, type, order = nil)
     policy = Object.const_get "#{client}#{type}"
-    @search = policy_scope(policy).search(params[:q])
+    if type == 'Lead'
+      @search = policy_scope(policy).where(active: true).search(params[:q])
+    else
+      @search = policy_scope(policy).search(params[:q])
+    end
     results = @search.result
     results = results.reorder(order) if order
     instance_variable_set "@#{client.downcase}_#{type.downcase}s", results.page(params[:page])

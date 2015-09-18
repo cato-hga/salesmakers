@@ -4,6 +4,7 @@ RSpec.describe SprintSale, regressor: true do
 
   # === Relations ===
   it { is_expected.to belong_to :person }
+  it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :location }
   it { is_expected.to belong_to :connect_sprint_sale }
   
@@ -19,10 +20,7 @@ RSpec.describe SprintSale, regressor: true do
   it { is_expected.to have_db_column :location_id }
   it { is_expected.to have_db_column :meid }
   it { is_expected.to have_db_column :mobile_phone }
-  it { is_expected.to have_db_column :carrier_name }
-  it { is_expected.to have_db_column :handset_model_name }
   it { is_expected.to have_db_column :upgrade }
-  it { is_expected.to have_db_column :rate_plan_name }
   it { is_expected.to have_db_column :top_up_card_purchased }
   it { is_expected.to have_db_column :top_up_card_amount }
   it { is_expected.to have_db_column :phone_activated_in_store }
@@ -32,6 +30,11 @@ RSpec.describe SprintSale, regressor: true do
   it { is_expected.to have_db_column :connect_sprint_sale_id }
   it { is_expected.to have_db_column :created_at }
   it { is_expected.to have_db_column :updated_at }
+  it { is_expected.to have_db_column :project_id }
+  it { is_expected.to have_db_column :number_of_accessories }
+  it { is_expected.to have_db_column :sprint_carrier_id }
+  it { is_expected.to have_db_column :sprint_handset_id }
+  it { is_expected.to have_db_column :sprint_rate_plan_id }
 
   # === Database (Indexes) ===
   it { is_expected.to have_db_index ["connect_sprint_sale_id"] }
@@ -39,17 +42,55 @@ RSpec.describe SprintSale, regressor: true do
   it { is_expected.to have_db_index ["person_id"] }
 
   # === Validations (Length) ===
-  it { is_expected.to allow_value(Faker::Lorem.characters(1)).for :carrier_name }
-  it { is_expected.not_to allow_value(Faker::Lorem.characters(0)).for :carrier_name }
-  it { is_expected.to allow_value(Faker::Lorem.characters(1)).for :handset_model_name }
-  it { is_expected.not_to allow_value(Faker::Lorem.characters(0)).for :handset_model_name }
-  it { is_expected.to allow_value(Faker::Lorem.characters(1)).for :rate_plan_name }
-  it { is_expected.not_to allow_value(Faker::Lorem.characters(0)).for :rate_plan_name }
+  
 
   # === Validations (Presence) ===
-  it { is_expected.to validate_presence_of :sale_date }
   it { is_expected.to validate_presence_of :person }
+  it { is_expected.to validate_presence_of :sale_date }
   it { is_expected.to validate_presence_of :location }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:prepaid_project).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :mobile_phone }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:prepaid_project).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :sprint_carrier_id }
+  end
+
+  it { is_expected.to validate_presence_of :sprint_handset_id }
+  it { is_expected.to validate_presence_of :sprint_rate_plan_id }
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:card_purchased).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :top_up_card_amount }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:not_activated).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :reason_not_activated_in_store }
+  end
+
+  context "with conditions" do
+    before do
+      allow(subject).to receive(:postpaid_project).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of :number_of_accessories }
+  end
+
+  it { is_expected.to validate_presence_of :picture_with_customer }
 
   # === Validations (Numericality) ===
   

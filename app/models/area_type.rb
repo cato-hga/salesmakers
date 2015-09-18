@@ -22,9 +22,9 @@ class AreaType < ActiveRecord::Base
 
   def self.get_hash
     {
-        at_vrr: AreaType.find_by(name: 'Vonage Retail Region'),
-        at_vrm: AreaType.find_by(name: 'Vonage Retail Market'),
-        at_vrt: AreaType.find_by(name: 'Vonage Retail Territory'),
+        at_vrr: AreaType.find_by(name: 'Vonage Region'),
+        at_vrm: AreaType.find_by(name: 'Vonage Market'),
+        at_vrt: AreaType.find_by(name: 'Vonage Territory'),
         at_ver: AreaType.find_by(name: 'Vonage Event Region'),
         at_vet: AreaType.find_by(name: 'Vonage Event Team'),
         at_srr: AreaType.find_by(name: 'Sprint Retail Region'),
@@ -52,9 +52,9 @@ class AreaType < ActiveRecord::Base
     [
         nil,
         nil,
-        AreaType.find_by(name: 'Vonage Retail Region'),
-        AreaType.find_by(name: 'Vonage Retail Market'),
-        AreaType.find_by(name: 'Vonage Retail Territory'),
+        AreaType.find_by(name: 'Vonage Region'),
+        AreaType.find_by(name: 'Vonage Market'),
+        AreaType.find_by(name: 'Vonage Territory'),
     ]
   end
 
@@ -112,7 +112,7 @@ class AreaType < ActiveRecord::Base
         return AreaType.sprint_postpaid_array[fast_type]
       elsif projects_hash[:directv]
         return AreaType.directv_array[fast_type]
-      else # Vonage Retail
+      else # Vonage
         return AreaType.vonage_retail_array[fast_type]
       end
     end

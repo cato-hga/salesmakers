@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'management scorecard' do
   let(:area) { create :area, project: project }
   let(:client) { create :client, name: 'Vonage' }
-  let(:project) { create :project, name: 'Vonage Retail', client: client }
+  let(:project) { create :project, name: 'Vonage', client: client }
   let(:outside_area) { create :area }
 
   let(:rep) { create :person }

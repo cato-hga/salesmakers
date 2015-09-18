@@ -20,12 +20,21 @@
       - if group_count > 0
         %li= link_to 'GroupMe Post', new_post_group_me_groups_path
     - sprint_sale_policy = SprintSalePolicy.new(current_person, SprintSale.new, @permission_keys)
-    - if sprint_sale_policy.scoreboard?
+    - if sprint_sale_policy.create?
       %ul.off-canvas-list
         %li
           %label Sprint
-        %li
-          = link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
+          - if sprint_sale_policy.scoreboard?
+            %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
+          - if sprint_sale_policy.index?
+            %li= link_to 'Sprint Sales', sprint_sales_path
+          -# if sprint_sale_policy.create?
+            - prepaid = Project.find_by(name: 'Sprint Retail')
+            - if @visible_projects.include? prepaid
+              %li= link_to 'Prepaid Sale Entry', new_sprint_sales_path(prepaid.id)
+            - postpaid = Project.find_by(name: 'Sprint Postpaid')
+            - if @visible_projects.include? postpaid
+              %li= link_to 'Postpaid Sale Entry', new_sprint_sales_path(postpaid.id)
     - candidate_policy = CandidatePolicy.new(current_person, Candidate.new, @permission_keys)
     - if candidate_policy.index? or candidate_policy.create?
       %ul.off-canvas-list
@@ -51,6 +60,8 @@
         = link_to 'Search', people_path
       %li
         = link_to 'Org Chart', org_chart_people_path
+      %li
+        = link_to 'Shifts', shifts_path
       - if PersonPolicy.new(current_person, Person.new, @permission_keys).approval?
         %li= link_to 'Approve Assets', asset_approval_path
       - if SMSDailyCheckPolicy.new(@current_person, SMSDailyCheck.new, @permission_keys).index?
@@ -59,12 +70,12 @@
         %li= link_to 'New', new_person_path
     - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
     - walmart_gift_card_policy = WalmartGiftCardPolicy.new(@current_person, WalmartGiftCard.new)
-    - retail = Project.find_by name: 'Vonage Retail'
+    - retail = Project.find_by name: 'Vonage'
     - if @visible_projects.include?(retail) && (walmart_gift_card_policy.new? || vonage_sale_policy.new? || vonage_sale_policy.index?)
       %ul.off-canvas-list
         %li
-          %label Vonage Retail
-        - if vonage_sale_policy.new?
+          %label Vonage
+        -# if vonage_sale_policy.new?
           %li= link_to 'Sale Entry', new_vonage_sale_path
         - if vonage_sale_policy.index?
           %li= link_to 'Vonage Sales', vonage_sales_path
@@ -113,6 +124,7 @@
       LocationPolicy.new(@current_person, Location.new, @permission_keys).index? |
       %ul.off-canvas-list
         - for project in visible_projects
+          - next if !project.active? || project.areas.empty?
           %li
             %label= project.name + ' Admin'
           - if AreaTypePolicy.new(current_person, AreaType.new, @permission_keys).index?
@@ -149,4 +161,3 @@
             = text_field_tag :global_search, @global_search, placeholder: 'Global Search'
           .small-3.columns
             = submit_tag 'Search', id: 'global_search_submit', class: [:button, :postfix]
-

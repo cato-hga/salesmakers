@@ -53,5 +53,6 @@ module PersonAssociationsModelExtension
     has_many :roster_verification_sessions, foreign_key: 'creator_id'
     has_many :to_sms_messages, class_name: 'SMSMessage', foreign_key: 'to_person_id'
     has_many :from_sms_messages, class_name: 'SMSMessage', foreign_key: 'from_person_id'
+    has_many :attachments, as: :attachable
   end
 end

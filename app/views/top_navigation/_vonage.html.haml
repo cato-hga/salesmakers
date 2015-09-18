@@ -1,9 +1,9 @@
 - vonage_sale_policy = VonageSalePolicy.new(@current_person, VonageSale.new)
 - walmart_gift_card_policy = WalmartGiftCardPolicy.new(@current_person, WalmartGiftCard.new)
-- retail = Project.find_by name: 'Vonage Retail'
+- retail = Project.find_by name: 'Vonage'
 - if @visible_projects.include?(retail) && (walmart_gift_card_policy.new? || vonage_sale_policy.new? || vonage_sale_policy.index?)
   %li.has-dropdown
-    %a{ href: '#' } Vonage Retail
+    %a{ href: '#' } Vonage
     %ul.dropdown
       - if vonage_sale_policy.new?
         %li= link_to 'Sale Entry', new_vonage_sale_path
