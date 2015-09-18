@@ -1,0 +1,26 @@
+- non_image_attachments = []
+- image_attachments = []
+- for attachment in @attachments do
+  - if /\A.*(jpeg|jpg|gif|png|JPEG|JPG|GIF|PNG)\Z/.match(attachment.attachment.name).nil?
+    - non_image_attachments << attachment
+  - else
+    - image_attachments << attachment
+- unless non_image_attachments.empty?
+  .widget
+    .inner
+      %h3 Attachments
+      %ul
+        - for attachment in non_image_attachments do
+          %li
+            = link_to attachment.name, attachment.attachment.url, target: '_blank'
+            %br/
+            %span.small.comment= attachment.attachment.name
+- for attachment in image_attachments do
+  .widget
+    .inner
+      = link_to image_tag(attachment.attachment.url), attachment.attachment.url, data: { lightbox: attachment.attachment.url }, class: [:no_loading_indicator]
+      %p
+        = link_to attachment.name, attachment.attachment.url
+        %br/
+        Uploaded by
+        = person_link attachment.person

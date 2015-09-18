@@ -55,7 +55,7 @@ class Position < ActiveRecord::Base
     return nil unless connect_region and connect_region.name
     area_name = connect_region.name
 
-    area_name = area_name.gsub('Vonage Retail - ', '')
+    area_name = area_name.gsub('Vonage - ', '')
     area_name = area_name.gsub('Comcast - ', '')
     area_name = area_name.gsub('DirecTV - ', '')
     area_name = area_name.gsub('Vonage Events - ', '')

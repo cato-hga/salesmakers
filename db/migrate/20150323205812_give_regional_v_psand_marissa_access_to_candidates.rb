@@ -33,7 +33,7 @@ class GiveRegionalVPsandMarissaAccessToCandidates < ActiveRecord::Migration
   end
 
   def get_positions
-    pos_vg_vp = Position.find_by_name 'Vonage Retail Regional Vice President'
+    pos_vg_vp = Position.find_by_name 'Vonage Regional Vice President'
     pos_spr_vp = Position.find_by_name 'Sprint Retail Regional Vice President'
     pos_com_vp = Position.find_by_name 'Comcast Retail Regional Vice President'
     pos_spr_rm = Position.find_by_name 'Sprint Retail Regional Manager'

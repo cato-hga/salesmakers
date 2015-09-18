@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :department do
-    name 'Vonage Retail Sales'
+    name 'Vonage Sales'
     corporate false
   end
 end

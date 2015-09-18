@@ -9,7 +9,7 @@ describe 'Vonage sales actions' do
   let(:rep) { create :person, position: position }
   let!(:manager_person_area) { create :person_area, area: area_one, person: manager, manages: true }
   let(:area_one) { create :area, project: vonage_retail }
-  let(:vonage_retail) { create :project, name: 'Vonage Retail' }
+  let(:vonage_retail) { create :project, name: 'Vonage' }
   let(:other_project_area) { create :area, project: other_project }
   let(:other_project) { create :project, name: 'Sprint Retail' }
   let!(:rep_person_area) { create :person_area, area: area_one, person: rep }

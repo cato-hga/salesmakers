@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'Vonage compensation plan effective 07/01/2015' do
   let!(:vonage_mac_prefix) { create :vonage_mac_prefix }
-  let(:project) { create :project, name: 'Vonage Retail' }
+  let(:project) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: project }
   let(:rep) { create :person }
   let!(:person_area) { create :person_area, area: area, person: rep }

@@ -28,10 +28,10 @@ class ChangePersonIndexPermissions < ActiveRecord::Migration
 
   def get_not_reps_positions
     pos_admin = Position.find_by name: 'System Administrator'
-    pos_vrrvp = Position.find_by name: 'Vonage Retail Regional Vice President'
-    pos_vrrm = Position.find_by name: 'Vonage Retail Regional Manager'
-    pos_vrasm = Position.find_by name: 'Vonage Retail Area Sales Manager'
-    pos_vrtm = Position.find_by name: 'Vonage Retail Territory Manager'
+    pos_vrrvp = Position.find_by name: 'Vonage Regional Vice President'
+    pos_vrrm = Position.find_by name: 'Vonage Regional Manager'
+    pos_vrasm = Position.find_by name: 'Vonage Area Sales Manager'
+    pos_vrtm = Position.find_by name: 'Vonage Territory Manager'
 
 
     pos_vervp = Position.find_by name: 'Vonage Event Regional Vice President'
@@ -139,7 +139,7 @@ class ChangePersonIndexPermissions < ActiveRecord::Migration
   end
 
   def get_reps_positions
-    pos_vrss = Position.find_by name: 'Vonage Retail Sales Specialist'
+    pos_vrss = Position.find_by name: 'Vonage Sales Specialist'
     pos_vess = Position.find_by name: 'Vonage Event Sales Specialist'
     pos_srss = Position.find_by name: 'Sprint Retail Sales Specialist'
     pos_ccrss = Position.find_by name: 'Comcast Retail Sales Specialist'

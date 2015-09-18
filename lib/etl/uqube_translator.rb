@@ -38,7 +38,7 @@ def do_transformation
     @count += 1
     supervisors = sale.person.direct_supervisors.where.not(email: 'kgadd@retaildoneright.com')
     supervisor = supervisors.empty? ? nil : supervisors.first
-    location_area = LocationArea.for_project_and_location(Project.find_by(name: 'Vonage Retail'), sale.location).first
+    location_area = LocationArea.for_project_and_location(Project.find_by(name: 'Vonage'), sale.location).first
     territory = location_area ? location_area.area : nil
     market = territory ? territory.parent : nil
     region = market ? market.parent : nil

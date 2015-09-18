@@ -4,7 +4,7 @@ describe 'Navigation Authorization' do
   let!(:comcast_area) { create :area, project: comcast_project }
   let(:comcast_person_area) { create :person_area, area: comcast_area, person: comcast_employee }
   let(:comcast_project) { create :project, name: 'Comcast Retail' }
-  let(:vonage_project) { create :project, name: 'Vonage Retail' }
+  let(:vonage_project) { create :project, name: 'Vonage' }
   let!(:vonage_area) { create :area, project: vonage_project }
   let(:vonage_event_project) { create :project, name: 'Vonage Events' }
   let!(:vonage_event_area) { create :area, project: vonage_event_project }
@@ -68,12 +68,12 @@ describe 'Navigation Authorization' do
     #                                     person: vonage_employee,
     #                                     area: vonage_event_area }
     #
-    #   it 'that has retail access will only see Vonage Retail' do
+    #   it 'that has retail access will only see Vonage' do
     #     vonage_employee.person_areas << retail_person_area
     #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
     #     visit root_path
     #     within('.top-bar') do
-    #       expect(page).to have_content('Vonage Retail')
+    #       expect(page).to have_content('Vonage')
     #     end
     #   end
     #
@@ -87,6 +87,58 @@ describe 'Navigation Authorization' do
     #   end
     # end
 
+    # TODO: Implement when Sprint finished
+    # describe 'sprint employees' do
+    #   context 'for prepaid' do
+    #     let(:sprint_prepaid_employee) { create :person, position: position }
+    #     let(:position) { create :position, permissions: [permission_create], department: department }
+    #     let(:department) { create :department, name: 'Sprint Retail Sales' }
+    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+    #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
+    #                                              permission_group: permission_group,
+    #                                              description: 'Test Description'
+    #     }
+    #     let!(:sprint_area) { create :area, project: sprint_prepaid_project }
+    #     let(:sprint_person_area) { create :person_area,
+    #                                       person: sprint_prepaid_employee,
+    #                                       area: sprint_area }
+    #
+    #     it 'will see Prepaid Sale Entry' do
+    #       sprint_prepaid_employee.person_areas << sprint_person_area
+    #       CASClient::Frameworks::Rails::Filter.fake(sprint_prepaid_employee.email)
+    #       visit root_path
+    #       within('.top-bar') do
+    #         expect(page).to have_content 'Prepaid Sale Entry'
+    #       end
+    #     end
+    #   end
+    #
+    #   context 'for postpaid' do
+    #     let(:sprint_postpaid_employee) { create :person, position: position }
+    #     let(:position) { create :position, permissions: [permission_create], department: department }
+    #     let(:department) { create :department, name: 'Sprint RadioShack Sales' }
+    #     let(:sprint_postpaid_project) { create :project, name: "Sprint Postpaid" }
+    #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
+    #                                              permission_group: permission_group,
+    #                                              description: 'Test Description'
+    #     }
+    #     let!(:sprint_area) { create :area, project: sprint_postpaid_project }
+    #     let(:sprint_person_area) { create :person_area,
+    #                                       person: sprint_postpaid_employee,
+    #                                       area: sprint_area }
+    #
+    #     it 'will see Postpaid Sale Entry' do
+    #       sprint_postpaid_employee.person_areas << sprint_person_area
+    #       CASClient::Frameworks::Rails::Filter.fake(sprint_postpaid_employee.email)
+    #       visit root_path
+    #       within('.top-bar') do
+    #         expect(page).to have_content 'Postpaid Sale Entry'
+    #       end
+    #     end
+    #   end
+    # end
 
     describe 'for administrators' do
       let(:it_employee) { create :person, position: position, email: 'ittech@salesmakersinc.com' }
@@ -250,13 +302,13 @@ describe 'Navigation Authorization' do
     #                                     person: vonage_employee,
     #                                     area: vonage_event_area }
     #
-    #   it 'that has retail access will only see Vonage Retail' do
+    #   it 'that has retail access will only see Vonage' do
     #     vonage_employee.person_areas << retail_person_area
     #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
     #     page.current_window.resize_to '640', '480'
     #     visit root_path
     #     within('.left-off-canvas-menu') do
-    #       expect(page).to have_content('Vonage Retail')
+    #       expect(page).to have_content('Vonage')
     #     end
     #   end
     #
@@ -267,6 +319,61 @@ describe 'Navigation Authorization' do
     #     visit root_path
     #     within('.left-off-canvas-menu') do
     #       expect(page).to have_content('Vonage Events')
+    #     end
+    #   end
+    # end
+
+    # TODO: Re-implement when Sprint finished
+    # describe 'sprint employees' do
+    #   context 'for prepaid' do
+    #     let(:sprint_prepaid_employee) { create :person, position: position }
+    #     let(:position) { create :position, permissions: [permission_create], department: department }
+    #     let(:department) { create :department, name: 'Sprint Retail Sales' }
+    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+    #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
+    #                                              permission_group: permission_group,
+    #                                              description: 'Test Description'
+    #     }
+    #     let!(:sprint_area) { create :area, project: sprint_prepaid_project }
+    #     let(:sprint_person_area) { create :person_area,
+    #                                       person: sprint_prepaid_employee,
+    #                                       area: sprint_area }
+    #
+    #     it 'will see Prepaid Sale Entry' do
+    #       sprint_prepaid_employee.person_areas << sprint_person_area
+    #       CASClient::Frameworks::Rails::Filter.fake(sprint_prepaid_employee.email)
+    #       page.current_window.resize_to '640', '480'
+    #       visit root_path
+    #       within('.left-off-canvas-menu') do
+    #         expect(page).to have_content 'Prepaid Sale Entry'
+    #       end
+    #     end
+    #   end
+    #
+    #   context 'for postpaid' do
+    #     let(:sprint_postpaid_employee) { create :person, position: position }
+    #     let(:position) { create :position, permissions: [permission_create], department: department }
+    #     let(:department) { create :department, name: 'Sprint RadioShack Sales' }
+    #     let(:sprint_postpaid_project) { create :project, name: "Sprint Postpaid" }
+    #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+    #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
+    #                                              permission_group: permission_group,
+    #                                              description: 'Test Description'
+    #     }
+    #     let!(:sprint_area) { create :area, project: sprint_postpaid_project }
+    #     let(:sprint_person_area) { create :person_area,
+    #                                       person: sprint_postpaid_employee,
+    #                                       area: sprint_area }
+    #
+    #     it 'will see Postpaid Sale Entry' do
+    #       sprint_postpaid_employee.person_areas << sprint_person_area
+    #       CASClient::Frameworks::Rails::Filter.fake(sprint_postpaid_employee.email)
+    #       page.current_window.resize_to '640', '480'
+    #       visit root_path
+    #       within('.left-off-canvas-menu') do
+    #         expect(page).to have_content 'Postpaid Sale Entry'
+    #       end
     #     end
     #   end
     # end
@@ -358,7 +465,7 @@ describe 'Navigation Authorization' do
       it 'contains links to the sales page for all projects' do
         within('.left-off-canvas-menu') do
           expect(page).to have_content('COMCAST RETAIL')
-          expect(page).to have_content('VONAGE RETAIL')
+          expect(page).to have_content('VONAGE')
         end
       end
       it 'contains links to Areas' do

@@ -227,10 +227,10 @@ describe PeopleController do
              commission_end: paycheck.commission_end + 3.weeks,
              cutoff: paycheck.cutoff + 3.weeks
     }
-    let(:department) { create :department, name: 'Vonage Retail Sales' }
+    let(:department) { create :department, name: 'Vonage Sales' }
     let(:position) {
       create :position,
-             name: 'Vonage Retail Sales Specialist',
+             name: 'Vonage Sales Specialist',
              department: department
     }
     let!(:person) { create :person, position: position }

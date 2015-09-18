@@ -17,6 +17,7 @@ Rails.application.config.assets.precompile += %w( vonage_transfers.css )
 Rails.application.config.assets.precompile += %w( vonage_transfers.js )
 
 %w(
+attachments
 sms_daily_checks
 client_areas
 directv_leads
@@ -88,6 +89,7 @@ questions
 reports
 report_queries
 sessions
+shifts
 themes
 vonage_shipped_devices
 walmart_gift_cards

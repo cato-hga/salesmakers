@@ -27,8 +27,8 @@
 require 'rails_helper'
 
 describe ConnectTimesheet do
-  describe 'determination of Project', pending: true do
-    let!(:vonage_retail_project) { create :project, name: 'Vonage Retail' }
+  describe 'determination of Project' do
+    let!(:vonage_retail_project) { create :project, name: 'Vonage' }
     let!(:vonage_events_project) { create :project, name: 'Vonage Events' }
 
     # context 'for Vonage Events', pending: 'Side effect of events/retail "merge"' do
@@ -39,7 +39,7 @@ describe ConnectTimesheet do
     #   end
     # end
 
-    context 'for Vonage Retail' do
+    context 'for Vonage' do
       let(:vonage_retail_timesheet) { ConnectTimesheet.find '38EA3B7B4AE89C48014AF41DDA85734F' }
 
       it 'returns the correct project' do

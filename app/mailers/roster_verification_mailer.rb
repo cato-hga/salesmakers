@@ -35,7 +35,7 @@ class RosterVerificationMailer < ApplicationMailer
         'Comcast Retail' => 'comcaststaffing@salesmakersinc.com',
         'DirecTV Retail' => 'directvstaffing@salesmakersinc.com',
         'Vonage Events' => 'fieldhires@retaildoneright.com',
-        'Vonage Retail' => 'fieldhires@retaildoneright.com'
+        'Vonage' => 'fieldhires@retaildoneright.com'
     }
   end
 

@@ -17,27 +17,50 @@ def get_person ad_user_id
   person ? person.id : nil
 end
 
+sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
+sprint_prepaid = Project.find_by name: 'Sprint Retail'
+
 transform do |row|
   count += 1
   sale = Hash.new
-  sale[:carrier_name] = row['carrier']
+  carrier = SprintCarrier.find_by name: row['carrier']
+  sale[:sprint_carrier_id] = carrier ? carrier.id : nil
   sale[:comments] = row['comments']
   sale[:connect_sprint_sale_id] = row['rsprint_sales_id']
   sale[:created_at] = row['created'].remove_eastern_offset
-  sale[:handset_model_name] = row['model']
+  handset = carrier ? SprintHandset.find_by(sprint_carrier: carrier, name: row['model']) : nil
+  sale[:sprint_handset_id] = handset ? handset.id : nil
   sale[:location_id] = get_location row['c_bpartner_location_id']
   sale[:meid] = row['meid']
   sale[:mobile_phone] = row['mobile_phone']
+  if carrier && carrier.name == 'Sprint Postpaid'
+    sale[:project_id] = sprint_postpaid.id
+  else
+    sale[:project_id] = sprint_prepaid.id
+  end
   sale[:person_id] = get_person row['ad_user_id']
   sale[:phone_activated_in_store] = row['activated_in_store'] == 'Yes'
   sale[:picture_with_customer] = row['picture']
-  sale[:rate_plan_name] = row['rate_plan']
+  rate_plan = carrier ? SprintRatePlan.find_by(sprint_carrier: carrier, name: row['rate_plan']) : nil
+  if rate_plan
+    rate_plan = rate_plan
+  elsif carrier
+    SprintRatePlan.find_by(name: 'Unknown', sprint_carrier: carrier)
+  else
+    rate_plan = nil
+  end
+  sale[:sprint_rate_plan_id] = rate_plan ? rate_plan.id : nil
   sale[:reason_not_activated_in_store] = row['reason_not_activated']
   sale[:sale_date] = row['date_sold'].remove_eastern_offset.to_date
   sale[:top_up_card_amount] = row['top_up_card_amount']
   sale[:top_up_card_purchased] = row['top_up_card_purchased'] == 'Yes'
   sale[:updated_at] = row['updated'].remove_eastern_offset
   sale[:upgrade] = row['upgrade'] == 'Y'
+  sale[:five_intl_connect] = row['intl_connect_five'] == 'Y'
+  sale[:ten_intl_connect] = row['intl_connect_ten'] == 'Y'
+  sale[:insurance] = row['insurance'] == 'Y'
+  sale[:virgin_data_share_add_on_amount] = row['addon_amount']
+  sale[:virgin_data_share_add_on_description] = row['addon_description']
 
   sale
 end

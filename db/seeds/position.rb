@@ -1,5 +1,5 @@
 puts "Creating positions..."
-vonage_retail_sales = Department.find_by name: 'Vonage Retail Sales'
+vonage_retail_sales = Department.find_by name: 'Vonage Sales'
 vonage_event_sales = Department.find_by name: 'Vonage Event Sales'
 sprint_retail_sales = Department.find_by name: 'Sprint Retail Sales'
 comcast_retail_sales = Department.find_by name: 'Comcast Retail Sales'
@@ -28,35 +28,35 @@ positions = [
                       hq: true,
                       twilio_number: tn },
 
-                    { name: 'Vonage Retail Regional Vice President',
+                    { name: 'Vonage Regional Vice President',
                       leadership: true,
                       all_field_visibility: true,
                       all_corporate_visibility: true,
                       department_id: vonage_retail_sales.id,
                       field: true,
                       hq: false },
-                    { name: 'Vonage Retail Regional Manager',
+                    { name: 'Vonage Regional Manager',
                       leadership: true,
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_retail_sales.id,
                       field: true,
                       hq: false  },
-                    { name: 'Vonage Retail Area Sales Manager',
+                    { name: 'Vonage Area Sales Manager',
                       leadership: true,
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_retail_sales.id,
                       field: true,
                       hq: false  },
-                    { name: 'Vonage Retail Territory Manager',
+                    { name: 'Vonage Territory Manager',
                       leadership: true,
                       all_field_visibility: false,
                       all_corporate_visibility: false,
                       department_id: vonage_retail_sales.id,
                       field: true,
                       hq: false  },
-                    { name: 'Vonage Retail Sales Specialist',
+                    { name: 'Vonage Sales Specialist',
                       leadership: false,
                       all_field_visibility: false,
                       all_corporate_visibility: false,

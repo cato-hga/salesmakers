@@ -37,6 +37,7 @@ class WalmartGiftCardFTPImporter
     set_spreadsheet
     return unless @spreadsheet
     process_row_hashes
+    WalmartGiftCardMailer.send_card_pickup_email(@gift_cards.count).deliver_later unless @gift_cards.empty?
     store_all_cards
     WalmartGiftCardMailer.send_rbdc_check_email(@saved_gift_cards).deliver_later
     WalmartGiftCardMailer.send_card_details(@saved_gift_cards, nil, 'New Gift Cards from Import').deliver_later
@@ -52,6 +53,9 @@ class WalmartGiftCardFTPImporter
   def set_spreadsheet
     roo_spreadsheet = Roo::Spreadsheet.open(@file.path)
     @spreadsheet = SimpleSpreadsheet.new(roo_spreadsheet)
+    unless @spreadsheet.header_row.include? 'URL'
+      @spreadsheet = SimpleSpreadsheet.new(roo_spreadsheet, true)
+    end
     self
   end
 
@@ -60,13 +64,24 @@ class WalmartGiftCardFTPImporter
     link = nil
     challenge_code = nil
     row_hash.keys.each do |key|
-      case key
-        when "Unique ID"
-          unique_code = row_hash[key]
-        when "URL"
-          link = row_hash[key]
-        when "Challenge Code"
-          challenge_code = row_hash[key]
+      if key.is_a?(Fixnum)
+        val = row_hash[key]
+        if val.match(/\Ahttps\:\/\/getegiftcard\.walmart\.com.*\Z/)
+          link = val
+        elsif val.match(/\A[0-9]{2,4}\-[0-9]{4,10}\Z/)
+          unique_code = val
+        elsif val.match(/\A[0-9A-Za-z]{6}\Z/)
+          challenge_code = val
+        end
+      else
+        case key
+          when "Unique ID"
+            unique_code = row_hash[key]
+          when "URL"
+            link = row_hash[key]
+          when "Challenge Code"
+            challenge_code = row_hash[key]
+        end
       end
     end
     return unless link && challenge_code

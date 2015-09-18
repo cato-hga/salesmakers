@@ -141,6 +141,17 @@ describe 'candidate show page' do
     expect(page).to have_content('Candidate Location')
   end
 
+  it 'does not show attachments without any' do
+    expect(page).not_to have_selector 'h3', text: 'Attachments'
+  end
+
+  it 'shows attachments' do
+    attachment = create :attachment, attachable: candidate, person: recruiter
+    visit candidate_path(candidate)
+    expect(page).to have_selector 'h3', text: 'Attachments'
+    expect(page).to have_content attachment.name
+  end
+
   context 'training sessions' do
     let(:view_all) { view_all = create :permission, key: 'candidate_view_all' }
     let!(:training_session) { create :sprint_radio_shack_training_session }

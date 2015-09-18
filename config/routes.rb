@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   patch 'asset_approvals/approve/:person_id', to: 'asset_approvals#approve', as: :approve_for_asset
   patch 'asset_approvals/deny/:person_id', to: 'asset_approvals#deny', as: :deny_for_asset
 
+  get 'attachments/new/:attachable_id/:attachable_type', to: 'attachments#new', as: :new_attachment
+  post 'attachments', to: 'attachments#create', as: :create_attachment
+
   resources :candidates do
     resources :prescreen_answers, only: [:new, :create]
     resources :candidate_availabilities, only: [:new, :create, :edit, :update]
@@ -61,6 +64,7 @@ Rails.application.routes.draw do
       get :dashboard, as: :dashboard
       get :support_search, as: :support_search
       post 'support_search/:enable_filter', action: :support_search, as: :support_search_filter
+      get :csv, to: 'candidates#csv', as: :csv, defaults: { format: :csv }
     end
     resources :interview_answers, only: [:new, :create]
     resources :candidate_contacts, only: [:create] do
@@ -324,6 +328,11 @@ Rails.application.routes.draw do
 
   get 'sessions/destroy', as: 'logout'
 
+  resources :shifts, only: [:index] do
+    collection do
+      get :csv, to: 'shifts#csv', as: :csv, defaults: { format: :csv }
+    end
+  end
   resources :sms_daily_checks, only: [:index]
 
   put 'sms_daily_checks/update', to: 'sms_daily_checks#update', as: :update_sms_daily_check
@@ -332,9 +341,12 @@ Rails.application.routes.draw do
 
   resources :sprint_radio_shack_training_sessions, only: [:index, :new, :create, :edit, :update]
 
-  resources :sprint_sales, only: [:index] do
+  resources :sprint_sales, only: [:index, :show] do
     collection do
+      get :csv, to: 'sprint_sales#csv', as: :csv, defaults: { format: :csv }
       get :scoreboard, as: :scoreboard
+      get 'new/:project_id', to: 'sprint_sales#new', as: :new
+      post 'new/:project_id', to: 'sprint_sales#create', as: :create
     end
   end
 

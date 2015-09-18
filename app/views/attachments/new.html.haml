@@ -1,0 +1,19 @@
+- if @attachable.respond_to?(:name)
+  - title "New Attachment for #{NameCase(@attachable.name)}"
+- else
+  - title 'New Attachment'
+
+.widget
+  .inner
+    - @attachment.errors.full_messages.each do |msg|
+      .alert.alert-box= msg
+    = form_for @attachment, url: create_attachment_url(@attachable.id, @attachable.class.name) do |f|
+      = f.label :name
+      = f.text_field :name
+      = f.hidden_field :attachable_id, value: @attachable.id
+      = f.hidden_field :attachable_type, value: @attachable.class.name
+      %fieldset
+        %legend Upload
+        .small.comment Select the file to attach.
+        = f.file_field :attachment
+      = f.submit 'Attach', class: [:button]

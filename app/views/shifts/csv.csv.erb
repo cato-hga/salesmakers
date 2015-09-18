@@ -1,0 +1,8 @@
+<% headers = ['Date', 'Person', 'Project', 'Area(s)', 'Location', 'Hours', 'Training?', 'Meeting?'] %><%= CSV.generate_line(headers).html_safe %><% @shifts.each do |shift| %><% person_areas = shift.person.person_areas %><% main_project = person_areas.empty? ? nil : person_areas.first.area.project %><% area_location_areas = shift.location && main_project ? shift.location.location_areas.joins(:area).where("areas.project_id = ?", main_project.id) : [] %><%= CSV.generate_line([short_date(shift.date), NameCase(shift.person.display_name),
+                                                                                                                         main_project ? main_project.name : nil,
+                                                                                                                         area_location_areas.map { |la| la.area.ancestors.map { |a| a.name } << la.area.name }.join(", "),
+                                                                                                                         shift.location ? shift.location.name : nil,
+                                                                                                                         shift.hours,
+                                                                                                                         shift.training?,
+                                                                                                                         shift.meeting?
+                                                                                                                 ]).html_safe %><% end %>

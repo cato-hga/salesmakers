@@ -17,6 +17,7 @@
 #  launch_group              :integer
 #  distance_to_cor           :float
 #  priority                  :integer
+#  bilingual                 :boolean          default(FALSE)
 #
 
 class LocationArea < ActiveRecord::Base

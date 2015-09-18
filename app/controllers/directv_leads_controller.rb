@@ -52,7 +52,7 @@ class DirecTVLeadsController < ApplicationController
                            nil,
                            nil
     else
-      flash[:error] = 'Could not dismiss lead: ' + @directv_lead.errors.full_messages.join(', '), +@directv_customers.errors.full_messsages.join(', ')
+      flash[:error] = 'Could not dismiss lead: ' + @directv_lead.errors.full_messages.join(', '), +@directv_customer.errors.full_messsages.join(', ')
     end
     redirect_to directv_customers_path
   end

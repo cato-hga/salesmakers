@@ -31,8 +31,8 @@
         = @vonage_sale.vonage_product.name
       %p
         %strong Areas:
-        - location_areas = @vonage_sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage Retail'")
-        = location_areas.map { |la| la.area.ancestors.map { |a| a.name.html_safe } << la.area.name.html_safe }.join(", ").html_safe
+        - location_areas = @vonage_sale.location.location_areas.joins(area: :project).where("projects.name = 'Vonage'")
+        = location_areas.map { |la| la.area.ancestors.map { |a| area_link(a) } << area_link(la.area) }.join(", ").html_safe
   .widget
     .inner
       %h3 Vonage Account Information
@@ -101,3 +101,8 @@
           %strong Purchase Store #:
           = @walmart_gift_card.store_number
         = link_to 'View Gift Card Page', @walmart_gift_card.link.sub('https://getegiftcard.walmart.com/gift-card/view/', 'http://rbdconnect.com/gc/l/?link='), class: [:button]
+  - if @vonage_sale.photo
+    .widget
+      .inner
+        %h3 Photo
+        = image_tag @vonage_sale.photo.url if @vonage_sale.photo_stored?

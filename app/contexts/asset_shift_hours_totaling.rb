@@ -32,7 +32,7 @@ class AssetShiftHoursTotaling
   def self.generate_mailer automated = false
     people_waiting_on_assets = Person.where('passed_asset_hours_requirement = ? and (vonage_tablet_approval_status = ? or sprint_prepaid_asset_approval_status = ?)', true, 0, 0).uniq.flatten
     prepaid = Project.find_by name: 'Sprint Retail'
-    vonretail = Project.find_by name: 'Vonage Retail'
+    vonretail = Project.find_by name: 'Vonage'
     vonevents = Project.find_by name: 'Vonage Events'
     projects = [prepaid, vonretail, vonevents]
     supervisor_for_assets = []

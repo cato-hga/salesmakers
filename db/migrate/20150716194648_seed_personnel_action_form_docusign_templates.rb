@@ -5,7 +5,7 @@ class SeedPersonnelActionFormDocusignTemplates < ActiveRecord::Migration
     sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
     sprint_prepaid = Project.find_by name: 'Sprint Retail'
     vonage_events = Project.find_by name: 'Vonage Events'
-    vonage_retail = Project.find_by name: 'Vonage Retail'
+    vonage_retail = Project.find_by name: 'Vonage'
     for state in ::UnitedStates do
       t = DocusignTemplate.create template_guid: 'CDA4C272-7D6F-470D-85D9-E228173F4FBD',
                                   state: state,

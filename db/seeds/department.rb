@@ -1,6 +1,6 @@
 puts "Creating departments..."
 Department.create [
-  { name: 'Vonage Retail Sales', corporate: false },
+  { name: 'Vonage Sales', corporate: false },
   { name: 'Vonage Event Sales', corporate: false },
   { name: 'Sprint Retail Sales', corporate: false },
   { name: 'Comcast Retail Sales', corporate: false },

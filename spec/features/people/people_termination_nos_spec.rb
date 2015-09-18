@@ -12,7 +12,7 @@ describe "Terminating a Person" do
                                               permission_group: permission_group,
                                               description: 'Test Description' }
   let(:project) { create :project, name: 'Sprint Postpaid' }
-  let(:other_project) { create :project, name: 'Vonage Retail' }
+  let(:other_project) { create :project, name: 'Vonage' }
   let(:correct_area) { create :area, project: project }
   let(:other_area) { create :area, project: other_project }
   let!(:terminating_employee_person_area) { create :person_area, person: terminating_employee, manages: false, area: correct_area }

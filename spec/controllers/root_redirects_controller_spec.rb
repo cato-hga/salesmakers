@@ -105,8 +105,8 @@ describe RootRedirectsController do
     describe 'Vonage Sales' do
       let!(:vonage_employee) { create :person, position: vonage_position, email: 'vonagerep@vg.salesmakersinc.com' }
       let(:vonage_position) { create :position, name: 'Vonage Position', department: vonage_retail_department }
-      let(:vonage_retail_department) { create :department, name: 'Vonage Retail Sales' }
-      let(:vonage_events_department) { create :department, name: 'Vonage Retail Sales' }
+      let(:vonage_retail_department) { create :department, name: 'Vonage Sales' }
+      let(:vonage_events_department) { create :department, name: 'Vonage Sales' }
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
 
@@ -131,6 +131,34 @@ describe RootRedirectsController do
         # TODO: expect(response).to redirect_to(new_vonage_sale_path)
         expect(response).to redirect_to(new_vonage_sale_path)
       end
+    end
+
+    describe 'Sprint Sales' do
+      let!(:sprint_employee) { create :person, position: sprint_position }
+      let(:sprint_position) { create :position, department: sprint_prepaid_department }
+      let(:sprint_prepaid_department) { create :department, name: 'Sprint Retail Sales' }
+      let(:sprint_postpaid_department) { create :department, name: 'Sprint RadioShack Sales' }
+      let!(:sprint_postpaid_project) { create :project, name: "Sprint Postpaid" }
+      let!(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+
+      before(:each) do
+        CASClient::Frameworks::Rails::Filter.fake(sprint_employee.email)
+      end
+
+      # TODO: Re-enable after Sprint switchover
+      # it 'returns a redirect for prepaid employees' do
+      #   get :incoming_redirect
+      #   expect(response).to be_redirect
+      # end
+      # it 'routes to prepaid for prepaid employees' do
+      #   get :incoming_redirect
+      #   expect(response).to redirect_to(new_sprint_sales_path(sprint_prepaid_project))
+      # end
+      # it 'routes to postpaid for postpaid employees' do
+      #   sprint_position.update department: sprint_postpaid_department
+      #   get :incoming_redirect
+      #   expect(response).to redirect_to(new_sprint_sales_path(sprint_postpaid_project))
+      # end
     end
 
     describe 'not yet implemented department' do
