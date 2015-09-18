@@ -28,6 +28,8 @@
 #  insurance                            :boolean
 #  virgin_data_share_add_on_amount      :float
 #  virgin_data_share_add_on_description :text
+#  photo_uid                            :string
+#  photo_name                           :string
 #
 
 require 'rails_helper'

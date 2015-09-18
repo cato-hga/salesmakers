@@ -1,11 +1,11 @@
 class LocationAreas::SprintPostpaidRecruitableCheck
 
   def self.recruitable? location_area, padding
-    return false unless location_area.priority
+    return true unless location_area.priority
     return false unless (location_area.priority == 1 or location_area.priority == 2)
     candidates = candidates_in_funnel(location_area).count
-    return true if candidates <= location_area.target_head_count + padding
-    false
+    return false if location_area.target_head_count + padding <= candidates
+    true
   end
 
   def self.candidates_in_funnel location_area

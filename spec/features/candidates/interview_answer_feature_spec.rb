@@ -12,7 +12,9 @@ describe 'Interview answers' do
                                          description: 'Test Description' }
   let(:candidate) { create :candidate, location_area: location_area }
   let!(:denial_reason) { create :candidate_denial_reason }
-  let(:location_area) { create :location_area }
+  let(:location_area) { create :location_area, area: area }
+  let(:area) { create :area, project: project }
+  let(:project) { create :project, name: 'Sprint Postpaid' }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }

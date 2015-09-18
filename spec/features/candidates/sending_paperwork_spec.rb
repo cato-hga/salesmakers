@@ -4,7 +4,7 @@ describe 'sending Docusign paperwork' do
   let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission_create, permission_index] }
-  let!(:location_area) { create :location_area, area: area, priority: 1 }
+  let!(:location_area) { create :location_area, area: area }
   let(:area) { create :area, project: project }
   let(:project) { create :project, name: 'Sprint Postpaid' }
   let(:permission_group) { PermissionGroup.create name: 'Candidates' }

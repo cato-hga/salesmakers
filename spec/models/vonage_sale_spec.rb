@@ -15,10 +15,12 @@
 #  updated_at          :datetime         not null
 #  connect_order_uuid  :string
 #  resold              :boolean          default(FALSE), not null
+#  vested              :boolean
 #  person_acknowledged :boolean          default(FALSE)
 #  gift_card_number    :string
-#  vested              :boolean
 #  creator_id          :integer
+#  photo_uid           :string
+#  photo_name          :string
 #
 
 require 'rails_helper'

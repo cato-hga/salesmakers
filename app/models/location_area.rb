@@ -91,7 +91,7 @@ class LocationArea < ActiveRecord::Base
   end
 
   def candidates_in_funnel
-    recruitable_check_class ? recruitable_check_class.candidates_in_funnel(self) : nil
+    recruitable_check_class ? recruitable_check_class.candidates_in_funnel(self) : []
   end
 
   def number_of_candidates_in_funnel
