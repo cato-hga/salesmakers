@@ -23,6 +23,48 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: adminpack; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
+
+
+--
+-- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
+
+
+--
+-- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
+
+
 SET search_path = public, pg_catalog;
 
 --
@@ -5343,6 +5385,40 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
+-- Name: vonage_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_devices (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    mac_id character varying,
+    po_number character varying,
+    person_id integer,
+    receive_date timestamp without time zone
+);
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_devices_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_devices_id_seq OWNED BY vonage_devices.id;
+
+
+--
 -- Name: vonage_group_me_bots; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5696,6 +5772,43 @@ CREATE SEQUENCE vonage_shipped_devices_id_seq
 --
 
 ALTER SEQUENCE vonage_shipped_devices_id_seq OWNED BY vonage_shipped_devices.id;
+
+
+--
+-- Name: vonage_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE vonage_transfers (
+    id integer NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    accepted boolean DEFAULT false NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    vonage_device_id integer,
+    transfer_time timestamp without time zone,
+    rejection_time timestamp without time zone,
+    to_person_id integer,
+    from_person_id integer,
+    rejected boolean DEFAULT false NOT NULL
+);
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE vonage_transfers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vonage_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE vonage_transfers_id_seq OWNED BY vonage_transfers.id;
 
 
 --
@@ -6986,6 +7099,13 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY vonage_devices ALTER COLUMN id SET DEFAULT nextval('vonage_devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY vonage_group_me_bots ALTER COLUMN id SET DEFAULT nextval('vonage_group_me_bots_id_seq'::regclass);
 
 
@@ -7050,6 +7170,13 @@ ALTER TABLE ONLY vonage_sales ALTER COLUMN id SET DEFAULT nextval('vonage_sales_
 --
 
 ALTER TABLE ONLY vonage_shipped_devices ALTER COLUMN id SET DEFAULT nextval('vonage_shipped_devices_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY vonage_transfers ALTER COLUMN id SET DEFAULT nextval('vonage_transfers_id_seq'::regclass);
 
 
 --
@@ -8269,6 +8396,14 @@ ALTER TABLE ONLY vonage_commission_period07012015s
 
 
 --
+-- Name: vonage_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_devices
+    ADD CONSTRAINT vonage_devices_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: vonage_group_me_bots_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8346,6 +8481,14 @@ ALTER TABLE ONLY vonage_sales
 
 ALTER TABLE ONLY vonage_shipped_devices
     ADD CONSTRAINT vonage_shipped_devices_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vonage_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY vonage_transfers
+    ADD CONSTRAINT vonage_transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -10926,6 +11069,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
 INSERT INTO schema_migrations (version) VALUES ('20150805161446');
 
+INSERT INTO schema_migrations (version) VALUES ('20150805182921');
+
 INSERT INTO schema_migrations (version) VALUES ('20150805235212');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806131842');
@@ -10933,6 +11078,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150806131842');
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806184753');
+
+INSERT INTO schema_migrations (version) VALUES ('20150806192315');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
@@ -10946,6 +11095,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
 
+INSERT INTO schema_migrations (version) VALUES ('20150811132749');
+
 INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817134549');
@@ -10958,11 +11109,19 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
+INSERT INTO schema_migrations (version) VALUES ('20150818182340');
+
 INSERT INTO schema_migrations (version) VALUES ('20150818202108');
 
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820124622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820154454');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820161028');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820161359');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820185034');
 
@@ -11030,6 +11189,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901140248');
 
+INSERT INTO schema_migrations (version) VALUES ('20150901150625');
+
 INSERT INTO schema_migrations (version) VALUES ('20150901153130');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901195436');
@@ -11044,13 +11205,23 @@ INSERT INTO schema_migrations (version) VALUES ('20150904133422');
 
 INSERT INTO schema_migrations (version) VALUES ('20150906172013');
 
+INSERT INTO schema_migrations (version) VALUES ('20150910142356');
+
+INSERT INTO schema_migrations (version) VALUES ('20150911145402');
+
+INSERT INTO schema_migrations (version) VALUES ('20150914135604');
+
 INSERT INTO schema_migrations (version) VALUES ('20150914193736');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914201054');
 
+INSERT INTO schema_migrations (version) VALUES ('20150915133353');
+
 INSERT INTO schema_migrations (version) VALUES ('20150915144551');
 
 INSERT INTO schema_migrations (version) VALUES ('20150915154050');
+
+INSERT INTO schema_migrations (version) VALUES ('20150915195229');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916140224');
 
@@ -11059,8 +11230,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150916164745');
 INSERT INTO schema_migrations (version) VALUES ('20150916164834');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916174731');
-
-INSERT INTO schema_migrations (version) VALUES ('20150916184946');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917125243');
 
@@ -11073,4 +11242,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150917154806');
 INSERT INTO schema_migrations (version) VALUES ('20150917160756');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917161243');
+
+INSERT INTO schema_migrations (version) VALUES ('20150918135649');
 

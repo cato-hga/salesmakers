@@ -49,8 +49,10 @@ describe 'Inventory Transferring page' do
 
     it 'allows manager to select from a list of employees' do
       expect(page).to have_select 'to_person', text: person1.display_name
+    end
 
-
+    it 'a manager will not see their name in the To person dropdown' do
+      expect(page).not_to have_select 'to_person', text: manager.display_name
     end
 
     it 'displays a list of correct mac ids' do
@@ -72,7 +74,6 @@ describe 'Inventory Transferring page' do
 
       it 'creates a vonage transfer record' do
         expect { subject }.to change(VonageTransfer, :count).by(2)
-
       end
 
       it 'adds all the correct attributes to a vonage device' do

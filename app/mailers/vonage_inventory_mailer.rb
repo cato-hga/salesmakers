@@ -7,8 +7,16 @@ class VonageInventoryMailer < ApplicationMailer
     @person = person
     @macs = macs
     @vonage_devices = VonageDevice.where id: macs
-    Rails.logger.debug @vonage_devices.inspect
+    # Rails.logger.debug @vonage_devices.inspect
       mail to: @person.email,
            subject: 'Vonage Inventory Received'
+  end
+
+  def inventory_accept_mailer(person, accepted, rejected)
+    @person = person
+    @accepted = accepted
+    @rejected = rejected
+    mail to: @person.email,
+         subject: 'Vonage Inventory Accept'
   end
 end

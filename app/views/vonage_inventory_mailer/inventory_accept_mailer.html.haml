@@ -1,0 +1,32 @@
+= mailer_h1 pluralize( (@accepted.count + @rejected.count).to_s, 'Devices Accepted/Rejected')
+
+- unless @accepted.empty? and @rejected.empty?
+  %p
+    Here is a list of the devices you accepted/received:
+
+%table{style: 'width: 50%; float: left;' }
+  %tr
+    %td
+      %strong ACCEPTED
+  - if @accepted.blank?
+    %tr
+      %td
+        No devices
+  - else
+    - for accept in @accepted
+      - accepts = accept.vonage_device.mac_id
+      %tr
+        %td= accepts
+%table{style: 'width: 50%; float: right;' }
+  %tr
+    %td
+      %strong REJECTED
+  - if @rejected.blank?
+    %tr
+      %td
+        No devices
+  - else
+    -for reject in @rejected
+      - rejects = reject.vonage_device.mac_id
+      %tr
+        %td= rejects

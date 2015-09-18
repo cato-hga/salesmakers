@@ -1,0 +1,17 @@
+<%= pluralize((@accepted.count + @rejected.count).to_s, 'Devices Accepted/Rejected')  %>
+
+<% unless @accepted.empty? and @rejected.empty? %>
+    Here is a list of the devices you accepted:
+<% end %>
+<% unless @accepted_transfers.blank? %>
+<% for accept in @accepted_transfers %>
+    <% accepts = accept.vonage_device_id %>
+    ACCEPTED: <%= accepts %>
+<% end %>
+<% end %>
+<% unless @rejected_transfers.blank? %>
+<% for reject in @rejected_transfers %>
+    <% rejects = reject.vonage_device_id %>
+    REJECTED: <%= rejects %>
+<% end %>
+<% end %>

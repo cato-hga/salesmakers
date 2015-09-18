@@ -18,7 +18,7 @@ class VonageDevicePolicy < ApplicationPolicy
     has_permission? 'accept'
   end
 
-  def accept_do?
+  def do_accept?
     accept?
   end
 end

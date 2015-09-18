@@ -1,15 +1,15 @@
-- title "Vonage Accept"
+- title "Accept or Reject Device(s)"
 = form_tag do_accept_vonage_devices_path, method: :post do
   .widget
     .inner
       - header = header_row ['Mac Id(s)', 'Accept', 'Reject']
       - rows = Array.new
       - count = 0
-      - for macs in @vonage_transfer do
-        - accepted =  check_box_tag 'accepted', macs.accepted, false
-        - rejected =  check_box_tag 'rejected', macs.rejected, false
-        - mac = macs.vonage_device.mac_id
-        - rows << table_row([mac, accepted, rejected])
+      - for transfers in @transfer_devices do
+        - accepted =  check_box_tag 'vonage_accepted[]', transfers.id, false, { multiple: true, id: "vonage_accept#{count}" }
+        - rejected =  check_box_tag 'vonage_rejected[]', transfers.id, false, { multiple: true, id: "vonage_reject#{count}" }
+        - transfer = transfers.vonage_device.mac_id
+        - rows << table_row([transfer, accepted, rejected])
         - count += 1
       = table(header, rows)
-      = submit_tag "Transfer ", class: [:button]
+      = submit_tag "Complete", class: [:button]
