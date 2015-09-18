@@ -126,7 +126,7 @@ describe 'Interview answers' do
 
         context 'and job extended, location no longer recruitable' do
           before(:each) do
-            allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+            allow_any_instance_of(LocationArea).to receive(:recruitable?).and_return(false)
             click_on 'Extend offer'
           end
           it 'does not assign a denial reason' do

@@ -47,7 +47,7 @@ describe 'confirming details' do
   describe 'available, but with location full' do
     before(:each) do
       allow(candidate).to receive(:passed_personality_assessment?).and_return(true)
-      allow_any_instance_of(LocationArea).to receive(:head_count_full?).and_return(true)
+      allow_any_instance_of(LocationArea).to receive(:recruitable?).and_return(false)
       select 'Yes', from: 'Is the candidate able to attend the training?'
       click_on 'Confirm and Save'
     end

@@ -76,29 +76,22 @@ class LocationArea < ActiveRecord::Base
     location.location_areas.joins(:area).where("areas.project_id = ?", project.id)
   end
 
-  def head_count_full? padding = 1
-    return false unless self.priority
-    return true unless (self.priority == 1 or self.priority == 2)
-    candidates = candidates_in_funnel.count
-    return true if self.target_head_count + padding <= candidates
-    false
+  def recruitable_check_class
+    project_name = self.area.project.name
+    project_name = project_name.sub(/[^A-Za-z]/, '')
+    begin
+      ('LocationAreas::' + project_name + 'RecruitableCheck').constantize
+    rescue
+      nil
+    end
+  end
+
+  def recruitable? padding = 1
+    recruitable_check_class ? recruitable_check_class.recruitable?(self, padding) : false
   end
 
   def candidates_in_funnel
-    non_rejected_candidates_in_location_area = Candidate.
-        all_active.
-        where(location_area: self).
-        where.not(sprint_roster_status: Candidate.sprint_roster_statuses[:sprint_rejected],
-                  training_session_status: Candidate.inactive_training_session_statuses)
-    candidates_in_training_ids = non_rejected_candidates_in_location_area.
-        joins(:sprint_radio_shack_training_session).
-        where("sprint_radio_shack_training_sessions.start_date > ?", Date.today).
-        ids
-    paperwork_sent_36_hours_ids = non_rejected_candidates_in_location_area.
-        joins(:job_offer_details).
-        where("job_offer_details.sent >= ?", DateTime.now - 36.hours).
-        ids
-    Candidate.where id: [candidates_in_training_ids, paperwork_sent_36_hours_ids].flatten.uniq
+    recruitable_check_class ? recruitable_check_class.candidates_in_funnel(self) : nil
   end
 
   def number_of_candidates_in_funnel
