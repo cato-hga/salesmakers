@@ -22,7 +22,8 @@ describe 'selecting a Location for a Candidate' do
            latitude: 18.00,
            longitude: -66.40
   }
-  let(:area) { create :area }
+  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:area) { create :area, project: project }
   let(:location) {
     create :location,
            city: 'Someplace',
