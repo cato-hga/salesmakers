@@ -26,4 +26,12 @@ module PersonNameModelExtension
       nil
     end
   end
+
+  def terminated_name
+    if self.active
+      display_name
+    else
+      display_name + ' - TERMINATED'
+    end
+  end
 end

@@ -19,9 +19,6 @@ describe 'Inventory Transferring page' do
   let!(:vonage_device4) { create :vonage_device, person: person1, mac_id: '864456789abc' }
   let!(:vonage_device5) { create :vonage_device, person: person1, mac_id: '238456789abc' }
 
-
-
-
   let(:position) { create :position, permissions:[permission_transfer] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group'}
   let(:permission_transfer) { Permission.new key: 'vonage_device_transfer',
@@ -44,7 +41,6 @@ describe 'Inventory Transferring page' do
     end
     it 'shows the Vonage Inventory Transferring page' do
       expect(page).to have_content('Vonage Inventory Transferring')
-
     end
 
     it 'allows manager to select from a list of employees' do

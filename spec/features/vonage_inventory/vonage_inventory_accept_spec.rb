@@ -23,7 +23,6 @@ describe 'Inventory Accept page' do
 
 
 
-
   let(:vonage) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: vonage }
   let(:location) { create :location, channel: walmart }

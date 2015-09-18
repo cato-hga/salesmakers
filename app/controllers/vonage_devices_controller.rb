@@ -91,6 +91,16 @@ class VonageDevicesController < ApplicationController
     end
   end
 
+  def reclaim
+    set_vonage_employees
+    @vonage_employees = @vonage_employees.reject! {|x| x.vonage_devices == [] }
+    inactive_team_members = @current_person.team_members.where(active: false).joins(:vonage_devices).where('vonage_devices.id is not null')
+    for member in inactive_team_members do
+      @vonage_employees << member
+    end
+    @vonage_employees = @vonage_employees.uniq
+  end
+
   def create
     @vonage_device = VonageDevice.new
     @vonage_transfer = VonageTransfer.new

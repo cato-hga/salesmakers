@@ -32,7 +32,7 @@ module PersonAssociationsModelExtension
         :vonage_refunds, :vonage_paycheck_negative_balances, :sprint_sales,
         :candidate_notes, :comcast_customer_notes, :directv_customer_notes,
         :shifts, :person_pay_rates, :person_client_areas, :vcp07012015_hps_sales,
-        :vcp07012015_hps_shifts, :vcp07012015_vested_sales_shifts, :roster_verifications, :person_punches
+        :vcp07012015_hps_shifts, :vcp07012015_vested_sales_shifts, :roster_verifications, :person_punches, :vonage_devices, :vonage_transfers
     ]
 
     for has_many_association in has_many_associations do

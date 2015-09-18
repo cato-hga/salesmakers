@@ -7,7 +7,6 @@ class VonageDevicePolicy < ApplicationPolicy
 
   def transfer?
     has_permission? 'transfer'
-
   end
 
   def do_transfer?
@@ -20,5 +19,13 @@ class VonageDevicePolicy < ApplicationPolicy
 
   def do_accept?
     accept?
+  end
+
+  def reclaim?
+    has_permission? 'reclaim'
+  end
+
+  def do_reclaim?
+    reclaim?
   end
 end
