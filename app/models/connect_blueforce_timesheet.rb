@@ -54,6 +54,11 @@ class ConnectBlueforceTimesheet < RealConnectModel
   end
 
   def project
+    if self.site_num && self.site_num.include?('SPTR')
+      return Project.find_by(name: 'Sprint Retail')
+    elsif self.site_num && self.site_num.include?('POSTTR')
+      return Project.find_by(name: 'Sprint Postpaid')
+    end
     bpl = self.connect_business_partner_location || return
     cr = bpl.connect_region || return
     cp = cr.project || return
