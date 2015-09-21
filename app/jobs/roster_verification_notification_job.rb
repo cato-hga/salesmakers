@@ -28,6 +28,7 @@ class RosterVerificationNotificationJob < ActiveJob::Base
       for manager in managers.uniq do
         RosterVerificationMailer.send_notification_and_link(manager).deliver_later
       end
+      SlackJobNotifier.ping "[RosterVerificationNotificationJob] Notified #{managers.uniq.count} managers of needed roster verifications." if managers.uniq.count > 0
       ProcessLog.create process_class: "RosterVerificationNotificationJob", records_processed: managers.uniq.count if automated
     end
   ensure

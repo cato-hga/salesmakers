@@ -7,5 +7,6 @@ do_transformation
 destination UQubeDestination, "Retail_RBD_#{Date.current.strftime('%m%d%Y')}.txt", @headers
 
 post_process do
+  SlackJobNotifier.ping "[UQubeSalesFeedUploader] Uploaded #{@count.to_s} sales to UQube." if @count > 0
   ProcessLog.create process_class: "UQubeSalesFeedUploader", records_processed: @count
 end

@@ -115,6 +115,7 @@ class GroupMeGroup < ActiveRecord::Base
       GroupMeGroup.update_group_via_json group
     end
     GroupMeGroup.update_bots
+    SlackJobNotifier.ping "Updated #{groups.count.to_s} GroupMe groups." if groups.count > 0
     ProcessLog.create process_class: "GroupMeGroup",
                       records_processed: groups.count,
                       notes: 'update_groups' if automated

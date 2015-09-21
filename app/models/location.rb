@@ -148,6 +148,7 @@ class Location < ActiveRecord::Base
     num_minutes = minutes + offset
     c_bpls = ConnectBusinessPartnerLocation.where('created >= ?', (Time.now - num_minutes.minutes).apply_eastern_offset)
     c_bpls.each { |c_bpl| update_individual_from_connect(c_bpl) }
+    SlackJobNotifier.ping "[Location] Updated #{c_bpls.count.to_s} locations from RBD Connect." unless c_bpls.empty?
     ProcessLog.create process_class: "Location",
                       records_processed: c_bpls.count,
                       notes: "update_from_connect(#{minutes.to_s})" if automated

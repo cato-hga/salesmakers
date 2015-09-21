@@ -19,6 +19,7 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
         sleep 5
         retry if (attempts += 1) <= 3
       end
+      SlackJobNotifier.ping "[EmailBouncebackNotifierJob] Reported #{bounces.count.to_s} bounced email addresses." if bounces.count > 0
       ProcessLog.create process_class: "EmailBouncebackNotifierJob", records_processed: bounces.count if automated
     ensure
       RunningProcess.shutdown! self

@@ -68,5 +68,6 @@ end
 destination SprintSalesDestination
 
 post_process do
+  SlackJobNotifier.ping "[LegacySprintSaleImporting] Imported #{count.to_s} Sprint sales from RBD Connect." if count > 0
   ProcessLog.create process_class: "LegacySprintSaleImporting", records_processed: count
 end
