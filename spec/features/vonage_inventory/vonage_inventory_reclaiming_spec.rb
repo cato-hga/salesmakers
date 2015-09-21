@@ -56,7 +56,7 @@ describe 'Inventory Reclaim page' do
 
     describe 'Reclaiming Page' do
       it 'has a dropdown of active people with inventory' do
-        expect(page).to have_content('Select employee')
+        expect(page).to have_content('Select Employee')
       end
       it 'Shows inactive people with inventory and marks them as inactive' do
         within('#employee_selection') do
@@ -85,17 +85,20 @@ describe 'Inventory Reclaim page' do
         end
       end
 
-      context 'selecting a person' do
+      context 'selecting a person', js: true do
         it 'shows inventory accepted from active people' do
-          select person1.display_name, from: :employee_selection
+          select person1.display_name, from: 'Select Employee'
+          click_on "View"
           expect(page).to have_content(vonage_device1.mac_id)
         end
         it 'shows inventory not accepted and not rejected from active people' do
-          select person1.display_name, from: :employee_selection
+          select person1.display_name, from: 'Select Employee'
+          click_on "View"
           expect(page).to have_content(vonage_device2.mac_id)
         end
         it 'shows inventory accepted by inactive people' do
-          select person3.display_name, from: :employee_selection
+          select person3.display_name, from: 'Select Employee'
+          click_on "View"
           expect(page).to have_content(vonage_device3.mac_id)
         end
       end
@@ -108,14 +111,14 @@ describe 'Inventory Reclaim page' do
     #
     #     it 'successful when reclaiming one piece of inventory' do
     #       check 'vonage_reclaim0', from: :device_selection
-    #       click 'Reclaim'
+    #       click_on 'Reclaim'
     #       vonage_device1.reload
     #       expect(vonage_device1.person).to eq(manager)
     #     end
     #     it 'successful when reclaiming multiple pieces of inventory' do
     #       check 'vonage_reclaim0'
     #       check 'vonage_reclaim1'
-    #       click 'Reclaim'
+    #       click_on 'Reclaim'
     #       vonage_device1.reload
     #       vonage_device2.reload
     #       expect(vonage_device1).to eq(manager)
@@ -125,13 +128,13 @@ describe 'Inventory Reclaim page' do
     #     it 'redirects to root when successful' do
     #       check 'vonage_reclaim0'
     #       check 'vonage_reclaim1'
-    #       click 'Reclaim'
+    #       click_on 'Reclaim'
     #       expect(current_path).to eq(new_vonage_sale_path)
     #     end
     #     it 'creates a log entry for every device reclaimed' do
     #       check 'vonage_reclaim0', from: :device_selection
     #       check 'vonage_reclaim1', from: :device_selection
-    #       click 'Reclaim'
+    #       click_on 'Reclaim'
     #       expect(LogEntry.count).to eq(2)
     #     end
   end

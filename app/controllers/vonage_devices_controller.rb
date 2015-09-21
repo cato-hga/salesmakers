@@ -101,6 +101,13 @@ class VonageDevicesController < ApplicationController
     @vonage_employees = @vonage_employees.uniq
   end
 
+  def employees_reclaim
+    @devices = VonageDevice.where(person_id: params[:person_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def create
     @vonage_device = VonageDevice.new
     @vonage_transfer = VonageTransfer.new

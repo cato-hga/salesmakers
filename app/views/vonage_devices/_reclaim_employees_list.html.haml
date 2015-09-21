@@ -1,0 +1,7 @@
+- if devices
+  - for device in devices do
+    - transfer_id =  check_box_tag 'vonage_devices[]', device.id, false, { multiple: true, id: "vonage_devices#{count}" }
+    - mac = macs.mac_id
+    - rows << table_row([mac, transfer_id])
+    - count += 1
+

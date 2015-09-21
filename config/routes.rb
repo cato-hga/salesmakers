@@ -366,6 +366,7 @@ Rails.application.routes.draw do
       get :accept, as: :accept
       post :do_accept, as: :do_accept
       get :reclaim, as: :reclaim
+      get :employees_reclaim
       post :do_reclaim, as: :do_reclaim
     end
   end

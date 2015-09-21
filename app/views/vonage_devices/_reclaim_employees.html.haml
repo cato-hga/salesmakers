@@ -1,0 +1,9 @@
+.div{ id: :employees_grid }
+  = form_tag do_reclaim_vonage_devices_path method: :patch do
+    - header = header_row ['Mac Id(s)', 'Reclaim Device']
+    - rows = Array.new
+    - count = 0
+    = render partial: 'reclaim_employees_list', locals: { count: count, rows: rows, devices: nil}
+    = table(header, rows)
+    %br
+    = submit_tag 'Reclaim', class: [:button, :inline_button]
