@@ -1,6 +1,7 @@
 - content_for :action_buttons do
   = new_button new_device_path
   = link_to 'Edit States', device_states_path, class: [:button, :inline_button]
+  = csv_link csv_devices_path(controller: :devices, action: :index), @search.result.count
 
 - cache_if(!params[:q], cache_key_for_devices(params[:page])) do
   %section
