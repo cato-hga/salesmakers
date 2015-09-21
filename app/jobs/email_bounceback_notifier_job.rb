@@ -14,7 +14,8 @@ class EmailBouncebackNotifierJob < ActiveJob::Base
             NotificationMailer.email_bounceback(bounce).deliver_now
           end
         end
-      rescue Postmark::TimeoutError => ex
+      rescue Postmark::InternalServerError, Postmark::TimeoutError => ex
+        SlackJobNotifier.ping "[EmailBouncebackNotifierJob] Postmark internal server error when attempting to fetch bounces."
         Rails.logger.error "Error: #{ex}"
         sleep 5
         retry if (attempts += 1) <= 3
