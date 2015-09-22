@@ -32,6 +32,7 @@ RSpec.describe Attachment, regressor: true do
   it { is_expected.to validate_presence_of :attachable }
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_presence_of :person }
+  it { is_expected.to validate_presence_of :attachment }
 
   # === Validations (Numericality) ===
   
