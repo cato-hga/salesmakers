@@ -11,7 +11,7 @@ describe 'Sprint sales actions' do
   let(:sprint_retail) { create :project, name: 'Sprint Retail' }
   let(:other_project_area) { create :area, project: other_project }
   let(:other_project) { create :project, name: 'Sprint Retail' }
-  let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }
+  let!(:star_project) { create :project, name: 'STAR' }
   let!(:rep_person_area) { create :person_area, area: area_one, person: rep }
   let(:position) { create :position, permissions: [index_permission] }
   let(:index_permission) { create :permission, key: 'sprint_sale_index' }

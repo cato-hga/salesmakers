@@ -12,7 +12,7 @@ describe 'Sprint Retail sales scoreboard' do
   let(:project) { create :project, client: client }
   let!(:client) { create :client, name: 'Sprint' }
   let!(:sprint_retail) { create :project, name: "Sprint Retail" }
-  let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+  let!(:star) { create :project, name: "STAR" }
 
   let(:permission) { create :permission, key: 'sprint_sale_index' }
   let!(:viewer) { create :person, position: position }

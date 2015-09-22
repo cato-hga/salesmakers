@@ -84,7 +84,7 @@ RSpec.describe SprintSale, regressor: true do
 
   context "with conditions" do
     before do
-      allow(subject).to receive(:postpaid_project).and_return(true)
+      allow(subject).to receive(:star_project).and_return(true)
     end
 
     it { is_expected.to validate_presence_of :number_of_accessories }

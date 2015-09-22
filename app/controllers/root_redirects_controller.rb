@@ -26,9 +26,9 @@ class RootRedirectsController < ApplicationController
     # if department.name == 'Sprint Retail Sales'
     #   redirect_to new_sprint_sales_path(prepaid) and return
     # end
-    # postpaid = Project.find_by(name: 'Sprint Postpaid')
-    # if department.name == 'Sprint RadioShack Sales'
-    #   redirect_to new_sprint_sales_path(postpaid) and return
+    # star = Project.find_by(name: 'STAR')
+    # if department.name == 'STAR Sales'
+    #   redirect_to new_sprint_sales_path(star) and return
     # end
     if department.name == 'Executives'
       redirect_to people_path and return

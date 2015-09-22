@@ -30,7 +30,7 @@ RSpec.describe InterviewAnswersController, :type => :controller do
       allow(controller).to receive(:policy).and_return double(create?: true)
     }
     context 'success for candidates with job offers' do
-      let(:project) { create :project, name: 'Sprint Postpaid' }
+      let(:project) { create :project, name: 'STAR' }
       let(:area) { create :area, personality_assessment_url: 'https://google.com', project: project }
       let(:location_area) { create :location_area, area: area }
 

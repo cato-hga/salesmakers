@@ -36,7 +36,7 @@ require 'rails_helper'
 
 describe SprintSale do
   let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
-  let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }
+  let!(:star_project) { create :project, name: 'STAR' }
   subject { build :sprint_sale, sale_date: Date.today, project: prepaid_project }
 
   it 'requires a person' do
@@ -158,10 +158,10 @@ describe SprintSale do
     expect(subject).to respond_to :photo
   end
 
-  context 'validation for postpaid only' do
+  context 'validation for star only' do
     let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
-    let!(:postpaid_project) { create :project, name: 'Sprint Postpaid' }
-    subject { build :sprint_sale, sale_date: Date.today, project: postpaid_project }
+    let!(:star_project) { create :project, name: 'STAR' }
+    subject { build :sprint_sale, sale_date: Date.today, project: star_project }
 
     it 'requires number of accessories' do
       subject.number_of_accessories = nil

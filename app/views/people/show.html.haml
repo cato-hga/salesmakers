@@ -4,7 +4,7 @@
 - show_details = @person.show_details_for_ids? @visible_people_ids
 - clients = @person.clients
 - vonage = false
-- postpaid = Project.find_by name: 'Sprint Postpaid'
+- star = Project.find_by name: 'STAR'
 - for client in clients do
   - vonage = true if client.name == 'Vonage'
 
@@ -19,7 +19,7 @@
       = link_to 'Edit Screening', edit_person_screening_path(@person), class: [:button, :inline_button]
     - if @person.candidate
       = link_to 'Candidate Profile', candidate_path(@person.candidate), class: [:button, :inline_button ]
-  - if @person.projects.include? postpaid
+  - if @person.projects.include? star
     - if policy(@person).terminate?
       = link_to 'Terminate/NOS Person', new_person_docusign_nos_path(@person), id: '#nos_button', class: [:button, :inline_button]
     - if policy(@person).third_party_nos?

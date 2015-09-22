@@ -38,7 +38,7 @@ describe 'The Location Head Count Updater' do
     before :each do
       CASClient::Frameworks::Rails::Filter.fake(person.email)
     end
-    it 'is available from the Sprint Postpaid "Locations" screen' do
+    it 'is available from the STAR "Locations" screen' do
       visit client_project_locations_path(project.client, project)
       expect(page).to have_content 'Update Head Counts'
     end

@@ -251,7 +251,7 @@ class Candidate < ActiveRecord::Base
   private
 
   def set_default_project
-    p = Project.find_by name: 'Sprint Postpaid'
+    p = Project.find_by name: 'STAR'
     return unless p
     self.project = p
   end

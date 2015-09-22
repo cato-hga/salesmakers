@@ -4,7 +4,7 @@ describe 'Sprint Sale Entry' do
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
     let(:prepaid_project) { create :project, name: "Sprint Retail" }
-    let(:postpaid_project) { create :project, name: "Sprint Retail" }
+    let(:star_project) { create :project, name: "Sprint Retail" }
 
     it 'shows the You are not authorized page when trying to access the prepaid sale page' do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
@@ -12,9 +12,9 @@ describe 'Sprint Sale Entry' do
       expect(page).to have_content 'Your access does not allow you to view this page'
     end
 
-    it 'shows the You are not authorized page when trying to access the postpaid sale page' do
+    it 'shows the You are not authorized page when trying to access the star sale page' do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
-      visit new_sprint_sales_path(postpaid_project)
+      visit new_sprint_sales_path(star_project)
       expect(page).to have_content 'Your access does not allow you to view this page'
     end
   end
@@ -30,7 +30,7 @@ describe 'Sprint Sale Entry' do
                                              description: 'Test Description'
     }
     let!(:sprint_retail) { create :project, name: "Sprint Retail", sprint_carriers: [sprint_retail_carrier] }
-    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+    let!(:star) { create :project, name: "STAR" }
     let(:area) { create :area, project: sprint_retail }
     let(:location) { create :location }
     let!(:location_area) { create :location_area,
@@ -77,7 +77,7 @@ describe 'Sprint Sale Entry' do
             expect(page).to have_content "Picture with customer can't be blank"
           end
 
-          it 'does not show error messages related to postpaid' do
+          it 'does not show error messages related to star' do
             click_on 'Complete Sale'
             expect(page).not_to have_content "Number of accessories can't be blank"
           end
@@ -220,47 +220,47 @@ describe 'Sprint Sale Entry' do
   end
 
   describe 'for Postpaid' do
-    let(:postpaid_employee) { create :person, position: position, display_name: 'Employee One' }
-    let(:postpaid_employee_two) { create :person, position: position, display_name: 'Employee Two' }
-    let(:postpaid_manager) { create :person, position: position, display_name: 'Manager' }
+    let(:star_employee) { create :person, position: position, display_name: 'Employee One' }
+    let(:star_employee_two) { create :person, position: position, display_name: 'Employee Two' }
+    let(:star_manager) { create :person, position: position, display_name: 'Manager' }
     let(:position) { create :position, permissions: [permission_create] }
     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
     let(:permission_create) { Permission.new key: 'sprint_sale_create',
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid", sprint_carriers: [sprint_postpaid_carrier] }
+    let!(:star) { create :project, name: "STAR", sprint_carriers: [star_carrier] }
     let!(:sprint_prepaid) { create :project, name: "Sprint Retail" }
-    let(:postpaid_area) { create :area, project: sprint_postpaid }
-    let!(:postpaid_employee_area) { create :person_area, person: postpaid_employee, area: postpaid_area }
-    let!(:postpaid_employee_two_area) { create :person_area, person: postpaid_employee_two, area: postpaid_area }
-    let!(:postpaid_manager_area) { create :person_area, person: postpaid_manager, area: postpaid_area, manages: true }
+    let(:star_area) { create :area, project: star }
+    let!(:star_employee_area) { create :person_area, person: star_employee, area: star_area }
+    let!(:star_employee_two_area) { create :person_area, person: star_employee_two, area: star_area }
+    let!(:star_manager_area) { create :person_area, person: star_manager, area: star_area, manages: true }
     let(:sprint_location) { create :location }
     let!(:location_area) { create :location_area,
                                   location: sprint_location,
-                                  area: postpaid_employee_area.area }
-    let(:sprint_postpaid_sale) { create :sprint_sale, project: sprint_postpaid,
-                                      sprint_handset_id: sprint_postpaid_handset,
-                                      sprint_rate_plan_id: sprint_postpaid_rate_plan }
-    let(:sprint_postpaid_carrier) { create :sprint_carrier, name: 'Sprint',
-                                           sprint_handsets: [sprint_postpaid_handset],
-                                           sprint_rate_plans: [sprint_postpaid_rate_plan] }
-    let(:sprint_postpaid_handset) { create :sprint_handset, name: 'Apple iPhone 6 Plus' }
-    let(:sprint_postpaid_rate_plan) { create :sprint_rate_plan, name: 'Easy Pay' }
+                                  area: star_employee_area.area }
+    let(:star_sale) { create :sprint_sale, project: star,
+                                      sprint_handset_id: star_handset,
+                                      sprint_rate_plan_id: star_rate_plan }
+    let(:star_carrier) { create :sprint_carrier, name: 'Sprint',
+                                           sprint_handsets: [star_handset],
+                                           sprint_rate_plans: [star_rate_plan] }
+    let(:star_handset) { create :sprint_handset, name: 'Apple iPhone 6 Plus' }
+    let(:star_rate_plan) { create :sprint_rate_plan, name: 'Easy Pay' }
 
     describe 'form submission' do
       before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake(postpaid_employee.email)
-        visit new_sprint_sales_path(sprint_postpaid)
+        CASClient::Frameworks::Rails::Filter.fake(star_employee.email)
+        visit new_sprint_sales_path(star)
       end
 
       describe 'authorized users' do
-        it 'shows the Sprint Postpaid Sale Entry page' do
-          expect(page).to have_content 'Sprint Postpaid Sale Entry'
+        it 'shows the STAR Sale Entry page' do
+          expect(page).to have_content 'STAR Sale Entry'
         end
 
         context 'with all blank data' do
-          it 'renders :new_postpaid and shows all relevant error messages' do
+          it 'renders :new_star and shows all relevant error messages' do
             click_on 'Complete Sale'
             expect(page).to have_content "Sale date can't be blank"
             expect(page).to have_content "Person can't be blank"
@@ -288,7 +288,7 @@ describe 'Sprint Sale Entry' do
             click_on 'Complete Sale'
           }
 
-          it 'renders :new_postpaid and displays a clear error message' do
+          it 'renders :new_star and displays a clear error message' do
             subject
             expect(page).to have_content "Sale date cannot be dated for more than 1 month in the past"
           end
@@ -296,7 +296,7 @@ describe 'Sprint Sale Entry' do
 
         context 'has select options for' do
           it 'Sales Representative' do
-            expect(page).to have_select 'sprint_sale_person_id', text: postpaid_employee.name
+            expect(page).to have_select 'sprint_sale_person_id', text: star_employee.name
           end
 
           it 'Locations' do
@@ -308,11 +308,11 @@ describe 'Sprint Sale Entry' do
           end
 
           it 'Handset' do
-            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: sprint_postpaid_handset.name
+            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: star_handset.name
           end
 
           it 'Rate Plan' do
-            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: sprint_postpaid_rate_plan.name
+            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: star_rate_plan.name
           end
 
           it 'Did you get a picture with customer?' do
@@ -322,12 +322,12 @@ describe 'Sprint Sale Entry' do
 
         context 'with all correct data' do
           subject {
-            select postpaid_employee.display_name, from: 'Sales Representative'
+            select star_employee.display_name, from: 'Sales Representative'
             fill_in 'Sale Date', with: Date.yesterday.strftime('%m/%d/%Y')
             select sprint_location.name, from: 'Location'
             select 'Upgrade', from: 'New Service'
-            select sprint_postpaid_handset.name, from: 'Handset'
-            select sprint_postpaid_rate_plan.name, from: 'Rate Plan'
+            select star_handset.name, from: 'Handset'
+            select star_rate_plan.name, from: 'Rate Plan'
             fill_in 'Number of accessories', with: 1
             select 'Yes', from: 'Did you get a picture with customer?'
             click_on 'Complete Sale'
@@ -345,26 +345,26 @@ describe 'Sprint Sale Entry' do
 
         context 'Sprint sales rep' do
           it 'can select their name and the names of the employees they manage' do
-            expect(page).to have_select 'sprint_sale_person_id', text: postpaid_employee.display_name
-            expect(page).not_to have_select 'sprint_sale_person_id', text: postpaid_employee_two.display_name
+            expect(page).to have_select 'sprint_sale_person_id', text: star_employee.display_name
+            expect(page).not_to have_select 'sprint_sale_person_id', text: star_employee_two.display_name
           end
         end
       end
 
       describe 'sprint manager' do
         before(:each) do
-          CASClient::Frameworks::Rails::Filter.fake(postpaid_manager.email)
-          visit new_sprint_sales_path(sprint_postpaid)
+          CASClient::Frameworks::Rails::Filter.fake(star_manager.email)
+          visit new_sprint_sales_path(star)
         end
 
         it 'can select their name and the names of the employees they manage' do
-          expect(page).to have_select 'sprint_sale_person_id', text: postpaid_manager.display_name
-          expect(page).to have_select 'sprint_sale_person_id', text: postpaid_employee.display_name
-          expect(page).to have_select 'sprint_sale_person_id', text: postpaid_employee_two.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: star_manager.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: star_employee.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: star_employee_two.display_name
         end
       end
 
-      describe 'postpaid person with all field visibility' do
+      describe 'star person with all field visibility' do
         let(:sprint_person_with_all_visibility) { create :person, position: position_with_all_visibility }
         let(:position_with_all_visibility) { create :position,
                                                     permissions: [permission_create],
@@ -378,11 +378,11 @@ describe 'Sprint Sale Entry' do
         let!(:other_location_area) { create :location_area,
                                             location: other_location,
                                             area: all_visibility_area.area }
-        let(:all_visibility_area) { create :person_area, person: sprint_person_with_all_visibility, area: postpaid_area }
+        let(:all_visibility_area) { create :person_area, person: sprint_person_with_all_visibility, area: star_area }
 
         before(:each) do
           CASClient::Frameworks::Rails::Filter.fake(sprint_person_with_all_visibility.email)
-          visit new_sprint_sales_path(sprint_postpaid)
+          visit new_sprint_sales_path(star)
         end
 
         it 'can select from all sprint locations' do

@@ -61,32 +61,32 @@ Sprint:
 Sprint Postpaid:
   4:
     Retail:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
     Event:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
   3:
     Retail:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
     Event:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
   2:
     Retail:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
     Event:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
   1:
     Retail:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
     Event:
-      leader: Sprint RadioShack Sales Director
-      not_leader: Sprint RadioShack SalesMaker
+      leader: STAR Sales Director
+      not_leader: STAR SalesMaker
 
 Comcast:
   4:

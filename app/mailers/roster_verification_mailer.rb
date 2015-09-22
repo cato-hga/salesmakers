@@ -31,7 +31,7 @@ class RosterVerificationMailer < ApplicationMailer
   def project_emails
     {
         'Sprint Retail' => 'sprintstaffing@retaildoneright.com',
-        'Sprint Postpaid' => 'sprintradioshack@salesmakersinc.com',
+        'STAR' => 'sprintradioshack@salesmakersinc.com',
         'Comcast Retail' => 'comcaststaffing@salesmakersinc.com',
         'DirecTV Retail' => 'directvstaffing@salesmakersinc.com',
         'Vonage Events' => 'fieldhires@retaildoneright.com',

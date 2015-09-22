@@ -12,7 +12,7 @@
     = f.text_field :last_name_cont, placeholder: 'Last name'
     = f.text_field :mobile_phone_number_cont, placeholder: 'Mobile'
     = f.text_field :email_cont, placeholder: 'Email'
-    - project = Project.find_by_name 'Sprint Postpaid'
+    - project = Project.find_by_name 'STAR'
     - selected_region = params['q'] ? params['q']['area_name_eq'] : nil
     = f.select :location_area_area_ancestry_eq, options_from_collection_for_select(@regions, :string_id, 'name', selected_region), include_blank: 'Region'
     - selected_area = params['q'] ? params['q']['area_name_eq'] : nil

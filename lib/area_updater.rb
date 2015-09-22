@@ -34,7 +34,7 @@ class AreaUpdater
                                     client: @rbh
     @sprint_retail = Project.find_by name: 'Sprint Retail',
                                      client: @sprint
-    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid',
+    @star = Project.find_by name: 'STAR',
                                        client: @sprint
     @comcast_retail = Project.find_by name: 'Comcast Retail',
                                       client: @comcast
@@ -45,7 +45,7 @@ class AreaUpdater
   def self.setup_area_types
     setup_vonage_area_types
     setup_sprint_retail_area_types
-    setup_sprint_postpaid_area_types
+    setup_star_area_types
     setup_comcast_area_types
     setup_directv_area_types
   end
@@ -74,13 +74,13 @@ class AreaUpdater
                             project: @sprint_retail
   end
 
-  def self.setup_sprint_postpaid_area_types
-    @spr = AreaType.find_by name: 'Sprint Postpaid Region',
-                            project: @sprint_postpaid
-    @spm = AreaType.find_by name: 'Sprint Postpaid Market',
-                            project: @sprint_postpaid
-    @spt = AreaType.find_by name: 'Sprint Postpaid Territory',
-                            project: @sprint_postpaid
+  def self.setup_star_area_types
+    @spr = AreaType.find_by name: 'STAR Region',
+                            project: @star
+    @spm = AreaType.find_by name: 'STAR Market',
+                            project: @star
+    @spt = AreaType.find_by name: 'STAR Territory',
+                            project: @star
   end
 
   def self.setup_comcast_area_types
@@ -142,7 +142,7 @@ class AreaUpdater
   def self.update_areas
     update_vonage_areas
     update_sprint_retail_areas
-    update_sprint_postpaid_areas
+    update_star_areas
     update_comcast_areas
     update_directv_areas
   end
@@ -191,14 +191,14 @@ class AreaUpdater
     end
   end
 
-  def self.update_sprint_postpaid_areas
+  def self.update_star_areas
     sp_connect = ConnectRegion.find_by_value 'Sprint Postpaid-1'
     sp_connect.children.each do |spr_connect|
-      sync_area spr_connect, @spr, @sprint_postpaid
+      sync_area spr_connect, @spr, @star
       spr_connect.children.each do |spm_connect|
-        sync_area spm_connect, @spm, @sprint_postpaid, spr_connect
+        sync_area spm_connect, @spm, @star, spr_connect
         spm_connect.children.each do |spt_connect|
-          sync_area spt_connect, @spt, @sprint_postpaid, spm_connect
+          sync_area spt_connect, @spt, @star, spm_connect
         end
       end
     end

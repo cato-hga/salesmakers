@@ -3,7 +3,7 @@ require 'rails_helper'
 describe CandidatesController do
   include ActiveJob::TestHelper
   let(:recruiter) { create :person }
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let(:area) { create :area, project: project }
   let(:location_area) { create :location_area, location: location, area: area }
   let!(:sprint_radio_shack_training_session) {
@@ -529,7 +529,7 @@ describe CandidatesController do
 
   describe 'GET send_paperwork' do
     let(:candidate) { create :candidate, state: 'FL', location_area: location_area }
-    let(:project) { create :project, name: 'Sprint Postpaid' }
+    let(:project) { create :project, name: 'STAR' }
     let(:area) { create :area, project: project }
     let(:location_area) { create :location_area, area: area }
     let!(:docusign_template) {

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe API::V1::LocationsController do
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let(:area) { create :area, project: project }
   let!(:location_area) {
     create :location_area,

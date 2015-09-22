@@ -13,7 +13,7 @@ describe 'personality assessment functionality' do
   before { CASClient::Frameworks::Rails::Filter.fake(recruiter.email) }
 
   context 'when the assessment is required' do
-    let(:project) { create :project, name: 'Sprint Postpaid' }
+    let(:project) { create :project, name: 'STAR' }
     let(:area) { create :area,
                         personality_assessment_url: 'https://google.com',
                         project: project
@@ -103,7 +103,7 @@ describe 'personality assessment functionality' do
                                    personality_assessment_score: nil,
                                    location_area: location_area
     }
-    let(:project) { create :project, name: 'Sprint Postpaid' }
+    let(:project) { create :project, name: 'STAR' }
     let(:area) { create :area,
                         personality_assessment_url: 'https://google.com',
                         project: project

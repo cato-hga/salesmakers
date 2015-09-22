@@ -58,7 +58,7 @@ module PersonConnectFunctionality
     return {
         vonage: (project_name == 'Vonage'),
         sprint: (project_name == 'Sprint'),
-        sprint_postpaid: (project_name == 'Sprint Postpaid'),
+        star: (project_name == 'Sprint Postpaid'),
         comcast: (project_name == 'Comcast'),
         directv: (project_name == 'DirecTV')
     }

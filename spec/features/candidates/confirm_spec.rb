@@ -4,7 +4,7 @@ describe 'confirming details' do
   let!(:candidate) { create :candidate, location_area: location_area, state: 'FL' }
   let!(:recruiter) { create :person, position: position }
   let(:position) { create :position, permissions: [permission_create, permission_index] }
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let(:area) { create :area, project: project }
   let!(:location_area) { create :location_area, location: location, target_head_count: 1, priority: 1, area: area }
   let(:location) { create :location, sprint_radio_shack_training_location: training_location }

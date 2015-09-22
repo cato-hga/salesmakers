@@ -16,7 +16,7 @@ describe 'SMS Daily Checks' do
   #let(:permission_create) { Permission.create key: 'candidate_create', description: 'Blah blah blah', permission_group: permission_group }
   let(:permission_index) { Permission.create key: 'sms_daily_check_index', description: 'Blah blah blah', permission_group: permission_group }
 
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let(:area_one) { create :area, name: 'First Area', project: project }
   let(:area_two) { create :area, name: 'Second Area', project: project }
   let(:area_three) { create :area, name: 'Third Area', project: project }

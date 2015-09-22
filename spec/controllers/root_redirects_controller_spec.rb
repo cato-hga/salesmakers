@@ -137,8 +137,8 @@ describe RootRedirectsController do
       let!(:sprint_employee) { create :person, position: sprint_position }
       let(:sprint_position) { create :position, department: sprint_prepaid_department }
       let(:sprint_prepaid_department) { create :department, name: 'Sprint Retail Sales' }
-      let(:sprint_postpaid_department) { create :department, name: 'Sprint RadioShack Sales' }
-      let!(:sprint_postpaid_project) { create :project, name: "Sprint Postpaid" }
+      let(:star_department) { create :department, name: 'STAR Sales' }
+      let!(:star_project) { create :project, name: "STAR" }
       let!(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
 
       before(:each) do
@@ -154,10 +154,10 @@ describe RootRedirectsController do
       #   get :incoming_redirect
       #   expect(response).to redirect_to(new_sprint_sales_path(sprint_prepaid_project))
       # end
-      # it 'routes to postpaid for postpaid employees' do
-      #   sprint_position.update department: sprint_postpaid_department
+      # it 'routes to star for star employees' do
+      #   sprint_position.update department: star_department
       #   get :incoming_redirect
-      #   expect(response).to redirect_to(new_sprint_sales_path(sprint_postpaid_project))
+      #   expect(response).to redirect_to(new_sprint_sales_path(star_project))
       # end
     end
 

@@ -27,7 +27,7 @@ require 'rails_helper'
 
 describe ConnectBlueforceTimesheet do
   describe 'determination of Project' do
-    let!(:sprint_postpaid_project) { create :project, name: 'Sprint Postpaid' }
+    let!(:star_project) { create :project, name: 'STAR' }
     let!(:sprint_retail_project) { create :project, name: 'Sprint Retail' }
     let!(:directv_retail_project) { create :project, name: 'DirecTV Retail' }
     let!(:comcast_retail_project) { create :project, name: 'Comcast Retail' }
@@ -40,11 +40,11 @@ describe ConnectBlueforceTimesheet do
       end
     end
 
-    context 'for Sprint Postpaid' do
-      let(:sprint_postpaid_timesheet) { ConnectBlueforceTimesheet.find '38EA3B7B4ED4A077014EDDCC689C0273' }
+    context 'for STAR' do
+      let(:star_timesheet) { ConnectBlueforceTimesheet.find '38EA3B7B4ED4A077014EDDCC689C0273' }
 
       it 'returns the correct project' do
-        expect(sprint_postpaid_timesheet.project).to eq sprint_postpaid_project
+        expect(star_timesheet.project).to eq star_project
       end
     end
 
