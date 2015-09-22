@@ -13,7 +13,7 @@ class AssetShiftHoursTotaling
 
   def generate_totals automated = false
     shifts = Shift.where('date >= ?', DateTime.now - @duration)
-    prepaid = Project.find_by name: 'Sprint Retail'
+    prepaid = Project.find_by name: 'Sprint Prepaid'
     people = []
     for shift in shifts do
       people << shift.person unless shift.person.skip_for_assets?
@@ -32,7 +32,7 @@ class AssetShiftHoursTotaling
 
   def self.generate_mailer automated = false
     people_waiting_on_assets = Person.where('passed_asset_hours_requirement = ? and (vonage_tablet_approval_status = ? or sprint_prepaid_asset_approval_status = ?)', true, 0, 0).uniq.flatten
-    prepaid = Project.find_by name: 'Sprint Retail'
+    prepaid = Project.find_by name: 'Sprint Prepaid'
     vonretail = Project.find_by name: 'Vonage'
     vonevents = Project.find_by name: 'Vonage Events'
     projects = [prepaid, vonretail, vonevents]

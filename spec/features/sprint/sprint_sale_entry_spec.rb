@@ -3,8 +3,8 @@ require 'rails_helper'
 describe 'Sprint Sale Entry' do
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
-    let(:prepaid_project) { create :project, name: "Sprint Retail" }
-    let(:star_project) { create :project, name: "Sprint Retail" }
+    let(:prepaid_project) { create :project, name: "Sprint Prepaid" }
+    let(:star_project) { create :project, name: "STAR" }
 
     it 'shows the You are not authorized page when trying to access the prepaid sale page' do
       CASClient::Frameworks::Rails::Filter.fake(unauth_person.email)
@@ -20,39 +20,39 @@ describe 'Sprint Sale Entry' do
   end
 
   describe 'for Prepaid' do
-    let!(:sprint_retail_employee) { create :person, position: position, display_name: 'Employee One' }
-    let(:sprint_retail_employee_two) { create :person, position: position, display_name: 'Employee Two' }
-    let(:sprint_retail_manger) { create :person, position: position, display_name: 'Manager' }
+    let!(:sprint_prepaid_employee) { create :person, position: position, display_name: 'Employee One' }
+    let(:sprint_prepaid_employee_two) { create :person, position: position, display_name: 'Employee Two' }
+    let(:sprint_prepaid_manger) { create :person, position: position, display_name: 'Manager' }
     let(:position) { create :position, permissions: [permission_create] }
     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
     let(:permission_create) { Permission.new key: 'sprint_sale_create',
                                              permission_group: permission_group,
                                              description: 'Test Description'
     }
-    let!(:sprint_retail) { create :project, name: "Sprint Retail", sprint_carriers: [sprint_retail_carrier] }
+    let!(:sprint_prepaid) { create :project, name: "Sprint Prepaid", sprint_carriers: [sprint_prepaid_carrier] }
     let!(:star) { create :project, name: "STAR" }
-    let(:area) { create :area, project: sprint_retail }
+    let(:area) { create :area, project: sprint_prepaid }
     let(:location) { create :location }
     let!(:location_area) { create :location_area,
                                   location: location,
-                                  area: sprint_retail_employee_area.area }
-    let!(:sprint_retail_employee_area) { create :person_area, person: sprint_retail_employee, area: area }
-    let!(:sprint_retail_employee_two_area) { create :person_area, person: sprint_retail_employee_two, area: area }
-    let!(:sprint_retail_manger_area) { create :person_area, person: sprint_retail_manger, area: area, manages: true }
-    let(:sprint_retail_sale) { create :sprint_sale, project: sprint_retail,
-                                      sprint_carrier_id: sprint_retail_carrier,
-                                      sprint_handset_id: sprint_retail_handset,
-                                      sprint_rate_plan_id: sprint_retail_rate_plan }
-    let(:sprint_retail_carrier) { create :sprint_carrier,
-                                         sprint_handsets: [sprint_retail_handset],
-                                         sprint_rate_plans: [sprint_retail_rate_plan] }
-    let(:sprint_retail_handset) { create :sprint_handset }
-    let(:sprint_retail_rate_plan) { create :sprint_rate_plan }
+                                  area: sprint_prepaid_employee_area.area }
+    let!(:sprint_prepaid_employee_area) { create :person_area, person: sprint_prepaid_employee, area: area }
+    let!(:sprint_prepaid_employee_two_area) { create :person_area, person: sprint_prepaid_employee_two, area: area }
+    let!(:sprint_prepaid_manger_area) { create :person_area, person: sprint_prepaid_manger, area: area, manages: true }
+    let(:sprint_prepaid_sale) { create :sprint_sale, project: sprint_prepaid,
+                                      sprint_carrier_id: sprint_prepaid_carrier,
+                                      sprint_handset_id: sprint_prepaid_handset,
+                                      sprint_rate_plan_id: sprint_prepaid_rate_plan }
+    let(:sprint_prepaid_carrier) { create :sprint_carrier,
+                                         sprint_handsets: [sprint_prepaid_handset],
+                                         sprint_rate_plans: [sprint_prepaid_rate_plan] }
+    let(:sprint_prepaid_handset) { create :sprint_handset }
+    let(:sprint_prepaid_rate_plan) { create :sprint_rate_plan }
 
     describe 'form submission' do
       before(:each) do
-        CASClient::Frameworks::Rails::Filter.fake(sprint_retail_employee.email)
-        visit new_sprint_sales_path(sprint_retail)
+        CASClient::Frameworks::Rails::Filter.fake(sprint_prepaid_employee.email)
+        visit new_sprint_sales_path(sprint_prepaid)
       end
 
       describe 'for authorized users' do
@@ -105,7 +105,7 @@ describe 'Sprint Sale Entry' do
 
         context 'has select options for' do
           it 'Sales Representative' do
-            expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.name
+            expect(page).to have_select 'sprint_sale_person_id', text: sprint_prepaid_employee.name
           end
 
           it 'Locations' do
@@ -117,15 +117,15 @@ describe 'Sprint Sale Entry' do
           end
 
           it 'Product' do
-            expect(page).to have_select 'sprint_sale_sprint_carrier_id', text: sprint_retail_carrier.name
+            expect(page).to have_select 'sprint_sale_sprint_carrier_id', text: sprint_prepaid_carrier.name
           end
 
           it 'Handset' do
-            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: sprint_retail_handset.name
+            expect(page).to have_select 'sprint_sale_sprint_handset_id', text: sprint_prepaid_handset.name
           end
 
           it 'Rate Plan' do
-            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: sprint_retail_rate_plan.name
+            expect(page).to have_select 'sprint_sale_sprint_rate_plan_id', text: sprint_prepaid_rate_plan.name
           end
 
           it 'Was a Top-Up Card purchased?' do
@@ -143,16 +143,16 @@ describe 'Sprint Sale Entry' do
 
         context 'with all correct data' do
           subject {
-            select sprint_retail_employee.display_name, from: 'Sales Representative'
+            select sprint_prepaid_employee.display_name, from: 'Sales Representative'
             fill_in 'Sale Date', with: Date.yesterday.strftime('%m/%d/%Y')
             select location.name, from: 'Location'
             fill_in 'MEID', with: '123456789012345678'
             fill_in 'Re-enter MEID to Confirm', with: '123456789012345678'
             fill_in 'Mobile Phone Number', with: '55555555555'
             select 'Upgrade', from: 'New Service'
-            select sprint_retail_carrier.name, from: 'Product'
-            select sprint_retail_handset.name, from: 'Handset'
-            select sprint_retail_rate_plan.name, from: 'Rate Plan'
+            select sprint_prepaid_carrier.name, from: 'Product'
+            select sprint_prepaid_handset.name, from: 'Handset'
+            select sprint_prepaid_rate_plan.name, from: 'Rate Plan'
             select 'No', from: 'Was a Top-Up Card purchased?'
             select 'Yes', from: 'Was the phone activated in-store?'
             select 'Yes', from: 'Did you get a picture with customer?'
@@ -171,22 +171,22 @@ describe 'Sprint Sale Entry' do
 
         context 'Sprint sales rep' do
           it 'can select their name and the names of the employees they manage' do
-            expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.display_name
-            expect(page).not_to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
+            expect(page).to have_select 'sprint_sale_person_id', text: sprint_prepaid_employee.display_name
+            expect(page).not_to have_select 'sprint_sale_person_id', text: sprint_prepaid_employee_two.display_name
           end
         end
       end
 
       describe 'sprint manager' do
         before(:each) do
-          CASClient::Frameworks::Rails::Filter.fake(sprint_retail_manger.email)
-          visit new_sprint_sales_path(sprint_retail)
+          CASClient::Frameworks::Rails::Filter.fake(sprint_prepaid_manger.email)
+          visit new_sprint_sales_path(sprint_prepaid)
         end
 
         it 'can select their name and the names of the employees they manage' do
-          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_manger.display_name
-          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee.display_name
-          expect(page).to have_select 'sprint_sale_person_id', text: sprint_retail_employee_two.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: sprint_prepaid_manger.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: sprint_prepaid_employee.display_name
+          expect(page).to have_select 'sprint_sale_person_id', text: sprint_prepaid_employee_two.display_name
         end
       end
 
@@ -208,7 +208,7 @@ describe 'Sprint Sale Entry' do
 
         before(:each) do
           CASClient::Frameworks::Rails::Filter.fake(sprint_person_with_all_visibility.email)
-          visit new_sprint_sales_path(sprint_retail)
+          visit new_sprint_sales_path(sprint_prepaid)
         end
 
         it 'can select from all sprint locations' do
@@ -230,7 +230,7 @@ describe 'Sprint Sale Entry' do
                                              description: 'Test Description'
     }
     let!(:star) { create :project, name: "STAR", sprint_carriers: [star_carrier] }
-    let!(:sprint_prepaid) { create :project, name: "Sprint Retail" }
+    let!(:sprint_prepaid) { create :project, name: "Sprint Prepaid" }
     let(:star_area) { create :area, project: star }
     let!(:star_employee_area) { create :person_area, person: star_employee, area: star_area }
     let!(:star_employee_two_area) { create :person_area, person: star_employee_two, area: star_area }

@@ -31,32 +31,32 @@ Vonage:
 Sprint:
   4:
     Retail:
-      leader: Sprint Retail Sales Director
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Sales Director
+      not_leader: Sprint Prepaid Sales Specialist
     Event:
-      leader: Sprint Retail Sales Director
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Sales Director
+      not_leader: Sprint Prepaid Sales Specialist
   3:
     Retail:
-      leader: Sprint Retail Sales Director
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Sales Director
+      not_leader: Sprint Prepaid Sales Specialist
     Event:
-      leader: Sprint Retail Sales Director
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Sales Director
+      not_leader: Sprint Prepaid Sales Specialist
   2:
     Retail:
-      leader: Sprint Retail Regional Manager
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Regional Manager
+      not_leader: Sprint Prepaid Sales Specialist
     Event:
-      leader: Sprint Retail Regional Manager
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Regional Manager
+      not_leader: Sprint Prepaid Sales Specialist
   1:
     Retail:
-      leader: Sprint Retail Regional Vice President
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Regional Vice President
+      not_leader: Sprint Prepaid Sales Specialist
     Event:
-      leader: Sprint Retail Regional Vice President
-      not_leader: Sprint Retail Sales Specialist
+      leader: Sprint Prepaid Regional Vice President
+      not_leader: Sprint Prepaid Sales Specialist
 
 Sprint Postpaid:
   4:

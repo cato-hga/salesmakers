@@ -18,7 +18,7 @@ def get_person ad_user_id
 end
 
 star = Project.find_by name: 'STAR'
-sprint_prepaid = Project.find_by name: 'Sprint Retail'
+sprint_prepaid = Project.find_by name: 'Sprint Prepaid'
 
 transform do |row|
   count += 1

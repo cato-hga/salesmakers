@@ -29,7 +29,7 @@
           - if sprint_sale_policy.index?
             %li= link_to 'Sprint Sales', sprint_sales_path
           -# if sprint_sale_policy.create?
-            - prepaid = Project.find_by(name: 'Sprint Retail')
+            - prepaid = Project.find_by(name: 'Sprint Prepaid')
             - if @visible_projects.include? prepaid
               %li= link_to 'Prepaid Sale Entry', new_sprint_sales_path(prepaid.id)
             - star = Project.find_by(name: 'STAR')

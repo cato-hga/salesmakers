@@ -30,7 +30,7 @@ class RosterVerificationMailer < ApplicationMailer
 
   def project_emails
     {
-        'Sprint Retail' => 'sprintstaffing@retaildoneright.com',
+        'Sprint Prepaid' => 'sprintstaffing@retaildoneright.com',
         'STAR' => 'sprintradioshack@salesmakersinc.com',
         'Comcast Retail' => 'comcaststaffing@salesmakersinc.com',
         'DirecTV Retail' => 'directvstaffing@salesmakersinc.com',

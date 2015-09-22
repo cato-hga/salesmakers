@@ -79,7 +79,7 @@ class SprintSale < ActiveRecord::Base
   end
 
   def prepaid_project
-    prepaid = Project.find_by(name: 'Sprint Retail')
+    prepaid = Project.find_by(name: 'Sprint Prepaid')
     self.project_id == prepaid.id if prepaid
   end
 

@@ -7,7 +7,7 @@
         %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
       - if sprint_sale_policy.index?
         %li= link_to 'Sprint Sales', sprint_sales_path
-      - prepaid = Project.find_by(name: 'Sprint Retail')
+      - prepaid = Project.find_by(name: 'Sprint Prepaid')
       -# if sprint_sale_policy.create?
         - if @visible_projects.include? prepaid
           %li= link_to 'Prepaid Sale Entry', new_sprint_sales_path(prepaid.id)

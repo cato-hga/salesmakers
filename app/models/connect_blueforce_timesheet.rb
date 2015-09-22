@@ -55,7 +55,7 @@ class ConnectBlueforceTimesheet < RealConnectModel
 
   def project
     if self.site_num && self.site_num.include?('SPTR')
-      return Project.find_by(name: 'Sprint Retail')
+      return Project.find_by(name: 'Sprint Prepaid')
     elsif self.site_num && self.site_num.include?('POSTTR')
       return Project.find_by(name: 'STAR')
     end
@@ -66,7 +66,7 @@ class ConnectBlueforceTimesheet < RealConnectModel
       when 'Sprint Postpaid'
         Project.find_by(name: 'STAR')
       when 'Sprint'
-        Project.find_by(name: 'Sprint Retail')
+        Project.find_by(name: 'Sprint Prepaid')
       when 'DirecTV'
         Project.find_by(name: 'DirecTV Retail')
       when 'Comcast'

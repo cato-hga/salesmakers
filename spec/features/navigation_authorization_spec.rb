@@ -92,8 +92,8 @@ describe 'Navigation Authorization' do
     #   context 'for prepaid' do
     #     let(:sprint_prepaid_employee) { create :person, position: position }
     #     let(:position) { create :position, permissions: [permission_create], department: department }
-    #     let(:department) { create :department, name: 'Sprint Retail Sales' }
-    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+    #     let(:department) { create :department, name: 'Sprint Prepaid Sales' }
+    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Prepaid" }
     #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
     #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
     #                                              permission_group: permission_group,
@@ -328,8 +328,8 @@ describe 'Navigation Authorization' do
     #   context 'for prepaid' do
     #     let(:sprint_prepaid_employee) { create :person, position: position }
     #     let(:position) { create :position, permissions: [permission_create], department: department }
-    #     let(:department) { create :department, name: 'Sprint Retail Sales' }
-    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+    #     let(:department) { create :department, name: 'Sprint Prepaid Sales' }
+    #     let(:sprint_prepaid_project) { create :project, name: "Sprint Prepaid" }
     #     let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
     #     let(:permission_create) { Permission.new key: 'sprint_sale_create',
     #                                              permission_group: permission_group,

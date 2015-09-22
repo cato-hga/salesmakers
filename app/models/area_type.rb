@@ -27,8 +27,8 @@ class AreaType < ActiveRecord::Base
         at_vrt: AreaType.find_by(name: 'Vonage Territory'),
         at_ver: AreaType.find_by(name: 'Vonage Event Region'),
         at_vet: AreaType.find_by(name: 'Vonage Event Team'),
-        at_srr: AreaType.find_by(name: 'Sprint Retail Region'),
-        at_srt: AreaType.find_by(name: 'Sprint Retail Territory'),
+        at_srr: AreaType.find_by(name: 'Sprint Prepaid Region'),
+        at_srt: AreaType.find_by(name: 'Sprint Prepaid Territory'),
         at_ccrr: AreaType.find_by(name: 'Comcast Retail Region'),
         at_ccrm: AreaType.find_by(name: 'Comcast Retail Market'),
         at_ccrt: AreaType.find_by(name: 'Comcast Retail Territory'),
@@ -62,9 +62,9 @@ class AreaType < ActiveRecord::Base
     [
         nil,
         nil,
-        AreaType.find_by(name: 'Sprint Retail Region'),
-        AreaType.find_by(name: 'Sprint Retail Market'),
-        AreaType.find_by(name: 'Sprint Retail Territory'),
+        AreaType.find_by(name: 'Sprint Prepaid Region'),
+        AreaType.find_by(name: 'Sprint Prepaid Market'),
+        AreaType.find_by(name: 'Sprint Prepaid Territory'),
     ]
   end
 

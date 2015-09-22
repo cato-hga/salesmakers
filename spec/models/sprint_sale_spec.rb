@@ -35,7 +35,7 @@
 require 'rails_helper'
 
 describe SprintSale do
-  let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
+  let!(:prepaid_project) { create :project, name: 'Sprint Prepaid' }
   let!(:star_project) { create :project, name: 'STAR' }
   subject { build :sprint_sale, sale_date: Date.today, project: prepaid_project }
 
@@ -159,7 +159,7 @@ describe SprintSale do
   end
 
   context 'validation for star only' do
-    let!(:prepaid_project) { create :project, name: 'Sprint Retail' }
+    let!(:prepaid_project) { create :project, name: 'Sprint Prepaid' }
     let!(:star_project) { create :project, name: 'STAR' }
     subject { build :sprint_sale, sale_date: Date.today, project: star_project }
 

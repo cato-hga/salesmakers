@@ -136,10 +136,10 @@ describe RootRedirectsController do
     describe 'Sprint Sales' do
       let!(:sprint_employee) { create :person, position: sprint_position }
       let(:sprint_position) { create :position, department: sprint_prepaid_department }
-      let(:sprint_prepaid_department) { create :department, name: 'Sprint Retail Sales' }
+      let(:sprint_prepaid_department) { create :department, name: 'Sprint Prepaid Sales' }
       let(:star_department) { create :department, name: 'STAR Sales' }
       let!(:star_project) { create :project, name: "STAR" }
-      let!(:sprint_prepaid_project) { create :project, name: "Sprint Retail" }
+      let!(:sprint_prepaid_project) { create :project, name: "Sprint Prepaid" }
 
       before(:each) do
         CASClient::Frameworks::Rails::Filter.fake(sprint_employee.email)

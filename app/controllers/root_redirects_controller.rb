@@ -22,8 +22,8 @@ class RootRedirectsController < ApplicationController
       redirect_to vcp07012015_path(@current_person) and return
     end
     # TODO: redirect to new sales paths once Sprint migration complete
-    # prepaid = Project.find_by(name: 'Sprint Retail')
-    # if department.name == 'Sprint Retail Sales'
+    # prepaid = Project.find_by(name: 'Sprint Prepaid')
+    # if department.name == 'Sprint Prepaid Sales'
     #   redirect_to new_sprint_sales_path(prepaid) and return
     # end
     # star = Project.find_by(name: 'STAR')
