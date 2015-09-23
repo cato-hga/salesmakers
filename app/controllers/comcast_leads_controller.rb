@@ -67,7 +67,7 @@ class ComcastLeadsController < ApplicationController
                            nil,
                            nil
     else
-      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.join(', '), +@comcast_customer.errors.full_messsages.join(', ')
+      flash[:error] = 'Could not dismiss lead: ' + @comcast_lead.errors.full_messages.concat(@comcast_customer.errors.full_messages).join(', ')
     end
     redirect_to comcast_customers_path
   end

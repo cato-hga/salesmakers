@@ -91,6 +91,7 @@ report_queries
 sessions
 shifts
 themes
+vonage_devices
 vonage_shipped_devices
 walmart_gift_cards
 widgets ).each do |controller|

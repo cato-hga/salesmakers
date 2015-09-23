@@ -14,5 +14,6 @@ end
 destination NilDestination
 
 post_process do
+  SlackJobNotifier.ping "[VonageVestingUpdater] Updated vesting information for #{count.to_s} sales." if count > 0
   ProcessLog.create process_class: "VonageVestingUpdater", records_processed: count
 end

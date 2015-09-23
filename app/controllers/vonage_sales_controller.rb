@@ -25,6 +25,7 @@ class VonageSalesController < ApplicationController
   end
 
   def show
+    @vonage_device = VonageDevice.find params[:id] if @vonage_device
     @vonage_sale = policy_scope(VonageSale).find params[:id]
     @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number
     @project = Project.find_by name: 'Vonage'

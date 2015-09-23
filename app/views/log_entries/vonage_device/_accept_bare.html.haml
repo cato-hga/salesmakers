@@ -1,0 +1,7 @@
+- vonage_device = log_entry.trackable
+- vonage_transfer = log_entry.referenceable
+= vonage_device.mac_id
+has been accepted by
+= vonage_transfer.to_person.display_name
+on
+= friendly_datetime(vonage_transfer.created_at)

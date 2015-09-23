@@ -20,7 +20,7 @@ class AssetApprovalsController < ApplicationController
   def set_status(status)
     @person = Person.find params[:person_id]
     project_name = @person.person_areas.first.area.project.name
-    if project_name.include? 'Sprint Retail'
+    if project_name.include? 'Sprint Prepaid'
       @person.update sprint_prepaid_asset_approval_status: "prepaid_#{status}".to_sym
     else
       @person.update vonage_tablet_approval_status: "#{status}".to_sym
@@ -33,7 +33,7 @@ class AssetApprovalsController < ApplicationController
     @people = []
     for member in @team do
       project_name = member.person_areas.first.area.project.name
-      if project_name == 'Sprint Retail'
+      if project_name == 'Sprint Prepaid'
         @people << member if member.passed_asset_hours_requirement and member.sprint_prepaid_asset_approval_status == 'prepaid_no_decision'
       end
       if project_name.include? 'Vonage'

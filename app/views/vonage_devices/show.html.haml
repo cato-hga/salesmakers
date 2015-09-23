@@ -1,0 +1,7 @@
+- title @vonage_device.mac_id
+
+.widgets
+  -if @vonage_sale.present?
+    = render partial: 'vonage_sales/vonage_sale_information'
+  -if @vonage_device.present?
+    = render partial: 'vonage_devices/vonage_inventory_log_entries'

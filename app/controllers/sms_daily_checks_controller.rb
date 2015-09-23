@@ -4,8 +4,8 @@ class SMSDailyChecksController < ApplicationController
 
   def index
     authorize SMSDailyCheck.new
-    postpaid = Project.find_by name: 'Sprint Postpaid'
-    @available_teams = Area.where(project: postpaid)
+    star = Project.find_by name: 'STAR'
+    @available_teams = Area.where(project: star)
     time_slots_start = Time.new(Date.current.year, Date.current.month, Date.current.day, 7, 0, 0)
     @times = []
     33.times do

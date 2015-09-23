@@ -8,7 +8,7 @@
     .inner
       - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :display_name )
       = hidden_field_tag 'from_person',  @current_person.id
-      = label_tag 'To Person'
+      = label_tag :to_person, 'To Person'
       = select_tag :to_person, person_name_options, include_blank: true
   .widget
     .inner

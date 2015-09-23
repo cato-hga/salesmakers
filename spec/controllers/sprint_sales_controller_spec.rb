@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe SprintSalesController do
 
-  let!(:project) { create :project, name: 'Sprint Retail' }
+  let!(:project) { create :project, name: 'Sprint Prepaid' }
   let(:rep) { create :person, position: position }
   let!(:rep_sprint_sale) { create :sprint_sale, person: rep }
   let(:position) { create :position, permissions: [index_permission] }

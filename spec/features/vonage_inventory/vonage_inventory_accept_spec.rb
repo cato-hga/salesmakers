@@ -4,10 +4,7 @@ describe 'Inventory Accept page' do
 
   let(:person1) { create :person, position: position, display_name: 'person1' }
   let(:person2) { create :person, position: position, display_name: 'person2'}
-  # let(:person3) { create :person, position: position, display_name: 'person3'}
 
-
-  # let(:vonage_transfer1) {create :vonage_transfer, to_person: person1, vonage_device: vonage_device2, accepted: true}
   let!(:vonage_transfer1) {create :vonage_transfer, to_person: person1, from_person: person2, vonage_device: vonage_device1, rejected: false }
   let!(:vonage_transfer2) {create :vonage_transfer, to_person: person1, vonage_device: vonage_device2, accepted: true }
   let!(:vonage_transfer3) {create :vonage_transfer, to_person: person2, vonage_device: vonage_device3, rejected: true  }
@@ -20,9 +17,6 @@ describe 'Inventory Accept page' do
   let!(:vonage_device4) { create :vonage_device, person: person1, mac_id: 'aabc12537527'}
   let!(:vonage_device5) { create :vonage_device, person: person1, mac_id: 'aacc12537522'}
 
-
-
-
   let(:vonage) { create :project, name: 'Vonage' }
   let(:area) { create :area, project: vonage }
   let(:location) { create :location, channel: walmart }
@@ -31,9 +25,6 @@ describe 'Inventory Accept page' do
                                 location: location,
                                 area: person1_area.area }
   let!(:person1_area) { create :person_area, person: person1, area: area }
-
-
-
 
   let(:position) { create :position, permissions:[permission_accept, permission_create] }
   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group'}
@@ -46,11 +37,11 @@ describe 'Inventory Accept page' do
                                            description: 'Test Description' }
 
   context 'for employee' do
-
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(person1.email)
       visit accept_vonage_devices_path
     end
+
     it 'displays mac ids assigned to them, and not accepted/rejected already' do
       expect(page).to have_content vonage_device5.mac_id
       expect(page).to have_content vonage_device1.mac_id

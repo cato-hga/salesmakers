@@ -5,18 +5,19 @@ RSpec.describe VonageDevicesController, regressor: true do
   it { should route(:get, '/vonage_devices/accept').to('vonage_devices#accept', {}) }
   it { should route(:post, '/vonage_devices').to('vonage_devices#create', {}) } 
   it { should route(:post, '/vonage_devices/do_accept').to('vonage_devices#do_accept', {}) } 
-  it { should route(:post, '/vonage_devices/do_reclaim').to('vonage_devices#do_reclaim', {}) } 
   it { should route(:post, '/vonage_devices/do_transfer').to('vonage_devices#do_transfer', {}) } 
   it { should route(:get, '/vonage_devices/employees_reclaim').to('vonage_devices#employees_reclaim', {}) }
   it { should route(:get, '/vonage_devices').to('vonage_devices#index', {}) }
   it { should route(:get, '/vonage_devices/new').to('vonage_devices#new', {}) }
   it { should route(:get, '/vonage_devices/reclaim').to('vonage_devices#reclaim', {}) }
+  it { should route(:get, '/vonage_devices/1').to('vonage_devices#show', {:id=>"1"}) }
   it { should route(:get, '/vonage_devices/transfer').to('vonage_devices#transfer', {}) }
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
   it { should use_before_filter(:track_ahoy_visit) }
   it { should use_before_filter(:set_paper_trail_enabled_for_controller) }
+  it { should use_before_filter(:set_paper_trail_whodunnit) }
   it { should use_before_filter(:set_paper_trail_controller_info) }
   it { should use_before_filter(:additional_exception_data) }
   it { should use_before_filter(:set_staging) }
@@ -30,8 +31,8 @@ RSpec.describe VonageDevicesController, regressor: true do
   it { should use_before_filter(:authorize_profiler) }
   it { should use_before_filter(:do_authorization) }
   it { should use_before_filter(:chronic_time_zones) }
+  it { should use_before_filter(:set_vonage_employees) }
   # === Callbacks (After) ===
-  it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
   it { should use_after_filter(:verify_authorized) }
   # === Callbacks (Around) ===

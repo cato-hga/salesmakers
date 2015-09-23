@@ -5,7 +5,7 @@ http_interactions:
     uri: https://www.docusign.net/restapi/v2/accounts/6307293/envelopes
     body:
       encoding: UTF-8
-      string: '{"status":"created","emailBlurb":null,"emailSubject":"Sprint Postpaid
+      string: '{"status":"created","emailBlurb":null,"emailSubject":"STAR
         - NOTICE OF SEPARATION FOR: Test User","templateId":"E0D92C92-D229-4C25-9CAF-E258FA990AF5","eventNotification":{},"templateRoles":[{"name":"Manager","email":"tuser76@rbd-von.com","roleName":"Manager","tabs":{"textTabs":[{"tabLabel":"Employee
         Name","name":"Employee Name","value":"Test User","documentId":null,"selected":null,"locked":true},{"tabLabel":"Remarks","name":"Remarks","value":"","documentId":null,"selected":null,"locked":false}],"checkboxTabs":[],"numberTabs":[],"fullNameTabs":[],"dateTabs":[]}}],"customFields":null}'
     headers:

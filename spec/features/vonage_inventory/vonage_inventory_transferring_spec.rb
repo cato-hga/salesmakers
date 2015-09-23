@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe 'Inventory Transferring page' do
-
   let(:person1) { create :person,  display_name: 'person1' }
   let(:person2) { create :person,  display_name: 'person2' }
   let(:manager) { create :person, position: position, display_name: 'manager'}
@@ -25,7 +24,6 @@ describe 'Inventory Transferring page' do
                                            permission_group: permission_group,
                                            description: 'Test Description' }
   context 'for unauthorized users' do
-
     let(:unauth_person) { create :person }
 
     it 'shows the you are not authorized page' do
@@ -34,6 +32,7 @@ describe 'Inventory Transferring page' do
       expect(page).to have_content('Your access does not allow you to view this page')
     end
   end
+
   context 'for authorized users' do
     before(:each) do
       CASClient::Frameworks::Rails::Filter.fake(manager.email)
@@ -53,13 +52,12 @@ describe 'Inventory Transferring page' do
 
     it 'displays a list of correct mac ids' do
       expect(page).to have_content vonage_device1.mac_id
-
-
     end
 
     it 'does not display mac ids that are not available' do
       expect(page).not_to have_content vonage_device2.mac_id
     end
+
     context 'for form submission' do
     subject {
         select person1.display_name, from: :to_person

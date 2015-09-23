@@ -15,7 +15,7 @@ describe AssetShiftHoursTotaling do
     let(:sprint_prepaid_person) { create :person, display_name: 'Sprint Employee', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
     let!(:sprint_prepaid_person_area) { create :person_area, area: sprint_prepaid_area, person: sprint_prepaid_person }
     let(:sprint_prepaid_area) { create :area, project: sprint_prepaid_project }
-    let(:sprint_prepaid_project) { create :project, name: 'Sprint Retail' }
+    let(:sprint_prepaid_project) { create :project, name: 'Sprint Prepaid' }
     let!(:sprint_prepaid_shift) { create :shift, person: sprint_prepaid_person, date: Date.today - 3.hours, hours: 41 }
 
     let(:ignore_person) { create :person, display_name: 'Ignore Me', passed_asset_hours_requirement: false, vonage_tablet_approval_status: 0 }
@@ -138,7 +138,7 @@ describe AssetShiftHoursTotaling do
 
     let(:events_project) { create :project, name: 'Vonage Events' }
     let(:retail_project) { create :project, name: 'Vonage' }
-    let(:prepaid_project) { create :project, name: 'Sprint Retail' }
+    let(:prepaid_project) { create :project, name: 'Sprint Prepaid' }
 
     let!(:events_person_area) { create :person_area, person: events_person, area: events_area, manages: false }
     let!(:retail_person_area) { create :person_area, person: retail_person, area: retail_area, manages: false }
@@ -157,10 +157,6 @@ describe AssetShiftHoursTotaling do
       AssetShiftHoursTotaling.generate_mailer
       deliveries = ActionMailer::Base.deliveries
       expect(deliveries.count).to eq(3)
-    end
-
-    it 'handles those without a person_area' do
-
     end
   end
 end

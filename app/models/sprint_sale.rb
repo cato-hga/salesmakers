@@ -54,7 +54,7 @@ class SprintSale < ActiveRecord::Base
   validates :top_up_card_amount, presence: true, if: :card_purchased
   validates :phone_activated_in_store, inclusion: { in: [true, false], message: "can't be blank" }
   validates :reason_not_activated_in_store, presence: true, if: :not_activated
-  validates :number_of_accessories, presence: true, if: :postpaid_project
+  validates :number_of_accessories, presence: true, if: :star_project
   validates :picture_with_customer, presence: true
   validate  :sale_date_cannot_be_more_than_1_month_in_the_past, unless: :import?
 
@@ -79,13 +79,13 @@ class SprintSale < ActiveRecord::Base
   end
 
   def prepaid_project
-    prepaid = Project.find_by(name: 'Sprint Retail')
+    prepaid = Project.find_by(name: 'Sprint Prepaid')
     self.project_id == prepaid.id if prepaid
   end
 
-  def postpaid_project
-    postpaid = Project.find_by(name: 'Sprint Postpaid')
-    self.project_id == postpaid.id if postpaid
+  def star_project
+    star = Project.find_by(name: 'STAR')
+    self.project_id == star.id if star
   end
 
   def import?

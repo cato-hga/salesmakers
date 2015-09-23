@@ -34,8 +34,8 @@ class SprintSalesController < ApplicationController
   end
 
   def show
-    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
-    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
+    @sprint_prepaid = Project.find_by name: 'Sprint Prepaid'
+    @star = Project.find_by name: 'STAR'
     @sprint_sale = policy_scope(SprintSale).find params[:id]
   end
 
@@ -82,7 +82,7 @@ class SprintSalesController < ApplicationController
                     left outer join areas a on a.id = la.area_id
                     left outer join projects p on p.id = a.project_id
                   }).where(%{
-                    (p.name = 'Sprint Retail' OR p.name = 'Sprint Postpaid')
+                    (p.name = 'Sprint Prepaid' OR p.name = 'STAR')
                     and la.active = true
                     and '#{params[:areas_includes_id]}' = ANY (string_to_array(cast(a.id as character varying) || '/' || a.ancestry, '/'))
                   })
@@ -100,9 +100,9 @@ class SprintSalesController < ApplicationController
     @sprint_carriers = SprintCarrier.all.order(:name)
     @sprint_handsets = SprintHandset.all.order(:name)
     @sprint_rate_plans = SprintRatePlan.all.order(:name)
-    @sprint_prepaid = Project.find_by name: 'Sprint Retail'
-    @sprint_postpaid = Project.find_by name: 'Sprint Postpaid'
-    @projects = Project.where("name = ? OR name = ?", 'Sprint Retail', 'Sprint Postpaid').includes(:areas, :client)
+    @sprint_prepaid = Project.find_by name: 'Sprint Prepaid'
+    @star = Project.find_by name: 'STAR'
+    @projects = Project.where("name = ? OR name = ?", 'Sprint Prepaid', 'STAR').includes(:areas, :client)
     @area_id = area_params[:location_in_area_id]
     area = @area_id.blank? ? nil : Area.find(@area_id)
     sprint_sales = policy_scope(SprintSale)
@@ -164,10 +164,10 @@ class SprintSalesController < ApplicationController
   end
 
   def set_template
-    if @project.name == 'Sprint Retail'
+    if @project.name == 'Sprint Prepaid'
       render :new_prepaid
     else
-      render :new_postpaid
+      render :new_star
     end
   end
 

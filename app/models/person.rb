@@ -180,7 +180,7 @@ class Person < ActiveRecord::Base
     return true if Person.vonage_tablet_approval_statuses[self.vonage_tablet_approval_status] > 0
     person_areas = self.person_areas
     for person_area in person_areas do
-      @skip = true unless person_area.area.project.name.include? 'Vonage' or person_area.area.project.name.include? 'Sprint Retail'
+      @skip = true unless person_area.area.project.name.include? 'Vonage' or person_area.area.project.name.include? 'Sprint Prepaid'
       break if @skip
     end
     return true if @skip

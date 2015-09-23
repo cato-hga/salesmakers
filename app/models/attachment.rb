@@ -17,6 +17,7 @@ class Attachment < ActiveRecord::Base
   validates :attachable, presence: true
   validates :name, presence: true
   validates :person, presence: true
+  validates :attachment, presence: true
 
   dragonfly_accessor :attachment
 

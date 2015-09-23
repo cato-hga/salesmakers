@@ -1,8 +1,11 @@
 - title "Vonage Reclaiming"
 .widget
   .inner
-    = form_tag employees_reclaim_vonage_devices_path, method: :get, id: :employee_selection do
+    = form_tag employees_reclaim_vonage_devices_path, method: :get, id: :employee_selection, remote: true do
       - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :terminated_name )
       = label_tag :to_person, 'Select Employee'
       = select_tag :to_person, person_name_options, include_blank: true
-      = submit_tag 'View'
+      = submit_tag 'View', class: [:button]
+.widget
+  .inner
+    = render partial: 'reclaim_employees'

@@ -776,7 +776,7 @@ describe Person do
     let(:area) { create :area, project: von_project }
     let(:von_project) { create :project, name: 'Vonage' }
     let(:other_project) { create :project, name: 'Other Retail' }
-    let(:sprint_prepaid) { create :project, name: 'Sprint Retail' }
+    let(:sprint_prepaid) { create :project, name: 'Sprint Prepaid' }
     it 'returns true if the person has passed asset hours requirement' do
       expect(person.skip_for_assets?).to eq(false)
       person.update passed_asset_hours_requirement: true

@@ -69,7 +69,7 @@ describe 'Overriding the location of candidates' do
       expect(page).to have_button 'Assign', count: 2
     end
     it 'does not take recruitable logic into account' do
-      allow(location).to receive(:head_count_full?).and_return(true)
+      allow(location).to receive(:recruitable?).and_return(false)
       expect(page).to have_content location.store_number
     end
   end
