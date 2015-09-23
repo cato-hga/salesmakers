@@ -7,10 +7,10 @@
         %li= link_to 'Sales Scoreboard', scoreboard_sprint_sales_path
       - if sprint_sale_policy.index?
         %li= link_to 'Sprint Sales', sprint_sales_path
-      - prepaid = Project.find_by(name: 'Sprint Retail')
+      - prepaid = Project.find_by(name: 'Sprint Prepaid')
       -# if sprint_sale_policy.create?
         - if @visible_projects.include? prepaid
           %li= link_to 'Prepaid Sale Entry', new_sprint_sales_path(prepaid.id)
-        - postpaid = Project.find_by(name: 'Sprint Postpaid')
-        - if @visible_projects.include? postpaid
-          %li= link_to 'Postpaid Sale Entry', new_sprint_sales_path(postpaid.id)
+        - star = Project.find_by(name: 'STAR')
+        - if @visible_projects.include? star
+          %li= link_to 'Postpaid Sale Entry', new_sprint_sales_path(star.id)

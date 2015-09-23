@@ -7,5 +7,6 @@ do_transformation
 destination VonageEmailDestination, "RBD_32-day-retail_#{Date.current.strftime('%m%d%Y')}.csv", @headers
 
 post_process do
+  SlackJobNotifier.ping "[Vonage32DaySalesSender] Sent #{@count.to_s} sales to Vonage for Cohort reporting." if @count > 0
   ProcessLog.create process_class: "Vonage32DaySalesSender", records_processed: @count
 end

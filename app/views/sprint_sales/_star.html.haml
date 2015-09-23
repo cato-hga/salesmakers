@@ -4,7 +4,7 @@
 
 .widget
   .inner
-    = form_for @sprint_sale, id: 'postpaidSaleForm', url: new_sprint_sales_path(@project.id) do |f|
+    = form_for @sprint_sale, id: 'starSaleForm', url: new_sprint_sales_path(@project.id) do |f|
       - person_name_options = options_from_collection_for_select(@salesmakers, :id, :display_name, @sprint_sale.person_id)
       = f.label :person_id, 'Sales Representative'
       = f.select :person_id, person_name_options, include_blank: true
@@ -18,9 +18,9 @@
       - upgrade_selected = @sprint_sale.errors.any? ? @sprint_sale.upgrade : nil
       = f.select :upgrade, options_for_select([['New Activation', false], ['Upgrade', true]], upgrade_selected), include_blank: true
       = f.label :sprint_handset_id, 'Handset'
-      = f.grouped_collection_select :sprint_handset_id, @carriers, :sprint_handsets, :name, :id, :name, include_blank: true, id: 'postpaid_handset'
+      = f.grouped_collection_select :sprint_handset_id, @carriers, :sprint_handsets, :name, :id, :name, include_blank: true, id: 'star_handset'
       = f.label :sprint_rate_plan_id, 'Rate Plan'
-      = f.grouped_collection_select :sprint_rate_plan_id, @carriers, :sprint_rate_plans, :name, :id, :name, include_blank: true, id: 'postpaid_rate_plan'
+      = f.grouped_collection_select :sprint_rate_plan_id, @carriers, :sprint_rate_plans, :name, :id, :name, include_blank: true, id: 'star_rate_plan'
       = f.label :number_of_accessories
       = f.number_field :number_of_accessories, include_blank: true
       = f.label :picture_with_customer, 'Did you get a picture with customer?'
@@ -29,7 +29,7 @@
       = f.label :comments
       = f.text_area :comments, size: "30x10"
       = f.hidden_field :project_id, value:  @project.id
-      = f.hidden_field :sprint_carrier_id, id: 'postpaid_carrier'
+      = f.hidden_field :sprint_carrier_id, id: 'star_carrier'
       = f.submit 'Complete Sale', class: [:button]
 
       %p

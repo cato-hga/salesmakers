@@ -11,7 +11,7 @@ vonage_events = Project.find_by name: 'Vonage Events',
                                 client: vonage
 headquarters = Project.find_by name: 'RBD Company HQ',
                                client: rbh
-sprint_retail = Project.find_by name: 'Sprint Retail',
+sprint_prepaid = Project.find_by name: 'Sprint Prepaid',
                                 client: sprint
 comcast_retail = Project.find_by name: 'Comcast Retail',
                             client: comcast
@@ -36,10 +36,10 @@ hqd = AreaType.find_by name: 'HQ Department',
 hqt = AreaType.find_by name: 'HQ Team',
                        project: headquarters
 
-srr = AreaType.find_by name: 'Sprint Retail Region',
-                       project: sprint_retail
-srt = AreaType.find_by name: 'Sprint Retail Territory',
-                       project: sprint_retail
+srr = AreaType.find_by name: 'Sprint Prepaid Region',
+                       project: sprint_prepaid
+srt = AreaType.find_by name: 'Sprint Prepaid Territory',
+                       project: sprint_prepaid
 
 ccrr = AreaType.find_by name: 'Comcast Retail Region',
                         project: comcast_retail
@@ -101,7 +101,7 @@ srrs_connect = sr_connect.children
 srrs_connect.each do |srr_connect|
   new_srr = Area.find_by name: srr_connect.name,
                         area_type: srr,
-                        project: sprint_retail
+                        project: sprint_prepaid
   new_srr.update connect_salesregion_id: srr_connect.c_salesregion_id if new_srr
   srms_connect = srr_connect.children
   srms_connect.each do |srm_connect|
@@ -109,7 +109,7 @@ srrs_connect.each do |srr_connect|
     srts_connect.each do |srt_connect|
       new_srt = Area.find_by name: srt_connect.name.gsub('Sprint - ', ''),
                             area_type: srt,
-                            project: sprint_retail
+                            project: sprint_prepaid
       new_srt.update connect_salesregion_id: srt_connect.c_salesregion_id if new_srt
     end
   end

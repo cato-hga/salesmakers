@@ -75,6 +75,7 @@ module CandidateValidationsAndAssocationsExtension
 
     def belongs_to_associations
       belongs_to :location_area
+      belongs_to :project
       belongs_to :person
       belongs_to :candidate_source
       belongs_to :candidate_denial_reason

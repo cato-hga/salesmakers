@@ -6,7 +6,7 @@ describe DocusignNosesController do
   let(:person) { create :person }
   let!(:person_area) { create :person_area, area: area, person: person }
   let(:area) { create :area, project: project }
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let!(:template) { create :docusign_template,
                            template_guid: 'CD15C02E-B073-44D9-A60A-6514C24949CB',
                            state: 'FL',

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RosterVerificationMailer do
-  let(:project) { create :project, name: 'Sprint Retail' }
+  let(:project) { create :project, name: 'Sprint Prepaid' }
   let!(:root_area) { create :area, name: 'Root Area', project: project }
   let!(:intermediate_area) { create :area, name: 'Intermediate Area', parent: root_area, project: project }
   let!(:bottom_area) { create :area, name: 'Bottom Area', parent: intermediate_area, project: project }

@@ -1,0 +1,36 @@
+<% headers = ['Device ID',
+              'Project',
+              'Territory',
+              'Employee',
+              'Work Email',
+              'Person Email',
+              'Phone Number',
+              'Active?',
+              'Termination Date',
+              'Asset Type',
+              'Serial',
+              'Line',
+              'Deployed Date',
+              'Tracking Number',
+              'Contract End Date',
+              'Device States'
+] %><%= CSV.generate_line(headers).html_safe %>
+<% @devices.each do |d| %><%= CSV.generate_line([
+                                                        d.id,
+                                                        (d.person and d.person.person_areas.first) ? d.person.person_areas.first.area.project.name : '',
+                                                        (d.person and d.person.person_areas.first) ? d.person.person_areas.first.area.name : '',
+                                                        d.person ? d.person.display_name : 'Inventory',
+                                                        d.person ? d.person.email : '',
+                                                        d.person ? d.person.personal_email : '',
+                                                        d.person ? d.person.mobile_phone : '',
+                                                        d.person ? d.person.active : '',
+                                                        (d.person and d.person.most_recent_employment) ? d.person.most_recent_employment.end : '',
+                                                        d.device_model.name,
+                                                        "'" + d.serial,
+                                                        d.line ? d.line.identifier : '',
+                                                        d.latest_deployment ? d.latest_deployment.started : '',
+                                                        (d.latest_deployment and d.latest_deployment.tracking_number) ? "'" + d.latest_deployment.tracking_number : '',
+                                                        d.line ? d.line.contract_end_date : '',
+                                                        d.device_states ? d.device_state_names.join(" ,") : ''
+                                                ]).html_safe %>
+<% end %>

@@ -1,7 +1,7 @@
 puts "Updating Areas' GroupMe group numbers..."
 vr = Project.find_by name: 'Vonage'
 ve = Project.find_by name: 'Vonage Events'
-sr = Project.find_by name: 'Sprint Retail'
+sr = Project.find_by name: 'Sprint Prepaid'
 
 area = Area.find_by(name: 'New Orleans Territory', project_id: sr.id)
 area.update(groupme_group: '9641550') if area

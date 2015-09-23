@@ -11,7 +11,7 @@ describe "Terminating a Person" do
   let(:permission_terminate) { Permission.new key: 'person_terminate',
                                               permission_group: permission_group,
                                               description: 'Test Description' }
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
   let(:other_project) { create :project, name: 'Vonage' }
   let(:correct_area) { create :area, project: project }
   let(:other_area) { create :area, project: other_project }
