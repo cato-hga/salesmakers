@@ -1,7 +1,6 @@
 class VonageDevicesController < ApplicationController
   before_action :do_authorization
   before_action :chronic_time_zones, only: [:create]
-  before_action :set_vonage_employees, only: [:transfer, :reclaim]
   after_action :verify_authorized
 
   def index
@@ -22,6 +21,7 @@ class VonageDevicesController < ApplicationController
   end
 
   def transfer
+    set_vonage_employees
     @vonage_transfer = VonageTransfer.new
     @vonage_devices = @current_person.vonage_devices
   end
@@ -122,7 +122,7 @@ class VonageDevicesController < ApplicationController
 
   def employees_reclaim
     if params[:to_person].blank?
-      flash[:error] = "Must select and employee."
+      flash[:error] = "Must select an employee."
       redirect_to reclaim_vonage_devices_path and return
     end
     set_vonage_employees
@@ -136,12 +136,20 @@ class VonageDevicesController < ApplicationController
   end
 
   def do_reclaim
+    if params[:vonage_devices].blank?
+      flash[:error] = "You must select a device to reclaim."
+      redirect_to employees_reclaim_vonage_devices_path(to_person: params[:to_person]) and return
+    end
     devices = []
     vonage_device_ids = params[:vonage_devices]
     invalids_count = 0
     for reclaim in vonage_device_ids do
       vonage_device = VonageDevice.find reclaim
       device = [vonage_device.person.id, vonage_device.id]
+      person = vonage_device.person
+      @current_person.log? 'reclaim',
+                          vonage_device,
+                          person
       if vonage_device.update person: @current_person
         devices << device
       else

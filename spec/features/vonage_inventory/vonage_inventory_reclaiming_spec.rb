@@ -85,6 +85,14 @@ describe 'Inventory Reclaim page' do
         end
       end
 
+      it 'redirects you to the employee_reclaim page and displays the correct error message' do
+        select person1.display_name, from: 'Select Employee'
+        click_on "View"
+        click_on "Reclaim"
+        expect(current_path).to eq(employees_reclaim_vonage_devices_path)
+        expect(page).to have_content('You must select a device to reclaim.')
+      end
+
       context 'selecting a person' do
         it 'shows inventory accepted from active people' do
           select person1.display_name, from: 'Select Employee'
@@ -106,7 +114,7 @@ describe 'Inventory Reclaim page' do
 
     describe 'reclaiming inventory' do
       before(:each) do
-        select person1.display_name, from: :to_person
+        select person1.display_name, from: 'Select Employee'
         click_on 'View'
       end
 

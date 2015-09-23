@@ -16,13 +16,13 @@ describe 'Inventory Show page' do
   let!(:transfer_log_entry) { create :log_entry, person: vonage_manager, action: 'transfer', trackable: transferred_device, referenceable: vonage_accepted_transfer }
   let!(:accepted_log_entry) { create :log_entry, person: vonage_employee, action: 'accept', trackable: accepted_device, referenceable: vonage_accepted_transfer }
   let!(:rejected_log_entry) { create :log_entry, person: vonage_employee, action: 'reject', trackable: rejected_device, referenceable: vonage_rejected_transfer }
-  # let!(:reclaimed_log_entry) { create :log_entry, person: manager, trackable: vonage_device, action: :do_transfer, referenceable: vonage_rejected_transfer }
+  let!(:reclaimed_log_entry) { create :log_entry, person: vonage_manager, trackable: reclaimed_device, action: 'reclaim', referenceable: reclaimed_device.person }
 
   let(:received_device) { create :vonage_device, person: vonage_manager, mac_id: '723556789aaa' }
   let(:transferred_device) { create :vonage_device, person: vonage_employee, mac_id: '723556789bbb' }
   let(:accepted_device) { create :vonage_device, person: vonage_employee, mac_id: '723556789ccc' }
   let(:rejected_device) { create :vonage_device, person: vonage_employee, mac_id: '723556789ddd' }
-  # let(:reclaimed_device) { create :vonage_device, person: vonage_manager, mac_id: '723556789ddd' }
+  let(:reclaimed_device) { create :vonage_device, person: vonage_manager, mac_id: '723556789dda' }
 
   let!(:vonage_accepted_transfer) { create :vonage_transfer, to_person: vonage_employee,
                                            from_person: vonage_manager, vonage_device: accepted_device, accepted: true }
@@ -31,7 +31,6 @@ describe 'Inventory Show page' do
 
 
   context 'for unauthorized users' do
-
     let(:unauth_person) { create :person }
 
     it 'shows the You are not authorized page' do
@@ -72,10 +71,11 @@ describe 'Inventory Show page' do
       expect(page).to have_content("#{rejected_device.mac_id} has been rejected by #{vonage_rejected_transfer.to_person.display_name} on #{friendly_datetime(vonage_rejected_transfer.created_at)}")
     end
 
-    # it 'Creates a log entry when a device has been reclaimed by a manager' do
-    #   expect(page).to have_content("#{reclaimed_device.mac_id} has been reclaimed from #{vonage_rejected_transfer.to_person.display_name} by #{vonage_rejected_transfer.from_person.display_name} on #{friendly_datetime(vonage_rejected_transfer.created_at)}")
-    # end
+    it 'Creates a log entry when a device has been reclaimed by a manager' do
+      CASClient::Frameworks::Rails::Filter.fake(vonage_manager.email)
+      visit vonage_device_path(reclaimed_device)
+      expect(page).to have_content("#{reclaimed_device.mac_id} has been reclaimed from #{vonage_manager.display_name}")
+    end
   end
 end
-
 
