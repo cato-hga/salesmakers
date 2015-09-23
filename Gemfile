@@ -50,7 +50,7 @@ gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
 gem 'net-sftp', '2.1.2' # SFTP client for ruby
 gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
-gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
+gem 'paper_trail', '4.0.0' # Versioning
 gem 'persistent_httparty', '0.1.2' # Keep connections open when using HTTParty
 gem 'pg', '0.18.2'
 gem 'postmark', '1.6.0' # API wrapper for Postmark
