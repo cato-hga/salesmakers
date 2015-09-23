@@ -32,5 +32,6 @@ end
 destination VCP07012015VestedSalesSalesDestination
 
 post_process do
+  SlackJobNotifier.ping "[VonageComp07012015Processing] Processed #{count.to_s} vested sales period sales for compensation period." if count > 0
   ProcessLog.create process_class: "VonageComp07012015Processing", notes: 'VCP07012015VestedSalesSale', records_processed: count
 end

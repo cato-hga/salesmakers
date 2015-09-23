@@ -26,5 +26,6 @@ end
 destination SimpleSavingDestination
 
 post_process do
+  SlackJobNotifier.ping "[HistoricalRecording] Recorded #{count.to_s} LocationAreas for historical reporting." if count > 0
   ProcessLog.create process_class: "HistoricalRecording", notes: "LocationArea", records_processed: count
 end

@@ -20,7 +20,7 @@ describe 'Approving or Denying assets' do
   let(:area) { create :area, project: vonage }
   let(:vonage) { create :project, name: 'Vonage' }
   let(:sprint_area) { create :area, project: sprint }
-  let(:sprint) { create :project, name: 'Sprint Retail' }
+  let(:sprint) { create :project, name: 'Sprint Prepaid' }
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }
 

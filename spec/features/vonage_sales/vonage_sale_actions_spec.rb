@@ -11,7 +11,7 @@ describe 'Vonage sales actions' do
   let(:area_one) { create :area, project: vonage_retail }
   let(:vonage_retail) { create :project, name: 'Vonage' }
   let(:other_project_area) { create :area, project: other_project }
-  let(:other_project) { create :project, name: 'Sprint Retail' }
+  let(:other_project) { create :project, name: 'Sprint Prepaid' }
   let!(:rep_person_area) { create :person_area, area: area_one, person: rep }
   let(:position) { create :position, permissions: [index_permission] }
   let(:index_permission) { create :permission, key: 'vonage_sale_index' }

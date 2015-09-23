@@ -25,7 +25,7 @@
               %li
                 = link_to 'Locations', client_project_locations_path(project.client, project)
             - if SprintRadioShackTrainingSessionPolicy.new(@current_person, SprintRadioShackTrainingSession.new, @permission_keys).index? and |
-              project.name == 'Sprint Postpaid' |
+              project.name == 'STAR' |
               %li= link_to 'Training Sessions', sprint_radio_shack_training_sessions_path
     - if DepartmentPolicy.new(@current_person, Department.new, @permission_keys).index?
       %li.divider

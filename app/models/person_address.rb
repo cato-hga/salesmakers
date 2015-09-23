@@ -84,6 +84,7 @@ class PersonAddress < ActiveRecord::Base
       pu = PersonUpdater.new cu
       pu.update
     end
+    SlackJobNotifier.ping "[PersonAddress] Updated #{results.count.to_s} employee addresses from RBD Connect." unless results.empty?
     ProcessLog.create process_class: "PersonAddress",
                       records_processed: results.count,
                       notes: "update_from_connect(#{minutes.to_s})" if automated

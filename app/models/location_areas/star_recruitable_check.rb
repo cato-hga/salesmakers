@@ -1,4 +1,4 @@
-class LocationAreas::SprintPostpaidRecruitableCheck
+class LocationAreas::STARRecruitableCheck
 
   def self.recruitable? location_area, padding
     return true unless location_area.priority

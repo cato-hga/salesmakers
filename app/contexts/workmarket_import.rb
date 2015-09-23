@@ -12,6 +12,7 @@ class WorkmarketImport
       RunningProcess.running! self
       start_location_import
       start_assignment_import
+      SlackJobNotifier.ping "[WorkmarketImport] Imported #{@count.to_s} Workmarket assignments." if @count > 0
       ProcessLog.create process_class: "WorkmarketImport", records_processed: @count if automated
       self
     ensure

@@ -62,7 +62,7 @@ RSpec.describe AssetApprovalsController, :type => :controller do
     context 'Sprint Prepaid asset' do
       let!(:approving_person) { create :person }
       let!(:denying_person) { create :person }
-      let!(:project) { create :project, name: 'Sprint Retail' }
+      let!(:project) { create :project, name: 'Sprint Prepaid' }
       let!(:area) { create :area, project: project }
       let!(:person_area_one) { create :person_area, area: area, person: approving_person }
       let!(:person_area_two) { create :person_area, area: area, person: denying_person }

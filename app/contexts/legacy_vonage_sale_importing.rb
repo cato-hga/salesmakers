@@ -28,6 +28,7 @@ class LegacyVonageSaleImporting
     sales = self.translate_all(orders)
     self.extend VonageSaleWriter
     self.create_and_update_all sales
+    SlackJobNotifier.ping "[LegacyVonageSaleImporting] Imported #{sales.count.to_s} Vonage sales from RBD Connect." unless sales.empty?
     ProcessLog.create process_class: "LegacyVonageSaleImporting", records_processed: sales.count if automated
   end
 

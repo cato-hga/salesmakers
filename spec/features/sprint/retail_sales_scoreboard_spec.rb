@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'Sprint Retail sales scoreboard' do
+describe 'Sprint Prepaid sales scoreboard' do
   let!(:person) { create :person }
   let!(:location_area) { create :location_area, area: territory }
   let(:territory_type) { create :area_type, name: 'Sprint Territory' }
@@ -11,8 +11,8 @@ describe 'Sprint Retail sales scoreboard' do
   let(:region) { create :area, project: project, area_type: region_type }
   let(:project) { create :project, client: client }
   let!(:client) { create :client, name: 'Sprint' }
-  let!(:sprint_retail) { create :project, name: "Sprint Retail" }
-  let!(:sprint_postpaid) { create :project, name: "Sprint Postpaid" }
+  let!(:sprint_prepaid) { create :project, name: "Sprint Prepaid" }
+  let!(:star) { create :project, name: "STAR" }
 
   let(:permission) { create :permission, key: 'sprint_sale_index' }
   let!(:viewer) { create :person, position: position }

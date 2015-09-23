@@ -14,7 +14,7 @@ describe 'Interview answers' do
   let!(:denial_reason) { create :candidate_denial_reason }
   let(:location_area) { create :location_area, area: area }
   let(:area) { create :area, project: project }
-  let(:project) { create :project, name: 'Sprint Postpaid' }
+  let(:project) { create :project, name: 'STAR' }
 
   describe 'for unauthorized users' do
     let(:unauth_person) { create :person }

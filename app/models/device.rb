@@ -32,6 +32,7 @@ class Device < ActiveRecord::Base
   has_many :log_entries, as: :trackable, dependent: :destroy
   has_many :log_entries, as: :referenceable, dependent: :destroy
   has_one :device_manufacturer, through: :device_model
+  has_one :latest_deployment, -> { order(started: :desc).limit(1) }, class_name: 'DeviceDeployment'
 
 
   stripping_ransacker(:unstripped_identifier, :identifier, true)
@@ -126,5 +127,15 @@ class Device < ActiveRecord::Base
     @device.serial = serial
     @device.identifier = identifier
     @device.device_model_id = device_model_id
+  end
+
+  def device_state_names
+    return unless self.device_states
+    names = []
+    states = self.device_states
+    for state in states do
+      names << state.name
+    end
+    names
   end
 end

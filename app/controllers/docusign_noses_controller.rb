@@ -20,8 +20,8 @@ class DocusignNosesController < ApplicationController
   def new_third_party
     authorize @person, :third_party_nos?
     @nos = DocusignNos.new
-    postpaid = Project.find_by name: 'Sprint Postpaid'
-    @managers = Person.joins(:person_areas).where('person_areas.manages = true').joins(:areas).where("areas.project_id = #{postpaid.id}")
+    star = Project.find_by name: 'STAR'
+    @managers = Person.joins(:person_areas).where('person_areas.manages = true').joins(:areas).where("areas.project_id = #{star.id}")
   end
 
   def create_third_party

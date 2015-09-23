@@ -11,7 +11,7 @@ vonage_events = Project.find_or_create_by name: 'Vonage Events',
                                           client: vonage
 headquarters = Project.find_or_create_by name: 'RBD Company HQ',
                                          client: rbh
-sprint_retail = Project.find_or_create_by name: 'Sprint Retail',
+sprint_prepaid = Project.find_or_create_by name: 'Sprint Prepaid',
                                           client: sprint
 comcast_retail = Project.find_or_create_by name: 'Comcast Retail',
                                            client: comcast
@@ -36,10 +36,10 @@ hqd = AreaType.find_or_create_by name: 'HQ Department',
 hqt = AreaType.find_or_create_by name: 'HQ Team',
                                  project: headquarters
 
-srr = AreaType.find_or_create_by name: 'Sprint Retail Region',
-                                 project: sprint_retail
-srt = AreaType.find_or_create_by name: 'Sprint Retail Territory',
-                                 project: sprint_retail
+srr = AreaType.find_or_create_by name: 'Sprint Prepaid Region',
+                                 project: sprint_prepaid
+srt = AreaType.find_or_create_by name: 'Sprint Prepaid Territory',
+                                 project: sprint_prepaid
 
 ccrr = AreaType.find_or_create_by name: 'Comcast Retail Region',
                                   project: comcast_retail
@@ -111,7 +111,7 @@ srrs_connect = sr_connect.children
 srrs_connect.each do |srr_connect|
   new_srr = Area.find_or_create_by name: srr_connect.name,
                                    area_type: srr,
-                                   project: sprint_retail,
+                                   project: sprint_prepaid,
                                    created_at: srr_connect.created,
                                    updated_at: srr_connect.updated
   srms_connect = srr_connect.children
@@ -120,7 +120,7 @@ srrs_connect.each do |srr_connect|
     srts_connect.each do |srt_connect|
       new_srt = Area.find_or_initialize_by name: srt_connect.name.gsub('Sprint - ', ''),
                                            area_type: srt,
-                                           project: sprint_retail,
+                                           project: sprint_prepaid,
                                            created_at: srt_connect.created,
                                            updated_at: srt_connect.updated
       new_srt.save; new_srt.parent = new_srr; new_srt.save
