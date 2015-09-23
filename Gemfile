@@ -27,6 +27,7 @@ gem 'facter', '2.4.4' # Get number of CPUs to automatically set puma workers
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'faye', '1.1.2' # GroupMe client websockets
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
+gem 'ringcentral_sdk', '0.2.0' # RingCentral integration
 gem 'geocoder', '1.2.9' # Geocoding
 gem 'gpgme', '2.0.9', require: false # PGP encryption and decryption
 gem 'gmaps4rails', '2.1.2' # Google Maps

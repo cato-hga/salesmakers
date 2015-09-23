@@ -1,0 +1,21 @@
+require 'etl/ring_central_source'
+require 'etl/ring_central_call_destination'
+
+count = 0
+
+source RingCentralSource
+
+transform do |call|
+  count += 1
+
+  ring_central_call = RingCentralCall.new
+  ring_central_call.ring_central_call_num = call.andand['id'] || next
+  ring_central_call.json = call
+  ring_central_call
+end
+
+destination RingCentralCallDestination
+
+post_process do
+  ProcessLog.create process_class: "RingCentralCallLogger", records_processed: count
+end
