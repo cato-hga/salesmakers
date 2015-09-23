@@ -19,4 +19,13 @@ class VonageInventoryMailer < ApplicationMailer
     mail to: @person.email,
          subject: 'Vonage Inventory Accept'
   end
+
+  def inventory_reclaim_mailer(person, macs)
+    # return if macs.empty?
+    @person = person
+    @macs = macs
+    @vonage_devices = VonageDevice.where id: macs.flatten
+    mail to: @person.email,
+         subject: 'Vonage Device(s) Reclaimed'
+  end
 end

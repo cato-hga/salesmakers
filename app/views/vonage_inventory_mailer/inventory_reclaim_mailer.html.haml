@@ -1,0 +1,16 @@
+= mailer_h1 pluralize(@vonage_devices.count.to_s, "Reclaimed Device(s)")
+%p
+  Reclaimed Devices:
+
+%table(width="100%")
+  %tr
+    %td
+      %strong PERSON
+    %td
+      %strong MAC ID(s)
+  - for reclaim_device in @macs do
+    - person = Person.find reclaim_device[0]
+    - macs = VonageDevice.find reclaim_device[1]
+    %tr
+      %td= person.display_name
+      %td= macs.mac_id

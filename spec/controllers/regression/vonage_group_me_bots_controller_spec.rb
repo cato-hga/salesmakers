@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe ClientAreasController, regressor: true do
+RSpec.describe VonageGroupMeBotsController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:get, '/clients/1/projects/1/client_areas').to('client_areas#index', {:client_id=>"1", :project_id=>"1"}) }
+  it { should route(:post, '/vonage_group_me_bots/message').to('vonage_group_me_bots#message', {}) } 
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
@@ -11,8 +11,6 @@ RSpec.describe ClientAreasController, regressor: true do
   it { should use_before_filter(:set_paper_trail_controller_info) }
   it { should use_before_filter(:additional_exception_data) }
   it { should use_before_filter(:set_staging) }
-  it { should use_before_filter(CASClient::Frameworks::Rails::Filter) }
-  it { should use_before_filter(:set_current_user) }
   it { should use_before_filter(:check_active) }
   it { should use_before_filter(:record_action_event) }
   it { should use_before_filter(:setup_accessibles) }
@@ -22,8 +20,6 @@ RSpec.describe ClientAreasController, regressor: true do
   # === Callbacks (After) ===
   it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
-  it { should use_after_filter(:verify_authorized) }
-  it { should use_after_filter(:verify_policy_scoped) }
   # === Callbacks (Around) ===
   it { should use_around_filter(:set_time_zone) }
 end

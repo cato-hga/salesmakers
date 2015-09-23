@@ -17,7 +17,6 @@ class VonageDevicesController < ApplicationController
     @vonage_devices = @current_person.vonage_devices
   end
 
-
   def do_transfer
     if params[:to_person].blank?
       flash[:error] = "Must select an employee."
@@ -45,9 +44,9 @@ class VonageDevicesController < ApplicationController
       end
     end
 
-
     if invalids == 0
       #SUCCESS
+      flash[:notice] = 'Devices have been transferred.'
       redirect_to transfer_vonage_devices_path
     else
       flash[:error] = "The following MAC ID's could not be transferred. Please submit a support ticket with a screenshot of this page. #{invalid_macs.join(', ')}"
@@ -93,7 +92,7 @@ class VonageDevicesController < ApplicationController
 
   def reclaim
     set_vonage_employees
-    @vonage_employees = @vonage_employees.reject! {|x| x.vonage_devices == [] }
+    @vonage_employees = @vonage_employees.reject! { |x| x.vonage_devices == [] }
     inactive_team_members = @current_person.team_members.where(active: false).joins(:vonage_devices).where('vonage_devices.id is not null')
     for member in inactive_team_members do
       @vonage_employees << member
@@ -102,9 +101,42 @@ class VonageDevicesController < ApplicationController
   end
 
   def employees_reclaim
-    @devices = VonageDevice.where(person_id: params[:person_id])
-    respond_to do |format|
-      format.js
+    if params[:to_person].blank?
+      flash[:error] = "Must select and employee."
+      redirect_to reclaim_vonage_devices_path and return
+    end
+    set_vonage_employees
+    @vonage_employees = @vonage_employees.reject! { |x| x.vonage_devices == [] }
+    inactive_team_members = @current_person.team_members.where(active: false).joins(:vonage_devices).where('vonage_devices.id is not null')
+    for member in inactive_team_members do
+      @vonage_employees << member
+    end
+    @vonage_employees = @vonage_employees.uniq
+    @devices = VonageDevice.where(person_id: params[:to_person])
+  end
+
+  def do_reclaim
+    devices = []
+    vonage_device_ids = params[:vonage_devices]
+    invalids_count = 0
+    for reclaim in vonage_device_ids do
+      vonage_device = VonageDevice.find reclaim
+      device = [vonage_device.person.id, vonage_device.id]
+      if vonage_device.update person: @current_person
+        devices << device
+      else
+        invalids_count += 1
+      end
+    end
+
+    if invalids_count > 0
+      flash[:error] = 'Unable to reclaim all devices. Check your email for a list of all devices reclaimed.'
+      VonageInventoryMailer.inventory_reclaim_mailer(@current_person, devices).deliver_later
+      redirect_to reclaim_vonage_devices_path
+    else
+      VonageInventoryMailer.inventory_reclaim_mailer(@current_person, devices).deliver_later
+      flash[:notice] = 'Your devices have been successfully reclaimed. Please check your email for further details. '
+      redirect_to new_vonage_sale_path
     end
   end
 
@@ -137,14 +169,13 @@ class VonageDevicesController < ApplicationController
 
   def set_vonage_employees
     @vonage_employees = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
-    @vonage_employees = @vonage_employees.reject! {|x| x == @current_person}
+    @vonage_employees = @vonage_employees.reject! { |x| x == @current_person }
   end
 
   def vonage_device_params
     params.permit :person_id,
                   :po_number,
                   mac_id: []
-
   end
 
   def do_authorization

@@ -1,0 +1,10 @@
+<%= pluralize @vonage_devices.count.to_s, 'Reclaimed Devices' %>
+
+Reclaimed Devices:
+
+<% for reclaim_device in @vonage_devices do %>
+<% person = reclaim_device.person %>
+<% macs = reclaim_device.mac_id %>
+PERSON:<%= person.display_name %>
+MAC IDs: <%= macs %>
+<% end %>

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe ClientAreasController, regressor: true do
+RSpec.describe ShiftsController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:get, '/clients/1/projects/1/client_areas').to('client_areas#index', {:client_id=>"1", :project_id=>"1"}) }
+  it { should route(:get, '/shifts/csv').to('shifts#csv', {:format=>:csv}) }
+  it { should route(:get, '/shifts').to('shifts#index', {}) }
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
@@ -19,10 +20,10 @@ RSpec.describe ClientAreasController, regressor: true do
   it { should use_before_filter(:set_unseen_changelog_entries) }
   it { should use_before_filter(:log_additional_data) }
   it { should use_before_filter(:authorize_profiler) }
+  it { should use_before_filter(:shift_search) }
   # === Callbacks (After) ===
   it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
-  it { should use_after_filter(:verify_authorized) }
   it { should use_after_filter(:verify_policy_scoped) }
   # === Callbacks (Around) ===
   it { should use_around_filter(:set_time_zone) }

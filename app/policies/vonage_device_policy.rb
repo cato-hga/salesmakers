@@ -28,4 +28,8 @@ class VonageDevicePolicy < ApplicationPolicy
   def do_reclaim?
     reclaim?
   end
+
+  def employees_reclaim?
+    reclaim?
+  end
 end
