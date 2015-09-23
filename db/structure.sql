@@ -88,6 +88,40 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: abstract_prescreen_answers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE abstract_prescreen_answers (
+    id integer NOT NULL,
+    candidate_id integer NOT NULL,
+    person_id integer NOT NULL,
+    project_id integer NOT NULL,
+    answers json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: abstract_prescreen_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE abstract_prescreen_answers_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: abstract_prescreen_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE abstract_prescreen_answers_id_seq OWNED BY abstract_prescreen_answers.id;
+
+
+--
 -- Name: ahoy_events; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -696,7 +730,8 @@ CREATE TABLE candidates (
     mobile_phone_valid boolean DEFAULT true NOT NULL,
     other_phone_valid boolean DEFAULT true NOT NULL,
     mobile_phone_is_landline boolean DEFAULT false NOT NULL,
-    vip boolean DEFAULT false NOT NULL
+    vip boolean DEFAULT false NOT NULL,
+    project_id integer
 );
 
 
@@ -6098,6 +6133,13 @@ ALTER SEQUENCE workmarket_locations_id_seq OWNED BY workmarket_locations.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY abstract_prescreen_answers ALTER COLUMN id SET DEFAULT nextval('abstract_prescreen_answers_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY answer_upvotes ALTER COLUMN id SET DEFAULT nextval('answer_upvotes_id_seq'::regclass);
 
 
@@ -7233,6 +7275,14 @@ ALTER TABLE ONLY workmarket_fields ALTER COLUMN id SET DEFAULT nextval('workmark
 --
 
 ALTER TABLE ONLY workmarket_locations ALTER COLUMN id SET DEFAULT nextval('workmarket_locations_id_seq'::regclass);
+
+
+--
+-- Name: abstract_prescreen_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY abstract_prescreen_answers
+    ADD CONSTRAINT abstract_prescreen_answers_pkey PRIMARY KEY (id);
 
 
 --
@@ -11242,6 +11292,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150917154806');
 INSERT INTO schema_migrations (version) VALUES ('20150917160756');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917161243');
+
+INSERT INTO schema_migrations (version) VALUES ('20150918130721');
+
+INSERT INTO schema_migrations (version) VALUES ('20150918131000');
 
 INSERT INTO schema_migrations (version) VALUES ('20150918135649');
 

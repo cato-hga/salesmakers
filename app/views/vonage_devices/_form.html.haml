@@ -5,9 +5,9 @@
 = form_tag vonage_devices_path, method: :post do
   .widget
     .inner
-      = label_tag 'PO Number'
+      = label_tag :po_number, 'PO Number'
       = text_field_tag 'po_number', nil, placeholder: 'Enter PO Number'
-      = label_tag 'Receive Date'
+      = label_tag :receive_date, 'Receive Date'
       = text_field_tag 'receive_date', nil, placeholder: 'MM/DD/YYYY'
   .widget
     .inner

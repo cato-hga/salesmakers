@@ -1,6 +1,7 @@
 class VonageDevicesController < ApplicationController
   before_action :do_authorization
-  before_action :chronic_time_zones
+  before_action :chronic_time_zones, only: [:create]
+  before_action :set_vonage_employees, only: [:transfer, :reclaim]
   after_action :verify_authorized
 
   def index
@@ -11,12 +12,19 @@ class VonageDevicesController < ApplicationController
     @vonage_device = VonageDevice.new
   end
 
-  def transfer
-    @vonage_transfer = VonageTransfer.new
-    set_vonage_employees
-    @vonage_devices = @current_person.vonage_devices
+  def show
+    @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number if @walmart_gift_card
+    @project = Project.find_by name: 'Vonage' if @project
+    @vonage_sale = VonageSale.find params[:id] if @vonage_sale
+    @vonage_device = VonageDevice.find params[:id]
+    @log_entries = LogEntry.where("(trackable_type = 'VonageDevice' AND trackable_id = ?) OR (referenceable_type = 'VonageDevice' AND referenceable_id = ?)", @vonage_device.id, @vonage_device.id)
+    @log_entries = @log_entries.page(params[:log_entries_page]).per(10)
   end
 
+  def transfer
+    @vonage_transfer = VonageTransfer.new
+    @vonage_devices = @current_person.vonage_devices
+  end
 
   def do_transfer
     if params[:to_person].blank?
@@ -37,6 +45,10 @@ class VonageDevicesController < ApplicationController
                                     from_person: @current_person,
                                     vonage_device: vonage_device,
                                     transfer_time: DateTime.now
+      @current_person.log? 'transfer',
+                           vonage_device,
+                           transfer
+
       if transfer.save
         vonage_device.update person: to_person
       else
@@ -44,10 +56,7 @@ class VonageDevicesController < ApplicationController
         invalids += 1
       end
     end
-
-
     if invalids == 0
-      #SUCCESS
       redirect_to transfer_vonage_devices_path
     else
       flash[:error] = "The following MAC ID's could not be transferred. Please submit a support ticket with a screenshot of this page. #{invalid_macs.join(', ')}"
@@ -69,6 +78,10 @@ class VonageDevicesController < ApplicationController
         transfer = VonageTransfer.find accept.to_i
         transfer.update accepted: true
         accepted_transfers << transfer
+        @current_person.log? 'accept',
+                             transfer.vonage_device,
+                             transfer
+
       end
     end
     unless rejected.blank?
@@ -78,9 +91,12 @@ class VonageDevicesController < ApplicationController
         transfer.update rejected: true, rejection_time: DateTime.now
         device.update person: transfer.from_person
         rejected_transfers << transfer
+        @current_person.log? 'reject',
+                             device,
+                             transfer
+
       end
     end
-
     if accepted.blank? and rejected.blank?
       flash[:error] = 'You must accept/reject a device.'
       redirect_to accept_vonage_devices_path
@@ -92,8 +108,7 @@ class VonageDevicesController < ApplicationController
   end
 
   def reclaim
-    set_vonage_employees
-    @vonage_employees = @vonage_employees.reject! {|x| x.vonage_devices == [] }
+    @vonage_employees = @vonage_employees.reject! { |x| x.vonage_devices == [] }
     inactive_team_members = @current_person.team_members.where(active: false).joins(:vonage_devices).where('vonage_devices.id is not null')
     for member in inactive_team_members do
       @vonage_employees << member
@@ -122,6 +137,9 @@ class VonageDevicesController < ApplicationController
                                           po_number: po_number,
                                           receive_date: adjusted_time,
                                           mac_id: mac_id
+      @current_person.log? 'create',
+                           vonage_device
+
       @vonage_device_ids << vonage_device.id
     end
     @vonage_device_ids.compact!
@@ -137,14 +155,13 @@ class VonageDevicesController < ApplicationController
 
   def set_vonage_employees
     @vonage_employees = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
-    @vonage_employees = @vonage_employees.reject! {|x| x == @current_person}
+    @vonage_employees = @vonage_employees.reject! { |x| x == @current_person }
   end
 
   def vonage_device_params
     params.permit :person_id,
                   :po_number,
                   mac_id: []
-
   end
 
   def do_authorization

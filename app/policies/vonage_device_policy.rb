@@ -5,6 +5,10 @@ class VonageDevicePolicy < ApplicationPolicy
   #   end
   # end
 
+  def show?
+    has_permission? 'create'
+  end
+
   def transfer?
     has_permission? 'transfer'
   end
@@ -28,4 +32,5 @@ class VonageDevicePolicy < ApplicationPolicy
   def do_reclaim?
     reclaim?
   end
+  
 end

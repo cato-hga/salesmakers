@@ -1,12 +1,17 @@
 require 'rails_helper'
 
-RSpec.describe VonageSalesController, regressor: true do
+RSpec.describe VonageDevicesController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:post, '/vonage_sales').to('vonage_sales#create', {}) } 
-  it { should route(:get, '/vonage_sales/csv').to('vonage_sales#csv', {:format=>:csv}) }
-  it { should route(:get, '/vonage_sales').to('vonage_sales#index', {}) }
-  it { should route(:get, '/vonage_sales/new').to('vonage_sales#new', {}) }
-  it { should route(:get, '/vonage_sales/1').to('vonage_sales#show', {:id=>"1"}) }
+  it { should route(:get, '/vonage_devices/accept').to('vonage_devices#accept', {}) }
+  it { should route(:post, '/vonage_devices').to('vonage_devices#create', {}) } 
+  it { should route(:post, '/vonage_devices/do_accept').to('vonage_devices#do_accept', {}) } 
+  it { should route(:post, '/vonage_devices/do_transfer').to('vonage_devices#do_transfer', {}) } 
+  it { should route(:get, '/vonage_devices/employees_reclaim').to('vonage_devices#employees_reclaim', {}) }
+  it { should route(:get, '/vonage_devices').to('vonage_devices#index', {}) }
+  it { should route(:get, '/vonage_devices/new').to('vonage_devices#new', {}) }
+  it { should route(:get, '/vonage_devices/reclaim').to('vonage_devices#reclaim', {}) }
+  it { should route(:get, '/vonage_devices/1').to('vonage_devices#show', {:id=>"1"}) }
+  it { should route(:get, '/vonage_devices/transfer').to('vonage_devices#transfer', {}) }
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
@@ -25,15 +30,11 @@ RSpec.describe VonageSalesController, regressor: true do
   it { should use_before_filter(:log_additional_data) }
   it { should use_before_filter(:authorize_profiler) }
   it { should use_before_filter(:do_authorization) }
-  it { should use_before_filter(:set_salesmaker) }
-  it { should use_before_filter(:set_vonage_locations) }
-  it { should use_before_filter(:set_vonage_product) }
   it { should use_before_filter(:chronic_time_zones) }
-  it { should use_before_filter(:search_sales) }
+  it { should use_before_filter(:set_vonage_employees) }
   # === Callbacks (After) ===
   it { should use_after_filter(:verify_same_origin_request) }
   it { should use_after_filter(:verify_authorized) }
-  it { should use_after_filter(:verify_policy_scoped) }
   # === Callbacks (Around) ===
   it { should use_around_filter(:set_time_zone) }
 end

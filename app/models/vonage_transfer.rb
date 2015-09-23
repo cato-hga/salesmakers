@@ -19,14 +19,10 @@ class VonageTransfer < ActiveRecord::Base
   validates :vonage_device, presence: true
   validates :from_person, presence: true, on: :do_transfer
   validates :to_person, presence: true
-
-
+  
   belongs_to :vonage_device
   belongs_to :to_person, class_name: 'Person'
   belongs_to :from_person, class_name: 'Person'
-
-
-
 
   def self.policy_class
     VonageDevicePolicy

@@ -6,8 +6,6 @@ describe 'Navigation Authorization' do
   let(:comcast_project) { create :project, name: 'Comcast Retail' }
   let(:vonage_project) { create :project, name: 'Vonage' }
   let!(:vonage_area) { create :area, project: vonage_project }
-  let(:vonage_event_project) { create :project, name: 'Vonage Events' }
-  let!(:vonage_event_area) { create :area, project: vonage_event_project }
 
   describe 'for top-navigation' do
     describe 'for comcast employees' do
@@ -53,39 +51,80 @@ describe 'Navigation Authorization' do
       end
     end
 
-    # TODO: Reimplement when Vonage finished
-    # describe 'for a vonage employee' do
-    #   let(:vonage_employee) { create :person, position: position }
-    #   let(:position) { create :position, permissions: [permission_create] }
-    #   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-    #   let(:permission_create) { Permission.new key: 'vonage_sale_create',
-    #                                            permission_group: permission_group,
-    #                                            description: 'Test Description' }
-    #   let(:retail_person_area) { create :person_area,
-    #                                     person: vonage_employee,
-    #                                     area: vonage_area }
-    #   let(:events_person_area) { create :person_area,
-    #                                     person: vonage_employee,
-    #                                     area: vonage_event_area }
-    #
-    #   it 'that has retail access will only see Vonage' do
-    #     vonage_employee.person_areas << retail_person_area
-    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
-    #     visit root_path
-    #     within('.top-bar') do
-    #       expect(page).to have_content('Vonage')
-    #     end
-    #   end
-    #
-    #   it 'that has retail access will only see Vonage Event' do
-    #     vonage_employee.person_areas << events_person_area
-    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
-    #     visit root_path
-    #     within('.top-bar') do
-    #       expect(page).to have_content('Vonage Events')
-    #     end
-    #   end
-    # end
+    describe 'for a vonage representative' do
+      context 'with retail permissions' do
+        let(:vonage_employee) { create :person, position: position }
+        let(:position) { create :position, permissions: [permission_create, permission_index] }
+        let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+        let(:permission_create) { Permission.new key: 'vonage_sale_create',
+                                                 permission_group: permission_group,
+                                                 description: 'Test Description' }
+        let(:permission_index) { Permission.new key: 'vonage_sale_index',
+                                                permission_group: permission_group,
+                                                description: 'Test Description' }
+        let(:vonage_employee_area) { create :person_area,
+                                            person: vonage_employee,
+                                            area: vonage_area }
+
+        it 'will only see Vonage Sales and Sale Entry' do
+          vonage_employee.person_areas << vonage_employee_area
+          CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+          visit root_path
+          within('.top-bar') do
+            expect(page).to have_content('Vonage Sales')
+            expect(page).to have_content('Sale Entry')
+            expect(page).not_to have_content('Receive')
+            expect(page).not_to have_content('Transfer')
+            expect(page).not_to have_content('Accept')
+            expect(page).not_to have_content('Reclaim')
+          end
+        end
+
+        context 'with events permissions' do
+          let(:vonage_event_manager) { create :person, position: position }
+          let(:position) { create :position, permissions: [permission_create,
+                                                           permission_transfer,
+                                                           permission_reclaim,
+                                                           permission_index,
+                                                           permission_accept
+                                           ] }
+          let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+          let(:permission_create) { Permission.new key: 'vonage_sale_create',
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
+          let(:permission_transfer) { Permission.new key: 'vonage_device_transfer',
+                                                     permission_group: permission_group,
+                                                     description: 'Test Description' }
+          let(:permission_reclaim) { Permission.new key: 'vonage_device_reclaim',
+                                                    permission_group: permission_group,
+                                                    description: 'Test Description' }
+          let(:permission_index) { Permission.new key: 'vonage_sale_index',
+                                                  permission_group: permission_group,
+                                                  description: 'Test Description' }
+          let(:permission_accept) { Permission.new key: 'vonage_device_accept',
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
+
+          let(:vonage_event_manager_area) { create :person_area,
+                                                   person: vonage_event_manager,
+                                                   area: vonage_area }
+
+          it 'will see all relevant Vonage tabs in the dropdown' do
+            vonage_event_manager.person_areas << vonage_event_manager_area
+            CASClient::Frameworks::Rails::Filter.fake(vonage_event_manager.email)
+            visit root_path
+            within('.top-bar') do
+              expect(page).to have_content('Vonage Sales')
+              expect(page).to have_content('Sale Entry')
+              expect(page).to have_content('Receive')
+              expect(page).to have_content('Transfer')
+              expect(page).to have_content('Accept')
+              expect(page).to have_content('Reclaim')
+            end
+          end
+        end
+      end
+    end
 
     # TODO: Implement when Sprint finished
     # describe 'sprint employees' do
@@ -287,41 +326,82 @@ describe 'Navigation Authorization' do
       end
     end
 
-    # TODO: Reimplement when Vonage finished
-    # describe 'for a vonage employee' do
-    #   let(:vonage_employee) { create :person, position: position }
-    #   let(:position) { create :position, permissions: [permission_create] }
-    #   let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
-    #   let(:permission_create) { Permission.new key: 'vonage_sale_create',
-    #                                            permission_group: permission_group,
-    #                                            description: 'Test Description' }
-    #   let(:retail_person_area) { create :person_area,
-    #                                     person: vonage_employee,
-    #                                     area: vonage_area }
-    #   let(:events_person_area) { create :person_area,
-    #                                     person: vonage_employee,
-    #                                     area: vonage_event_area }
-    #
-    #   it 'that has retail access will only see Vonage' do
-    #     vonage_employee.person_areas << retail_person_area
-    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
-    #     page.current_window.resize_to '640', '480'
-    #     visit root_path
-    #     within('.left-off-canvas-menu') do
-    #       expect(page).to have_content('Vonage')
-    #     end
-    #   end
-    #
-    #   it 'that has retail access will only see Vonage Event' do
-    #     vonage_employee.person_areas << events_person_area
-    #     CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
-    #     page.current_window.resize_to '640', '480'
-    #     visit root_path
-    #     within('.left-off-canvas-menu') do
-    #       expect(page).to have_content('Vonage Events')
-    #     end
-    #   end
-    # end
+    describe 'for a vonage representative' do
+      context 'with retail permissions' do
+        let(:vonage_employee) { create :person, position: position }
+        let(:position) { create :position, permissions: [permission_create, permission_index] }
+        let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+        let(:permission_create) { Permission.new key: 'vonage_sale_create',
+                                                 permission_group: permission_group,
+                                                 description: 'Test Description' }
+        let(:permission_index) { Permission.new key: 'vonage_sale_index',
+                                                permission_group: permission_group,
+                                                description: 'Test Description' }
+        let(:vonage_employee_area) { create :person_area,
+                                            person: vonage_employee,
+                                            area: vonage_area }
+
+        it 'will only see Vonage Sales and Sale Entry' do
+          vonage_employee.person_areas << vonage_employee_area
+          CASClient::Frameworks::Rails::Filter.fake(vonage_employee.email)
+          page.current_window.resize_to '640', '480'
+          visit root_path
+          within('.left-off-canvas-menu') do
+            expect(page).to have_content('Vonage Sales')
+            expect(page).to have_content('Sale Entry')
+            expect(page).not_to have_content('Receive')
+            expect(page).not_to have_content('Transfer')
+            expect(page).not_to have_content('Accept')
+            expect(page).not_to have_content('Reclaim')
+          end
+        end
+      end
+
+      context 'with events permissions' do
+        let(:vonage_event_manager) { create :person, position: position }
+        let(:position) { create :position, permissions: [permission_create,
+                                                         permission_transfer,
+                                                         permission_reclaim,
+                                                         permission_index,
+                                                         permission_accept
+                                         ] }
+        let(:permission_group) { PermissionGroup.new name: 'Test Permission Group' }
+        let(:permission_create) { Permission.new key: 'vonage_sale_create',
+                                                 permission_group: permission_group,
+                                                 description: 'Test Description' }
+        let(:permission_transfer) { Permission.new key: 'vonage_device_transfer',
+                                                   permission_group: permission_group,
+                                                   description: 'Test Description' }
+        let(:permission_reclaim) { Permission.new key: 'vonage_device_reclaim',
+                                                  permission_group: permission_group,
+                                                  description: 'Test Description' }
+        let(:permission_index) { Permission.new key: 'vonage_sale_index',
+                                                permission_group: permission_group,
+                                                description: 'Test Description' }
+        let(:permission_accept) { Permission.new key: 'vonage_device_accept',
+                                                 permission_group: permission_group,
+                                                 description: 'Test Description' }
+
+        let(:vonage_event_manager_area) { create :person_area,
+                                                 person: vonage_event_manager,
+                                                 area: vonage_area }
+
+        it 'will see all relevant Vonage tabs in the dropdown' do
+          vonage_event_manager.person_areas << vonage_event_manager_area
+          CASClient::Frameworks::Rails::Filter.fake(vonage_event_manager.email)
+          page.current_window.resize_to '640', '480'
+          visit root_path
+          within('.left-off-canvas-menu') do
+            expect(page).to have_content('Vonage Sales')
+            expect(page).to have_content('Sale Entry')
+            expect(page).to have_content('Receive')
+            expect(page).to have_content('Transfer')
+            expect(page).to have_content('Accept')
+            expect(page).to have_content('Reclaim')
+          end
+        end
+      end
+    end
 
     # TODO: Re-implement when Sprint finished
     # describe 'sprint employees' do
