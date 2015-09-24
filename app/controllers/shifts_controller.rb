@@ -31,10 +31,9 @@ class ShiftsController < ApplicationController
 
   def shift_search
     @projects = Project.visible(@current_person).includes(:areas, :client)
-    people = policy_scope(Person)
+    people_shifts = policy_scope(Shift)
     @area_id = area_params[:location_in_area_id]
     area = @area_id.blank? ? nil : Area.find(@area_id)
-    people_shifts = Shift.where(person: people)
     if area
       if area.descendant_ids.empty?
         people_shifts = people_shifts.none
