@@ -58,6 +58,24 @@ class ApplicationController < BaseApplicationController
     }
   end
 
+  def check_for_too_many_records records
+    if records.count >= 10000
+      flash[:error] = 'There were more than 10,000 records returned from your search. This is too large. ' +
+          'Please further refine your search to export the records to CSV.'
+      redirect_to :back
+    end
+  end
+
+  def handle_csv filename_prefix
+    respond_to do |format|
+      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"#{filename_prefix}_#{date_time_string}.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
+  end
+
   private
 
   def authorize_profiler

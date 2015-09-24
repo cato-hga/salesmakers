@@ -9,18 +9,8 @@ class ShiftsController < ApplicationController
   end
 
   def csv
-    if @shifts.count >= 10000
-      flash[:error] = 'There were more than 10,000 shifts returned from your search. This is too large. ' +
-          'Please further refine your search to export the shifts to CSV.'
-      redirect_to :back and return
-    end
-    respond_to do |format|
-      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"vonage_sales_#{date_time_string}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
+    check_for_too_many_records @shifts; return if performed?
+    handle_csv 'shifts'
   end
 
   private

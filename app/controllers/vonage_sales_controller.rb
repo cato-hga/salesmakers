@@ -15,13 +15,7 @@ class VonageSalesController < ApplicationController
   end
 
   def csv
-    respond_to do |format|
-      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"vonage_sales_#{date_time_string}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
+    handle_csv 'vonage_sales'
   end
 
   def show
