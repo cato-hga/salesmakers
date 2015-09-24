@@ -39,7 +39,7 @@ describe 'Inventory Transferring page' do
       visit transfer_vonage_devices_path
     end
     it 'shows the Vonage Inventory Transferring page' do
-      expect(page).to have_content('Vonage Inventory Transferring')
+      expect(page).to have_content('Vonage Inventory Transfer')
     end
 
     it 'allows manager to select from a list of employees' do
@@ -60,7 +60,7 @@ describe 'Inventory Transferring page' do
 
     context 'for form submission' do
     subject {
-        select person1.display_name, from: :to_person
+        select person1.display_name, from: 'Select Employee'
         page.check 'vonage_devices0'
         page.check 'vonage_devices1'
         click_on 'Transfer'

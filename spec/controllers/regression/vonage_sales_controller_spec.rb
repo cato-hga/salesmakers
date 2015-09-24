@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe VonageSalesController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:post, '/vonage_sales').to('vonage_sales#create', {}) } 
-  it { should route(:get, '/vonage_sales/csv').to('vonage_sales#csv', {:format=>:csv}) }
   it { should route(:get, '/vonage_sales').to('vonage_sales#index', {}) }
-  it { should route(:get, '/vonage_sales/new').to('vonage_sales#new', {}) }
   it { should route(:get, '/vonage_sales/1').to('vonage_sales#show', {:id=>"1"}) }
+  it { should route(:get, '/vonage_sales/new').to('vonage_sales#new', {}) }
+  it { should route(:post, '/vonage_sales').to('vonage_sales#create', {}) } 
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }

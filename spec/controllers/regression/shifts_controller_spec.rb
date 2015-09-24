@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ShiftsController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:get, '/shifts/csv').to('shifts#csv', {:format=>:csv}) }
   it { should route(:get, '/shifts').to('shifts#index', {}) }
+  it { should route(:get, '/shifts/csv').to('shifts#csv', {:format=>:csv}) }
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
   it { should use_before_filter(:track_ahoy_visit) }
   it { should use_before_filter(:set_paper_trail_enabled_for_controller) }
+  it { should use_before_filter(:set_paper_trail_whodunnit) }
   it { should use_before_filter(:set_paper_trail_controller_info) }
   it { should use_before_filter(:additional_exception_data) }
   it { should use_before_filter(:set_staging) }
@@ -22,7 +23,6 @@ RSpec.describe ShiftsController, regressor: true do
   it { should use_before_filter(:authorize_profiler) }
   it { should use_before_filter(:shift_search) }
   # === Callbacks (After) ===
-  it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
   it { should use_after_filter(:verify_policy_scoped) }
   # === Callbacks (Around) ===

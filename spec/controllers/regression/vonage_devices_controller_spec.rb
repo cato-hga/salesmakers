@@ -2,16 +2,17 @@ require 'rails_helper'
 
 RSpec.describe VonageDevicesController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:get, '/vonage_devices/accept').to('vonage_devices#accept', {}) }
-  it { should route(:post, '/vonage_devices').to('vonage_devices#create', {}) } 
-  it { should route(:post, '/vonage_devices/do_accept').to('vonage_devices#do_accept', {}) } 
-  it { should route(:post, '/vonage_devices/do_transfer').to('vonage_devices#do_transfer', {}) } 
-  it { should route(:get, '/vonage_devices/employees_reclaim').to('vonage_devices#employees_reclaim', {}) }
   it { should route(:get, '/vonage_devices').to('vonage_devices#index', {}) }
   it { should route(:get, '/vonage_devices/new').to('vonage_devices#new', {}) }
-  it { should route(:get, '/vonage_devices/reclaim').to('vonage_devices#reclaim', {}) }
   it { should route(:get, '/vonage_devices/1').to('vonage_devices#show', {:id=>"1"}) }
   it { should route(:get, '/vonage_devices/transfer').to('vonage_devices#transfer', {}) }
+  it { should route(:post, '/vonage_devices/do_transfer').to('vonage_devices#do_transfer', {}) } 
+  it { should route(:get, '/vonage_devices/accept').to('vonage_devices#accept', {}) }
+  it { should route(:post, '/vonage_devices/do_accept').to('vonage_devices#do_accept', {}) } 
+  it { should route(:get, '/vonage_devices/reclaim').to('vonage_devices#reclaim', {}) }
+  it { should route(:get, '/vonage_devices/employees_reclaim').to('vonage_devices#employees_reclaim', {}) }
+  it { should route(:post, '/vonage_devices/do_reclaim').to('vonage_devices#do_reclaim', {}) } 
+  it { should route(:post, '/vonage_devices').to('vonage_devices#create', {}) } 
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }

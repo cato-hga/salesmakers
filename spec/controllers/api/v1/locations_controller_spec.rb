@@ -49,6 +49,7 @@ describe API::V1::LocationsController do
 
   describe 'with a correct zip' do
     before do
+      allow(controller).to receive(:get_lat_long).with('33701').and_return([17.9857925, -66.3914388])
       get :nearby_zip_for_project,
           zip: '33701',
           project_id: location_area.area.project_id,

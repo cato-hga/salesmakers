@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe VonageInventoryMailer do
-
   describe 'vonage_inventory_email' do
     let(:device) { create :vonage_device }
     let(:device_2) { create :vonage_device }
@@ -29,7 +28,6 @@ describe VonageInventoryMailer do
   end
 
   describe 'vonage_inventory_accept_email' do
-
     let(:person) { create :person }
     let!(:transfer1) { create :vonage_transfer, accepted: true }
     let!(:transfer2) { create :vonage_transfer, rejected: true }
@@ -37,7 +35,6 @@ describe VonageInventoryMailer do
     let(:mail) { VonageInventoryMailer.inventory_accept_mailer(person, [transfer1], [transfer2]) }
 
     it 'sends an email with correct subject' do
-
       expect(mail.subject).to include('Vonage Inventory Accept')
     end
 
@@ -63,7 +60,7 @@ describe VonageInventoryMailer do
 
     let(:device1) { create :vonage_device }
     let(:device2) { create :vonage_device }
-    let(:vonage_device_ids) { [[person1.id,device1.id], [person2.id,device2.id]] }
+    let(:vonage_device_ids) { [[person1.id, device1.id], [person2.id, device2.id]] }
 
     let(:mail) { VonageInventoryMailer.inventory_reclaim_mailer(person, vonage_device_ids) }
 
@@ -84,7 +81,7 @@ describe VonageInventoryMailer do
       expect(source).to include(device2.mac_id)
       expect(source).to include(person1.display_name)
       expect(source).to include(person2.display_name)
-      expect(source).to include('2 Reclaimed Devices')
+      expect(source).to include('2 Reclaimed Device(s)')
     end
   end
 end

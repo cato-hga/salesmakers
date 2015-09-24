@@ -8,6 +8,7 @@ RSpec.describe ComcastGroupMeBotsController, regressor: true do
   it { should use_before_filter(:set_ahoy_cookies) }
   it { should use_before_filter(:track_ahoy_visit) }
   it { should use_before_filter(:set_paper_trail_enabled_for_controller) }
+  it { should use_before_filter(:set_paper_trail_whodunnit) }
   it { should use_before_filter(:set_paper_trail_controller_info) }
   it { should use_before_filter(:additional_exception_data) }
   it { should use_before_filter(:set_staging) }
@@ -18,7 +19,6 @@ RSpec.describe ComcastGroupMeBotsController, regressor: true do
   it { should use_before_filter(:log_additional_data) }
   it { should use_before_filter(:authorize_profiler) }
   # === Callbacks (After) ===
-  it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
   # === Callbacks (Around) ===
   it { should use_around_filter(:set_time_zone) }

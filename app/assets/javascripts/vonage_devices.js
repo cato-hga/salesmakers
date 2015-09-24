@@ -34,3 +34,11 @@ $(function () {
 		}
 	});
 });
+
+$(document).ready(function() {
+	$('#select_form').hide();
+	$('#change_employee').click(function(event) {
+		event.preventDefault();
+		$('#select_form').show();
+	});
+});

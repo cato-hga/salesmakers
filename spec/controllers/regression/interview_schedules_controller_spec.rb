@@ -2,18 +2,19 @@ require 'rails_helper'
 
 RSpec.describe InterviewSchedulesController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:post, '/candidates/1/interview_schedules').to('interview_schedules#create', {:candidate_id=>"1"}) } 
-  it { should route(:delete, '/candidates/1/interview_schedules/1').to('interview_schedules#destroy', {:candidate_id=>"1", :id=>"1"}) } 
   it { should route(:get, '/interview_schedules/1').to('interview_schedules#index', {:schedule_date=>"1"}) }
-  it { should route(:get, '/candidates/1/interview_schedules/interview_now').to('interview_schedules#interview_now', {:candidate_id=>"1"}) }
   it { should route(:get, '/candidates/1/interview_schedules/new').to('interview_schedules#new', {:candidate_id=>"1"}) }
+  it { should route(:post, '/candidates/1/interview_schedules').to('interview_schedules#create', {:candidate_id=>"1"}) } 
   it { should route(:post, '/candidates/1/interview_schedules/schedule/1/1').to('interview_schedules#schedule', {:candidate_id=>"1", :interview_date=>"1", :interview_time=>"1"}) } 
+  it { should route(:get, '/candidates/1/interview_schedules/interview_now').to('interview_schedules#interview_now', {:candidate_id=>"1"}) }
   it { should route(:post, '/candidates/1/interview_schedules/time_slots').to('interview_schedules#time_slots', {:candidate_id=>"1"}) } 
+  it { should route(:delete, '/candidates/1/interview_schedules/1').to('interview_schedules#destroy', {:candidate_id=>"1", :id=>"1"}) } 
   # === Callbacks (Before) ===
   it { should use_before_filter(:verify_authenticity_token) }
   it { should use_before_filter(:set_ahoy_cookies) }
   it { should use_before_filter(:track_ahoy_visit) }
   it { should use_before_filter(:set_paper_trail_enabled_for_controller) }
+  it { should use_before_filter(:set_paper_trail_whodunnit) }
   it { should use_before_filter(:set_paper_trail_controller_info) }
   it { should use_before_filter(:additional_exception_data) }
   it { should use_before_filter(:set_staging) }
@@ -30,7 +31,6 @@ RSpec.describe InterviewSchedulesController, regressor: true do
   it { should use_before_filter(:set_candidate) }
   it { should use_before_filter(:get_and_handle_inputted_date) }
   # === Callbacks (After) ===
-  it { should use_after_filter(:warn_about_not_setting_whodunnit) }
   it { should use_after_filter(:verify_same_origin_request) }
   it { should use_after_filter(:verify_authorized) }
   # === Callbacks (Around) ===

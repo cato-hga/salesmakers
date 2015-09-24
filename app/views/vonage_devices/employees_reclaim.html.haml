@@ -1,22 +1,29 @@
 - title "Vonage Reclaiming"
+#select_form
+  .widget
+    .inner
+      = form_tag employees_reclaim_vonage_devices_path, method: :get, id: :employee_selection do
+        - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :terminated_name )
+        = label_tag :to_person, 'Select a different Employee'
+        = select_tag :to_person, person_name_options, include_blank: true
+        = submit_tag 'View Devices', class: [:button]
 .widget
   .inner
-    = form_tag employees_reclaim_vonage_devices_path, method: :get, id: :employee_selection do
-      - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :terminated_name )
-      = label_tag :to_person, 'Change Employee'
-      = select_tag :to_person, person_name_options, include_blank: true
-      = submit_tag 'View', class: [:button]
-
+    %h3
+      Here are all the devices assigned to
+      - person = Person.where(id: params[:to_person])
+      = link_to person.first.display_name, person_path(person[0].id)
     = form_tag do_reclaim_vonage_devices_path method: :patch do
       - header = header_row ['Mac Id(s)', 'Reclaim Device']
       - rows = Array.new
       - count = 0
       - for device in @devices do
         - transfer_id =  check_box_tag 'vonage_devices[]', device.id, false, { multiple: true, id: "vonage_reclaim#{count}" }
-        - mac = device.mac_id
+        - mac = link_to device.mac_id, vonage_device_path(device)
         - rows << table_row([mac, transfer_id])
         - count += 1
       = table(header, rows)
       %br
       = hidden_field_tag :to_person, params[:to_person]
       = submit_tag 'Reclaim', class: [:button, :inline_button]
+      = button_tag 'Change Employee', id: 'change_employee', class: [:button, :inline_button]

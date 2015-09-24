@@ -6,15 +6,6 @@ GIT
       activesupport
 
 GIT
-  remote: https://github.com/airblade/paper_trail.git
-  revision: 8645c926f6b1908ebb2a1ebb4ad5ab9b1d638dc4
-  specs:
-    paper_trail (4.0.0)
-      activerecord (>= 3.0, < 6.0)
-      activesupport (>= 3.0, < 6.0)
-      request_store (~> 1.1)
-
-GIT
   remote: https://github.com/amatsuda/kaminari.git
   revision: 90a1cd0084807ee160ecf48f8a630458a7f1cfc7
   specs:
@@ -508,6 +499,10 @@ GEM
       multi_xml (~> 0.5)
       rack (~> 1.2)
     options (2.3.2)
+    paper_trail (4.0.0)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+      request_store (~> 1.1)
     parallel (1.6.1)
     parallel_tests (1.6.1)
       parallel
@@ -858,7 +853,7 @@ DEPENDENCIES
   net-sftp (= 2.1.2)
   newrelic_rpm!
   nilify_blanks (= 1.2.1)
-  paper_trail!
+  paper_trail (= 4.0.0)
   parallel_tests (= 1.6.1)
   persistent_httparty (= 0.1.2)
   pg (= 0.18.2)
@@ -909,6 +904,3 @@ DEPENDENCIES
   webmock (= 1.21.0)
   websocket-rails (= 0.7.0)
   whenever (= 0.9.4)
-
-BUNDLED WITH
-   1.10.6

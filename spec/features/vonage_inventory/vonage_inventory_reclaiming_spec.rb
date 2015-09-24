@@ -85,28 +85,20 @@ describe 'Inventory Reclaim page' do
         end
       end
 
-      it 'redirects you to the employee_reclaim page and displays the correct error message' do
-        select person1.display_name, from: 'Select Employee'
-        click_on "View"
-        click_on "Reclaim"
-        expect(current_path).to eq(employees_reclaim_vonage_devices_path)
-        expect(page).to have_content('You must select a device to reclaim.')
-      end
-
       context 'selecting a person' do
         it 'shows inventory accepted from active people' do
           select person1.display_name, from: 'Select Employee'
-          click_on "View"
+          click_on "View Devices"
           expect(page).to have_content(vonage_device1.mac_id)
         end
         it 'shows inventory not accepted and not rejected from active people' do
           select person1.display_name, from: 'Select Employee'
-          click_on "View"
+          click_on "View Devices"
           expect(page).to have_content(vonage_device2.mac_id)
         end
         it 'shows inventory accepted by inactive people' do
           select person3.display_name, from: 'Select Employee'
-          click_on "View"
+          click_on "View Devices"
           expect(page).to have_content(vonage_device3.mac_id)
         end
       end
@@ -115,7 +107,7 @@ describe 'Inventory Reclaim page' do
     describe 'reclaiming inventory' do
       before(:each) do
         select person1.display_name, from: 'Select Employee'
-        click_on 'View'
+        click_on 'View Devices'
       end
 
       it 'successful when reclaiming one piece of inventory' do
@@ -140,13 +132,16 @@ describe 'Inventory Reclaim page' do
         click_on 'Reclaim'
         expect(current_path).to eq(new_vonage_sale_path)
       end
-      #     it 'creates a log entry for every device reclaimed' do
-      #       check 'vonage_reclaim0', from: :device_selection
-      #       check 'vonage_reclaim1', from: :device_selection
-      #       click_on 'Reclaim'
-      #       expect(LogEntry.count).to eq(2)
-      # end
+    end
+
+    context 'without selecting a device' do
+      it 'redirects you to the employee_reclaim page and displays the correct error message' do
+        select person1.display_name, from: 'Select Employee'
+        click_on "View Devices"
+        click_on "Reclaim"
+        expect(current_path).to eq(employees_reclaim_vonage_devices_path)
+        expect(page).to have_content('You must select a device to reclaim.')
+      end
     end
   end
 end
-

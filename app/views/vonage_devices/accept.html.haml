@@ -12,4 +12,5 @@
         - rows << table_row([transfer, accepted, rejected])
         - count += 1
       = table(header, rows)
-      = submit_tag "Complete", class: [:button]
+      - if !@transfer_devices.empty?
+        = submit_tag "Complete", class: [:button]

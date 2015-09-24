@@ -2,13 +2,13 @@
   - @vonage_transfer.errors.full_messages.each do |msg|
     .alert.alert-box= msg
 
-- title "Vonage Inventory Transferring"
+- title "Vonage Inventory Transfer"
 = form_tag do_transfer_vonage_devices_path, method: :post do
   .widget
     .inner
       - person_name_options = options_from_collection_for_select(@vonage_employees, :id, :display_name )
       = hidden_field_tag 'from_person',  @current_person.id
-      = label_tag :to_person, 'To Person'
+      = label_tag :to_person, 'Select Employee'
       = select_tag :to_person, person_name_options, include_blank: true
   .widget
     .inner
@@ -21,5 +21,6 @@
         - rows << table_row([mac, transfer_id])
         - count += 1
       = table(header, rows)
-      = submit_tag "Transfer ", class: [:button]
+      - if !@vonage_devices.empty?
+        = submit_tag "Transfer ", class: [:button]
 

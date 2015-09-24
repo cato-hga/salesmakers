@@ -1,6 +1,7 @@
 class VonageDevicesController < ApplicationController
   before_action :do_authorization
   before_action :chronic_time_zones, only: [:create]
+  before_action :set_vonage_employees, only: [:transfer, :reclaim]
   after_action :verify_authorized
 
   def index
@@ -21,7 +22,6 @@ class VonageDevicesController < ApplicationController
   end
 
   def transfer
-    set_vonage_employees
     @vonage_transfer = VonageTransfer.new
     @vonage_devices = @current_person.vonage_devices
   end
@@ -111,7 +111,6 @@ class VonageDevicesController < ApplicationController
   end
 
   def reclaim
-    set_vonage_employees
     @vonage_employees = @vonage_employees.reject! { |x| x.vonage_devices == [] }
     inactive_team_members = @current_person.team_members.where(active: false).joins(:vonage_devices).where('vonage_devices.id is not null')
     for member in inactive_team_members do
@@ -207,7 +206,6 @@ class VonageDevicesController < ApplicationController
     params.permit :person_id,
                   :po_number,
                   mac_id: []
-
   end
 
   def do_authorization
