@@ -2,9 +2,8 @@ class RingCentral
   attr_reader :client
 
   def initialize
-    sdk = RingCentralSdk::Sdk.new 'XA7j8licTDe6Jgp-gd0mrw',
-                                               'syHu16oFRJmOs4jQmd28zAS5Sj1ds9SNu5hkafjlComA',
-                                               RingCentralSdk::Sdk::RC_SERVER_SANDBOX
+    sdk = RingCentralSdk::Sdk.new 'PYaIDHBuRUCMQaNK8cCxOA',
+                                               'jvci1rroReKuHWSR6SYpEQ0BIWaWjiQeG54fd-hGzekA'
     platform = sdk.platform
     platform.authorize '+16505496111', nil, 'Al995nir!'
     # TODO: production login
