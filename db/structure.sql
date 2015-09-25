@@ -2038,6 +2038,38 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
+-- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE employee_call_off_reasons (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    active boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE employee_call_off_reasons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
+
+
+--
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2150,7 +2182,8 @@ CREATE TABLE group_me_groups (
     avatar_url character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    bot_num character varying
+    bot_num character varying,
+    active boolean DEFAULT true
 );
 
 
@@ -4201,23 +4234,31 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    check_in_uniform boolean,
-    check_in_on_time boolean,
-    check_in_inside_store boolean,
-    check_out_on_time boolean,
-    check_out_inside_store boolean,
-    off_day boolean,
+    clocked_in boolean DEFAULT false NOT NULL,
+    check_in_inside_store boolean DEFAULT false NOT NULL,
+    clocked_out boolean DEFAULT false NOT NULL,
+    check_out_inside_store boolean DEFAULT false NOT NULL,
+    off_day boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean,
-    blueforce_geotag boolean,
-    accountability_checkin_1 boolean,
-    accountability_checkin_2 boolean,
-    accountability_checkin_3 boolean,
+    iotd_1 boolean DEFAULT false NOT NULL,
+    iotd_2 boolean DEFAULT false NOT NULL,
+    iotd_3 boolean DEFAULT false NOT NULL,
     sales integer,
-    notes text
+    notes text,
+    employee_call_off_reason_id integer,
+    called_off boolean,
+    roll_call integer,
+    uniform_check integer,
+    check_in_punchclock_geotag integer,
+    uniform_check_note text,
+    lunch_out timestamp without time zone,
+    lunch_in timestamp without time zone,
+    check_out_punchclock_geotag integer,
+    timeclock_adjustment integer,
+    cloud_in_time timestamp without time zone
 );
 
 
@@ -6444,6 +6485,13 @@ ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY employment_end_reasons ALTER COLUMN id SET DEFAULT nextval('employment_end_reasons_id_seq'::regclass);
 
 
@@ -7643,6 +7691,14 @@ ALTER TABLE ONLY drop_off_reasons
 
 ALTER TABLE ONLY email_messages
     ADD CONSTRAINT email_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY employee_call_off_reasons
+    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
 
 
 --
@@ -10913,11 +10969,21 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
+INSERT INTO schema_migrations (version) VALUES ('20150622183936');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622184112');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622185318');
+
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623200929');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -10926,6 +10992,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -10940,6 +11008,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150626193106');
 INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629191123');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629200154');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
@@ -11055,11 +11127,15 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
+INSERT INTO schema_migrations (version) VALUES ('20150817192359');
+
 INSERT INTO schema_migrations (version) VALUES ('20150818202108');
 
 INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820124622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150820164413');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820185034');
 
@@ -11157,8 +11233,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150916164834');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916174731');
 
-INSERT INTO schema_migrations (version) VALUES ('20150916184946');
-
 INSERT INTO schema_migrations (version) VALUES ('20150917125243');
 
 INSERT INTO schema_migrations (version) VALUES ('20150917125244');
@@ -11175,9 +11249,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150918130721');
 
 INSERT INTO schema_migrations (version) VALUES ('20150918131000');
 
+INSERT INTO schema_migrations (version) VALUES ('20150921194058');
+
 INSERT INTO schema_migrations (version) VALUES ('20150922175218');
 
 INSERT INTO schema_migrations (version) VALUES ('20150922183804');
+
+INSERT INTO schema_migrations (version) VALUES ('20150923140310');
 
 INSERT INTO schema_migrations (version) VALUES ('20150923144458');
 
