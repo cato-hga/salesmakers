@@ -3,7 +3,8 @@ class RingCentral
 
   def initialize
     sdk = RingCentralSdk::Sdk.new 'PYaIDHBuRUCMQaNK8cCxOA',
-                                               'jvci1rroReKuHWSR6SYpEQ0BIWaWjiQeG54fd-hGzekA'
+                                  'jvci1rroReKuHWSR6SYpEQ0BIWaWjiQeG54fd-hGzekA',
+                                  RingCentralSdk::Sdk::RC_SERVER_PRODUCTION
     platform = sdk.platform
     platform.authorize '+16505496111', nil, 'Al995nir!'
     # TODO: production login
