@@ -2,6 +2,7 @@ class RingCentral
   attr_reader :client
 
   def initialize
+    return if Rails.env.test?
     sdk = RingCentralSdk::Sdk.new 'PYaIDHBuRUCMQaNK8cCxOA',
                                   'jvci1rroReKuHWSR6SYpEQ0BIWaWjiQeG54fd-hGzekA',
                                   RingCentralSdk::Sdk::RC_SERVER_PRODUCTION
