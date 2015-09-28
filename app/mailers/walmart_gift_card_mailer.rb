@@ -45,7 +45,7 @@ class WalmartGiftCardMailer < ApplicationMailer
 
     attachments['gift_cards.csv'] = {
         mime_type: 'text/csv',
-        content: ar_gift_cards.to_csv
+        content: ar_gift_cards.to_rbdc_csv
     }
 
     handle_send to: 'egiftcards@rbdconnect.com',
