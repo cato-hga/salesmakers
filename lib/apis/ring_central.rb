@@ -2,11 +2,12 @@ class RingCentral
   attr_reader :client
 
   def initialize
-    sdk = RingCentralSdk::Sdk.new 'XA7j8licTDe6Jgp-gd0mrw',
-                                               'syHu16oFRJmOs4jQmd28zAS5Sj1ds9SNu5hkafjlComA',
-                                               RingCentralSdk::Sdk::RC_SERVER_SANDBOX
+    return if Rails.env.test?
+    sdk = RingCentralSdk::Sdk.new 'PYaIDHBuRUCMQaNK8cCxOA',
+                                  'jvci1rroReKuHWSR6SYpEQ0BIWaWjiQeG54fd-hGzekA',
+                                  RingCentralSdk::Sdk::RC_SERVER_PRODUCTION
     platform = sdk.platform
-    platform.authorize '+16505496111', nil, 'Al995nir!'
+    platform.authorize '+19543027800', nil, 'readyT0G0'
     # TODO: production login
     # platform.authorize '+19543027800', nil, 'readyT0G0'
     @hash = platform.token.to_hash
