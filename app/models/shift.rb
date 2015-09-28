@@ -52,4 +52,15 @@ class Shift < ActiveRecord::Base
       order by p.connect_user_id
     }
   end
+
+  def self.visible person = nil
+    return none unless person
+    if not person.position
+      where person: person
+    elsif person.managed_team_members.empty? && !person.position.hq?
+      where person: person
+    else
+      where person_id: Person.visible(person).ids
+    end
+  end
 end

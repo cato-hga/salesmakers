@@ -19,18 +19,8 @@ class SprintSalesController < ApplicationController
   end
 
   def csv
-    if @sprint_sales.count >= 10000
-      flash[:error] = 'There were more than 10,000 sales returned from your search. This is too large. ' +
-          'Please further refine your search to export the sales to CSV.'
-      redirect_to :back and return
-    end
-    respond_to do |format|
-      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"sprint_sales_#{date_time_string}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
+    check_for_too_many_records @sprint_sales; return if performed?
+    handle_csv 'sprint_sales'
   end
 
   def show
@@ -97,24 +87,8 @@ class SprintSalesController < ApplicationController
   end
 
   def search_sales
-    @sprint_carriers = SprintCarrier.all.order(:name)
-    @sprint_handsets = SprintHandset.all.order(:name)
-    @sprint_rate_plans = SprintRatePlan.all.order(:name)
-    @sprint_prepaid = Project.find_by name: 'Sprint Prepaid'
-    @star = Project.find_by name: 'STAR'
-    @projects = Project.where("name = ? OR name = ?", 'Sprint Prepaid', 'STAR').includes(:areas, :client)
-    @area_id = area_params[:location_in_area_id]
-    area = @area_id.blank? ? nil : Area.find(@area_id)
-    sprint_sales = policy_scope(SprintSale)
-    if area
-      if area.descendant_ids.empty?
-        sprint_sales = sprint_sales.none
-      else
-        sprint_sales = sprint_sales.
-            joins(location: :location_areas).
-            where("location_areas.area_id IN (#{area.descendant_ids.join(',')})")
-      end
-    end
+    set_instance_variables
+    sprint_sales = fetch_sprint_sales
     @search = sprint_sales.
         search(params[:q])
     @sprint_sales = @search.
@@ -122,6 +96,29 @@ class SprintSalesController < ApplicationController
         joins(:person).
         order("sale_date DESC, people.display_name ASC").
         includes(:person, :location)
+  end
+
+  def set_instance_variables
+    @sprint_carriers = SprintCarrier.all.order(:name)
+    @sprint_handsets = SprintHandset.all.order(:name)
+    @sprint_rate_plans = SprintRatePlan.all.order(:name)
+    @sprint_prepaid = Project.find_by name: 'Sprint Prepaid'
+    @star = Project.find_by name: 'STAR'
+    @projects = Project.where("name = ? OR name = ?", 'Sprint Prepaid', 'STAR').includes(:areas, :client)
+    @area_id = area_params[:location_in_area_id]
+  end
+
+  def fetch_sprint_sales
+    area = @area_id.blank? ? nil : Area.find(@area_id)
+    if area && !area.descandant_ids.empty?
+      sprint_sales.
+          joins(location: :location_areas).
+          where("location_areas.area_id IN (#{area.descendant_ids.join(',')})")
+    elsif area && area.descendant_ids.empty?
+      sprint_sales.none
+    else
+      policy_scope(SprintSale)
+    end
   end
 
   def set_salesmakers

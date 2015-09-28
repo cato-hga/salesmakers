@@ -1,4 +1,4 @@
-- headers = ['Inst Date', 'Inst Time', 'Rep', 'Sold', 'Customer', 'Mobile Phone', 'Order Number']
+- headers = ['Inst Date', 'Inst Time', 'Rep', 'Sold', 'Store', 'Store #', 'Customer', 'Mobile Phone', 'Order Number']
 = CSV.generate_line(headers).html_safe
 - @results.each do |sale|
   = CSV.generate_line([ |
@@ -6,6 +6,8 @@
     sale.directv_install_appointment.directv_install_time_slot.name, |
     sale.person.display_name, |
     short_date(sale.order_date), |
+    sale.directv_customer.location.name, |
+    sale.directv_customer.location.store_number, |
     sale.directv_customer.name, |
     sale.directv_customer.mobile_phone, |
     sale.order_number |

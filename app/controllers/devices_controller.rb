@@ -19,35 +19,7 @@ class DevicesController < ApplicationController
   def csv
     @search = Device.search(params[:q])
     @devices = @search.result.order('serial').includes(:person).includes(:line).includes(:device_model).includes(:latest_deployment).includes(:device_states)
-    respond_to do |format|
-      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"devices_#{date_time_string}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
-    # respond_to do |format|
-    #   format.html { redirect_to devices_path }
-    #   format.csv do
-    #     render csv: @devices,
-    #            filename: "devices_#{date_time_string}",
-    #            except: [
-    #                :id,
-    #                :device_model_id,
-    #                :line_id,
-    #                :person_id,
-    #                :identifier,
-    #                :serial
-    #            ],
-    #            add_methods: [
-    #                :csv_identifier,
-    #                :csv_serial,
-    #                :device_model_name,
-    #                :csv_line_identifier,
-    #                :assignee_name
-    #            ]
-    #   end
-    # end
+    handle_csv 'devices'
   end
 
   def show

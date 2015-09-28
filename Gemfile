@@ -27,6 +27,7 @@ gem 'facter', '2.4.4' # Get number of CPUs to automatically set puma workers
 gem 'fastimage', git: 'https://github.com/sdsykes/fastimage.git' # Find the size and type of images
 gem 'faye', '1.1.2' # GroupMe client websockets
 gem 'foundation-icons-sass-rails', '3.0.0' # Icon fonts for Foundation
+gem 'ringcentral_sdk', '0.2.0' # RingCentral integration
 gem 'geocoder', '1.2.9' # Geocoding
 gem 'gpgme', '2.0.9', require: false # PGP encryption and decryption
 gem 'gmaps4rails', '2.1.2' # Google Maps
@@ -50,7 +51,7 @@ gem 'metric_fu', '4.12.0', require: false # Code metrics
 gem 'namecase', '2.0.0' # Easily turn names into proper cases
 gem 'net-sftp', '2.1.2' # SFTP client for ruby
 gem 'nilify_blanks', '1.2.1' # Change empty strings to nil before saving certain models
-gem 'paper_trail', git: 'https://github.com/airblade/paper_trail.git' # Versioning
+gem 'paper_trail', '4.0.0' # Versioning
 gem 'persistent_httparty', '0.1.2' # Keep connections open when using HTTParty
 gem 'pg', '0.18.2'
 gem 'postmark', '1.6.0' # API wrapper for Postmark
@@ -84,7 +85,6 @@ gem 'twilio-ruby', '4.3.0' # Twilio SMS and Voice library
 gem 'uglifier', '2.7.1'
 gem 'websocket-rails', '0.7.0' # Web sockets for real-time updates
 gem 'whenever', '0.9.4' # Background tasks scheduled in a flat ruby file.
-gem 'skylight' # Performance monitoring skylight.io
 
 group :development do
   gem 'airbrussh', '0.7.0', require: false

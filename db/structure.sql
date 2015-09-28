@@ -23,48 +23,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
---
--- Name: adminpack; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
-
-
---
--- Name: dblink; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS dblink WITH SCHEMA public;
-
-
---
--- Name: EXTENSION dblink; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION dblink IS 'connect to other PostgreSQL databases from within a database';
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track execution statistics of all SQL statements executed';
-
-
 SET search_path = public, pg_catalog;
 
 --
@@ -2080,6 +2038,38 @@ ALTER SEQUENCE email_messages_id_seq OWNED BY email_messages.id;
 
 
 --
+-- Name: employee_call_off_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE employee_call_off_reasons (
+    id integer NOT NULL,
+    name character varying NOT NULL,
+    active boolean NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE employee_call_off_reasons_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: employee_call_off_reasons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE employee_call_off_reasons_id_seq OWNED BY employee_call_off_reasons.id;
+
+
+--
 -- Name: employment_end_reasons; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2192,7 +2182,8 @@ CREATE TABLE group_me_groups (
     avatar_url character varying,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
-    bot_num character varying
+    bot_num character varying,
+    active boolean DEFAULT true
 );
 
 
@@ -3950,6 +3941,38 @@ ALTER SEQUENCE report_queries_id_seq OWNED BY report_queries.id;
 
 
 --
+-- Name: ring_central_calls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ring_central_calls (
+    id integer NOT NULL,
+    ring_central_call_num character varying NOT NULL,
+    json json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: ring_central_calls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ring_central_calls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ring_central_calls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ring_central_calls_id_seq OWNED BY ring_central_calls.id;
+
+
+--
 -- Name: roster_verification_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -4211,23 +4234,31 @@ CREATE TABLE sms_daily_checks (
     date date NOT NULL,
     person_id integer NOT NULL,
     sms_id integer NOT NULL,
-    check_in_uniform boolean,
-    check_in_on_time boolean,
-    check_in_inside_store boolean,
-    check_out_on_time boolean,
-    check_out_inside_store boolean,
-    off_day boolean,
+    clocked_in boolean DEFAULT false NOT NULL,
+    check_in_inside_store boolean DEFAULT false NOT NULL,
+    clocked_out boolean DEFAULT false NOT NULL,
+    check_out_inside_store boolean DEFAULT false NOT NULL,
+    off_day boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     out_time timestamp without time zone,
     in_time timestamp without time zone,
-    roll_call boolean,
-    blueforce_geotag boolean,
-    accountability_checkin_1 boolean,
-    accountability_checkin_2 boolean,
-    accountability_checkin_3 boolean,
+    iotd_1 boolean DEFAULT false NOT NULL,
+    iotd_2 boolean DEFAULT false NOT NULL,
+    iotd_3 boolean DEFAULT false NOT NULL,
     sales integer,
-    notes text
+    notes text,
+    employee_call_off_reason_id integer,
+    called_off boolean,
+    roll_call integer,
+    uniform_check integer,
+    check_in_punchclock_geotag integer,
+    uniform_check_note text,
+    lunch_out timestamp without time zone,
+    lunch_in timestamp without time zone,
+    check_out_punchclock_geotag integer,
+    timeclock_adjustment integer,
+    cloud_in_time timestamp without time zone
 );
 
 
@@ -5420,40 +5451,6 @@ ALTER SEQUENCE vonage_commission_period07012015s_id_seq OWNED BY vonage_commissi
 
 
 --
--- Name: vonage_devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vonage_devices (
-    id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    mac_id character varying,
-    po_number character varying,
-    person_id integer,
-    receive_date timestamp without time zone
-);
-
-
---
--- Name: vonage_devices_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vonage_devices_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vonage_devices_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vonage_devices_id_seq OWNED BY vonage_devices.id;
-
-
---
 -- Name: vonage_group_me_bots; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -5807,43 +5804,6 @@ CREATE SEQUENCE vonage_shipped_devices_id_seq
 --
 
 ALTER SEQUENCE vonage_shipped_devices_id_seq OWNED BY vonage_shipped_devices.id;
-
-
---
--- Name: vonage_transfers; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE vonage_transfers (
-    id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    accepted boolean DEFAULT false NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    vonage_device_id integer,
-    transfer_time timestamp without time zone,
-    rejection_time timestamp without time zone,
-    to_person_id integer,
-    from_person_id integer,
-    rejected boolean DEFAULT false NOT NULL
-);
-
-
---
--- Name: vonage_transfers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE vonage_transfers_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: vonage_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE vonage_transfers_id_seq OWNED BY vonage_transfers.id;
 
 
 --
@@ -6525,6 +6485,13 @@ ALTER TABLE ONLY email_messages ALTER COLUMN id SET DEFAULT nextval('email_messa
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY employee_call_off_reasons ALTER COLUMN id SET DEFAULT nextval('employee_call_off_reasons_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY employment_end_reasons ALTER COLUMN id SET DEFAULT nextval('employment_end_reasons_id_seq'::regclass);
 
 
@@ -6868,6 +6835,13 @@ ALTER TABLE ONLY report_queries ALTER COLUMN id SET DEFAULT nextval('report_quer
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY ring_central_calls ALTER COLUMN id SET DEFAULT nextval('ring_central_calls_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY roster_verification_sessions ALTER COLUMN id SET DEFAULT nextval('roster_verification_sessions_id_seq'::regclass);
 
 
@@ -7141,13 +7115,6 @@ ALTER TABLE ONLY vonage_commission_period07012015s ALTER COLUMN id SET DEFAULT n
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY vonage_devices ALTER COLUMN id SET DEFAULT nextval('vonage_devices_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY vonage_group_me_bots ALTER COLUMN id SET DEFAULT nextval('vonage_group_me_bots_id_seq'::regclass);
 
 
@@ -7212,13 +7179,6 @@ ALTER TABLE ONLY vonage_sales ALTER COLUMN id SET DEFAULT nextval('vonage_sales_
 --
 
 ALTER TABLE ONLY vonage_shipped_devices ALTER COLUMN id SET DEFAULT nextval('vonage_shipped_devices_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY vonage_transfers ALTER COLUMN id SET DEFAULT nextval('vonage_transfers_id_seq'::regclass);
 
 
 --
@@ -7734,6 +7694,14 @@ ALTER TABLE ONLY email_messages
 
 
 --
+-- Name: employee_call_off_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY employee_call_off_reasons
+    ADD CONSTRAINT employee_call_off_reasons_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: employment_end_reasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8126,6 +8094,14 @@ ALTER TABLE ONLY report_queries
 
 
 --
+-- Name: ring_central_calls_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ring_central_calls
+    ADD CONSTRAINT ring_central_calls_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: roster_verification_sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8446,14 +8422,6 @@ ALTER TABLE ONLY vonage_commission_period07012015s
 
 
 --
--- Name: vonage_devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vonage_devices
-    ADD CONSTRAINT vonage_devices_pkey PRIMARY KEY (id);
-
-
---
 -- Name: vonage_group_me_bots_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -8531,14 +8499,6 @@ ALTER TABLE ONLY vonage_sales
 
 ALTER TABLE ONLY vonage_shipped_devices
     ADD CONSTRAINT vonage_shipped_devices_pkey PRIMARY KEY (id);
-
-
---
--- Name: vonage_transfers_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY vonage_transfers
-    ADD CONSTRAINT vonage_transfers_pkey PRIMARY KEY (id);
 
 
 --
@@ -11009,11 +10969,21 @@ INSERT INTO schema_migrations (version) VALUES ('20150618184240');
 
 INSERT INTO schema_migrations (version) VALUES ('20150618184500');
 
+INSERT INTO schema_migrations (version) VALUES ('20150622183936');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622184112');
+
+INSERT INTO schema_migrations (version) VALUES ('20150622185318');
+
 INSERT INTO schema_migrations (version) VALUES ('20150622192929');
 
 INSERT INTO schema_migrations (version) VALUES ('20150622195621');
 
 INSERT INTO schema_migrations (version) VALUES ('20150623152104');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623200929');
+
+INSERT INTO schema_migrations (version) VALUES ('20150623202416');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624135224');
 
@@ -11022,6 +10992,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150624135729');
 INSERT INTO schema_migrations (version) VALUES ('20150624141348');
 
 INSERT INTO schema_migrations (version) VALUES ('20150624153116');
+
+INSERT INTO schema_migrations (version) VALUES ('20150624200915');
 
 INSERT INTO schema_migrations (version) VALUES ('20150625174010');
 
@@ -11036,6 +11008,10 @@ INSERT INTO schema_migrations (version) VALUES ('20150626193106');
 INSERT INTO schema_migrations (version) VALUES ('20150626194312');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626194833');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629191123');
+
+INSERT INTO schema_migrations (version) VALUES ('20150629200154');
 
 INSERT INTO schema_migrations (version) VALUES ('20150630143153');
 
@@ -11119,8 +11095,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150803141142');
 
 INSERT INTO schema_migrations (version) VALUES ('20150805161446');
 
-INSERT INTO schema_migrations (version) VALUES ('20150805182921');
-
 INSERT INTO schema_migrations (version) VALUES ('20150805235212');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806131842');
@@ -11128,10 +11102,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150806131842');
 INSERT INTO schema_migrations (version) VALUES ('20150806152041');
 
 INSERT INTO schema_migrations (version) VALUES ('20150806162252');
-
-INSERT INTO schema_migrations (version) VALUES ('20150806184753');
-
-INSERT INTO schema_migrations (version) VALUES ('20150806192315');
 
 INSERT INTO schema_migrations (version) VALUES ('20150807193021');
 
@@ -11145,8 +11115,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150807235009');
 
 INSERT INTO schema_migrations (version) VALUES ('20150810144604');
 
-INSERT INTO schema_migrations (version) VALUES ('20150811132749');
-
 INSERT INTO schema_migrations (version) VALUES ('20150812132503');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817134549');
@@ -11159,7 +11127,7 @@ INSERT INTO schema_migrations (version) VALUES ('20150817154022');
 
 INSERT INTO schema_migrations (version) VALUES ('20150817181149');
 
-INSERT INTO schema_migrations (version) VALUES ('20150818182340');
+INSERT INTO schema_migrations (version) VALUES ('20150817192359');
 
 INSERT INTO schema_migrations (version) VALUES ('20150818202108');
 
@@ -11167,11 +11135,7 @@ INSERT INTO schema_migrations (version) VALUES ('20150819143132');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820124622');
 
-INSERT INTO schema_migrations (version) VALUES ('20150820154454');
-
-INSERT INTO schema_migrations (version) VALUES ('20150820161028');
-
-INSERT INTO schema_migrations (version) VALUES ('20150820161359');
+INSERT INTO schema_migrations (version) VALUES ('20150820164413');
 
 INSERT INTO schema_migrations (version) VALUES ('20150820185034');
 
@@ -11239,8 +11203,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150901135945');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901140248');
 
-INSERT INTO schema_migrations (version) VALUES ('20150901150625');
-
 INSERT INTO schema_migrations (version) VALUES ('20150901153130');
 
 INSERT INTO schema_migrations (version) VALUES ('20150901195436');
@@ -11255,23 +11217,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150904133422');
 
 INSERT INTO schema_migrations (version) VALUES ('20150906172013');
 
-INSERT INTO schema_migrations (version) VALUES ('20150910142356');
-
-INSERT INTO schema_migrations (version) VALUES ('20150911145402');
-
-INSERT INTO schema_migrations (version) VALUES ('20150914135604');
-
 INSERT INTO schema_migrations (version) VALUES ('20150914193736');
 
 INSERT INTO schema_migrations (version) VALUES ('20150914201054');
 
-INSERT INTO schema_migrations (version) VALUES ('20150915133353');
-
 INSERT INTO schema_migrations (version) VALUES ('20150915144551');
 
 INSERT INTO schema_migrations (version) VALUES ('20150915154050');
-
-INSERT INTO schema_migrations (version) VALUES ('20150915195229');
 
 INSERT INTO schema_migrations (version) VALUES ('20150916140224');
 
@@ -11297,9 +11249,13 @@ INSERT INTO schema_migrations (version) VALUES ('20150918130721');
 
 INSERT INTO schema_migrations (version) VALUES ('20150918131000');
 
-INSERT INTO schema_migrations (version) VALUES ('20150918135649');
+INSERT INTO schema_migrations (version) VALUES ('20150921194058');
 
 INSERT INTO schema_migrations (version) VALUES ('20150922175218');
 
 INSERT INTO schema_migrations (version) VALUES ('20150922183804');
+
+INSERT INTO schema_migrations (version) VALUES ('20150923140310');
+
+INSERT INTO schema_migrations (version) VALUES ('20150923144458');
 

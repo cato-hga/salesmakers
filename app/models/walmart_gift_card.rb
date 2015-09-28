@@ -79,6 +79,19 @@ class WalmartGiftCard < ActiveRecord::Base
     end
   end
 
+  def self.to_rbdc_csv
+    attributes = %w{link challenge_code}
+
+    CSV.generate(headers: true) do |csv|
+      csv << [
+          'Links',
+          'Challenge Code',
+      ]
+
+      all.each {|gift_card| csv << attributes.map{ |attr| gift_card.send attr }}
+    end
+  end
+
   private
 
   def purchase_today_or_earlier

@@ -35,13 +35,7 @@ class CandidatesController < ApplicationController
 
   def csv
     @candidates = @search.result
-    respond_to do |format|
-      format.html { redirect_to self.send((controller_name + '_path').to_sym) }
-      format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"candidates_#{date_time_string}.csv\""
-        headers['Content-Type'] ||= 'text/csv'
-      end
-    end
+    handle_csv 'candidates'
   end
 
   def support_search
