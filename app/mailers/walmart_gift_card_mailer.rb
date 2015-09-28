@@ -40,9 +40,12 @@ class WalmartGiftCardMailer < ApplicationMailer
 
   def send_rbdc_check_email gift_cards
     return if gift_cards.empty?
+
+    ar_gift_cards = WalmartGiftCard.where(id: gift_cards.map(&:id))
+
     attachments['gift_cards.csv'] = {
         mime_type: 'text/csv',
-        content: gift_cards.to_csv
+        content: ar_gift_cards.to_csv
     }
 
     handle_send to: 'egiftcards@rbdconnect.com',
