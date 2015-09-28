@@ -3950,6 +3950,38 @@ ALTER SEQUENCE report_queries_id_seq OWNED BY report_queries.id;
 
 
 --
+-- Name: ring_central_calls; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE ring_central_calls (
+    id integer NOT NULL,
+    ring_central_call_num character varying NOT NULL,
+    json json NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: ring_central_calls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE ring_central_calls_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: ring_central_calls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE ring_central_calls_id_seq OWNED BY ring_central_calls.id;
+
+
+--
 -- Name: roster_verification_sessions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -6868,6 +6900,13 @@ ALTER TABLE ONLY report_queries ALTER COLUMN id SET DEFAULT nextval('report_quer
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY ring_central_calls ALTER COLUMN id SET DEFAULT nextval('ring_central_calls_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY roster_verification_sessions ALTER COLUMN id SET DEFAULT nextval('roster_verification_sessions_id_seq'::regclass);
 
 
@@ -8123,6 +8162,14 @@ ALTER TABLE ONLY radio_shack_location_schedules
 
 ALTER TABLE ONLY report_queries
     ADD CONSTRAINT report_queries_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: ring_central_calls_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY ring_central_calls
+    ADD CONSTRAINT ring_central_calls_pkey PRIMARY KEY (id);
 
 
 --
@@ -11302,4 +11349,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150918135649');
 INSERT INTO schema_migrations (version) VALUES ('20150922175218');
 
 INSERT INTO schema_migrations (version) VALUES ('20150922183804');
+
+INSERT INTO schema_migrations (version) VALUES ('20150923144458');
 

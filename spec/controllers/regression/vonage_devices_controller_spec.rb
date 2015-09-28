@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe VonageDevicesController, regressor: true do
   # === Routes (REST) ===
-  it { should route(:get, '/vonage_devices').to('vonage_devices#index', {}) }
   it { should route(:get, '/vonage_devices/new').to('vonage_devices#new', {}) }
   it { should route(:get, '/vonage_devices/1').to('vonage_devices#show', {:id=>"1"}) }
   it { should route(:get, '/vonage_devices/transfer').to('vonage_devices#transfer', {}) }

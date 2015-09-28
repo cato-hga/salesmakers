@@ -359,7 +359,7 @@ Rails.application.routes.draw do
 
   get 'vcp07012015/:person_id', to: 'vcp07012015#show', as: :vcp07012015
 
-  resources :vonage_devices do
+  resources :vonage_devices, except: [:index] do
     collection do
       get :transfer, as: :transfer
       post :do_transfer, as: :do_transfer

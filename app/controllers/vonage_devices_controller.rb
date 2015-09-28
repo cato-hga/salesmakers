@@ -4,10 +4,6 @@ class VonageDevicesController < ApplicationController
   before_action :set_vonage_employees, only: [:transfer, :reclaim]
   after_action :verify_authorized
 
-  def index
-    @vonage_devices = VonageDevice.all
-  end
-
   def new
     @vonage_device = VonageDevice.new
   end
@@ -147,8 +143,8 @@ class VonageDevicesController < ApplicationController
       device = [vonage_device.person.id, vonage_device.id]
       person = vonage_device.person
       @current_person.log? 'reclaim',
-                          vonage_device,
-                          person
+                           vonage_device,
+                           person
       if vonage_device.update person: @current_person
         devices << device
       else
@@ -200,6 +196,7 @@ class VonageDevicesController < ApplicationController
   def set_vonage_employees
     @vonage_employees = @current_person.managed_team_members.sort_by { |n| n[:display_name] }
     @vonage_employees = @vonage_employees.reject! { |x| x == @current_person }
+    @vonage_employees = @current_person.direct_supervisors if @vonage_employees.blank?
   end
 
   def vonage_device_params
