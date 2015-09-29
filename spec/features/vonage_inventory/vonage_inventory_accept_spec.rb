@@ -104,7 +104,7 @@ describe 'Inventory Accept page' do
       check "vonage_reject0"
       click_on "Complete"
       expect(current_path).to eq(new_vonage_sale_path)
-      expect(page).to have_content('Accepted and Rejected devices are complete. Please check your email for further details.')
+      expect(page).to have_content('You have successfully Accepted/Rejected the device(s) that were issued to you. Please check your email for further details.')
     end
 
     it 'renders accept and displays failure message' do

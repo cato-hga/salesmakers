@@ -25,10 +25,14 @@ class VonageSalesController < ApplicationController
   end
 
   def show
-    @vonage_device = VonageDevice.find params[:id] if @vonage_device
     @vonage_sale = policy_scope(VonageSale).find params[:id]
+    @vonage_device = VonageDevice.find_by mac_id: @vonage_sale.mac
     @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number
     @project = Project.find_by name: 'Vonage'
+    if @vonage_device
+      @log_entries = LogEntry.where("(trackable_type = 'VonageDevice' AND trackable_id = ?) OR (referenceable_type = 'VonageDevice' AND referenceable_id = ?)", @vonage_device.id, @vonage_device.id)
+      @log_entries = @log_entries.page(params[:log_entries_page]).per(10)
+    end
   end
 
   def new

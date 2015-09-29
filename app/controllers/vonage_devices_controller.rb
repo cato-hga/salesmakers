@@ -10,9 +10,9 @@ class VonageDevicesController < ApplicationController
 
   def show
     @walmart_gift_card = WalmartGiftCard.find_by card_number: @vonage_sale.gift_card_number if @walmart_gift_card
-    @project = Project.find_by name: 'Vonage' if @project
-    @vonage_sale = VonageSale.find params[:id] if @vonage_sale
+    @project = Project.find_by name: 'Vonage'
     @vonage_device = VonageDevice.find params[:id]
+    @vonage_sale = VonageSale.find_by mac: @vonage_device.mac_id
     @log_entries = LogEntry.where("(trackable_type = 'VonageDevice' AND trackable_id = ?) OR (referenceable_type = 'VonageDevice' AND referenceable_id = ?)", @vonage_device.id, @vonage_device.id)
     @log_entries = @log_entries.page(params[:log_entries_page]).per(10)
   end
@@ -24,7 +24,7 @@ class VonageDevicesController < ApplicationController
 
   def do_transfer
     if params[:to_person].blank?
-      flash[:error] = "Must select an employee."
+      flash[:error] = "Must select a person."
       redirect_to transfer_vonage_devices_path and return
     end
     to_person = Person.find params[:to_person]
@@ -54,7 +54,7 @@ class VonageDevicesController < ApplicationController
     end
     if invalids == 0
       #SUCCESS
-      flash[:notice] = 'Devices have been transferred.'
+      flash[:notice] = 'Device(s) have been transferred.'
       redirect_to transfer_vonage_devices_path
     else
       flash[:error] = "The following MAC ID's could not be transferred. Please submit a support ticket with a screenshot of this page. #{invalid_macs.join(', ')}"
@@ -101,7 +101,7 @@ class VonageDevicesController < ApplicationController
       redirect_to accept_vonage_devices_path
     else
       VonageInventoryMailer.inventory_accept_mailer(@current_person, accepted_transfers, rejected_transfers).deliver_later
-      flash[:notice] = 'Accepted and Rejected devices are complete. Please check your email for further details.'
+      flash[:notice] = 'You have successfully Accepted/Rejected the device(s) that were issued to you. Please check your email for further details.'
       redirect_to :root
     end
   end
