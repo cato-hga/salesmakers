@@ -1,0 +1,7 @@
+File filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/sets_locations.yml filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/saves_custom_fields.yml filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/saves_assignments.yml filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/saves_locations.yml filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/filters_the_locations_to_only_unsaved.yml filter=lfs diff=lfs merge=lfs -text
+spec/cassettes/WorkmarketImport/filters_the_assignments_to_only_unsaved.yml filter=lfs diff=lfs merge=lfs -text
