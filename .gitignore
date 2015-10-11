@@ -17,6 +17,7 @@
 /tmp
 
 #Custom ignores
+/spec/cassettes/WorkmarketImport/*.yml*
 /config/database.yml
 /.idea/*.ids
 */.idea/workspace.xml
